@@ -73,13 +73,13 @@ ts-pack download --groups web,systems
 ts-pack download
 ```
 
-If no arguments are given and no `language-pack.toml` is found, the command exits with an error.
+Without arguments and with no `language-pack.toml` present, the command exits with an error.
 
 ---
 
 ### `ts-pack clean`
 
-Remove all cached parser libraries. Prompts for confirmation unless `--force` is passed.
+Remove all cached parser libraries. Prompts for confirmation unless you pass `--force`.
 
 ```bash
 ts-pack clean [OPTIONS]
@@ -130,7 +130,7 @@ ts-pack info <LANGUAGE>
 ts-pack info python
 ```
 
-Output when the parser is downloaded:
+Output when the parser has downloaded:
 
 ```text
 Language:    python
@@ -139,7 +139,7 @@ Downloaded:  true
 Cache path:  /home/user/.cache/tree-sitter-language-pack/libtree_sitter_python.so
 ```
 
-When not downloaded, `Cache path` is replaced with the cache directory.
+Before the parser downloads, `Cache path` shows the cache directory instead.
 
 ---
 
@@ -188,7 +188,7 @@ Run code intelligence on a source file and output structured JSON.
 ts-pack process <FILE> [OPTIONS]
 ```
 
-Use `-` as `FILE` to read from stdin. When reading from stdin, `--language` is required.
+Use `-` as `FILE` to read from stdin. When reading from stdin, you must pass `--language`.
 
 | Flag | Description |
 |------|-------------|

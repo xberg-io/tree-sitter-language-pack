@@ -9,7 +9,7 @@ The `process` function goes beyond raw syntax trees. It runs tree-sitter queries
 
 ## ProcessConfig
 
-All intelligence extraction is opt-in via `ProcessConfig`. Enable only what you need:
+All intelligence extraction is opt-in via `ProcessConfig`. Enable what you need:
 
 === "Python"
 
@@ -126,8 +126,7 @@ for exp in result["exports"]:
     print(exp["kind"])  # "function" | "class" | "const" | ...
 ```
 
-!!! note
-    Export detection is language-specific. For Python, everything defined at module level is considered exported unless prefixed with `_`. For JavaScript/TypeScript, only explicit `export` declarations are included.
+!!! Note Export detection is language-specific. For Python, everything defined at module level counts as exported unless prefixed with `_`. For JavaScript/TypeScript, explicit `export` declarations determine what the module exposes.
 
 ---
 
@@ -146,7 +145,7 @@ for comment in result["comments"]:
 
 ### `docstrings` - Documentation Strings
 
-Docstrings are attached to their parent construct in `structure`. When `docstrings=True`, each `structure` item gains a `docstring` field:
+Docstrings appear under their parent construct in `structure`. When `docstrings=True`, each `structure` item gains a `docstring` field:
 
 ```python
 func = result["structure"][0]
@@ -181,7 +180,7 @@ print(result["symbols"])
 
 ### `diagnostics` - Syntax Errors
 
-Tree-sitter produces partial trees for invalid code, marking error nodes. `diagnostics` surfaces these:
+Tree-sitter produces partial trees for malformed code, marking error nodes. `diagnostics` surfaces these:
 
 ```python
 for error in result["diagnostics"]:
@@ -190,8 +189,7 @@ for error in result["diagnostics"]:
     print(error["start_col"])
 ```
 
-!!! tip
-    A non-empty `diagnostics` list does not mean the file is unparsable — tree-sitter recovers and continues. Use it to detect broken syntax rather than to gate parsing.
+!!! Tip A non-empty `diagnostics` list does not mean the file is unparsable — tree-sitter recovers and continues. Use it to detect broken syntax rather than to gate parsing.
 
 ---
 
@@ -307,9 +305,9 @@ print(f"\nLines: {m['total_lines']} total, {m['code_lines']} code, {m['comment_l
 
 ## Custom Extraction Queries
 
-The built-in fields cover common use cases, but many workflows require language-specific patterns. The `ProcessConfig.extractions` field lets you define custom tree-sitter query patterns that run alongside the standard analysis.
+The built-in fields cover common use cases. Workflows requiring language-specific patterns can use the `ProcessConfig.extractions` field to define custom tree-sitter query patterns that run alongside the standard analysis.
 
-Each extraction is a named pattern with a tree-sitter S-expression query. Results are returned in `ProcessResult.extractions`, keyed by the name you provide.
+Each extraction is a named pattern with a tree-sitter S-expression query. Results land in `ProcessResult.extractions`, keyed by the name you provide.
 
 ```python
 config = ProcessConfig(

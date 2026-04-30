@@ -131,7 +131,7 @@ Each item has:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `kind` | str | `function`, `class`, `method`, `interface`, `struct`, `trait`, `enum`, `impl`, `module`, etc. |
+| `kind` | str | `function`, `class`, `method`, `interface`, `struct`, `trait`, `enum`, `impl`, `module`, and so on. |
 | `name` | str | Declaration name |
 | `start_line` | int | First line (1-indexed) |
 | `end_line` | int | Last line (1-indexed) |
@@ -158,7 +158,7 @@ Covers both `import x` and `from x import y` in Python, both `import` and `requi
 Language-specific:
 
 - Python: module-level items not prefixed with `_`, or listed in `__all__`
-- JavaScript/TypeScript: explicit `export` declarations only
+- JavaScript/TypeScript: explicit `export` declarations
 - Rust: items with `pub` visibility
 
 Each export has `name` and `kind`.
@@ -193,7 +193,7 @@ print(sorted(result["symbols"])[:10])
 
 ### `diagnostics`
 
-Syntax error nodes. A non-empty list does not mean the file failed to parse — tree-sitter recovers and produces a partial tree.
+Syntax error nodes. A non-empty list does not mean the file has a parse error — tree-sitter recovers and produces a partial tree.
 
 ```python
 result = process(source, ProcessConfig(language="python", diagnostics=True))
@@ -221,7 +221,7 @@ print(f"{m['total_lines']} lines total, {m['code_lines']} code, {m['comment_line
 
 ### `chunks`
 
-When `chunk_max_size` is set, `result["chunks"]` contains syntax-aware splits ready for LLM ingestion. See [Chunking for LLMs](chunking.md) for full documentation.
+When `chunk_max_size` has a value, `result["chunks"]` contains syntax-aware splits ready for LLM ingestion. See [Chunking for LLMs](chunking.md) for full documentation.
 
 ## Custom patterns
 

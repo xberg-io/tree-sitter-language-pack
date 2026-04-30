@@ -5,7 +5,7 @@ description: "Split code at natural syntax boundaries for LLM ingestion — neve
 
 Naive line-count or character-count splitting breaks code apart at random. A function split across two chunks loses its signature. A class split mid-method gives the model half a definition.
 
-Syntax-aware chunking walks the concrete syntax tree and splits only at natural boundaries. Here's the difference:
+Syntax-aware chunking walks the concrete syntax tree and splits at natural boundaries. Here's the difference:
 
 ```python
 def process_order(order_id: str, quantity: int) -> dict:
@@ -18,7 +18,7 @@ def process_order(order_id: str, quantity: int) -> dict:
     return {"order_id": order_id, "total": price, "status": "pending"}
 ```
 
-Naive chunking at 100 bytes might split after `raise ValueError(...)`, leaving the return statement in the next chunk. Syntax-aware chunking keeps `process_order` together as one unit. Only when a single function exceeds the byte budget does the chunker split inside it.
+Naive chunking at 100 bytes might split after `raise ValueError(...)`, leaving the return statement in the next chunk. Syntax-aware chunking keeps `process_order` together as one unit. The chunker splits inside a function when that function alone exceeds the byte budget.
 
 ## Basic usage
 
@@ -101,7 +101,7 @@ Set `chunk_max_size` in `ProcessConfig` to enable chunking:
 The chunker runs three passes:
 
 1. Collect top-level declarations (functions, classes, methods) as atomic units. Comments and docstrings above a declaration attach to it.
-2. Pack units into chunks greedily without exceeding `chunk_max_size`. When the current chunk would overflow, close it and start a new one.
+2. Pack units into chunks without exceeding `chunk_max_size`. When the current chunk would overflow, close it and start a new one.
 3. For any single unit that exceeds `chunk_max_size` on its own, split at the next logical sub-boundary — between methods in a class, or between statement blocks in a function.
 
 The result: functions are never split unless they're individually too large, decorators stay with their function, and imports group into a single chunk at the top.
@@ -195,4 +195,4 @@ print(f"{len(docs)} chunks from {len(set(d['file'] for d in docs))} files")
 ## Next steps
 
 - [Code intelligence](intelligence.md) — the other `ProcessConfig` fields that work alongside chunking
-- [Concepts: Code intelligence](../concepts/code-intelligence.md) — how the extraction engine is structured
+- [Concepts: Code intelligence](../concepts/code-intelligence.md) — the extraction engine design

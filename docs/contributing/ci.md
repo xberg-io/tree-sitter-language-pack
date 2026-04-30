@@ -44,7 +44,7 @@ Runs on push to `main` and pull requests when Docker or core paths change:
 
 ## Docs workflow
 
-`docs.yaml` runs on push to `main` when docs files change, and can be triggered manually via `workflow_dispatch`. It builds the docs site and deploys it.
+`docs.yaml` runs on push to `main` when docs files change, and you can also trigger it manually via `workflow_dispatch`. It builds the docs site and deploys it.
 
 Triggers on changes to: `docs/**`, `zensical.toml`, `pyproject.toml`, `sources/language_definitions.json`, and `scripts/generate_grammar_table.py`.
 
@@ -52,11 +52,11 @@ Triggers on changes to: `docs/**`, `zensical.toml`, `pyproject.toml`, `sources/l
 
 ## Publishing workflows
 
-Both publish workflows run automatically on a GitHub release event, and can also be triggered manually via `workflow_dispatch`.
+Both publish workflows run automatically on a GitHub release event, and you can also trigger them manually via `workflow_dispatch`.
 
 ### `publish.yaml` — package releases
 
-Takes a release tag (e.g. `vX.Y.Z`), an optional `dry_run` flag, and an optional `targets` list (comma-separated, defaults to `all`). On a real run, it publishes to all registered package registries simultaneously.
+Takes a release tag (for example `vX.Y.Z`), an optional `dry_run` flag, and an optional `targets` list (comma-separated, defaults to `all`). On a real run, it publishes to all registered package registries simultaneously.
 
 ### `publish-docker.yaml` — Docker image
 

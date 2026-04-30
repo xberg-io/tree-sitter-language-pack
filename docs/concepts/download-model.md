@@ -3,7 +3,7 @@ title: Download Model
 description: "How tree-sitter-language-pack downloads, caches, and manages parser binaries on demand."
 ---
 
-tree-sitter-language-pack does not bundle parser binaries into the package. Instead, parsers are downloaded on first use and cached locally. This keeps install sizes small and gives you control over which languages are available.
+Tree-sitter-language-pack does not bundle parser binaries into the package. Instead, the pack fetches parsers on first use and caches them locally. This keeps install sizes small and gives you control over which languages are available.
 
 ---
 
@@ -37,9 +37,9 @@ The flow in detail:
 1. Your code calls `get_parser("python")` (or `get_language`, or `process`).
 2. The core checks the local cache directory for the parser binary.
 3. If not cached, it fetches `parsers.json` from GitHub releases to find the correct download URL for the current platform.
-4. The binary is downloaded and written to the cache directory.
-5. The binary is opened via `dlopen` / `LoadLibrary` and the parser symbol is resolved.
-6. On subsequent calls, the cached binary is used directly — no network access.
+4. The binary downloads and writes to the cache directory.
+5. The process opens the binary via `dlopen` / `LoadLibrary` and resolves the parser symbol.
+6. On later calls, the cached binary serves directly — no network access.
 
 ---
 
@@ -106,7 +106,7 @@ The manifest is a JSON file (`parsers.json`) hosted on each GitHub release. It m
 }
 ```
 
-The manifest is cached locally alongside the parser binaries and refreshed on version upgrades.
+The manifest caches locally alongside the parser binaries and refreshes on version upgrades.
 
 ---
 
@@ -227,7 +227,7 @@ For production, CI, or offline environments, download parsers explicitly rather 
 
 ## Docker and CI
 
-For containerized deployments, pre-download parsers during the build stage so no network access is needed at runtime.
+For containerized deployments, pre-download parsers during the build stage to remove network access at runtime.
 
 ```dockerfile title="Dockerfile"
 FROM python:3.12-slim

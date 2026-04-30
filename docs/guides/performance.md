@@ -26,7 +26,7 @@ cargo bench -p tree-sitter-language-pack -- language_detection
 
 ## Benchmark groups
 
-The suite covers nine groups. Fixtures are embedded at compile time from `fixtures/bench/`, with small (~11 lines), medium (~97 lines), and large (~723 lines) variants for each of four languages: Python, TypeScript, Rust, and Go.
+The suite covers nine groups. Fixtures compile in from `fixtures/bench/`, with small (~11 lines), medium (~97 lines), and large (~723 lines) variants for each of four languages: Python, TypeScript, Rust, and Go.
 
 ### `parse`
 
@@ -56,7 +56,7 @@ Measures `CompiledExtraction::extract_from_tree()` against a pre-parsed tree. Sh
 
 ### `validate`
 
-Measures `validate_extraction()` — query validation against the language grammar. Fast operation; this mostly validates the test overhead.
+Measures `validate_extraction()` — query validation against the language grammar. A fast operation; this benchmark measures test overhead more than runtime.
 
 ### `text_splitter`
 
@@ -82,11 +82,11 @@ Criterion prints mean, standard deviation, and change vs. the previous run. A re
 parse/python/medium  time: [   1.23 µs    1.31 µs    1.41 µs]
 ```
 
-means the 95% confidence interval for the mean is 1.23–1.41 µs. On the first run there is no baseline, so no change percentage is shown.
+Means the 95% confidence interval for the mean is 1.23–1.41 µs. On the first run there is no baseline, so criterion does not show a change percentage.
 
 ## Comparing across machines
 
-Criterion stores its baselines in `target/criterion/`. Those files are gitignored. To share results, redirect bench output to a file and compare manually, or use [Bencher](https://bencher.dev) for CI-level tracking.
+Criterion stores its baselines in `target/criterion/`. Those files do not commit to the repository. To share results, redirect bench output to a file and compare manually, or use [Bencher](https://bencher.dev) for CI-level tracking.
 
 ## Profiling
 

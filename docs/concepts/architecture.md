@@ -3,7 +3,7 @@ title: Architecture
 description: "How tree-sitter-language-pack is structured: Rust core, thin binding layer, and the download system."
 ---
 
-tree-sitter-language-pack follows a layered architecture: a single Rust core library handles all parsing logic, and thin binding layers expose that API natively in each target language. No business logic lives in the bindings — they are pure translation layers.
+Tree-sitter-language-pack follows a layered architecture: a single Rust core library handles all parsing logic, and thin binding layers expose that API natively in each target language. No business logic lives in the bindings — they are pure translation layers.
 
 ---
 
@@ -79,8 +79,8 @@ The core has no language-specific code. It calls tree-sitter through its stable 
 Each binding is a thin crate that:
 
 1. Calls Rust core functions.
-2. Converts Rust types to the host language's native types (`String` → `str`, `Vec<T>` → list/array, `Result<T, E>` → exception/error).
-3. Exposes an idiomatic API matching the host language's conventions.
+2. Converts Rust types to the target language's native types (`String` → `str`, `Vec<T>` → list/array, `Result<T, E>` → exception/error).
+3. Exposes an idiomatic API matching the target language's conventions.
 
 Binding crates contain no parsing logic, no query definitions, and no chunking code.
 
@@ -91,7 +91,7 @@ Binding crates contain no parsing logic, no query definitions, and no chunking c
 | `packages/ruby` | Magnus | RubyGems native gem |
 | `packages/elixir` | Rustler NIF | Hex.pm |
 | `crates/ts-pack-core-php` | ext-php-rs | Packagist |
-| `crates/ts-pack-core-wasm` | wasm-bindgen | npm (WASM) |
+| `crates/ts-pack-core-wasm` | wasm-bindgen | npm (Wasm) |
 | `crates/ts-pack-core-ffi` | cbindgen (C FFI) | GitHub releases |
 | `packages/go` | cgo | Go modules |
 | `packages/java` | Panama FFM | Maven Central |
@@ -103,9 +103,9 @@ Binding crates contain no parsing logic, no query definitions, and no chunking c
 
 Tree-sitter parsers are **not** compiled into the package. Instead:
 
-1. A `parsers.json` manifest (hosted on GitHub releases) lists all 306 languages with per-platform download URLs.
-2. On first use, the matching binary is downloaded and written to the local cache directory.
-3. The binary is opened at runtime via `dlopen` / `LoadLibrary` and the `tree_sitter_<language>` symbol is resolved.
+1. A `parsers.json` manifest (on GitHub releases) lists all 306 languages with per-platform download URLs.
+2. On first use, the matching binary downloads to the local cache directory.
+3. The runtime opens the binary via `dlopen` / `LoadLibrary` and resolves the `tree_sitter_<language>` symbol.
 
 This keeps installation fast and download sizes minimal. See [Download Model](download-model.md) for the full detail.
 
@@ -146,6 +146,6 @@ tree-sitter-language-pack/
 ## Design Principles
 
 - **Single source of truth** — All parsing and intelligence logic lives in `ts-pack-core`. Binding crates are pure glue.
-- **On-demand downloads** — Parsers are not shipped in the package. They are fetched and cached per-platform when first needed.
+- **On-demand downloads** — Parsers do not ship in the package. The pack fetches and caches them per-platform on first use.
 - **ABI stability** — The C FFI layer (`ts-pack-core-ffi`) follows strict semantic versioning. Go, Java, and C# bindings depend on a stable C ABI, not Rust internals.
 - **Zero duplication** — Query definitions, chunking strategies, and intelligence extraction are each written once in Rust and reused across all 11 language surfaces.

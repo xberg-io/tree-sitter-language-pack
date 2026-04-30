@@ -12,7 +12,7 @@ Downloaded parser binaries go in the cache directory. The default:
 
 You can customize the cache location, pre-download languages on startup, and wire up automatic discovery through a TOML file, the programmatic API, or CLI commands.
 
-## language-pack.toml
+## Language-pack.toml
 
 Create `language-pack.toml` in your project root:
 
@@ -34,8 +34,7 @@ Run `ts-pack init` to generate this file interactively, or create it by hand.
 The library searches for `language-pack.toml` in this order:
 
 1. Current directory and parent directories (up to 10 levels)
-2. `$XDG_CONFIG_HOME/tree-sitter-language-pack/config.toml`
-   (`~/.config/tree-sitter-language-pack/config.toml` on Linux/macOS)
+2. `$XDG_CONFIG_HOME/tree-sitter-language-pack/config.toml` (`~/.config/tree-sitter-language-pack/config.toml` on Linux/macOS)
 
 CLI flags override config file settings.
 
@@ -132,7 +131,7 @@ cache_dir = ".cache/tree-sitter"
 
 ## Build-time environment variables
 
-These are read by `build.rs` at compile time, not at runtime. See [Building from source](building.md) for full details.
+`build.rs` reads these at compile time, not at runtime. See [Building from source](building.md) for full details.
 
 | Variable | Description |
 |----------|-------------|
@@ -230,4 +229,4 @@ ln -s /mnt/large-drive/ts-pack-cache ~/.cache/tree-sitter-language-pack
 
 - [Building from source](building.md) — compile-time flags and environment variables
 - [Docker](docker.md) — bake parsers into container images
-- [Parsing code](parsing.md) — syntax trees once languages are downloaded
+- [Parsing code](parsing.md) — syntax trees after languages finish downloading

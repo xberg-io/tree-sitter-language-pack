@@ -6,7 +6,7 @@ title: "Java API Reference"
 
 ### Functions
 
-#### detectLanguageFromExtension()
+#### DetectLanguageFromExtension()
 
 Detect language name from a file extension (without leading dot).
 
@@ -29,7 +29,7 @@ public static Optional<String> detectLanguageFromExtension(String ext)
 
 ---
 
-#### detectLanguageFromPath()
+#### DetectLanguageFromPath()
 
 Detect language name from a file path.
 
@@ -53,7 +53,7 @@ public static Optional<String> detectLanguageFromPath(String path)
 
 ---
 
-#### detectLanguageFromContent()
+#### DetectLanguageFromContent()
 
 Detect language name from file content using the shebang line (`#!`).
 
@@ -89,7 +89,7 @@ public static Optional<String> detectLanguageFromContent(String content)
 
 ---
 
-#### rootNodeInfo()
+#### RootNodeInfo()
 
 Get a `NodeInfo` snapshot of the root node.
 
@@ -110,7 +110,7 @@ public static NodeInfo rootNodeInfo(Tree tree)
 
 ---
 
-#### findNodesByType()
+#### FindNodesByType()
 
 Find all nodes matching the given type name, returning their `NodeInfo`.
 
@@ -134,7 +134,7 @@ public static List<NodeInfo> findNodesByType(Tree tree, String nodeType)
 
 ---
 
-#### namedChildrenInfo()
+#### NamedChildrenInfo()
 
 Get `NodeInfo` for all named children of the root node.
 
@@ -158,7 +158,7 @@ public static List<NodeInfo> namedChildrenInfo(Tree tree)
 
 ---
 
-#### parseString()
+#### ParseString()
 
 Parse source code with the named language, returning the syntax tree.
 
@@ -186,7 +186,7 @@ public static Tree parseString(String language, byte[] source) throws Error
 
 ---
 
-#### treeContainsNodeType()
+#### TreeContainsNodeType()
 
 Check whether any node in the tree matches the given type name.
 
@@ -210,7 +210,7 @@ public static boolean treeContainsNodeType(Tree tree, String nodeType)
 
 ---
 
-#### treeHasErrorNodes()
+#### TreeHasErrorNodes()
 
 Check whether the tree contains any ERROR or MISSING nodes.
 
@@ -233,7 +233,7 @@ public static boolean treeHasErrorNodes(Tree tree)
 
 ---
 
-#### treeToSexp()
+#### TreeToSexp()
 
 Return the S-expression representation of the entire tree.
 
@@ -257,7 +257,7 @@ public static String treeToSexp(Tree tree)
 
 ---
 
-#### treeErrorCount()
+#### TreeErrorCount()
 
 Count the number of ERROR and MISSING nodes in the tree.
 
@@ -280,7 +280,7 @@ public static long treeErrorCount(Tree tree)
 
 ---
 
-#### getHighlightsQuery()
+#### GetHighlightsQuery()
 
 Get the highlights query for a language, if bundled.
 
@@ -304,7 +304,7 @@ public static Optional<String> getHighlightsQuery(String language)
 
 ---
 
-#### getInjectionsQuery()
+#### GetInjectionsQuery()
 
 Get the injections query for a language, if bundled.
 
@@ -328,7 +328,7 @@ public static Optional<String> getInjectionsQuery(String language)
 
 ---
 
-#### getLocalsQuery()
+#### GetLocalsQuery()
 
 Get the locals query for a language, if bundled.
 
@@ -352,7 +352,7 @@ public static Optional<String> getLocalsQuery(String language)
 
 ---
 
-#### runQuery()
+#### RunQuery()
 
 Execute a tree-sitter query pattern against a parsed tree.
 
@@ -386,7 +386,7 @@ public static List<QueryMatch> runQuery(Tree tree, String language, String query
 
 ---
 
-#### getLanguage()
+#### GetLanguage()
 
 Get a tree-sitter `Language` by name using the global registry.
 
@@ -418,7 +418,7 @@ public static Language getLanguage(String name) throws Error
 
 ---
 
-#### getParser()
+#### GetParser()
 
 Get a tree-sitter `Parser` pre-configured for the given language.
 
@@ -449,7 +449,7 @@ public static Parser getParser(String name) throws Error
 
 ---
 
-#### availableLanguages()
+#### AvailableLanguages()
 
 List all available language names (sorted, deduplicated, includes aliases).
 
@@ -467,7 +467,7 @@ public static List<String> availableLanguages()
 
 ---
 
-#### hasLanguage()
+#### HasLanguage()
 
 Check if a language is available by name or alias.
 
@@ -491,7 +491,7 @@ public static boolean hasLanguage(String name)
 
 ---
 
-#### languageCount()
+#### LanguageCount()
 
 Return the number of available languages.
 
@@ -509,7 +509,7 @@ public static long languageCount()
 
 ---
 
-#### process()
+#### Process()
 
 Process source code and extract file intelligence using the global registry.
 
@@ -541,7 +541,7 @@ public static ProcessResult process(String source, ProcessConfig config) throws 
 
 ---
 
-#### extractPatterns()
+#### ExtractPatterns()
 
 Run extraction patterns against source code.
 
@@ -572,7 +572,7 @@ public static ExtractionResult extractPatterns(String source, ExtractionConfig c
 
 ---
 
-#### validateExtraction()
+#### ValidateExtraction()
 
 Validate extraction patterns without running them.
 
@@ -601,7 +601,7 @@ public static ValidationResult validateExtraction(ExtractionConfig config) throw
 
 ---
 
-#### init()
+#### Init()
 
 Initialize the language pack with the given configuration.
 
@@ -632,7 +632,7 @@ public static void init(PackConfig config) throws Error
 
 ---
 
-#### configure()
+#### Configure()
 
 Apply download configuration without downloading anything.
 
@@ -664,7 +664,7 @@ public static void configure(PackConfig config) throws Error
 
 ---
 
-#### download()
+#### Download()
 
 Download specific languages to the local cache.
 
@@ -695,7 +695,7 @@ public static long download(List<String> names) throws Error
 
 ---
 
-#### downloadAll()
+#### DownloadAll()
 
 Download all available languages from the remote manifest.
 
@@ -718,7 +718,7 @@ public static long downloadAll() throws Error
 
 ---
 
-#### manifestLanguages()
+#### ManifestLanguages()
 
 Return all language names available in the remote manifest (305).
 
@@ -743,7 +743,7 @@ public static List<String> manifestLanguages() throws Error
 
 ---
 
-#### downloadedLanguages()
+#### DownloadedLanguages()
 
 Return languages that are already downloaded and cached locally.
 
@@ -761,7 +761,7 @@ public static List<String> downloadedLanguages()
 
 ---
 
-#### cleanCache()
+#### CleanCache()
 
 Delete all cached parser shared libraries.
 
@@ -785,7 +785,7 @@ public static void cleanCache() throws Error
 
 ---
 
-#### cacheDir()
+#### CacheDir()
 
 Return the effective cache directory path.
 
@@ -922,7 +922,7 @@ Manages downloading and caching of pre-built parser shared libraries.
 
 ##### Methods
 
-###### new()
+###### New()
 
 Create a new download manager for the given version.
 
@@ -932,7 +932,7 @@ Create a new download manager for the given version.
 public static DownloadManager new(String version) throws Error
 ```
 
-###### withCacheDir()
+###### WithCacheDir()
 
 Create a download manager with a custom cache directory.
 
@@ -942,7 +942,7 @@ Create a download manager with a custom cache directory.
 public static DownloadManager withCacheDir(String version, String cacheDir)
 ```
 
-###### defaultCacheDir()
+###### DefaultCacheDir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 
@@ -952,7 +952,7 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 public static String defaultCacheDir(String version) throws Error
 ```
 
-###### cacheDir()
+###### CacheDir()
 
 Return the path to the libs cache directory.
 
@@ -962,7 +962,7 @@ Return the path to the libs cache directory.
 public String cacheDir()
 ```
 
-###### installedLanguages()
+###### InstalledLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -972,7 +972,7 @@ List languages that are already downloaded and cached.
 public List<String> installedLanguages()
 ```
 
-###### ensureLanguages()
+###### EnsureLanguages()
 
 Ensure the specified languages are available in the cache.
 Downloads the platform bundle if any requested languages are missing.
@@ -983,7 +983,7 @@ Downloads the platform bundle if any requested languages are missing.
 public void ensureLanguages(List<String> names) throws Error
 ```
 
-###### ensureGroup()
+###### EnsureGroup()
 
 Ensure all languages in a named group are available.
 
@@ -993,7 +993,7 @@ Ensure all languages in a named group are available.
 public void ensureGroup(String group) throws Error
 ```
 
-###### libPath()
+###### LibPath()
 
 Get the expected path for a language's shared library in the cache.
 
@@ -1003,7 +1003,7 @@ Get the expected path for a language's shared library in the cache.
 public String libPath(String name)
 ```
 
-###### fetchManifest()
+###### FetchManifest()
 
 Fetch the parser manifest from GitHub Releases.
 
@@ -1013,7 +1013,7 @@ Fetch the parser manifest from GitHub Releases.
 public ParserManifest fetchManifest() throws Error
 ```
 
-###### cleanCache()
+###### CleanCache()
 
 Remove all cached parser libraries.
 
@@ -1137,7 +1137,7 @@ global instance via the module-level convenience functions
 
 ##### Methods
 
-###### withLibsDir()
+###### WithLibsDir()
 
 Create a registry with a custom directory for dynamic libraries.
 
@@ -1150,7 +1150,7 @@ dynamic grammar shared libraries are stored in a non-standard location.
 public static LanguageRegistry withLibsDir(String libsDir)
 ```
 
-###### addExtraLibsDir()
+###### AddExtraLibsDir()
 
 Add an additional directory to search for dynamic libraries.
 
@@ -1168,7 +1168,7 @@ immutable while the directory list is updated.
 public void addExtraLibsDir(String dir)
 ```
 
-###### getLanguage()
+###### GetLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -1187,7 +1187,7 @@ does not match any known grammar.
 public Language getLanguage(String name) throws Error
 ```
 
-###### availableLanguages()
+###### AvailableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -1200,7 +1200,7 @@ Includes statically compiled languages, dynamically loadable languages
 public List<String> availableLanguages()
 ```
 
-###### hasLanguage()
+###### HasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -1213,7 +1213,7 @@ table or from a dynamic library on disk.
 public boolean hasLanguage(String name)
 ```
 
-###### languageCount()
+###### LanguageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -1223,7 +1223,7 @@ Return the total number of available languages (including aliases).
 public long languageCount()
 ```
 
-###### process()
+###### Process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -1233,7 +1233,7 @@ Parse source code and extract file intelligence based on config in a single pass
 public ProcessResult process(String source, ProcessConfig config) throws Error
 ```
 
-###### defaultOptions()
+###### DefaultOptions()
 
 **Signature:**
 
@@ -1297,7 +1297,7 @@ or passed as a dict/object from language bindings.
 
 ##### Methods
 
-###### fromTomlFile()
+###### FromTomlFile()
 
 Load configuration from a TOML file.
 
@@ -1311,7 +1311,7 @@ Returns an error if the file cannot be read or the TOML is invalid.
 public static PackConfig fromTomlFile(String path) throws Error
 ```
 
-###### discover()
+###### Discover()
 
 Discover configuration by searching for `language-pack.toml` in:
 
@@ -1408,7 +1408,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 
 ##### Methods
 
-###### defaultOptions()
+###### DefaultOptions()
 
 **Signature:**
 
@@ -1416,7 +1416,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 public static ProcessConfig defaultOptions()
 ```
 
-###### withChunking()
+###### WithChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1426,7 +1426,7 @@ Enable chunking with the given maximum chunk size in bytes.
 public ProcessConfig withChunking(long maxSize)
 ```
 
-###### all()
+###### All()
 
 Enable all analysis features.
 
@@ -1436,7 +1436,7 @@ Enable all analysis features.
 public ProcessConfig all()
 ```
 
-###### minimal()
+###### Minimal()
 
 Disable all analysis features (only metrics computed).
 

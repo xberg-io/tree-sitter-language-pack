@@ -3,7 +3,7 @@ title: Supported Languages
 description: "All 306 languages supported by tree-sitter-language-pack."
 ---
 
-tree-sitter-language-pack supports **306 languages**. Parsers download on demand via `ts-pack download <language>` or automatically on first use.
+Tree-sitter-language-pack supports **306 languages**. Parsers download on demand via `ts-pack download <language>` or automatically on first use.
 
 ## Language List
 

@@ -6,7 +6,7 @@ title: "Python API Reference"
 
 ### Functions
 
-#### detect_language_from_extension()
+#### Detect_language_from_extension()
 
 Detect language name from a file extension (without leading dot).
 
@@ -29,7 +29,7 @@ def detect_language_from_extension(ext: str) -> str | None
 
 ---
 
-#### detect_language_from_path()
+#### Detect_language_from_path()
 
 Detect language name from a file path.
 
@@ -53,7 +53,7 @@ def detect_language_from_path(path: str) -> str | None
 
 ---
 
-#### detect_language_from_content()
+#### Detect_language_from_content()
 
 Detect language name from file content using the shebang line (`#!`).
 
@@ -89,7 +89,7 @@ def detect_language_from_content(content: str) -> str | None
 
 ---
 
-#### root_node_info()
+#### Root_node_info()
 
 Get a `NodeInfo` snapshot of the root node.
 
@@ -110,7 +110,7 @@ def root_node_info(tree: Tree) -> NodeInfo
 
 ---
 
-#### find_nodes_by_type()
+#### Find_nodes_by_type()
 
 Find all nodes matching the given type name, returning their `NodeInfo`.
 
@@ -134,7 +134,7 @@ def find_nodes_by_type(tree: Tree, node_type: str) -> list[NodeInfo]
 
 ---
 
-#### named_children_info()
+#### Named_children_info()
 
 Get `NodeInfo` for all named children of the root node.
 
@@ -158,7 +158,7 @@ def named_children_info(tree: Tree) -> list[NodeInfo]
 
 ---
 
-#### parse_string()
+#### Parse_string()
 
 Parse source code with the named language, returning the syntax tree.
 
@@ -186,7 +186,7 @@ def parse_string(language: str, source: bytes) -> Tree
 
 ---
 
-#### tree_contains_node_type()
+#### Tree_contains_node_type()
 
 Check whether any node in the tree matches the given type name.
 
@@ -210,7 +210,7 @@ def tree_contains_node_type(tree: Tree, node_type: str) -> bool
 
 ---
 
-#### tree_has_error_nodes()
+#### Tree_has_error_nodes()
 
 Check whether the tree contains any ERROR or MISSING nodes.
 
@@ -233,7 +233,7 @@ def tree_has_error_nodes(tree: Tree) -> bool
 
 ---
 
-#### tree_to_sexp()
+#### Tree_to_sexp()
 
 Return the S-expression representation of the entire tree.
 
@@ -257,7 +257,7 @@ def tree_to_sexp(tree: Tree) -> str
 
 ---
 
-#### tree_error_count()
+#### Tree_error_count()
 
 Count the number of ERROR and MISSING nodes in the tree.
 
@@ -280,7 +280,7 @@ def tree_error_count(tree: Tree) -> int
 
 ---
 
-#### get_highlights_query()
+#### Get_highlights_query()
 
 Get the highlights query for a language, if bundled.
 
@@ -304,7 +304,7 @@ def get_highlights_query(language: str) -> str | None
 
 ---
 
-#### get_injections_query()
+#### Get_injections_query()
 
 Get the injections query for a language, if bundled.
 
@@ -328,7 +328,7 @@ def get_injections_query(language: str) -> str | None
 
 ---
 
-#### get_locals_query()
+#### Get_locals_query()
 
 Get the locals query for a language, if bundled.
 
@@ -352,7 +352,7 @@ def get_locals_query(language: str) -> str | None
 
 ---
 
-#### run_query()
+#### Run_query()
 
 Execute a tree-sitter query pattern against a parsed tree.
 
@@ -386,7 +386,7 @@ def run_query(tree: Tree, language: str, query_source: str, source: bytes) -> li
 
 ---
 
-#### get_language()
+#### Get_language()
 
 Get a tree-sitter `Language` by name using the global registry.
 
@@ -418,7 +418,7 @@ def get_language(name: str) -> Language
 
 ---
 
-#### get_parser()
+#### Get_parser()
 
 Get a tree-sitter `Parser` pre-configured for the given language.
 
@@ -449,7 +449,7 @@ def get_parser(name: str) -> Parser
 
 ---
 
-#### available_languages()
+#### Available_languages()
 
 List all available language names (sorted, deduplicated, includes aliases).
 
@@ -467,7 +467,7 @@ def available_languages() -> list[str]
 
 ---
 
-#### has_language()
+#### Has_language()
 
 Check if a language is available by name or alias.
 
@@ -491,7 +491,7 @@ def has_language(name: str) -> bool
 
 ---
 
-#### language_count()
+#### Language_count()
 
 Return the number of available languages.
 
@@ -509,7 +509,7 @@ def language_count() -> int
 
 ---
 
-#### process()
+#### Process()
 
 Process source code and extract file intelligence using the global registry.
 
@@ -541,7 +541,7 @@ def process(source: str, config: ProcessConfig) -> ProcessResult
 
 ---
 
-#### extract_patterns()
+#### Extract_patterns()
 
 Run extraction patterns against source code.
 
@@ -572,7 +572,7 @@ def extract_patterns(source: str, config: ExtractionConfig) -> ExtractionResult
 
 ---
 
-#### validate_extraction()
+#### Validate_extraction()
 
 Validate extraction patterns without running them.
 
@@ -601,7 +601,7 @@ def validate_extraction(config: ExtractionConfig) -> ValidationResult
 
 ---
 
-#### init()
+#### Init()
 
 Initialize the language pack with the given configuration.
 
@@ -632,7 +632,7 @@ def init(config: PackConfig) -> None
 
 ---
 
-#### configure()
+#### Configure()
 
 Apply download configuration without downloading anything.
 
@@ -664,7 +664,7 @@ def configure(config: PackConfig) -> None
 
 ---
 
-#### download()
+#### Download()
 
 Download specific languages to the local cache.
 
@@ -695,7 +695,7 @@ def download(names: list[str]) -> int
 
 ---
 
-#### download_all()
+#### Download_all()
 
 Download all available languages from the remote manifest.
 
@@ -718,7 +718,7 @@ def download_all() -> int
 
 ---
 
-#### manifest_languages()
+#### Manifest_languages()
 
 Return all language names available in the remote manifest (305).
 
@@ -743,7 +743,7 @@ def manifest_languages() -> list[str]
 
 ---
 
-#### downloaded_languages()
+#### Downloaded_languages()
 
 Return languages that are already downloaded and cached locally.
 
@@ -761,7 +761,7 @@ def downloaded_languages() -> list[str]
 
 ---
 
-#### clean_cache()
+#### Clean_cache()
 
 Delete all cached parser shared libraries.
 
@@ -785,7 +785,7 @@ def clean_cache() -> None
 
 ---
 
-#### cache_dir()
+#### Cache_dir()
 
 Return the effective cache directory path.
 
@@ -922,7 +922,7 @@ Manages downloading and caching of pre-built parser shared libraries.
 
 ##### Methods
 
-###### new()
+###### New()
 
 Create a new download manager for the given version.
 
@@ -933,7 +933,7 @@ Create a new download manager for the given version.
 def new(version: str) -> DownloadManager
 ```
 
-###### with_cache_dir()
+###### With_cache_dir()
 
 Create a download manager with a custom cache directory.
 
@@ -944,7 +944,7 @@ Create a download manager with a custom cache directory.
 def with_cache_dir(version: str, cache_dir: str) -> DownloadManager
 ```
 
-###### default_cache_dir()
+###### Default_cache_dir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 
@@ -955,7 +955,7 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 def default_cache_dir(version: str) -> str
 ```
 
-###### cache_dir()
+###### Cache_dir()
 
 Return the path to the libs cache directory.
 
@@ -965,7 +965,7 @@ Return the path to the libs cache directory.
 def cache_dir(self) -> str
 ```
 
-###### installed_languages()
+###### Installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -975,7 +975,7 @@ List languages that are already downloaded and cached.
 def installed_languages(self) -> list[str]
 ```
 
-###### ensure_languages()
+###### Ensure_languages()
 
 Ensure the specified languages are available in the cache.
 Downloads the platform bundle if any requested languages are missing.
@@ -986,7 +986,7 @@ Downloads the platform bundle if any requested languages are missing.
 def ensure_languages(self, names: list[str]) -> None
 ```
 
-###### ensure_group()
+###### Ensure_group()
 
 Ensure all languages in a named group are available.
 
@@ -996,7 +996,7 @@ Ensure all languages in a named group are available.
 def ensure_group(self, group: str) -> None
 ```
 
-###### lib_path()
+###### Lib_path()
 
 Get the expected path for a language's shared library in the cache.
 
@@ -1006,7 +1006,7 @@ Get the expected path for a language's shared library in the cache.
 def lib_path(self, name: str) -> str
 ```
 
-###### fetch_manifest()
+###### Fetch_manifest()
 
 Fetch the parser manifest from GitHub Releases.
 
@@ -1016,7 +1016,7 @@ Fetch the parser manifest from GitHub Releases.
 def fetch_manifest(self) -> ParserManifest
 ```
 
-###### clean_cache()
+###### Clean_cache()
 
 Remove all cached parser libraries.
 
@@ -1140,7 +1140,7 @@ global instance via the module-level convenience functions
 
 ##### Methods
 
-###### with_libs_dir()
+###### With_libs_dir()
 
 Create a registry with a custom directory for dynamic libraries.
 
@@ -1154,7 +1154,7 @@ dynamic grammar shared libraries are stored in a non-standard location.
 def with_libs_dir(libs_dir: str) -> LanguageRegistry
 ```
 
-###### add_extra_libs_dir()
+###### Add_extra_libs_dir()
 
 Add an additional directory to search for dynamic libraries.
 
@@ -1172,7 +1172,7 @@ immutable while the directory list is updated.
 def add_extra_libs_dir(self, dir: str) -> None
 ```
 
-###### get_language()
+###### Get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -1191,7 +1191,7 @@ does not match any known grammar.
 def get_language(self, name: str) -> Language
 ```
 
-###### available_languages()
+###### Available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -1204,7 +1204,7 @@ Includes statically compiled languages, dynamically loadable languages
 def available_languages(self) -> list[str]
 ```
 
-###### has_language()
+###### Has_language()
 
 Check whether a language is available by name or alias.
 
@@ -1217,7 +1217,7 @@ table or from a dynamic library on disk.
 def has_language(self, name: str) -> bool
 ```
 
-###### language_count()
+###### Language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -1227,7 +1227,7 @@ Return the total number of available languages (including aliases).
 def language_count(self) -> int
 ```
 
-###### process()
+###### Process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -1237,7 +1237,7 @@ Parse source code and extract file intelligence based on config in a single pass
 def process(self, source: str, config: ProcessConfig) -> ProcessResult
 ```
 
-###### default()
+###### Default()
 
 **Signature:**
 
@@ -1302,7 +1302,7 @@ or passed as a dict/object from language bindings.
 
 ##### Methods
 
-###### from_toml_file()
+###### From_toml_file()
 
 Load configuration from a TOML file.
 
@@ -1317,7 +1317,7 @@ Returns an error if the file cannot be read or the TOML is invalid.
 def from_toml_file(path: str) -> PackConfig
 ```
 
-###### discover()
+###### Discover()
 
 Discover configuration by searching for `language-pack.toml` in:
 
@@ -1415,7 +1415,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 
 ##### Methods
 
-###### default()
+###### Default()
 
 **Signature:**
 
@@ -1424,7 +1424,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 def default() -> ProcessConfig
 ```
 
-###### with_chunking()
+###### With_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1434,7 +1434,7 @@ Enable chunking with the given maximum chunk size in bytes.
 def with_chunking(self, max_size: int) -> ProcessConfig
 ```
 
-###### all()
+###### All()
 
 Enable all analysis features.
 
@@ -1444,7 +1444,7 @@ Enable all analysis features.
 def all(self) -> ProcessConfig
 ```
 
-###### minimal()
+###### Minimal()
 
 Disable all analysis features (only metrics computed).
 

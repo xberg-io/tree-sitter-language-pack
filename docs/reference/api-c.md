@@ -6,7 +6,7 @@ title: "C API Reference"
 
 ### Functions
 
-#### ts_pack_detect_language_from_extension()
+#### Ts_pack_detect_language_from_extension()
 
 Detect language name from a file extension (without leading dot).
 
@@ -29,7 +29,7 @@ const char** ts_pack_detect_language_from_extension(const char* ext);
 
 ---
 
-#### ts_pack_detect_language_from_path()
+#### Ts_pack_detect_language_from_path()
 
 Detect language name from a file path.
 
@@ -53,7 +53,7 @@ const char** ts_pack_detect_language_from_path(const char* path);
 
 ---
 
-#### ts_pack_detect_language_from_content()
+#### Ts_pack_detect_language_from_content()
 
 Detect language name from file content using the shebang line (`#!`).
 
@@ -89,7 +89,7 @@ const char** ts_pack_detect_language_from_content(const char* content);
 
 ---
 
-#### ts_pack_root_node_info()
+#### Ts_pack_root_node_info()
 
 Get a `NodeInfo` snapshot of the root node.
 
@@ -110,7 +110,7 @@ TsPackNodeInfo* ts_pack_root_node_info(TsPackTree tree);
 
 ---
 
-#### ts_pack_find_nodes_by_type()
+#### Ts_pack_find_nodes_by_type()
 
 Find all nodes matching the given type name, returning their `NodeInfo`.
 
@@ -134,7 +134,7 @@ TsPackNodeInfo* ts_pack_find_nodes_by_type(TsPackTree tree, const char* node_typ
 
 ---
 
-#### ts_pack_named_children_info()
+#### Ts_pack_named_children_info()
 
 Get `NodeInfo` for all named children of the root node.
 
@@ -158,7 +158,7 @@ TsPackNodeInfo* ts_pack_named_children_info(TsPackTree tree);
 
 ---
 
-#### ts_pack_parse_string()
+#### Ts_pack_parse_string()
 
 Parse source code with the named language, returning the syntax tree.
 
@@ -186,7 +186,7 @@ TsPackTree* ts_pack_parse_string(const char* language, const uint8_t* source);
 
 ---
 
-#### ts_pack_tree_contains_node_type()
+#### Ts_pack_tree_contains_node_type()
 
 Check whether any node in the tree matches the given type name.
 
@@ -210,7 +210,7 @@ bool ts_pack_tree_contains_node_type(TsPackTree tree, const char* node_type);
 
 ---
 
-#### ts_pack_tree_has_error_nodes()
+#### Ts_pack_tree_has_error_nodes()
 
 Check whether the tree contains any ERROR or MISSING nodes.
 
@@ -233,7 +233,7 @@ bool ts_pack_tree_has_error_nodes(TsPackTree tree);
 
 ---
 
-#### ts_pack_tree_to_sexp()
+#### Ts_pack_tree_to_sexp()
 
 Return the S-expression representation of the entire tree.
 
@@ -257,7 +257,7 @@ const char* ts_pack_tree_to_sexp(TsPackTree tree);
 
 ---
 
-#### ts_pack_tree_error_count()
+#### Ts_pack_tree_error_count()
 
 Count the number of ERROR and MISSING nodes in the tree.
 
@@ -280,7 +280,7 @@ uintptr_t ts_pack_tree_error_count(TsPackTree tree);
 
 ---
 
-#### ts_pack_get_highlights_query()
+#### Ts_pack_get_highlights_query()
 
 Get the highlights query for a language, if bundled.
 
@@ -304,7 +304,7 @@ const char** ts_pack_get_highlights_query(const char* language);
 
 ---
 
-#### ts_pack_get_injections_query()
+#### Ts_pack_get_injections_query()
 
 Get the injections query for a language, if bundled.
 
@@ -328,7 +328,7 @@ const char** ts_pack_get_injections_query(const char* language);
 
 ---
 
-#### ts_pack_get_locals_query()
+#### Ts_pack_get_locals_query()
 
 Get the locals query for a language, if bundled.
 
@@ -352,7 +352,7 @@ const char** ts_pack_get_locals_query(const char* language);
 
 ---
 
-#### ts_pack_run_query()
+#### Ts_pack_run_query()
 
 Execute a tree-sitter query pattern against a parsed tree.
 
@@ -386,7 +386,7 @@ TsPackQueryMatch* ts_pack_run_query(TsPackTree tree, const char* language, const
 
 ---
 
-#### ts_pack_get_language()
+#### Ts_pack_get_language()
 
 Get a tree-sitter `Language` by name using the global registry.
 
@@ -418,7 +418,7 @@ TsPackLanguage* ts_pack_get_language(const char* name);
 
 ---
 
-#### ts_pack_get_parser()
+#### Ts_pack_get_parser()
 
 Get a tree-sitter `Parser` pre-configured for the given language.
 
@@ -449,7 +449,7 @@ TsPackParser* ts_pack_get_parser(const char* name);
 
 ---
 
-#### ts_pack_available_languages()
+#### Ts_pack_available_languages()
 
 List all available language names (sorted, deduplicated, includes aliases).
 
@@ -467,7 +467,7 @@ const char** ts_pack_available_languages();
 
 ---
 
-#### ts_pack_has_language()
+#### Ts_pack_has_language()
 
 Check if a language is available by name or alias.
 
@@ -491,7 +491,7 @@ bool ts_pack_has_language(const char* name);
 
 ---
 
-#### ts_pack_language_count()
+#### Ts_pack_language_count()
 
 Return the number of available languages.
 
@@ -509,7 +509,7 @@ uintptr_t ts_pack_language_count();
 
 ---
 
-#### ts_pack_process()
+#### Ts_pack_process()
 
 Process source code and extract file intelligence using the global registry.
 
@@ -541,7 +541,7 @@ TsPackProcessResult* ts_pack_process(const char* source, TsPackProcessConfig con
 
 ---
 
-#### ts_pack_extract_patterns()
+#### Ts_pack_extract_patterns()
 
 Run extraction patterns against source code.
 
@@ -572,7 +572,7 @@ TsPackExtractionResult* ts_pack_extract_patterns(const char* source, TsPackExtra
 
 ---
 
-#### ts_pack_validate_extraction()
+#### Ts_pack_validate_extraction()
 
 Validate extraction patterns without running them.
 
@@ -601,7 +601,7 @@ TsPackValidationResult* ts_pack_validate_extraction(TsPackExtractionConfig confi
 
 ---
 
-#### ts_pack_init()
+#### Ts_pack_init()
 
 Initialize the language pack with the given configuration.
 
@@ -632,7 +632,7 @@ void ts_pack_init(TsPackPackConfig config);
 
 ---
 
-#### ts_pack_configure()
+#### Ts_pack_configure()
 
 Apply download configuration without downloading anything.
 
@@ -664,7 +664,7 @@ void ts_pack_configure(TsPackPackConfig config);
 
 ---
 
-#### ts_pack_download()
+#### Ts_pack_download()
 
 Download specific languages to the local cache.
 
@@ -695,7 +695,7 @@ uintptr_t ts_pack_download(const char** names);
 
 ---
 
-#### ts_pack_download_all()
+#### Ts_pack_download_all()
 
 Download all available languages from the remote manifest.
 
@@ -718,7 +718,7 @@ uintptr_t ts_pack_download_all();
 
 ---
 
-#### ts_pack_manifest_languages()
+#### Ts_pack_manifest_languages()
 
 Return all language names available in the remote manifest (305).
 
@@ -743,7 +743,7 @@ const char** ts_pack_manifest_languages();
 
 ---
 
-#### ts_pack_downloaded_languages()
+#### Ts_pack_downloaded_languages()
 
 Return languages that are already downloaded and cached locally.
 
@@ -761,7 +761,7 @@ const char** ts_pack_downloaded_languages();
 
 ---
 
-#### ts_pack_clean_cache()
+#### Ts_pack_clean_cache()
 
 Delete all cached parser shared libraries.
 
@@ -785,7 +785,7 @@ void ts_pack_clean_cache();
 
 ---
 
-#### ts_pack_cache_dir()
+#### Ts_pack_cache_dir()
 
 Return the effective cache directory path.
 
@@ -922,7 +922,7 @@ Manages downloading and caching of pre-built parser shared libraries.
 
 ##### Methods
 
-###### ts_pack_new()
+###### Ts_pack_new()
 
 Create a new download manager for the given version.
 
@@ -932,7 +932,7 @@ Create a new download manager for the given version.
 TsPackDownloadManager ts_pack_new(const char* version);
 ```
 
-###### ts_pack_with_cache_dir()
+###### Ts_pack_with_cache_dir()
 
 Create a download manager with a custom cache directory.
 
@@ -942,7 +942,7 @@ Create a download manager with a custom cache directory.
 TsPackDownloadManager ts_pack_with_cache_dir(const char* version, const char* cache_dir);
 ```
 
-###### ts_pack_default_cache_dir()
+###### Ts_pack_default_cache_dir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 
@@ -952,7 +952,7 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 const char* ts_pack_default_cache_dir(const char* version);
 ```
 
-###### ts_pack_cache_dir()
+###### Ts_pack_cache_dir()
 
 Return the path to the libs cache directory.
 
@@ -962,7 +962,7 @@ Return the path to the libs cache directory.
 const char* ts_pack_cache_dir();
 ```
 
-###### ts_pack_installed_languages()
+###### Ts_pack_installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -972,7 +972,7 @@ List languages that are already downloaded and cached.
 const char** ts_pack_installed_languages();
 ```
 
-###### ts_pack_ensure_languages()
+###### Ts_pack_ensure_languages()
 
 Ensure the specified languages are available in the cache.
 Downloads the platform bundle if any requested languages are missing.
@@ -983,7 +983,7 @@ Downloads the platform bundle if any requested languages are missing.
 void ts_pack_ensure_languages(const char** names);
 ```
 
-###### ts_pack_ensure_group()
+###### Ts_pack_ensure_group()
 
 Ensure all languages in a named group are available.
 
@@ -993,7 +993,7 @@ Ensure all languages in a named group are available.
 void ts_pack_ensure_group(const char* group);
 ```
 
-###### ts_pack_lib_path()
+###### Ts_pack_lib_path()
 
 Get the expected path for a language's shared library in the cache.
 
@@ -1003,7 +1003,7 @@ Get the expected path for a language's shared library in the cache.
 const char* ts_pack_lib_path(const char* name);
 ```
 
-###### ts_pack_fetch_manifest()
+###### Ts_pack_fetch_manifest()
 
 Fetch the parser manifest from GitHub Releases.
 
@@ -1013,7 +1013,7 @@ Fetch the parser manifest from GitHub Releases.
 TsPackParserManifest ts_pack_fetch_manifest();
 ```
 
-###### ts_pack_clean_cache()
+###### Ts_pack_clean_cache()
 
 Remove all cached parser libraries.
 
@@ -1137,7 +1137,7 @@ global instance via the module-level convenience functions
 
 ##### Methods
 
-###### ts_pack_with_libs_dir()
+###### Ts_pack_with_libs_dir()
 
 Create a registry with a custom directory for dynamic libraries.
 
@@ -1150,7 +1150,7 @@ dynamic grammar shared libraries are stored in a non-standard location.
 TsPackLanguageRegistry ts_pack_with_libs_dir(const char* libs_dir);
 ```
 
-###### ts_pack_add_extra_libs_dir()
+###### Ts_pack_add_extra_libs_dir()
 
 Add an additional directory to search for dynamic libraries.
 
@@ -1168,7 +1168,7 @@ immutable while the directory list is updated.
 void ts_pack_add_extra_libs_dir(const char* dir);
 ```
 
-###### ts_pack_get_language()
+###### Ts_pack_get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -1187,7 +1187,7 @@ does not match any known grammar.
 TsPackLanguage ts_pack_get_language(const char* name);
 ```
 
-###### ts_pack_available_languages()
+###### Ts_pack_available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -1200,7 +1200,7 @@ Includes statically compiled languages, dynamically loadable languages
 const char** ts_pack_available_languages();
 ```
 
-###### ts_pack_has_language()
+###### Ts_pack_has_language()
 
 Check whether a language is available by name or alias.
 
@@ -1213,7 +1213,7 @@ table or from a dynamic library on disk.
 bool ts_pack_has_language(const char* name);
 ```
 
-###### ts_pack_language_count()
+###### Ts_pack_language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -1223,7 +1223,7 @@ Return the total number of available languages (including aliases).
 uintptr_t ts_pack_language_count();
 ```
 
-###### ts_pack_process()
+###### Ts_pack_process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -1233,7 +1233,7 @@ Parse source code and extract file intelligence based on config in a single pass
 TsPackProcessResult ts_pack_process(const char* source, TsPackProcessConfig config);
 ```
 
-###### ts_pack_default()
+###### Ts_pack_default()
 
 **Signature:**
 
@@ -1297,7 +1297,7 @@ or passed as a dict/object from language bindings.
 
 ##### Methods
 
-###### ts_pack_from_toml_file()
+###### Ts_pack_from_toml_file()
 
 Load configuration from a TOML file.
 
@@ -1311,7 +1311,7 @@ Returns an error if the file cannot be read or the TOML is invalid.
 TsPackPackConfig ts_pack_from_toml_file(const char* path);
 ```
 
-###### ts_pack_discover()
+###### Ts_pack_discover()
 
 Discover configuration by searching for `language-pack.toml` in:
 
@@ -1408,7 +1408,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 
 ##### Methods
 
-###### ts_pack_default()
+###### Ts_pack_default()
 
 **Signature:**
 
@@ -1416,7 +1416,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 TsPackProcessConfig ts_pack_default();
 ```
 
-###### ts_pack_with_chunking()
+###### Ts_pack_with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1426,7 +1426,7 @@ Enable chunking with the given maximum chunk size in bytes.
 TsPackProcessConfig ts_pack_with_chunking(uintptr_t max_size);
 ```
 
-###### ts_pack_all()
+###### Ts_pack_all()
 
 Enable all analysis features.
 
@@ -1436,7 +1436,7 @@ Enable all analysis features.
 TsPackProcessConfig ts_pack_all();
 ```
 
-###### ts_pack_minimal()
+###### Ts_pack_minimal()
 
 Disable all analysis features (only metrics computed).
 

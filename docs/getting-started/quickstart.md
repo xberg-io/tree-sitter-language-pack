@@ -33,9 +33,7 @@ This guide walks you from install to parsing, code intelligence, and LLM chunkin
     brew install kreuzberg-dev/tap/ts-pack
     ```
 
-!!! tip "Other ecosystems"
-    Go, Java, Ruby, Elixir, PHP, and WebAssembly are also supported.
-    See [Installation](installation.md) for the full list.
+!!! Tip "Other ecosystems" Go, Java, Ruby, Elixir, PHP, and WebAssembly are also supported. See [Installation](installation.md) for the full list.
 
 ---
 
@@ -195,10 +193,7 @@ Then download everything declared in the config:
     init()
     ```
 
-!!! info "Cache location"
-    Parsers cache to `~/.cache/tree-sitter-language-pack/` on Linux/macOS and `%LOCALAPPDATA%\tree-sitter-language-pack\` on Windows.
-    Override with `cache_dir` in `language-pack.toml` or the programmatic API.
-    See [Download Model](../concepts/download-model.md) for full details.
+!!! Info "Cache location" Parsers cache to `~/.cache/tree-sitter-language-pack/` on Linux/macOS and `%LOCALAPPDATA%\tree-sitter-language-pack\` on Windows. Override with `cache_dir` in `language-pack.toml` or the programmatic API. See [Download Model](../concepts/download-model.md) for full details.
 
 ---
 
@@ -494,7 +489,7 @@ Split code at natural boundaries so language models receive coherent, complete u
 ---
 
 You now have the full workflow. You can now install, download, parse, extract intelligence, run queries, and chunk for LLMs.
-Dive deeper with the following guides:
+Go further with the following guides:
 
 - [:material-arrow-right: Parsing guide](../guides/parsing.md) — syntax trees, error handling, and incremental parsing
 - [:material-arrow-right: Configuration](../guides/configuration.md) — `language-pack.toml` and advanced options

@@ -4,7 +4,7 @@ description: "Run ts-pack in Docker — a statically-linked Alpine image with al
 
 # Docker
 
-The Docker image ships a statically-linked `ts-pack` binary on Alpine Linux. All parsers are compiled in at image build time; no internet access or runtime downloads are needed.
+The Docker image ships a statically-linked `ts-pack` binary on Alpine Linux. The build process compiles all parsers at image build time; the container needs no internet access or runtime downloads.
 
 ## Quick start
 
@@ -28,9 +28,9 @@ echo "def hello(): pass" | docker run --rm -i \
 The image is two layers:
 
 1. A Rust/Alpine builder that compiles `ts-pack-cli` with all parsers statically linked via `TSLP_LINK_MODE=static`
-2. A minimal `alpine:latest` runtime containing only `/usr/local/bin/ts-pack`
+2. A minimal `alpine:latest` runtime containing `/usr/local/bin/ts-pack`
 
-Because the binary is statically linked against musl libc, it runs on any Linux host without additional dependencies.
+The binary links statically against musl libc, so it runs on any Linux machine without extra dependencies.
 
 ## Building locally
 
@@ -40,13 +40,13 @@ Before building, you need the parser C sources cloned locally:
 uv run scripts/clone_vendors.py
 ```
 
-Then build the image from the repo root (the full context is required):
+Then build the image from the repository root (the full context must be present):
 
 ```bash
 docker build -f docker/Dockerfile -t ts-pack .
 ```
 
-The build takes several minutes — it compiles every grammar in `sources/language_definitions.json` from C source.
+The build takes five minutes — it compiles every grammar in `sources/language_definitions.json` from C.
 
 ## Verify the image
 
@@ -72,7 +72,7 @@ jobs:
 
 ## Build a smaller image with a parser subset
 
-If you only need a few languages, set `TSLP_LANGUAGES` at build time:
+To target a language subset, set `TSLP_LANGUAGES` at build time:
 
 ```dockerfile
 FROM rust:alpine AS builder
@@ -90,8 +90,8 @@ COPY --from=builder /build/target/release/ts-pack /usr/local/bin/ts-pack
 ENTRYPOINT ["ts-pack"]
 ```
 
-Run `uv run scripts/clone_vendors.py --languages python,javascript,typescript` first to fetch only the needed grammar sources.
+Run `uv run scripts/clone_vendors.py --languages python,javascript,typescript` first to fetch the needed grammar sources.
 
 ## Multi-arch
 
-The published image is built for `linux/amd64` and `linux/arm64`. The `ci-docker.yaml` and `publish-docker.yaml` workflows handle this via `docker buildx`.
+The published image targets `linux/amd64` and `linux/arm64`. The `ci-docker.yaml` and `publish-docker.yaml` workflows handle this via `docker buildx`.

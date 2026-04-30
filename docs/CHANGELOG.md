@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Docs: mermaid diagrams now render (fixed broken code fence closings in architecture.md)
 - Docs: Elixir icon renders in Supported Ecosystems table (`:simple-elixir:`)
-- Docs: mkdocs.yaml aligned with kreuzberg (custom palette, toc.integrate, repo icons)
+- Docs: mkdocs.yaml aligned with Kreuzberg (custom palette, toc.integrate, repo icons)
 - Publish: Ruby platform-specific native gems (build-native-gem.rb)
 - Publish: PHP extension binaries uploaded to GitHub release
 - Publish: Elixir uses rustler_precompiled for binary NIF distribution
@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Config files aligned with kreuzberg: biome.json, rust-toolchain.toml, deny.toml, .golangci.yml, .clang-format, .taplo.toml, .shellcheckrc, tsconfig.json, .npmrc, go.work
+- Config files aligned with Kreuzberg: biome.json, rust-toolchain.toml, deny.toml, .golangci.yml, .clang-format, .taplo.toml, .shellcheckrc, tsconfig.json, .npmrc, go.work
 - CI CLI workflow (`ci-cli.yaml`) with clone-vendors, build, smoke tests, grammar tests
 - Vendor scripts for PHP and Ruby (`scripts/ci/php/vendor-core.py`, `scripts/ci/ruby/vendor-core.py`)
 - Docker + C FFI badges in all READMEs
@@ -39,8 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI: C# E2E tests — `setup-dotnet@v4` → `@v5`, e2e-generator C# template `net9.0` → `net10.0`
 - CI: WASM E2E tests — missing tsconfig.json files caused vitest ENOENT
 - CI: CLI smoke tests — added clone-vendors job so parsers are available
-- Publish: npm tag computed once in prepare job (kreuzberg pattern: rc/alpha/beta → `next`, stable → `latest`)
-- README badges: reordered to match kreuzberg, license badge `.svg`, docs link to kreuzberg.dev
+- Publish: npm tag computed once in prepare job (Kreuzberg pattern: rc/alpha/beta → `next`, stable → `latest`)
+- README badges: reordered to match Kreuzberg, license badge `.svg`, docs link to kreuzberg.dev
 
 ### Removed
 
@@ -92,8 +92,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Homebrew upload checkout, RubyGems action, Docker clone_vendors
 - Move Cargo profiles to workspace root
 - Docker needs parsers from clone-vendors
-- ci-docker needs tree-sitter-cli for grammar generation
-- test_apps call `download()` before testing
+- Ci-docker needs tree-sitter-cli for grammar generation
+- Test_apps call `download()` before testing
 
 ### Removed
 
@@ -141,7 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - READMEs overhauled: correct badges (Homebrew, docs), download API docs, language-specific naming
 - CLI binary name: `ts-pack`
-- dotnet target: 9.0 → 10.0
+- Dotnet target: 9.0 → 10.0
 - Ruby minimum: 3.2 → 3.4
 - Go minimum: 1.22 → 1.26
 - Smoke tests removed from publish workflow (replaced by test_apps)
@@ -259,7 +259,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 #### Added
 
-- tree-sitter-cobol grammar support
+- Tree-sitter-cobol grammar support
 
 #### Fixed
 
@@ -271,7 +271,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 #### Added
 
-- tree-sitter-bsl (1C:Enterprise) grammar support
+- Tree-sitter-bsl (1C:Enterprise) grammar support
 
 #### Changed
 
@@ -281,7 +281,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 #### Added
 
-- tree-sitter 0.25 support
+- Tree-sitter 0.25 support
 
 #### Changed
 
@@ -300,15 +300,15 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 #### Added
 
-- tree-sitter-nim grammar support
-- tree-sitter-ini grammar support
+- Tree-sitter-nim grammar support
+- Tree-sitter-ini grammar support
 - Swift grammar update (trailing comma support)
 
 ### [0.8.0]
 
 #### Fixed
 
-- sdist build issues resolved
+- Sdist build issues resolved
 
 ### [0.7.4]
 

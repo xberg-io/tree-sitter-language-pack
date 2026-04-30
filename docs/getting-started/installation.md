@@ -6,7 +6,7 @@ description: "Install tree-sitter-language-pack in Python, Node.js, Rust, Go, Ja
 ## Install using the CLI
 
 The `ts-pack` CLI allows you to manage parsers and run code analysis directly from your terminal.
-You can use it in CI pipelines, automation scripts, or simply to explore and experiment with **300+ supported languages**.
+You can use it in CI pipelines, automation scripts, or to explore and experiment with **300+ supported languages**.
 
 
 <div class="install-cli-hero" markdown>
@@ -36,7 +36,7 @@ ts-pack list | wc -l   # → 306
 
 ## Language Bindings
 
-tree-sitter-language-pack is available for every major ecosystem. All packages share the same version and API surface.
+Tree-sitter-language-pack is available for every major ecosystem. All packages share the same version and API surface.
 
 <div class="lang-picker" markdown>
 [Python](#python){ .lang-pill }
@@ -99,7 +99,7 @@ Requires Node.js 18+. Pre-built binaries for Linux (x64, arm64), macOS (x64, arm
     pnpm add @kreuzberg/tree-sitter-language-pack
     ```
 
-=== "yarn"
+=== "Yarn"
 
     ```bash
     yarn add @kreuzberg/tree-sitter-language-pack

@@ -149,7 +149,7 @@ print(pattern["total_count"])   # actual count, e.g. 42
 
 ## Restricting to a byte range
 
-`byte_range` limits extraction to a `[start, end]` byte offset range. Only matches whose root node falls within the range are returned:
+`byte_range` limits extraction to a `[start, end]` byte offset range. Matches return when the root node falls within the range:
 
 ```python
 source = "def a(): pass\ndef b(): pass\ndef c(): pass\n"
@@ -170,7 +170,7 @@ print(result["fns"]["matches"][0]["captures"][0]["text"])  # "b"
 
 ## Validating queries
 
-`validate_extraction()` checks query syntax without running extraction. Use it to catch mistakes early:
+`validate_extraction()` checks query syntax without running extraction. Use it to catch mistakes before running extractions:
 
 ```python
 from tree_sitter_language_pack import validate_extraction
@@ -227,7 +227,7 @@ print(result["extractions"]["decorators"]["matches"])   # custom results
 
 ## Compiled extraction (Rust)
 
-`CompiledExtraction` pre-compiles queries once for reuse across multiple inputs — useful when processing many files with the same patterns:
+`CompiledExtraction` pre-compiles queries once for reuse across inputs — useful when processing files with the same patterns:
 
 ```rust
 use tree_sitter_language_pack::CompiledExtraction;
@@ -259,7 +259,7 @@ let result = compiled.extract_from_tree(&tree, source.as_bytes())?;
 | Ruby | yes | yes |
 | Elixir | yes | yes |
 | PHP | yes | yes |
-| WASM | yes | yes |
+| Wasm | yes | yes |
 | C FFI | yes | yes |
 | Go | not yet | not yet |
 | C# | not yet | not yet |

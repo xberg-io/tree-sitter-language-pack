@@ -65,7 +65,7 @@ description: "Parse any of 306 languages into a concrete syntax tree with tree-s
 
 ## Getting a parser
 
-Three entry points — they differ only in how much setup you control:
+Three entry points — they differ in how much setup you control:
 
 ```python
 from tree_sitter_language_pack import parse_string, get_parser, get_language
@@ -83,8 +83,7 @@ lang = get_language("python")
 
 For batch processing, reuse the parser object. Creating one per parse works fine at small scale but adds overhead when processing thousands of files.
 
-!!! tip "Language names"
-    Names are case-insensitive. Several aliases exist: `shell` → `bash`, `makefile` → `make`, `bazel` → `starlark`. See [Languages](../languages.md) for the full list.
+!!! Tip "Language names" Names are case-insensitive. Aliases exist: `shell` → `bash`, `makefile` → `make`, `bazel` → `starlark`. See [Languages](../languages.md) for the full list.
 
 ## The syntax tree
 
@@ -159,7 +158,7 @@ For structured extraction — functions, classes, imports, docstrings — use [`
 
 ## Syntax errors
 
-Tree-sitter never raises on invalid syntax. It marks problem areas with `ERROR` or `MISSING` nodes and keeps parsing.
+Tree-sitter never raises on malformed syntax. It marks problem areas with `ERROR` or `MISSING` nodes and keeps parsing.
 
 ```python
 tree = parse_string("def broken(", "python")
@@ -181,7 +180,7 @@ find_errors(tree.root_node)
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `kind` | str | Grammar node type, e.g. `function_definition` |
+| `kind` | str | Grammar node type, for example `function_definition` |
 | `start_point` | (int, int) | `(line, column)`, zero-indexed |
 | `end_point` | (int, int) | `(line, column)`, zero-indexed |
 | `start_byte` | int | Byte offset in source |

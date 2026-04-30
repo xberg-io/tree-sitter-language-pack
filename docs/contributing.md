@@ -36,7 +36,7 @@ task build
 task test
 ```
 
-!!! tip "Linux"
+!!! Tip "Linux"
     On Debian/Ubuntu, install Task with `apt install go-task` or download from [taskfile.dev](https://taskfile.dev/installation/).
 
 ## Common tasks
@@ -170,7 +170,7 @@ Doc fixes and new guides follow the same workflow as code changes:
 4. Run `task lint` if you touch any scripted checks.
 5. Open a pull request.
 
-!!! tip "Quick edits"
+!!! Tip "Quick edits"
     Use the **Edit** button in the page header to jump directly from any docs page to the matching file on GitHub.
 
 ## Code quality

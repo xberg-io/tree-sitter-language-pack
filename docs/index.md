@@ -3,7 +3,7 @@ title: tree-sitter-language-pack
 description: "tree-sitter-language-pack — 306 tree-sitter parsers with bindings for Python, TypeScript, Rust, Go, Java, Ruby, Elixir, PHP, and WebAssembly."
 ---
 
-tree-sitter-language-pack bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammars behind a single Rust core with native bindings for Python, TypeScript, Rust, Go, Java, Ruby, Elixir, PHP, WebAssembly, and more. Parsers download on demand and cache locally. One API surface for parsing, code intelligence, extraction queries, and syntax-aware chunking for LLM workflows. It ships as libraries per ecosystem plus the `ts-pack` CLI.
+Tree-sitter-language-pack bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammars behind a single Rust core with native bindings for Python, TypeScript, Rust, Go, Java, Ruby, Elixir, PHP, WebAssembly, and more. Parsers download on demand and cache locally. One API surface for parsing, code intelligence, extraction queries, and syntax-aware chunking for LLM workflows. It ships as libraries per ecosystem plus the `ts-pack` CLI.
 
 <div class="hero-badges" markdown>
 [:material-lightning-bolt: Quick Start](getting-started/quickstart.md){ .md-button .md-button--primary }
@@ -70,7 +70,7 @@ tree-sitter-language-pack bundles 306 [tree-sitter](https://tree-sitter.github.i
 
 ### Part of kreuzberg.dev
 
-tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev) team, the same people behind a family of Rust-core, polyglot-bindings libraries.
+Tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev) team, the same people behind a family of Rust-core, polyglot-bindings libraries.
 
 <div class="grid cards kreuzberg-ecosystem-grid" markdown>
 
