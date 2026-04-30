@@ -9,7 +9,7 @@ Add `:tree_sitter_language_pack` to your `mix.exs` dependencies:
 ```elixir
 defp deps do
   [
-    {:tree_sitter_language_pack, "~> 1.8.0-rc.24"}
+    {:tree_sitter_language_pack, "~> 1.8.0-rc.25"}
   ]
 end
 ```
