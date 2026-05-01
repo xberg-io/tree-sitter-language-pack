@@ -6,7 +6,7 @@ exclude: ^e2e/|^test_apps/|vendor/|node_modules/|target/|parsers/|crates/.*/deps
 repos:
   # AI Rules
   - repo: https://github.com/Goldziher/ai-rulez
-    rev: v4.0.8
+    rev: v4.1.4
     hooks:
       - id: ai-rulez-generate
 
@@ -80,7 +80,7 @@ repos:
 
   # Markdown: linting
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: "v0.1.83"
+    rev: "v0.1.85"
     hooks:
       - id: rumdl-fmt
         exclude: "^.ai-rulez/"
@@ -188,7 +188,7 @@ repos:
 
   # Alef: polyglot binding generation and version sync
   - repo: https://github.com/kreuzberg-dev/alef
-    rev: v0.11.22
+    rev: v0.12.10
     hooks:
       - id: alef-verify
       - id: alef-sync-versions
@@ -201,7 +201,7 @@ repos:
 
   # Spelling: fast Rust-based spell checker
   - repo: https://github.com/crate-ci/typos
-    rev: v1.45.2
+    rev: v1.46.0
     hooks:
       - id: typos
         args: [--force-exclude]
