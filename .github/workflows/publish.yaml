@@ -1272,29 +1272,36 @@ jobs:
 
   # ─── Build PHP PIE package ──────────────────────────────────────────
   build-php-extension:
-    name: Build PHP PIE package (${{ matrix.label }})
+    name: Build PHP PIE binary (php${{ matrix.php }} ${{ matrix.platform.label }})
     needs: [prepare, validate-versions, clone-vendors]
     if: needs.prepare.outputs.release_php == 'true'
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 120
+    runs-on: ${{ matrix.platform.os }}
+    timeout-minutes: 60
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
-        include:
+        php: ["8.2", "8.3", "8.4", "8.5"]
+        platform:
           - os: ubuntu-latest
             label: linux-x86_64
             target: x86_64-unknown-linux-gnu
           - os: ubuntu-24.04-arm
-            label: linux-aarch64
+            label: linux-arm64
             target: aarch64-unknown-linux-gnu
           - os: macos-latest
             label: macos-arm64
             target: aarch64-apple-darwin
+          - os: windows-latest
+            label: windows-x86_64
+            target: x86_64-pc-windows-msvc
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6 # v6
         with:
           ref: ${{ needs.prepare.outputs.tag }}
+          fetch-depth: 0
 
       - name: Download parsers
         uses: actions/download-artifact@v8
@@ -1303,40 +1310,60 @@ jobs:
           path: parsers
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: kreuzberg-dev/actions/setup-php@v1 # v1
         with:
-          php-version: "8.4"
-          tools: none
-
-      - name: Export macOS PHP linker flags
-        if: runner.os == 'macOS'
-        run: |
-          EXTRA_FLAGS="-C link-arg=-Wl,-undefined,dynamic_lookup"
-          echo "RUSTFLAGS=${RUSTFLAGS:+$RUSTFLAGS }${EXTRA_FLAGS}" >> "$GITHUB_ENV"
+          php-version: ${{ matrix.php }}
 
       - name: Setup Rust
-        uses: kreuzberg-dev/actions/setup-rust@v1
+        uses: kreuzberg-dev/actions/setup-rust@v1 # v1
         with:
-          components: ""
-          use-sccache: "false"
-          install-llvm-cov: "false"
+          cache-key-prefix: publish-php-${{ matrix.platform.label }}-php${{ matrix.php }}
+          toolchain: stable
 
       - name: Install alef
-        uses: kreuzberg-dev/actions/install-alef@v1
+        uses: kreuzberg-dev/actions/install-alef@v1 # v1
 
-      - name: Build and package PHP extension
-        shell: bash
+      - name: Build PHP extension
+        uses: kreuzberg-dev/actions/build-php-extension@v1 # v1
+        with:
+          crate-name: ts-pack-core-php
+          lib-name: ts_pack_core_php
+          php-version: ${{ matrix.php }}
+          php-ts: nts
+
+      - name: Determine Windows compiler
+        if: runner.os == 'Windows'
+        id: wincompiler
+        shell: pwsh
         run: |
-          alef publish build --lang php --target ${{ matrix.target }}
-          alef publish package --lang php --target ${{ matrix.target }} -o dist/php
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
+          $compiler = switch ('${{ matrix.php }}') {
+            '8.2' { 'vs16' }
+            '8.3' { 'vs16' }
+            '8.4' { 'vs17' }
+            '8.5' { 'vs17' }
+            default { 'vs17' }
+          }
+          "compiler=$compiler" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Package PIE archive
+        uses: kreuzberg-dev/actions/package-php-pie@v1 # v1
+        with:
+          php-version: ${{ matrix.php }}
+          php-ts: nts
+          target: ${{ matrix.platform.target }}
+          windows-compiler: ${{ steps.wincompiler.outputs.compiler }}
+          version: ${{ needs.prepare.outputs.version }}
+          output-dir: dist/php-package
 
       - name: Upload PHP PIE package artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7 # v7
         with:
-          name: php-pie-${{ matrix.label }}
-          path: dist/php/tree-sitter-language-pack-*.tar.gz*
+          name: php-package-${{ matrix.platform.label }}-php${{ matrix.php }}
+          path: |
+            dist/php-package/php_*.tgz
+            dist/php-package/php_*.tgz.sha256
+            dist/php-package/php_*.zip
+            dist/php-package/php_*.zip.sha256
           retention-days: 14
 
   # ─── Build C# native libraries ──────────────────────────────────────
@@ -2193,11 +2220,11 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.tag }}
 
-      - name: Download PHP PIE package artifacts
-        uses: actions/download-artifact@v8
+      - name: Download PHP package artifacts
+        uses: actions/download-artifact@v8 # v8
         with:
-          pattern: php-pie-*
-          path: dist/php
+          pattern: php-package-*
+          path: dist/php-package
           merge-multiple: true
 
       - name: Dry run summary
@@ -2207,23 +2234,17 @@ jobs:
             echo "## Packagist Dry Run"
             echo "PHP PIE package artifacts staged:"
             echo '```'
-            ls -1 dist/php/ 2>/dev/null || echo "(no artifacts)"
+            ls -1 dist/php-package/ 2>/dev/null || echo "(no artifacts)"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload PHP PIE packages to GitHub release
+      - name: Upload PHP PIE packages
         if: ${{ !inputs.dry_run }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ needs.prepare.outputs.tag }}
-        run: |
-          echo "Uploading PHP PIE packages to GitHub release ${TAG}..."
-          for file in dist/php/tree-sitter-language-pack-*.tar.gz*; do
-            if [ -f "$file" ]; then
-              echo "Uploading: $file"
-              gh release upload "$TAG" "$file" --clobber
-            fi
-          done
+        run: scripts/publish/upload-php-pie.sh
+        shell: bash
 
       - name: Publish to Packagist
         if: ${{ !inputs.dry_run }}
