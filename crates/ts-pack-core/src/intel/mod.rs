@@ -52,13 +52,6 @@ pub fn process(
         result.chunks = chunking::chunk_source(source, &config.language, max_size, &lang, &tree);
     }
 
-    if let Some(ref extraction_patterns) = config.extractions {
-        let compiled =
-            crate::extract::CompiledExtraction::compile_with_language(lang, &config.language, extraction_patterns)?;
-        let extraction_result = compiled.extract_from_tree(&tree, source.as_bytes())?;
-        result.extractions = extraction_result.results;
-    }
-
     Ok(result)
 }
 

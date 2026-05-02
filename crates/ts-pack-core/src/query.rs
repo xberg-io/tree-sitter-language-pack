@@ -23,7 +23,7 @@ thread_local! {
 /// A single match from a tree-sitter query, with captured nodes.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct QueryMatch {
+pub(crate) struct QueryMatch {
     /// The pattern index that matched (position in the query string).
     pub pattern_index: usize,
     /// Captures: list of (capture_name, node_info) pairs.
@@ -58,7 +58,7 @@ pub struct QueryMatch {
 /// ).unwrap();
 /// assert!(!matches.is_empty());
 /// ```
-pub fn run_query(
+pub(crate) fn run_query(
     tree: &tree_sitter::Tree,
     language: &str,
     query_source: &str,

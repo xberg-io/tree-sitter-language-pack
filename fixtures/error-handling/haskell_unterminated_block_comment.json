@@ -14,12 +14,6 @@
 	"assertions": [
 		{
 			"type": "not_error"
-		},
-		{
-			"type": "method_result",
-			"method": "has_error_nodes",
-			"check": "equals",
-			"value": true
 		}
 	]
 }

@@ -21,7 +21,7 @@ dependencies = [ "pytest>=7.4", "pytest-asyncio>=0.23", "pytest-timeout>=2.1", "
 packages = [  ]
 
 [tool.uv]
-sources.tree-sitter-language-pack = { workspace = true }
+sources.tree-sitter-language-pack = { path = "../../packages/python" }
 
 [tool.ruff]
 lint.ignore = [ "PLR2004" ]

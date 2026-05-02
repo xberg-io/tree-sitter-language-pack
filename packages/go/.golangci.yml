@@ -41,16 +41,13 @@ linters:
       min-occurrences: 3
     gocyclo:
       min-complexity: 50
-    gosec:
-      excludes:
-        - G101 # ~keep hardcoded credentials check (too many false positives)
-    gocritic:
-      disabled-checks:
-        - dupSubExpr
     govet:
       enable-all: true
       disable:
         - shadow
+    gocritic:
+      disabled-checks:
+        - dupSubExpr
     misspell:
       locale: US
     nakedret:
@@ -98,26 +95,15 @@ linters:
         path: _test\.go
         text: "context-as-argument"
       - linters:
-          - goconst
-          - revive
-          - errcheck
-          - govet
-        path: _test\.go
-        text: "unusedwrite:"
-      - linters:
-          - govet
-        text: "unsafeptr:"
-      - linters:
           - govet
         text: "fieldalignment:"
       - linters:
-          - errcheck
-        path: _test\.go
+          - govet
+        text: "unsafeptr:"
     paths:
       - vendor
       - build
       - third_party$
-      - examples$
 
 issues:
   max-issues-per-linter: 0
@@ -130,4 +116,3 @@ formatters:
     generated: lax
     paths:
       - third_party$
-      - examples$

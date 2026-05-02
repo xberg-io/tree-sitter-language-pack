@@ -33,15 +33,18 @@
 
 pub mod error;
 pub(crate) mod extensions;
+#[cfg(test)]
 pub(crate) mod extract;
 pub(crate) mod intel;
 #[cfg(feature = "serde")]
 pub(crate) mod json_utils;
+#[cfg(test)]
 pub(crate) mod node;
 pub mod pack_config;
 pub(crate) mod parse;
 pub mod process_config;
 pub(crate) mod queries;
+#[cfg(test)]
 pub(crate) mod query;
 pub mod registry;
 pub(crate) mod text_splitter;
@@ -60,24 +63,15 @@ pub mod download;
 
 pub use error::Error;
 pub use extensions::{detect_language_from_content, detect_language_from_extension, detect_language_from_path};
-pub use extract::{
-    CaptureOutput, CaptureResult, ExtractionConfig, ExtractionPattern, ExtractionResult, MatchResult, PatternResult,
-    PatternValidation, ValidationResult,
-};
-// Re-exported for benchmarks only — not part of the polyglot binding surface.
-#[doc(hidden)]
-pub use extract::CompiledExtraction;
 pub use intel::types::{
     ChunkContext, CodeChunk, CommentInfo, CommentKind, Diagnostic, DiagnosticSeverity, DocSection, DocstringFormat,
     DocstringInfo, ExportInfo, ExportKind, FileMetrics, ImportInfo, ProcessResult, Span, StructureItem, StructureKind,
     SymbolInfo, SymbolKind,
 };
-pub use node::{NodeInfo, find_nodes_by_type, named_children_info, root_node_info};
 pub use pack_config::PackConfig;
-pub use parse::{parse_string, tree_contains_node_type, tree_error_count, tree_has_error_nodes, tree_to_sexp};
+pub use parse::parse_string;
 pub use process_config::ProcessConfig;
 pub use queries::{get_highlights_query, get_injections_query, get_locals_query};
-pub use query::{QueryMatch, run_query};
 pub use registry::LanguageRegistry;
 pub use tree_sitter::{Language, Parser, Tree};
 
@@ -163,6 +157,13 @@ pub fn get_parser(name: &str) -> Result<tree_sitter::Parser, Error> {
         .set_language(&language)
         .map_err(|e| Error::ParserSetup(format!("{e}")))?;
     Ok(parser)
+}
+
+/// Detect language name from a file path or extension.
+///
+/// This compatibility alias matches the pre-Alef Python binding API.
+pub fn detect_language(path: &str) -> Option<&'static str> {
+    detect_language_from_path(path).or_else(|| detect_language_from_extension(path.trim_start_matches('.')))
 }
 
 /// List all available language names (sorted, deduplicated, includes aliases).
@@ -253,47 +254,6 @@ pub fn process(source: &str, config: &ProcessConfig) -> Result<ProcessResult, Er
     get_language(&config.language)?;
 
     REGISTRY.process(source, config)
-}
-
-/// Run extraction patterns against source code.
-///
-/// Convenience wrapper around [`extract::extract`].
-///
-/// # Errors
-///
-/// Returns an error if the language is not found, parsing fails, or a query
-/// pattern is invalid.
-///
-/// # Example
-///
-/// ```no_run
-/// use ahash::AHashMap;
-/// use tree_sitter_language_pack::{ExtractionConfig, ExtractionPattern, CaptureOutput, extract_patterns};
-///
-/// let mut patterns = AHashMap::new();
-/// patterns.insert("fns".to_string(), ExtractionPattern {
-///     query: "(function_definition name: (identifier) @fn_name)".to_string(),
-///     capture_output: CaptureOutput::default(),
-///     child_fields: Vec::new(),
-///     max_results: None,
-///     byte_range: None,
-/// });
-/// let config = ExtractionConfig { language: "python".to_string(), patterns };
-/// let result = extract_patterns("def hello(): pass", &config).unwrap();
-/// ```
-pub fn extract_patterns(source: &str, config: &ExtractionConfig) -> Result<ExtractionResult, Error> {
-    extract::extract(source, config)
-}
-
-/// Validate extraction patterns without running them.
-///
-/// Convenience wrapper around [`extract::validate_extraction`].
-///
-/// # Errors
-///
-/// Returns an error if the language cannot be loaded.
-pub fn validate_extraction(config: &ExtractionConfig) -> Result<ValidationResult, Error> {
-    extract::validate_extraction(config)
 }
 
 // ──────────────────────────────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 use clap::{CommandFactory, Parser, Subcommand};
 use std::io::{self, Read, Write};
 use std::process;
-use tree_sitter_language_pack::{PackConfig, ProcessConfig, parse_string, process, tree_to_sexp};
+use tree_sitter_language_pack::{PackConfig, ProcessConfig, parse_string, process};
 
 #[derive(Parser)]
 #[command(name = "ts-pack", about = "Tree-sitter language pack CLI")]
@@ -264,11 +264,11 @@ fn run() -> Result<(), String> {
 
             match format {
                 ParseFormat::Sexp => {
-                    println!("{}", tree_to_sexp(&tree));
+                    println!("{}", tree.root_node().to_sexp());
                 }
                 ParseFormat::Json => {
                     // Emit a simple JSON representation of the sexp
-                    let sexp = tree_to_sexp(&tree);
+                    let sexp = tree.root_node().to_sexp();
                     let json = serde_json::json!({
                         "language": lang,
                         "sexp": sexp,

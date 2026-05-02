@@ -27,6 +27,8 @@ includes:
     taskfile: .task/version.yml
   test-apps:
     taskfile: .task/test-apps.yml
+  _e2e_wf:
+    taskfile: .task/workflows/e2e.yml
 
 vars:
   PROJECT_ROOT:
@@ -179,36 +181,57 @@ tasks:
     cmds:
       - alef publish package -o dist/
 
-  # E2E test generation
-  test:e2e:
-    desc: Generate and run e2e tests across all bindings
-    cmds:
-      - alef e2e generate
-      - alef test --e2e
-
-  e2e:generate:
+  # E2E aggregator tasks (canonical kreuzberg-dev surface).
+  e2e:generate:all:
     desc: Generate E2E tests for all languages from fixtures
     cmds:
-      - alef e2e generate
+      - task: _e2e_wf:generate:all
+
+  e2e:test:all:
+    desc: Run e2e tests across all bindings (FFI built first)
+    cmds:
+      - task: _e2e_wf:test:all
+
+  e2e:test:quick:
+    desc: Quick e2e (Rust only — fastest feedback)
+    cmds:
+      - task: _e2e_wf:test:quick
+
+  e2e:verify:all:
+    desc: Full e2e pipeline — generate, lint, test all suites
+    cmds:
+      - task: _e2e_wf:verify:all
+
+  e2e:lint:all:
+    desc: Lint all generated E2E test code
+    cmds:
+      - task: _e2e_wf:lint:all
+
+  # Backward-compat aliases (legacy task names).
+  test:e2e:
+    desc: "Alias for e2e:test:all"
+    cmds:
+      - task: e2e:test:all
+
+  e2e:generate:
+    desc: "Alias for e2e:generate:all"
+    cmds:
+      - task: e2e:generate:all
 
   e2e:test:
-    desc: Run E2E tests for all languages (alias for test:e2e)
+    desc: "Alias for e2e:test:all"
     cmds:
-      - task: test:e2e
+      - task: e2e:test:all
 
   e2e:generate:rust:
-    desc: Generate and format Rust E2E tests
+    desc: "Alias for rust:e2e:generate"
     cmds:
-      - alef e2e generate --lang rust
+      - task: rust:e2e:generate
 
   e2e:test:rust:
-    desc: Run Rust E2E tests (generate + test)
+    desc: "Alias for rust:e2e:test"
     cmds:
-      - task: e2e:generate:rust
-      - cargo test --manifest-path e2e/rust/Cargo.toml
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-      TSLP_LINK_MODE: static
+      - task: rust:e2e:test
 
   # Documentation generation
   docs:generate:languages:

@@ -8,64 +8,6 @@ All types defined by the library, grouped by category. Types are shown using Rus
 
 ### Result Types
 
-#### CaptureResult
-
-A single captured node within a match.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `String` | — | The capture name from the query (e.g., `"fn_name"`). |
-| `node` | `Option<NodeInfo>` | `Default::default()` | The `NodeInfo` snapshot, present when `CaptureOutput` is `Node` or `Full`. |
-| `text` | `Option<String>` | `Default::default()` | The matched source text, present when `CaptureOutput` is `Text` or `Full`. |
-| `child_fields` | `HashMap<String, Option<String>>` | `HashMap::new()` | Values of requested child fields, keyed by field name. |
-| `start_byte` | `usize` | — | Byte offset where this capture starts in the source. |
-
----
-
-#### MatchResult
-
-A single query match containing one or more captures.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `usize` | — | The pattern index within the query that produced this match. |
-| `captures` | `Vec<CaptureResult>` | `vec![]` | The captures for this match. |
-
----
-
-#### PatternResult
-
-Results for a single named pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `matches` | `Vec<MatchResult>` | `vec![]` | The individual matches. |
-| `total_count` | `usize` | — | Total number of matches before `max_results` truncation. |
-
----
-
-#### ExtractionResult
-
-Complete extraction results for all patterns.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | The language that was used. |
-| `results` | `HashMap<String, PatternResult>` | `HashMap::new()` | Results keyed by pattern name. |
-
----
-
-#### ValidationResult
-
-Validation results for an entire extraction config.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether all patterns are valid. |
-| `patterns` | `HashMap<String, PatternValidation>` | `HashMap::new()` | Per-pattern validation details. |
-
----
-
 #### ProcessResult
 
 Complete analysis result from processing a source file.
@@ -86,52 +28,12 @@ Fields are populated based on the `crate.ProcessConfig` flags.
 | `symbols` | `Vec<SymbolInfo>` | `vec![]` | Symbols |
 | `diagnostics` | `Vec<Diagnostic>` | `vec![]` | Diagnostics |
 | `chunks` | `Vec<CodeChunk>` | `vec![]` | Text chunks for chunking/embedding |
-| `extractions` | `HashMap<String, PatternResult>` | `HashMap::new()` | Results of custom extraction patterns (when `config.extractions` is set). |
 
 ---
 
 ### Configuration Types
 
 See [Configuration Reference](configuration.md) for detailed defaults and language-specific representations.
-
-#### ExtractionPattern
-
-Defines a single extraction pattern and its configuration.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `query` | `String` | — | The tree-sitter query string (S-expression). |
-| `capture_output` | `CaptureOutput` | `CaptureOutput::Full` | What to include in each capture result. |
-| `child_fields` | `Vec<String>` | `vec![]` | Field names to extract from child nodes of each capture. Maps a label to a tree-sitter field name used with `child_by_field_name`. |
-| `max_results` | `Option<usize>` | `Default::default()` | Maximum number of matches to return. `None` means unlimited. |
-| `byte_range` | `Vec<usize>` | `vec![]` | Restrict matches to a byte range `(start, end)`. |
-
----
-
-#### ExtractionConfig
-
-Configuration for an extraction run against a single language.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | The language name (e.g., `"python"`). |
-| `patterns` | `HashMap<String, ExtractionPattern>` | `HashMap::new()` | Named patterns to run. Keys become the keys in `ExtractionResult.results`. |
-
----
-
-#### PatternValidation
-
-Validation information for a single pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether the pattern compiled successfully. |
-| `capture_names` | `Vec<String>` | `vec![]` | Names of captures defined in the query. |
-| `pattern_count` | `usize` | — | Number of patterns in the query. |
-| `warnings` | `Vec<String>` | `vec![]` | Non-fatal warnings (e.g., unused captures). |
-| `errors` | `Vec<String>` | `vec![]` | Fatal errors (e.g., query syntax errors). |
-
----
 
 #### Span
 
@@ -310,30 +212,6 @@ Metadata for a single chunk of source code.
 
 ---
 
-#### NodeInfo
-
-Lightweight snapshot of a tree-sitter node's properties.
-
-Contains only primitive types for easy cross-language serialization.
-This is an owned type that can be passed across FFI boundaries, unlike
-`tree_sitter.Node` which borrows from the tree.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `String` | — | The grammar type name (e.g., "function_definition", "identifier"). |
-| `is_named` | `bool` | — | Whether this is a named node (vs anonymous like punctuation). |
-| `start_byte` | `usize` | — | Start byte offset in source. |
-| `end_byte` | `usize` | — | End byte offset in source. |
-| `start_row` | `usize` | — | Start row (zero-indexed). |
-| `start_col` | `usize` | — | Start column (zero-indexed). |
-| `end_row` | `usize` | — | End row (zero-indexed). |
-| `end_col` | `usize` | — | End column (zero-indexed). |
-| `named_child_count` | `usize` | — | Number of named children. |
-| `is_error` | `bool` | — | Whether this node is an ERROR node. |
-| `is_missing` | `bool` | — | Whether this node is a MISSING node. |
-
----
-
 #### PackConfig
 
 Configuration for the tree-sitter language pack.
@@ -367,18 +245,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
 | `diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
 | `chunk_max_size` | `Option<usize>` | `None` | Maximum chunk size in bytes. `None` disables chunking. |
-| `extractions` | `HashMap<String, ExtractionPattern>` | `None` | Custom extraction patterns to run against the parsed tree. Keys become the keys in `ProcessResult.extractions`. |
-
----
-
-#### QueryMatch
-
-A single match from a tree-sitter query, with captured nodes.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `usize` | — | The pattern index that matched (position in the query string). |
-| `captures` | `Vec<String>` | `vec![]` | Captures: list of (capture_name, node_info) pairs. |
 
 ---
 

@@ -1,7 +1,0 @@
-Package: e2e.r
-Title: E2E Tests for tree_sitter_language_pack
-Version: 0.1.0
-Description: End-to-end test suite.
-Imports: tree_sitter_language_pack (0.1.0)
-Suggests: testthat (>= 3.0.0)
-Config/testthat/edition: 3

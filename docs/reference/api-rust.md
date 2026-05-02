@@ -89,75 +89,6 @@ pub fn detect_language_from_content(content: &str) -> Option<String>
 
 ---
 
-#### root_node_info()
-
-Get a `NodeInfo` snapshot of the root node.
-
-**Signature:**
-
-```rust
-pub fn root_node_info(tree: Tree) -> NodeInfo
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `NodeInfo`
-
-
----
-
-#### find_nodes_by_type()
-
-Find all nodes matching the given type name, returning their `NodeInfo`.
-
-Performs a depth-first traversal. Returns an empty vec if no matches.
-
-**Signature:**
-
-```rust
-pub fn find_nodes_by_type(tree: Tree, node_type: &str) -> Vec<NodeInfo>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-| `node_type` | `String` | Yes | The node type |
-
-**Returns:** `Vec<NodeInfo>`
-
-
----
-
-#### named_children_info()
-
-Get `NodeInfo` for all named children of the root node.
-
-Useful for understanding the top-level structure of a file
-(e.g., list of function definitions, class declarations, imports).
-
-**Signature:**
-
-```rust
-pub fn named_children_info(tree: Tree) -> Vec<NodeInfo>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `Vec<NodeInfo>`
-
-
----
-
 #### parse_string()
 
 Parse source code with the named language, returning the syntax tree.
@@ -182,100 +113,6 @@ pub fn parse_string(language: &str, source: &[u8]) -> Result<Tree, Error>
 **Returns:** `Tree`
 
 **Errors:** Returns `Err(Error)`.
-
-
----
-
-#### tree_contains_node_type()
-
-Check whether any node in the tree matches the given type name.
-
-Performs a depth-first traversal using `TreeCursor`.
-
-**Signature:**
-
-```rust
-pub fn tree_contains_node_type(tree: Tree, node_type: &str) -> bool
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-| `node_type` | `String` | Yes | The node type |
-
-**Returns:** `bool`
-
-
----
-
-#### tree_has_error_nodes()
-
-Check whether the tree contains any ERROR or MISSING nodes.
-
-Useful for determining if the parse was clean or had syntax errors.
-
-**Signature:**
-
-```rust
-pub fn tree_has_error_nodes(tree: Tree) -> bool
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `bool`
-
-
----
-
-#### tree_to_sexp()
-
-Return the S-expression representation of the entire tree.
-
-This is the standard tree-sitter debug format, useful for logging,
-snapshot testing, and debugging grammars.
-
-**Signature:**
-
-```rust
-pub fn tree_to_sexp(tree: Tree) -> String
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `String`
-
-
----
-
-#### tree_error_count()
-
-Count the number of ERROR and MISSING nodes in the tree.
-
-Returns 0 for a clean parse.
-
-**Signature:**
-
-```rust
-pub fn tree_error_count(tree: Tree) -> usize
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `usize`
 
 
 ---
@@ -352,40 +189,6 @@ pub fn get_locals_query(language: &str) -> Option<String>
 
 ---
 
-#### run_query()
-
-Execute a tree-sitter query pattern against a parsed tree.
-
-The `query_source` is an S-expression pattern like:
-
-```text
-(function_definition name: (identifier) @name)
-```
-
-Returns all matches with their captured nodes.
-
-**Signature:**
-
-```rust
-pub fn run_query(tree: Tree, language: &str, query_source: &str, source: &[u8]) -> Result<Vec<QueryMatch>, Error>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The parsed syntax tree to query. |
-| `language` | `String` | Yes | Language name (used to compile the query pattern). |
-| `query_source` | `String` | Yes | The tree-sitter query pattern string. |
-| `source` | `Vec<u8>` | Yes | The original source code bytes (needed for capture resolution). |
-
-**Returns:** `Vec<QueryMatch>`
-
-**Errors:** Returns `Err(Error)`.
-
-
----
-
 #### get_language()
 
 Get a tree-sitter `Language` by name using the global registry.
@@ -445,6 +248,29 @@ pub fn get_parser(name: &str) -> Result<Parser, Error>
 **Returns:** `Parser`
 
 **Errors:** Returns `Err(Error)`.
+
+
+---
+
+#### detect_language()
+
+Detect language name from a file path or extension.
+
+This compatibility alias matches the pre-Alef Python binding API.
+
+**Signature:**
+
+```rust
+pub fn detect_language(path: &str) -> Option<String>
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `String` | Yes | Path to the file |
+
+**Returns:** `Option<String>`
 
 
 ---
@@ -535,66 +361,6 @@ pub fn process(source: &str, config: ProcessConfig) -> Result<ProcessResult, Err
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
-
-**Errors:** Returns `Err(Error)`.
-
-
----
-
-#### extract_patterns()
-
-Run extraction patterns against source code.
-
-Convenience wrapper around `extract.extract`.
-
-**Errors:**
-
-Returns an error if the language is not found, parsing fails, or a query
-pattern is invalid.
-
-**Signature:**
-
-```rust
-pub fn extract_patterns(source: &str, config: ExtractionConfig) -> Result<ExtractionResult, Error>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `source` | `String` | Yes | The source |
-| `config` | `ExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `ExtractionResult`
-
-**Errors:** Returns `Err(Error)`.
-
-
----
-
-#### validate_extraction()
-
-Validate extraction patterns without running them.
-
-Convenience wrapper around `extract.validate_extraction`.
-
-**Errors:**
-
-Returns an error if the language cannot be loaded.
-
-**Signature:**
-
-```rust
-pub fn validate_extraction(config: ExtractionConfig) -> Result<ValidationResult, Error>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `config` | `ExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `ValidationResult`
 
 **Errors:** Returns `Err(Error)`.
 
@@ -811,21 +577,6 @@ pub fn cache_dir() -> Result<PathBuf, Error>
 
 ### Types
 
-#### CaptureResult
-
-A single captured node within a match.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `String` | — | The capture name from the query (e.g., `"fn_name"`). |
-| `node` | `Option<NodeInfo>` | `Default::default()` | The `NodeInfo` snapshot, present when `CaptureOutput` is `Node` or `Full`. |
-| `text` | `Option<String>` | `Default::default()` | The matched source text, present when `CaptureOutput` is `Text` or `Full`. |
-| `child_fields` | `HashMap<String, Option<String>>` | `HashMap::new()` | Values of requested child fields, keyed by field name. |
-| `start_byte` | `usize` | — | Byte offset where this capture starts in the source. |
-
-
----
-
 #### ChunkContext
 
 Metadata for a single chunk of source code.
@@ -1039,45 +790,6 @@ An export statement extracted from source code.
 
 ---
 
-#### ExtractionConfig
-
-Configuration for an extraction run against a single language.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | The language name (e.g., `"python"`). |
-| `patterns` | `HashMap<String, ExtractionPattern>` | `HashMap::new()` | Named patterns to run. Keys become the keys in `ExtractionResult.results`. |
-
-
----
-
-#### ExtractionPattern
-
-Defines a single extraction pattern and its configuration.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `query` | `String` | — | The tree-sitter query string (S-expression). |
-| `capture_output` | `CaptureOutput` | `CaptureOutput::Full` | What to include in each capture result. |
-| `child_fields` | `Vec<String>` | `vec![]` | Field names to extract from child nodes of each capture. Maps a label to a tree-sitter field name used with `child_by_field_name`. |
-| `max_results` | `Option<usize>` | `Default::default()` | Maximum number of matches to return. `None` means unlimited. |
-| `byte_range` | `Option<Vec<usize>>` | `vec![]` | Restrict matches to a byte range `(start, end)`. |
-
-
----
-
-#### ExtractionResult
-
-Complete extraction results for all patterns.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | The language that was used. |
-| `results` | `HashMap<String, PatternResult>` | `HashMap::new()` | Results keyed by pattern name. |
-
-
----
-
 #### FileMetrics
 
 Aggregate metrics for a source file.
@@ -1244,43 +956,6 @@ pub fn default() -> LanguageRegistry
 
 ---
 
-#### MatchResult
-
-A single query match containing one or more captures.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `usize` | — | The pattern index within the query that produced this match. |
-| `captures` | `Vec<CaptureResult>` | `vec![]` | The captures for this match. |
-
-
----
-
-#### NodeInfo
-
-Lightweight snapshot of a tree-sitter node's properties.
-
-Contains only primitive types for easy cross-language serialization.
-This is an owned type that can be passed across FFI boundaries, unlike
-`tree_sitter.Node` which borrows from the tree.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `String` | — | The grammar type name (e.g., "function_definition", "identifier"). |
-| `is_named` | `bool` | — | Whether this is a named node (vs anonymous like punctuation). |
-| `start_byte` | `usize` | — | Start byte offset in source. |
-| `end_byte` | `usize` | — | End byte offset in source. |
-| `start_row` | `usize` | — | Start row (zero-indexed). |
-| `start_col` | `usize` | — | Start column (zero-indexed). |
-| `end_row` | `usize` | — | End row (zero-indexed). |
-| `end_col` | `usize` | — | End column (zero-indexed). |
-| `named_child_count` | `usize` | — | Number of named children. |
-| `is_error` | `bool` | — | Whether this node is an ERROR node. |
-| `is_missing` | `bool` | — | Whether this node is a MISSING node. |
-
-
----
-
 #### PackConfig
 
 Configuration for the tree-sitter language pack.
@@ -1349,33 +1024,6 @@ Manifest describing available parser downloads for a specific version.
 
 ---
 
-#### PatternResult
-
-Results for a single named pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `matches` | `Vec<MatchResult>` | `vec![]` | The individual matches. |
-| `total_count` | `usize` | — | Total number of matches before `max_results` truncation. |
-
-
----
-
-#### PatternValidation
-
-Validation information for a single pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether the pattern compiled successfully. |
-| `capture_names` | `Vec<String>` | `vec![]` | Names of captures defined in the query. |
-| `pattern_count` | `usize` | — | Number of patterns in the query. |
-| `warnings` | `Vec<String>` | `vec![]` | Non-fatal warnings (e.g., unused captures). |
-| `errors` | `Vec<String>` | `vec![]` | Fatal errors (e.g., query syntax errors). |
-
-
----
-
 #### PlatformBundle
 
 | Field | Type | Default | Description |
@@ -1404,7 +1052,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
 | `diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
 | `chunk_max_size` | `Option<usize>` | `None` | Maximum chunk size in bytes. `None` disables chunking. |
-| `extractions` | `Option<HashMap<String, ExtractionPattern>>` | `None` | Custom extraction patterns to run against the parsed tree. Keys become the keys in `ProcessResult.extractions`. |
 
 ##### Methods
 
@@ -1469,19 +1116,6 @@ Fields are populated based on the `crate.ProcessConfig` flags.
 | `symbols` | `Vec<SymbolInfo>` | `vec![]` | Symbols |
 | `diagnostics` | `Vec<Diagnostic>` | `vec![]` | Diagnostics |
 | `chunks` | `Vec<CodeChunk>` | `vec![]` | Text chunks for chunking/embedding |
-| `extractions` | `HashMap<String, PatternResult>` | `HashMap::new()` | Results of custom extraction patterns (when `config.extractions` is set). |
-
-
----
-
-#### QueryMatch
-
-A single match from a tree-sitter query, with captured nodes.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `usize` | — | The pattern index that matched (position in the query string). |
-| `captures` | `Vec<String>` | `vec![]` | Captures: list of (capture_name, node_info) pairs. |
 
 
 ---
@@ -1544,32 +1178,7 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 ---
 
-#### ValidationResult
-
-Validation results for an entire extraction config.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether all patterns are valid. |
-| `patterns` | `HashMap<String, PatternValidation>` | `HashMap::new()` | Per-pattern validation details. |
-
-
----
-
 ### Enums
-
-#### CaptureOutput
-
-Controls what data is captured for each query match.
-
-| Value | Description |
-|-------|-------------|
-| `Text` | Capture only the matched text. |
-| `Node` | Capture only the `NodeInfo`. |
-| `Full` | Capture both text and `NodeInfo` (default). |
-
-
----
 
 #### StructureKind
 

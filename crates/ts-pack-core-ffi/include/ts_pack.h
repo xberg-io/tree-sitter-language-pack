@@ -10,8 +10,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 /* Opaque type forward declarations */
-typedef struct TS_PACKCaptureOutput TS_PACKCaptureOutput;
-typedef struct TS_PACKCaptureResult TS_PACKCaptureResult;
 typedef struct TS_PACKChunkContext TS_PACKChunkContext;
 typedef struct TS_PACKCodeChunk TS_PACKCodeChunk;
 typedef struct TS_PACKCommentInfo TS_PACKCommentInfo;
@@ -24,32 +22,23 @@ typedef struct TS_PACKDocstringInfo TS_PACKDocstringInfo;
 typedef struct TS_PACKDownloadManager TS_PACKDownloadManager;
 typedef struct TS_PACKExportInfo TS_PACKExportInfo;
 typedef struct TS_PACKExportKind TS_PACKExportKind;
-typedef struct TS_PACKExtractionConfig TS_PACKExtractionConfig;
-typedef struct TS_PACKExtractionPattern TS_PACKExtractionPattern;
-typedef struct TS_PACKExtractionResult TS_PACKExtractionResult;
 typedef struct TS_PACKFileMetrics TS_PACKFileMetrics;
 typedef struct TS_PACKImportInfo TS_PACKImportInfo;
 typedef struct TS_PACKLanguage TS_PACKLanguage;
 typedef struct TS_PACKLanguageInfo TS_PACKLanguageInfo;
 typedef struct TS_PACKLanguageRegistry TS_PACKLanguageRegistry;
-typedef struct TS_PACKMatchResult TS_PACKMatchResult;
-typedef struct TS_PACKNodeInfo TS_PACKNodeInfo;
 typedef struct TS_PACKPackConfig TS_PACKPackConfig;
 typedef struct TS_PACKParser TS_PACKParser;
 typedef struct TS_PACKParserManifest TS_PACKParserManifest;
-typedef struct TS_PACKPatternResult TS_PACKPatternResult;
-typedef struct TS_PACKPatternValidation TS_PACKPatternValidation;
 typedef struct TS_PACKPlatformBundle TS_PACKPlatformBundle;
 typedef struct TS_PACKProcessConfig TS_PACKProcessConfig;
 typedef struct TS_PACKProcessResult TS_PACKProcessResult;
-typedef struct TS_PACKQueryMatch TS_PACKQueryMatch;
 typedef struct TS_PACKSpan TS_PACKSpan;
 typedef struct TS_PACKStructureItem TS_PACKStructureItem;
 typedef struct TS_PACKStructureKind TS_PACKStructureKind;
 typedef struct TS_PACKSymbolInfo TS_PACKSymbolInfo;
 typedef struct TS_PACKSymbolKind TS_PACKSymbolKind;
 typedef struct TS_PACKTree TS_PACKTree;
-typedef struct TS_PACKValidationResult TS_PACKValidationResult;
 
 
 /**
@@ -82,358 +71,6 @@ void ts_pack_free_string(char *ptr);
  * Returned pointers must be freed with the appropriate free function.
  */
 const char *ts_pack_version(void);
-
-/**
- * Create a `ExtractionPattern` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_extraction_pattern_free`.
- */
-TS_PACKExtractionPattern *ts_pack_extraction_pattern_from_json(const char *json);
-
-/**
- * Serialize a `ExtractionPattern` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_extraction_pattern_to_json(const TS_PACKExtractionPattern *ptr);
-
-/**
- * Free a `ExtractionPattern` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_extraction_pattern_free(TS_PACKExtractionPattern *ptr);
-
-/**
- * Get the `query` field from a `ExtractionPattern`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_extraction_pattern_query(const TS_PACKExtractionPattern *ptr);
-
-/**
- * Get the `capture_output` field from a `ExtractionPattern`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-TS_PACKCaptureOutput *ts_pack_extraction_pattern_capture_output(const TS_PACKExtractionPattern *ptr);
-
-/**
- * Get the `child_fields` field from a `ExtractionPattern`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_extraction_pattern_child_fields(const TS_PACKExtractionPattern *ptr);
-
-/**
- * Get the `max_results` field from a `ExtractionPattern`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_extraction_pattern_max_results(const TS_PACKExtractionPattern *ptr);
-
-/**
- * Create a `ExtractionConfig` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_extraction_config_free`.
- */
-TS_PACKExtractionConfig *ts_pack_extraction_config_from_json(const char *json);
-
-/**
- * Serialize a `ExtractionConfig` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_extraction_config_to_json(const TS_PACKExtractionConfig *ptr);
-
-/**
- * Free a `ExtractionConfig` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_extraction_config_free(TS_PACKExtractionConfig *ptr);
-
-/**
- * Get the `language` field from a `ExtractionConfig`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_extraction_config_language(const TS_PACKExtractionConfig *ptr);
-
-/**
- * Get the `patterns` field from a `ExtractionConfig`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_extraction_config_patterns(const TS_PACKExtractionConfig *ptr);
-
-/**
- * Create a `CaptureResult` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_capture_result_free`.
- */
-TS_PACKCaptureResult *ts_pack_capture_result_from_json(const char *json);
-
-/**
- * Serialize a `CaptureResult` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_capture_result_to_json(const TS_PACKCaptureResult *ptr);
-
-/**
- * Free a `CaptureResult` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_capture_result_free(TS_PACKCaptureResult *ptr);
-
-/**
- * Get the `name` field from a `CaptureResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_capture_result_name(const TS_PACKCaptureResult *ptr);
-
-/**
- * Get the `node` field from a `CaptureResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-TS_PACKNodeInfo *ts_pack_capture_result_node(const TS_PACKCaptureResult *ptr);
-
-/**
- * Get the `text` field from a `CaptureResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_capture_result_text(const TS_PACKCaptureResult *ptr);
-
-/**
- * Get the `child_fields` field from a `CaptureResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_capture_result_child_fields(const TS_PACKCaptureResult *ptr);
-
-/**
- * Get the `start_byte` field from a `CaptureResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_capture_result_start_byte(const TS_PACKCaptureResult *ptr);
-
-/**
- * Create a `MatchResult` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_match_result_free`.
- */
-TS_PACKMatchResult *ts_pack_match_result_from_json(const char *json);
-
-/**
- * Serialize a `MatchResult` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_match_result_to_json(const TS_PACKMatchResult *ptr);
-
-/**
- * Free a `MatchResult` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_match_result_free(TS_PACKMatchResult *ptr);
-
-/**
- * Get the `pattern_index` field from a `MatchResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_match_result_pattern_index(const TS_PACKMatchResult *ptr);
-
-/**
- * Get the `captures` field from a `MatchResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_match_result_captures(const TS_PACKMatchResult *ptr);
-
-/**
- * Create a `PatternResult` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_pattern_result_free`.
- */
-TS_PACKPatternResult *ts_pack_pattern_result_from_json(const char *json);
-
-/**
- * Serialize a `PatternResult` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_pattern_result_to_json(const TS_PACKPatternResult *ptr);
-
-/**
- * Free a `PatternResult` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_pattern_result_free(TS_PACKPatternResult *ptr);
-
-/**
- * Get the `matches` field from a `PatternResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_pattern_result_matches(const TS_PACKPatternResult *ptr);
-
-/**
- * Get the `total_count` field from a `PatternResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_pattern_result_total_count(const TS_PACKPatternResult *ptr);
-
-/**
- * Create a `ExtractionResult` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_extraction_result_free`.
- */
-TS_PACKExtractionResult *ts_pack_extraction_result_from_json(const char *json);
-
-/**
- * Serialize a `ExtractionResult` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_extraction_result_to_json(const TS_PACKExtractionResult *ptr);
-
-/**
- * Free a `ExtractionResult` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_extraction_result_free(TS_PACKExtractionResult *ptr);
-
-/**
- * Get the `language` field from a `ExtractionResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_extraction_result_language(const TS_PACKExtractionResult *ptr);
-
-/**
- * Get the `results` field from a `ExtractionResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_extraction_result_results(const TS_PACKExtractionResult *ptr);
-
-/**
- * Create a `PatternValidation` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_pattern_validation_free`.
- */
-TS_PACKPatternValidation *ts_pack_pattern_validation_from_json(const char *json);
-
-/**
- * Serialize a `PatternValidation` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_pattern_validation_to_json(const TS_PACKPatternValidation *ptr);
-
-/**
- * Free a `PatternValidation` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_pattern_validation_free(TS_PACKPatternValidation *ptr);
-
-/**
- * Get the `valid` field from a `PatternValidation`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-int32_t ts_pack_pattern_validation_valid(const TS_PACKPatternValidation *ptr);
-
-/**
- * Get the `capture_names` field from a `PatternValidation`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_pattern_validation_capture_names(const TS_PACKPatternValidation *ptr);
-
-/**
- * Get the `pattern_count` field from a `PatternValidation`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_pattern_validation_pattern_count(const TS_PACKPatternValidation *ptr);
-
-/**
- * Get the `warnings` field from a `PatternValidation`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_pattern_validation_warnings(const TS_PACKPatternValidation *ptr);
-
-/**
- * Get the `errors` field from a `PatternValidation`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_pattern_validation_errors(const TS_PACKPatternValidation *ptr);
-
-/**
- * Create a `ValidationResult` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_validation_result_free`.
- */
-TS_PACKValidationResult *ts_pack_validation_result_from_json(const char *json);
-
-/**
- * Serialize a `ValidationResult` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_validation_result_to_json(const TS_PACKValidationResult *ptr);
-
-/**
- * Free a `ValidationResult` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_validation_result_free(TS_PACKValidationResult *ptr);
-
-/**
- * Get the `valid` field from a `ValidationResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-int32_t ts_pack_validation_result_valid(const TS_PACKValidationResult *ptr);
-
-/**
- * Get the `patterns` field from a `ValidationResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_validation_result_patterns(const TS_PACKValidationResult *ptr);
 
 /**
  * Create a `Span` from a JSON string. Returns null on failure.
@@ -592,13 +229,6 @@ char *ts_pack_process_result_diagnostics(const TS_PACKProcessResult *ptr);
  * Pointer must be a valid handle returned by this library.
  */
 char *ts_pack_process_result_chunks(const TS_PACKProcessResult *ptr);
-
-/**
- * Get the `extractions` field from a `ProcessResult`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_process_result_extractions(const TS_PACKProcessResult *ptr);
 
 /**
  * Create a `FileMetrics` from a JSON string. Returns null on failure.
@@ -1274,99 +904,6 @@ char *ts_pack_chunk_context_docstrings(const TS_PACKChunkContext *ptr);
 int32_t ts_pack_chunk_context_has_error_nodes(const TS_PACKChunkContext *ptr);
 
 /**
- * Create a `NodeInfo` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_node_info_free`.
- */
-TS_PACKNodeInfo *ts_pack_node_info_from_json(const char *json);
-
-/**
- * Serialize a `NodeInfo` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_node_info_to_json(const TS_PACKNodeInfo *ptr);
-
-/**
- * Free a `NodeInfo` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_node_info_free(TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `is_named` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-int32_t ts_pack_node_info_is_named(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `start_byte` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_node_info_start_byte(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `end_byte` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_node_info_end_byte(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `start_row` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_node_info_start_row(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `start_col` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_node_info_start_col(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `end_row` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_node_info_end_row(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `end_col` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_node_info_end_col(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `named_child_count` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_node_info_named_child_count(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `is_error` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-int32_t ts_pack_node_info_is_error(const TS_PACKNodeInfo *ptr);
-
-/**
- * Get the `is_missing` field from a `NodeInfo`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-int32_t ts_pack_node_info_is_missing(const TS_PACKNodeInfo *ptr);
-
-/**
  * Create a `PackConfig` from a JSON string. Returns null on failure.
  * # Safety
  * JSON string must be valid UTF-8 and null-terminated.
@@ -1535,13 +1072,6 @@ int32_t ts_pack_process_config_diagnostics(const TS_PACKProcessConfig *ptr);
 uintptr_t ts_pack_process_config_chunk_max_size(const TS_PACKProcessConfig *ptr);
 
 /**
- * Get the `extractions` field from a `ProcessConfig`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-char *ts_pack_process_config_extractions(const TS_PACKProcessConfig *ptr);
-
-/**
  * # Safety
  * Caller must ensure all pointer arguments are valid or null.
  * Returned pointers must be freed with the appropriate free function.
@@ -1572,36 +1102,6 @@ TS_PACKProcessConfig *ts_pack_process_config_all(TS_PACKProcessConfig *this_);
  * Returned pointers must be freed with the appropriate free function.
  */
 TS_PACKProcessConfig *ts_pack_process_config_minimal(TS_PACKProcessConfig *this_);
-
-/**
- * Create a `QueryMatch` from a JSON string. Returns null on failure.
- * # Safety
- * JSON string must be valid UTF-8 and null-terminated.
- * Returned handle must be freed with `ts_pack_query_match_free`.
- */
-TS_PACKQueryMatch *ts_pack_query_match_from_json(const char *json);
-
-/**
- * Serialize a `QueryMatch` to a JSON string. Returns null on failure.
- * # Safety
- * `ptr` must be a valid, non-null pointer returned by a `ts_pack` function.
- * The returned string must be freed with `ts_pack_free_string`.
- */
-char *ts_pack_query_match_to_json(const TS_PACKQueryMatch *ptr);
-
-/**
- * Free a `QueryMatch` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_query_match_free(TS_PACKQueryMatch *ptr);
-
-/**
- * Get the `pattern_index` field from a `QueryMatch`.
- * # Safety
- * Pointer must be a valid handle returned by this library.
- */
-uintptr_t ts_pack_query_match_pattern_index(const TS_PACKQueryMatch *ptr);
 
 /**
  * Free a `LanguageRegistry` handle.
@@ -1950,21 +1450,6 @@ void ts_pack_parser_free(TS_PACKParser *ptr);
 void ts_pack_tree_free(TS_PACKTree *ptr);
 
 /**
- * Convert an integer to a `CaptureOutput` variant. Returns -1 on invalid input.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-int32_t ts_pack_capture_output_from_i32(int32_t value);
-
-/**
- * Convert a `CaptureOutput` variant name (C string) to its integer value. Returns -1 on invalid input.
- * # Safety
- * Caller must ensure `ptr` is a valid pointer to a `c_char` or null.
- */
-int32_t ts_pack_capture_output_from_str(const char *name);
-
-/**
  * Convert an integer to a `StructureKind` variant. Returns -1 on invalid input.
  * # Safety
  * Caller must ensure all pointer arguments are valid or null.
@@ -2119,36 +1604,6 @@ char *ts_pack_detect_language_from_path(const char *path);
 char *ts_pack_detect_language_from_content(const char *content);
 
 /**
- * Get a `NodeInfo` snapshot of the root node.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-TS_PACKNodeInfo *ts_pack_root_node_info(const TS_PACKTree *tree);
-
-/**
- * Find all nodes matching the given type name, returning their `NodeInfo`.
- *
- * Performs a depth-first traversal. Returns an empty vec if no matches.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-char *ts_pack_find_nodes_by_type(const TS_PACKTree *tree,
-                                 const char *node_type);
-
-/**
- * Get `NodeInfo` for all named children of the root node.
- *
- * Useful for understanding the top-level structure of a file
- * (e.g., list of function definitions, class declarations, imports).
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-char *ts_pack_named_children_info(const TS_PACKTree *tree);
-
-/**
  * Parse source code with the named language, returning the syntax tree.
  *
  * Uses the global registry to look up the language by name.
@@ -2168,48 +1623,6 @@ char *ts_pack_named_children_info(const TS_PACKTree *tree);
 TS_PACKTree *ts_pack_parse_string(const char *language,
                                   const uint8_t *source,
                                   uintptr_t source_len);
-
-/**
- * Check whether any node in the tree matches the given type name.
- *
- * Performs a depth-first traversal using `TreeCursor`.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-int32_t ts_pack_tree_contains_node_type(const TS_PACKTree *tree,
-                                        const char *node_type);
-
-/**
- * Check whether the tree contains any ERROR or MISSING nodes.
- *
- * Useful for determining if the parse was clean or had syntax errors.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-int32_t ts_pack_tree_has_error_nodes(const TS_PACKTree *tree);
-
-/**
- * Return the S-expression representation of the entire tree.
- *
- * This is the standard tree-sitter debug format, useful for logging,
- * snapshot testing, and debugging grammars.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-char *ts_pack_tree_to_sexp(const TS_PACKTree *tree);
-
-/**
- * Count the number of ERROR and MISSING nodes in the tree.
- *
- * Returns 0 for a clean parse.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-uintptr_t ts_pack_tree_error_count(const TS_PACKTree *tree);
 
 /**
  * Get the highlights query for a language, if bundled.
@@ -2279,45 +1692,6 @@ char *ts_pack_get_injections_query(const char *language);
 char *ts_pack_get_locals_query(const char *language);
 
 /**
- * Execute a tree-sitter query pattern against a parsed tree.
- *
- * The `query_source` is an S-expression pattern like:
- * ```text
- * (function_definition name: (identifier) @name)
- * ```
- *
- * Returns all matches with their captured nodes.
- *
- * # Arguments
- *
- * * `tree` - The parsed syntax tree to query.
- * * `language` - Language name (used to compile the query pattern).
- * * `query_source` - The tree-sitter query pattern string.
- * * `source` - The original source code bytes (needed for capture resolution).
- *
- * # Examples
- *
- * ```no_run
- * let tree = tree_sitter_language_pack::parse_string("python", b"def hello(): pass").unwrap();
- * let matches = tree_sitter_language_pack::run_query(
- *     &tree,
- *     "python",
- *     "(function_definition name: (identifier) @fn_name)",
- *     b"def hello(): pass",
- * ).unwrap();
- * assert!(!matches.is_empty());
- * ```
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-char *ts_pack_run_query(const TS_PACKTree *tree,
-                        const char *language,
-                        const char *query_source,
-                        const uint8_t *source,
-                        uintptr_t source_len);
-
-/**
  * Get a tree-sitter [`Language`] by name using the global registry.
  *
  * Resolves language aliases (e.g., `"shell"` maps to `"bash"`).
@@ -2372,6 +1746,16 @@ TS_PACKLanguage *ts_pack_get_language(const char *name);
  * Returned pointers must be freed with the appropriate free function.
  */
 TS_PACKParser *ts_pack_get_parser(const char *name);
+
+/**
+ * Detect language name from a file path or extension.
+ *
+ * This compatibility alias matches the pre-Alef Python binding API.
+ * # Safety
+ * Caller must ensure all pointer arguments are valid or null.
+ * Returned pointers must be freed with the appropriate free function.
+ */
+char *ts_pack_detect_language(const char *path);
 
 /**
  * List all available language names (sorted, deduplicated, includes aliases).
@@ -2464,54 +1848,6 @@ uintptr_t ts_pack_language_count(void);
  */
 TS_PACKProcessResult *ts_pack_process(const char *source,
                                       const TS_PACKProcessConfig *config);
-
-/**
- * Run extraction patterns against source code.
- *
- * Convenience wrapper around [`extract::extract`].
- *
- * # Errors
- *
- * Returns an error if the language is not found, parsing fails, or a query
- * pattern is invalid.
- *
- * # Example
- *
- * ```no_run
- * use ahash::AHashMap;
- * use tree_sitter_language_pack::{ExtractionConfig, ExtractionPattern, CaptureOutput, extract_patterns};
- *
- * let mut patterns = AHashMap::new();
- * patterns.insert("fns".to_string(), ExtractionPattern {
- *     query: "(function_definition name: (identifier) @fn_name)".to_string(),
- *     capture_output: CaptureOutput::default(),
- *     child_fields: Vec::new(),
- *     max_results: None,
- *     byte_range: None,
- * });
- * let config = ExtractionConfig { language: "python".to_string(), patterns };
- * let result = extract_patterns("def hello(): pass", &config).unwrap();
- * ```
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-TS_PACKExtractionResult *ts_pack_extract_patterns(const char *source,
-                                                  const TS_PACKExtractionConfig *config);
-
-/**
- * Validate extraction patterns without running them.
- *
- * Convenience wrapper around [`extract::validate_extraction`].
- *
- * # Errors
- *
- * Returns an error if the language cannot be loaded.
- * # Safety
- * Caller must ensure all pointer arguments are valid or null.
- * Returned pointers must be freed with the appropriate free function.
- */
-TS_PACKValidationResult *ts_pack_validate_extraction(const TS_PACKExtractionConfig *config);
 
 /**
  * Initialize the language pack with the given configuration.

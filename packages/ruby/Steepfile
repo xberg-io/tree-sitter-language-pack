@@ -1,13 +1,6 @@
 # frozen_string_literal: true
 
-D = Steep::Diagnostic
-
 target :lib do
   signature 'sig'
-
   check 'lib'
-  check 'ext/ts_pack_core_rb/native/src'
-  ignore 'ext/ts_pack_core_rb/native/src/tree_sitter_language_pack/version.rb'
-
-  configure_code_diagnostics(D::Ruby.default)
 end

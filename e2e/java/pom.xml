@@ -19,9 +19,9 @@
         <dependency>
             <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
             <artifactId>tree-sitter-language-pack</artifactId>
-            <version>1.8.0-rc.24</version>
+            <version>1.8.0-rc.26</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.8.0-rc.24.jar</systemPath>
+            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.8.0-rc.26.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -67,7 +67,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
-                    <argLine>--enable-preview --enable-native-access=ALL-UNNAMED -Djava.library.path=../../target/release</argLine>
+                    <argLine>--enable-preview --enable-native-access=ALL-UNNAMED -Djava.library.path=${project.basedir}/../../target/release</argLine>
+                    <workingDirectory>${project.basedir}/../../test_documents</workingDirectory>
                 </configuration>
             </plugin>
         </plugins>

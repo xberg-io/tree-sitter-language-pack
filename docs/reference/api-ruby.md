@@ -89,75 +89,6 @@ def self.detect_language_from_content(content)
 
 ---
 
-#### root_node_info()
-
-Get a `NodeInfo` snapshot of the root node.
-
-**Signature:**
-
-```ruby
-def self.root_node_info(tree)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `NodeInfo`
-
-
----
-
-#### find_nodes_by_type()
-
-Find all nodes matching the given type name, returning their `NodeInfo`.
-
-Performs a depth-first traversal. Returns an empty vec if no matches.
-
-**Signature:**
-
-```ruby
-def self.find_nodes_by_type(tree, node_type)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-| `node_type` | `String` | Yes | The node type |
-
-**Returns:** `Array<NodeInfo>`
-
-
----
-
-#### named_children_info()
-
-Get `NodeInfo` for all named children of the root node.
-
-Useful for understanding the top-level structure of a file
-(e.g., list of function definitions, class declarations, imports).
-
-**Signature:**
-
-```ruby
-def self.named_children_info(tree)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `Array<NodeInfo>`
-
-
----
-
 #### parse_string()
 
 Parse source code with the named language, returning the syntax tree.
@@ -182,100 +113,6 @@ def self.parse_string(language, source)
 **Returns:** `Tree`
 
 **Errors:** Raises `Error`.
-
-
----
-
-#### tree_contains_node_type()
-
-Check whether any node in the tree matches the given type name.
-
-Performs a depth-first traversal using `TreeCursor`.
-
-**Signature:**
-
-```ruby
-def self.tree_contains_node_type(tree, node_type)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-| `node_type` | `String` | Yes | The node type |
-
-**Returns:** `Boolean`
-
-
----
-
-#### tree_has_error_nodes()
-
-Check whether the tree contains any ERROR or MISSING nodes.
-
-Useful for determining if the parse was clean or had syntax errors.
-
-**Signature:**
-
-```ruby
-def self.tree_has_error_nodes(tree)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `Boolean`
-
-
----
-
-#### tree_to_sexp()
-
-Return the S-expression representation of the entire tree.
-
-This is the standard tree-sitter debug format, useful for logging,
-snapshot testing, and debugging grammars.
-
-**Signature:**
-
-```ruby
-def self.tree_to_sexp(tree)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `String`
-
-
----
-
-#### tree_error_count()
-
-Count the number of ERROR and MISSING nodes in the tree.
-
-Returns 0 for a clean parse.
-
-**Signature:**
-
-```ruby
-def self.tree_error_count(tree)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `Integer`
 
 
 ---
@@ -352,40 +189,6 @@ def self.get_locals_query(language)
 
 ---
 
-#### run_query()
-
-Execute a tree-sitter query pattern against a parsed tree.
-
-The `query_source` is an S-expression pattern like:
-
-```text
-(function_definition name: (identifier) @name)
-```
-
-Returns all matches with their captured nodes.
-
-**Signature:**
-
-```ruby
-def self.run_query(tree, language, query_source, source)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The parsed syntax tree to query. |
-| `language` | `String` | Yes | Language name (used to compile the query pattern). |
-| `query_source` | `String` | Yes | The tree-sitter query pattern string. |
-| `source` | `String` | Yes | The original source code bytes (needed for capture resolution). |
-
-**Returns:** `Array<QueryMatch>`
-
-**Errors:** Raises `Error`.
-
-
----
-
 #### get_language()
 
 Get a tree-sitter `Language` by name using the global registry.
@@ -445,6 +248,29 @@ def self.get_parser(name)
 **Returns:** `Parser`
 
 **Errors:** Raises `Error`.
+
+
+---
+
+#### detect_language()
+
+Detect language name from a file path or extension.
+
+This compatibility alias matches the pre-Alef Python binding API.
+
+**Signature:**
+
+```ruby
+def self.detect_language(path)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `String` | Yes | Path to the file |
+
+**Returns:** `String?`
 
 
 ---
@@ -535,66 +361,6 @@ def self.process(source, config)
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
-
-**Errors:** Raises `Error`.
-
-
----
-
-#### extract_patterns()
-
-Run extraction patterns against source code.
-
-Convenience wrapper around `extract.extract`.
-
-**Errors:**
-
-Returns an error if the language is not found, parsing fails, or a query
-pattern is invalid.
-
-**Signature:**
-
-```ruby
-def self.extract_patterns(source, config)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `source` | `String` | Yes | The source |
-| `config` | `ExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `ExtractionResult`
-
-**Errors:** Raises `Error`.
-
-
----
-
-#### validate_extraction()
-
-Validate extraction patterns without running them.
-
-Convenience wrapper around `extract.validate_extraction`.
-
-**Errors:**
-
-Returns an error if the language cannot be loaded.
-
-**Signature:**
-
-```ruby
-def self.validate_extraction(config)
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `config` | `ExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `ValidationResult`
 
 **Errors:** Raises `Error`.
 
@@ -811,21 +577,6 @@ def self.cache_dir()
 
 ### Types
 
-#### CaptureResult
-
-A single captured node within a match.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `String` | — | The capture name from the query (e.g., `"fn_name"`). |
-| `node` | `NodeInfo?` | `nil` | The `NodeInfo` snapshot, present when `CaptureOutput` is `Node` or `Full`. |
-| `text` | `String?` | `nil` | The matched source text, present when `CaptureOutput` is `Text` or `Full`. |
-| `child_fields` | `Hash{String=>String?}` | `{}` | Values of requested child fields, keyed by field name. |
-| `start_byte` | `Integer` | — | Byte offset where this capture starts in the source. |
-
-
----
-
 #### ChunkContext
 
 Metadata for a single chunk of source code.
@@ -1039,45 +790,6 @@ An export statement extracted from source code.
 
 ---
 
-#### ExtractionConfig
-
-Configuration for an extraction run against a single language.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | The language name (e.g., `"python"`). |
-| `patterns` | `Hash{String=>ExtractionPattern}` | `{}` | Named patterns to run. Keys become the keys in `ExtractionResult.results`. |
-
-
----
-
-#### ExtractionPattern
-
-Defines a single extraction pattern and its configuration.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `query` | `String` | — | The tree-sitter query string (S-expression). |
-| `capture_output` | `CaptureOutput` | `:full` | What to include in each capture result. |
-| `child_fields` | `Array<String>` | `[]` | Field names to extract from child nodes of each capture. Maps a label to a tree-sitter field name used with `child_by_field_name`. |
-| `max_results` | `Integer?` | `nil` | Maximum number of matches to return. `nil` means unlimited. |
-| `byte_range` | `Array<Integer>?` | `[]` | Restrict matches to a byte range `(start, end)`. |
-
-
----
-
-#### ExtractionResult
-
-Complete extraction results for all patterns.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | The language that was used. |
-| `results` | `Hash{String=>PatternResult}` | `{}` | Results keyed by pattern name. |
-
-
----
-
 #### FileMetrics
 
 Aggregate metrics for a source file.
@@ -1244,43 +956,6 @@ def self.default()
 
 ---
 
-#### MatchResult
-
-A single query match containing one or more captures.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `Integer` | — | The pattern index within the query that produced this match. |
-| `captures` | `Array<CaptureResult>` | `[]` | The captures for this match. |
-
-
----
-
-#### NodeInfo
-
-Lightweight snapshot of a tree-sitter node's properties.
-
-Contains only primitive types for easy cross-language serialization.
-This is an owned type that can be passed across FFI boundaries, unlike
-`tree_sitter.Node` which borrows from the tree.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `String` | — | The grammar type name (e.g., "function_definition", "identifier"). |
-| `is_named` | `Boolean` | — | Whether this is a named node (vs anonymous like punctuation). |
-| `start_byte` | `Integer` | — | Start byte offset in source. |
-| `end_byte` | `Integer` | — | End byte offset in source. |
-| `start_row` | `Integer` | — | Start row (zero-indexed). |
-| `start_col` | `Integer` | — | Start column (zero-indexed). |
-| `end_row` | `Integer` | — | End row (zero-indexed). |
-| `end_col` | `Integer` | — | End column (zero-indexed). |
-| `named_child_count` | `Integer` | — | Number of named children. |
-| `is_error` | `Boolean` | — | Whether this node is an ERROR node. |
-| `is_missing` | `Boolean` | — | Whether this node is a MISSING node. |
-
-
----
-
 #### PackConfig
 
 Configuration for the tree-sitter language pack.
@@ -1349,33 +1024,6 @@ Manifest describing available parser downloads for a specific version.
 
 ---
 
-#### PatternResult
-
-Results for a single named pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `matches` | `Array<MatchResult>` | `[]` | The individual matches. |
-| `total_count` | `Integer` | — | Total number of matches before `max_results` truncation. |
-
-
----
-
-#### PatternValidation
-
-Validation information for a single pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `Boolean` | — | Whether the pattern compiled successfully. |
-| `capture_names` | `Array<String>` | `[]` | Names of captures defined in the query. |
-| `pattern_count` | `Integer` | — | Number of patterns in the query. |
-| `warnings` | `Array<String>` | `[]` | Non-fatal warnings (e.g., unused captures). |
-| `errors` | `Array<String>` | `[]` | Fatal errors (e.g., query syntax errors). |
-
-
----
-
 #### PlatformBundle
 
 | Field | Type | Default | Description |
@@ -1404,7 +1052,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `symbols` | `Boolean` | `false` | Extract symbol definitions. Default: false. |
 | `diagnostics` | `Boolean` | `false` | Include parse diagnostics. Default: false. |
 | `chunk_max_size` | `Integer?` | `nil` | Maximum chunk size in bytes. `nil` disables chunking. |
-| `extractions` | `Hash{String=>ExtractionPattern}?` | `nil` | Custom extraction patterns to run against the parsed tree. Keys become the keys in `ProcessResult.extractions`. |
 
 ##### Methods
 
@@ -1469,19 +1116,6 @@ Fields are populated based on the `crate.ProcessConfig` flags.
 | `symbols` | `Array<SymbolInfo>` | `[]` | Symbols |
 | `diagnostics` | `Array<Diagnostic>` | `[]` | Diagnostics |
 | `chunks` | `Array<CodeChunk>` | `[]` | Text chunks for chunking/embedding |
-| `extractions` | `Hash{String=>PatternResult}` | `{}` | Results of custom extraction patterns (when `config.extractions` is set). |
-
-
----
-
-#### QueryMatch
-
-A single match from a tree-sitter query, with captured nodes.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `Integer` | — | The pattern index that matched (position in the query string). |
-| `captures` | `Array<String>` | `[]` | Captures: list of (capture_name, node_info) pairs. |
 
 
 ---
@@ -1544,32 +1178,7 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 ---
 
-#### ValidationResult
-
-Validation results for an entire extraction config.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `Boolean` | — | Whether all patterns are valid. |
-| `patterns` | `Hash{String=>PatternValidation}` | `{}` | Per-pattern validation details. |
-
-
----
-
 ### Enums
-
-#### CaptureOutput
-
-Controls what data is captured for each query match.
-
-| Value | Description |
-|-------|-------------|
-| `text` | Capture only the matched text. |
-| `node` | Capture only the `NodeInfo`. |
-| `full` | Capture both text and `NodeInfo` (default). |
-
-
----
 
 #### StructureKind
 

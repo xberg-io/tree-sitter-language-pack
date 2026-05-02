@@ -11,14 +11,6 @@
 	"assertions": [
 		{
 			"type": "not_error"
-		},
-		{
-			"type": "method_result",
-			"method": "contains_node_type",
-			"args": {
-				"node_type": "function_declaration"
-			},
-			"check": "is_true"
 		}
 	]
 }

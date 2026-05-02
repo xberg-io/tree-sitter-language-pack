@@ -2,7 +2,10 @@
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"title": "Alef E2E Test Fixture",
 	"description": "Schema for alef e2e test fixture files. Each file contains either a single fixture object or an array of fixtures.",
-	"oneOf": [{ "$ref": "#/$defs/fixture" }, { "type": "array", "items": { "$ref": "#/$defs/fixture" } }],
+	"oneOf": [
+		{ "$ref": "#/$defs/fixture" },
+		{ "type": "array", "items": { "$ref": "#/$defs/fixture" } }
+	],
 	"$defs": {
 		"fixture": {
 			"type": "object",
@@ -14,9 +17,19 @@
 					"pattern": "^[a-z][a-z0-9_]*$",
 					"description": "Unique snake_case identifier used as the test function name"
 				},
-				"category": { "type": "string", "description": "Test category. Defaults to parent directory name if omitted" },
-				"description": { "type": "string", "description": "Human-readable test description" },
-				"tags": { "type": "array", "items": { "type": "string" }, "description": "Optional tags for filtering" },
+				"category": {
+					"type": "string",
+					"description": "Test category. Defaults to parent directory name if omitted"
+				},
+				"description": {
+					"type": "string",
+					"description": "Human-readable test description"
+				},
+				"tags": {
+					"type": "array",
+					"items": { "type": "string" },
+					"description": "Optional tags for filtering"
+				},
 				"skip": { "$ref": "#/$defs/skip" },
 				"call": {
 					"type": "string",
@@ -42,7 +55,10 @@
 					"items": { "type": "string" },
 					"description": "Languages to skip. Empty array means skip all"
 				},
-				"reason": { "type": "string", "description": "Human-readable reason for skipping" }
+				"reason": {
+					"type": "string",
+					"description": "Human-readable reason for skipping"
+				}
 			}
 		},
 		"assertion": {
@@ -80,15 +96,29 @@
 					],
 					"description": "Assertion type"
 				},
-				"field": { "type": "string", "description": "Dot-separated field path on the result object" },
-				"value": { "description": "Expected value (type depends on assertion type)" },
-				"values": { "type": "array", "description": "Expected values (for contains_all, contains_any, not_contains)" },
-				"method": { "type": "string", "description": "Method name to call on the result" },
+				"field": {
+					"type": "string",
+					"description": "Dot-separated field path on the result object"
+				},
+				"value": {
+					"description": "Expected value (type depends on assertion type)"
+				},
+				"values": {
+					"type": "array",
+					"description": "Expected values (for contains_all, contains_any, not_contains)"
+				},
+				"method": {
+					"type": "string",
+					"description": "Method name to call on the result"
+				},
 				"check": {
 					"type": "string",
 					"description": "Assertion check type for the method result (equals, is_true, is_false, greater_than_or_equal, count_min)"
 				},
-				"args": { "type": "object", "description": "Arguments to pass to the method call" }
+				"args": {
+					"type": "object",
+					"description": "Arguments to pass to the method call"
+				}
 			}
 		}
 	}

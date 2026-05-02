@@ -11,12 +11,6 @@
 	"assertions": [
 		{
 			"type": "not_error"
-		},
-		{
-			"type": "method_result",
-			"method": "root_child_count",
-			"check": "greater_than_or_equal",
-			"value": 1
 		}
 	]
 }

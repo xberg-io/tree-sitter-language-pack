@@ -12,7 +12,7 @@ defmodule E2eElixir.MixProject do
 
   defp deps do
     [
-      {:tree_sitter_language_pack, path: "../../packages/elixir"}
+
     ]
   end
 end

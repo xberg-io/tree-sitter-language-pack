@@ -9,14 +9,13 @@ keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 categories = ["text-processing"]
 
 [lib]
+name = "tree_sitter_language_pack_nif"
 crate-type = ["cdylib"]
 
 [dependencies]
-tree-sitter-language-pack = { path = "../../../../crates/ts-pack-core", features = ["serde", "config"] }
+tree-sitter-language-pack = { path = "../../../../crates/ts-pack-core", features = ["serde", "config", "download"] }
 rustler = "0.37"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tokio = { version = "1", features = ["full"] }
 
-[package.metadata.cargo-machete]
-ignored = ["rustler", "serde", "serde_json", "tokio", "tree-sitter-language-pack"]
+[workspace]

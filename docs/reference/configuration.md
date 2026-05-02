@@ -6,103 +6,6 @@ title: "Configuration Reference"
 
 This page documents all configuration types and their defaults across all languages.
 
-### ExtractionPattern
-
-Defines a single extraction pattern and its configuration.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `query` | `str` | — | The tree-sitter query string (S-expression). |
-| `capture_output` | `CaptureOutput` | `CaptureOutput.FULL` | What to include in each capture result. |
-| `child_fields` | `list[str]` | `[]` | Field names to extract from child nodes of each capture. Maps a label to a tree-sitter field name used with `child_by_field_name`. |
-| `max_results` | `int | None` | `None` | Maximum number of matches to return. `None` means unlimited. |
-| `byte_range` | `list[int] | None` | `[]` | Restrict matches to a byte range `(start, end)`. |
-
----
-
-### ExtractionConfig
-
-Configuration for an extraction run against a single language.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `str` | — | The language name (e.g., `"python"`). |
-| `patterns` | `dict[str, ExtractionPattern]` | `{}` | Named patterns to run. Keys become the keys in `ExtractionResult.results`. |
-
----
-
-### CaptureResult
-
-A single captured node within a match.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `str` | — | The capture name from the query (e.g., `"fn_name"`). |
-| `node` | `NodeInfo | None` | `None` | The `NodeInfo` snapshot, present when `CaptureOutput` is `Node` or `Full`. |
-| `text` | `str | None` | `None` | The matched source text, present when `CaptureOutput` is `Text` or `Full`. |
-| `child_fields` | `dict[str, str | None]` | `{}` | Values of requested child fields, keyed by field name. |
-| `start_byte` | `int` | — | Byte offset where this capture starts in the source. |
-
----
-
-### MatchResult
-
-A single query match containing one or more captures.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `int` | — | The pattern index within the query that produced this match. |
-| `captures` | `list[CaptureResult]` | `[]` | The captures for this match. |
-
----
-
-### PatternResult
-
-Results for a single named pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `matches` | `list[MatchResult]` | `[]` | The individual matches. |
-| `total_count` | `int` | — | Total number of matches before `max_results` truncation. |
-
----
-
-### ExtractionResult
-
-Complete extraction results for all patterns.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `str` | — | The language that was used. |
-| `results` | `dict[str, PatternResult]` | `{}` | Results keyed by pattern name. |
-
----
-
-### PatternValidation
-
-Validation information for a single pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether the pattern compiled successfully. |
-| `capture_names` | `list[str]` | `[]` | Names of captures defined in the query. |
-| `pattern_count` | `int` | — | Number of patterns in the query. |
-| `warnings` | `list[str]` | `[]` | Non-fatal warnings (e.g., unused captures). |
-| `errors` | `list[str]` | `[]` | Fatal errors (e.g., query syntax errors). |
-
----
-
-### ValidationResult
-
-Validation results for an entire extraction config.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether all patterns are valid. |
-| `patterns` | `dict[str, PatternValidation]` | `{}` | Per-pattern validation details. |
-
----
-
 ### Span
 
 Byte and line/column range in source code.
@@ -141,7 +44,6 @@ Fields are populated based on the `crate.ProcessConfig` flags.
 | `symbols` | `list[SymbolInfo]` | `[]` | Symbols |
 | `diagnostics` | `list[Diagnostic]` | `[]` | Diagnostics |
 | `chunks` | `list[CodeChunk]` | `[]` | Text chunks for chunking/embedding |
-| `extractions` | `dict[str, PatternResult]` | `{}` | Results of custom extraction patterns (when `config.extractions` is set). |
 
 ---
 
@@ -304,30 +206,6 @@ Metadata for a single chunk of source code.
 
 ---
 
-### NodeInfo
-
-Lightweight snapshot of a tree-sitter node's properties.
-
-Contains only primitive types for easy cross-language serialization.
-This is an owned type that can be passed across FFI boundaries, unlike
-`tree_sitter.Node` which borrows from the tree.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `str` | — | The grammar type name (e.g., "function_definition", "identifier"). |
-| `is_named` | `bool` | — | Whether this is a named node (vs anonymous like punctuation). |
-| `start_byte` | `int` | — | Start byte offset in source. |
-| `end_byte` | `int` | — | End byte offset in source. |
-| `start_row` | `int` | — | Start row (zero-indexed). |
-| `start_col` | `int` | — | Start column (zero-indexed). |
-| `end_row` | `int` | — | End row (zero-indexed). |
-| `end_col` | `int` | — | End column (zero-indexed). |
-| `named_child_count` | `int` | — | Number of named children. |
-| `is_error` | `bool` | — | Whether this node is an ERROR node. |
-| `is_missing` | `bool` | — | Whether this node is a MISSING node. |
-
----
-
 ### PackConfig
 
 Configuration for the tree-sitter language pack.
@@ -361,17 +239,5 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `symbols` | `bool` | `False` | Extract symbol definitions. Default: false. |
 | `diagnostics` | `bool` | `False` | Include parse diagnostics. Default: false. |
 | `chunk_max_size` | `int | None` | `None` | Maximum chunk size in bytes. `None` disables chunking. |
-| `extractions` | `dict[str, ExtractionPattern] | None` | `None` | Custom extraction patterns to run against the parsed tree. Keys become the keys in `ProcessResult.extractions`. |
-
----
-
-### QueryMatch
-
-A single match from a tree-sitter query, with captured nodes.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `int` | — | The pattern index that matched (position in the query string). |
-| `captures` | `list[str]` | `[]` | Captures: list of (capture_name, node_info) pairs. |
 
 ---

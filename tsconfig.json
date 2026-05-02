@@ -36,7 +36,5 @@
 		"noEmit": true
 	},
 	"files": [],
-	"references": [
-		{ "path": "./test_apps/node" }
-	]
+	"references": [{ "path": "./test_apps/node" }]
 }

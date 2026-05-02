@@ -32,16 +32,19 @@ export function getClient(): KyInstance {
 						}
 					} catch {}
 
-					log.info(`API ${request.method} ${request.url} - ${response.status}`, {
-						method: request.method,
-						operation: request.headers.get("X-Operation"),
-						response_body: responseBody,
-						response_headers: Object.fromEntries(response.headers.entries()),
-						retry_count: state.retryCount,
-						status: response.status,
-						trace_id: request.headers.get("X-Trace-ID"),
-						url: request.url,
-					});
+					log.info(
+						`API ${request.method} ${request.url} - ${response.status}`,
+						{
+							method: request.method,
+							operation: request.headers.get("X-Operation"),
+							response_body: responseBody,
+							response_headers: Object.fromEntries(response.headers.entries()),
+							retry_count: state.retryCount,
+							status: response.status,
+							trace_id: request.headers.get("X-Trace-ID"),
+							url: request.url,
+						},
+					);
 
 					return response;
 				},
@@ -62,21 +65,29 @@ export function getClient(): KyInstance {
 						}
 					} catch {}
 
-					log.error(`API ERROR ${error.request.method} ${error.request.url}`, error, {
-						backend_url: backendUrl,
-						error_message: error.message,
-						method: error.request.method,
-						operation: error.request.headers.get("X-Operation"),
-						request_headers: Object.fromEntries(error.request.headers.entries()),
-						response_body: responseBody,
-						response_headers: Object.fromEntries(error.response.headers.entries()),
-						response_text: responseText,
-						retry_count: state.retryCount,
-						status: error.response.status,
-						status_text: error.response.statusText,
-						trace_id: error.request.headers.get("X-Trace-ID"),
-						url: error.request.url,
-					});
+					log.error(
+						`API ERROR ${error.request.method} ${error.request.url}`,
+						error,
+						{
+							backend_url: backendUrl,
+							error_message: error.message,
+							method: error.request.method,
+							operation: error.request.headers.get("X-Operation"),
+							request_headers: Object.fromEntries(
+								error.request.headers.entries(),
+							),
+							response_body: responseBody,
+							response_headers: Object.fromEntries(
+								error.response.headers.entries(),
+							),
+							response_text: responseText,
+							retry_count: state.retryCount,
+							status: error.response.status,
+							status_text: error.response.statusText,
+							trace_id: error.request.headers.get("X-Trace-ID"),
+							url: error.request.url,
+						},
+					);
 
 					return error;
 				},
@@ -96,7 +107,10 @@ export function getClient(): KyInstance {
 					let requestBody: unknown;
 					if (options.body) {
 						try {
-							requestBody = typeof options.body === "string" ? JSON.parse(options.body) : options.body;
+							requestBody =
+								typeof options.body === "string"
+									? JSON.parse(options.body)
+									: options.body;
 						} catch {
 							requestBody = options.body;
 						}

@@ -8,16 +8,10 @@ use ahash::AHashMap;
 use crate::Error;
 use crate::node::{NodeInfo, node_info_from_node};
 
-/// Helper for serde `skip_serializing_if` on `AHashMap` fields.
-#[cfg(feature = "serde")]
-pub(crate) fn ahashmap_is_empty<K, V>(map: &AHashMap<K, V>) -> bool {
-    map.is_empty()
-}
-
 /// Controls what data is captured for each query match.
 #[derive(Debug, Clone, Default, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum CaptureOutput {
+pub(crate) enum CaptureOutput {
     /// Capture only the matched text.
     Text,
     /// Capture only the `NodeInfo`.
@@ -30,7 +24,7 @@ pub enum CaptureOutput {
 /// Defines a single extraction pattern and its configuration.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ExtractionPattern {
+pub(crate) struct ExtractionPattern {
     /// The tree-sitter query string (S-expression).
     pub query: String,
     /// What to include in each capture result.
@@ -51,7 +45,7 @@ pub struct ExtractionPattern {
 /// Configuration for an extraction run against a single language.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ExtractionConfig {
+pub(crate) struct ExtractionConfig {
     /// The language name (e.g., `"python"`).
     pub language: String,
     /// Named patterns to run. Keys become the keys in `ExtractionResult::results`.
@@ -61,7 +55,7 @@ pub struct ExtractionConfig {
 /// A single captured node within a match.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct CaptureResult {
+pub(crate) struct CaptureResult {
     /// The capture name from the query (e.g., `"fn_name"`).
     pub name: String,
     /// The `NodeInfo` snapshot, present when `CaptureOutput` is `Node` or `Full`.
@@ -77,7 +71,7 @@ pub struct CaptureResult {
 /// A single query match containing one or more captures.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct MatchResult {
+pub(crate) struct MatchResult {
     /// The pattern index within the query that produced this match.
     pub pattern_index: usize,
     /// The captures for this match.
@@ -87,7 +81,7 @@ pub struct MatchResult {
 /// Results for a single named pattern.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct PatternResult {
+pub(crate) struct PatternResult {
     /// The individual matches.
     pub matches: Vec<MatchResult>,
     /// Total number of matches before `max_results` truncation.
@@ -97,7 +91,7 @@ pub struct PatternResult {
 /// Complete extraction results for all patterns.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ExtractionResult {
+pub(crate) struct ExtractionResult {
     /// The language that was used.
     pub language: String,
     /// Results keyed by pattern name.
@@ -107,7 +101,7 @@ pub struct ExtractionResult {
 /// Validation information for a single pattern.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct PatternValidation {
+pub(crate) struct PatternValidation {
     /// Whether the pattern compiled successfully.
     pub valid: bool,
     /// Names of captures defined in the query.
@@ -123,7 +117,7 @@ pub struct PatternValidation {
 /// Validation results for an entire extraction config.
 #[derive(Debug, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct ValidationResult {
+pub(crate) struct ValidationResult {
     /// Whether all patterns are valid.
     pub valid: bool,
     /// Per-pattern validation details.
@@ -143,7 +137,7 @@ struct CompiledPattern {
 /// Stores compiled `tree_sitter::Query` objects and their capture names so they
 /// don't need to be recompiled for every call. A `QueryCursor` is reused across
 /// patterns within a single extraction call, making this type `Send + Sync`.
-pub struct CompiledExtraction {
+pub(crate) struct CompiledExtraction {
     language: tree_sitter::Language,
     language_name: String,
     patterns: Vec<CompiledPattern>,
@@ -173,7 +167,7 @@ impl std::fmt::Debug for CompiledExtraction {
 ///
 /// Returns an error if the language is not found, parsing fails, or a query
 /// pattern is invalid.
-pub fn extract(source: &str, config: &ExtractionConfig) -> Result<ExtractionResult, Error> {
+pub(crate) fn extract(source: &str, config: &ExtractionConfig) -> Result<ExtractionResult, Error> {
     let compiled = CompiledExtraction::compile(config)?;
     compiled.extract(source)
 }
@@ -186,7 +180,7 @@ pub fn extract(source: &str, config: &ExtractionConfig) -> Result<ExtractionResu
 /// # Errors
 ///
 /// Returns an error if the language cannot be loaded.
-pub fn validate_extraction(config: &ExtractionConfig) -> Result<ValidationResult, Error> {
+pub(crate) fn validate_extraction(config: &ExtractionConfig) -> Result<ValidationResult, Error> {
     let lang = crate::get_language(&config.language)?;
     let mut all_valid = true;
     let mut patterns = AHashMap::new();

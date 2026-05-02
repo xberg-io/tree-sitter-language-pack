@@ -52,12 +52,6 @@ pub struct ProcessResult {
     pub diagnostics: Vec<Diagnostic>,
     #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Vec::is_empty", default))]
     pub chunks: Vec<CodeChunk>,
-    /// Results of custom extraction patterns (when `config.extractions` is set).
-    #[cfg_attr(
-        feature = "serde",
-        serde(skip_serializing_if = "crate::extract::ahashmap_is_empty", default)
-    )]
-    pub extractions: ahash::AHashMap<String, crate::extract::PatternResult>,
 }
 
 /// Aggregate metrics for a source file.

@@ -1,4 +1,7 @@
-import { availableLanguages, hasLanguage } from "@kreuzberg/tree-sitter-language-pack";
+import {
+	availableLanguages,
+	hasLanguage,
+} from "@kreuzberg/tree-sitter-language-pack";
 
 const langs = availableLanguages();
 console.log(`Available languages: ${langs.length}`);

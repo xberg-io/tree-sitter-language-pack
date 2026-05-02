@@ -69,7 +69,8 @@ pub(crate) fn cached_parser_count_for_tests() -> usize {
 /// Check whether any node in the tree matches the given type name.
 ///
 /// Performs a depth-first traversal using `TreeCursor`.
-pub fn tree_contains_node_type(tree: &tree_sitter::Tree, node_type: &str) -> bool {
+#[cfg(test)]
+pub(crate) fn tree_contains_node_type(tree: &tree_sitter::Tree, node_type: &str) -> bool {
     let mut cursor = tree.walk();
     traverse_with_cursor(&mut cursor, |node| node.kind() == node_type)
 }
@@ -77,7 +78,8 @@ pub fn tree_contains_node_type(tree: &tree_sitter::Tree, node_type: &str) -> boo
 /// Check whether the tree contains any ERROR or MISSING nodes.
 ///
 /// Useful for determining if the parse was clean or had syntax errors.
-pub fn tree_has_error_nodes(tree: &tree_sitter::Tree) -> bool {
+#[cfg(test)]
+pub(crate) fn tree_has_error_nodes(tree: &tree_sitter::Tree) -> bool {
     let mut cursor = tree.walk();
     traverse_with_cursor(&mut cursor, |node| node.is_error() || node.is_missing())
 }
@@ -86,14 +88,16 @@ pub fn tree_has_error_nodes(tree: &tree_sitter::Tree) -> bool {
 ///
 /// This is the standard tree-sitter debug format, useful for logging,
 /// snapshot testing, and debugging grammars.
-pub fn tree_to_sexp(tree: &tree_sitter::Tree) -> String {
+#[cfg(test)]
+pub(crate) fn tree_to_sexp(tree: &tree_sitter::Tree) -> String {
     tree.root_node().to_sexp()
 }
 
 /// Count the number of ERROR and MISSING nodes in the tree.
 ///
 /// Returns 0 for a clean parse.
-pub fn tree_error_count(tree: &tree_sitter::Tree) -> usize {
+#[cfg(test)]
+pub(crate) fn tree_error_count(tree: &tree_sitter::Tree) -> usize {
     let mut count = 0;
     let mut cursor = tree.walk();
     traverse_with_cursor(&mut cursor, |node| {
@@ -109,6 +113,7 @@ pub fn tree_error_count(tree: &tree_sitter::Tree) -> usize {
 ///
 /// Returns `true` as soon as the predicate returns `true` (short-circuit).
 /// Returns `false` if no node matches.
+#[cfg(test)]
 pub(crate) fn traverse_with_cursor(
     cursor: &mut tree_sitter::TreeCursor,
     mut predicate: impl FnMut(tree_sitter::Node) -> bool,

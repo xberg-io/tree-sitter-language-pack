@@ -89,75 +89,6 @@ public static function detectLanguageFromContent(string $content): ?string
 
 ---
 
-#### rootNodeInfo()
-
-Get a `NodeInfo` snapshot of the root node.
-
-**Signature:**
-
-```php
-public static function rootNodeInfo(Tree $tree): NodeInfo
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `NodeInfo`
-
-
----
-
-#### findNodesByType()
-
-Find all nodes matching the given type name, returning their `NodeInfo`.
-
-Performs a depth-first traversal. Returns an empty vec if no matches.
-
-**Signature:**
-
-```php
-public static function findNodesByType(Tree $tree, string $nodeType): array<NodeInfo>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-| `nodeType` | `string` | Yes | The node type |
-
-**Returns:** `array<NodeInfo>`
-
-
----
-
-#### namedChildrenInfo()
-
-Get `NodeInfo` for all named children of the root node.
-
-Useful for understanding the top-level structure of a file
-(e.g., list of function definitions, class declarations, imports).
-
-**Signature:**
-
-```php
-public static function namedChildrenInfo(Tree $tree): array<NodeInfo>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `array<NodeInfo>`
-
-
----
-
 #### parseString()
 
 Parse source code with the named language, returning the syntax tree.
@@ -182,100 +113,6 @@ public static function parseString(string $language, string $source): Tree
 **Returns:** `Tree`
 
 **Errors:** Throws `Error`.
-
-
----
-
-#### treeContainsNodeType()
-
-Check whether any node in the tree matches the given type name.
-
-Performs a depth-first traversal using `TreeCursor`.
-
-**Signature:**
-
-```php
-public static function treeContainsNodeType(Tree $tree, string $nodeType): bool
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-| `nodeType` | `string` | Yes | The node type |
-
-**Returns:** `bool`
-
-
----
-
-#### treeHasErrorNodes()
-
-Check whether the tree contains any ERROR or MISSING nodes.
-
-Useful for determining if the parse was clean or had syntax errors.
-
-**Signature:**
-
-```php
-public static function treeHasErrorNodes(Tree $tree): bool
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `bool`
-
-
----
-
-#### treeToSexp()
-
-Return the S-expression representation of the entire tree.
-
-This is the standard tree-sitter debug format, useful for logging,
-snapshot testing, and debugging grammars.
-
-**Signature:**
-
-```php
-public static function treeToSexp(Tree $tree): string
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `string`
-
-
----
-
-#### treeErrorCount()
-
-Count the number of ERROR and MISSING nodes in the tree.
-
-Returns 0 for a clean parse.
-
-**Signature:**
-
-```php
-public static function treeErrorCount(Tree $tree): int
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The tree |
-
-**Returns:** `int`
 
 
 ---
@@ -352,40 +189,6 @@ public static function getLocalsQuery(string $language): ?string
 
 ---
 
-#### runQuery()
-
-Execute a tree-sitter query pattern against a parsed tree.
-
-The `query_source` is an S-expression pattern like:
-
-```text
-(function_definition name: (identifier) @name)
-```
-
-Returns all matches with their captured nodes.
-
-**Signature:**
-
-```php
-public static function runQuery(Tree $tree, string $language, string $querySource, string $source): array<QueryMatch>
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `Tree` | Yes | The parsed syntax tree to query. |
-| `language` | `string` | Yes | Language name (used to compile the query pattern). |
-| `querySource` | `string` | Yes | The tree-sitter query pattern string. |
-| `source` | `string` | Yes | The original source code bytes (needed for capture resolution). |
-
-**Returns:** `array<QueryMatch>`
-
-**Errors:** Throws `Error`.
-
-
----
-
 #### getLanguage()
 
 Get a tree-sitter `Language` by name using the global registry.
@@ -445,6 +248,29 @@ public static function getParser(string $name): Parser
 **Returns:** `Parser`
 
 **Errors:** Throws `Error`.
+
+
+---
+
+#### detectLanguage()
+
+Detect language name from a file path or extension.
+
+This compatibility alias matches the pre-Alef Python binding API.
+
+**Signature:**
+
+```php
+public static function detectLanguage(string $path): ?string
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `string` | Yes | Path to the file |
+
+**Returns:** `?string`
 
 
 ---
@@ -535,66 +361,6 @@ public static function process(string $source, ProcessConfig $config): ProcessRe
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
-
-**Errors:** Throws `Error`.
-
-
----
-
-#### extractPatterns()
-
-Run extraction patterns against source code.
-
-Convenience wrapper around `extract::extract`.
-
-**Errors:**
-
-Returns an error if the language is not found, parsing fails, or a query
-pattern is invalid.
-
-**Signature:**
-
-```php
-public static function extractPatterns(string $source, ExtractionConfig $config): ExtractionResult
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `source` | `string` | Yes | The source |
-| `config` | `ExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `ExtractionResult`
-
-**Errors:** Throws `Error`.
-
-
----
-
-#### validateExtraction()
-
-Validate extraction patterns without running them.
-
-Convenience wrapper around `extract::validate_extraction`.
-
-**Errors:**
-
-Returns an error if the language cannot be loaded.
-
-**Signature:**
-
-```php
-public static function validateExtraction(ExtractionConfig $config): ValidationResult
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `config` | `ExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `ValidationResult`
 
 **Errors:** Throws `Error`.
 
@@ -811,21 +577,6 @@ public static function cacheDir(): string
 
 ### Types
 
-#### CaptureResult
-
-A single captured node within a match.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `string` | — | The capture name from the query (e.g., `"fn_name"`). |
-| `node` | `?NodeInfo` | `null` | The `NodeInfo` snapshot, present when `CaptureOutput` is `Node` or `Full`. |
-| `text` | `?string` | `null` | The matched source text, present when `CaptureOutput` is `Text` or `Full`. |
-| `childFields` | `array<string, ?string>` | `{}` | Values of requested child fields, keyed by field name. |
-| `startByte` | `int` | — | Byte offset where this capture starts in the source. |
-
-
----
-
 #### ChunkContext
 
 Metadata for a single chunk of source code.
@@ -1039,45 +790,6 @@ An export statement extracted from source code.
 
 ---
 
-#### ExtractionConfig
-
-Configuration for an extraction run against a single language.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `string` | — | The language name (e.g., `"python"`). |
-| `patterns` | `array<string, ExtractionPattern>` | `{}` | Named patterns to run. Keys become the keys in `ExtractionResult::results`. |
-
-
----
-
-#### ExtractionPattern
-
-Defines a single extraction pattern and its configuration.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `query` | `string` | — | The tree-sitter query string (S-expression). |
-| `captureOutput` | `CaptureOutput` | `CaptureOutput::Full` | What to include in each capture result. |
-| `childFields` | `array<string>` | `[]` | Field names to extract from child nodes of each capture. Maps a label to a tree-sitter field name used with `child_by_field_name`. |
-| `maxResults` | `?int` | `null` | Maximum number of matches to return. `null` means unlimited. |
-| `byteRange` | `?array<int>` | `[]` | Restrict matches to a byte range `(start, end)`. |
-
-
----
-
-#### ExtractionResult
-
-Complete extraction results for all patterns.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `string` | — | The language that was used. |
-| `results` | `array<string, PatternResult>` | `{}` | Results keyed by pattern name. |
-
-
----
-
 #### FileMetrics
 
 Aggregate metrics for a source file.
@@ -1244,43 +956,6 @@ public static function default(): LanguageRegistry
 
 ---
 
-#### MatchResult
-
-A single query match containing one or more captures.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `patternIndex` | `int` | — | The pattern index within the query that produced this match. |
-| `captures` | `array<CaptureResult>` | `[]` | The captures for this match. |
-
-
----
-
-#### NodeInfo
-
-Lightweight snapshot of a tree-sitter node's properties.
-
-Contains only primitive types for easy cross-language serialization.
-This is an owned type that can be passed across FFI boundaries, unlike
-`tree_sitter::Node` which borrows from the tree.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `string` | — | The grammar type name (e.g., "function_definition", "identifier"). |
-| `isNamed` | `bool` | — | Whether this is a named node (vs anonymous like punctuation). |
-| `startByte` | `int` | — | Start byte offset in source. |
-| `endByte` | `int` | — | End byte offset in source. |
-| `startRow` | `int` | — | Start row (zero-indexed). |
-| `startCol` | `int` | — | Start column (zero-indexed). |
-| `endRow` | `int` | — | End row (zero-indexed). |
-| `endCol` | `int` | — | End column (zero-indexed). |
-| `namedChildCount` | `int` | — | Number of named children. |
-| `isError` | `bool` | — | Whether this node is an ERROR node. |
-| `isMissing` | `bool` | — | Whether this node is a MISSING node. |
-
-
----
-
 #### PackConfig
 
 Configuration for the tree-sitter language pack.
@@ -1349,33 +1024,6 @@ Manifest describing available parser downloads for a specific version.
 
 ---
 
-#### PatternResult
-
-Results for a single named pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `matches` | `array<MatchResult>` | `[]` | The individual matches. |
-| `totalCount` | `int` | — | Total number of matches before `max_results` truncation. |
-
-
----
-
-#### PatternValidation
-
-Validation information for a single pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether the pattern compiled successfully. |
-| `captureNames` | `array<string>` | `[]` | Names of captures defined in the query. |
-| `patternCount` | `int` | — | Number of patterns in the query. |
-| `warnings` | `array<string>` | `[]` | Non-fatal warnings (e.g., unused captures). |
-| `errors` | `array<string>` | `[]` | Fatal errors (e.g., query syntax errors). |
-
-
----
-
 #### PlatformBundle
 
 | Field | Type | Default | Description |
@@ -1404,7 +1052,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
 | `diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
 | `chunkMaxSize` | `?int` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
-| `extractions` | `?array<string, ExtractionPattern>` | `null` | Custom extraction patterns to run against the parsed tree. Keys become the keys in `ProcessResult::extractions`. |
 
 ##### Methods
 
@@ -1469,19 +1116,6 @@ Fields are populated based on the `crate::ProcessConfig` flags.
 | `symbols` | `array<SymbolInfo>` | `[]` | Symbols |
 | `diagnostics` | `array<Diagnostic>` | `[]` | Diagnostics |
 | `chunks` | `array<CodeChunk>` | `[]` | Text chunks for chunking/embedding |
-| `extractions` | `array<string, PatternResult>` | `{}` | Results of custom extraction patterns (when `config.extractions` is set). |
-
-
----
-
-#### QueryMatch
-
-A single match from a tree-sitter query, with captured nodes.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `patternIndex` | `int` | — | The pattern index that matched (position in the query string). |
-| `captures` | `array<string>` | `[]` | Captures: list of (capture_name, node_info) pairs. |
 
 
 ---
@@ -1544,32 +1178,7 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 ---
 
-#### ValidationResult
-
-Validation results for an entire extraction config.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether all patterns are valid. |
-| `patterns` | `array<string, PatternValidation>` | `{}` | Per-pattern validation details. |
-
-
----
-
 ### Enums
-
-#### CaptureOutput
-
-Controls what data is captured for each query match.
-
-| Value | Description |
-|-------|-------------|
-| `Text` | Capture only the matched text. |
-| `Node` | Capture only the `NodeInfo`. |
-| `Full` | Capture both text and `NodeInfo` (default). |
-
-
----
 
 #### StructureKind
 

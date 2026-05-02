@@ -11,11 +11,6 @@
 	"assertions": [
 		{
 			"type": "not_error"
-		},
-		{
-			"type": "greater_than_or_equal",
-			"field": "root_child_count",
-			"value": 1
 		}
 	]
 }

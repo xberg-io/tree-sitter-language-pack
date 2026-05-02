@@ -37,17 +37,6 @@ types = [
     "ChunkContext",
     "Span",
     "PackConfig",
-    "ExtractionConfig",
-    "ExtractionPattern",
-    "ExtractionResult",
-    "ValidationResult",
-    "PatternValidation",
-    "MatchResult",
-    "PatternResult",
-    "CaptureOutput",
-    "NodeInfo",
-    "QueryMatch",
-    "CaptureResult",
     "Error",
     "LanguageRegistry",
     "DownloadManager",
@@ -59,6 +48,7 @@ functions = [
     "get_language",
     "get_parser",
     "parse_string",
+    "detect_language",
     "detect_language_from_path",
     "detect_language_from_extension",
     "detect_language_from_content",
@@ -66,16 +56,6 @@ functions = [
     "get_injections_query",
     "get_locals_query",
     "process",
-    "extract_patterns",
-    "validate_extraction",
-    "tree_contains_node_type",
-    "tree_has_error_nodes",
-    "tree_to_sexp",
-    "tree_error_count",
-    "find_nodes_by_type",
-    "named_children_info",
-    "root_node_info",
-    "run_query",
     "init",
     "configure",
     "download",
@@ -131,6 +111,7 @@ package = "dev.kreuzberg.treesitterlanguagepack"
 
 [csharp]
 namespace = "TreeSitterLanguagePack"
+project_file = "packages/csharp/TreeSitterLanguagePack/TreeSitterLanguagePack.csproj"
 
 [elixir]
 app_name = "tree_sitter_language_pack"
@@ -270,6 +251,7 @@ check = "cd packages/elixir && mix credo"
 
 [lint.java]
 precondition = "command -v mvn >/dev/null 2>&1"
+format = "mvn --batch-mode -f packages/java/pom.xml spotless:apply -q"
 check = "mvn -f packages/java/pom.xml spotless:check -q"
 
 [lint.ffi]
@@ -443,21 +425,6 @@ function = "language_count"
 module = "tree_sitter_language_pack"
 result_var = "result"
 args = []
-
-[e2e.calls.extract]
-function = "extract_patterns"
-module = "tree_sitter_language_pack"
-result_var = "result"
-args = [
-    { name = "source", field = "source_code", type = "string" },
-    { name = "config", field = "config", type = "json_object" },
-]
-
-[e2e.calls.validate]
-function = "validate_extraction"
-module = "tree_sitter_language_pack"
-result_var = "result"
-args = [{ name = "config", field = "config", type = "json_object" }]
 
 [e2e.calls.get_language]
 function = "get_language"

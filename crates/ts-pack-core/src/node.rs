@@ -35,7 +35,7 @@ pub struct NodeInfo {
 }
 
 /// Extract a `NodeInfo` from a tree-sitter `Node`.
-pub fn node_info_from_node(node: tree_sitter::Node) -> NodeInfo {
+pub(crate) fn node_info_from_node(node: tree_sitter::Node) -> NodeInfo {
     let start = node.start_position();
     let end = node.end_position();
     NodeInfo {
@@ -54,14 +54,14 @@ pub fn node_info_from_node(node: tree_sitter::Node) -> NodeInfo {
 }
 
 /// Get a `NodeInfo` snapshot of the root node.
-pub fn root_node_info(tree: &tree_sitter::Tree) -> NodeInfo {
+pub(crate) fn root_node_info(tree: &tree_sitter::Tree) -> NodeInfo {
     node_info_from_node(tree.root_node())
 }
 
 /// Find all nodes matching the given type name, returning their `NodeInfo`.
 ///
 /// Performs a depth-first traversal. Returns an empty vec if no matches.
-pub fn find_nodes_by_type(tree: &tree_sitter::Tree, node_type: &str) -> Vec<NodeInfo> {
+pub(crate) fn find_nodes_by_type(tree: &tree_sitter::Tree, node_type: &str) -> Vec<NodeInfo> {
     let mut results = Vec::new();
     let mut cursor = tree.walk();
     collect_with_cursor(&mut cursor, |node| {
@@ -76,7 +76,7 @@ pub fn find_nodes_by_type(tree: &tree_sitter::Tree, node_type: &str) -> Vec<Node
 ///
 /// Useful for understanding the top-level structure of a file
 /// (e.g., list of function definitions, class declarations, imports).
-pub fn named_children_info(tree: &tree_sitter::Tree) -> Vec<NodeInfo> {
+pub(crate) fn named_children_info(tree: &tree_sitter::Tree) -> Vec<NodeInfo> {
     let root = tree.root_node();
     let mut children = Vec::with_capacity(root.named_child_count());
     let mut cursor = root.walk();
@@ -97,7 +97,7 @@ pub fn named_children_info(tree: &tree_sitter::Tree) -> Vec<NodeInfo> {
 /// Extract the source text corresponding to a node's byte range.
 ///
 /// Returns the slice of source bytes as a UTF-8 string.
-pub fn extract_text<'a>(source: &'a [u8], node_info: &NodeInfo) -> Result<&'a str, Error> {
+pub(crate) fn extract_text<'a>(source: &'a [u8], node_info: &NodeInfo) -> Result<&'a str, Error> {
     if node_info.end_byte > source.len() {
         return Err(Error::InvalidRange(format!(
             "end_byte {} exceeds source length {}",

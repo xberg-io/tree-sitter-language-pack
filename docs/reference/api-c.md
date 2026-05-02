@@ -89,75 +89,6 @@ const char** ts_pack_detect_language_from_content(const char* content);
 
 ---
 
-#### ts_pack_root_node_info()
-
-Get a `NodeInfo` snapshot of the root node.
-
-**Signature:**
-
-```c
-TsPackNodeInfo* ts_pack_root_node_info(TsPackTree tree);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The tree |
-
-**Returns:** `TsPackNodeInfo`
-
-
----
-
-#### ts_pack_find_nodes_by_type()
-
-Find all nodes matching the given type name, returning their `NodeInfo`.
-
-Performs a depth-first traversal. Returns an empty vec if no matches.
-
-**Signature:**
-
-```c
-TsPackNodeInfo* ts_pack_find_nodes_by_type(TsPackTree tree, const char* node_type);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The tree |
-| `node_type` | `const char*` | Yes | The node type |
-
-**Returns:** `TsPackNodeInfo*`
-
-
----
-
-#### ts_pack_named_children_info()
-
-Get `NodeInfo` for all named children of the root node.
-
-Useful for understanding the top-level structure of a file
-(e.g., list of function definitions, class declarations, imports).
-
-**Signature:**
-
-```c
-TsPackNodeInfo* ts_pack_named_children_info(TsPackTree tree);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The tree |
-
-**Returns:** `TsPackNodeInfo*`
-
-
----
-
 #### ts_pack_parse_string()
 
 Parse source code with the named language, returning the syntax tree.
@@ -182,100 +113,6 @@ TsPackTree* ts_pack_parse_string(const char* language, const uint8_t* source);
 **Returns:** `TsPackTree`
 
 **Errors:** Returns `NULL` on error.
-
-
----
-
-#### ts_pack_tree_contains_node_type()
-
-Check whether any node in the tree matches the given type name.
-
-Performs a depth-first traversal using `TreeCursor`.
-
-**Signature:**
-
-```c
-bool ts_pack_tree_contains_node_type(TsPackTree tree, const char* node_type);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The tree |
-| `node_type` | `const char*` | Yes | The node type |
-
-**Returns:** `bool`
-
-
----
-
-#### ts_pack_tree_has_error_nodes()
-
-Check whether the tree contains any ERROR or MISSING nodes.
-
-Useful for determining if the parse was clean or had syntax errors.
-
-**Signature:**
-
-```c
-bool ts_pack_tree_has_error_nodes(TsPackTree tree);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The tree |
-
-**Returns:** `bool`
-
-
----
-
-#### ts_pack_tree_to_sexp()
-
-Return the S-expression representation of the entire tree.
-
-This is the standard tree-sitter debug format, useful for logging,
-snapshot testing, and debugging grammars.
-
-**Signature:**
-
-```c
-const char* ts_pack_tree_to_sexp(TsPackTree tree);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The tree |
-
-**Returns:** `const char*`
-
-
----
-
-#### ts_pack_tree_error_count()
-
-Count the number of ERROR and MISSING nodes in the tree.
-
-Returns 0 for a clean parse.
-
-**Signature:**
-
-```c
-uintptr_t ts_pack_tree_error_count(TsPackTree tree);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The tree |
-
-**Returns:** `uintptr_t`
 
 
 ---
@@ -352,40 +189,6 @@ const char** ts_pack_get_locals_query(const char* language);
 
 ---
 
-#### ts_pack_run_query()
-
-Execute a tree-sitter query pattern against a parsed tree.
-
-The `query_source` is an S-expression pattern like:
-
-```text
-(function_definition name: (identifier) @name)
-```
-
-Returns all matches with their captured nodes.
-
-**Signature:**
-
-```c
-TsPackQueryMatch* ts_pack_run_query(TsPackTree tree, const char* language, const char* query_source, const uint8_t* source);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `tree` | `TsPackTree` | Yes | The parsed syntax tree to query. |
-| `language` | `const char*` | Yes | Language name (used to compile the query pattern). |
-| `query_source` | `const char*` | Yes | The tree-sitter query pattern string. |
-| `source` | `const uint8_t*` | Yes | The original source code bytes (needed for capture resolution). |
-
-**Returns:** `TsPackQueryMatch*`
-
-**Errors:** Returns `NULL` on error.
-
-
----
-
 #### ts_pack_get_language()
 
 Get a tree-sitter `Language` by name using the global registry.
@@ -445,6 +248,29 @@ TsPackParser* ts_pack_get_parser(const char* name);
 **Returns:** `TsPackParser`
 
 **Errors:** Returns `NULL` on error.
+
+
+---
+
+#### ts_pack_detect_language()
+
+Detect language name from a file path or extension.
+
+This compatibility alias matches the pre-Alef Python binding API.
+
+**Signature:**
+
+```c
+const char** ts_pack_detect_language(const char* path);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `const char*` | Yes | Path to the file |
+
+**Returns:** `const char**`
 
 
 ---
@@ -535,66 +361,6 @@ TsPackProcessResult* ts_pack_process(const char* source, TsPackProcessConfig con
 | `config` | `TsPackProcessConfig` | Yes | The configuration options |
 
 **Returns:** `TsPackProcessResult`
-
-**Errors:** Returns `NULL` on error.
-
-
----
-
-#### ts_pack_extract_patterns()
-
-Run extraction patterns against source code.
-
-Convenience wrapper around `extract.extract`.
-
-**Errors:**
-
-Returns an error if the language is not found, parsing fails, or a query
-pattern is invalid.
-
-**Signature:**
-
-```c
-TsPackExtractionResult* ts_pack_extract_patterns(const char* source, TsPackExtractionConfig config);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `source` | `const char*` | Yes | The source |
-| `config` | `TsPackExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `TsPackExtractionResult`
-
-**Errors:** Returns `NULL` on error.
-
-
----
-
-#### ts_pack_validate_extraction()
-
-Validate extraction patterns without running them.
-
-Convenience wrapper around `extract.validate_extraction`.
-
-**Errors:**
-
-Returns an error if the language cannot be loaded.
-
-**Signature:**
-
-```c
-TsPackValidationResult* ts_pack_validate_extraction(TsPackExtractionConfig config);
-```
-
-**Parameters:**
-
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `config` | `TsPackExtractionConfig` | Yes | The configuration options |
-
-**Returns:** `TsPackValidationResult`
 
 **Errors:** Returns `NULL` on error.
 
@@ -811,21 +577,6 @@ const char* ts_pack_cache_dir();
 
 ### Types
 
-#### TsPackCaptureResult
-
-A single captured node within a match.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `const char*` | — | The capture name from the query (e.g., `"fn_name"`). |
-| `node` | `TsPackNodeInfo*` | `NULL` | The `NodeInfo` snapshot, present when `CaptureOutput` is `Node` or `Full`. |
-| `text` | `const char**` | `NULL` | The matched source text, present when `CaptureOutput` is `Text` or `Full`. |
-| `child_fields` | `void*` | `NULL` | Values of requested child fields, keyed by field name. |
-| `start_byte` | `uintptr_t` | — | Byte offset where this capture starts in the source. |
-
-
----
-
 #### TsPackChunkContext
 
 Metadata for a single chunk of source code.
@@ -1039,45 +790,6 @@ An export statement extracted from source code.
 
 ---
 
-#### TsPackExtractionConfig
-
-Configuration for an extraction run against a single language.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `const char*` | — | The language name (e.g., `"python"`). |
-| `patterns` | `void*` | `NULL` | Named patterns to run. Keys become the keys in `ExtractionResult.results`. |
-
-
----
-
-#### TsPackExtractionPattern
-
-Defines a single extraction pattern and its configuration.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `query` | `const char*` | — | The tree-sitter query string (S-expression). |
-| `capture_output` | `TsPackCaptureOutput` | `TS_PACK_TS_PACK_FULL` | What to include in each capture result. |
-| `child_fields` | `const char**` | `NULL` | Field names to extract from child nodes of each capture. Maps a label to a tree-sitter field name used with `child_by_field_name`. |
-| `max_results` | `uintptr_t*` | `NULL` | Maximum number of matches to return. `NULL` means unlimited. |
-| `byte_range` | `uintptr_t**` | `NULL` | Restrict matches to a byte range `(start, end)`. |
-
-
----
-
-#### TsPackExtractionResult
-
-Complete extraction results for all patterns.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `const char*` | — | The language that was used. |
-| `results` | `void*` | `NULL` | Results keyed by pattern name. |
-
-
----
-
 #### TsPackFileMetrics
 
 Aggregate metrics for a source file.
@@ -1244,43 +956,6 @@ TsPackLanguageRegistry ts_pack_default();
 
 ---
 
-#### TsPackMatchResult
-
-A single query match containing one or more captures.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `uintptr_t` | — | The pattern index within the query that produced this match. |
-| `captures` | `TsPackCaptureResult*` | `NULL` | The captures for this match. |
-
-
----
-
-#### TsPackNodeInfo
-
-Lightweight snapshot of a tree-sitter node's properties.
-
-Contains only primitive types for easy cross-language serialization.
-This is an owned type that can be passed across FFI boundaries, unlike
-`tree_sitter.Node` which borrows from the tree.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `const char*` | — | The grammar type name (e.g., "function_definition", "identifier"). |
-| `is_named` | `bool` | — | Whether this is a named node (vs anonymous like punctuation). |
-| `start_byte` | `uintptr_t` | — | Start byte offset in source. |
-| `end_byte` | `uintptr_t` | — | End byte offset in source. |
-| `start_row` | `uintptr_t` | — | Start row (zero-indexed). |
-| `start_col` | `uintptr_t` | — | Start column (zero-indexed). |
-| `end_row` | `uintptr_t` | — | End row (zero-indexed). |
-| `end_col` | `uintptr_t` | — | End column (zero-indexed). |
-| `named_child_count` | `uintptr_t` | — | Number of named children. |
-| `is_error` | `bool` | — | Whether this node is an ERROR node. |
-| `is_missing` | `bool` | — | Whether this node is a MISSING node. |
-
-
----
-
 #### TsPackPackConfig
 
 Configuration for the tree-sitter language pack.
@@ -1349,33 +1024,6 @@ Manifest describing available parser downloads for a specific version.
 
 ---
 
-#### TsPackPatternResult
-
-Results for a single named pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `matches` | `TsPackMatchResult*` | `NULL` | The individual matches. |
-| `total_count` | `uintptr_t` | — | Total number of matches before `max_results` truncation. |
-
-
----
-
-#### TsPackPatternValidation
-
-Validation information for a single pattern.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether the pattern compiled successfully. |
-| `capture_names` | `const char**` | `NULL` | Names of captures defined in the query. |
-| `pattern_count` | `uintptr_t` | — | Number of patterns in the query. |
-| `warnings` | `const char**` | `NULL` | Non-fatal warnings (e.g., unused captures). |
-| `errors` | `const char**` | `NULL` | Fatal errors (e.g., query syntax errors). |
-
-
----
-
 #### TsPackPlatformBundle
 
 | Field | Type | Default | Description |
@@ -1404,7 +1052,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
 | `diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
 | `chunk_max_size` | `uintptr_t*` | `NULL` | Maximum chunk size in bytes. `NULL` disables chunking. |
-| `extractions` | `void**` | `NULL` | Custom extraction patterns to run against the parsed tree. Keys become the keys in `ProcessResult.extractions`. |
 
 ##### Methods
 
@@ -1469,19 +1116,6 @@ Fields are populated based on the `crate.ProcessConfig` flags.
 | `symbols` | `TsPackSymbolInfo*` | `NULL` | Symbols |
 | `diagnostics` | `TsPackDiagnostic*` | `NULL` | Diagnostics |
 | `chunks` | `TsPackCodeChunk*` | `NULL` | Text chunks for chunking/embedding |
-| `extractions` | `void*` | `NULL` | Results of custom extraction patterns (when `config.extractions` is set). |
-
-
----
-
-#### TsPackQueryMatch
-
-A single match from a tree-sitter query, with captured nodes.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `pattern_index` | `uintptr_t` | — | The pattern index that matched (position in the query string). |
-| `captures` | `const char**` | `NULL` | Captures: list of (capture_name, node_info) pairs. |
 
 
 ---
@@ -1544,32 +1178,7 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 ---
 
-#### TsPackValidationResult
-
-Validation results for an entire extraction config.
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `valid` | `bool` | — | Whether all patterns are valid. |
-| `patterns` | `void*` | `NULL` | Per-pattern validation details. |
-
-
----
-
 ### Enums
-
-#### TsPackCaptureOutput
-
-Controls what data is captured for each query match.
-
-| Value | Description |
-|-------|-------------|
-| `TS_PACK_TEXT` | Capture only the matched text. |
-| `TS_PACK_NODE` | Capture only the `NodeInfo`. |
-| `TS_PACK_FULL` | Capture both text and `NodeInfo` (default). |
-
-
----
 
 #### TsPackStructureKind
 

@@ -1,7 +1,5 @@
 use std::borrow::Cow;
 
-use ahash::AHashMap;
-
 /// Configuration for the `process()` function.
 ///
 /// Controls which analysis features are enabled and whether chunking is performed.
@@ -49,10 +47,6 @@ pub struct ProcessConfig {
     /// Maximum chunk size in bytes. `None` disables chunking.
     #[cfg_attr(feature = "serde", serde(default))]
     pub chunk_max_size: Option<usize>,
-    /// Custom extraction patterns to run against the parsed tree.
-    /// Keys become the keys in `ProcessResult::extractions`.
-    #[cfg_attr(feature = "serde", serde(skip_serializing_if = "Option::is_none", default))]
-    pub extractions: Option<AHashMap<String, crate::extract::ExtractionPattern>>,
 }
 
 #[cfg(feature = "serde")]
@@ -72,7 +66,6 @@ impl Default for ProcessConfig {
             symbols: false,
             diagnostics: false,
             chunk_max_size: None,
-            extractions: None,
         }
     }
 }
