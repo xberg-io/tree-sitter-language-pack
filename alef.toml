@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.14.2"
+alef_version = "0.14.9"
 languages = ["python", "node", "ruby", "php", "ffi", "go", "java", "csharp", "elixir", "wasm"]
 
 [workspace.opaque_types]
@@ -336,7 +336,8 @@ options_type = "ProcessConfig"
 class = "dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack"
 
 [crates.e2e.call.overrides.csharp]
-class = "TreeSitterLanguagePack"
+class = "TreeSitterLanguagePackLib"
+options_type = "ProcessConfig"
 
 [crates.e2e.calls.detect_extension]
 function = "detect_language_from_extension"
@@ -433,6 +434,9 @@ returns_void = true
 [crates.e2e.calls.init_pack.overrides.go]
 options_type = "PackConfig"
 
+[crates.e2e.calls.init_pack.overrides.csharp]
+options_type = "PackConfig"
+
 [crates.e2e.calls.configure_pack]
 function = "configure"
 module = "tree_sitter_language_pack"
@@ -442,6 +446,9 @@ returns_result = true
 returns_void = true
 
 [crates.e2e.calls.configure_pack.overrides.go]
+options_type = "PackConfig"
+
+[crates.e2e.calls.configure_pack.overrides.csharp]
 options_type = "PackConfig"
 
 [crates.e2e.calls.download_languages]

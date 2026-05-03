@@ -7,6 +7,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
+    "rollup": "^4.53.3",
     "tree_sitter_language_pack": "file:../../crates/tree-sitter-language-pack-wasm/pkg",
     "vite-plugin-top-level-await": "^1.4.0",
     "vite-plugin-wasm": "^3.4.0",

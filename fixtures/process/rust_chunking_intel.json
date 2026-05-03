@@ -25,11 +25,6 @@
       "type": "count_min",
       "field": "chunks",
       "value": 2
-    },
-    {
-      "type": "less_than_or_equal",
-      "field": "chunks.content.length",
-      "value": 30
     }
   ]
 }

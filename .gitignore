@@ -29,6 +29,7 @@ coverage.xml
 
 # Node.js
 node_modules/
+.pnpm-store/
 
 # C#/.NET
 packages/csharp/**/bin/
@@ -45,6 +46,7 @@ crates/ts-pack-elixir/_build/
 
 # Ruby
 crates/ts-pack-ruby/tmp/
+packages/ruby/tmp/
 
 # Parsers (cloned at build time)
 parsers/

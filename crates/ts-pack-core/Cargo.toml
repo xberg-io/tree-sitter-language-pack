@@ -12,14 +12,14 @@ dynamic-loading = ["dep:libloading"]
 serde = ["dep:serde", "dep:serde_json"]
 config = ["dep:serde", "dep:serde_json", "dep:toml", "dep:dirs"]
 download = [
-    "dep:ureq",
-    "dep:sha2",
-    "dep:tar",
-    "dep:zstd",
-    "dep:dirs",
-    "dep:serde",
-    "dep:serde_json",
-    "dynamic-loading",
+  "dep:ureq",
+  "dep:sha2",
+  "dep:tar",
+  "dep:zstd",
+  "dep:dirs",
+  "dep:serde",
+  "dep:serde_json",
+  "dynamic-loading",
 ]
 
 [dependencies]

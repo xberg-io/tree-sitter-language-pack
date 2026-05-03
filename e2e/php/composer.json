@@ -10,5 +10,8 @@
     "psr-4": {
       "Tree\\Sitter\\Language\\Pack\\E2e\\": "tests/"
     }
+  },
+  "scripts": {
+    "test": "php run_tests.php"
   }
 }

@@ -12,4 +12,7 @@
     <suppress checks="AvoidStarImport" files=".*Test\.java"/>
     <suppress checks="MagicNumber" files=".*Test\.java"/>
     <suppress checks="MethodLength" files=".*Test\.java"/>
+
+    <!-- Generated code: suppress unused imports -->
+    <suppress checks="UnusedImports" files=".*\.java"/>
 </suppressions>
