@@ -232,7 +232,7 @@ The `process()` function returns structured analysis including functions, classe
 
 ## Supported Languages
 
-This pack includes 305+ languages. See the [full language list](docs/supported-languages.md) for all supported grammars with extensions and repository links.
+This pack includes 305+ languages. See the [full language list](docs/languages.md) for all supported grammars with extensions and repository links.
 
 ## Package READMEs
 
