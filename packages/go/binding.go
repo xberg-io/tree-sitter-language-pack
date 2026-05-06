@@ -8,7 +8,7 @@
 package tspack
 
 /*
-#cgo CFLAGS: -I${SRCDIR}/../../crates/ts-pack-core-ffi/include
+#cgo CFLAGS: -I${SRCDIR}/include
 #cgo LDFLAGS: -L${SRCDIR}/../../target/release -lts_pack_core_ffi
 #include "ts_pack.h"
 */
