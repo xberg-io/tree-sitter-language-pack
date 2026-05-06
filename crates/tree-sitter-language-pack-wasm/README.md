@@ -11,7 +11,7 @@ npm install tree-sitter-language-pack-wasm
 ## Quick Start
 
 ```javascript
-import init from 'tree-sitter-language-pack-wasm';
+import init from "tree-sitter-language-pack-wasm";
 
 await init();
 // See https://github.com/kreuzberg-dev/tree-sitter-language-pack for usage examples.

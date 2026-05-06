@@ -358,6 +358,10 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "ext", field = "extension", type = "string" }]
 
+[crates.e2e.calls.detect_extension.overrides.c]
+function = "ts_pack_detect_language_from_extension"
+raw_c_result_type = "char*"
+
 [crates.e2e.calls.detect_path]
 function = "detect_language_from_path"
 module = "tree_sitter_language_pack"
@@ -365,6 +369,10 @@ result_var = "result"
 result_is_simple = true
 result_is_option = true
 args = [{ name = "path", field = "path", type = "string" }]
+
+[crates.e2e.calls.detect_path.overrides.c]
+function = "ts_pack_detect_language_from_path"
+raw_c_result_type = "char*"
 
 [crates.e2e.calls.detect_content]
 function = "detect_language_from_content"
@@ -374,12 +382,20 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "content", field = "content", type = "string" }]
 
+[crates.e2e.calls.detect_content.overrides.c]
+function = "ts_pack_detect_language_from_content"
+raw_c_result_type = "char*"
+
 [crates.e2e.calls.has_language]
 function = "has_language"
 module = "tree_sitter_language_pack"
 result_var = "result"
 result_is_simple = true
 args = [{ name = "name", field = "language", type = "string" }]
+
+[crates.e2e.calls.has_language.overrides.c]
+function = "ts_pack_has_language"
+raw_c_result_type = "int32_t"
 
 [crates.e2e.calls.list_languages]
 function = "available_languages"
@@ -389,6 +405,10 @@ result_is_simple = true
 result_is_array = true
 args = []
 
+[crates.e2e.calls.list_languages.overrides.c]
+function = "ts_pack_available_languages"
+raw_c_result_type = "char*"
+
 [crates.e2e.calls.highlights]
 function = "get_highlights_query"
 module = "tree_sitter_language_pack"
@@ -396,6 +416,10 @@ result_var = "result"
 result_is_simple = true
 result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
+
+[crates.e2e.calls.highlights.overrides.c]
+function = "ts_pack_get_highlights_query"
+raw_c_result_type = "char*"
 
 [crates.e2e.calls.injections]
 function = "get_injections_query"
@@ -405,6 +429,10 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
 
+[crates.e2e.calls.injections.overrides.c]
+function = "ts_pack_get_injections_query"
+raw_c_result_type = "char*"
+
 [crates.e2e.calls.locals]
 function = "get_locals_query"
 module = "tree_sitter_language_pack"
@@ -413,12 +441,20 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
 
+[crates.e2e.calls.locals.overrides.c]
+function = "ts_pack_get_locals_query"
+raw_c_result_type = "char*"
+
 [crates.e2e.calls.language_count]
 function = "language_count"
 module = "tree_sitter_language_pack"
 result_var = "result"
 result_is_simple = true
 args = []
+
+[crates.e2e.calls.language_count.overrides.c]
+function = "ts_pack_language_count"
+raw_c_result_type = "uintptr_t"
 
 [crates.e2e.calls.get_language]
 function = "get_language"
@@ -427,12 +463,20 @@ result_var = "language"
 returns_result = true
 args = [{ name = "name", field = "language", type = "string" }]
 
+[crates.e2e.calls.get_language.overrides.c]
+function = "ts_pack_get_language"
+result_type = "Language"
+
 [crates.e2e.calls.get_parser]
 function = "get_parser"
 module = "tree_sitter_language_pack"
 result_var = "parser"
 returns_result = true
 args = [{ name = "name", field = "language", type = "string" }]
+
+[crates.e2e.calls.get_parser.overrides.c]
+function = "ts_pack_get_parser"
+result_type = "Parser"
 
 [crates.e2e.calls.init_pack]
 function = "init"
@@ -471,6 +515,10 @@ options_type = "PackConfig"
 [crates.e2e.calls.configure_pack.overrides.php]
 options_type = "PackConfig"
 
+[crates.e2e.calls.configure_pack.overrides.java]
+options_type = "PackConfig"
+path_fields = ["cache_dir"]
+
 [crates.e2e.calls.download_languages]
 function = "download"
 module = "tree_sitter_language_pack"
@@ -479,13 +527,9 @@ returns_result = true
 result_is_simple = true
 args = [{ name = "names", field = "languages", type = "json_object", element_type = "String" }]
 
-[crates.e2e.calls.download_all_languages]
-function = "download_all"
-module = "tree_sitter_language_pack"
-result_var = "result"
-returns_result = true
-result_is_simple = true
-args = []
+[crates.e2e.calls.download_languages.overrides.c]
+function = "ts_pack_download"
+raw_c_result_type = "uintptr_t"
 
 [crates.e2e.calls.manifest_languages]
 function = "manifest_languages"
@@ -496,6 +540,10 @@ result_is_simple = true
 result_is_array = true
 args = []
 
+[crates.e2e.calls.manifest_languages.overrides.c]
+function = "ts_pack_manifest_languages"
+raw_c_result_type = "char*"
+
 [crates.e2e.calls.downloaded_languages]
 function = "downloaded_languages"
 module = "tree_sitter_language_pack"
@@ -503,6 +551,10 @@ result_var = "result"
 result_is_simple = true
 result_is_array = true
 args = []
+
+[crates.e2e.calls.downloaded_languages.overrides.c]
+function = "ts_pack_downloaded_languages"
+raw_c_result_type = "char*"
 
 [crates.e2e.calls.clean_cache]
 function = "clean_cache"
@@ -512,6 +564,10 @@ returns_result = true
 returns_void = true
 args = []
 
+[crates.e2e.calls.clean_cache.overrides.c]
+function = "ts_pack_clean_cache"
+raw_c_result_type = "int32_t"
+
 [crates.e2e.calls.cache_dir]
 function = "cache_dir"
 module = "tree_sitter_language_pack"
@@ -519,6 +575,10 @@ result_var = "result"
 returns_result = true
 result_is_simple = true
 args = []
+
+[crates.e2e.calls.cache_dir.overrides.c]
+function = "ts_pack_cache_dir"
+raw_c_result_type = "char*"
 
 [crates.e2e.packages.rust]
 path = "../../crates/ts-pack-core"

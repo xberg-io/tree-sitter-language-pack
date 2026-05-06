@@ -5,8 +5,8 @@
   "tags": ["download"],
   "call": "init_pack",
   "skip": {
-    "languages": ["c", "wasm", "ruby"],
-    "reason": "Download feature requires network access and is not available in static builds; ruby skipped because the Ruby binding does not expose an init function"
+    "languages": ["c", "wasm"],
+    "reason": "Download feature requires network access and is not available in static builds"
   },
   "input": {
     "config": {}

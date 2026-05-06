@@ -5,7 +5,7 @@
   "tags": ["download"],
   "call": "clean_cache",
   "skip": {
-    "languages": ["c", "wasm"],
+    "languages": ["wasm"],
     "reason": "Download feature requires network access and cache cleanup is covered by Rust unit tests"
   },
   "input": {},

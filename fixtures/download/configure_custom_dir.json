@@ -5,8 +5,8 @@
   "tags": ["download"],
   "call": "configure_pack",
   "skip": {
-    "languages": ["c", "wasm", "java"],
-    "reason": "Download feature requires network access and global cache configuration is covered by Rust unit tests; java skipped because PackConfig.cacheDir is java.nio.file.Path, not String"
+    "languages": ["c", "wasm"],
+    "reason": "Download feature requires network access and global cache configuration is covered by Rust unit tests"
   },
   "input": {
     "config": {
