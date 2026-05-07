@@ -35,13 +35,18 @@ replace = '"@kreuzberg/tree-sitter-language-pack-wasm": "{version}"'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/java/pom.xml"
-search = "<version>{version}</version>"
-replace = "<version>{version}</version>"
+search = '(<artifactId>tree-sitter-language-pack</artifactId>\s+<version>)[^<]+'
+replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
-path = "test_apps/csharp/TestApp.csproj"
+path = "test_apps/csharp/TreeSitterLanguagePack.E2eTests.csproj"
 search = 'Include="TreeSitterLanguagePack" Version="[^"]*"'
 replace = 'Include="TreeSitterLanguagePack" Version="{version}"'
+
+[[workspace.sync.text_replacements]]
+path = "test_apps/php/composer.json"
+search = '"kreuzberg-dev/tree-sitter-language-pack": "[^"]*"'
+replace = '"kreuzberg-dev/tree-sitter-language-pack": "{version}"'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/go/go.mod"
@@ -50,8 +55,8 @@ replace = 'kreuzberg-dev/tree-sitter-language-pack/packages/go v{version}'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/rust/Cargo.toml"
-search = 'tree-sitter-language-pack = \{ version = "[^"]*"'
-replace = 'tree-sitter-language-pack = { version = "{version}"'
+search = '(package = "tree-sitter-language-pack", version = ")[^"]*'
+replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/ruby/Gemfile"

@@ -675,7 +675,9 @@ jobs:
         with:
           target: wasm32-unknown-unknown
           components: ""
-          use-sccache: "true"
+          # sccache server competes for RAM with the compile and was correlating
+          # with consistent OOM kills (SIGTERM at exit 143) on the free 16GB runner.
+          use-sccache: "false"
           install-llvm-cov: "false"
 
       - name: Install WASI SDK
@@ -684,6 +686,15 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
+      - name: Add swap (avoid OOM during 305-grammar static link)
+        shell: bash
+        run: |
+          sudo fallocate -l 8G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          free -h
+
       - name: Build WASM (web target)
         working-directory: crates/ts-pack-core-wasm
         run: wasm-pack build --target web --release
@@ -691,8 +702,12 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
           TSLP_LINK_MODE: static
           CARGO_PROFILE_RELEASE_LTO: "false"
-          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
-          NUM_JOBS: "2"
+          # Single codegen unit keeps peak memory predictable when many crates
+          # finish their LLVM phase simultaneously.
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "1"
+          # Serial cargo build prevents concurrent rustc instances from
+          # collectively exceeding the runner's RAM ceiling.
+          CARGO_BUILD_JOBS: "1"
 
       - name: Verify WASM build output
         working-directory: crates/ts-pack-core-wasm
@@ -1479,7 +1494,8 @@ jobs:
         with:
           tag: ${{ needs.prepare.outputs.tag }}
           title: "Release ${{ needs.prepare.outputs.tag }}"
-          artifacts: "dist/go/go-ffi-*.tar.gz"
+          # alef publish package emits tree-sitter-language-pack-ffi-v<ver>-<platform>.tar.gz
+          artifacts: "dist/go/tree-sitter-language-pack-ffi-*.tar.gz"
           dry-run: ${{ needs.prepare.outputs.dry_run }}
         env:
           GH_TOKEN: ${{ github.token }}
@@ -1515,7 +1531,8 @@ jobs:
         with:
           tag: ${{ needs.prepare.outputs.tag }}
           title: "Release ${{ needs.prepare.outputs.tag }}"
-          artifacts: "dist/c-ffi/c-ffi-*.tar.gz"
+          # alef publish package emits tree-sitter-language-pack-ffi-v<ver>-<target>.tar.gz
+          artifacts: "dist/c-ffi/tree-sitter-language-pack-ffi-*.tar.gz"
           dry-run: ${{ needs.prepare.outputs.dry_run }}
         env:
           GH_TOKEN: ${{ github.token }}
@@ -2243,10 +2260,18 @@ jobs:
             label: macos-arm64
             target: aarch64-apple-darwin
             artifact: ts-pack-macos-arm64
+          - os: macos-15-intel
+            label: macos-x86_64
+            target: x86_64-apple-darwin
+            artifact: ts-pack-macos-x86_64
           - os: windows-latest
             label: windows-x86_64
             target: x86_64-pc-windows-msvc
             artifact: ts-pack-windows-x86_64
+          - os: windows-11-arm
+            label: windows-aarch64
+            target: aarch64-pc-windows-msvc
+            artifact: ts-pack-windows-aarch64
     steps:
       - name: Checkout
         uses: actions/checkout@v6
