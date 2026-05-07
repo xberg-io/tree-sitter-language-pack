@@ -849,7 +849,7 @@ jobs:
         run: |
           alef publish build --lang ffi --target ${{ matrix.target }}
           mkdir -p dist/java-ffi/${{ matrix.platform }}/native
-          find target/release -maxdepth 1 -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -name '*ts_pack_core_ffi*' -exec cp {} dist/java-ffi/${{ matrix.platform }}/native/ \;
+          find "target/${{ matrix.target }}/release" -maxdepth 1 -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -name '*ts_pack_core_ffi*' -exec cp {} dist/java-ffi/${{ matrix.platform }}/native/ \;
         env:
           PROJECT_ROOT: ${{ github.workspace }}
 
@@ -1311,7 +1311,7 @@ jobs:
         run: |
           alef publish build --lang ffi --target ${{ matrix.target }}
           mkdir -p dist/csharp-ffi/${{ matrix.rid }}/native
-          find target/release -maxdepth 1 -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -name '*ts_pack_core_ffi*' -exec cp {} dist/csharp-ffi/${{ matrix.rid }}/native/ \;
+          find "target/${{ matrix.target }}/release" -maxdepth 1 -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -name '*ts_pack_core_ffi*' -exec cp {} dist/csharp-ffi/${{ matrix.rid }}/native/ \;
         env:
           PROJECT_ROOT: ${{ github.workspace }}
 
@@ -1345,30 +1345,30 @@ jobs:
         with:
           pattern: csharp-natives-*
           path: artifacts/csharp-natives
-          merge-multiple: false
+          merge-multiple: true
 
       - name: Stage native assets
         shell: bash
         run: |
-          RUNTIMES_DIR="packages/csharp/runtimes"
+          RUNTIMES_DIR="packages/csharp/TreeSitterLanguagePack/runtimes"
           mkdir -p "$RUNTIMES_DIR"
-          for dir in artifacts/csharp-natives/*/; do
-            rid=$(basename "$dir")
-            mkdir -p "$RUNTIMES_DIR/$rid/native"
-            cp "$dir"/* "$RUNTIMES_DIR/$rid/native/" 2>/dev/null || true
-          done
+          # Each artifact contains {rid}/native/*.{so,dylib,dll}; merge-multiple: true
+          # already flattened them so artifacts/csharp-natives/ holds rid subdirs directly.
+          if [[ -d artifacts/csharp-natives ]]; then
+            cp -r artifacts/csharp-natives/* "$RUNTIMES_DIR/"
+          fi
           echo "=== Staged native runtimes ==="
           find "$RUNTIMES_DIR" -type f | head -20
 
       - name: Build and pack NuGet
-        working-directory: packages/csharp
+        working-directory: packages/csharp/TreeSitterLanguagePack
         run: dotnet pack TreeSitterLanguagePack.csproj -c Release
 
       - name: Upload NuGet package
         uses: actions/upload-artifact@v7
         with:
           name: nuget-packages
-          path: packages/csharp/bin/Release/*.nupkg
+          path: packages/csharp/TreeSitterLanguagePack/bin/Release/*.nupkg
           retention-days: 14
 
   # ─── Upload to GitHub Release: parser binaries ─────────────────────

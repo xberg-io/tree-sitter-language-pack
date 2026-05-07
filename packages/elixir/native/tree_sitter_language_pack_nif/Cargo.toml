@@ -1,6 +1,6 @@
 [package]
 name = "tree_sitter_language_pack_nif"
-version = "1.8.0-rc.29"
+version = "1.8.0-rc.30"
 edition = "2024"
 license = "MIT"
 description = "Pre-compiled tree-sitter grammars for 305 programming languages"
