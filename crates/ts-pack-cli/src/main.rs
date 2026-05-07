@@ -209,8 +209,7 @@ fn run() -> Result<(), String> {
             } else if manifest {
                 tree_sitter_language_pack::manifest_languages().map_err(|e| e.to_string())?
             } else {
-                // Default: show manifest languages
-                tree_sitter_language_pack::manifest_languages().map_err(|e| e.to_string())?
+                tree_sitter_language_pack::available_languages()
             };
 
             let filtered: Vec<&String> = if let Some(ref f) = filter {
