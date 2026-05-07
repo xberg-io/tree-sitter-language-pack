@@ -10,6 +10,9 @@ FROM rust:alpine AS builder
 
 RUN apk add --no-cache musl-dev gcc g++ python3 bash
 
+# Alpine's gcc already targets musl; cargo config specifies musl-gcc which doesn't exist on Alpine.
+ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=gcc
+
 WORKDIR /build
 COPY . .
 

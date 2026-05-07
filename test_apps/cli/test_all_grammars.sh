@@ -37,10 +37,10 @@ for lang in "${LANG_LIST[@]}"; do
   fi
   if echo "$src" | "$BIN" parse - --language "$lang" > /dev/null 2>&1; then
     echo "  PASS: $lang"
-    ((PASS++))
+    PASS=$((PASS + 1))
   else
     echo "  FAIL: $lang" >&2
-    ((FAIL++))
+    FAIL=$((FAIL + 1))
   fi
 done
 
