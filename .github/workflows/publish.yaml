@@ -714,13 +714,14 @@ jobs:
         env:
           PROJECT_ROOT: ${{ github.workspace }}
           TSLP_LINK_MODE: static
+          # Curated subset of grammars compiled into the WASM bundle.
+          # Compiling all 305 grammars statically OOM-killed the free 16GB
+          # runner during dependency-LLVM passes (consistent SIGTERM at exit
+          # 143 around 7-15 min in). This list covers the most-used languages;
+          # expand it once a larger CI runner is provisioned.
+          TSLP_LANGUAGES: "python,javascript,typescript,tsx,jsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
           CARGO_PROFILE_RELEASE_LTO: "false"
-          # Single codegen unit keeps peak memory predictable when many crates
-          # finish their LLVM phase simultaneously.
-          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "1"
-          # Serial cargo build prevents concurrent rustc instances from
-          # collectively exceeding the runner's RAM ceiling.
-          CARGO_BUILD_JOBS: "1"
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
 
       - name: Verify WASM build output
         working-directory: crates/ts-pack-core-wasm

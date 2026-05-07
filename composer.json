@@ -1,7 +1,7 @@
 {
   "name": "kreuzberg/tree-sitter-language-pack",
   "description": "Pre-compiled tree-sitter parsers for 305 programming languages with PHP extension bindings. Parse, analyze, and chunk source code with a single process() call.",
-  "version": "1.8.0-rc.33",
+  "version": "1.8.0-rc.34",
   "type": "php-ext",
   "license": "MIT",
   "keywords": [
