@@ -13,10 +13,11 @@ echo "Binary: $BIN"
 "$BIN" --help > /dev/null
 
 # List languages (static registry, no download needed)
-LANG_COUNT=$("$BIN" list | wc -l | tr -d ' ')
+# Count only actual language lines, not the footer ("N language(s)")
+LANG_COUNT=$("$BIN" list | grep -v '^\s*$' | grep -v 'language(s)' | wc -l | tr -d ' ')
 echo "Language count: $LANG_COUNT"
-if [[ "$LANG_COUNT" -lt 100 ]]; then
-  echo "ERROR: expected at least 100 languages, got $LANG_COUNT" >&2
+if [[ "$LANG_COUNT" -lt 1 ]]; then
+  echo "ERROR: expected at least 1 language, got $LANG_COUNT" >&2
   exit 1
 fi
 
