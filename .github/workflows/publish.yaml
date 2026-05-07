@@ -719,7 +719,9 @@ jobs:
           # runner during dependency-LLVM passes (consistent SIGTERM at exit
           # 143 around 7-15 min in). This list covers the most-used languages;
           # expand it once a larger CI runner is provisioned.
-          TSLP_LANGUAGES: "python,javascript,typescript,tsx,jsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
+          # NOTE: jsx is part of the javascript grammar (no separate jsx grammar exists);
+          # it is omitted here to avoid a build.rs warning about an unknown language.
+          TSLP_LANGUAGES: "python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
           CARGO_PROFILE_RELEASE_LTO: "false"
           CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
 
