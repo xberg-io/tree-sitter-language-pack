@@ -431,8 +431,12 @@ jobs:
             label: linux-aarch64
           - os: macos-latest
             label: macos-arm64
+          - os: macos-15-intel
+            label: macos-x86_64
           - os: windows-latest
             label: windows-x86_64
+          - os: windows-11-arm
+            label: windows-aarch64
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -497,9 +501,15 @@ jobs:
           - os: macos-latest
             label: darwin-arm64
             napi_target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: darwin-x64
+            napi_target: x86_64-apple-darwin
           - os: windows-latest
             label: win32-x64-msvc
             napi_target: x86_64-pc-windows-msvc
+          - os: windows-11-arm
+            label: win32-arm64-msvc
+            napi_target: aarch64-pc-windows-msvc
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -563,6 +573,9 @@ jobs:
           - os: macos-latest
             label: macos-arm64
             ruby_platform: arm64-darwin
+          - os: macos-15-intel
+            label: macos-x86_64
+            ruby_platform: x86_64-darwin
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -786,9 +799,15 @@ jobs:
           - os: macos-latest
             label: macos-arm64
             target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: macos-x86_64
+            target: x86_64-apple-darwin
           - os: windows-latest
             label: windows-x86_64
             target: x86_64-pc-windows-msvc
+          - os: windows-11-arm
+            label: windows-aarch64
+            target: aarch64-pc-windows-msvc
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -849,10 +868,18 @@ jobs:
             label: macos-arm64
             target: aarch64-apple-darwin
             platform: macos-arm64
+          - os: macos-15-intel
+            label: macos-x86_64
+            target: x86_64-apple-darwin
+            platform: macos-x86_64
           - os: windows-latest
             label: windows-x86_64
             target: x86_64-pc-windows-msvc
             platform: windows-x86_64
+          - os: windows-11-arm
+            label: windows-aarch64
+            target: aarch64-pc-windows-msvc
+            platform: windows-aarch64
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -945,7 +972,7 @@ jobs:
           # RIDs must match the build-java-natives matrix platform values.
           # Native lib name varies by platform: libts_pack_core_ffi.{so,dylib} on Unix,
           # ts_pack_core_ffi.dll on Windows. The wildcard *ts_pack_core_ffi.* matches both.
-          for rid in linux-x86_64 linux-arm64 macos-arm64 windows-x86_64; do
+          for rid in linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-aarch64; do
             if ! compgen -G "$RESOURCES_DIR/$rid/*ts_pack_core_ffi.*" >/dev/null; then
               echo "::error::Missing native lib for $rid in $RESOURCES_DIR/$rid"
               exit 1
@@ -1007,6 +1034,9 @@ jobs:
           - os: macos-latest
             label: macos-arm64
             target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: macos-x86_64
+            target: x86_64-apple-darwin
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -1154,9 +1184,15 @@ jobs:
           - os: macos-latest
             label: macos-arm64
             target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: macos-x86_64
+            target: x86_64-apple-darwin
           - os: windows-latest
             label: windows-x86_64
             target: x86_64-pc-windows-msvc
+          - os: windows-11-arm
+            label: windows-aarch64
+            target: aarch64-pc-windows-msvc
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -1217,9 +1253,15 @@ jobs:
           - os: macos-latest
             label: macos-arm64
             target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: macos-x86_64
+            target: x86_64-apple-darwin
           - os: windows-latest
             label: windows-x86_64
             target: x86_64-pc-windows-msvc
+          - os: windows-11-arm
+            label: windows-aarch64
+            target: aarch64-pc-windows-msvc
     steps:
       - name: Checkout
         uses: actions/checkout@v6 # v6
@@ -1313,10 +1355,18 @@ jobs:
             label: macos-arm64
             target: aarch64-apple-darwin
             rid: osx-arm64
+          - os: macos-15-intel
+            label: macos-x86_64
+            target: x86_64-apple-darwin
+            rid: osx-x64
           - os: windows-latest
             label: windows-x86_64
             target: x86_64-pc-windows-msvc
             rid: win-x64
+          - os: windows-11-arm
+            label: windows-aarch64
+            target: aarch64-pc-windows-msvc
+            rid: win-arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -2016,12 +2066,37 @@ jobs:
         if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
         uses: kreuzberg-dev/actions/setup-maven@v1
 
-      - name: Download Java package artifacts
+      # publish-maven runs `mvn clean deploy` which wipes target/ AND rebuilds
+      # the JAR from src/. The JAR with natives that build-java-package
+      # produced gets discarded; we must re-download the per-platform native
+      # artifacts and re-stage them under src/main/resources/natives/ so the
+      # rebuild's resources phase picks them up. Without this, the JAR
+      # uploaded to Maven Central contains only .class files (no .so/.dll/.dylib).
+      - name: Download Java native artifacts (re-stage for deploy rebuild)
         if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
         uses: actions/download-artifact@v8
         with:
-          name: maven-packages
-          path: packages/java/target
+          pattern: java-natives-*
+          path: artifacts/java-natives
+          merge-multiple: false
+
+      - name: Re-stage Java native resources
+        if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+        shell: bash
+        run: |
+          ARTIFACTS_DIR="artifacts/java-natives"
+          RESOURCES_DIR="packages/java/src/main/resources/natives"
+          mkdir -p "$RESOURCES_DIR"
+          # Mirror the build-java-package staging step exactly:
+          # artifact layout is $ARTIFACTS_DIR/java-natives-{label}/{platform}/native/{libfile}
+          find "$ARTIFACTS_DIR" \( -name '*.so' -o -name '*.dll' -o -name '*.dylib' \) -print0 |
+          while IFS= read -r -d '' f; do
+            platform=$(basename "$(dirname "$(dirname "$f")")")
+            mkdir -p "$RESOURCES_DIR/$platform"
+            cp "$f" "$RESOURCES_DIR/$platform/"
+          done
+          echo "=== Staged native resources for deploy ==="
+          find "$RESOURCES_DIR" -type f | sort
 
       - name: Publish to Maven Central
         if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
@@ -2126,6 +2201,43 @@ jobs:
         if: ${{ inputs.dry_run }}
         run: echo "Dry run requested; Hex.pm publish skipped." >> "$GITHUB_STEP_SUMMARY"
 
+  # ─── Upload PHP PIE artifacts to GitHub Release ──────────────────
+  # Runs unconditionally on every release_php=true publish, even if Packagist
+  # already has the version. Without this, end users have no way to install
+  # the precompiled PHP extension binaries (PIE artifacts have 14-day workflow
+  # retention only).
+  upload-php-pie-release:
+    name: Upload PHP PIE binaries to GitHub Release
+    needs: [prepare, validate-versions, build-php-extension]
+    if: |
+      always() &&
+      needs.prepare.outputs.dry_run != 'true' &&
+      needs.prepare.outputs.release_php == 'true' &&
+      needs.build-php-extension.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.tag }}
+
+      - name: Download PHP package artifacts
+        uses: actions/download-artifact@v8
+        with:
+          pattern: php-package-*
+          path: dist/php-package
+          merge-multiple: true
+
+      - name: Upload PHP PIE packages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.prepare.outputs.tag }}
+        run: scripts/publish/upload-php-pie.sh
+        shell: bash
+
   # ─── Publish PHP to Packagist ────────────────────────────────────
   publish-packagist:
     name: Publish PHP to Packagist
@@ -2138,7 +2250,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      contents: write
+      contents: read
       id-token: write
     steps:
       - name: Checkout
@@ -2146,31 +2258,9 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.tag }}
 
-      - name: Download PHP package artifacts
-        uses: actions/download-artifact@v8 # v8
-        with:
-          pattern: php-package-*
-          path: dist/php-package
-          merge-multiple: true
-
       - name: Dry run summary
         if: ${{ inputs.dry_run }}
-        run: |
-          {
-            echo "## Packagist Dry Run"
-            echo "PHP PIE package artifacts staged:"
-            echo '```'
-            ls -1 dist/php-package/ 2>/dev/null || echo "(no artifacts)"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload PHP PIE packages
-        if: ${{ !inputs.dry_run }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ needs.prepare.outputs.tag }}
-        run: scripts/publish/upload-php-pie.sh
-        shell: bash
+        run: echo "Dry run requested; Packagist publish skipped." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish to Packagist
         if: ${{ !inputs.dry_run }}
@@ -2574,6 +2664,7 @@ jobs:
       - upload-go-release
       - upload-c-ffi-release
       - upload-elixir-release
+      - upload-php-pie-release
       - publish-crates
       - publish-pypi
       - publish-node

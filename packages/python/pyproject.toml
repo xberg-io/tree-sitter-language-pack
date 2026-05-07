@@ -4,7 +4,7 @@ requires = [ "maturin>=1,<2" ]
 
 [project]
 name = "tree-sitter-language-pack"
-version = "1.8.0rc34"
+version = "1.8.0rc35"
 description = "Pre-compiled tree-sitter grammars for 305 programming languages"
 keywords = [ "language-pack", "parser", "syntax", "tree-sitter" ]
 license = "MIT"
@@ -26,7 +26,9 @@ dev = [ "mypy>=1.19", "ruff>=0.14.8" ]
 [tool.maturin]
 module-name = "tree_sitter_language_pack._native"
 manifest-path = "../../crates/ts-pack-core-py/Cargo.toml"
-features = [ "pyo3/extension-module" ]
+# abi3-py310 produces a single wheel per platform that loads on Python 3.10+
+# (instead of one wheel per Python minor version per platform).
+features = [ "pyo3/extension-module", "pyo3/abi3-py310" ]
 python-packages = [ "tree_sitter_language_pack" ]
 
 [tool.ruff]
