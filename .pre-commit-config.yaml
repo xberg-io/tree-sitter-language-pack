@@ -142,7 +142,7 @@ repos:
       - id: cpd
   # Alef: polyglot binding generation and version sync
   - repo: https://github.com/kreuzberg-dev/alef
-    rev: v0.14.23
+    rev: v0.14.35
     hooks:
       - id: alef-verify
       - id: alef-sync-versions
