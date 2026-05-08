@@ -16,7 +16,7 @@ NPM_VERSION="$VERSION"                  # npm uses canonical
 PYTHON_VERSION="${VERSION/-rc./rc}"     # PyPI uses 1.8.0rc38
 RUBY_VERSION="${VERSION/-rc./.pre.rc.}" # rubygems uses 1.8.0.pre.rc.38
 
-WORK=/tmp/verify-rc38
+WORK="/tmp/verify-rc-${VERSION}"
 mkdir -p "$WORK"
 
 declare -A RESULTS=()
@@ -384,7 +384,7 @@ audit_bottles
 }
 
 # Summary
-printf '\n=== Verify rc.38 summary ===\n'
+printf '\n=== Verify %s summary ===\n' "$VERSION"
 fail=0
 warn=0
 for k in "${!RESULTS[@]}"; do :; done | sort
