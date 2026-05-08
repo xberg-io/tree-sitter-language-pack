@@ -12,12 +12,17 @@ set -uo pipefail
 
 VERSION="${VERSION:-1.8.0-rc.38}"
 TAG="v${VERSION}"
+REPO="${REPO:-kreuzberg-dev/tree-sitter-language-pack}"
 NPM_VERSION="$VERSION"                  # npm uses canonical
-PYTHON_VERSION="${VERSION/-rc./rc}"     # PyPI uses 1.8.0rc38
+PYTHON_VERSION="${VERSION/-rc./rc}"     # PyPI uses 1.8.0rc28
 RUBY_VERSION="${VERSION/-rc./.pre.rc.}" # rubygems uses 1.8.0.pre.rc.38
 
 WORK="/tmp/verify-rc-${VERSION}"
 mkdir -p "$WORK"
+
+# Capture release asset names once — gh subcommands inside cd-ed work dirs
+# can't auto-detect the repo, so we resolve them up front.
+RELEASE_ASSETS=$(gh release view "$TAG" --repo "$REPO" --json assets --jq '.assets[].name' 2>/dev/null || echo "")
 
 declare -A RESULTS=()
 
@@ -31,7 +36,15 @@ record() {
 audit_pypi() {
   local name="pypi:tree-sitter-language-pack"
   cd "$WORK" && rm -rf python && mkdir python && cd python
-  if ! pip download "tree-sitter-language-pack==${PYTHON_VERSION}" --no-deps \
+  local pip_cmd
+  if command -v pip >/dev/null 2>&1; then
+    pip_cmd="pip"
+  elif command -v pip3 >/dev/null 2>&1; then
+    pip_cmd="pip3"
+  else
+    pip_cmd="python3 -m pip"
+  fi
+  if ! $pip_cmd download "tree-sitter-language-pack==${PYTHON_VERSION}" --no-deps \
     --platform macosx_11_0_arm64 --python-version 3.12 --only-binary=:all: \
     >/dev/null 2>err; then
     record "$name" FAIL "pip download failed: $(tr -d '\n' <err | head -c200)"
@@ -224,9 +237,7 @@ audit_c_ffi() {
   local missing=()
   for t in "${triples[@]}"; do
     local pat="tree-sitter-language-pack-ffi-${TAG}-${t}.tar.gz"
-    if ! gh release view "$TAG" --json assets --jq '.assets[].name' 2>/dev/null | grep -q "$pat"; then
-      missing+=("$t")
-    fi
+    grep -q "$pat" <<<"$RELEASE_ASSETS" || missing+=("$t")
   done
   if ((${#missing[@]})); then
     record "$name" FAIL "missing triples: ${missing[*]}"
@@ -240,10 +251,8 @@ audit_go_ffi() {
   local name="release:go-ffi"
   local labels=(linux-x86_64 linux-aarch64 macos-arm64 macos-x86_64 windows-x86_64 windows-aarch64)
   local missing=()
-  local available
-  available=$(gh release view "$TAG" --json assets --jq '.assets[].name')
   for l in "${labels[@]}"; do
-    grep -q "tree-sitter-language-pack-ffi.*${l}" <<<"$available" || missing+=("$l")
+    grep -q "tree-sitter-language-pack-ffi.*${l}" <<<"$RELEASE_ASSETS" || missing+=("$l")
   done
   if ((${#missing[@]})); then
     record "$name" WARN "go-ffi missing labels: ${missing[*]}"
@@ -257,13 +266,11 @@ audit_bottles() {
   local name="release:bottles"
   local tags=(arm64_sequoia sequoia x86_64_linux arm64_linux)
   local missing=()
-  local available
-  available=$(gh release view "$TAG" --json assets --jq '.assets[].name')
   for t in "${tags[@]}"; do
-    if ! grep -qE "ts-pack-${VERSION}\.${t}\.bottle\.tar\.gz" <<<"$available"; then
+    if ! grep -qE "ts-pack-${VERSION}\.${t}\.bottle\.tar\.gz" <<<"$RELEASE_ASSETS"; then
       missing+=("ts-pack:$t")
     fi
-    if ! grep -qE "libts-pack-${VERSION}\.${t}\.bottle\.tar\.gz" <<<"$available"; then
+    if ! grep -qE "libts-pack-${VERSION}\.${t}\.bottle\.tar\.gz" <<<"$RELEASE_ASSETS"; then
       missing+=("libts-pack:$t")
     fi
   done
