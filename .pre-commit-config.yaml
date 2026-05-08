@@ -102,6 +102,8 @@ repos:
           KREUZBERG_GO_MOD_DIRS: packages/go
       - id: govulncheck
         exclude: ^(e2e/|test_apps/)
+        env:
+          KREUZBERG_GO_MOD_DIRS: packages/go
       - id: rubocop
         files: ^packages/ruby/.*\.rb$
         exclude: ^packages/ruby/ext/

@@ -545,7 +545,7 @@ pub fn clean_cache() -> Result<(), Error> {
 /// use tree_sitter_language_pack::cache_dir;
 ///
 /// let dir = cache_dir().unwrap();
-/// println!("Cache directory: {}", dir.display());
+/// println!("Cache directory: {dir}");
 /// ```
 #[cfg(feature = "download")]
 pub fn cache_dir() -> Result<String, Error> {

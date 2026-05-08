@@ -65,6 +65,18 @@ const char *ts_pack_last_error_context(void);
 void ts_pack_free_string(char *ptr);
 
 /**
+ * Free a byte buffer previously returned by this library via out-params.
+ * `ptr`, `len`, and `cap` must match the values written by the library function,
+ * or the call must pass `ptr = null` (in which case it is a no-op).
+ * # Safety
+ * Pointer must have been returned by this library (via out_ptr / out_len / out_cap
+ * out-params), or be null. The len and cap values must be unchanged since the call.
+ */
+void ts_pack_free_bytes(uint8_t *ptr,
+                        uintptr_t len,
+                        uintptr_t cap);
+
+/**
  * Return the library version string. The pointer is static and must NOT be freed.
  * # Safety
  * Caller must ensure all pointer arguments are valid or null.
@@ -2042,7 +2054,7 @@ int32_t ts_pack_clean_cache(void);
  * use tree_sitter_language_pack::cache_dir;
  *
  * let dir = cache_dir().unwrap();
- * println!("Cache directory: {}", dir.display());
+ * println!("Cache directory: {dir}");
  * ```
  * # Safety
  * Caller must ensure all pointer arguments are valid or null.
