@@ -31,7 +31,7 @@ brew config | head -20 || true
 echo "::endgroup::"
 
 echo "::group::Tap ${tap}"
-brew tap "$tap" --force-auto-update
+brew tap "$tap"
 brew update --quiet || true
 echo "::endgroup::"
 
