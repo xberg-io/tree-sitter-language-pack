@@ -63,10 +63,10 @@ write_cli_formula() {
 class TsPack < Formula
   desc "Tree-sitter language pack CLI - download and manage 305 parser grammars"
   homepage "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+  version "${version}"
   url "https://github.com/kreuzberg-dev/tree-sitter-language-pack/archive/v#{version}.tar.gz"
   sha256 "${cli_source_sha}"
   license any_of: ["MIT", "Apache-2.0"]
-  version "${version}"
 
   depends_on "rust" => :build
 
