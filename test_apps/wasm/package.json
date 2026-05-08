@@ -7,7 +7,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack-wasm": "1.8.0-rc.41",
+    "@kreuzberg/tree-sitter-language-pack-wasm": "1.8.0-rc.42",
     "rollup": "^4.53.3",
     "vite-plugin-wasm": "^3.4.0",
     "vitest": "^4.1.5"

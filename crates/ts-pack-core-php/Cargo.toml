@@ -1,6 +1,6 @@
 [package]
 name = "ts-pack-core-php"
-version = "1.8.0-rc.41"
+version = "1.8.0-rc.42"
 edition = "2024"
 license = "MIT"
 description = "Pre-compiled tree-sitter grammars for 305 programming languages"
