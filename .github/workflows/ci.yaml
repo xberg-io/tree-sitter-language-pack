@@ -135,7 +135,7 @@ jobs:
     name: Validate (Lint & Format)
     if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v6
