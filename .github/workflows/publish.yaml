@@ -1231,6 +1231,7 @@ jobs:
         uses: kreuzberg-dev/actions/setup-rust@v1
         with:
           components: ""
+          target: ${{ matrix.target }}
           use-sccache: "false"
           install-llvm-cov: "false"
 
