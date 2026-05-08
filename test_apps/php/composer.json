@@ -3,7 +3,7 @@
   "description": "E2e tests for PHP bindings",
   "type": "project",
   "require": {
-    "kreuzberg-dev/tree-sitter-language-pack": "1.8.0-rc.39"
+    "kreuzberg-dev/tree-sitter-language-pack": "1.8.0-rc.40"
   },
   "require-dev": {
     "phpunit/phpunit": "^13.1",

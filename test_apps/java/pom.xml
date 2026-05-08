@@ -16,11 +16,11 @@
     </properties>
 
     <dependencies>
-        &lt;dependency&gt;
-            &lt;groupId&gt;dev.kreuzberg.treesitterlanguagepack&lt;&#x2f;groupId&gt;
-            &lt;artifactId&gt;tree-sitter-language-pack&lt;&#x2f;artifactId&gt;
-            &lt;version&gt;1.8.0-rc.39&lt;&#x2f;version&gt;
-        &lt;&#x2f;dependency&gt;
+        <dependency>
+            <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
+            <artifactId>tree-sitter-language-pack</artifactId>
+            <version>1.8.0-rc.40</version>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
