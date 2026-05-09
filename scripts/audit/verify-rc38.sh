@@ -44,29 +44,47 @@ audit_pypi() {
   else
     pip_cmd="python3 -m pip"
   fi
-  if ! $pip_cmd download "tree-sitter-language-pack==${PYTHON_VERSION}" --no-deps \
-    --platform macosx_11_0_arm64 --python-version 3.12 --only-binary=:all: \
-    >/dev/null 2>err; then
-    record "$name" FAIL "pip download failed: $(tr -d '\n' <err | head -c200)"
+  # Per-platform wheel coverage. Each pair: pip --platform tag + label.
+  local platforms=(
+    "macosx_11_0_arm64:macos-arm64"
+    "macosx_10_12_x86_64:macos-x86_64"
+    "manylinux_2_34_x86_64:linux-x86_64"
+    "manylinux_2_34_aarch64:linux-aarch64"
+    "win_amd64:windows-x86_64"
+    "win_arm64:windows-arm64"
+  )
+  local missing_platforms=() content_failures=()
+  for pair in "${platforms[@]}"; do
+    local plat="${pair%%:*}"
+    local label="${pair##*:}"
+    rm -f ./*.whl 2>/dev/null
+    if ! $pip_cmd download "tree-sitter-language-pack==${PYTHON_VERSION}" --no-deps \
+      --platform "$plat" --python-version 3.12 --only-binary=:all: \
+      >/dev/null 2>err; then
+      missing_platforms+=("$label")
+      continue
+    fi
+    local wheel
+    wheel=$(ls *.whl 2>/dev/null | head -1)
+    [[ -n "$wheel" ]] || {
+      missing_platforms+=("$label:no-wheel")
+      continue
+    }
+    local listing
+    listing=$(unzip -l "$wheel")
+    local missing=()
+    grep -q 'py.typed' <<<"$listing" || missing+=("py.typed")
+    grep -q '_native\.pyi' <<<"$listing" || missing+=("_native.pyi")
+    grep -qE '_native(\.[a-z0-9_]+)?\.(so|pyd)' <<<"$listing" || missing+=("_native binary")
+    if ((${#missing[@]})); then
+      content_failures+=("$label:${missing[*]}")
+    fi
+  done
+  if ((${#missing_platforms[@]})) || ((${#content_failures[@]})); then
+    record "$name" FAIL "missing platforms: ${missing_platforms[*]:-none}; content failures: ${content_failures[*]:-none}"
     return 1
   fi
-  local wheel
-  wheel=$(ls *.whl 2>/dev/null | head -1)
-  [[ -n "$wheel" ]] || {
-    record "$name" FAIL "no wheel downloaded"
-    return 1
-  }
-  local listing
-  listing=$(unzip -l "$wheel")
-  local missing=()
-  grep -q 'py.typed' <<<"$listing" || missing+=("py.typed")
-  grep -q '_native\.pyi' <<<"$listing" || missing+=("_native.pyi")
-  grep -qE '_native\.[a-z0-9_]+\.so' <<<"$listing" || missing+=("_native.*.so")
-  if ((${#missing[@]})); then
-    record "$name" FAIL "missing in wheel: ${missing[*]}"
-    return 1
-  fi
-  record "$name" OK "wheel has py.typed + .pyi + .so"
+  record "$name" OK "all 6 platform wheels have py.typed + .pyi + native binary"
 }
 
 # 2. npm: NAPI bundle
@@ -114,21 +132,21 @@ audit_npm_wasm() {
     record "$name" FAIL "missing: ${missing[*]}"
     return 1
   fi
-  # Known issue: env imports — flag as warn rather than fail
-  local js
-  js=$(ls package/*.js | head -1)
-  if grep -q 'import \* as.*from "env"' "$js"; then
-    record "$name" WARN "ships env imports (libc passthrough — known issue)"
-  else
-    record "$name" OK "wasm + d.ts + js, no env imports"
+  # rc.43+ must ship nodejs target — verify NO bundler env imports anywhere in glue.
+  if grep -lE '(import \* as.*from "env"|from "env")' package/*.js >/dev/null 2>&1; then
+    local offender
+    offender=$(grep -lE '(import \* as.*from "env"|from "env")' package/*.js | head -1)
+    record "$name" FAIL "ships bundler env imports in $(basename "$offender")"
+    return 1
   fi
+  record "$name" OK "wasm + d.ts + js, no env imports"
 }
 
 # 4. RubyGems
 audit_rubygems() {
   local name="rubygems:tree_sitter_language_pack"
   cd "$WORK" && rm -rf ruby && mkdir ruby && cd ruby
-  local platforms=(arm64-darwin x86_64-linux aarch64-linux)
+  local platforms=(arm64-darwin x86_64-darwin x86_64-linux aarch64-linux)
   local fails=()
   for plat in "${platforms[@]}"; do
     if ! gem fetch tree_sitter_language_pack -v "$RUBY_VERSION" --platform "$plat" >/dev/null 2>err; then
@@ -168,14 +186,17 @@ audit_maven() {
     return 1
   fi
   local missing=()
-  unzip -l "tree-sitter-language-pack-${VERSION}.jar" | grep -q 'natives/linux-x86_64' || missing+=("linux-x86_64")
-  unzip -l "tree-sitter-language-pack-${VERSION}.jar" | grep -q 'natives/macos-arm64' || missing+=("macos-arm64")
-  unzip -l "tree-sitter-language-pack-${VERSION}.jar" | grep -q '\.class$' || missing+=("classes")
+  local listing
+  listing=$(unzip -l "tree-sitter-language-pack-${VERSION}.jar")
+  for arch in linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-aarch64; do
+    grep -q "natives/${arch}" <<<"$listing" || missing+=("$arch")
+  done
+  grep -q '\.class$' <<<"$listing" || missing+=("classes")
   if ((${#missing[@]})); then
     record "$name" FAIL "missing: ${missing[*]}"
     return 1
   fi
-  record "$name" OK "jar has natives + classes"
+  record "$name" OK "jar has 6 native folders + classes"
 }
 
 # 6. NuGet
@@ -188,13 +209,18 @@ audit_nuget() {
     return 1
   fi
   local missing=()
-  unzip -l "treesitterlanguagepack.${VERSION}.nupkg" | grep -q 'lib/' || missing+=("lib/")
-  unzip -l "treesitterlanguagepack.${VERSION}.nupkg" | grep -q 'runtimes/' || missing+=("runtimes/")
+  local listing
+  listing=$(unzip -l "treesitterlanguagepack.${VERSION}.nupkg")
+  grep -q 'lib/' <<<"$listing" || missing+=("lib/")
+  grep -q 'runtimes/' <<<"$listing" || missing+=("runtimes/")
+  for rid in linux-x64 linux-arm64 osx-arm64 osx-x64 win-x64 win-arm64; do
+    grep -q "runtimes/${rid}/native/" <<<"$listing" || missing+=("rid:${rid}")
+  done
   if ((${#missing[@]})); then
     record "$name" FAIL "missing: ${missing[*]}"
     return 1
   fi
-  record "$name" OK "nupkg has lib + runtimes"
+  record "$name" OK "nupkg has lib + runtimes for 6 RIDs"
 }
 
 # 7. Packagist (composer)
@@ -288,8 +314,9 @@ smoke_python() {
     record "$name" SKIP "no test_apps/python"
     return 0
   }
+  rm -rf .venv 2>/dev/null
   if ! uv venv --quiet 2>err; then
-    record "$name" FAIL "uv venv failed"
+    record "$name" FAIL "uv venv failed: $(tr -d '\n' <err | head -c150)"
     return 1
   fi
   if ! uv pip install --quiet -e . 2>>err; then
@@ -394,8 +421,9 @@ audit_bottles
 printf '\n=== Verify %s summary ===\n' "$VERSION"
 fail=0
 warn=0
-for k in "${!RESULTS[@]}"; do :; done | sort
-for k in $(printf '%s\n' "${!RESULTS[@]}" | sort); do
+# Use mapfile to preserve keys with spaces (e.g. "brew:libts-pack pour").
+mapfile -t sorted_keys < <(printf '%s\n' "${!RESULTS[@]}" | sort)
+for k in "${sorted_keys[@]}"; do
   IFS='|' read -r outcome detail <<<"${RESULTS[$k]}"
   printf '%-7s %-40s %s\n' "$outcome" "$k" "$detail"
   case "$outcome" in
