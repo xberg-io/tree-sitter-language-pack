@@ -753,9 +753,15 @@ jobs:
           sudo swapon /swapfile
           free -h
 
-      - name: Build WASM (web target)
+      - name: Build WASM (nodejs and web targets)
         working-directory: crates/ts-pack-core-wasm
-        run: wasm-pack build --target web --release
+        run: |
+          # Build both nodejs (for Node.js consumers) and web (for bundlers/browser)
+          wasm-pack build --target nodejs --out-dir pkg/nodejs --release
+          wasm-pack build --target web --out-dir pkg/web --release
+
+          # Copy nodejs as the primary output for npm publish (Node.js is the primary consumer)
+          cp -r pkg/nodejs/* pkg/
         env:
           PROJECT_ROOT: ${{ github.workspace }}
           TSLP_LINK_MODE: static
@@ -777,13 +783,20 @@ jobs:
             echo "ERROR: pkg/ directory not created by wasm-pack" >&2
             exit 1
           fi
-          echo "=== WASM build output (web) ==="
+          echo "=== WASM build output (nodejs primary) ==="
           ls -lh pkg/
           if [ ! -f pkg/ts_pack_core_wasm_bg.wasm ]; then
             echo "ERROR: WASM binary not found" >&2
             exit 1
           fi
           echo "WASM binary size: $(wc -c < pkg/ts_pack_core_wasm_bg.wasm) bytes"
+          echo "=== Checking for bundler-only imports ==="
+          if grep -q 'from "env"' pkg/ts_pack_core_wasm.js; then
+            echo "ERROR: Found bundler-only imports in main JS" >&2
+            grep 'from "env"' pkg/ts_pack_core_wasm.js | head -5
+            exit 1
+          fi
+          echo "OK: No bundler-only imports detected"
 
       - name: Patch WASM package.json
         working-directory: crates/ts-pack-core-wasm
@@ -798,6 +811,9 @@ jobs:
           data['publishConfig'] = {'registry': 'https://registry.npmjs.org/', 'access': 'public'}
           data['repository'] = {'type': 'git', 'url': 'https://github.com/kreuzberg-dev/tree-sitter-language-pack'}
           data['license'] = 'MIT'
+          # Ensure Node.js is the primary entry point
+          data['main'] = 'ts_pack_core_wasm.js'
+          data['module'] = 'ts_pack_core_wasm.js'
           with open('pkg/package.json', 'w') as f:
               json.dump(data, f, indent=2)
               f.write('\n')
