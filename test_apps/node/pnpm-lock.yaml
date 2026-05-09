@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@kreuzberg/tree-sitter-language-pack':
-        specifier: 1.8.0-rc.44
-        version: 1.8.0-rc.44
+        specifier: 1.8.0
+        version: 1.8.0
       vitest:
         specifier: ^3.0.0
         version: 3.2.4
@@ -176,8 +176,8 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@kreuzberg/tree-sitter-language-pack@1.8.0-rc.44':
-    resolution: {integrity: sha512-/KY/snw2LKTnBZjJwx6iKw5CCVqoGkxpSpDKui2LFmNNKOYxG4RpUe2GyYkB/7cygwlMwgeChk8NBnCht+WebA==}
+  '@kreuzberg/tree-sitter-language-pack@1.8.0':
+    resolution: {integrity: sha512-h4v52yJUVpA74DdvztFRQWuPgAKE52ysC2h1u/wLqdPjHvouV12Bj2bV4h30sGjEduEWgII+ktOL3kkp3GTK6A==}
     engines: {node: '>= 16'}
 
   '@rollup/rollup-android-arm-eabi@4.60.3':
@@ -655,7 +655,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@kreuzberg/tree-sitter-language-pack@1.8.0-rc.44': {}
+  '@kreuzberg/tree-sitter-language-pack@1.8.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.60.3':
     optional: true
