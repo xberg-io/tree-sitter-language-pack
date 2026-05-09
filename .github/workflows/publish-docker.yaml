@@ -12,6 +12,10 @@ on:
         required: false
         type: boolean
         default: false
+      ref:
+        description: "Git ref (branch, tag, or commit) to build; defaults to the tag"
+        required: false
+        type: string
       force_republish:
         description: "Force re-publish even if image already exists"
         required: false
@@ -19,18 +23,19 @@ on:
         default: false
   release:
     types: [published]
+  repository_dispatch:
+    types: [publish-docker]
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: kreuzberg-dev/ts-pack
 
 concurrency:
-  group: publish-docker-${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.tag) || github.ref || github.run_id }}
+  group: publish-docker-${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.ref || github.event.inputs.tag)) || github.ref || github.run_id }}
   cancel-in-progress: false
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   prepare:
@@ -42,37 +47,27 @@ jobs:
       version: ${{ steps.meta.outputs.version }}
       dry_run: ${{ steps.meta.outputs.dry_run }}
       force_republish: ${{ steps.meta.outputs.force_republish }}
+      checkout_ref: ${{ steps.meta.outputs.checkout_ref }}
+      target_sha: ${{ steps.meta.outputs.target_sha }}
+      release_docker: ${{ steps.meta.outputs.release_docker }}
     steps:
-      - name: Extract version
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Resolve release metadata
         id: meta
-        run: |
-          if [[ "${{ github.event_name }}" == "release" ]]; then
-            tag="${{ github.event.release.tag_name }}"
-          else
-            tag="${{ inputs.tag }}"
-          fi
-          version="${tag#v}"
-          dry_run="${{ inputs.dry_run || 'false' }}"
-          force="${{ inputs.force_republish || 'false' }}"
-
-          {
-            echo "tag=$tag"
-            echo "version=$version"
-            echo "dry_run=$dry_run"
-            echo "force_republish=$force"
-          } >> "$GITHUB_OUTPUT"
-
-          {
-            echo "## Docker Publish Metadata"
-            echo "- **Tag**: \`$tag\`"
-            echo "- **Version**: \`$version\`"
-            echo "- **Dry Run**: \`$dry_run\`"
-            echo "- **Force Republish**: \`$force\`"
-          } >> "$GITHUB_STEP_SUMMARY"
+        uses: kreuzberg-dev/actions/prepare-release-metadata@v1
+        with:
+          tag: ${{ inputs.tag }}
+          ref: ${{ inputs.ref }}
+          targets: docker
+          dry-run: ${{ inputs.dry_run }}
+          force-republish: ${{ inputs.force_republish }}
 
   check-docker:
     name: Check if image exists
     needs: prepare
+    if: ${{ needs.prepare.outputs.release_docker == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -89,29 +84,37 @@ jobs:
 
       - name: Check GHCR for existing tag
         id: check
+        env:
+          DOCKER_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.prepare.outputs.version }}
         run: |
-          TAG="${{ needs.prepare.outputs.version }}"
-          if docker manifest inspect "ghcr.io/${{ env.IMAGE_NAME }}:$TAG" > /dev/null 2>&1; then
+          if docker manifest inspect "$DOCKER_TAG" > /dev/null 2>&1; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "Image $TAG already exists" >> "$GITHUB_STEP_SUMMARY"
+            echo "Image $DOCKER_TAG already exists" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
-            echo "Image $TAG does not exist — will build" >> "$GITHUB_STEP_SUMMARY"
+            echo "Image $DOCKER_TAG does not exist — will build" >> "$GITHUB_STEP_SUMMARY"
           fi
 
   publish:
     name: Build & publish Docker image
     needs: [prepare, check-docker]
     if: |
-      needs.prepare.outputs.force_republish == 'true' ||
-      needs.check-docker.outputs.exists != 'true'
+      needs.prepare.outputs.release_docker == 'true' &&
+      (needs.prepare.outputs.force_republish == 'true' || needs.check-docker.outputs.exists != 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          ref: ${{ needs.prepare.outputs.tag }}
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Ensure target commit
+        if: ${{ needs.prepare.outputs.target_sha != '' }}
+        run: git checkout --progress --force ${{ needs.prepare.outputs.target_sha }}
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -151,9 +154,16 @@ jobs:
             -t ts-pack-test:local \
             --load .
 
+      - name: Check Docker image size
+        uses: kreuzberg-dev/actions/check-docker-image-size@v1
+        with:
+          image: ts-pack-test:local
+          warn-mb: "500"
+          label: ts-pack
+
       - name: Run smoke tests on test image
         run: |
-          echo "=== Docker Smoke Tests ==="
+          set -euo pipefail
           PASS=0
           FAIL=0
 
@@ -167,57 +177,40 @@ jobs:
             fi
           }
 
-          # Version
           VER=$(docker run --rm ts-pack-test:local --version)
           echo "  Version: $VER"
           assert "version output" "echo '$VER' | grep -q 'ts-pack'"
 
-          # Help
           HELP=$(docker run --rm ts-pack-test:local --help)
           assert "help shows commands" "echo '$HELP' | grep -q 'parse'"
 
-          # Parse Python
           OUT=$(echo "def hello(): pass" | docker run --rm -i ts-pack-test:local parse - --language python)
           assert "python parse" "echo '$OUT' | grep -q 'module'"
 
-          # Parse JavaScript
           OUT=$(echo "function test() { return 1; }" | docker run --rm -i ts-pack-test:local parse - --language javascript)
           assert "javascript parse" "echo '$OUT' | grep -q 'program'"
 
-          # Parse Rust
           OUT=$(echo "fn main() {}" | docker run --rm -i ts-pack-test:local parse - --language rust)
           assert "rust parse" "echo '$OUT' | grep -q 'source_file'"
 
-          # Parse Go
           OUT=$(echo "package main" | docker run --rm -i ts-pack-test:local parse - --language go)
           assert "go parse" "echo '$OUT' | grep -q 'source_file'"
 
-          # Parse JSON format
           OUT=$(echo "x = 1" | docker run --rm -i ts-pack-test:local parse - --language python --format json)
           assert "json format" "echo '$OUT' | grep -q 'language'"
 
-          # Process with structure
           OUT=$(echo "import os; def main(): pass" | docker run --rm -i ts-pack-test:local process - --language python --structure --imports)
           assert "process language" "echo '$OUT' | grep -q '\"language\"'"
           assert "process structure" "echo '$OUT' | grep -q '\"structure\"'"
           assert "process imports" "echo '$OUT' | grep -q '\"imports\"'"
 
-          # Chunking
           OUT=$(printf "def a():\n    pass\n\ndef b():\n    pass\n\ndef c():\n    pass\n" | docker run --rm -i ts-pack-test:local process - --language python --structure --chunk-size 30)
           assert "chunking" "echo '$OUT' | grep -q '\"chunks\"'"
 
-          # Cache dir
           DIR=$(docker run --rm ts-pack-test:local cache-dir)
           assert "cache-dir" "test -n '$DIR'"
 
-          # Image size check
-          SIZE=$(docker image inspect ts-pack-test:local --format '{{.Size}}')
-          SIZE_MB=$((SIZE / 1024 / 1024))
-          echo "  Image size: ${SIZE_MB} MB"
-          assert "image under 500MB" "test $SIZE_MB -lt 500"
-
-          echo ""
-          echo "=== Results: $PASS passed, $FAIL failed ==="
+          echo "Results: $PASS passed, $FAIL failed"
           test "$FAIL" -eq 0
 
       - name: Log in to GHCR
