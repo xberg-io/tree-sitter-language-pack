@@ -84,11 +84,12 @@ jobs:
           docker run --rm ts-pack:test --version
           docker run --rm ts-pack:test --help | head -5
 
-      - name: Image size
-        run: |
-          SIZE=$(docker image inspect ts-pack:test --format '{{.Size}}')
-          SIZE_MB=$((SIZE / 1024 / 1024))
-          echo "Image size: ${SIZE_MB} MB"
+      - name: Check Docker image size
+        uses: kreuzberg-dev/actions/check-docker-image-size@v1
+        with:
+          image: ts-pack:test
+          warn-mb: "500"
+          label: ts-pack
 
       - name: Test all grammars (198 languages)
         run: |
