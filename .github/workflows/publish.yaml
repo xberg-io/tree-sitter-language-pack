@@ -1684,18 +1684,20 @@ jobs:
           path: dist/elixir
           merge-multiple: true
 
-      - name: Upload to GitHub Release
+      - name: Ensure draft release exists
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="${{ needs.prepare.outputs.tag }}"
-          # Ensure release exists (draft)
           gh release view "$TAG" >/dev/null 2>&1 || \
             gh release create "$TAG" --draft --title "Release $TAG"
-          for file in dist/elixir/*.tar.gz; do
-            echo "Uploading $(basename "$file")..."
-            gh release upload "$TAG" "$file" --clobber
-          done
+
+      - name: Upload Elixir NIF artifacts
+        uses: kreuzberg-dev/actions/upload-release-assets@v1
+        with:
+          tag: ${{ needs.prepare.outputs.tag }}
+          working-directory: dist/elixir
+          assets: "*.tar.gz"
 
   # ─── Publish Rust crates ───────────────────────────────────────────
   publish-crates:
@@ -2216,6 +2218,11 @@ jobs:
           mix local.rebar --force
 
       - name: Generate checksums from GitHub release
+        # tslp uploads BOTH underscore and hyphen variants of NIF artifacts
+        # (libtree_sitter_language_pack_nif-* and libtree-sitter-language-pack-nif-*)
+        # because RustlerPrecompiled name normalization differs by runtime;
+        # the shared generate-elixir-checksums@v1 action only emits one form,
+        # so this stays as a tslp-specific script.
         run: ./scripts/publish/elixir/generate_checksums.sh "${{ needs.prepare.outputs.version }}"
         env:
           GH_TOKEN: ${{ github.token }}
@@ -2298,11 +2305,16 @@ jobs:
           merge-multiple: true
 
       - name: Upload PHP PIE packages
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ needs.prepare.outputs.tag }}
-        run: scripts/publish/upload-php-pie.sh
-        shell: bash
+        uses: kreuzberg-dev/actions/upload-release-assets@v1
+        with:
+          tag: ${{ needs.prepare.outputs.tag }}
+          working-directory: dist/php-package
+          fail-if-empty: "false"
+          assets: |
+            php_*.tgz
+            php_*.tgz.sha256
+            php_*.zip
+            php_*.zip.sha256
 
   # ─── Publish PHP to Packagist ────────────────────────────────────
   publish-packagist:
@@ -2758,27 +2770,12 @@ jobs:
           ref: ${{ needs.prepare.outputs.tag }}
           fetch-depth: 0
 
-      - name: Setup Git credentials
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Create Go module tag
-        if: ${{ needs.prepare.outputs.release_go == 'true' && needs.prepare.outputs.dry_run != 'true' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: bash scripts/publish/go/tag-and-push-go-module.sh "${{ needs.prepare.outputs.tag }}"
-
-      - name: Publish release from draft state
-        if: ${{ needs.prepare.outputs.dry_run != 'true' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          TAG="${{ needs.prepare.outputs.tag }}"
-          # Mark release as non-draft if it exists
-          gh release edit "$TAG" --draft=false 2>/dev/null || \
-            gh release create "$TAG" --title "Release $TAG" --generate-notes 2>/dev/null || \
-            echo "Release already published"
+      - name: Finalize release (publish from draft, tag Go module)
+        uses: kreuzberg-dev/actions/finalize-release@v1
+        with:
+          tag: ${{ needs.prepare.outputs.tag }}
+          go-module-path: ${{ needs.prepare.outputs.release_go == 'true' && 'packages/go' || '' }}
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
       - name: Aggregate release status
         if: always()
