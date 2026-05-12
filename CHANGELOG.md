@@ -16,17 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Node: `getLanguage(name)` now returns a real `tree-sitter` `Language` that `new Parser().setLanguage(lang)` accepts at runtime. The previous capsule shim used `napi::bindgen_prelude::External::new` (rejected by `node-tree-sitter`'s `UnwrapLanguage`), wrote the External to `__parser`, and did not type-tag the value. Adopts alef [v0.15.49](https://github.com/kreuzberg-dev/alef/releases/tag/v0.15.49) where the napi capsule codegen emits raw `napi_create_external` + `napi_type_tag_object` and reads `property_name`/`type_tag` from `[crates.node.capsule_types]`.
 - Python: `PackConfig` and `ProcessConfig` type hints now resolve to the `.options` dataclasses, fixing `mypy --strict` errors at every `init(...)` / `process(...)` call site (adopts alef [#72](https://github.com/kreuzberg-dev/alef/issues/72)).
 
+- Python: restore `SupportedLanguage` as `Literal[...]` of all 306 grammars at `tree_sitter_language_pack.SupportedLanguage`. The symbol was dropped during the alef 0.15.x codegen migration and re-importing it raised `ImportError` in 1.8.0 (#121).
+- Python: `get_parser("python").parse(b"...")` returns a real `tree_sitter.Tree` again instead of raising `AttributeError`. `get_parser` / `get_language` now return native `tree_sitter.Parser` / `tree_sitter.Language` instances via PyO3 capsule pass-through (alef v0.15.39 wires `capsule_types` through `gen_bindings`) (#121).
+
 ### Changed
 
 - CI pinned to Node 22 LTS across all workflows. `tree-sitter@0.25.0` (the `tree-sitter` npm package) ships a `binding.cc` written against pre-C++20 stdlib (no `std::ranges`, `concept`, `requires`) and fails to compile against Node 24/26's V8 headers. Node 22 is the latest supported runtime until upstream `node-tree-sitter` updates its `cflags_cc` or ships prebuilds.
 - CPD pre-commit hook and `packages/java/pom.xml` `maven-pmd-plugin` minimum-tokens bumped from 100 → 250: alef's java codegen emits ~200-token `try`/`catch` cleanup blocks on `DownloadManager` / `LanguageRegistry`. Refactoring the codegen to share a helper is tracked separately.
-
-## [1.8.1] - 2026-05-11
-
-### Fixed
-
-- Python: restore `SupportedLanguage` as `Literal[...]` of all 306 grammars at `tree_sitter_language_pack.SupportedLanguage`. The symbol was dropped during the alef 0.15.x codegen migration and re-importing it raised `ImportError` in 1.8.0 (#121).
-- Python: `get_parser("python").parse(b"...")` returns a real `tree_sitter.Tree` again instead of raising `AttributeError`. `get_parser` / `get_language` now return native `tree_sitter.Parser` / `tree_sitter.Language` instances via PyO3 capsule pass-through (alef v0.15.39 wires `capsule_types` through `gen_bindings`) (#121).
 
 ## [1.8.0] - 2026-05-09
 
