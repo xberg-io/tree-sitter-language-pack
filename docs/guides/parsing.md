@@ -125,6 +125,25 @@ println!("{}", tree.root_node().has_error()); // true
 | `is_named()`          | False for anonymous nodes like `(` or `def`          |
 | `parent()`            | Enclosing node, or `None` for the root               |
 
+## Language passthrough support
+
+`getLanguage(name)` returns the language handle in the most idiomatic shape for each binding. Where the ecosystem ships a native tree-sitter library, the returned value is the real `Language` object from that library, ready to feed into the local `Parser`. Where no such library exists or the library does not accept a raw pointer constructor, the binding returns an opaque handle scoped to this pack.
+
+| Binding | Returns                                       | Pass directly to | Notes |
+| ------- | --------------------------------------------- | ---------------- | ----- |
+| Rust    | `tree_sitter::Language`                       | `tree_sitter::Parser::set_language` | Same crate as the runtime. |
+| Python  | `tree_sitter.Language` (via PyCapsule)        | `tree_sitter.Parser(language)`      | Configured under `[crates.python.capsule_types]`. |
+| Node    | `Language` from the `tree-sitter` npm package | `new Parser().setLanguage(lang)`    | Configured under `[crates.node.capsule_types]`; `tree-sitter` is an optional peer dependency. |
+| Ruby    | opaque handle                                 | n/a              | `ruby_tree_sitter` only loads by path. |
+| Go      | opaque handle                                 | n/a              | Pointer constructor exists upstream; passthrough planned. |
+| Java    | opaque handle                                 | n/a              | No upstream library accepts raw pointers. |
+| C#      | opaque handle                                 | n/a              | No shipping upstream library. |
+| PHP     | opaque handle                                 | n/a              | `talbergs/php-tree-sitter` exposes no `FFI\CData` ingress. |
+| Elixir  | opaque handle                                 | n/a              | `ResourceArc<T>` is NIF-private; cross-NIF impossible. |
+| WASM    | opaque handle                                 | n/a              | `web-tree-sitter` runs in a separate WASM memory space. |
+
+For the bindings marked "opaque handle", use the higher-level APIs (`process()`, `extract()`, `getParser()`-returned methods) rather than reaching for the ecosystem's tree-sitter library.
+
 ## Next steps
 
 - [Code intelligence](intelligence.md) — extract functions, imports, docstrings, and symbols without writing a tree walker
