@@ -1,0 +1,17 @@
+{
+  "id": "parsing_typescript_function",
+  "description": "Parse a TypeScript function with type annotations and template literal return",
+  "category": "parsing",
+  "tags": ["parsing", "typescript"],
+  "input": {
+    "source_code": "function greet(name: string): string { return `hi ${name}`; }",
+    "config": {
+      "language": "typescript"
+    }
+  },
+  "assertions": [
+    {
+      "type": "not_error"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "registry_get_parser_alias",
+  "description": "get_parser('shell') resolves the alias and returns a Parser",
+  "category": "registry",
+  "tags": ["registry"],
+  "call": "get_parser",
+  "input": {
+    "language": "shell"
+  },
+  "assertions": [
+    {
+      "type": "not_error"
+    }
+  ]
+}

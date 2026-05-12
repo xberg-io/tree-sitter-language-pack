@@ -1,0 +1,15 @@
+{
+  "id": "error_handling_get_language_empty_string",
+  "description": "get_language with empty string returns an error",
+  "category": "error-handling",
+  "tags": ["error-handling", "get_language"],
+  "call": "get_language",
+  "input": {
+    "language": ""
+  },
+  "assertions": [
+    {
+      "type": "error"
+    }
+  ]
+}

@@ -711,7 +711,7 @@ checksum = "009994f150cc0cd50ff54917d5bc8bffe8cad10ca10d81c34da2ec421ae61782"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.8.0"
+version = "1.8.1"
 dependencies = [
  "ahash",
  "cc",
@@ -731,7 +731,7 @@ dependencies = [
 
 [[package]]
 name = "tree_sitter_language_pack-e2e-rust"
-version = "1.8.0"
+version = "1.8.1"
 dependencies = [
  "serde_json",
  "tree-sitter-language-pack",

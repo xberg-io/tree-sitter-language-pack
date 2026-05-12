@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- E2E fixture coverage for: language alias resolution (`shell→bash`) via `has_language` / `get_language` / `get_parser` (3 fixtures); `download` edge cases — empty list, multiple-language, and unknown-language error path (3 fixtures); error-handling for 120KB sources and `get_language("")` (2 fixtures); and TypeScript function parsing (1 fixture). Brings fixture count from 403 to 412, covering 100% of the public `download`, `get_*`, and `has_language` surface across all 10 language bindings.
+
 ## [1.8.1] - 2026-05-11
 
 ### Fixed

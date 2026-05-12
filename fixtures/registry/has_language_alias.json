@@ -1,0 +1,15 @@
+{
+  "id": "registry_has_language_alias",
+  "description": "has_language('shell') returns true via alias resolution to 'bash'",
+  "category": "registry",
+  "tags": ["registry"],
+  "call": "has_language",
+  "input": {
+    "language": "shell"
+  },
+  "assertions": [
+    {
+      "type": "is_true"
+    }
+  ]
+}
