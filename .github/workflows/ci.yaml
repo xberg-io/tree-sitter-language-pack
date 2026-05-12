@@ -160,6 +160,8 @@ jobs:
       # --- Node.js / pnpm ---
       - name: Setup Node Workspace
         uses: kreuzberg-dev/actions/setup-node-workspace@v1
+        with:
+          node-version: "22"
 
       # --- Go ---
       - name: Setup Go
@@ -673,6 +675,8 @@ jobs:
 
       - name: Setup Node.js workspace
         uses: kreuzberg-dev/actions/setup-node-workspace@v1
+        with:
+          node-version: "22"
 
       - name: Download native module
         uses: actions/download-artifact@v8
