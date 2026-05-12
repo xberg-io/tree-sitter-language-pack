@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.15.47"
+alef_version = "0.15.49"
 languages = ["python", "node", "ruby", "php", "ffi", "go", "java", "csharp", "elixir", "wasm"]
 
 [workspace.opaque_types]
@@ -99,8 +99,11 @@ Parser = { python_type = "tree_sitter.Parser", construct_from = "Language" }
 [crates.node]
 package_name = "@kreuzberg/tree-sitter-language-pack"
 
-[crates.node.capsule_types]
-Language = { type = "Language", from_module = "tree-sitter" }
+[crates.node.capsule_types.Language]
+type = "Language"
+from_module = "tree-sitter"
+property_name = "language"
+type_tag = { lower = "0x8AF2E5212AD58ABF", upper = "0xD5006CAD83ABBA16" }
 
 [crates.ruby]
 gem_name = "tree_sitter_language_pack"

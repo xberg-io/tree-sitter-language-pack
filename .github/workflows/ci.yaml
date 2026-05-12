@@ -90,7 +90,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version: "22"
 
       - name: Install tree-sitter CLI
         run: npm install -g tree-sitter-cli
@@ -628,7 +628,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version: "22"
 
       - name: Install NAPI-RS CLI
         run: npm install -g @napi-rs/cli
@@ -805,7 +805,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version: "22"
 
       - name: Install E2E dependencies
         working-directory: e2e/wasm

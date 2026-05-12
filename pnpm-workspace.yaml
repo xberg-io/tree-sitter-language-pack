@@ -4,6 +4,7 @@ packages:
   - "e2e/node"
 allowBuilds:
   esbuild: true
+  tree-sitter: set this to true or false
 onlyBuiltDependencies:
   - esbuild
 

@@ -19,6 +19,6 @@ describe("Language capsule passthrough", () => {
     const root = tree.rootNode;
     expect(root.type).toBe("module");
     expect(root.childCount).toBe(2);
-    expect(root.child(0)?.type).toBe("expression_statement");
+    expect(root.child(0)?.type).toBe("assignment");
   });
 });

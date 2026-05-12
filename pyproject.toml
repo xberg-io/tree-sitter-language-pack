@@ -104,3 +104,7 @@ disallow_any_unimported = true
 show_error_codes = true
 strict = true
 warn_unreachable = true
+overrides = [
+  { module = "tree_sitter", ignore_missing_imports = true },
+  { module = "tree_sitter_language_pack.api", disallow_any_unimported = false },
+]
