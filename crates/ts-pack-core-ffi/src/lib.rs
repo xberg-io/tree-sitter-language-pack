@@ -19,7 +19,7 @@
 )]
 
 use std::cell::RefCell;
-use std::ffi::{CStr, CString, c_char};
+use std::ffi::{c_char, CStr, CString};
 
 thread_local! {
     static LAST_ERROR_CODE: RefCell<i32> = const { RefCell::new(0) };
@@ -2992,7 +2992,11 @@ pub unsafe extern "C" fn ts_pack_language_registry_has_language(
         }
     };
     let result = obj.has_language(&name_rs);
-    if result { 1 } else { 0 }
+    if result {
+        1
+    } else {
+        0
+    }
 }
 
 /// Return the total number of available languages (including aliases).
@@ -5028,7 +5032,11 @@ pub unsafe extern "C" fn ts_pack_has_language(name: *const std::ffi::c_char) -> 
         }
     };
     let result = tree_sitter_language_pack::has_language(&name_rs);
-    if result { 1 } else { 0 }
+    if result {
+        1
+    } else {
+        0
+    }
 }
 
 /// Return the number of available languages.
