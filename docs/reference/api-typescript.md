@@ -2,7 +2,7 @@
 title: "TypeScript API Reference"
 ---
 
-## TypeScript API Reference <span class="version-badge">v1.8.0</span>
+## TypeScript API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
 
@@ -15,14 +15,14 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 **Signature:**
 
 ```typescript
-function detectLanguageFromExtension(ext: string): string | null;
+function detectLanguageFromExtension(ext: string): string | null
 ```
 
 **Parameters:**
 
-| Name  | Type     | Required | Description |
-| ----- | -------- | -------- | ----------- |
-| `ext` | `string` | Yes      | The ext     |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `ext` | `string` | Yes | The ext |
 
 **Returns:** `string | null`
 
@@ -38,14 +38,14 @@ path has no extension or the extension is not recognized.
 **Signature:**
 
 ```typescript
-function detectLanguageFromPath(path: string): string | null;
+function detectLanguageFromPath(path: string): string | null
 ```
 
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `path` | `string` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `string` | Yes | Path to the file |
 
 **Returns:** `string | null`
 
@@ -73,14 +73,14 @@ malformed, or the interpreter is not recognised.
 **Signature:**
 
 ```typescript
-function detectLanguageFromContent(content: string): string | null;
+function detectLanguageFromContent(content: string): string | null
 ```
 
 **Parameters:**
 
-| Name      | Type     | Required | Description            |
-| --------- | -------- | -------- | ---------------------- |
-| `content` | `string` | Yes      | The content to process |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `content` | `string` | Yes | The content to process |
 
 **Returns:** `string | null`
 
@@ -96,14 +96,14 @@ if no highlights query is bundled for this language.
 **Signature:**
 
 ```typescript
-function getHighlightsQuery(language: string): string | null;
+function getHighlightsQuery(language: string): string | null
 ```
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `string` | Yes | The language |
 
 **Returns:** `string | null`
 
@@ -119,14 +119,14 @@ if no injections query is bundled for this language.
 **Signature:**
 
 ```typescript
-function getInjectionsQuery(language: string): string | null;
+function getInjectionsQuery(language: string): string | null
 ```
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `string` | Yes | The language |
 
 **Returns:** `string | null`
 
@@ -142,14 +142,14 @@ if no locals query is bundled for this language.
 **Signature:**
 
 ```typescript
-function getLocalsQuery(language: string): string | null;
+function getLocalsQuery(language: string): string | null
 ```
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `string` | Yes | The language |
 
 **Returns:** `string | null`
 
@@ -171,24 +171,23 @@ or `Error.Download` if auto-download fails.
 **Signature:**
 
 ```typescript
-function getLanguage(name: string): Language;
+function getLanguage(name: string): Language
 ```
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
 
 **Returns:** `Language`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
 
 #### getParser()
 
-Get a tree-sitter `Parser` pre-configured for the given language.
+Get a `Parser` pre-configured for the given language.
 
 This is a convenience function that calls `get_language` and configures
 a new parser in one step.
@@ -201,17 +200,16 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 **Signature:**
 
 ```typescript
-function getParser(name: string): Parser;
+function getParser(name: string): Parser
 ```
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
 
 **Returns:** `Parser`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -225,14 +223,14 @@ This compatibility alias matches the pre-Alef Python binding API.
 **Signature:**
 
 ```typescript
-function detectLanguage(path: string): string | null;
+function detectLanguage(path: string): string | null
 ```
 
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `path` | `string` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `string` | Yes | Path to the file |
 
 **Returns:** `string | null`
 
@@ -248,7 +246,7 @@ plus any configured aliases.
 **Signature:**
 
 ```typescript
-function availableLanguages(): Array<string>;
+function availableLanguages(): Array<string>
 ```
 
 **Returns:** `Array<string>`
@@ -265,14 +263,14 @@ dynamically available, or a known alias for one of these).
 **Signature:**
 
 ```typescript
-function hasLanguage(name: string): boolean;
+function hasLanguage(name: string): boolean
 ```
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
 
 **Returns:** `boolean`
 
@@ -288,7 +286,7 @@ and aliases.
 **Signature:**
 
 ```typescript
-function languageCount(): number;
+function languageCount(): number
 ```
 
 **Returns:** `number`
@@ -310,18 +308,17 @@ Returns an error if the language is not found or parsing fails.
 **Signature:**
 
 ```typescript
-function process(source: string, config: ProcessConfig): ProcessResult;
+function process(source: string, config: ProcessConfig): ProcessResult
 ```
 
 **Parameters:**
 
-| Name     | Type            | Required | Description               |
-| -------- | --------------- | -------- | ------------------------- |
-| `source` | `string`        | Yes      | The source                |
-| `config` | `ProcessConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `string` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -341,17 +338,16 @@ Returns an error if configuration cannot be applied or if downloads fail.
 **Signature:**
 
 ```typescript
-function init(config: PackConfig): void;
+function init(config: PackConfig): void
 ```
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -372,17 +368,16 @@ Returns an error if the lock cannot be acquired.
 **Signature:**
 
 ```typescript
-function configure(config: PackConfig): void;
+function configure(config: PackConfig): void
 ```
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -402,17 +397,16 @@ the download fails.
 **Signature:**
 
 ```typescript
-function download(names: Array<string>): number;
+function download(names: Array<string>): number
 ```
 
 **Parameters:**
 
-| Name    | Type            | Required | Description |
-| ------- | --------------- | -------- | ----------- |
-| `names` | `Array<string>` | Yes      | The names   |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `names` | `Array<string>` | Yes | The names |
 
 **Returns:** `number`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -436,11 +430,10 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 **Signature:**
 
 ```typescript
-function downloadAll(): number;
+function downloadAll(): number
 ```
 
 **Returns:** `number`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -460,11 +453,10 @@ Returns an error if the manifest cannot be fetched.
 **Signature:**
 
 ```typescript
-function manifestLanguages(): Array<string>;
+function manifestLanguages(): Array<string>
 ```
 
 **Returns:** `Array<string>`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -479,7 +471,7 @@ cache directory does not exist or cannot be read.
 **Signature:**
 
 ```typescript
-function downloadedLanguages(): Array<string>;
+function downloadedLanguages(): Array<string>
 ```
 
 **Returns:** `Array<string>`
@@ -500,11 +492,10 @@ Returns an error if the cache directory cannot be removed.
 **Signature:**
 
 ```typescript
-function cleanCache(): void;
+function cleanCache(): void
 ```
 
 **Returns:** `void`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -523,32 +514,44 @@ Returns an error if the system cache directory cannot be determined.
 **Signature:**
 
 ```typescript
-function cacheDir(): string;
+function cacheDir(): string
 ```
 
 **Returns:** `string`
-
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
 
 ### Types
 
+#### ByteRange
+
+A byte range — start (inclusive) to end (exclusive).
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `start` | `number` | — | Inclusive start byte offset. |
+| `end` | `number` | — | Exclusive end byte offset. |
+
+
+---
+
 #### ChunkContext
 
 Metadata for a single chunk of source code.
 
-| Field            | Type                   | Default | Description         |
-| ---------------- | ---------------------- | ------- | ------------------- |
-| `language`       | `string`               | —       | Language            |
-| `chunkIndex`     | `number`               | —       | Chunk index         |
-| `totalChunks`    | `number`               | —       | Total chunks        |
-| `nodeTypes`      | `Array<string>`        | `[]`    | Node types          |
-| `contextPath`    | `Array<string>`        | `[]`    | Context path        |
-| `symbolsDefined` | `Array<string>`        | `[]`    | Symbols defined     |
-| `comments`       | `Array<CommentInfo>`   | `[]`    | Comments            |
-| `docstrings`     | `Array<DocstringInfo>` | `[]`    | Docstrings          |
-| `hasErrorNodes`  | `boolean`              | —       | Whether error nodes |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `string` | — | Language |
+| `chunkIndex` | `number` | — | Chunk index |
+| `totalChunks` | `number` | — | Total chunks |
+| `nodeTypes` | `Array<string>` | `[]` | Node types |
+| `contextPath` | `Array<string>` | `[]` | Context path |
+| `symbolsDefined` | `Array<string>` | `[]` | Symbols defined |
+| `comments` | `Array<CommentInfo>` | `[]` | Comments |
+| `docstrings` | `Array<DocstringInfo>` | `[]` | Docstrings |
+| `hasErrorNodes` | `boolean` | — | Whether error nodes |
+
 
 ---
 
@@ -556,14 +559,15 @@ Metadata for a single chunk of source code.
 
 A chunk of source code with rich metadata.
 
-| Field       | Type           | Default | Description                |
-| ----------- | -------------- | ------- | -------------------------- |
-| `content`   | `string`       | —       | The extracted text content |
-| `startByte` | `number`       | —       | Start byte                 |
-| `endByte`   | `number`       | —       | End byte                   |
-| `startLine` | `number`       | —       | Start line                 |
-| `endLine`   | `number`       | —       | End line                   |
-| `metadata`  | `ChunkContext` | —       | Document metadata          |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `content` | `string` | — | The extracted text content |
+| `startByte` | `number` | — | Start byte |
+| `endByte` | `number` | — | End byte |
+| `startLine` | `number` | — | Start line |
+| `endLine` | `number` | — | End line |
+| `metadata` | `ChunkContext` | — | Document metadata |
+
 
 ---
 
@@ -571,12 +575,13 @@ A chunk of source code with rich metadata.
 
 A comment extracted from source code.
 
-| Field            | Type          | Default            | Description         |
-| ---------------- | ------------- | ------------------ | ------------------- |
-| `text`           | `string`      | —                  | Text                |
-| `kind`           | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
-| `span`           | `Span`        | —                  | Span (span)         |
-| `associatedNode` | `string       | null`              | `null`              | Associated node |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `string` | — | Text |
+| `kind` | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
+| `span` | `Span` | — | Span (span) |
+| `associatedNode` | `string | null` | `null` | Associated node |
+
 
 ---
 
@@ -584,11 +589,12 @@ A comment extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-| Field      | Type                 | Default                    | Description                    |
-| ---------- | -------------------- | -------------------------- | ------------------------------ |
-| `message`  | `string`             | —                          | Message                        |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | `string` | — | Message |
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity.Error` | Severity (diagnostic severity) |
-| `span`     | `Span`               | —                          | Span (span)                    |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
@@ -596,11 +602,12 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-| Field         | Type     | Default | Description                |
-| ------------- | -------- | ------- | -------------------------- |
-| `kind`        | `string` | —       | Kind                       |
-| `name`        | `string  | null`   | `null`                     | The name |
-| `description` | `string` | —       | Human-readable description |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `string` | — | Kind |
+| `name` | `string | null` | `null` | The name |
+| `description` | `string` | — | Human-readable description |
+
 
 ---
 
@@ -608,13 +615,14 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 A docstring extracted from source code.
 
-| Field            | Type                | Default                             | Description               |
-| ---------------- | ------------------- | ----------------------------------- | ------------------------- |
-| `text`           | `string`            | —                                   | Text                      |
-| `format`         | `DocstringFormat`   | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
-| `span`           | `Span`              | —                                   | Span (span)               |
-| `associatedItem` | `string             | null`                               | `null`                    | Associated item |
-| `parsedSections` | `Array<DocSection>` | `[]`                                | Parsed sections           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `string` | — | Text |
+| `format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
+| `span` | `Span` | — | Span (span) |
+| `associatedItem` | `string | null` | `null` | Associated item |
+| `parsedSections` | `Array<DocSection>` | `[]` | Parsed sections |
+
 
 ---
 
@@ -748,11 +756,12 @@ cleanCache(): void
 
 An export statement extracted from source code.
 
-| Field  | Type         | Default            | Description        |
-| ------ | ------------ | ------------------ | ------------------ |
-| `name` | `string`     | —                  | The name           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `string` | — | The name |
 | `kind` | `ExportKind` | `ExportKind.Named` | Kind (export kind) |
-| `span` | `Span`       | —                  | Span (span)        |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
@@ -760,16 +769,17 @@ An export statement extracted from source code.
 
 Aggregate metrics for a source file.
 
-| Field          | Type     | Default | Description      |
-| -------------- | -------- | ------- | ---------------- |
-| `totalLines`   | `number` | —       | Total lines      |
-| `codeLines`    | `number` | —       | Code lines       |
-| `commentLines` | `number` | —       | Comment lines    |
-| `blankLines`   | `number` | —       | Blank lines      |
-| `totalBytes`   | `number` | —       | Total bytes      |
-| `nodeCount`    | `number` | —       | Number of nodes  |
-| `errorCount`   | `number` | —       | Number of errors |
-| `maxDepth`     | `number` | —       | Maximum depth    |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `totalLines` | `number` | — | Total lines |
+| `codeLines` | `number` | — | Code lines |
+| `commentLines` | `number` | — | Comment lines |
+| `blankLines` | `number` | — | Blank lines |
+| `totalBytes` | `number` | — | Total bytes |
+| `nodeCount` | `number` | — | Number of nodes |
+| `errorCount` | `number` | — | Number of errors |
+| `maxDepth` | `number` | — | Maximum depth |
+
 
 ---
 
@@ -777,13 +787,14 @@ Aggregate metrics for a source file.
 
 An import statement extracted from source code.
 
-| Field        | Type            | Default | Description      |
-| ------------ | --------------- | ------- | ---------------- |
-| `source`     | `string`        | —       | Source           |
-| `items`      | `Array<string>` | `[]`    | Items            |
-| `alias`      | `string         | null`   | `null`           | Alias |
-| `isWildcard` | `boolean`       | —       | Whether wildcard |
-| `span`       | `Span`          | —       | Span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `source` | `string` | — | Source |
+| `items` | `Array<string>` | `[]` | Items |
+| `alias` | `string | null` | `null` | Alias |
+| `isWildcard` | `boolean` | — | Whether wildcard |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
@@ -793,10 +804,11 @@ An import statement extracted from source code.
 
 #### LanguageInfo
 
-| Field   | Type     | Default | Description   |
-| ------- | -------- | ------- | ------------- |
-| `group` | `string` | —       | Group         |
-| `size`  | `number` | —       | Size in bytes |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `group` | `string` | — | Group |
+| `size` | `number` | — | Size in bytes |
+
 
 ---
 
@@ -917,6 +929,228 @@ static default(): LanguageRegistry
 
 ---
 
+#### Node
+
+A single syntax node within a `Tree`.
+
+Nodes hold a strong reference to their parent tree so they remain valid
+regardless of how the tree is moved or stored at the FFI boundary.
+
+##### Methods
+
+###### clone()
+
+**Signature:**
+
+```typescript
+clone(): Node
+```
+
+###### kind()
+
+Return the node's kind name (e.g. `"function_definition"`).
+
+**Signature:**
+
+```typescript
+kind(): string
+```
+
+###### kindId()
+
+Return the node's numeric kind ID.
+
+**Signature:**
+
+```typescript
+kindId(): number
+```
+
+###### startByte()
+
+Return the inclusive start byte offset of this node.
+
+**Signature:**
+
+```typescript
+startByte(): number
+```
+
+###### endByte()
+
+Return the exclusive end byte offset of this node.
+
+**Signature:**
+
+```typescript
+endByte(): number
+```
+
+###### byteRange()
+
+Return the node's byte range as a `ByteRange`.
+
+Callers should slice their own source bytes — this is a zero-copy
+text accessor.
+
+**Signature:**
+
+```typescript
+byteRange(): ByteRange
+```
+
+###### startPosition()
+
+Return the start `Point` (row, column).
+
+**Signature:**
+
+```typescript
+startPosition(): Point
+```
+
+###### endPosition()
+
+Return the end `Point` (row, column).
+
+**Signature:**
+
+```typescript
+endPosition(): Point
+```
+
+###### isNamed()
+
+True when this node is named (not punctuation/whitespace).
+
+**Signature:**
+
+```typescript
+isNamed(): boolean
+```
+
+###### isError()
+
+True when this is an error node.
+
+**Signature:**
+
+```typescript
+isError(): boolean
+```
+
+###### isMissing()
+
+True when this is a missing-token node.
+
+**Signature:**
+
+```typescript
+isMissing(): boolean
+```
+
+###### isExtra()
+
+True when this is an "extra" node (e.g. a comment).
+
+**Signature:**
+
+```typescript
+isExtra(): boolean
+```
+
+###### hasError()
+
+True when this node or any descendant is an error.
+
+**Signature:**
+
+```typescript
+hasError(): boolean
+```
+
+###### parent()
+
+Return this node's parent, if any.
+
+**Signature:**
+
+```typescript
+parent(): Node | null
+```
+
+###### child()
+
+Return the i-th child of this node, if any.
+
+**Signature:**
+
+```typescript
+child(index: number): Node | null
+```
+
+###### childCount()
+
+Total number of children (including unnamed).
+
+**Signature:**
+
+```typescript
+childCount(): number
+```
+
+###### namedChild()
+
+Return the i-th named child of this node, if any.
+
+**Signature:**
+
+```typescript
+namedChild(index: number): Node | null
+```
+
+###### namedChildCount()
+
+Number of named children of this node.
+
+**Signature:**
+
+```typescript
+namedChildCount(): number
+```
+
+###### childByFieldName()
+
+Look up a child by its grammar-defined field name.
+
+**Signature:**
+
+```typescript
+childByFieldName(name: string): Node | null
+```
+
+###### toSexp()
+
+Return the S-expression form of this node's subtree.
+
+**Signature:**
+
+```typescript
+toSexp(): string
+```
+
+###### walk()
+
+Return a `TreeCursor` positioned at this node.
+
+**Signature:**
+
+```typescript
+walk(): TreeCursor
+```
+
+---
+
 #### PackConfig
 
 Configuration for the tree-sitter language pack.
@@ -925,11 +1159,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-| Field       | Type           | Default | Description |
-| ----------- | -------------- | ------- | ----------- |
-| `cacheDir`  | `string        | null`   | `null`      | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `Array<string> | null`   | `[]`        | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`).    |
-| `groups`    | `Array<string> | null`   | `[]`        | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).                      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `cacheDir` | `string | null` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `languages` | `Array<string> | null` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `Array<string> | null` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ##### Methods
 
@@ -967,28 +1201,114 @@ static discover(): PackConfig | null
 
 #### Parser
 
+A tree-sitter parser configured for one language at a time.
+
+##### Methods
+
+###### setLanguage()
+
+Configure the parser to use the language identified by name (e.g. `"python"`).
+
+Resolves the language through the global registry — auto-downloading
+if necessary, when the `download` feature is enabled.
+
+**Errors:**
+
+Returns `Error.LanguageNotFound` if the language is not recognized,
+or `Error.ParserSetup` if the language ABI is incompatible.
+
+**Signature:**
+
+```typescript
+setLanguage(name: string): void
+```
+
+###### parse()
+
+Parse a UTF-8 source string. Returns `null` if parsing was cancelled
+or no language is set.
+
+**Signature:**
+
+```typescript
+parse(source: string): Tree | null
+```
+
+###### parseBytes()
+
+Parse a raw byte slice. Returns `null` if parsing was cancelled or
+no language is set.
+
+**Signature:**
+
+```typescript
+parseBytes(source: Buffer): Tree | null
+```
+
+###### reset()
+
+Reset internal state. The next call to `parse` will
+not be incremental.
+
+**Signature:**
+
+```typescript
+reset(): void
+```
+
+###### default()
+
+**Signature:**
+
+```typescript
+static default(): Parser
+```
+
 ---
 
 #### ParserManifest
 
 Manifest describing available parser downloads for a specific version.
 
-| Field       | Type                             | Default | Description    |
-| ----------- | -------------------------------- | ------- | -------------- |
-| `version`   | `string`                         | —       | Version string |
-| `platforms` | `Record<string, PlatformBundle>` | —       | Platforms      |
-| `languages` | `Record<string, LanguageInfo>`   | —       | Languages      |
-| `groups`    | `Record<string, Array<string>>`  | —       | Groups         |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `version` | `string` | — | Version string |
+| `platforms` | `Record<string, PlatformBundle>` | — | Platforms |
+| `languages` | `Record<string, LanguageInfo>` | — | Languages |
+| `groups` | `Record<string, Array<string>>` | — | Groups |
+
 
 ---
 
 #### PlatformBundle
 
-| Field    | Type     | Default | Description   |
-| -------- | -------- | ------- | ------------- |
-| `url`    | `string` | —       | Url           |
-| `sha256` | `string` | —       | Sha256        |
-| `size`   | `number` | —       | Size in bytes |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `url` | `string` | — | Url |
+| `sha256` | `string` | — | Sha256 |
+| `size` | `number` | — | Size in bytes |
+
+
+---
+
+#### Point
+
+A source position — row + column, zero-indexed.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `row` | `number` | — | Zero-indexed row number. |
+| `column` | `number` | — | Zero-indexed column number, in UTF-16 code units. |
+
+##### Methods
+
+###### from()
+
+**Signature:**
+
+```typescript
+static from(p: Point): Point
+```
 
 ---
 
@@ -998,17 +1318,17 @@ Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
 
-| Field          | Type      | Default | Description                                                         |
-| -------------- | --------- | ------- | ------------------------------------------------------------------- |
-| `language`     | `string`  | —       | Language name (required).                                           |
-| `structure`    | `boolean` | `true`  | Extract structural items (functions, classes, etc.). Default: true. |
-| `imports`      | `boolean` | `true`  | Extract import statements. Default: true.                           |
-| `exports`      | `boolean` | `true`  | Extract export statements. Default: true.                           |
-| `comments`     | `boolean` | `false` | Extract comments. Default: false.                                   |
-| `docstrings`   | `boolean` | `false` | Extract docstrings. Default: false.                                 |
-| `symbols`      | `boolean` | `false` | Extract symbol definitions. Default: false.                         |
-| `diagnostics`  | `boolean` | `false` | Include parse diagnostics. Default: false.                          |
-| `chunkMaxSize` | `number   | null`   | `null`                                                              | Maximum chunk size in bytes. `null` disables chunking. |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `string` | — | Language name (required). |
+| `structure` | `boolean` | `true` | Extract structural items (functions, classes, etc.). Default: true. |
+| `imports` | `boolean` | `true` | Extract import statements. Default: true. |
+| `exports` | `boolean` | `true` | Extract export statements. Default: true. |
+| `comments` | `boolean` | `false` | Extract comments. Default: false. |
+| `docstrings` | `boolean` | `false` | Extract docstrings. Default: false. |
+| `symbols` | `boolean` | `false` | Extract symbol definitions. Default: false. |
+| `diagnostics` | `boolean` | `false` | Include parse diagnostics. Default: false. |
+| `chunkMaxSize` | `number | null` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 
 ##### Methods
 
@@ -1060,18 +1380,19 @@ Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
 
-| Field         | Type                   | Default | Description                        |
-| ------------- | ---------------------- | ------- | ---------------------------------- |
-| `language`    | `string`               | —       | Language                           |
-| `metrics`     | `FileMetrics`          | —       | Metrics (file metrics)             |
-| `structure`   | `Array<StructureItem>` | `[]`    | Structure                          |
-| `imports`     | `Array<ImportInfo>`    | `[]`    | Imports                            |
-| `exports`     | `Array<ExportInfo>`    | `[]`    | Exports                            |
-| `comments`    | `Array<CommentInfo>`   | `[]`    | Comments                           |
-| `docstrings`  | `Array<DocstringInfo>` | `[]`    | Docstrings                         |
-| `symbols`     | `Array<SymbolInfo>`    | `[]`    | Symbols                            |
-| `diagnostics` | `Array<Diagnostic>`    | `[]`    | Diagnostics                        |
-| `chunks`      | `Array<CodeChunk>`     | `[]`    | Text chunks for chunking/embedding |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `string` | — | Language |
+| `metrics` | `FileMetrics` | — | Metrics (file metrics) |
+| `structure` | `Array<StructureItem>` | `[]` | Structure |
+| `imports` | `Array<ImportInfo>` | `[]` | Imports |
+| `exports` | `Array<ExportInfo>` | `[]` | Exports |
+| `comments` | `Array<CommentInfo>` | `[]` | Comments |
+| `docstrings` | `Array<DocstringInfo>` | `[]` | Docstrings |
+| `symbols` | `Array<SymbolInfo>` | `[]` | Symbols |
+| `diagnostics` | `Array<Diagnostic>` | `[]` | Diagnostics |
+| `chunks` | `Array<CodeChunk>` | `[]` | Text chunks for chunking/embedding |
+
 
 ---
 
@@ -1082,14 +1403,15 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-| Field         | Type     | Default | Description  |
-| ------------- | -------- | ------- | ------------ |
-| `startByte`   | `number` | —       | Start byte   |
-| `endByte`     | `number` | —       | End byte     |
-| `startLine`   | `number` | —       | Start line   |
-| `startColumn` | `number` | —       | Start column |
-| `endLine`     | `number` | —       | End line     |
-| `endColumn`   | `number` | —       | End column   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `startByte` | `number` | — | Start byte |
+| `endByte` | `number` | — | End byte |
+| `startLine` | `number` | — | Start line |
+| `startColumn` | `number` | — | Start column |
+| `endLine` | `number` | — | End line |
+| `endColumn` | `number` | — | End column |
+
 
 ---
 
@@ -1097,17 +1419,18 @@ positions (for display and diagnostics).
 
 A structural item (function, class, struct, etc.) in source code.
 
-| Field        | Type                   | Default                  | Description           |
-| ------------ | ---------------------- | ------------------------ | --------------------- |
-| `kind`       | `StructureKind`        | `StructureKind.Function` | Kind (structure kind) |
-| `name`       | `string                | null`                    | `null`                | The name         |
-| `visibility` | `string                | null`                    | `null`                | Visibility       |
-| `span`       | `Span`                 | —                        | Span (span)           |
-| `children`   | `Array<StructureItem>` | `[]`                     | Children              |
-| `decorators` | `Array<string>`        | `[]`                     | Decorators            |
-| `docComment` | `string                | null`                    | `null`                | Doc comment      |
-| `signature`  | `string                | null`                    | `null`                | Signature        |
-| `bodySpan`   | `Span                  | null`                    | `null`                | Body span (span) |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `StructureKind` | `StructureKind.Function` | Kind (structure kind) |
+| `name` | `string | null` | `null` | The name |
+| `visibility` | `string | null` | `null` | Visibility |
+| `span` | `Span` | — | Span (span) |
+| `children` | `Array<StructureItem>` | `[]` | Children |
+| `decorators` | `Array<string>` | `[]` | Decorators |
+| `docComment` | `string | null` | `null` | Doc comment |
+| `signature` | `string | null` | `null` | Signature |
+| `bodySpan` | `Span | null` | `null` | Body span (span) |
+
 
 ---
 
@@ -1115,17 +1438,103 @@ A structural item (function, class, struct, etc.) in source code.
 
 A symbol (variable, function, type, etc.) extracted from source code.
 
-| Field            | Type         | Default               | Description        |
-| ---------------- | ------------ | --------------------- | ------------------ |
-| `name`           | `string`     | —                     | The name           |
-| `kind`           | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
-| `span`           | `Span`       | —                     | Span (span)        |
-| `typeAnnotation` | `string      | null`                 | `null`             | Type annotation |
-| `doc`            | `string      | null`                 | `null`             | Doc             |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `string` | — | The name |
+| `kind` | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
+| `span` | `Span` | — | Span (span) |
+| `typeAnnotation` | `string | null` | `null` | Type annotation |
+| `doc` | `string | null` | `null` | Doc |
+
 
 ---
 
 #### Tree
+
+A parsed syntax tree. Cheap to clone (refcount bump).
+
+##### Methods
+
+###### rootNode()
+
+Return the root `Node` of this tree.
+
+**Signature:**
+
+```typescript
+rootNode(): Node
+```
+
+###### walk()
+
+Return a `TreeCursor` positioned at the root.
+
+**Signature:**
+
+```typescript
+walk(): TreeCursor
+```
+
+---
+
+#### TreeCursor
+
+A cursor for traversing a `Tree`.
+
+##### Methods
+
+###### node()
+
+Return the `Node` at the cursor's current position.
+
+**Signature:**
+
+```typescript
+node(): Node
+```
+
+###### gotoFirstChild()
+
+Move the cursor to the first child of the current node.
+Returns `true` if a child existed.
+
+**Signature:**
+
+```typescript
+gotoFirstChild(): boolean
+```
+
+###### gotoParent()
+
+Move the cursor to the parent of the current node.
+Returns `true` if a parent existed.
+
+**Signature:**
+
+```typescript
+gotoParent(): boolean
+```
+
+###### gotoNextSibling()
+
+Move the cursor to the next sibling of the current node.
+Returns `true` if a sibling existed.
+
+**Signature:**
+
+```typescript
+gotoNextSibling(): boolean
+```
+
+###### fieldName()
+
+Return the field name for the current node, if any.
+
+**Signature:**
+
+```typescript
+fieldName(): string | null
+```
 
 ---
 
@@ -1139,19 +1548,20 @@ Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Function`  | Function                      |
-| `Method`    | Method                        |
-| `Class`     | Class                         |
-| `Struct`    | Struct                        |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Trait`     | Trait                         |
-| `Impl`      | Impl                          |
-| `Namespace` | Namespace                     |
-| `Other`     | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `Function` | Function |
+| `Method` | Method |
+| `Class` | Class |
+| `Struct` | Struct |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Trait` | Trait |
+| `Impl` | Impl |
+| `Namespace` | Namespace |
+| `Other` | Other — Fields: `0`: `string` |
+
 
 ---
 
@@ -1162,11 +1572,12 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-| Value   | Description |
-| ------- | ----------- |
-| `Line`  | Line        |
-| `Block` | Block       |
-| `Doc`   | Doc         |
+| Value | Description |
+|-------|-------------|
+| `Line` | Line |
+| `Block` | Block |
+| `Doc` | Doc |
+
 
 ---
 
@@ -1177,14 +1588,15 @@ The format of a docstring extracted from source code.
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 
-| Value               | Description                   |
-| ------------------- | ----------------------------- |
-| `PythonTripleQuote` | Python triple quote           |
-| `JsDoc`             | J s doc                       |
-| `Rustdoc`           | Rustdoc                       |
-| `GoDoc`             | Go doc                        |
-| `JavaDoc`           | Java doc                      |
-| `Other`             | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `PythonTripleQuote` | Python triple quote |
+| `JsDoc` | J s doc |
+| `Rustdoc` | Rustdoc |
+| `GoDoc` | Go doc |
+| `JavaDoc` | Java doc |
+| `Other` | Other — Fields: `0`: `string` |
+
 
 ---
 
@@ -1194,11 +1606,12 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-| Value      | Description |
-| ---------- | ----------- |
-| `Named`    | Named       |
-| `Default`  | Default     |
-| `ReExport` | Re export   |
+| Value | Description |
+|-------|-------------|
+| `Named` | Named |
+| `Default` | Default |
+| `ReExport` | Re export |
+
 
 ---
 
@@ -1209,17 +1622,18 @@ The kind of a symbol definition found in source code.
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Variable`  | Variable                      |
-| `Constant`  | Constant                      |
-| `Function`  | Function                      |
-| `Class`     | Class                         |
-| `Type`      | Type                          |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Other`     | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `Variable` | Variable |
+| `Constant` | Constant |
+| `Function` | Function |
+| `Class` | Class |
+| `Type` | Type |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Other` | Other — Fields: `0`: `string` |
+
 
 ---
 
@@ -1230,11 +1644,12 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-| Value     | Description |
-| --------- | ----------- |
-| `Error`   | Error       |
-| `Warning` | Warning     |
-| `Info`    | Info        |
+| Value | Description |
+|-------|-------------|
+| `Error` | Error |
+| `Warning` | Warning |
+| `Info` | Info |
+
 
 ---
 
@@ -1250,17 +1665,18 @@ features are enabled.
 
 Errors are thrown as plain `Error` objects with descriptive messages.
 
-| Variant               | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `LanguageNotFound`    | Language '{0}' not found                          |
-| `DynamicLoad`         | Dynamic library load error: {0}                   |
+| Variant | Description |
+|---------|-------------|
+| `LanguageNotFound` | Language '{0}' not found |
+| `DynamicLoad` | Dynamic library load error: {0} |
 | `NullLanguagePointer` | Language function returned null pointer for '{0}' |
-| `ParserSetup`         | Failed to set parser language: {0}                |
-| `LockPoisoned`        | Registry lock poisoned: {0}                       |
-| `Config`              | Configuration error: {0}                          |
-| `ParseFailed`         | Parse failed: parsing returned no tree            |
-| `QueryError`          | Query error: {0}                                  |
-| `InvalidRange`        | Invalid byte range: {0}                           |
-| `Io`                  | IO error: {0}                                     |
+| `ParserSetup` | Failed to set parser language: {0} |
+| `LockPoisoned` | Registry lock poisoned: {0} |
+| `Config` | Configuration error: {0} |
+| `ParseFailed` | Parse failed: parsing returned no tree |
+| `QueryError` | Query error: {0} |
+| `InvalidRange` | Invalid byte range: {0} |
+| `Io` | IO error: {0} |
+
 
 ---
