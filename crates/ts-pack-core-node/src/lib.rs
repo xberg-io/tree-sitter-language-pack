@@ -147,8 +147,8 @@ impl napi::bindgen_prelude::FromNapiValue for JsBytes {
 impl napi::bindgen_prelude::ToNapiValue for JsBytes {
     unsafe fn to_napi_value(env: napi::sys::napi_env, val: Self) -> napi::Result<napi::sys::napi_value> {
         // Delegate to Vec<u8>'s implementation (which returns an Uint8Array/Buffer).
-        
-        unsafe { <Vec<u8> as napi::bindgen_prelude::ToNapiValue>::to_napi_value(env, val.0) }
+        let vec_impl = unsafe { <Vec<u8> as napi::bindgen_prelude::ToNapiValue>::to_napi_value(env, val.0) };
+        vec_impl
     }
 }
 

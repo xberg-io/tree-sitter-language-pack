@@ -1,6 +1,6 @@
 {
   "name": "@kreuzberg/tree-sitter-language-pack",
-  "version": "1.8.1",
+  "version": "1.8.0",
   "description": "Tree-sitter language pack - pre-compiled parsers for 305 languages (Node.js NAPI bindings)",
   "keywords": [
     "kreuzberg",

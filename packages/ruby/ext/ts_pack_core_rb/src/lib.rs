@@ -1708,7 +1708,7 @@ impl Tree {
 
     fn walk(&self) -> TreeCursor {
         TreeCursor {
-            inner: Arc::new(std::sync::Mutex::new(self.inner.walk())),
+            inner: Arc::new(self.inner.walk()),
         }
     }
 }
@@ -1817,7 +1817,7 @@ impl Node {
 
     fn walk(&self) -> TreeCursor {
         TreeCursor {
-            inner: Arc::new(std::sync::Mutex::new(self.inner.walk())),
+            inner: Arc::new(self.inner.walk()),
         }
     }
 }
@@ -1842,7 +1842,7 @@ unsafe impl TryConvertOwned for TreeCursor {}
 impl TreeCursor {
     fn node(&self) -> Node {
         Node {
-            inner: Arc::new(self.inner.lock().unwrap().node()),
+            inner: Arc::new(self.inner.node()),
         }
     }
 
@@ -1859,7 +1859,7 @@ impl TreeCursor {
     }
 
     fn field_name(&self) -> Option<String> {
-        self.inner.lock().unwrap().field_name()
+        self.inner.field_name()
     }
 }
 
@@ -2110,7 +2110,7 @@ impl LanguageRegistry {
     }
 
     fn process(&self, source: String, config: ProcessConfig) -> Result<ProcessResult, Error> {
-        let result = self.inner.process(&source, &config.into()).map_err(|e| {
+        let result = self.inner.process(&source, config.into()).map_err(|e| {
             magnus::Error::new(
                 unsafe { Ruby::get_unchecked() }.exception_runtime_error(),
                 e.to_string(),
@@ -2360,8 +2360,7 @@ impl DownloadManager {
     }
 
     fn ensure_languages(&self, names: Vec<String>) -> Result<(), Error> {
-        let names_refs: Vec<&str> = names.iter().map(|s| s.as_str()).collect();
-        self.inner.ensure_languages(&names_refs).map_err(|e| {
+        self.inner.ensure_languages(&names).map_err(|e| {
             magnus::Error::new(
                 unsafe { Ruby::get_unchecked() }.exception_runtime_error(),
                 e.to_string(),
@@ -3835,14 +3834,6 @@ fn ruby_init(ruby: &Ruby) -> Result<(), Error> {
 
     let class = module.define_class("Parser", ruby.class_object())?;
 
-    class.define_method("set_language", method!(Parser::set_language, 1))?;
-
-    class.define_method("parse", method!(Parser::parse, 1))?;
-
-    class.define_method("parse_bytes", method!(Parser::parse_bytes, 1))?;
-
-    class.define_method("reset", method!(Parser::reset, 0))?;
-
     let class = module.define_class("Tree", ruby.class_object())?;
 
     class.define_method("root_node", method!(Tree::root_node, 0))?;
@@ -3898,12 +3889,6 @@ fn ruby_init(ruby: &Ruby) -> Result<(), Error> {
     class.define_method("node", method!(TreeCursor::node, 0))?;
 
     class.define_method("field_name", method!(TreeCursor::field_name, 0))?;
-
-    class.define_method("goto_first_child", method!(TreeCursor::goto_first_child, 0))?;
-
-    class.define_method("goto_parent", method!(TreeCursor::goto_parent, 0))?;
-
-    class.define_method("goto_next_sibling", method!(TreeCursor::goto_next_sibling, 0))?;
 
     let class = module.define_class("ProcessConfig", ruby.class_object())?;
 
