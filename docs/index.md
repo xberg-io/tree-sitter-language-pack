@@ -3,7 +3,7 @@ title: tree-sitter-language-pack
 description: "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, syntax-aware chunking, and polyglot bindings for Python, TypeScript, Rust, Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly."
 ---
 
-# tree-sitter-language-pack
+## Tree-sitter-language-pack
 
 A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammars behind one parsing and code-intelligence API. Parsers download on demand and cache locally, so the install footprint stays small. Native bindings ship for Python, TypeScript / Node.js, Rust, Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly, plus the standalone `ts-pack` CLI.
 
@@ -18,7 +18,7 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 ---
 
-## Why tree-sitter-language-pack
+### Why tree-sitter-language-pack
 
 <div class="grid cards" markdown>
 
@@ -50,7 +50,7 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 ---
 
-## Language Support
+### Language Support
 
 | Language                 | Install                                                                              | API Reference                                |
 | :----------------------- | :----------------------------------------------------------------------------------- | :------------------------------------------- |
@@ -71,7 +71,7 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 ---
 
-## Explore the Docs
+### Explore the Docs
 
 <div class="grid cards" markdown>
 
@@ -115,7 +115,7 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 ---
 
-## Part of kreuzberg.dev
+### Part of kreuzberg.dev
 
 Tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev) team, the same people behind a family of Rust-core, polyglot-bindings libraries.
 
@@ -149,7 +149,7 @@ Tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev)
 
 ---
 
-## Getting Help
+### Getting Help
 
 - **Bugs and feature requests** — [Open an issue on GitHub](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues)
 - **Community chat** — [Join the Discord](https://discord.gg/xt9WY3GnKR)
