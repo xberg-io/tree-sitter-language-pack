@@ -241,16 +241,16 @@ This pack includes 306 languages. See the [full language list](docs/languages.md
 ## Package READMEs
 
 - [Rust](crates/ts-pack-core/README.md) -- Rust core library providing access to 306 tree-sitter parsers with on-demand download and caching support.
-- [Python](crates/ts-pack-python/README.md) -- Python bindings for tree-sitter-language-pack, providing access to 306 pre-compiled tree-sitter parsers with on-demand downloads.
-- [Node.js](crates/ts-pack-node/README.md) -- Node.js NAPI bindings for tree-sitter-language-pack with on-demand parser downloads.
+- [Python](packages/python/README.md) -- Python bindings for tree-sitter-language-pack, providing access to 306 pre-compiled tree-sitter parsers with on-demand downloads.
+- [Node.js](packages/typescript/README.md) -- Node.js NAPI bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [Go](packages/go/README.md) -- Go bindings for tree-sitter-language-pack with on-demand parser caching.
-- [Java](crates/ts-pack-java/README.md) -- Java bindings for tree-sitter-language-pack with on-demand parser downloads (JDK 22+).
-- [Elixir](crates/ts-pack-elixir/README.md) -- Elixir bindings for tree-sitter-language-pack with on-demand parser downloads.
-- [Ruby](crates/ts-pack-ruby/README.md) -- Ruby bindings for tree-sitter-language-pack with on-demand parser downloads.
-- [WebAssembly](crates/ts-pack-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 306 languages, use native bindings (Python, Node.js, etc.).
+- [Java](packages/java/README.md) -- Java bindings for tree-sitter-language-pack with on-demand parser downloads (JDK 22+).
+- [Elixir](packages/elixir/README.md) -- Elixir bindings for tree-sitter-language-pack with on-demand parser downloads.
+- [Ruby](packages/ruby/README.md) -- Ruby bindings for tree-sitter-language-pack with on-demand parser downloads.
+- [WebAssembly](crates/tree-sitter-language-pack-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 306 languages, use native bindings (Python, Node.js, etc.).
 - [PHP](packages/php/README.md) -- PHP extension via ext-php-rs with on-demand parser downloads.
-- [.NET (C#)](packages/csharp/TreeSitterLanguagePack/README.md) -- .NET P/Invoke bindings with on-demand parser downloads.
-- [C/C++ (FFI)](crates/ts-pack-ffi/README.md) -- C-compatible FFI bindings for tree-sitter-language-pack. Use from any language with C interop.
+- [.NET (C#)](packages/csharp/README.md) -- .NET P/Invoke bindings with on-demand parser downloads.
+- [C/C++ (FFI)](crates/tree-sitter-language-pack-ffi/README.md) -- C-compatible FFI bindings for tree-sitter-language-pack. Use from any language with C interop.
 - [CLI](crates/ts-pack-cli/README.md) -- Command-line tool for managing tree-sitter language parsers with download utilities.
 
 ## Contributing
@@ -259,7 +259,7 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 
 Join our [Discord community](https://discord.gg/xt9WY3GnKR) for questions and discussion.
 
-## Part of Kreuzberg, Inc
+## Part of Kreuzberg.dev
 
 - [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
 - [Kreuzberg Cloud](https://github.com/kreuzberg-dev/kreuzberg-cloud) — managed extraction API with SDKs, dashboards, and observability.
