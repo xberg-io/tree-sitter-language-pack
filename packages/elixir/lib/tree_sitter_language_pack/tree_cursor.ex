@@ -36,5 +36,4 @@ defmodule TreeSitterLanguagePack.TreeCursor do
   def field_name(obj) do
     Native.treecursor_field_name(obj.ref)
   end
-
 end

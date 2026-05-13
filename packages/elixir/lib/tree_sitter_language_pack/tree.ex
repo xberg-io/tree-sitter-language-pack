@@ -21,5 +21,4 @@ defmodule TreeSitterLanguagePack.Tree do
   def walk(obj) do
     Native.tree_walk(obj.ref)
   end
-
 end
