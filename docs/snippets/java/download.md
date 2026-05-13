@@ -1,14 +1,23 @@
 ```java title="Java"
-import io.github.treesitter.languagepack.TsPackRegistry;
+import dev.kreuzberg.treesitterlanguagepack.PackConfig;
+import dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack;
+
 import java.util.List;
+import java.util.Optional;
 
 class Main {
-    public static void main(String[] args) {
-        TsPackRegistry.init("{\"languages\": [\"java\", \"kotlin\"]}");
-        TsPackRegistry.download(List.of("python", "rust"));
+    public static void main(String[] args) throws Exception {
+        PackConfig config = PackConfig.builder()
+                .withLanguages(Optional.of(List.of("java", "kotlin")))
+                .build();
+        TreeSitterLanguagePack.init(config);
 
-        var langs = TsPackRegistry.downloadedLanguages();
-        System.out.println("Downloaded: " + langs);
+        long ensured = TreeSitterLanguagePack.download(List.of("python", "rust"));
+        System.out.println("Ensured " + ensured + " languages");
+
+        for (String name : TreeSitterLanguagePack.downloadedLanguages()) {
+            System.out.println("cached: " + name);
+        }
     }
 }
 ```

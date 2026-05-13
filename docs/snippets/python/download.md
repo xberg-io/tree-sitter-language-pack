@@ -5,7 +5,7 @@ import tree_sitter_language_pack as tslp
 tslp.download(["python", "javascript", "rust"])
 
 # Or initialize with config
-tslp.init({"languages": ["python", "go"], "cache_dir": "/tmp/parsers"})
+tslp.init(tslp.PackConfig(languages=["python", "go"], cache_dir="/tmp/parsers"))
 
 # Check what's cached
 print(tslp.downloaded_languages())

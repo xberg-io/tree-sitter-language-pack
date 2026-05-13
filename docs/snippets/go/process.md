@@ -2,25 +2,28 @@
 package main
 
 import (
-    "fmt"
-    tslp "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+	"fmt"
+	"log"
+
+	tslp "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
 )
 
 func main() {
-    registry, _ := tslp.NewRegistry()
-    defer registry.Close()
+	config := tslp.ProcessConfig{Language: "go"}
+	result, err := tslp.Process(
+		"package main\nimport \"fmt\"\nfunc hello() { fmt.Println(\"hi\") }",
+		config,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    config := tslp.ProcessConfig{
-        Language:  "go",
-        Structure: true,
-        Imports:   true,
-    }
-    result, _ := registry.Process(
-        "package main\nimport \"fmt\"\nfunc hello() { fmt.Println(\"hi\") }",
-        config,
-    )
-    fmt.Println("Language:", result.Language)
-    fmt.Println("Structure:", result.Structure)
-    fmt.Println("Metrics:", result.Metrics)
+	fmt.Println("Language:", result.Language)
+	for _, item := range result.Structure {
+		fmt.Printf("%s: %s\n", item.Kind, item.Name)
+	}
+	for _, imp := range result.Imports {
+		fmt.Println("import:", imp.Source)
+	}
 }
 ```

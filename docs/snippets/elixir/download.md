@@ -1,7 +1,9 @@
 ```elixir title="Elixir"
-TreeSitterLanguagePack.init(~s({"languages": ["elixir", "erlang"]}))
-TreeSitterLanguagePack.download(["python", "rust"])
+{:ok, nil} = TreeSitterLanguagePack.init(~s({"languages": ["elixir", "erlang"]}))
 
-{:ok, langs} = TreeSitterLanguagePack.downloaded_languages()
-IO.inspect(langs)
+{:ok, count} = TreeSitterLanguagePack.download(["python", "rust"])
+IO.puts("Ensured #{count} languages")
+
+langs = TreeSitterLanguagePack.downloaded_languages()
+IO.inspect(langs, label: "cached")
 ```

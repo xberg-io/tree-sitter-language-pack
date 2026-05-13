@@ -1,8 +1,13 @@
 ```ruby title="Ruby"
 require "tree_sitter_language_pack"
 
-TreeSitterLanguagePack.init('{"languages": ["ruby", "python"]}')
-TreeSitterLanguagePack.download('{"languages": ["rust", "javascript"]}')
+config = TreeSitterLanguagePack::PackConfig.new(languages: ["ruby", "python"])
+TreeSitterLanguagePack.init(config)
 
-puts TreeSitterLanguagePack.downloaded_languages
+count = TreeSitterLanguagePack.download(["rust", "javascript"])
+puts "Ensured #{count} languages"
+
+TreeSitterLanguagePack.downloaded_languages.each do |name|
+  puts "cached: #{name}"
+end
 ```

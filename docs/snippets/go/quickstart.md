@@ -2,22 +2,28 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    tslp "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+	"fmt"
+	"log"
+
+	tslp "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
 )
 
 func main() {
-    registry, _ := tslp.NewRegistry()
-    defer registry.Close()
+	parser, err := tslp.GetParser("go")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer parser.Free()
 
-    tree, _ := registry.ParseString("go", "package main\nfunc hello() {}")
-    defer tree.Close()
+	tree := parser.Parse("package main\nfunc hello() {}")
+	defer tree.Free()
 
-    rootType, err := tree.RootNodeType()
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println("Root:", rootType)
+	root := tree.RootNode()
+	defer root.Free()
+
+	kind := root.Kind()
+	if kind != nil {
+		fmt.Println("Root:", *kind)
+	}
 }
 ```

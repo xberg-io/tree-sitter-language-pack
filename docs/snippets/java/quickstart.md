@@ -1,12 +1,19 @@
 ```java title="Java"
-import io.github.treesitter.languagepack.TsPackRegistry;
+import dev.kreuzberg.treesitterlanguagepack.PackConfig;
+import dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack;
+
+import java.util.List;
+import java.util.Optional;
 
 class Main {
-    public static void main(String[] args) {
-        TsPackRegistry.init("{\"languages\": [\"java\"]}");
+    public static void main(String[] args) throws Exception {
+        PackConfig config = PackConfig.builder()
+                .withLanguages(Optional.of(List.of("java")))
+                .build();
+        TreeSitterLanguagePack.init(config);
 
-        var tree = TsPackRegistry.parseString("java", "class Foo { void bar() {} }");
-        System.out.println("Root: " + tree.rootNodeType());
+        System.out.println("Java available: " + TreeSitterLanguagePack.hasLanguage("java"));
+        System.out.println("Languages: " + TreeSitterLanguagePack.languageCount());
     }
 }
 ```

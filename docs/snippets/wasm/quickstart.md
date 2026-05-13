@@ -1,13 +1,24 @@
 ```javascript title="WebAssembly"
 import {
   availableLanguages,
-  parseString,
-  treeRootNodeType,
+  getParser,
+  hasLanguage,
+  languageCount,
 } from "@kreuzberg/tree-sitter-language-pack-wasm";
 
-const langs = availableLanguages();
-console.log(`${langs.length} languages available`);
+console.log(`${languageCount()} languages available`);
+console.log(`Python available: ${hasLanguage("python")}`);
+console.log(`First 5: ${availableLanguages().slice(0, 5).join(", ")}`);
 
-const tree = parseString("python", "def hello(): pass");
-console.log(`Root: ${treeRootNodeType(tree)}`);
+const parser = getParser("python");
+try {
+  const tree = parser.parse("def hello(): pass");
+  try {
+    console.log(`Root: ${tree.rootNode().kind()}`);
+  } finally {
+    tree.free();
+  }
+} finally {
+  parser.free();
+}
 ```
