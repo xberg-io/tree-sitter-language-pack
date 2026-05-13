@@ -51,7 +51,7 @@ fn bench_parse(c: &mut Criterion) {
     for &(id, lang, source) in cases {
         group.bench_function(id, |b| {
             let mut parser = get_parser(lang).unwrap();
-            b.iter(|| parser.parse(black_box(source.as_bytes()), None).unwrap());
+            b.iter(|| parser.parse_bytes(black_box(source.as_bytes())).unwrap());
         });
     }
 
