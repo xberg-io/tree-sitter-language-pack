@@ -951,17 +951,14 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      - name: Install alef
-        uses: kreuzberg-dev/actions/install-alef@v1
-
-      - name: Build and stage FFI library
-        shell: bash
-        run: |
-          alef publish build --lang ffi --target ${{ matrix.target }}
-          mkdir -p dist/java-ffi/${{ matrix.platform }}/native
-          find "target/${{ matrix.target }}/release" -maxdepth 1 -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \) -name '*ts_pack_core_ffi*' -exec cp {} dist/java-ffi/${{ matrix.platform }}/native/ \;
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
+      - name: Build Java native library
+        uses: kreuzberg-dev/actions/build-java-natives@v1
+        with:
+          target: ${{ matrix.target }}
+          crate-name: ts-pack-core-ffi
+          lib-name: ts_pack_core_ffi
+          classifier: ${{ matrix.platform }}
+          output-dir: dist/java-ffi
 
       - name: Upload native artifact
         uses: actions/upload-artifact@v7
