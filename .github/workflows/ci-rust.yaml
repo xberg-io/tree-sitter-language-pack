@@ -113,7 +113,7 @@ jobs:
     timeout-minutes: 60
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout

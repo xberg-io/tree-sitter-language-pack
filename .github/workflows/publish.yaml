@@ -537,6 +537,7 @@ jobs:
           # shellcheck disable=SC1091
           source /tmp/sdist-smoke/bin/activate
           pip install --upgrade pip
+          pip install 'maturin>=1,<2'
           TSLP_LANGUAGES="python,rust,javascript" \
           TSLP_LINK_MODE=static \
           TSLP_SOURCE_BUNDLE_URL="file://${BUNDLE}" \

@@ -250,7 +250,7 @@ jobs:
         run: cargo clippy --workspace --exclude ts-pack-core-wasm -- -D warnings
         env:
           PROJECT_ROOT: ${{ github.workspace }}
-          TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+          TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
           TSLP_LINK_MODE: static
 
       - name: Install alef
@@ -390,7 +390,7 @@ jobs:
     timeout-minutes: 60
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout
@@ -438,7 +438,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout
@@ -495,7 +495,7 @@ jobs:
             platform: macos-arm64
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout
@@ -557,7 +557,7 @@ jobs:
             python-version: "3.14"
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -608,7 +608,7 @@ jobs:
             platform: macos-arm64
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout
@@ -709,7 +709,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -918,7 +918,7 @@ jobs:
     timeout-minutes: 30
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout
@@ -1018,7 +1018,7 @@ jobs:
     env:
       DOTNET_VERSION: "10.0.x"
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout
@@ -1087,7 +1087,7 @@ jobs:
     timeout-minutes: 30
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -1150,7 +1150,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -1245,7 +1245,7 @@ jobs:
     timeout-minutes: 30
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -1339,7 +1339,7 @@ jobs:
     timeout-minutes: 30
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,c,bash,haskell,java,kotlin,ruby,cue"
       TSLP_LINK_MODE: static
       LD_LIBRARY_PATH: ${{ github.workspace }}/target/release
     steps:
