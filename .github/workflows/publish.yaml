@@ -537,7 +537,10 @@ jobs:
           # shellcheck disable=SC1091
           source /tmp/sdist-smoke/bin/activate
           pip install --upgrade pip
-          pip install 'maturin>=1,<2'
+          # --no-build-isolation needs every PEP 517 backend present in the venv
+          # ahead of time: maturin for tree-sitter-language-pack itself, setuptools
+          # + wheel for tree-sitter's sdist (a transitive build dep).
+          pip install 'maturin>=1,<2' 'setuptools>=68' wheel
           TSLP_LANGUAGES="python,rust,javascript" \
           TSLP_LINK_MODE=static \
           TSLP_SOURCE_BUNDLE_URL="file://${BUNDLE}" \
@@ -616,6 +619,13 @@ jobs:
         run: napi build --release --platform --target ${{ matrix.napi_target }}
         env:
           PROJECT_ROOT: ${{ github.workspace }}
+          # The workspace `.cargo/config.toml` pins `rust-lld` for Windows MSVC
+          # targets (for cross-compile speed in other crates). rust-lld is strict
+          # about undefined symbols and can't resolve napi_* dyn-load stubs, so
+          # we override back to the default MSVC linker (link.exe on PATH) for
+          # this crate. Empty value lets cargo fall back to the toolchain default.
+          CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER: link.exe
+          CARGO_TARGET_AARCH64_PC_WINDOWS_MSVC_LINKER: link.exe
 
       - name: Upload native module
         uses: actions/upload-artifact@v7
@@ -1033,39 +1043,15 @@ jobs:
         with:
           pattern: java-natives-*
           path: artifacts/java-natives
-          merge-multiple: false
+          merge-multiple: true
 
       - name: Stage Java native resources
-        shell: bash
-        run: |
-          ARTIFACTS_DIR="artifacts/java-natives"
-          RESOURCES_DIR="packages/java/src/main/resources/natives"
-          mkdir -p "$RESOURCES_DIR"
-          # Artifact layout: $ARTIFACTS_DIR/java-natives-{label}/{platform}/native/{libfile}
-          # Two dirname levels up from the lib file gives {platform}.
-          find "$ARTIFACTS_DIR" \( -name '*.so' -o -name '*.dll' -o -name '*.dylib' \) -print0 |
-          while IFS= read -r -d '' f; do
-            platform=$(basename "$(dirname "$(dirname "$f")")")
-            mkdir -p "$RESOURCES_DIR/$platform"
-            cp "$f" "$RESOURCES_DIR/$platform/"
-          done
-          echo "=== Staged native resources ==="
-          find "$RESOURCES_DIR" -type f | sort
-
-      - name: Verify staged native resources
-        shell: bash
-        run: |
-          RESOURCES_DIR="packages/java/src/main/resources/natives"
-          # RIDs must match the build-java-natives matrix platform values.
-          # Native lib name varies by platform: libts_pack_core_ffi.{so,dylib} on Unix,
-          # ts_pack_core_ffi.dll on Windows. The wildcard *ts_pack_core_ffi.* matches both.
-          for rid in linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-aarch64; do
-            if ! compgen -G "$RESOURCES_DIR/$rid/*ts_pack_core_ffi.*" >/dev/null; then
-              echo "::error::Missing native lib for $rid in $RESOURCES_DIR/$rid"
-              exit 1
-            fi
-          done
-          echo "All expected native libs present."
+        uses: kreuzberg-dev/actions/stage-java-natives@v1
+        with:
+          artifacts-dir: artifacts/java-natives
+          resources-dir: packages/java/src/main/resources/natives
+          required-classifiers: linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-aarch64
+          lib-name: ts_pack_core_ffi
 
       - name: Build and package
         working-directory: packages/java
