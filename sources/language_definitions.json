@@ -24,7 +24,7 @@
   "al": {
     "extensions": ["al"],
     "repo": "https://github.com/SShadowS/tree-sitter-al",
-    "rev": "3e4ccb672f27d1ad673a8a995b1f5c770bb0f738"
+    "rev": "0d5b5cf95b2c239a57907c5b240c2b1303e7096d"
   },
   "angular": {
     "extensions": [],
