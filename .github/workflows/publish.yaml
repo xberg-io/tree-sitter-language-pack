@@ -549,7 +549,7 @@ jobs:
           python -c "
           import tree_sitter_language_pack as t
           p = t.get_parser('python')
-          tree = p.parse(b'def foo(): pass')
+          tree = p.parse('def foo(): pass')
           assert tree.root_node.type == 'module', tree.root_node.type
           print('OK:', tree.root_node.type)
           "
@@ -576,12 +576,12 @@ jobs:
           - os: macos-latest
             label: darwin-arm64
             napi_target: aarch64-apple-darwin
-          - os: windows-latest
-            label: win32-x64-msvc
-            napi_target: x86_64-pc-windows-msvc
-          - os: windows-11-arm
-            label: win32-arm64-msvc
-            napi_target: aarch64-pc-windows-msvc
+          # Windows targets (win32-x64-msvc, win32-arm64-msvc) are deferred:
+          # alef's capsule_types codegen emits raw `extern "C"` blocks for
+          # napi_create_external + napi_type_tag_object. Those symbols aren't
+          # in napi-sys 3.x's generate! macro, so Windows MSVC has no import
+          # library entry for them and link fails with LNK2019. Resumes once
+          # alef switches the codegen to libloading-based dynamic dispatch.
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -619,13 +619,6 @@ jobs:
         run: napi build --release --platform --target ${{ matrix.napi_target }}
         env:
           PROJECT_ROOT: ${{ github.workspace }}
-          # The workspace `.cargo/config.toml` pins `rust-lld` for Windows MSVC
-          # targets (for cross-compile speed in other crates). rust-lld is strict
-          # about undefined symbols and can't resolve napi_* dyn-load stubs, so
-          # we override back to the default MSVC linker (link.exe on PATH) for
-          # this crate. Empty value lets cargo fall back to the toolchain default.
-          CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER: link.exe
-          CARGO_TARGET_AARCH64_PC_WINDOWS_MSVC_LINKER: link.exe
 
       - name: Upload native module
         uses: actions/upload-artifact@v7
@@ -1032,7 +1025,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: "temurin"
-          java-version: "25.0.2+10"
+          java-version: "25"
           cache: "maven"
 
       - name: Setup Maven
@@ -2137,7 +2130,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: "25.0.2+10"
+          java-version: "25"
           cache: maven
           server-id: ossrh
           server-username: MAVEN_USERNAME
