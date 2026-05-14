@@ -925,6 +925,7 @@ jobs:
           target: ${{ matrix.target }}
           crate-name: ts-pack-core-ffi
           lib-name: ts_pack_core_ffi
+          header-path: crates/ts-pack-core-ffi/include/ts_pack.h
           output-dir: dist/go-ffi
 
       - name: Upload FFI artifact
