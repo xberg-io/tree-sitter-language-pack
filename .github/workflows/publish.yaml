@@ -216,6 +216,55 @@ jobs:
           path: parsers
           retention-days: 3
 
+  # ─── Build parser-sources bundle (for from-source installs, fix #122) ─
+  build-parser-sources:
+    name: Build parser-sources bundle
+    needs: [prepare, validate-versions, clone-vendors]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.tag }}
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Pack parser sources
+        uses: kreuzberg-dev/actions/pack-source-bundle@v1
+        with:
+          paths: |
+            parsers
+            sources
+          excludes: |
+            parsers/*/grammar.js
+            parsers/*/grammar.json
+            parsers/*/node-types.json
+            parsers/*/binding.gyp
+            parsers/*/package.json
+            parsers/*/.gitignore
+            parsers/*/test
+          output: dist/parser-sources-${{ needs.prepare.outputs.version }}.tar.zst
+
+      - name: Upload to GitHub Release
+        if: ${{ needs.prepare.outputs.dry_run != 'true' }}
+        uses: kreuzberg-dev/actions/publish-github-release@v1
+        with:
+          tag: ${{ needs.prepare.outputs.tag }}
+          title: "Release ${{ needs.prepare.outputs.tag }}"
+          artifacts: |
+            dist/parser-sources-*.tar.zst
+            dist/parser-sources-*.tar.zst.sha256
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
   # ─── Build parser binaries ─────────────────────────────────────────
   build-parser-binaries:
     name: Build parser binaries (${{ matrix.label }})
@@ -434,6 +483,57 @@ jobs:
           name: python-sdist
           path: dist/*.tar.gz
           retention-days: 14
+
+      # Smoke: install the just-built sdist with parsers/ hidden from the
+      # build, so build.rs has to fetch the source bundle. Proves the #122
+      # codepath works end-to-end before we cut a release.
+      - name: Setup Python for smoke
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Pack a smoke source bundle
+        id: smoke-bundle
+        uses: kreuzberg-dev/actions/pack-source-bundle@v1
+        with:
+          paths: |
+            parsers
+            sources
+          excludes: |
+            parsers/*/grammar.js
+            parsers/*/grammar.json
+            parsers/*/node-types.json
+            parsers/*/binding.gyp
+            parsers/*/package.json
+            parsers/*/.gitignore
+            parsers/*/test
+          output: /tmp/parser-sources.tar.zst
+
+      - name: Smoke install from sdist (force source bundle download)
+        env:
+          BUNDLE: ${{ steps.smoke-bundle.outputs.bundle-path }}
+        run: |
+          set -euo pipefail
+          # Hide parsers/ so build.rs can't find them locally — emulates sdist install.
+          mv parsers /tmp/parsers-bak
+          python -m venv /tmp/sdist-smoke
+          # shellcheck disable=SC1091
+          source /tmp/sdist-smoke/bin/activate
+          pip install --upgrade pip
+          TSLP_LANGUAGES="python,rust,javascript" \
+          TSLP_LINK_MODE=static \
+          TSLP_SOURCE_BUNDLE_URL="file://${BUNDLE}" \
+            pip install --no-binary :all: --no-build-isolation \
+              dist/tree_sitter_language_pack-*.tar.gz
+          python -c "
+          import tree_sitter_language_pack as t
+          p = t.get_parser('python')
+          tree = p.parse(b'def foo(): pass')
+          assert tree.root_node.type == 'module', tree.root_node.type
+          print('OK:', tree.root_node.type)
+          "
+          # Restore parsers/ for any subsequent steps.
+          mv /tmp/parsers-bak parsers
 
   # ─── Build Node.js native modules ─────────────────────────────────
   build-node-native:
