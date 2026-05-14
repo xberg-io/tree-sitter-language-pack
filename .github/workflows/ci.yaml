@@ -61,7 +61,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:

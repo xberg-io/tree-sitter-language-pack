@@ -1,4 +1,4 @@
-name: CI Docker Build & Grammar Tests
+name: CI Docker
 
 on:
   push:
@@ -33,7 +33,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-docker-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ci-docker-${{ github.ref }}
   cancel-in-progress: true
 
 env:
