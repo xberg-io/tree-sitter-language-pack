@@ -1844,7 +1844,7 @@ jobs:
       always() &&
       needs.prepare.outputs.release_wasm == 'true' &&
       needs.build-wasm.result == 'success' &&
-      (fromJson(needs.check-registries.outputs.results).'npm-wasm' != 'true' || needs.prepare.outputs.force_republish == 'true')
+      (fromJson(needs.check-registries.outputs.results)['npm-wasm'] != 'true' || needs.prepare.outputs.force_republish == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -2621,13 +2621,7 @@ jobs:
     needs:
       - prepare
       - validate-versions
-      - check-cratesio
-      - check-pypi
-      - check-npm
-      - check-npm-wasm
-      - check-rubygems
-      - check-maven
-      - check-hex
+      - check-registries
       - upload-parser-binaries
       - upload-go-release
       - upload-c-ffi-release
@@ -2642,9 +2636,6 @@ jobs:
       - publish-hex
       - publish-packagist
       - publish-nuget
-      - check-packagist
-      - check-nuget
-      - check-homebrew
       - publish-homebrew-formula
       - homebrew-bottles
       - upload-cli-release
@@ -2671,16 +2662,7 @@ jobs:
       - name: Aggregate release status
         if: always()
         env:
-          CHECK_CRATESIO_EXISTS: ${{ needs.check-cratesio.outputs.exists || '' }}
-          CHECK_PYPI_EXISTS: ${{ needs.check-pypi.outputs.exists || '' }}
-          CHECK_NPM_EXISTS: ${{ needs.check-npm.outputs.exists || '' }}
-          CHECK_NPM_WASM_EXISTS: ${{ needs.check-npm-wasm.outputs.exists || '' }}
-          CHECK_RUBYGEMS_EXISTS: ${{ needs.check-rubygems.outputs.exists || '' }}
-          CHECK_MAVEN_EXISTS: ${{ needs.check-maven.outputs.exists || '' }}
-          CHECK_HEX_EXISTS: ${{ needs.check-hex.outputs.exists || '' }}
-          CHECK_PACKAGIST_EXISTS: ${{ needs.check-packagist.outputs.exists || '' }}
-          CHECK_NUGET_EXISTS: ${{ needs.check-nuget.outputs.exists || '' }}
-          CHECK_HOMEBREW_EXISTS: ${{ needs.check-homebrew.outputs.exists || '' }}
+          CHECK_RESULTS: ${{ needs.check-registries.outputs.results }}
           RESULT_VALIDATE: ${{ needs.validate-versions.result }}
           RESULT_PUBLISH_CRATES: ${{ needs.publish-crates.result }}
           RESULT_PUBLISH_PYPI: ${{ needs.publish-pypi.result }}
@@ -2727,16 +2709,16 @@ jobs:
             results[homebrew]="${RESULT_PUBLISH_HOMEBREW}"
 
             declare -A checks
-            checks[crates]="${CHECK_CRATESIO_EXISTS}"
-            checks[python]="${CHECK_PYPI_EXISTS}"
-            checks[node]="${CHECK_NPM_EXISTS}"
-            checks[wasm]="${CHECK_NPM_WASM_EXISTS}"
-            checks[ruby]="${CHECK_RUBYGEMS_EXISTS}"
-            checks[maven]="${CHECK_MAVEN_EXISTS}"
-            checks[hex]="${CHECK_HEX_EXISTS}"
-            checks[packagist]="${CHECK_PACKAGIST_EXISTS}"
-            checks[nuget]="${CHECK_NUGET_EXISTS}"
-            checks[homebrew]="${CHECK_HOMEBREW_EXISTS}"
+            checks[crates]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.cratesio // ""')"
+            checks[python]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.pypi // ""')"
+            checks[node]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.npm // ""')"
+            checks[wasm]="$(printf '%s' "$CHECK_RESULTS" | jq -r '."npm-wasm" // ""')"
+            checks[ruby]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.rubygems // ""')"
+            checks[maven]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.maven // ""')"
+            checks[hex]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.hex // ""')"
+            checks[packagist]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.packagist // ""')"
+            checks[nuget]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.nuget // ""')"
+            checks[homebrew]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.homebrew // ""')"
 
             for target in crates python node wasm ruby maven hex packagist nuget homebrew parser-binaries go-ffi c-ffi elixir-nifs; do
               result="${results[$target]}"
