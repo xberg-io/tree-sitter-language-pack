@@ -95,21 +95,41 @@ The manifest is a JSON file (`parsers.json`) hosted on each GitHub release. It h
 {
   "version": "1.8.1",
   "platforms": {
-    "linux-x64":   { "url": "https://github.com/.../parsers-linux-x64.tar.zst",   "sha256": "…", "size": 12345678 },
-    "linux-arm64": { "url": "https://github.com/.../parsers-linux-arm64.tar.zst", "sha256": "…", "size": 12345678 },
-    "macos-x64":   { "url": "https://github.com/.../parsers-macos-x64.tar.zst",   "sha256": "…", "size": 12345678 },
-    "macos-arm64": { "url": "https://github.com/.../parsers-macos-arm64.tar.zst", "sha256": "…", "size": 12345678 },
-    "windows-x64": { "url": "https://github.com/.../parsers-windows-x64.zip",     "sha256": "…", "size": 12345678 }
+    "linux-x64": {
+      "url": "https://github.com/.../parsers-linux-x64.tar.zst",
+      "sha256": "…",
+      "size": 12345678
+    },
+    "linux-arm64": {
+      "url": "https://github.com/.../parsers-linux-arm64.tar.zst",
+      "sha256": "…",
+      "size": 12345678
+    },
+    "macos-x64": {
+      "url": "https://github.com/.../parsers-macos-x64.tar.zst",
+      "sha256": "…",
+      "size": 12345678
+    },
+    "macos-arm64": {
+      "url": "https://github.com/.../parsers-macos-arm64.tar.zst",
+      "sha256": "…",
+      "size": 12345678
+    },
+    "windows-x64": {
+      "url": "https://github.com/.../parsers-windows-x64.zip",
+      "sha256": "…",
+      "size": 12345678
+    }
   },
   "languages": {
-    "python":     { "group": "scripting", "size": 524288 },
-    "rust":       { "group": "systems",   "size": 786432 },
-    "javascript": { "group": "web",       "size": 458752 }
+    "python": { "group": "scripting", "size": 524288 },
+    "rust": { "group": "systems", "size": 786432 },
+    "javascript": { "group": "web", "size": 458752 }
   },
   "groups": {
     "scripting": ["python", "ruby", "lua", "perl", "..."],
-    "systems":   ["rust", "c", "cpp", "go", "..."],
-    "web":       ["javascript", "typescript", "html", "css", "..."]
+    "systems": ["rust", "c", "cpp", "go", "..."],
+    "web": ["javascript", "typescript", "html", "css", "..."]
   }
 }
 ```

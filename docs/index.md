@@ -24,27 +24,27 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 - :material-code-tags:{ .lg .middle } **306 Languages**
 
-    One pack covers every mainstream language and most niche ones — Python, Rust, Go, Java, TypeScript, C++, Kotlin, Swift, Zig, Elixir, Haskell, Julia, R, and 290+ more.
+  One pack covers every mainstream language and most niche ones — Python, Rust, Go, Java, TypeScript, C++, Kotlin, Swift, Zig, Elixir, Haskell, Julia, R, and 290+ more.
 
 - :material-flash:{ .lg .middle } **Native-speed Parsing**
 
-    Tree-sitter parsers are C code, called directly from a Rust core. No interpreter overhead, no per-file process spawn.
+  Tree-sitter parsers are C code, called directly from a Rust core. No interpreter overhead, no per-file process spawn.
 
 - :material-cloud-download-outline:{ .lg .middle } **On-demand Download**
 
-    Parsers are fetched and cached on first use. The base install stays small; you only pay for the languages you actually parse.
+  Parsers are fetched and cached on first use. The base install stays small; you only pay for the languages you actually parse.
 
 - :material-lightbulb-on-outline:{ .lg .middle } **Code Intelligence**
 
-    Beyond raw syntax trees: functions, classes, imports, exports, symbols, comments, and docstrings — extracted with one call.
+  Beyond raw syntax trees: functions, classes, imports, exports, symbols, comments, and docstrings — extracted with one call.
 
 - :material-content-cut:{ .lg .middle } **LLM-aware Chunking**
 
-    Split source at natural boundaries (functions, classes, blocks) so chunks stay semantically intact for embeddings and prompt windows.
+  Split source at natural boundaries (functions, classes, blocks) so chunks stay semantically intact for embeddings and prompt windows.
 
 - :material-translate:{ .lg .middle } **10 Language Bindings + CLI**
 
-    The same Rust core ships as a PyPI wheel, an npm module, a crate, a Go module, a Maven JAR, a NuGet package, a gem, a Composer package, a Hex package, a WASM module, and a static-binary CLI.
+  The same Rust core ships as a PyPI wheel, an npm module, a crate, a Go module, a Maven JAR, a NuGet package, a gem, a Composer package, a Hex package, a WASM module, and a static-binary CLI.
 
 </div>
 
@@ -52,20 +52,20 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 ### Language Support
 
-| Language                 | Install                                                                              | API Reference                                |
-| :----------------------- | :----------------------------------------------------------------------------------- | :------------------------------------------- |
-| **Python**               | `pip install tree-sitter-language-pack`                                              | [API Reference](reference/api-python.md)     |
-| **TypeScript / Node.js** | `npm install @kreuzberg/tree-sitter-language-pack`                                   | [API Reference](reference/api-typescript.md) |
-| **Rust**                 | `cargo add tree-sitter-language-pack`                                                | [API Reference](reference/api-rust.md)       |
-| **Go**                   | `go get github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go`              | [API Reference](reference/api-go.md)         |
-| **Java**                 | Maven Central `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack`       | [API Reference](reference/api-java.md)       |
-| **C#**                   | `dotnet add package TreeSitterLanguagePack`                                          | [API Reference](reference/api-csharp.md)     |
-| **Ruby**                 | `gem install tree_sitter_language_pack`                                              | [API Reference](reference/api-ruby.md)       |
-| **PHP**                  | `composer require kreuzberg-dev/tree-sitter-language-pack`                           | [API Reference](reference/api-php.md)        |
-| **Elixir**               | `{:tree_sitter_language_pack, "~> 1.8"}`                                             | [API Reference](reference/api-elixir.md)     |
-| **WebAssembly**          | `npm install @kreuzberg/tree-sitter-language-pack-wasm`                              | [API Reference](reference/api-wasm.md)       |
-| **C (FFI)**              | Shared library + header                                                              | [API Reference](reference/api-c.md)          |
-| **CLI**                  | `curl -fsSL https://raw.githubusercontent.com/kreuzberg-dev/tree-sitter-language-pack/main/install.sh \| bash` | [CLI Guide](guides/cli.md) |
+| Language                 | Install                                                                                                        | API Reference                                |
+| :----------------------- | :------------------------------------------------------------------------------------------------------------- | :------------------------------------------- |
+| **Python**               | `pip install tree-sitter-language-pack`                                                                        | [API Reference](reference/api-python.md)     |
+| **TypeScript / Node.js** | `npm install @kreuzberg/tree-sitter-language-pack`                                                             | [API Reference](reference/api-typescript.md) |
+| **Rust**                 | `cargo add tree-sitter-language-pack`                                                                          | [API Reference](reference/api-rust.md)       |
+| **Go**                   | `go get github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go`                                        | [API Reference](reference/api-go.md)         |
+| **Java**                 | Maven Central `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack`                                 | [API Reference](reference/api-java.md)       |
+| **C#**                   | `dotnet add package TreeSitterLanguagePack`                                                                    | [API Reference](reference/api-csharp.md)     |
+| **Ruby**                 | `gem install tree_sitter_language_pack`                                                                        | [API Reference](reference/api-ruby.md)       |
+| **PHP**                  | `composer require kreuzberg-dev/tree-sitter-language-pack`                                                     | [API Reference](reference/api-php.md)        |
+| **Elixir**               | `{:tree_sitter_language_pack, "~> 1.8"}`                                                                       | [API Reference](reference/api-elixir.md)     |
+| **WebAssembly**          | `npm install @kreuzberg/tree-sitter-language-pack-wasm`                                                        | [API Reference](reference/api-wasm.md)       |
+| **C (FFI)**              | Shared library + header                                                                                        | [API Reference](reference/api-c.md)          |
+| **CLI**                  | `curl -fsSL https://raw.githubusercontent.com/kreuzberg-dev/tree-sitter-language-pack/main/install.sh \| bash` | [CLI Guide](guides/cli.md)                   |
 
 → **[See all 306 supported languages](languages.md)**
 
@@ -77,39 +77,39 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 - :material-rocket-launch:{ .lg .middle } **Getting Started**
 
-    Install for your language, download parsers, and parse your first file in minutes.
+  Install for your language, download parsers, and parse your first file in minutes.
 
-    [:octicons-arrow-right-24: Installation](getting-started/installation.md) · [:octicons-arrow-right-24: Quick Start](getting-started/quickstart.md)
+  [:octicons-arrow-right-24: Installation](getting-started/installation.md) · [:octicons-arrow-right-24: Quick Start](getting-started/quickstart.md)
 
 - :material-code-braces:{ .lg .middle } **Parsing**
 
-    Build syntax trees, choose a language, walk nodes, handle parse errors.
+  Build syntax trees, choose a language, walk nodes, handle parse errors.
 
-    [:octicons-arrow-right-24: Parsing guide](guides/parsing.md)
+  [:octicons-arrow-right-24: Parsing guide](guides/parsing.md)
 
 - :material-lightbulb-on-outline:{ .lg .middle } **Code Intelligence**
 
-    Structure, imports, exports, symbols, comments, and docstrings — not just raw nodes.
+  Structure, imports, exports, symbols, comments, and docstrings — not just raw nodes.
 
-    [:octicons-arrow-right-24: Code intelligence guide](guides/intelligence.md)
+  [:octicons-arrow-right-24: Code intelligence guide](guides/intelligence.md)
 
 - :material-content-cut:{ .lg .middle } **Chunking for LLMs**
 
-    Split source at natural boundaries so chunks stay semantically intact.
+  Split source at natural boundaries so chunks stay semantically intact.
 
-    [:octicons-arrow-right-24: Chunking guide](guides/chunking.md)
+  [:octicons-arrow-right-24: Chunking guide](guides/chunking.md)
 
 - :material-puzzle-outline:{ .lg .middle } **Concepts**
 
-    Architecture, download model, and the code-intelligence pipeline.
+  Architecture, download model, and the code-intelligence pipeline.
 
-    [:octicons-arrow-right-24: Architecture](concepts/architecture.md)
+  [:octicons-arrow-right-24: Architecture](concepts/architecture.md)
 
 - :material-api:{ .lg .middle } **API Reference**
 
-    Complete reference for every binding: Python, TypeScript, Rust, Go, Java, C#, Ruby, PHP, Elixir, WASM, and C FFI.
+  Complete reference for every binding: Python, TypeScript, Rust, Go, Java, C#, Ruby, PHP, Elixir, WASM, and C FFI.
 
-    [:octicons-arrow-right-24: Python API](reference/api-python.md)
+  [:octicons-arrow-right-24: Python API](reference/api-python.md)
 
 </div>
 
@@ -123,27 +123,27 @@ Tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev)
 
 - :material-file-document-multiple-outline:{ .lg .middle } **[Kreuzberg](https://docs.kreuzberg.dev/)**
 
-    Document intelligence for 90+ formats — PDF, Office, images, HTML, email — with optional OCR.
+  Document intelligence for 90+ formats — PDF, Office, images, HTML, email — with optional OCR.
 
 - :material-cloud-outline:{ .lg .middle } **[Kreuzberg Cloud](https://docs.kreuzberg.cloud/)**
 
-    Managed document extraction API. Same engine as the open-source library, hosted.
+  Managed document extraction API. Same engine as the open-source library, hosted.
 
 - :material-language-html5:{ .lg .middle } **[html-to-markdown](https://docs.html-to-markdown.kreuzberg.dev/)**
 
-    Fast HTML to Markdown conversion with the same Rust-core, polyglot-bindings shape.
+  Fast HTML to Markdown conversion with the same Rust-core, polyglot-bindings shape.
 
 - :material-spider-web:{ .lg .middle } **[kreuzcrawl](https://docs.kreuzcrawl.kreuzberg.dev/)**
 
-    Polite, resumable web crawler that hands pages to html-to-markdown or Kreuzberg for extraction.
+  Polite, resumable web crawler that hands pages to html-to-markdown or Kreuzberg for extraction.
 
 - :material-robot-outline:{ .lg .middle } **[liter-llm](https://docs.liter-llm.kreuzberg.dev/)**
 
-    Universal LLM API client: one surface across many providers, proxy and MCP servers included.
+  Universal LLM API client: one surface across many providers, proxy and MCP servers included.
 
 - :fontawesome-brands-discord:{ .lg .middle } **[Discord](https://discord.gg/xt9WY3GnKR)**
 
-    Join the community for questions, design discussions, and announcements across all kreuzberg.dev projects.
+  Join the community for questions, design discussions, and announcements across all kreuzberg.dev projects.
 
 </div>
 

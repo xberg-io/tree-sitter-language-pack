@@ -1,14 +1,14 @@
 [build-system]
 build-backend = "maturin"
-requires = [ "maturin>=1,<2" ]
+requires = ["maturin>=1,<2"]
 
 [project]
 name = "tree-sitter-language-pack"
 version = "1.8.1"
 description = "Pre-compiled tree-sitter grammars for 305 programming languages"
-keywords = [ "language-pack", "parser", "syntax", "tree-sitter" ]
+keywords = ["language-pack", "parser", "syntax", "tree-sitter"]
 license = "MIT"
-authors = [ { name = "Kreuzberg Team" } ]
+authors = [{ name = "Kreuzberg Team" }]
 requires-python = ">=3.10"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
@@ -18,26 +18,26 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
 ]
-dependencies = [ "tree-sitter>=0.25.2" ]
+dependencies = ["tree-sitter>=0.25.2"]
 urls.repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 
 [dependency-groups]
-dev = [ "mypy>=1.19", "ruff>=0.14.8" ]
+dev = ["mypy>=1.19", "ruff>=0.14.8"]
 
 [tool.maturin]
 module-name = "tree_sitter_language_pack._native"
 manifest-path = "../../crates/ts-pack-core-py/Cargo.toml"
 # abi3-py310 produces a single wheel per platform that loads on Python 3.10+
 # (instead of one wheel per Python minor version per platform).
-features = [ "pyo3/extension-module", "pyo3/abi3-py310" ]
-python-packages = [ "tree_sitter_language_pack" ]
+features = ["pyo3/extension-module", "pyo3/abi3-py310"]
+python-packages = ["tree_sitter_language_pack"]
 
 [tool.ruff]
 target-version = "py310"
 line-length = 120
 format.docstring-code-line-length = 120
 format.docstring-code-format = true
-lint.select = [ "ALL" ]
+lint.select = ["ALL"]
 lint.ignore = [
   "ANN401",
   "ASYNC109",
@@ -63,7 +63,7 @@ lint.ignore = [
   "TD",
   "TRY",
 ]
-lint.per-file-ignores."tests/**" = [ "ANN", "D103", "PLR2004", "S101" ]
+lint.per-file-ignores."tests/**" = ["ANN", "D103", "PLR2004", "S101"]
 lint.mccabe.max-complexity = 15
 lint.pydocstyle.convention = "google"
 lint.pylint.max-args = 10

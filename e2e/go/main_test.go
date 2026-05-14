@@ -16,14 +16,11 @@ func TestMain(m *testing.M) {
 	_, filename, _, _ := runtime.Caller(0)
 	dir := filepath.Dir(filename)
 
-	// Change to the configured test-documents directory if present so that fixture file
-	// paths like "pdf/fake_memo.pdf" resolve correctly. tslp's tree-sitter fixtures use
-	// inline source_code only, so the directory is optional.
+	// Change to the configured test-documents directory so that fixture file paths like
+	// "pdf/fake_memo.pdf" resolve correctly when running go test from e2e/go/.
 	testDocumentsDir := filepath.Join(dir, "..", "..", "test_documents")
-	if _, err := os.Stat(testDocumentsDir); err == nil {
-		if err := os.Chdir(testDocumentsDir); err != nil {
-			panic(err)
-		}
+	if err := os.Chdir(testDocumentsDir); err != nil {
+		panic(err)
 	}
 
 	// Start the mock HTTP server if it exists.
