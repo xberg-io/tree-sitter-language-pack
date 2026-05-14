@@ -1,0 +1,258 @@
+name: CI Validate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".pre-commit-config.yaml"
+      - "crates/**"
+      - "packages/**"
+      - "e2e/**"
+      - "scripts/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "rust-toolchain.toml"
+      - "pyproject.toml"
+      - "pnpm-workspace.yaml"
+      - "package.json"
+      - "alef.toml"
+      - ".github/workflows/ci-validate.yaml"
+      - ".github/actions/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".pre-commit-config.yaml"
+      - "crates/**"
+      - "packages/**"
+      - "e2e/**"
+      - "scripts/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "rust-toolchain.toml"
+      - "pyproject.toml"
+      - "pnpm-workspace.yaml"
+      - "package.json"
+      - "alef.toml"
+      - ".github/workflows/ci-validate.yaml"
+      - ".github/actions/**"
+  workflow_run:
+    workflows: ["Publish Release"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-validate-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1. validate — Lint & Format (prek hooks)
+  # ---------------------------------------------------------------------------
+  validate:
+    name: Lint & Format
+    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # --- Task runner ---
+      - name: Install Task
+        uses: kreuzberg-dev/actions/install-task@v1
+
+      # --- Rust ---
+      - name: Setup Rust
+        uses: kreuzberg-dev/actions/setup-rust@v1
+        with:
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      # --- Python ---
+      - name: Setup Python
+        uses: kreuzberg-dev/actions/setup-python-env@v1
+        with:
+          python-version: "3.13"
+
+      # --- Node.js / pnpm ---
+      - name: Setup Node Workspace
+        uses: kreuzberg-dev/actions/setup-node-workspace@v1
+        with:
+          node-version: "22"
+
+      # --- Go ---
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.26"
+          cache-dependency-path: packages/go/go.sum
+
+      - name: Install golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          install-only: true
+
+      # --- Java ---
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: "25"
+
+      # --- Elixir ---
+      - name: Setup Elixir
+        uses: kreuzberg-dev/actions/setup-elixir@v1
+
+      # --- Ruby ---
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+          working-directory: packages/ruby
+
+      # --- PHP ---
+      - name: Setup PHP
+        uses: kreuzberg-dev/actions/setup-php@v1
+
+      # --- C/C++ ---
+      - name: Install C/C++ tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends cppcheck clang-format
+
+      # --- Alef ---
+      - name: Install alef
+        uses: kreuzberg-dev/actions/install-alef@v1
+
+      # --- Alef binding deps ---
+      - name: Install binding dependencies
+        run: alef setup
+
+      # --- Prek ---
+      - name: Run prek hooks
+        uses: j178/prek-action@v2
+        with:
+          extra-args: --all-files
+
+  # ---------------------------------------------------------------------------
+  # 2. validate-rust — Rust lint + alef checks
+  # ---------------------------------------------------------------------------
+  validate-rust:
+    name: Rust Validation
+    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    needs: [clone-vendors]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: kreuzberg-dev/actions/setup-rust@v1
+        with:
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Check Rust formatting
+        run: cargo fmt --check
+
+      - name: Run clippy
+        run: cargo clippy --workspace --exclude ts-pack-core-wasm -- -D warnings
+        env:
+          PROJECT_ROOT: ${{ github.workspace }}
+          TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+          TSLP_LINK_MODE: static
+
+      - name: Install alef
+        uses: kreuzberg-dev/actions/install-alef@v1
+
+      - name: Verify binding API parity
+        run: alef verify
+
+      - name: Check README freshness
+        run: |
+          alef readme
+          git diff --exit-code -- packages/*/README.md crates/*/README.md || {
+            echo "::error::READMEs are out of date. Run 'alef readme' and commit."
+            exit 1
+          }
+
+      - name: Check API docs freshness
+        run: |
+          alef docs
+          # Ignore whitespace-only diffs (markdown formatter may add/remove blank lines)
+          git diff --ignore-blank-lines --exit-code -- docs/reference/ || {
+            echo "::error::API docs are out of date. Run 'alef docs' and commit."
+            exit 1
+          }
+
+      - name: Check version sync
+        run: |
+          alef sync-versions
+          git diff --exit-code -- packages/ crates/ || {
+            echo "::error::Versions are out of sync. Run 'alef sync-versions' and commit."
+            exit 1
+          }
+
+  # ---------------------------------------------------------------------------
+  # 0. Clone vendors (shared prerequisite for rust validation)
+  # ---------------------------------------------------------------------------
+  clone-vendors:
+    name: Clone vendors
+    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Install tree-sitter CLI
+        run: npm install -g tree-sitter-cli
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install Python dependencies
+        run: uv sync --no-install-project
+
+      - name: Cache parsers
+        uses: actions/cache@v5
+        with:
+          path: parsers
+          key: parsers-${{ hashFiles('sources/language_definitions.json') }}
+          restore-keys: |
+            parsers-
+
+      - name: Clone vendors
+        run: |
+          mkdir -p parsers
+          uv run --script scripts/clone_vendors.py
+
+      - name: Upload parsers
+        uses: actions/upload-artifact@v7
+        with:
+          name: language-parsers
+          path: parsers
+          retention-days: 1

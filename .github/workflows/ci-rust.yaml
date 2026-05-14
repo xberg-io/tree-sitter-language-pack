@@ -1,0 +1,78 @@
+name: CI Rust
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core/**"
+      - "crates/ts-pack-cli/**"
+      - "e2e/rust/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "rust-toolchain.toml"
+      - ".cargo/config.toml"
+      - ".github/workflows/ci-rust.yaml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core/**"
+      - "crates/ts-pack-cli/**"
+      - "e2e/rust/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "rust-toolchain.toml"
+      - ".cargo/config.toml"
+      - ".github/workflows/ci-rust.yaml"
+  workflow_run:
+    workflows: ["Publish Release"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-rust-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  RUST_BACKTRACE: short
+  BUILD_PROFILE: ci
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 4. rust-tests — Core Rust unit + e2e tests
+  # ---------------------------------------------------------------------------
+  rust-tests:
+    name: Rust Tests
+    if: |
+      github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Rust
+        uses: kreuzberg-dev/actions/setup-rust@v1
+        with:
+          components: "rustfmt"
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Install Task
+        uses: kreuzberg-dev/actions/install-task@v1
+
+      - name: Run workspace tests
+        run: cargo test --workspace --exclude ts-pack-core-wasm
+
+      - name: Run Rust E2E tests
+        run: task rust:e2e:test
