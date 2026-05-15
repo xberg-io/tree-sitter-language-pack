@@ -12,24 +12,37 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * Complete analysis result from processing a source file.
  *
- * Contains metrics, structural analysis, imports/exports, comments, docstrings, symbols, diagnostics, and optionally
- * chunked code segments. Fields are populated based on the {@code ProcessConfig} flags.
+ * Contains metrics, structural analysis, imports/exports, comments,
+ * docstrings, symbols, diagnostics, and optionally chunked code segments.
+ * Fields are populated based on the {@code ProcessConfig} flags.
  *
  * # Fields
  *
- * - {@code language} - The language used for parsing - {@code metrics} - Always computed: line counts, byte sizes,
- * error counts - {@code structure} - Functions, classes, structs (when {@code config.structure = true}) -
- * {@code imports} - Import statements (when {@code config.imports = true}) - {@code exports} - Export statements (when
- * {@code config.exports = true}) - {@code comments} - Comments (when {@code config.comments = true}) -
- * {@code docstrings} - Docstrings (when {@code config.docstrings = true}) - {@code symbols} - Symbol definitions (when
- * {@code config.symbols = true}) - {@code diagnostics} - Parse errors (when {@code config.diagnostics = true}) -
- * {@code chunks} - Chunked code segments (when {@code config.chunk_max_size} is set)
+ * - {@code language} - The language used for parsing
+ * - {@code metrics} - Always computed: line counts, byte sizes, error counts
+ * - {@code structure} - Functions, classes, structs (when {@code config.structure = true})
+ * - {@code imports} - Import statements (when {@code config.imports = true})
+ * - {@code exports} - Export statements (when {@code config.exports = true})
+ * - {@code comments} - Comments (when {@code config.comments = true})
+ * - {@code docstrings} - Docstrings (when {@code config.docstrings = true})
+ * - {@code symbols} - Symbol definitions (when {@code config.symbols = true})
+ * - {@code diagnostics} - Parse errors (when {@code config.diagnostics = true})
+ * - {@code chunks} - Chunked code segments (when {@code config.chunk_max_size} is set)
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ProcessResultBuilder.class)
-public record ProcessResult(String language, FileMetrics metrics, List<StructureItem> structure,
-        List<ImportInfo> imports, List<ExportInfo> exports, List<CommentInfo> comments, List<DocstringInfo> docstrings,
-        List<SymbolInfo> symbols, List<Diagnostic> diagnostics, List<CodeChunk> chunks) {
+public record ProcessResult(
+    String language,
+    FileMetrics metrics,
+    List<StructureItem> structure,
+    List<ImportInfo> imports,
+    List<ExportInfo> exports,
+    List<CommentInfo> comments,
+    List<DocstringInfo> docstrings,
+    List<SymbolInfo> symbols,
+    List<Diagnostic> diagnostics,
+    List<CodeChunk> chunks
+) {
     public static ProcessResultBuilder builder() {
         return new ProcessResultBuilder();
     }
@@ -37,22 +50,20 @@ public record ProcessResult(String language, FileMetrics metrics, List<Structure
     /**
      * Parse a {@code ProcessResult} from a JSON string.
      *
-     * @param json
-     *            JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException
-     *             if the JSON cannot be deserialised.
+     * @param json JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
      */
     public static ProcessResult fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
-                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                    .readValue(json, ProcessResult.class);
+                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+                .findAndRegisterModules()
+                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .readValue(json, ProcessResult.class);
         } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse ProcessResult from JSON: " + e.getMessage(),
-                    e);
+            throw new TreeSitterLanguagePackRsException("Failed to parse ProcessResult from JSON: " + e.getMessage(), e);
         }
     }
 }

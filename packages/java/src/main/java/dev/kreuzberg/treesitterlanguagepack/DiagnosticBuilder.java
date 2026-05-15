@@ -44,6 +44,10 @@ public class DiagnosticBuilder {
 
     /** Builds the Diagnostic instance. */
     public Diagnostic build() {
-        return new Diagnostic(message, severity, span);
+        return new Diagnostic(
+            message,
+            severity,
+            span
+        );
     }
 }

@@ -15,8 +15,12 @@ import org.jspecify.annotations.Nullable;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = CommentInfoBuilder.class)
-public record CommentInfo(String text, CommentKind kind, Span span,
-        @Nullable @JsonProperty("associated_node") String associatedNode) {
+public record CommentInfo(
+    String text,
+    CommentKind kind,
+    Span span,
+    @Nullable @JsonProperty("associated_node") String associatedNode
+) {
     public static CommentInfoBuilder builder() {
         return new CommentInfoBuilder();
     }
@@ -24,19 +28,18 @@ public record CommentInfo(String text, CommentKind kind, Span span,
     /**
      * Parse a {@code CommentInfo} from a JSON string.
      *
-     * @param json
-     *            JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException
-     *             if the JSON cannot be deserialised.
+     * @param json JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
      */
     public static CommentInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
-                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                    .readValue(json, CommentInfo.class);
+                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+                .findAndRegisterModules()
+                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .readValue(json, CommentInfo.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse CommentInfo from JSON: " + e.getMessage(), e);
         }

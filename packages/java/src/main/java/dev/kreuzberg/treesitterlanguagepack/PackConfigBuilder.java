@@ -13,8 +13,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Configuration for the tree-sitter language pack.
  *
- * Controls cache directory and which languages to pre-download. Can be loaded from a TOML file, constructed
- * programmatically, or passed as a dict/object from language bindings.
+ * Controls cache directory and which languages to pre-download.
+ * Can be loaded from a TOML file, constructed programmatically,
+ * or passed as a dict/object from language bindings.
  */
 @JsonPOJOBuilder(withPrefix = "with")
 public class PackConfigBuilder {
@@ -49,6 +50,10 @@ public class PackConfigBuilder {
 
     /** Builds the PackConfig instance. */
     public PackConfig build() {
-        return new PackConfig(cacheDir.orElse(null), languages.orElse(null), groups.orElse(null));
+        return new PackConfig(
+            cacheDir.orElse(null),
+            languages.orElse(null),
+            groups.orElse(null)
+        );
     }
 }

@@ -63,6 +63,12 @@ public class SymbolInfoBuilder {
 
     /** Builds the SymbolInfo instance. */
     public SymbolInfo build() {
-        return new SymbolInfo(name, kind, span, typeAnnotation.orElse(null), doc.orElse(null));
+        return new SymbolInfo(
+            name,
+            kind,
+            span,
+            typeAnnotation.orElse(null),
+            doc.orElse(null)
+        );
     }
 }

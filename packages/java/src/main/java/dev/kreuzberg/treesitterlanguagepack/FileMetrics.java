@@ -14,10 +14,16 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = FileMetricsBuilder.class)
-public record FileMetrics(@JsonProperty("total_lines") long totalLines, @JsonProperty("code_lines") long codeLines,
-        @JsonProperty("comment_lines") long commentLines, @JsonProperty("blank_lines") long blankLines,
-        @JsonProperty("total_bytes") long totalBytes, @JsonProperty("node_count") long nodeCount,
-        @JsonProperty("error_count") long errorCount, @JsonProperty("max_depth") long maxDepth) {
+public record FileMetrics(
+    @JsonProperty("total_lines") long totalLines,
+    @JsonProperty("code_lines") long codeLines,
+    @JsonProperty("comment_lines") long commentLines,
+    @JsonProperty("blank_lines") long blankLines,
+    @JsonProperty("total_bytes") long totalBytes,
+    @JsonProperty("node_count") long nodeCount,
+    @JsonProperty("error_count") long errorCount,
+    @JsonProperty("max_depth") long maxDepth
+) {
     public static FileMetricsBuilder builder() {
         return new FileMetricsBuilder();
     }
@@ -25,19 +31,18 @@ public record FileMetrics(@JsonProperty("total_lines") long totalLines, @JsonPro
     /**
      * Parse a {@code FileMetrics} from a JSON string.
      *
-     * @param json
-     *            JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException
-     *             if the JSON cannot be deserialised.
+     * @param json JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
      */
     public static FileMetrics fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
-                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                    .readValue(json, FileMetrics.class);
+                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+                .findAndRegisterModules()
+                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .readValue(json, FileMetrics.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse FileMetrics from JSON: " + e.getMessage(), e);
         }

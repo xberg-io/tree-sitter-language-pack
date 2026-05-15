@@ -100,7 +100,16 @@ public class StructureItemBuilder {
 
     /** Builds the StructureItem instance. */
     public StructureItem build() {
-        return new StructureItem(kind, name.orElse(null), visibility.orElse(null), span, children, decorators,
-                docComment.orElse(null), signature.orElse(null), bodySpan.orElse(null));
+        return new StructureItem(
+            kind,
+            name.orElse(null),
+            visibility.orElse(null),
+            span,
+            children,
+            decorators,
+            docComment.orElse(null),
+            signature.orElse(null),
+            bodySpan.orElse(null)
+        );
     }
 }

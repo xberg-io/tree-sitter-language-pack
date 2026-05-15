@@ -11,12 +11,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The kind of a symbol definition found in source code.
  *
- * Categorizes symbol definitions such as variables, constants, functions, classes, types, interfaces, enums, and
- * modules.
+ * Categorizes symbol definitions such as variables, constants, functions,
+ * classes, types, interfaces, enums, and modules.
  */
 public enum SymbolKind {
-    Variable("variable"), Constant("constant"), Function("function"), Class("class"), Type("type"), Interface(
-            "interface"), Enum("enum"), Module("module"), Other("other");
+    Variable("variable"),
+    Constant("constant"),
+    Function("function"),
+    Class("class"),
+    Type("type"),
+    Interface("interface"),
+    Enum("enum"),
+    Module("module"),
+    Other("other");
 
     /** The string value. */
     private final String value;

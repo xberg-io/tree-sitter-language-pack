@@ -11,10 +11,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The kind of a comment found in source code.
  *
- * Distinguishes between single-line comments, block (multi-line) comments, and documentation comments.
+ * Distinguishes between single-line comments, block (multi-line) comments,
+ * and documentation comments.
  */
 public enum CommentKind {
-    Line("line"), Block("block"), Doc("doc");
+    Line("line"),
+    Block("block"),
+    Doc("doc");
 
     /** The string value. */
     private final String value;

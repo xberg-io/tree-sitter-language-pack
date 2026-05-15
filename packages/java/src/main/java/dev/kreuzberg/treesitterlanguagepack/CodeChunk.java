@@ -14,9 +14,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = CodeChunkBuilder.class)
-public record CodeChunk(String content, @JsonProperty("start_byte") long startByte,
-        @JsonProperty("end_byte") long endByte, @JsonProperty("start_line") long startLine,
-        @JsonProperty("end_line") long endLine, ChunkContext metadata) {
+public record CodeChunk(
+    String content,
+    @JsonProperty("start_byte") long startByte,
+    @JsonProperty("end_byte") long endByte,
+    @JsonProperty("start_line") long startLine,
+    @JsonProperty("end_line") long endLine,
+    ChunkContext metadata
+) {
     public static CodeChunkBuilder builder() {
         return new CodeChunkBuilder();
     }
@@ -24,19 +29,18 @@ public record CodeChunk(String content, @JsonProperty("start_byte") long startBy
     /**
      * Parse a {@code CodeChunk} from a JSON string.
      *
-     * @param json
-     *            JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException
-     *             if the JSON cannot be deserialised.
+     * @param json JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
      */
     public static CodeChunk fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
-                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                    .readValue(json, CodeChunk.class);
+                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+                .findAndRegisterModules()
+                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .readValue(json, CodeChunk.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse CodeChunk from JSON: " + e.getMessage(), e);
         }

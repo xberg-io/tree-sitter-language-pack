@@ -14,7 +14,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Covers named exports, default exports, and re-exports from other modules.
  */
 public enum ExportKind {
-    Named("named"), Default("default"), ReExport("reexport");
+    Named("named"),
+    Default("default"),
+    ReExport("reexport");
 
     /** The string value. */
     private final String value;

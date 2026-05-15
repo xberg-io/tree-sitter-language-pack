@@ -11,12 +11,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The format of a docstring extracted from source code.
  *
- * Identifies the docstring convention used, which varies by language (e.g., Python triple-quoted strings, JSDoc,
- * Rustdoc {@code ///} comments).
+ * Identifies the docstring convention used, which varies by language
+ * (e.g., Python triple-quoted strings, JSDoc, Rustdoc {@code ///} comments).
  */
 public enum DocstringFormat {
-    PythonTripleQuote("pythontriplequote"), JSDoc("jsdoc"), Rustdoc("rustdoc"), GoDoc("godoc"), JavaDoc(
-            "javadoc"), Other("other");
+    PythonTripleQuote("pythontriplequote"),
+    JSDoc("jsdoc"),
+    Rustdoc("rustdoc"),
+    GoDoc("godoc"),
+    JavaDoc("javadoc"),
+    Other("other");
 
     /** The string value. */
     private final String value;

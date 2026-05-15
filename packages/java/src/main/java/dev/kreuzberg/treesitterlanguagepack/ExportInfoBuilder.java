@@ -44,6 +44,10 @@ public class ExportInfoBuilder {
 
     /** Builds the ExportInfo instance. */
     public ExportInfo build() {
-        return new ExportInfo(name, kind, span);
+        return new ExportInfo(
+            name,
+            kind,
+            span
+        );
     }
 }

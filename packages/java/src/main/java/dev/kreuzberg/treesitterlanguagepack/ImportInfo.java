@@ -16,8 +16,13 @@ import org.jspecify.annotations.Nullable;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ImportInfoBuilder.class)
-public record ImportInfo(String source, List<String> items, @Nullable String alias,
-        @JsonProperty("is_wildcard") boolean isWildcard, Span span) {
+public record ImportInfo(
+    String source,
+    List<String> items,
+    @Nullable String alias,
+    @JsonProperty("is_wildcard") boolean isWildcard,
+    Span span
+) {
     public static ImportInfoBuilder builder() {
         return new ImportInfoBuilder();
     }
@@ -25,19 +30,18 @@ public record ImportInfo(String source, List<String> items, @Nullable String ali
     /**
      * Parse a {@code ImportInfo} from a JSON string.
      *
-     * @param json
-     *            JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException
-     *             if the JSON cannot be deserialised.
+     * @param json JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
      */
     public static ImportInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
-                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                    .readValue(json, ImportInfo.class);
+                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+                .findAndRegisterModules()
+                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .readValue(json, ImportInfo.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse ImportInfo from JSON: " + e.getMessage(), e);
         }

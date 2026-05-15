@@ -20,7 +20,7 @@
 )]
 
 use std::cell::RefCell;
-use std::ffi::{c_char, CStr, CString};
+use std::ffi::{CStr, CString, c_char};
 
 thread_local! {
     static LAST_ERROR_CODE: RefCell<i32> = const { RefCell::new(0) };
@@ -3150,11 +3150,7 @@ pub unsafe extern "C" fn ts_pack_node_is_named(this: *const tree_sitter_language
     let obj = unsafe { &*this };
 
     let result = obj.is_named();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// True when this is an error node.
@@ -3172,11 +3168,7 @@ pub unsafe extern "C" fn ts_pack_node_is_error(this: *const tree_sitter_language
     let obj = unsafe { &*this };
 
     let result = obj.is_error();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// True when this is a missing-token node.
@@ -3194,11 +3186,7 @@ pub unsafe extern "C" fn ts_pack_node_is_missing(this: *const tree_sitter_langua
     let obj = unsafe { &*this };
 
     let result = obj.is_missing();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// True when this is an "extra" node (e.g. a comment).
@@ -3216,11 +3204,7 @@ pub unsafe extern "C" fn ts_pack_node_is_extra(this: *const tree_sitter_language
     let obj = unsafe { &*this };
 
     let result = obj.is_extra();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// True when this node or any descendant is an error.
@@ -3238,11 +3222,7 @@ pub unsafe extern "C" fn ts_pack_node_has_error(this: *const tree_sitter_languag
     let obj = unsafe { &*this };
 
     let result = obj.has_error();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// Return this node's parent, if any.
@@ -3478,11 +3458,7 @@ pub unsafe extern "C" fn ts_pack_tree_cursor_goto_first_child(this: *mut tree_si
     let obj = unsafe { &mut *this };
 
     let result = obj.goto_first_child();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// Move the cursor to the parent of the current node.
@@ -3501,11 +3477,7 @@ pub unsafe extern "C" fn ts_pack_tree_cursor_goto_parent(this: *mut tree_sitter_
     let obj = unsafe { &mut *this };
 
     let result = obj.goto_parent();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// Move the cursor to the next sibling of the current node.
@@ -3526,11 +3498,7 @@ pub unsafe extern "C" fn ts_pack_tree_cursor_goto_next_sibling(
     let obj = unsafe { &mut *this };
 
     let result = obj.goto_next_sibling();
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// Return the field name for the current node, if any.
@@ -4008,11 +3976,7 @@ pub unsafe extern "C" fn ts_pack_language_registry_has_language(
         }
     };
     let result = obj.has_language(&name_rs);
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// Return the total number of available languages (including aliases).
@@ -6023,11 +5987,7 @@ pub unsafe extern "C" fn ts_pack_has_language(name: *const std::ffi::c_char) -> 
         }
     };
     let result = tree_sitter_language_pack::has_language(&name_rs);
-    if result {
-        1
-    } else {
-        0
-    }
+    if result { 1 } else { 0 }
 }
 
 /// Return the number of available languages.

@@ -45,6 +45,10 @@ public class DocSectionBuilder {
 
     /** Builds the DocSection instance. */
     public DocSection build() {
-        return new DocSection(kind, name.orElse(null), description);
+        return new DocSection(
+            kind,
+            name.orElse(null),
+            description
+        );
     }
 }

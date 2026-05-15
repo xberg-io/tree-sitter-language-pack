@@ -11,12 +11,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The kind of structural item found in source code.
  *
- * Categorizes top-level and nested declarations such as functions, classes, structs, enums, traits, and more. Use
- * Other(StructureKind::Other) for language-specific constructs that do not fit a standard category.
+ * Categorizes top-level and nested declarations such as functions, classes,
+ * structs, enums, traits, and more. Use Other(StructureKind::Other) for
+ * language-specific constructs that do not fit a standard category.
  */
 public enum StructureKind {
-    Function("function"), Method("method"), Class("class"), Struct("struct"), Interface("interface"), Enum(
-            "enum"), Module("module"), Trait("trait"), Impl("impl"), Namespace("namespace"), Other("other");
+    Function("function"),
+    Method("method"),
+    Class("class"),
+    Struct("struct"),
+    Interface("interface"),
+    Enum("enum"),
+    Module("module"),
+    Trait("trait"),
+    Impl("impl"),
+    Namespace("namespace"),
+    Other("other");
 
     /** The string value. */
     private final String value;
