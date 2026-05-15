@@ -132,8 +132,9 @@ pub fn get_language(name: &str) -> Result<Language, Error> {
         ensure_cache_registered()?;
         let cache_dir = effective_cache_dir()?;
         let dm = DownloadManager::with_cache_dir(env!("CARGO_PKG_VERSION"), cache_dir);
-        dm.ensure_languages(&[name])?;
-        REGISTRY.get_language(name)
+        let resolved = crate::registry::resolve_alias(name);
+        dm.ensure_languages(&[resolved])?;
+        REGISTRY.get_language(resolved)
     }
 
     #[cfg(not(feature = "download"))]

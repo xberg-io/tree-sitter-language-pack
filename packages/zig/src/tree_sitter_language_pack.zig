@@ -516,7 +516,7 @@ pub fn has_language(name: []const u8) error{OutOfMemory}!bool {
         std.heap.c_allocator, "{s}", .{name}, 0);
     std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_has_language(name_z);
-    return _result;
+    return _result != 0;
 }
 
 /// Return the number of available languages.

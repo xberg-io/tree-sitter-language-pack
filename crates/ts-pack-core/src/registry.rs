@@ -51,7 +51,7 @@ pub(crate) fn lang_name_for_symbol(symbol: &str) -> &str {
 }
 
 #[inline(always)]
-fn resolve_alias(name: &str) -> &str {
+pub(crate) fn resolve_alias(name: &str) -> &str {
     for &(alias, target) in LANGUAGE_ALIASES {
         if name == alias {
             return target;

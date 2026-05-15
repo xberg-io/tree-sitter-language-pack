@@ -211,7 +211,7 @@ wheels = [
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.8.0"
+version = "1.8.1"
 source = { directory = "../../packages/python" }
 dependencies = [
     { name = "tree-sitter" },

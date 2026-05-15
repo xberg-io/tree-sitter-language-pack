@@ -940,7 +940,7 @@ impl From<PackConfig> for tree_sitter_language_pack::PackConfig {
 impl From<ProcessConfig> for tree_sitter_language_pack::ProcessConfig {
     fn from(v: ProcessConfig) -> Self {
         tree_sitter_language_pack::ProcessConfig {
-            language: Default::default(),
+            language: v.language.into(),
             structure: v.structure as _,
             imports: v.imports as _,
             exports: v.exports as _,

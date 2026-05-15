@@ -88,4 +88,4 @@ tasks:
     cmds:
       - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-swift
       - bash scripts/setup-swift-bridge.sh release
-      - cd packages/swift && swift test
+      - cd e2e/swift_e2e && swift test

@@ -198,7 +198,7 @@ public enum DiagnosticSeverity {
 /// Covers language lookup failures, parse errors, query errors, and I/O issues.
 /// Feature-gated variants are included when `config`, `download`, or related
 /// features are enabled.
-public enum Error: Error {
+public enum TreeSitterLanguagePackError: Swift.Error {
     case languageNotFound(message: String, field0: String)
     case dynamicLoad(message: String, field0: String)
     case nullLanguagePointer(message: String, field0: String)
