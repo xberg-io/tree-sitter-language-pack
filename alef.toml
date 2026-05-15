@@ -1,6 +1,6 @@
 [workspace]
-alef_version = "0.16.1"
-languages = ["python", "node", "ruby", "php", "ffi", "go", "java", "csharp", "elixir", "wasm"]
+alef_version = "0.16.6"
+languages = ["python", "node", "ruby", "php", "ffi", "go", "java", "csharp", "elixir", "wasm", "dart", "kotlin_android", "swift", "zig"]
 
 [workspace.opaque_types]
 Language = "tree_sitter_language_pack::Language"
@@ -137,6 +137,25 @@ package = "dev.kreuzberg.treesitterlanguagepack"
 namespace = "TreeSitterLanguagePack"
 project_file = "packages/csharp/TreeSitterLanguagePack/TreeSitterLanguagePack.csproj"
 
+[crates.dart]
+pubspec_name = "tree_sitter_language_pack"
+lib_name = "tree_sitter_language_pack"
+style = "frb"
+
+[crates.kotlin_android]
+# Android-only AAR. JVM Kotlin users consume the canonical Java/Panama-FFM
+# package directly (Kotlin/Java interop is total). Panama FFM is unavailable
+# on Android (max JDK 17), which is why Android needs its own JNI-based
+# package with bundled .so files.
+package = "dev.kreuzberg.tslp.android"
+
+[crates.swift]
+module_name = "TreeSitterLanguagePack"
+package_name = "TreeSitterLanguagePack"
+
+[crates.zig]
+module_name = "tree_sitter_language_pack"
+
 [crates.output]
 python = "crates/ts-pack-core-py/src/"
 node = "crates/ts-pack-core-node/src/"
@@ -148,6 +167,10 @@ java = "packages/java/src/main/java/"
 csharp = "packages/csharp/"
 elixir = "packages/elixir/native/tree_sitter_language_pack_nif/src/"
 wasm = "crates/ts-pack-core-wasm/src/"
+dart = "packages/dart/lib/src/"
+kotlin_android = "packages/kotlin-android/src/main/kotlin/dev/kreuzberg/tslp/android/"
+swift = "packages/swift/Sources/TreeSitterLanguagePack/"
+zig = "packages/zig/src/"
 
 [crates.include]
 types = [
@@ -253,6 +276,26 @@ precondition = "test -d crates/ts-pack-core-ffi/src && command -v clang-format >
 format = "find crates/ts-pack-core-ffi/src -name '*.c' -o -name '*.h' | xargs clang-format -i"
 check = "find crates/ts-pack-core-ffi/src -name '*.c' -o -name '*.h' | xargs clang-format --dry-run --Werror"
 
+[crates.lint.dart]
+precondition = "command -v dart >/dev/null 2>&1"
+format = "cd packages/dart && dart format ."
+check = "cd packages/dart && dart analyze"
+
+[crates.lint.kotlin_android]
+precondition = "command -v gradle >/dev/null 2>&1"
+format = "cd packages/kotlin-android && gradle ktlintFormat --no-daemon"
+check = "cd packages/kotlin-android && gradle ktlintCheck --no-daemon"
+
+[crates.lint.swift]
+precondition = "command -v swift >/dev/null 2>&1"
+format = "swift format --in-place --recursive packages/swift/Sources"
+check = "swift format lint --recursive packages/swift/Sources"
+
+[crates.lint.zig]
+precondition = "command -v zig >/dev/null 2>&1"
+format = "cd packages/zig && zig fmt src"
+check = "cd packages/zig && zig fmt --check src"
+
 [crates.test.python]
 precondition = "command -v ruff >/dev/null 2>&1"
 before = "maturin develop --manifest-path crates/ts-pack-core-py/Cargo.toml"
@@ -306,6 +349,31 @@ e2e = "cd e2e/rust && cargo test -- --test-threads=1"
 [crates.test.c]
 precondition = "command -v make >/dev/null 2>&1"
 e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release ./test_runner"
+
+[crates.test.kotlin_android]
+# Android-only AAR — no JVM JAR to run `gradle test` against. E2E excluded
+# because Android tests require an emulator runner (out of scope until a
+# kreuzberg-dev/actions/setup-android-emulator action exists).
+precondition = "command -v gradle >/dev/null 2>&1"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi"
+
+[crates.test.swift]
+precondition = "command -v swift >/dev/null 2>&1"
+before = ["TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-swift", "bash scripts/setup-swift-bridge.sh"]
+command = "cd packages/swift && swift test"
+e2e = "cd packages/swift && swift test"
+
+[crates.test.dart]
+precondition = "command -v dart >/dev/null 2>&1"
+before = "{ command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0; } && cd packages/dart && dart pub get && cd rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml && cd ../../.. && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-dart"
+command = "cd packages/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
+e2e = "cd e2e/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
+
+[crates.test.zig]
+precondition = "command -v zig >/dev/null 2>&1"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi"
+command = "cd packages/zig && zig build test"
+e2e = "cd e2e/zig && zig build test"
 
 [crates.setup.node]
 precondition = "command -v pnpm >/dev/null 2>&1"
@@ -374,6 +442,12 @@ options_type = "ProcessConfig"
 function = "ts_pack_process"
 result_type = "ProcessResult"
 options_type = "ProcessConfig"
+
+[crates.e2e.call.overrides.dart]
+
+[crates.e2e.call.overrides.swift]
+
+[crates.e2e.call.overrides.zig]
 
 [crates.e2e.calls.detect_extension]
 function = "detect_language_from_extension"
@@ -777,3 +851,54 @@ badge_url = "https://img.shields.io/badge/C-FFI-007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
 description = "C ABI for tree-sitter-language-pack — link against the shared library to use the parser pack from any language with C FFI."
 package_manager = []
+
+[crates.readme.languages.dart]
+name = "Dart / Flutter"
+template = "language_package.md"
+output_path = "packages/dart/README.md"
+package_manager = ["pub"]
+package_name = "tree_sitter_language_pack"
+install_command = "dart pub add tree_sitter_language_pack"
+description = """
+Dart / Flutter bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Built with flutter_rust_bridge for isolate-safe Future APIs and Flutter-native type mapping.
+"""
+
+[crates.readme.languages.kotlin_android]
+name = "Kotlin (Android)"
+template = "language_package.md"
+output_path = "packages/kotlin-android/README.md"
+package_manager = ["gradle", "maven"]
+package_name = "dev.kreuzberg.tslp:tslp-android"
+install_command = """
+implementation("dev.kreuzberg.tslp:tslp-android:{{ version }}")
+"""
+description = """
+Android (AAR) bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+JNI-based with bundled per-ABI native libraries and a coroutine-friendly Kotlin facade.
+JVM consumers should use the canonical `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack` Java artifact directly.
+"""
+
+[crates.readme.languages.swift]
+name = "Swift"
+template = "language_package.md"
+output_path = "packages/swift/README.md"
+package_manager = ["spm"]
+package_name = "TreeSitterLanguagePack"
+install_command = '.package(url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack-swift", from: "{{ version }}")'
+description = """
+Swift bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/await.
+"""
+
+[crates.readme.languages.zig]
+name = "Zig"
+template = "language_package.md"
+output_path = "packages/zig/README.md"
+package_manager = ["zig"]
+package_name = "tree_sitter_language_pack"
+install_command = "zig fetch --save <url>"
+description = """
+Zig bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Direct C FFI via @cImport, idiomatic error sets, optional types, and slice-based memory.
+"""

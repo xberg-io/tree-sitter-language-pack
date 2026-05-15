@@ -1,7 +1,6 @@
 ---
 title: "PHP API Reference"
 ---
-
 ## PHP API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,7 +16,6 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 ```php
 public static function detectLanguageFromExtension(string $ext): ?string
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -40,7 +38,6 @@ path has no extension or the extension is not recognized.
 ```php
 public static function detectLanguageFromPath(string $path): ?string
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,7 +71,6 @@ malformed, or the interpreter is not recognised.
 ```php
 public static function detectLanguageFromContent(string $content): ?string
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,7 +93,6 @@ if no highlights query is bundled for this language.
 ```php
 public static function getHighlightsQuery(string $language): ?string
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -121,7 +115,6 @@ if no injections query is bundled for this language.
 ```php
 public static function getInjectionsQuery(string $language): ?string
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -144,7 +137,6 @@ if no locals query is bundled for this language.
 ```php
 public static function getLocalsQuery(string $language): ?string
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,7 +165,6 @@ or `Error::Download` if auto-download fails.
 ```php
 public static function getLanguage(string $name): Language
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -202,7 +193,6 @@ Returns `Error::LanguageNotFound` if the language is not recognized, or
 ```php
 public static function getParser(string $name): Parser
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -225,7 +215,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```php
 public static function detectLanguage(string $path): ?string
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```php
 public static function availableLanguages(): array<string>
 ```
-
 **Returns:** `array<string>`
 
 ---
@@ -265,7 +253,6 @@ dynamically available, or a known alias for one of these).
 ```php
 public static function hasLanguage(string $name): bool
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -288,7 +275,6 @@ and aliases.
 ```php
 public static function languageCount(): int
 ```
-
 **Returns:** `int`
 
 ---
@@ -310,7 +296,6 @@ Returns an error if the language is not found or parsing fails.
 ```php
 public static function process(string $source, ProcessConfig $config): ProcessResult
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -340,7 +325,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```php
 public static function init(PackConfig $config): void
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -370,7 +354,6 @@ Returns an error if the lock cannot be acquired.
 ```php
 public static function configure(PackConfig $config): void
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -399,7 +382,6 @@ the download fails.
 ```php
 public static function download(array<string> $names): int
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```php
 public static function downloadAll(): int
 ```
-
 **Returns:** `int`
 **Errors:** Throws `Error`.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```php
 public static function manifestLanguages(): array<string>
 ```
-
 **Returns:** `array<string>`
 **Errors:** Throws `Error`.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```php
 public static function downloadedLanguages(): array<string>
 ```
-
 **Returns:** `array<string>`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```php
 public static function cleanCache(): void
 ```
-
 **Returns:** `void`
 **Errors:** Throws `Error`.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```php
 public static function cacheDir(): string
 ```
-
 **Returns:** `string`
 **Errors:** Throws `Error`.
 
@@ -641,7 +618,6 @@ Create a new download manager for the given version.
 ```php
 public static function new(string $version): DownloadManager
 ```
-
 ###### withCacheDir()
 
 Create a download manager with a custom cache directory.
@@ -651,7 +627,6 @@ Create a download manager with a custom cache directory.
 ```php
 public static function withCacheDir(string $version, string $cacheDir): DownloadManager
 ```
-
 ###### defaultCacheDir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -661,7 +636,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 ```php
 public static function defaultCacheDir(string $version): string
 ```
-
 ###### cacheDir()
 
 Return the path to the libs cache directory.
@@ -671,7 +645,6 @@ Return the path to the libs cache directory.
 ```php
 public function cacheDir(): string
 ```
-
 ###### installedLanguages()
 
 List languages that are already downloaded and cached.
@@ -681,7 +654,6 @@ List languages that are already downloaded and cached.
 ```php
 public function installedLanguages(): array<string>
 ```
-
 ###### ensureLanguages()
 
 Ensure the specified languages are available in the cache.
@@ -692,7 +664,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```php
 public function ensureLanguages(array<string> $names): void
 ```
-
 ###### ensureGroup()
 
 Ensure all languages in a named group are available.
@@ -702,7 +673,6 @@ Ensure all languages in a named group are available.
 ```php
 public function ensureGroup(string $group): void
 ```
-
 ###### libPath()
 
 Get the expected path for a language's shared library in the cache.
@@ -712,7 +682,6 @@ Get the expected path for a language's shared library in the cache.
 ```php
 public function libPath(string $name): string
 ```
-
 ###### fetchManifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -722,7 +691,6 @@ Fetch the parser manifest from GitHub Releases.
 ```php
 public function fetchManifest(): ParserManifest
 ```
-
 ###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
@@ -739,7 +707,6 @@ Returns the number of library files extracted (including those already cached).
 ```php
 public function downloadAllBestEffort(): int
 ```
-
 ###### cleanCache()
 
 Remove all cached parser libraries.
@@ -836,7 +803,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 ```php
 public static function withLibsDir(string $libsDir): LanguageRegistry
 ```
-
 ###### addExtraLibsDir()
 
 Add an additional directory to search for dynamic libraries.
@@ -854,7 +820,6 @@ immutable while the directory list is updated.
 ```php
 public function addExtraLibsDir(string $dir): void
 ```
-
 ###### getLanguage()
 
 Get a tree-sitter `Language` by name.
@@ -873,7 +838,6 @@ does not match any known grammar.
 ```php
 public function getLanguage(string $name): Language
 ```
-
 ###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
@@ -886,7 +850,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```php
 public function availableLanguages(): array<string>
 ```
-
 ###### hasLanguage()
 
 Check whether a language is available by name or alias.
@@ -899,7 +862,6 @@ table or from a dynamic library on disk.
 ```php
 public function hasLanguage(string $name): bool
 ```
-
 ###### languageCount()
 
 Return the total number of available languages (including aliases).
@@ -909,7 +871,6 @@ Return the total number of available languages (including aliases).
 ```php
 public function languageCount(): int
 ```
-
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -919,7 +880,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```php
 public function process(string $source, ProcessConfig $config): ProcessResult
 ```
-
 ###### default()
 
 **Signature:**
@@ -946,7 +906,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```php
 public function clone(): Node
 ```
-
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -956,7 +915,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```php
 public function kind(): string
 ```
-
 ###### kindId()
 
 Return the node's numeric kind ID.
@@ -966,7 +924,6 @@ Return the node's numeric kind ID.
 ```php
 public function kindId(): int
 ```
-
 ###### startByte()
 
 Return the inclusive start byte offset of this node.
@@ -976,7 +933,6 @@ Return the inclusive start byte offset of this node.
 ```php
 public function startByte(): int
 ```
-
 ###### endByte()
 
 Return the exclusive end byte offset of this node.
@@ -986,7 +942,6 @@ Return the exclusive end byte offset of this node.
 ```php
 public function endByte(): int
 ```
-
 ###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
@@ -999,7 +954,6 @@ text accessor.
 ```php
 public function byteRange(): ByteRange
 ```
-
 ###### startPosition()
 
 Return the start `Point` (row, column).
@@ -1009,7 +963,6 @@ Return the start `Point` (row, column).
 ```php
 public function startPosition(): Point
 ```
-
 ###### endPosition()
 
 Return the end `Point` (row, column).
@@ -1019,7 +972,6 @@ Return the end `Point` (row, column).
 ```php
 public function endPosition(): Point
 ```
-
 ###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
@@ -1029,7 +981,6 @@ True when this node is named (not punctuation/whitespace).
 ```php
 public function isNamed(): bool
 ```
-
 ###### isError()
 
 True when this is an error node.
@@ -1039,7 +990,6 @@ True when this is an error node.
 ```php
 public function isError(): bool
 ```
-
 ###### isMissing()
 
 True when this is a missing-token node.
@@ -1049,7 +999,6 @@ True when this is a missing-token node.
 ```php
 public function isMissing(): bool
 ```
-
 ###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1059,7 +1008,6 @@ True when this is an "extra" node (e.g. a comment).
 ```php
 public function isExtra(): bool
 ```
-
 ###### hasError()
 
 True when this node or any descendant is an error.
@@ -1069,7 +1017,6 @@ True when this node or any descendant is an error.
 ```php
 public function hasError(): bool
 ```
-
 ###### parent()
 
 Return this node's parent, if any.
@@ -1079,7 +1026,6 @@ Return this node's parent, if any.
 ```php
 public function parent(): ?Node
 ```
-
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -1089,7 +1035,6 @@ Return the i-th child of this node, if any.
 ```php
 public function child(int $index): ?Node
 ```
-
 ###### childCount()
 
 Total number of children (including unnamed).
@@ -1099,7 +1044,6 @@ Total number of children (including unnamed).
 ```php
 public function childCount(): int
 ```
-
 ###### namedChild()
 
 Return the i-th named child of this node, if any.
@@ -1109,7 +1053,6 @@ Return the i-th named child of this node, if any.
 ```php
 public function namedChild(int $index): ?Node
 ```
-
 ###### namedChildCount()
 
 Number of named children of this node.
@@ -1119,7 +1062,6 @@ Number of named children of this node.
 ```php
 public function namedChildCount(): int
 ```
-
 ###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
@@ -1129,7 +1071,6 @@ Look up a child by its grammar-defined field name.
 ```php
 public function childByFieldName(string $name): ?Node
 ```
-
 ###### toSexp()
 
 Return the S-expression form of this node's subtree.
@@ -1139,7 +1080,6 @@ Return the S-expression form of this node's subtree.
 ```php
 public function toSexp(): string
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1181,7 +1121,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 ```php
 public static function fromTomlFile(string $path): PackConfig
 ```
-
 ###### discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1223,7 +1162,6 @@ or `Error::ParserSetup` if the language ABI is incompatible.
 ```php
 public function setLanguage(string $name): void
 ```
-
 ###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
@@ -1234,7 +1172,6 @@ or no language is set.
 ```php
 public function parse(string $source): ?Tree
 ```
-
 ###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
@@ -1245,7 +1182,6 @@ no language is set.
 ```php
 public function parseBytes(string $source): ?Tree
 ```
-
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1256,7 +1192,6 @@ not be incremental.
 ```php
 public function reset(): void
 ```
-
 ###### default()
 
 **Signature:**
@@ -1340,7 +1275,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```php
 public static function default(): ProcessConfig
 ```
-
 ###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1350,7 +1284,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```php
 public function withChunking(int $maxSize): ProcessConfig
 ```
-
 ###### all()
 
 Enable all analysis features.
@@ -1360,7 +1293,6 @@ Enable all analysis features.
 ```php
 public function all(): ProcessConfig
 ```
-
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1465,7 +1397,6 @@ Return the root `Node` of this tree.
 ```php
 public function rootNode(): Node
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1493,7 +1424,6 @@ Return the `Node` at the cursor's current position.
 ```php
 public function node(): Node
 ```
-
 ###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
@@ -1504,7 +1434,6 @@ Returns `true` if a child existed.
 ```php
 public function gotoFirstChild(): bool
 ```
-
 ###### gotoParent()
 
 Move the cursor to the parent of the current node.
@@ -1515,7 +1444,6 @@ Returns `true` if a parent existed.
 ```php
 public function gotoParent(): bool
 ```
-
 ###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1526,7 +1454,6 @@ Returns `true` if a sibling existed.
 ```php
 public function gotoNextSibling(): bool
 ```
-
 ###### fieldName()
 
 Return the field name for the current node, if any.

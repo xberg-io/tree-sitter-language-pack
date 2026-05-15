@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0]
+
+### Added
+
+- Four new language bindings via alef 0.16.6, taking total binding count from 10 to 14:
+  - **Dart / Flutter** — `dart pub add tree_sitter_language_pack`. Built with flutter_rust_bridge for isolate-safe Future APIs.
+  - **Kotlin (Android)** — `dev.kreuzberg.tslp:tslp-android` AAR on Maven Central. JNI-based with per-ABI native libraries (arm64-v8a, armeabi-v7a, x86_64, x86). JVM Kotlin users continue to consume the canonical Java / Panama-FFM package.
+  - **Swift** — `TreeSitterLanguagePack` via SwiftPM. swift-bridge for macOS, iOS, and Linux.
+  - **Zig** — `zig fetch --save <tarball-url>` from GitHub Releases. Direct C FFI via `@cImport`.
+- Two new Rust binding crates: `tree-sitter-language-pack-dart` (FRB bridge) and `tree-sitter-language-pack-swift` (swift-bridge).
+- Hand-written `crates/ts-pack-core-jni` Rust crate exporting `Java_...` JNI symbols for the Kotlin-Android binding (excluded from the default workspace build because it cross-compiles via `cargo ndk`).
+- Per-language CI workflows: `ci-zig.yaml`, `ci-swift.yaml`, `ci-dart.yaml`, plus a combined `ci-mobile.yaml` covering Android cross-compile + iOS cargo check.
+- Publish jobs for pub.dev (`publish-pub`), Swift Package Index (`publish-swift`), Zig (`publish-zig` → GitHub Release tarball), and Maven Central kotlin-android (`publish-kotlin-android`).
+
 ## [1.8.1] - 2026-05-13
 
 ### Added

@@ -1,0 +1,4 @@
+rust_root: .
+rust_input: crate
+dart_output: ../lib/src/tree_sitter_language_pack_bridge_generated
+add_mod_to_lib: false

@@ -1,8 +1,9 @@
 [workspace]
-members = ["crates/*", "tools/snippet-runner"]
+members = ["crates/*", "packages/dart/rust", "packages/swift/rust", "tools/snippet-runner"]
 exclude = [
     "crates/tree-sitter-language-pack-ffi",
     "crates/tree-sitter-language-pack-wasm",
+    "crates/ts-pack-core-jni",
     "crates/ts-pack-elixir",
     "crates/ts-pack-java",
     "crates/ts-pack-node",

@@ -1,0 +1,12 @@
+.{
+    .name = .tree_sitter_language_pack,
+    .version = "1.8.1",
+    .fingerprint = 0x6f52c41163f42c8c,
+    .minimum_zig_version = "0.16.0",
+    .dependencies = .{},
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}

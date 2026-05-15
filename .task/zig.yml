@@ -1,0 +1,87 @@
+version: "3"
+
+tasks:
+  install:
+    desc: Install Zig dependencies (build resolves zig.zon)
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - zig build
+
+  setup:
+    desc: Setup Zig environment
+    cmds:
+      - task: install
+
+  build:
+    desc: Build Zig package against the Rust FFI shared library
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - cd packages/zig && zig build
+
+  build:dev:
+    desc: Build Zig package in debug mode
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build -p ts-pack-core-ffi
+      - cd packages/zig && zig build
+
+  build:release:
+    desc: Build Zig package in release-fast mode
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - cd packages/zig && zig build -Doptimize=ReleaseFast
+
+  test:
+    desc: Run Zig tests against the Rust FFI shared library
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - cd packages/zig && zig build test
+
+  lint:
+    desc: Format Zig code
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - zig fmt src
+
+  lint:check:
+    desc: Check Zig code formatting
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - zig fmt --check src
+
+  format:
+    desc: Format Zig code (alias for lint)
+    cmds:
+      - task: lint
+
+  format:check:
+    desc: Check Zig formatting (alias for lint:check)
+    cmds:
+      - task: lint:check
+
+  clean:
+    desc: Clean Zig build artifacts
+    dir: packages/zig
+    cmds:
+      - rm -rf zig-cache zig-out .zig-cache
+
+  e2e:test:
+    desc: Run Zig e2e tests against the Rust FFI shared library
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - cd e2e/zig && zig build test

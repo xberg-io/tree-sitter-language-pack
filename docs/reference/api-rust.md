@@ -1,7 +1,6 @@
 ---
 title: "Rust API Reference"
 ---
-
 ## Rust API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,7 +16,6 @@ Returns `None` for unrecognized extensions. The match is case-insensitive.
 ```rust
 pub fn detect_language_from_extension(ext: &str) -> Option<String>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -40,7 +38,6 @@ path has no extension or the extension is not recognized.
 ```rust
 pub fn detect_language_from_path(path: &str) -> Option<String>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,7 +71,6 @@ malformed, or the interpreter is not recognised.
 ```rust
 pub fn detect_language_from_content(content: &str) -> Option<String>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,7 +93,6 @@ if no highlights query is bundled for this language.
 ```rust
 pub fn get_highlights_query(language: &str) -> Option<String>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -121,7 +115,6 @@ if no injections query is bundled for this language.
 ```rust
 pub fn get_injections_query(language: &str) -> Option<String>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -144,7 +137,6 @@ if no locals query is bundled for this language.
 ```rust
 pub fn get_locals_query(language: &str) -> Option<String>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,7 +165,6 @@ or `Error.Download` if auto-download fails.
 ```rust
 pub fn get_language(name: &str) -> Result<Language, Error>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -202,7 +193,6 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 ```rust
 pub fn get_parser(name: &str) -> Result<Parser, Error>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -225,7 +215,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```rust
 pub fn detect_language(path: &str) -> Option<String>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```rust
 pub fn available_languages() -> Vec<String>
 ```
-
 **Returns:** `Vec<String>`
 
 ---
@@ -265,7 +253,6 @@ dynamically available, or a known alias for one of these).
 ```rust
 pub fn has_language(name: &str) -> bool
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -288,7 +275,6 @@ and aliases.
 ```rust
 pub fn language_count() -> usize
 ```
-
 **Returns:** `usize`
 
 ---
@@ -310,7 +296,6 @@ Returns an error if the language is not found or parsing fails.
 ```rust
 pub fn process(source: &str, config: ProcessConfig) -> Result<ProcessResult, Error>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -340,7 +325,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```rust
 pub fn init(config: PackConfig) -> Result<(), Error>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -370,7 +354,6 @@ Returns an error if the lock cannot be acquired.
 ```rust
 pub fn configure(config: PackConfig) -> Result<(), Error>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -399,7 +382,6 @@ the download fails.
 ```rust
 pub fn download(names: Vec<String>) -> Result<usize, Error>
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```rust
 pub fn download_all() -> Result<usize, Error>
 ```
-
 **Returns:** `usize`
 **Errors:** Returns `Err(Error)`.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```rust
 pub fn manifest_languages() -> Result<Vec<String>, Error>
 ```
-
 **Returns:** `Vec<String>`
 **Errors:** Returns `Err(Error)`.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```rust
 pub fn downloaded_languages() -> Vec<String>
 ```
-
 **Returns:** `Vec<String>`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```rust
 pub fn clean_cache() -> Result<(), Error>
 ```
-
 **Returns:** `()`
 **Errors:** Returns `Err(Error)`.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```rust
 pub fn cache_dir() -> Result<String, Error>
 ```
-
 **Returns:** `String`
 **Errors:** Returns `Err(Error)`.
 
@@ -641,7 +618,6 @@ Create a new download manager for the given version.
 ```rust
 pub fn new(version: &str) -> DownloadManager
 ```
-
 ###### with_cache_dir()
 
 Create a download manager with a custom cache directory.
@@ -651,7 +627,6 @@ Create a download manager with a custom cache directory.
 ```rust
 pub fn with_cache_dir(version: &str, cache_dir: PathBuf) -> DownloadManager
 ```
-
 ###### default_cache_dir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -661,7 +636,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 ```rust
 pub fn default_cache_dir(version: &str) -> PathBuf
 ```
-
 ###### cache_dir()
 
 Return the path to the libs cache directory.
@@ -671,7 +645,6 @@ Return the path to the libs cache directory.
 ```rust
 pub fn cache_dir(&self) -> PathBuf
 ```
-
 ###### installed_languages()
 
 List languages that are already downloaded and cached.
@@ -681,7 +654,6 @@ List languages that are already downloaded and cached.
 ```rust
 pub fn installed_languages(&self) -> Vec<String>
 ```
-
 ###### ensure_languages()
 
 Ensure the specified languages are available in the cache.
@@ -692,7 +664,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```rust
 pub fn ensure_languages(&self, names: Vec<String>)
 ```
-
 ###### ensure_group()
 
 Ensure all languages in a named group are available.
@@ -702,7 +673,6 @@ Ensure all languages in a named group are available.
 ```rust
 pub fn ensure_group(&self, group: &str)
 ```
-
 ###### lib_path()
 
 Get the expected path for a language's shared library in the cache.
@@ -712,7 +682,6 @@ Get the expected path for a language's shared library in the cache.
 ```rust
 pub fn lib_path(&self, name: &str) -> PathBuf
 ```
-
 ###### fetch_manifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -722,7 +691,6 @@ Fetch the parser manifest from GitHub Releases.
 ```rust
 pub fn fetch_manifest(&self) -> ParserManifest
 ```
-
 ###### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
@@ -739,7 +707,6 @@ Returns the number of library files extracted (including those already cached).
 ```rust
 pub fn download_all_best_effort(&self) -> usize
 ```
-
 ###### clean_cache()
 
 Remove all cached parser libraries.
@@ -836,7 +803,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 ```rust
 pub fn with_libs_dir(libs_dir: PathBuf) -> LanguageRegistry
 ```
-
 ###### add_extra_libs_dir()
 
 Add an additional directory to search for dynamic libraries.
@@ -854,7 +820,6 @@ immutable while the directory list is updated.
 ```rust
 pub fn add_extra_libs_dir(&self, dir: PathBuf)
 ```
-
 ###### get_language()
 
 Get a tree-sitter `Language` by name.
@@ -873,7 +838,6 @@ does not match any known grammar.
 ```rust
 pub fn get_language(&self, name: &str) -> Language
 ```
-
 ###### available_languages()
 
 List all available language names, sorted and deduplicated.
@@ -886,7 +850,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```rust
 pub fn available_languages(&self) -> Vec<String>
 ```
-
 ###### has_language()
 
 Check whether a language is available by name or alias.
@@ -899,7 +862,6 @@ table or from a dynamic library on disk.
 ```rust
 pub fn has_language(&self, name: &str) -> bool
 ```
-
 ###### language_count()
 
 Return the total number of available languages (including aliases).
@@ -909,7 +871,6 @@ Return the total number of available languages (including aliases).
 ```rust
 pub fn language_count(&self) -> usize
 ```
-
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -919,7 +880,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```rust
 pub fn process(&self, source: &str, config: ProcessConfig) -> ProcessResult
 ```
-
 ###### default()
 
 **Signature:**
@@ -946,7 +906,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```rust
 pub fn clone(&self) -> Node
 ```
-
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -956,7 +915,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```rust
 pub fn kind(&self) -> String
 ```
-
 ###### kind_id()
 
 Return the node's numeric kind ID.
@@ -966,7 +924,6 @@ Return the node's numeric kind ID.
 ```rust
 pub fn kind_id(&self) -> u16
 ```
-
 ###### start_byte()
 
 Return the inclusive start byte offset of this node.
@@ -976,7 +933,6 @@ Return the inclusive start byte offset of this node.
 ```rust
 pub fn start_byte(&self) -> usize
 ```
-
 ###### end_byte()
 
 Return the exclusive end byte offset of this node.
@@ -986,7 +942,6 @@ Return the exclusive end byte offset of this node.
 ```rust
 pub fn end_byte(&self) -> usize
 ```
-
 ###### byte_range()
 
 Return the node's byte range as a `ByteRange`.
@@ -999,7 +954,6 @@ text accessor.
 ```rust
 pub fn byte_range(&self) -> ByteRange
 ```
-
 ###### start_position()
 
 Return the start `Point` (row, column).
@@ -1009,7 +963,6 @@ Return the start `Point` (row, column).
 ```rust
 pub fn start_position(&self) -> Point
 ```
-
 ###### end_position()
 
 Return the end `Point` (row, column).
@@ -1019,7 +972,6 @@ Return the end `Point` (row, column).
 ```rust
 pub fn end_position(&self) -> Point
 ```
-
 ###### is_named()
 
 True when this node is named (not punctuation/whitespace).
@@ -1029,7 +981,6 @@ True when this node is named (not punctuation/whitespace).
 ```rust
 pub fn is_named(&self) -> bool
 ```
-
 ###### is_error()
 
 True when this is an error node.
@@ -1039,7 +990,6 @@ True when this is an error node.
 ```rust
 pub fn is_error(&self) -> bool
 ```
-
 ###### is_missing()
 
 True when this is a missing-token node.
@@ -1049,7 +999,6 @@ True when this is a missing-token node.
 ```rust
 pub fn is_missing(&self) -> bool
 ```
-
 ###### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1059,7 +1008,6 @@ True when this is an "extra" node (e.g. a comment).
 ```rust
 pub fn is_extra(&self) -> bool
 ```
-
 ###### has_error()
 
 True when this node or any descendant is an error.
@@ -1069,7 +1017,6 @@ True when this node or any descendant is an error.
 ```rust
 pub fn has_error(&self) -> bool
 ```
-
 ###### parent()
 
 Return this node's parent, if any.
@@ -1079,7 +1026,6 @@ Return this node's parent, if any.
 ```rust
 pub fn parent(&self) -> Option<Node>
 ```
-
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -1089,7 +1035,6 @@ Return the i-th child of this node, if any.
 ```rust
 pub fn child(&self, index: u32) -> Option<Node>
 ```
-
 ###### child_count()
 
 Total number of children (including unnamed).
@@ -1099,7 +1044,6 @@ Total number of children (including unnamed).
 ```rust
 pub fn child_count(&self) -> usize
 ```
-
 ###### named_child()
 
 Return the i-th named child of this node, if any.
@@ -1109,7 +1053,6 @@ Return the i-th named child of this node, if any.
 ```rust
 pub fn named_child(&self, index: u32) -> Option<Node>
 ```
-
 ###### named_child_count()
 
 Number of named children of this node.
@@ -1119,7 +1062,6 @@ Number of named children of this node.
 ```rust
 pub fn named_child_count(&self) -> usize
 ```
-
 ###### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
@@ -1129,7 +1071,6 @@ Look up a child by its grammar-defined field name.
 ```rust
 pub fn child_by_field_name(&self, name: &str) -> Option<Node>
 ```
-
 ###### to_sexp()
 
 Return the S-expression form of this node's subtree.
@@ -1139,7 +1080,6 @@ Return the S-expression form of this node's subtree.
 ```rust
 pub fn to_sexp(&self) -> String
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1181,7 +1121,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 ```rust
 pub fn from_toml_file(path: PathBuf) -> PackConfig
 ```
-
 ###### discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1223,7 +1162,6 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 ```rust
 pub fn set_language(&self, name: &str)
 ```
-
 ###### parse()
 
 Parse a UTF-8 source string. Returns `None` if parsing was cancelled
@@ -1234,7 +1172,6 @@ or no language is set.
 ```rust
 pub fn parse(&self, source: &str) -> Option<Tree>
 ```
-
 ###### parse_bytes()
 
 Parse a raw byte slice. Returns `None` if parsing was cancelled or
@@ -1245,7 +1182,6 @@ no language is set.
 ```rust
 pub fn parse_bytes(&self, source: &[u8]) -> Option<Tree>
 ```
-
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1256,7 +1192,6 @@ not be incremental.
 ```rust
 pub fn reset(&self)
 ```
-
 ###### default()
 
 **Signature:**
@@ -1340,7 +1275,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```rust
 pub fn default() -> ProcessConfig
 ```
-
 ###### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1350,7 +1284,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```rust
 pub fn with_chunking(&self, max_size: usize) -> ProcessConfig
 ```
-
 ###### all()
 
 Enable all analysis features.
@@ -1360,7 +1293,6 @@ Enable all analysis features.
 ```rust
 pub fn all(&self) -> ProcessConfig
 ```
-
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1465,7 +1397,6 @@ Return the root `Node` of this tree.
 ```rust
 pub fn root_node(&self) -> Node
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1493,7 +1424,6 @@ Return the `Node` at the cursor's current position.
 ```rust
 pub fn node(&self) -> Node
 ```
-
 ###### goto_first_child()
 
 Move the cursor to the first child of the current node.
@@ -1504,7 +1434,6 @@ Returns `true` if a child existed.
 ```rust
 pub fn goto_first_child(&self) -> bool
 ```
-
 ###### goto_parent()
 
 Move the cursor to the parent of the current node.
@@ -1515,7 +1444,6 @@ Returns `true` if a parent existed.
 ```rust
 pub fn goto_parent(&self) -> bool
 ```
-
 ###### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1526,7 +1454,6 @@ Returns `true` if a sibling existed.
 ```rust
 pub fn goto_next_sibling(&self) -> bool
 ```
-
 ###### field_name()
 
 Return the field name for the current node, if any.

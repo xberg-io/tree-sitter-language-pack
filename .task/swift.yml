@@ -1,0 +1,91 @@
+version: "3"
+
+tasks:
+  install:
+    desc: Resolve Swift package dependencies
+    dir: packages/swift
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - swift package resolve
+
+  setup:
+    desc: Setup Swift environment
+    cmds:
+      - task: install
+
+  build:
+    desc: Build Swift package against swift-bridge Rust crate
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-swift
+      - bash scripts/setup-swift-bridge.sh release
+      - cd packages/swift && swift build
+
+  build:dev:
+    desc: Build Swift package in debug mode
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build -p tree-sitter-language-pack-swift
+      - bash scripts/setup-swift-bridge.sh debug
+      - cd packages/swift && swift build
+
+  build:release:
+    desc: Build Swift package in release mode
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-swift
+      - bash scripts/setup-swift-bridge.sh release
+      - cd packages/swift && swift build -c release
+
+  test:
+    desc: Run Swift tests
+    dir: packages/swift
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - swift test
+
+  lint:
+    desc: Format Swift code
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - swift format --in-place --recursive packages/swift/Sources
+
+  lint:check:
+    desc: Check Swift code formatting
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - swift format lint --recursive packages/swift/Sources
+
+  format:
+    desc: Format Swift code (alias for lint)
+    cmds:
+      - task: lint
+
+  format:check:
+    desc: Check Swift formatting (alias for lint:check)
+    cmds:
+      - task: lint:check
+
+  clean:
+    desc: Clean Swift build artifacts
+    dir: packages/swift
+    cmds:
+      - cmd: swift package clean
+        ignore_error: true
+      - rm -rf .build
+
+  e2e:test:
+    desc: Run Swift e2e tests
+    preconditions:
+      - sh: command -v swift >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-swift
+      - bash scripts/setup-swift-bridge.sh release
+      - cd packages/swift && swift test

@@ -1,11 +1,11 @@
 ---
 title: tree-sitter-language-pack
-description: "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, syntax-aware chunking, and polyglot bindings for Python, TypeScript, Rust, Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly."
+description: "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, syntax-aware chunking, and polyglot bindings for Python, TypeScript, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, and WebAssembly."
 ---
 
 ## Tree-sitter-language-pack
 
-A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammars behind one parsing and code-intelligence API. Parsers download on demand and cache locally, so the install footprint stays small. Native bindings ship for Python, TypeScript / Node.js, Rust, Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly, plus the standalone `ts-pack` CLI.
+A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammars behind one parsing and code-intelligence API. Parsers download on demand and cache locally, so the install footprint stays small. Native bindings ship for Python, TypeScript / Node.js, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, and WebAssembly, plus the standalone `ts-pack` CLI.
 
 <div class="hero-badges" markdown>
 
@@ -42,9 +42,9 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
   Split source at natural boundaries (functions, classes, blocks) so chunks stay semantically intact for embeddings and prompt windows.
 
-- :material-translate:{ .lg .middle } **10 Language Bindings + CLI**
+- :material-translate:{ .lg .middle } **14 Language Bindings + CLI**
 
-  The same Rust core ships as a PyPI wheel, an npm module, a crate, a Go module, a Maven JAR, a NuGet package, a gem, a Composer package, a Hex package, a WASM module, and a static-binary CLI.
+  The same Rust core ships as a PyPI wheel, an npm module, a crate, a Go module, a Maven JAR, an Android AAR (Maven), a NuGet package, a gem, a Composer package, a Hex package, a pub.dev package, a SwiftPM package, a Zig tarball, a WASM module, and a static-binary CLI.
 
 </div>
 
@@ -62,7 +62,11 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 | **C#**                   | `dotnet add package TreeSitterLanguagePack`                                                                    | [API Reference](reference/api-csharp.md)     |
 | **Ruby**                 | `gem install tree_sitter_language_pack`                                                                        | [API Reference](reference/api-ruby.md)       |
 | **PHP**                  | `composer require kreuzberg-dev/tree-sitter-language-pack`                                                     | [API Reference](reference/api-php.md)        |
-| **Elixir**               | `{:tree_sitter_language_pack, "~> 1.8"}`                                                                       | [API Reference](reference/api-elixir.md)     |
+| **Elixir**               | `{:tree_sitter_language_pack, "~> 1.9"}`                                                                       | [API Reference](reference/api-elixir.md)     |
+| **Dart / Flutter**       | `dart pub add tree_sitter_language_pack`                                                                       | [API Reference](reference/api-dart.md)       |
+| **Kotlin (Android)**     | `implementation("dev.kreuzberg.tslp:tslp-android:1.9.0")`                                                      | [API Reference](reference/api-kotlin-android.md) |
+| **Swift**                | `.package(url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack-swift", from: "1.9.0")`             | [API Reference](reference/api-swift.md)      |
+| **Zig**                  | `zig fetch --save <release tarball url>`                                                                       | [API Reference](reference/api-zig.md)        |
 | **WebAssembly**          | `npm install @kreuzberg/tree-sitter-language-pack-wasm`                                                        | [API Reference](reference/api-wasm.md)       |
 | **C (FFI)**              | Shared library + header                                                                                        | [API Reference](reference/api-c.md)          |
 | **CLI**                  | `curl -fsSL https://raw.githubusercontent.com/kreuzberg-dev/tree-sitter-language-pack/main/install.sh \| bash` | [CLI Guide](guides/cli.md)                   |
@@ -107,7 +111,7 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 - :material-api:{ .lg .middle } **API Reference**
 
-  Complete reference for every binding: Python, TypeScript, Rust, Go, Java, C#, Ruby, PHP, Elixir, WASM, and C FFI.
+  Complete reference for every binding: Python, TypeScript, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, WASM, and C FFI.
 
   [:octicons-arrow-right-24: Python API](reference/api-python.md)
 

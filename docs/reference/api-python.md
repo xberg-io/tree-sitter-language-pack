@@ -1,7 +1,6 @@
 ---
 title: "Python API Reference"
 ---
-
 ## Python API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,7 +16,6 @@ Returns `None` for unrecognized extensions. The match is case-insensitive.
 ```python
 def detect_language_from_extension(ext: str) -> str | None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -40,7 +38,6 @@ path has no extension or the extension is not recognized.
 ```python
 def detect_language_from_path(path: str) -> str | None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,7 +71,6 @@ malformed, or the interpreter is not recognised.
 ```python
 def detect_language_from_content(content: str) -> str | None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,7 +93,6 @@ if no highlights query is bundled for this language.
 ```python
 def get_highlights_query(language: str) -> str | None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -121,7 +115,6 @@ if no injections query is bundled for this language.
 ```python
 def get_injections_query(language: str) -> str | None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -144,7 +137,6 @@ if no locals query is bundled for this language.
 ```python
 def get_locals_query(language: str) -> str | None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,7 +165,6 @@ or `Error.Download` if auto-download fails.
 ```python
 def get_language(name: str) -> Language
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -202,7 +193,6 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 ```python
 def get_parser(name: str) -> Parser
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -225,7 +215,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```python
 def detect_language(path: str) -> str | None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```python
 def available_languages() -> list[str]
 ```
-
 **Returns:** `list[str]`
 
 ---
@@ -265,7 +253,6 @@ dynamically available, or a known alias for one of these).
 ```python
 def has_language(name: str) -> bool
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -288,7 +275,6 @@ and aliases.
 ```python
 def language_count() -> int
 ```
-
 **Returns:** `int`
 
 ---
@@ -310,7 +296,6 @@ Returns an error if the language is not found or parsing fails.
 ```python
 def process(source: str, config: ProcessConfig) -> ProcessResult
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -340,7 +325,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```python
 def init(config: PackConfig) -> None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -370,7 +354,6 @@ Returns an error if the lock cannot be acquired.
 ```python
 def configure(config: PackConfig) -> None
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -399,7 +382,6 @@ the download fails.
 ```python
 def download(names: list[str]) -> int
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```python
 def download_all() -> int
 ```
-
 **Returns:** `int`
 **Errors:** Raises `Error`.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```python
 def manifest_languages() -> list[str]
 ```
-
 **Returns:** `list[str]`
 **Errors:** Raises `Error`.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```python
 def downloaded_languages() -> list[str]
 ```
-
 **Returns:** `list[str]`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```python
 def clean_cache() -> None
 ```
-
 **Returns:** `None`
 **Errors:** Raises `Error`.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```python
 def cache_dir() -> str
 ```
-
 **Returns:** `str`
 **Errors:** Raises `Error`.
 
@@ -642,7 +619,6 @@ Create a new download manager for the given version.
 @staticmethod
 def new(version: str) -> DownloadManager
 ```
-
 ###### with_cache_dir()
 
 Create a download manager with a custom cache directory.
@@ -653,7 +629,6 @@ Create a download manager with a custom cache directory.
 @staticmethod
 def with_cache_dir(version: str, cache_dir: str) -> DownloadManager
 ```
-
 ###### default_cache_dir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -664,7 +639,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 @staticmethod
 def default_cache_dir(version: str) -> str
 ```
-
 ###### cache_dir()
 
 Return the path to the libs cache directory.
@@ -674,7 +648,6 @@ Return the path to the libs cache directory.
 ```python
 def cache_dir(self) -> str
 ```
-
 ###### installed_languages()
 
 List languages that are already downloaded and cached.
@@ -684,7 +657,6 @@ List languages that are already downloaded and cached.
 ```python
 def installed_languages(self) -> list[str]
 ```
-
 ###### ensure_languages()
 
 Ensure the specified languages are available in the cache.
@@ -695,7 +667,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```python
 def ensure_languages(self, names: list[str]) -> None
 ```
-
 ###### ensure_group()
 
 Ensure all languages in a named group are available.
@@ -705,7 +676,6 @@ Ensure all languages in a named group are available.
 ```python
 def ensure_group(self, group: str) -> None
 ```
-
 ###### lib_path()
 
 Get the expected path for a language's shared library in the cache.
@@ -715,7 +685,6 @@ Get the expected path for a language's shared library in the cache.
 ```python
 def lib_path(self, name: str) -> str
 ```
-
 ###### fetch_manifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -725,7 +694,6 @@ Fetch the parser manifest from GitHub Releases.
 ```python
 def fetch_manifest(self) -> ParserManifest
 ```
-
 ###### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
@@ -742,7 +710,6 @@ Returns the number of library files extracted (including those already cached).
 ```python
 def download_all_best_effort(self) -> int
 ```
-
 ###### clean_cache()
 
 Remove all cached parser libraries.
@@ -840,7 +807,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 @staticmethod
 def with_libs_dir(libs_dir: str) -> LanguageRegistry
 ```
-
 ###### add_extra_libs_dir()
 
 Add an additional directory to search for dynamic libraries.
@@ -858,7 +824,6 @@ immutable while the directory list is updated.
 ```python
 def add_extra_libs_dir(self, dir: str) -> None
 ```
-
 ###### get_language()
 
 Get a tree-sitter `Language` by name.
@@ -877,7 +842,6 @@ does not match any known grammar.
 ```python
 def get_language(self, name: str) -> Language
 ```
-
 ###### available_languages()
 
 List all available language names, sorted and deduplicated.
@@ -890,7 +854,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```python
 def available_languages(self) -> list[str]
 ```
-
 ###### has_language()
 
 Check whether a language is available by name or alias.
@@ -903,7 +866,6 @@ table or from a dynamic library on disk.
 ```python
 def has_language(self, name: str) -> bool
 ```
-
 ###### language_count()
 
 Return the total number of available languages (including aliases).
@@ -913,7 +875,6 @@ Return the total number of available languages (including aliases).
 ```python
 def language_count(self) -> int
 ```
-
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -923,7 +884,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```python
 def process(self, source: str, config: ProcessConfig) -> ProcessResult
 ```
-
 ###### default()
 
 **Signature:**
@@ -951,7 +911,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```python
 def clone(self) -> Node
 ```
-
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -961,7 +920,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```python
 def kind(self) -> str
 ```
-
 ###### kind_id()
 
 Return the node's numeric kind ID.
@@ -971,7 +929,6 @@ Return the node's numeric kind ID.
 ```python
 def kind_id(self) -> int
 ```
-
 ###### start_byte()
 
 Return the inclusive start byte offset of this node.
@@ -981,7 +938,6 @@ Return the inclusive start byte offset of this node.
 ```python
 def start_byte(self) -> int
 ```
-
 ###### end_byte()
 
 Return the exclusive end byte offset of this node.
@@ -991,7 +947,6 @@ Return the exclusive end byte offset of this node.
 ```python
 def end_byte(self) -> int
 ```
-
 ###### byte_range()
 
 Return the node's byte range as a `ByteRange`.
@@ -1004,7 +959,6 @@ text accessor.
 ```python
 def byte_range(self) -> ByteRange
 ```
-
 ###### start_position()
 
 Return the start `Point` (row, column).
@@ -1014,7 +968,6 @@ Return the start `Point` (row, column).
 ```python
 def start_position(self) -> Point
 ```
-
 ###### end_position()
 
 Return the end `Point` (row, column).
@@ -1024,7 +977,6 @@ Return the end `Point` (row, column).
 ```python
 def end_position(self) -> Point
 ```
-
 ###### is_named()
 
 True when this node is named (not punctuation/whitespace).
@@ -1034,7 +986,6 @@ True when this node is named (not punctuation/whitespace).
 ```python
 def is_named(self) -> bool
 ```
-
 ###### is_error()
 
 True when this is an error node.
@@ -1044,7 +995,6 @@ True when this is an error node.
 ```python
 def is_error(self) -> bool
 ```
-
 ###### is_missing()
 
 True when this is a missing-token node.
@@ -1054,7 +1004,6 @@ True when this is a missing-token node.
 ```python
 def is_missing(self) -> bool
 ```
-
 ###### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1064,7 +1013,6 @@ True when this is an "extra" node (e.g. a comment).
 ```python
 def is_extra(self) -> bool
 ```
-
 ###### has_error()
 
 True when this node or any descendant is an error.
@@ -1074,7 +1022,6 @@ True when this node or any descendant is an error.
 ```python
 def has_error(self) -> bool
 ```
-
 ###### parent()
 
 Return this node's parent, if any.
@@ -1084,7 +1031,6 @@ Return this node's parent, if any.
 ```python
 def parent(self) -> Node | None
 ```
-
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -1094,7 +1040,6 @@ Return the i-th child of this node, if any.
 ```python
 def child(self, index: int) -> Node | None
 ```
-
 ###### child_count()
 
 Total number of children (including unnamed).
@@ -1104,7 +1049,6 @@ Total number of children (including unnamed).
 ```python
 def child_count(self) -> int
 ```
-
 ###### named_child()
 
 Return the i-th named child of this node, if any.
@@ -1114,7 +1058,6 @@ Return the i-th named child of this node, if any.
 ```python
 def named_child(self, index: int) -> Node | None
 ```
-
 ###### named_child_count()
 
 Number of named children of this node.
@@ -1124,7 +1067,6 @@ Number of named children of this node.
 ```python
 def named_child_count(self) -> int
 ```
-
 ###### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
@@ -1134,7 +1076,6 @@ Look up a child by its grammar-defined field name.
 ```python
 def child_by_field_name(self, name: str) -> Node | None
 ```
-
 ###### to_sexp()
 
 Return the S-expression form of this node's subtree.
@@ -1144,7 +1085,6 @@ Return the S-expression form of this node's subtree.
 ```python
 def to_sexp(self) -> str
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1187,7 +1127,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 @staticmethod
 def from_toml_file(path: str) -> PackConfig
 ```
-
 ###### discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1230,7 +1169,6 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 ```python
 def set_language(self, name: str) -> None
 ```
-
 ###### parse()
 
 Parse a UTF-8 source string. Returns `None` if parsing was cancelled
@@ -1241,7 +1179,6 @@ or no language is set.
 ```python
 def parse(self, source: str) -> Tree | None
 ```
-
 ###### parse_bytes()
 
 Parse a raw byte slice. Returns `None` if parsing was cancelled or
@@ -1252,7 +1189,6 @@ no language is set.
 ```python
 def parse_bytes(self, source: bytes) -> Tree | None
 ```
-
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1263,7 +1199,6 @@ not be incremental.
 ```python
 def reset(self) -> None
 ```
-
 ###### default()
 
 **Signature:**
@@ -1350,7 +1285,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 @staticmethod
 def default() -> ProcessConfig
 ```
-
 ###### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1360,7 +1294,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```python
 def with_chunking(self, max_size: int) -> ProcessConfig
 ```
-
 ###### all()
 
 Enable all analysis features.
@@ -1370,7 +1303,6 @@ Enable all analysis features.
 ```python
 def all(self) -> ProcessConfig
 ```
-
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1475,7 +1407,6 @@ Return the root `Node` of this tree.
 ```python
 def root_node(self) -> Node
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1503,7 +1434,6 @@ Return the `Node` at the cursor's current position.
 ```python
 def node(self) -> Node
 ```
-
 ###### goto_first_child()
 
 Move the cursor to the first child of the current node.
@@ -1514,7 +1444,6 @@ Returns `True` if a child existed.
 ```python
 def goto_first_child(self) -> bool
 ```
-
 ###### goto_parent()
 
 Move the cursor to the parent of the current node.
@@ -1525,7 +1454,6 @@ Returns `True` if a parent existed.
 ```python
 def goto_parent(self) -> bool
 ```
-
 ###### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1536,7 +1464,6 @@ Returns `True` if a sibling existed.
 ```python
 def goto_next_sibling(self) -> bool
 ```
-
 ###### field_name()
 
 Return the field name for the current node, if any.
@@ -1675,7 +1602,6 @@ Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
 **Base class:** `Error(Exception)`
-
 | Exception | Description |
 |-----------|-------------|
 | `LanguageNotFound(Error)` | Language '{0}' not found |

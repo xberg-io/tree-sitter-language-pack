@@ -23,6 +23,14 @@ includes:
     taskfile: .task/php.yml
   csharp:
     taskfile: .task/csharp.yml
+  dart:
+    taskfile: .task/dart.yml
+  kotlin-android:
+    taskfile: .task/kotlin-android.yml
+  swift:
+    taskfile: .task/swift.yml
+  zig:
+    taskfile: .task/zig.yml
   docs:
     taskfile: ./.task/tools/docs.yml
   version:

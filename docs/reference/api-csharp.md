@@ -1,7 +1,6 @@
 ---
 title: "C# API Reference"
 ---
-
 ## C# API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,7 +16,6 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 ```csharp
 public static string? DetectLanguageFromExtension(string ext)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -40,7 +38,6 @@ path has no extension or the extension is not recognized.
 ```csharp
 public static string? DetectLanguageFromPath(string path)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,7 +71,6 @@ malformed, or the interpreter is not recognised.
 ```csharp
 public static string? DetectLanguageFromContent(string content)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,7 +93,6 @@ if no highlights query is bundled for this language.
 ```csharp
 public static string? GetHighlightsQuery(string language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -121,7 +115,6 @@ if no injections query is bundled for this language.
 ```csharp
 public static string? GetInjectionsQuery(string language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -144,7 +137,6 @@ if no locals query is bundled for this language.
 ```csharp
 public static string? GetLocalsQuery(string language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,7 +165,6 @@ or `Error.Download` if auto-download fails.
 ```csharp
 public static Language GetLanguage(string name)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -202,7 +193,6 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 ```csharp
 public static Parser GetParser(string name)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -225,7 +215,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```csharp
 public static string? DetectLanguage(string path)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```csharp
 public static List<string> AvailableLanguages()
 ```
-
 **Returns:** `List<string>`
 
 ---
@@ -265,7 +253,6 @@ dynamically available, or a known alias for one of these).
 ```csharp
 public static bool HasLanguage(string name)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -288,7 +275,6 @@ and aliases.
 ```csharp
 public static nuint LanguageCount()
 ```
-
 **Returns:** `nuint`
 
 ---
@@ -310,7 +296,6 @@ Returns an error if the language is not found or parsing fails.
 ```csharp
 public static ProcessResult Process(string source, ProcessConfig config)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -340,7 +325,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```csharp
 public static void Init(PackConfig config)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -370,7 +354,6 @@ Returns an error if the lock cannot be acquired.
 ```csharp
 public static void Configure(PackConfig config)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -399,7 +382,6 @@ the download fails.
 ```csharp
 public static nuint Download(List<string> names)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```csharp
 public static nuint DownloadAll()
 ```
-
 **Returns:** `nuint`
 **Errors:** Throws `Error`.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```csharp
 public static List<string> ManifestLanguages()
 ```
-
 **Returns:** `List<string>`
 **Errors:** Throws `Error`.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```csharp
 public static List<string> DownloadedLanguages()
 ```
-
 **Returns:** `List<string>`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```csharp
 public static void CleanCache()
 ```
-
 **Returns:** `void`
 **Errors:** Throws `Error`.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```csharp
 public static string CacheDir()
 ```
-
 **Returns:** `string`
 **Errors:** Throws `Error`.
 
@@ -641,7 +618,6 @@ Create a new download manager for the given version.
 ```csharp
 public DownloadManager New(string version)
 ```
-
 ###### WithCacheDir()
 
 Create a download manager with a custom cache directory.
@@ -651,7 +627,6 @@ Create a download manager with a custom cache directory.
 ```csharp
 public DownloadManager WithCacheDir(string version, string cacheDir)
 ```
-
 ###### DefaultCacheDir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -661,7 +636,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 ```csharp
 public string DefaultCacheDir(string version)
 ```
-
 ###### CacheDir()
 
 Return the path to the libs cache directory.
@@ -671,7 +645,6 @@ Return the path to the libs cache directory.
 ```csharp
 public string CacheDir()
 ```
-
 ###### InstalledLanguages()
 
 List languages that are already downloaded and cached.
@@ -681,7 +654,6 @@ List languages that are already downloaded and cached.
 ```csharp
 public List<string> InstalledLanguages()
 ```
-
 ###### EnsureLanguages()
 
 Ensure the specified languages are available in the cache.
@@ -692,7 +664,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```csharp
 public void EnsureLanguages(List<string> names)
 ```
-
 ###### EnsureGroup()
 
 Ensure all languages in a named group are available.
@@ -702,7 +673,6 @@ Ensure all languages in a named group are available.
 ```csharp
 public void EnsureGroup(string group)
 ```
-
 ###### LibPath()
 
 Get the expected path for a language's shared library in the cache.
@@ -712,7 +682,6 @@ Get the expected path for a language's shared library in the cache.
 ```csharp
 public string LibPath(string name)
 ```
-
 ###### FetchManifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -722,7 +691,6 @@ Fetch the parser manifest from GitHub Releases.
 ```csharp
 public ParserManifest FetchManifest()
 ```
-
 ###### DownloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
@@ -739,7 +707,6 @@ Returns the number of library files extracted (including those already cached).
 ```csharp
 public nuint DownloadAllBestEffort()
 ```
-
 ###### CleanCache()
 
 Remove all cached parser libraries.
@@ -836,7 +803,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 ```csharp
 public LanguageRegistry WithLibsDir(string libsDir)
 ```
-
 ###### AddExtraLibsDir()
 
 Add an additional directory to search for dynamic libraries.
@@ -854,7 +820,6 @@ immutable while the directory list is updated.
 ```csharp
 public void AddExtraLibsDir(string dir)
 ```
-
 ###### GetLanguage()
 
 Get a tree-sitter `Language` by name.
@@ -873,7 +838,6 @@ does not match any known grammar.
 ```csharp
 public Language GetLanguage(string name)
 ```
-
 ###### AvailableLanguages()
 
 List all available language names, sorted and deduplicated.
@@ -886,7 +850,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```csharp
 public List<string> AvailableLanguages()
 ```
-
 ###### HasLanguage()
 
 Check whether a language is available by name or alias.
@@ -899,7 +862,6 @@ table or from a dynamic library on disk.
 ```csharp
 public bool HasLanguage(string name)
 ```
-
 ###### LanguageCount()
 
 Return the total number of available languages (including aliases).
@@ -909,7 +871,6 @@ Return the total number of available languages (including aliases).
 ```csharp
 public nuint LanguageCount()
 ```
-
 ###### Process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -919,7 +880,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```csharp
 public ProcessResult Process(string source, ProcessConfig config)
 ```
-
 ###### CreateDefault()
 
 **Signature:**
@@ -946,7 +906,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```csharp
 public Node Clone()
 ```
-
 ###### Kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -956,7 +915,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```csharp
 public string Kind()
 ```
-
 ###### KindId()
 
 Return the node's numeric kind ID.
@@ -966,7 +924,6 @@ Return the node's numeric kind ID.
 ```csharp
 public ushort KindId()
 ```
-
 ###### StartByte()
 
 Return the inclusive start byte offset of this node.
@@ -976,7 +933,6 @@ Return the inclusive start byte offset of this node.
 ```csharp
 public nuint StartByte()
 ```
-
 ###### EndByte()
 
 Return the exclusive end byte offset of this node.
@@ -986,7 +942,6 @@ Return the exclusive end byte offset of this node.
 ```csharp
 public nuint EndByte()
 ```
-
 ###### ByteRange()
 
 Return the node's byte range as a `ByteRange`.
@@ -999,7 +954,6 @@ text accessor.
 ```csharp
 public ByteRange ByteRange()
 ```
-
 ###### StartPosition()
 
 Return the start `Point` (row, column).
@@ -1009,7 +963,6 @@ Return the start `Point` (row, column).
 ```csharp
 public Point StartPosition()
 ```
-
 ###### EndPosition()
 
 Return the end `Point` (row, column).
@@ -1019,7 +972,6 @@ Return the end `Point` (row, column).
 ```csharp
 public Point EndPosition()
 ```
-
 ###### IsNamed()
 
 True when this node is named (not punctuation/whitespace).
@@ -1029,7 +981,6 @@ True when this node is named (not punctuation/whitespace).
 ```csharp
 public bool IsNamed()
 ```
-
 ###### IsError()
 
 True when this is an error node.
@@ -1039,7 +990,6 @@ True when this is an error node.
 ```csharp
 public bool IsError()
 ```
-
 ###### IsMissing()
 
 True when this is a missing-token node.
@@ -1049,7 +999,6 @@ True when this is a missing-token node.
 ```csharp
 public bool IsMissing()
 ```
-
 ###### IsExtra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1059,7 +1008,6 @@ True when this is an "extra" node (e.g. a comment).
 ```csharp
 public bool IsExtra()
 ```
-
 ###### HasError()
 
 True when this node or any descendant is an error.
@@ -1069,7 +1017,6 @@ True when this node or any descendant is an error.
 ```csharp
 public bool HasError()
 ```
-
 ###### Parent()
 
 Return this node's parent, if any.
@@ -1079,7 +1026,6 @@ Return this node's parent, if any.
 ```csharp
 public Node? Parent()
 ```
-
 ###### Child()
 
 Return the i-th child of this node, if any.
@@ -1089,7 +1035,6 @@ Return the i-th child of this node, if any.
 ```csharp
 public Node? Child(uint index)
 ```
-
 ###### ChildCount()
 
 Total number of children (including unnamed).
@@ -1099,7 +1044,6 @@ Total number of children (including unnamed).
 ```csharp
 public nuint ChildCount()
 ```
-
 ###### NamedChild()
 
 Return the i-th named child of this node, if any.
@@ -1109,7 +1053,6 @@ Return the i-th named child of this node, if any.
 ```csharp
 public Node? NamedChild(uint index)
 ```
-
 ###### NamedChildCount()
 
 Number of named children of this node.
@@ -1119,7 +1062,6 @@ Number of named children of this node.
 ```csharp
 public nuint NamedChildCount()
 ```
-
 ###### ChildByFieldName()
 
 Look up a child by its grammar-defined field name.
@@ -1129,7 +1071,6 @@ Look up a child by its grammar-defined field name.
 ```csharp
 public Node? ChildByFieldName(string name)
 ```
-
 ###### ToSexp()
 
 Return the S-expression form of this node's subtree.
@@ -1139,7 +1080,6 @@ Return the S-expression form of this node's subtree.
 ```csharp
 public string ToSexp()
 ```
-
 ###### Walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1181,7 +1121,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 ```csharp
 public PackConfig FromTomlFile(string path)
 ```
-
 ###### Discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1223,7 +1162,6 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 ```csharp
 public void SetLanguage(string name)
 ```
-
 ###### Parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
@@ -1234,7 +1172,6 @@ or no language is set.
 ```csharp
 public Tree? Parse(string source)
 ```
-
 ###### ParseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
@@ -1245,7 +1182,6 @@ no language is set.
 ```csharp
 public Tree? ParseBytes(byte[] source)
 ```
-
 ###### Reset()
 
 Reset internal state. The next call to `parse` will
@@ -1256,7 +1192,6 @@ not be incremental.
 ```csharp
 public void Reset()
 ```
-
 ###### CreateDefault()
 
 **Signature:**
@@ -1340,7 +1275,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```csharp
 public ProcessConfig CreateDefault()
 ```
-
 ###### WithChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1350,7 +1284,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```csharp
 public ProcessConfig WithChunking(nuint maxSize)
 ```
-
 ###### All()
 
 Enable all analysis features.
@@ -1360,7 +1293,6 @@ Enable all analysis features.
 ```csharp
 public ProcessConfig All()
 ```
-
 ###### Minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1465,7 +1397,6 @@ Return the root `Node` of this tree.
 ```csharp
 public Node RootNode()
 ```
-
 ###### Walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1493,7 +1424,6 @@ Return the `Node` at the cursor's current position.
 ```csharp
 public Node Node()
 ```
-
 ###### GotoFirstChild()
 
 Move the cursor to the first child of the current node.
@@ -1504,7 +1434,6 @@ Returns `true` if a child existed.
 ```csharp
 public bool GotoFirstChild()
 ```
-
 ###### GotoParent()
 
 Move the cursor to the parent of the current node.
@@ -1515,7 +1444,6 @@ Returns `true` if a parent existed.
 ```csharp
 public bool GotoParent()
 ```
-
 ###### GotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1526,7 +1454,6 @@ Returns `true` if a sibling existed.
 ```csharp
 public bool GotoNextSibling()
 ```
-
 ###### FieldName()
 
 Return the field name for the current node, if any.

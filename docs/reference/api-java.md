@@ -1,7 +1,6 @@
 ---
 title: "Java API Reference"
 ---
-
 ## Java API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,7 +16,6 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 ```java
 public static Optional<String> detectLanguageFromExtension(String ext)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -40,7 +38,6 @@ path has no extension or the extension is not recognized.
 ```java
 public static Optional<String> detectLanguageFromPath(String path)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,7 +71,6 @@ malformed, or the interpreter is not recognised.
 ```java
 public static Optional<String> detectLanguageFromContent(String content)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,7 +93,6 @@ if no highlights query is bundled for this language.
 ```java
 public static Optional<String> getHighlightsQuery(String language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -121,7 +115,6 @@ if no injections query is bundled for this language.
 ```java
 public static Optional<String> getInjectionsQuery(String language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -144,7 +137,6 @@ if no locals query is bundled for this language.
 ```java
 public static Optional<String> getLocalsQuery(String language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,7 +165,6 @@ or `Error.Download` if auto-download fails.
 ```java
 public static Language getLanguage(String name) throws Error
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -202,7 +193,6 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 ```java
 public static Parser getParser(String name) throws Error
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -225,7 +215,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```java
 public static Optional<String> detectLanguage(String path)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```java
 public static List<String> availableLanguages()
 ```
-
 **Returns:** `List<String>`
 
 ---
@@ -265,7 +253,6 @@ dynamically available, or a known alias for one of these).
 ```java
 public static boolean hasLanguage(String name)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -288,7 +275,6 @@ and aliases.
 ```java
 public static long languageCount()
 ```
-
 **Returns:** `long`
 
 ---
@@ -310,7 +296,6 @@ Returns an error if the language is not found or parsing fails.
 ```java
 public static ProcessResult process(String source, ProcessConfig config) throws Error
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -340,7 +325,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```java
 public static void init(PackConfig config) throws Error
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -370,7 +354,6 @@ Returns an error if the lock cannot be acquired.
 ```java
 public static void configure(PackConfig config) throws Error
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -399,7 +382,6 @@ the download fails.
 ```java
 public static long download(List<String> names) throws Error
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```java
 public static long downloadAll() throws Error
 ```
-
 **Returns:** `long`
 **Errors:** Throws `ErrorException`.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```java
 public static List<String> manifestLanguages() throws Error
 ```
-
 **Returns:** `List<String>`
 **Errors:** Throws `ErrorException`.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```java
 public static List<String> downloadedLanguages()
 ```
-
 **Returns:** `List<String>`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```java
 public static void cleanCache() throws Error
 ```
-
 **Returns:** `void`
 **Errors:** Throws `ErrorException`.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```java
 public static String cacheDir() throws Error
 ```
-
 **Returns:** `String`
 **Errors:** Throws `ErrorException`.
 
@@ -641,7 +618,6 @@ Create a new download manager for the given version.
 ```java
 public static DownloadManager new(String version) throws Error
 ```
-
 ###### withCacheDir()
 
 Create a download manager with a custom cache directory.
@@ -651,7 +627,6 @@ Create a download manager with a custom cache directory.
 ```java
 public static DownloadManager withCacheDir(String version, String cacheDir)
 ```
-
 ###### defaultCacheDir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -661,7 +636,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 ```java
 public static String defaultCacheDir(String version) throws Error
 ```
-
 ###### cacheDir()
 
 Return the path to the libs cache directory.
@@ -671,7 +645,6 @@ Return the path to the libs cache directory.
 ```java
 public String cacheDir()
 ```
-
 ###### installedLanguages()
 
 List languages that are already downloaded and cached.
@@ -681,7 +654,6 @@ List languages that are already downloaded and cached.
 ```java
 public List<String> installedLanguages()
 ```
-
 ###### ensureLanguages()
 
 Ensure the specified languages are available in the cache.
@@ -692,7 +664,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```java
 public void ensureLanguages(List<String> names) throws Error
 ```
-
 ###### ensureGroup()
 
 Ensure all languages in a named group are available.
@@ -702,7 +673,6 @@ Ensure all languages in a named group are available.
 ```java
 public void ensureGroup(String group) throws Error
 ```
-
 ###### libPath()
 
 Get the expected path for a language's shared library in the cache.
@@ -712,7 +682,6 @@ Get the expected path for a language's shared library in the cache.
 ```java
 public String libPath(String name)
 ```
-
 ###### fetchManifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -722,7 +691,6 @@ Fetch the parser manifest from GitHub Releases.
 ```java
 public ParserManifest fetchManifest() throws Error
 ```
-
 ###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
@@ -739,7 +707,6 @@ Returns the number of library files extracted (including those already cached).
 ```java
 public long downloadAllBestEffort() throws Error
 ```
-
 ###### cleanCache()
 
 Remove all cached parser libraries.
@@ -836,7 +803,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 ```java
 public static LanguageRegistry withLibsDir(String libsDir)
 ```
-
 ###### addExtraLibsDir()
 
 Add an additional directory to search for dynamic libraries.
@@ -854,7 +820,6 @@ immutable while the directory list is updated.
 ```java
 public void addExtraLibsDir(String dir)
 ```
-
 ###### getLanguage()
 
 Get a tree-sitter `Language` by name.
@@ -873,7 +838,6 @@ does not match any known grammar.
 ```java
 public Language getLanguage(String name) throws Error
 ```
-
 ###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
@@ -886,7 +850,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```java
 public List<String> availableLanguages()
 ```
-
 ###### hasLanguage()
 
 Check whether a language is available by name or alias.
@@ -899,7 +862,6 @@ table or from a dynamic library on disk.
 ```java
 public boolean hasLanguage(String name)
 ```
-
 ###### languageCount()
 
 Return the total number of available languages (including aliases).
@@ -909,7 +871,6 @@ Return the total number of available languages (including aliases).
 ```java
 public long languageCount()
 ```
-
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -919,7 +880,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```java
 public ProcessResult process(String source, ProcessConfig config) throws Error
 ```
-
 ###### defaultOptions()
 
 **Signature:**
@@ -946,7 +906,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```java
 public Node clone()
 ```
-
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -956,7 +915,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```java
 public String kind()
 ```
-
 ###### kindId()
 
 Return the node's numeric kind ID.
@@ -966,7 +924,6 @@ Return the node's numeric kind ID.
 ```java
 public short kindId()
 ```
-
 ###### startByte()
 
 Return the inclusive start byte offset of this node.
@@ -976,7 +933,6 @@ Return the inclusive start byte offset of this node.
 ```java
 public long startByte()
 ```
-
 ###### endByte()
 
 Return the exclusive end byte offset of this node.
@@ -986,7 +942,6 @@ Return the exclusive end byte offset of this node.
 ```java
 public long endByte()
 ```
-
 ###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
@@ -999,7 +954,6 @@ text accessor.
 ```java
 public ByteRange byteRange()
 ```
-
 ###### startPosition()
 
 Return the start `Point` (row, column).
@@ -1009,7 +963,6 @@ Return the start `Point` (row, column).
 ```java
 public Point startPosition()
 ```
-
 ###### endPosition()
 
 Return the end `Point` (row, column).
@@ -1019,7 +972,6 @@ Return the end `Point` (row, column).
 ```java
 public Point endPosition()
 ```
-
 ###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
@@ -1029,7 +981,6 @@ True when this node is named (not punctuation/whitespace).
 ```java
 public boolean isNamed()
 ```
-
 ###### isError()
 
 True when this is an error node.
@@ -1039,7 +990,6 @@ True when this is an error node.
 ```java
 public boolean isError()
 ```
-
 ###### isMissing()
 
 True when this is a missing-token node.
@@ -1049,7 +999,6 @@ True when this is a missing-token node.
 ```java
 public boolean isMissing()
 ```
-
 ###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1059,7 +1008,6 @@ True when this is an "extra" node (e.g. a comment).
 ```java
 public boolean isExtra()
 ```
-
 ###### hasError()
 
 True when this node or any descendant is an error.
@@ -1069,7 +1017,6 @@ True when this node or any descendant is an error.
 ```java
 public boolean hasError()
 ```
-
 ###### parent()
 
 Return this node's parent, if any.
@@ -1079,7 +1026,6 @@ Return this node's parent, if any.
 ```java
 public Optional<Node> parent()
 ```
-
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -1089,7 +1035,6 @@ Return the i-th child of this node, if any.
 ```java
 public Optional<Node> child(int index)
 ```
-
 ###### childCount()
 
 Total number of children (including unnamed).
@@ -1099,7 +1044,6 @@ Total number of children (including unnamed).
 ```java
 public long childCount()
 ```
-
 ###### namedChild()
 
 Return the i-th named child of this node, if any.
@@ -1109,7 +1053,6 @@ Return the i-th named child of this node, if any.
 ```java
 public Optional<Node> namedChild(int index)
 ```
-
 ###### namedChildCount()
 
 Number of named children of this node.
@@ -1119,7 +1062,6 @@ Number of named children of this node.
 ```java
 public long namedChildCount()
 ```
-
 ###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
@@ -1129,7 +1071,6 @@ Look up a child by its grammar-defined field name.
 ```java
 public Optional<Node> childByFieldName(String name)
 ```
-
 ###### toSexp()
 
 Return the S-expression form of this node's subtree.
@@ -1139,7 +1080,6 @@ Return the S-expression form of this node's subtree.
 ```java
 public String toSexp()
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1181,7 +1121,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 ```java
 public static PackConfig fromTomlFile(String path) throws Error
 ```
-
 ###### discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1223,7 +1162,6 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 ```java
 public void setLanguage(String name) throws Error
 ```
-
 ###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
@@ -1234,7 +1172,6 @@ or no language is set.
 ```java
 public Optional<Tree> parse(String source)
 ```
-
 ###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
@@ -1245,7 +1182,6 @@ no language is set.
 ```java
 public Optional<Tree> parseBytes(byte[] source)
 ```
-
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1256,7 +1192,6 @@ not be incremental.
 ```java
 public void reset()
 ```
-
 ###### defaultOptions()
 
 **Signature:**
@@ -1340,7 +1275,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```java
 public static ProcessConfig defaultOptions()
 ```
-
 ###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1350,7 +1284,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```java
 public ProcessConfig withChunking(long maxSize)
 ```
-
 ###### all()
 
 Enable all analysis features.
@@ -1360,7 +1293,6 @@ Enable all analysis features.
 ```java
 public ProcessConfig all()
 ```
-
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1465,7 +1397,6 @@ Return the root `Node` of this tree.
 ```java
 public Node rootNode()
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1493,7 +1424,6 @@ Return the `Node` at the cursor's current position.
 ```java
 public Node node()
 ```
-
 ###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
@@ -1504,7 +1434,6 @@ Returns `true` if a child existed.
 ```java
 public boolean gotoFirstChild()
 ```
-
 ###### gotoParent()
 
 Move the cursor to the parent of the current node.
@@ -1515,7 +1444,6 @@ Returns `true` if a parent existed.
 ```java
 public boolean gotoParent()
 ```
-
 ###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1526,7 +1454,6 @@ Returns `true` if a sibling existed.
 ```java
 public boolean gotoNextSibling()
 ```
-
 ###### fieldName()
 
 Return the field name for the current node, if any.

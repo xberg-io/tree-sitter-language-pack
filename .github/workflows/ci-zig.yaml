@@ -1,0 +1,60 @@
+name: CI Zig
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core-ffi/**"
+      - "crates/ts-pack-core/**"
+      - "packages/zig/**"
+      - ".github/workflows/ci-zig.yaml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core-ffi/**"
+      - "crates/ts-pack-core/**"
+      - "packages/zig/**"
+      - ".github/workflows/ci-zig.yaml"
+  workflow_dispatch:
+
+concurrency:
+  group: ci-zig-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  RUST_BACKTRACE: short
+  TSLP_LINK_MODE: static
+  TSLP_LANGUAGES: python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram
+
+permissions:
+  contents: read
+
+jobs:
+  zig-test:
+    name: Zig build + test (${{ matrix.os }})
+    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: kreuzberg-dev/actions/setup-rust@v1
+        with:
+          cache-key-prefix: ci-zig-${{ matrix.os }}
+      - name: Build ts-pack-core-ffi
+        run: cargo build --release -p ts-pack-core-ffi
+      - uses: kreuzberg-dev/actions/setup-zig@v1
+        with:
+          version: "0.16.0"
+      - name: Build Zig package
+        working-directory: packages/zig
+        run: zig build
+      - name: Run Zig tests
+        working-directory: packages/zig
+        run: zig build test

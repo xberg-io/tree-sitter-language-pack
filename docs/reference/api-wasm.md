@@ -1,7 +1,6 @@
 ---
 title: "WebAssembly API Reference"
 ---
-
 ## WebAssembly API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,7 +16,6 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 ```typescript
 function detectLanguageFromExtension(ext: string): string | null
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -40,7 +38,6 @@ path has no extension or the extension is not recognized.
 ```typescript
 function detectLanguageFromPath(path: string): string | null
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,7 +71,6 @@ malformed, or the interpreter is not recognised.
 ```typescript
 function detectLanguageFromContent(content: string): string | null
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,7 +93,6 @@ if no highlights query is bundled for this language.
 ```typescript
 function getHighlightsQuery(language: string): string | null
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -121,7 +115,6 @@ if no injections query is bundled for this language.
 ```typescript
 function getInjectionsQuery(language: string): string | null
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -144,7 +137,6 @@ if no locals query is bundled for this language.
 ```typescript
 function getLocalsQuery(language: string): string | null
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,7 +165,6 @@ or `Error.Download` if auto-download fails.
 ```typescript
 function getLanguage(name: string): Language
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -202,7 +193,6 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 ```typescript
 function getParser(name: string): Parser
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -225,7 +215,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```typescript
 function detectLanguage(path: string): string | null
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```typescript
 function availableLanguages(): Array<string>
 ```
-
 **Returns:** `Array<string>`
 
 ---
@@ -265,7 +253,6 @@ dynamically available, or a known alias for one of these).
 ```typescript
 function hasLanguage(name: string): boolean
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -288,7 +275,6 @@ and aliases.
 ```typescript
 function languageCount(): number
 ```
-
 **Returns:** `number`
 
 ---
@@ -310,7 +296,6 @@ Returns an error if the language is not found or parsing fails.
 ```typescript
 function process(source: string, config: ProcessConfig): ProcessResult
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -340,7 +325,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```typescript
 function init(config: PackConfig): void
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -370,7 +354,6 @@ Returns an error if the lock cannot be acquired.
 ```typescript
 function configure(config: PackConfig): void
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -399,7 +382,6 @@ the download fails.
 ```typescript
 function download(names: Array<string>): number
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```typescript
 function downloadAll(): number
 ```
-
 **Returns:** `number`
 **Errors:** Throws `Error` with a descriptive message.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```typescript
 function manifestLanguages(): Array<string>
 ```
-
 **Returns:** `Array<string>`
 **Errors:** Throws `Error` with a descriptive message.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```typescript
 function downloadedLanguages(): Array<string>
 ```
-
 **Returns:** `Array<string>`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```typescript
 function cleanCache(): void
 ```
-
 **Returns:** `void`
 **Errors:** Throws `Error` with a descriptive message.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```typescript
 function cacheDir(): string
 ```
-
 **Returns:** `string`
 **Errors:** Throws `Error` with a descriptive message.
 
@@ -641,7 +618,6 @@ Create a new download manager for the given version.
 ```typescript
 static new(version: string): DownloadManager
 ```
-
 ###### withCacheDir()
 
 Create a download manager with a custom cache directory.
@@ -651,7 +627,6 @@ Create a download manager with a custom cache directory.
 ```typescript
 static withCacheDir(version: string, cacheDir: string): DownloadManager
 ```
-
 ###### defaultCacheDir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -661,7 +636,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 ```typescript
 static defaultCacheDir(version: string): string
 ```
-
 ###### cacheDir()
 
 Return the path to the libs cache directory.
@@ -671,7 +645,6 @@ Return the path to the libs cache directory.
 ```typescript
 cacheDir(): string
 ```
-
 ###### installedLanguages()
 
 List languages that are already downloaded and cached.
@@ -681,7 +654,6 @@ List languages that are already downloaded and cached.
 ```typescript
 installedLanguages(): Array<string>
 ```
-
 ###### ensureLanguages()
 
 Ensure the specified languages are available in the cache.
@@ -692,7 +664,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```typescript
 ensureLanguages(names: Array<string>): void
 ```
-
 ###### ensureGroup()
 
 Ensure all languages in a named group are available.
@@ -702,7 +673,6 @@ Ensure all languages in a named group are available.
 ```typescript
 ensureGroup(group: string): void
 ```
-
 ###### libPath()
 
 Get the expected path for a language's shared library in the cache.
@@ -712,7 +682,6 @@ Get the expected path for a language's shared library in the cache.
 ```typescript
 libPath(name: string): string
 ```
-
 ###### fetchManifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -722,7 +691,6 @@ Fetch the parser manifest from GitHub Releases.
 ```typescript
 fetchManifest(): ParserManifest
 ```
-
 ###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
@@ -739,7 +707,6 @@ Returns the number of library files extracted (including those already cached).
 ```typescript
 downloadAllBestEffort(): number
 ```
-
 ###### cleanCache()
 
 Remove all cached parser libraries.
@@ -836,7 +803,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 ```typescript
 static withLibsDir(libsDir: string): LanguageRegistry
 ```
-
 ###### addExtraLibsDir()
 
 Add an additional directory to search for dynamic libraries.
@@ -854,7 +820,6 @@ immutable while the directory list is updated.
 ```typescript
 addExtraLibsDir(dir: string): void
 ```
-
 ###### getLanguage()
 
 Get a tree-sitter `Language` by name.
@@ -873,7 +838,6 @@ does not match any known grammar.
 ```typescript
 getLanguage(name: string): Language
 ```
-
 ###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
@@ -886,7 +850,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```typescript
 availableLanguages(): Array<string>
 ```
-
 ###### hasLanguage()
 
 Check whether a language is available by name or alias.
@@ -899,7 +862,6 @@ table or from a dynamic library on disk.
 ```typescript
 hasLanguage(name: string): boolean
 ```
-
 ###### languageCount()
 
 Return the total number of available languages (including aliases).
@@ -909,7 +871,6 @@ Return the total number of available languages (including aliases).
 ```typescript
 languageCount(): number
 ```
-
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -919,7 +880,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```typescript
 process(source: string, config: ProcessConfig): ProcessResult
 ```
-
 ###### default()
 
 **Signature:**
@@ -946,7 +906,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```typescript
 clone(): Node
 ```
-
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -956,7 +915,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```typescript
 kind(): string
 ```
-
 ###### kindId()
 
 Return the node's numeric kind ID.
@@ -966,7 +924,6 @@ Return the node's numeric kind ID.
 ```typescript
 kindId(): number
 ```
-
 ###### startByte()
 
 Return the inclusive start byte offset of this node.
@@ -976,7 +933,6 @@ Return the inclusive start byte offset of this node.
 ```typescript
 startByte(): number
 ```
-
 ###### endByte()
 
 Return the exclusive end byte offset of this node.
@@ -986,7 +942,6 @@ Return the exclusive end byte offset of this node.
 ```typescript
 endByte(): number
 ```
-
 ###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
@@ -999,7 +954,6 @@ text accessor.
 ```typescript
 byteRange(): ByteRange
 ```
-
 ###### startPosition()
 
 Return the start `Point` (row, column).
@@ -1009,7 +963,6 @@ Return the start `Point` (row, column).
 ```typescript
 startPosition(): Point
 ```
-
 ###### endPosition()
 
 Return the end `Point` (row, column).
@@ -1019,7 +972,6 @@ Return the end `Point` (row, column).
 ```typescript
 endPosition(): Point
 ```
-
 ###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
@@ -1029,7 +981,6 @@ True when this node is named (not punctuation/whitespace).
 ```typescript
 isNamed(): boolean
 ```
-
 ###### isError()
 
 True when this is an error node.
@@ -1039,7 +990,6 @@ True when this is an error node.
 ```typescript
 isError(): boolean
 ```
-
 ###### isMissing()
 
 True when this is a missing-token node.
@@ -1049,7 +999,6 @@ True when this is a missing-token node.
 ```typescript
 isMissing(): boolean
 ```
-
 ###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1059,7 +1008,6 @@ True when this is an "extra" node (e.g. a comment).
 ```typescript
 isExtra(): boolean
 ```
-
 ###### hasError()
 
 True when this node or any descendant is an error.
@@ -1069,7 +1017,6 @@ True when this node or any descendant is an error.
 ```typescript
 hasError(): boolean
 ```
-
 ###### parent()
 
 Return this node's parent, if any.
@@ -1079,7 +1026,6 @@ Return this node's parent, if any.
 ```typescript
 parent(): Node | null
 ```
-
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -1089,7 +1035,6 @@ Return the i-th child of this node, if any.
 ```typescript
 child(index: number): Node | null
 ```
-
 ###### childCount()
 
 Total number of children (including unnamed).
@@ -1099,7 +1044,6 @@ Total number of children (including unnamed).
 ```typescript
 childCount(): number
 ```
-
 ###### namedChild()
 
 Return the i-th named child of this node, if any.
@@ -1109,7 +1053,6 @@ Return the i-th named child of this node, if any.
 ```typescript
 namedChild(index: number): Node | null
 ```
-
 ###### namedChildCount()
 
 Number of named children of this node.
@@ -1119,7 +1062,6 @@ Number of named children of this node.
 ```typescript
 namedChildCount(): number
 ```
-
 ###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
@@ -1129,7 +1071,6 @@ Look up a child by its grammar-defined field name.
 ```typescript
 childByFieldName(name: string): Node | null
 ```
-
 ###### toSexp()
 
 Return the S-expression form of this node's subtree.
@@ -1139,7 +1080,6 @@ Return the S-expression form of this node's subtree.
 ```typescript
 toSexp(): string
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1181,7 +1121,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 ```typescript
 static fromTomlFile(path: string): PackConfig
 ```
-
 ###### discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1223,7 +1162,6 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 ```typescript
 setLanguage(name: string): void
 ```
-
 ###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
@@ -1234,7 +1172,6 @@ or no language is set.
 ```typescript
 parse(source: string): Tree | null
 ```
-
 ###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
@@ -1245,7 +1182,6 @@ no language is set.
 ```typescript
 parseBytes(source: Buffer): Tree | null
 ```
-
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1256,7 +1192,6 @@ not be incremental.
 ```typescript
 reset(): void
 ```
-
 ###### default()
 
 **Signature:**
@@ -1340,7 +1275,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```typescript
 static default(): ProcessConfig
 ```
-
 ###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1350,7 +1284,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```typescript
 withChunking(maxSize: number): ProcessConfig
 ```
-
 ###### all()
 
 Enable all analysis features.
@@ -1360,7 +1293,6 @@ Enable all analysis features.
 ```typescript
 all(): ProcessConfig
 ```
-
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1465,7 +1397,6 @@ Return the root `Node` of this tree.
 ```typescript
 rootNode(): Node
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1493,7 +1424,6 @@ Return the `Node` at the cursor's current position.
 ```typescript
 node(): Node
 ```
-
 ###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
@@ -1504,7 +1434,6 @@ Returns `true` if a child existed.
 ```typescript
 gotoFirstChild(): boolean
 ```
-
 ###### gotoParent()
 
 Move the cursor to the parent of the current node.
@@ -1515,7 +1444,6 @@ Returns `true` if a parent existed.
 ```typescript
 gotoParent(): boolean
 ```
-
 ###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1526,7 +1454,6 @@ Returns `true` if a sibling existed.
 ```typescript
 gotoNextSibling(): boolean
 ```
-
 ###### fieldName()
 
 Return the field name for the current node, if any.

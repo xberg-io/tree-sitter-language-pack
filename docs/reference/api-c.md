@@ -1,7 +1,6 @@
 ---
 title: "C API Reference"
 ---
-
 ## C API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,7 +16,6 @@ Returns `NULL` for unrecognized extensions. The match is case-insensitive.
 ```c
 const char** ts_pack_detect_language_from_extension(const char* ext);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -40,7 +38,6 @@ path has no extension or the extension is not recognized.
 ```c
 const char** ts_pack_detect_language_from_path(const char* path);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,7 +71,6 @@ malformed, or the interpreter is not recognised.
 ```c
 const char** ts_pack_detect_language_from_content(const char* content);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,7 +93,6 @@ if no highlights query is bundled for this language.
 ```c
 const char** ts_pack_get_highlights_query(const char* language);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -121,7 +115,6 @@ if no injections query is bundled for this language.
 ```c
 const char** ts_pack_get_injections_query(const char* language);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -144,7 +137,6 @@ if no locals query is bundled for this language.
 ```c
 const char** ts_pack_get_locals_query(const char* language);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,7 +165,6 @@ or `Error.Download` if auto-download fails.
 ```c
 TsPackLanguage* ts_pack_get_language(const char* name);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -202,7 +193,6 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 ```c
 TsPackParser* ts_pack_get_parser(const char* name);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -225,7 +215,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```c
 const char** ts_pack_detect_language(const char* path);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```c
 const char** ts_pack_available_languages();
 ```
-
 **Returns:** `const char**`
 
 ---
@@ -265,7 +253,6 @@ dynamically available, or a known alias for one of these).
 ```c
 bool ts_pack_has_language(const char* name);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -288,7 +275,6 @@ and aliases.
 ```c
 uintptr_t ts_pack_language_count();
 ```
-
 **Returns:** `uintptr_t`
 
 ---
@@ -310,7 +296,6 @@ Returns an error if the language is not found or parsing fails.
 ```c
 TsPackProcessResult* ts_pack_process(const char* source, TsPackProcessConfig config);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -340,7 +325,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```c
 void ts_pack_init(TsPackPackConfig config);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -370,7 +354,6 @@ Returns an error if the lock cannot be acquired.
 ```c
 void ts_pack_configure(TsPackPackConfig config);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -399,7 +382,6 @@ the download fails.
 ```c
 uintptr_t ts_pack_download(const char** names);
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```c
 uintptr_t ts_pack_download_all();
 ```
-
 **Returns:** `uintptr_t`
 **Errors:** Returns `NULL` on error.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```c
 const char** ts_pack_manifest_languages();
 ```
-
 **Returns:** `const char**`
 **Errors:** Returns `NULL` on error.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```c
 const char** ts_pack_downloaded_languages();
 ```
-
 **Returns:** `const char**`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```c
 void ts_pack_clean_cache();
 ```
-
 **Returns:** `void`
 **Errors:** Returns `NULL` on error.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```c
 const char* ts_pack_cache_dir();
 ```
-
 **Returns:** `const char*`
 **Errors:** Returns `NULL` on error.
 
@@ -641,7 +618,6 @@ Create a new download manager for the given version.
 ```c
 TsPackDownloadManager ts_pack_new(const char* version);
 ```
-
 ###### ts_pack_with_cache_dir()
 
 Create a download manager with a custom cache directory.
@@ -651,7 +627,6 @@ Create a download manager with a custom cache directory.
 ```c
 TsPackDownloadManager ts_pack_with_cache_dir(const char* version, const char* cache_dir);
 ```
-
 ###### ts_pack_default_cache_dir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -661,7 +636,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 ```c
 const char* ts_pack_default_cache_dir(const char* version);
 ```
-
 ###### ts_pack_cache_dir()
 
 Return the path to the libs cache directory.
@@ -671,7 +645,6 @@ Return the path to the libs cache directory.
 ```c
 const char* ts_pack_cache_dir();
 ```
-
 ###### ts_pack_installed_languages()
 
 List languages that are already downloaded and cached.
@@ -681,7 +654,6 @@ List languages that are already downloaded and cached.
 ```c
 const char** ts_pack_installed_languages();
 ```
-
 ###### ts_pack_ensure_languages()
 
 Ensure the specified languages are available in the cache.
@@ -692,7 +664,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```c
 void ts_pack_ensure_languages(const char** names);
 ```
-
 ###### ts_pack_ensure_group()
 
 Ensure all languages in a named group are available.
@@ -702,7 +673,6 @@ Ensure all languages in a named group are available.
 ```c
 void ts_pack_ensure_group(const char* group);
 ```
-
 ###### ts_pack_lib_path()
 
 Get the expected path for a language's shared library in the cache.
@@ -712,7 +682,6 @@ Get the expected path for a language's shared library in the cache.
 ```c
 const char* ts_pack_lib_path(const char* name);
 ```
-
 ###### ts_pack_fetch_manifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -722,7 +691,6 @@ Fetch the parser manifest from GitHub Releases.
 ```c
 TsPackParserManifest ts_pack_fetch_manifest();
 ```
-
 ###### ts_pack_download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
@@ -739,7 +707,6 @@ Returns the number of library files extracted (including those already cached).
 ```c
 uintptr_t ts_pack_download_all_best_effort();
 ```
-
 ###### ts_pack_clean_cache()
 
 Remove all cached parser libraries.
@@ -836,7 +803,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 ```c
 TsPackLanguageRegistry ts_pack_with_libs_dir(const char* libs_dir);
 ```
-
 ###### ts_pack_add_extra_libs_dir()
 
 Add an additional directory to search for dynamic libraries.
@@ -854,7 +820,6 @@ immutable while the directory list is updated.
 ```c
 void ts_pack_add_extra_libs_dir(const char* dir);
 ```
-
 ###### ts_pack_get_language()
 
 Get a tree-sitter `Language` by name.
@@ -873,7 +838,6 @@ does not match any known grammar.
 ```c
 TsPackLanguage ts_pack_get_language(const char* name);
 ```
-
 ###### ts_pack_available_languages()
 
 List all available language names, sorted and deduplicated.
@@ -886,7 +850,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```c
 const char** ts_pack_available_languages();
 ```
-
 ###### ts_pack_has_language()
 
 Check whether a language is available by name or alias.
@@ -899,7 +862,6 @@ table or from a dynamic library on disk.
 ```c
 bool ts_pack_has_language(const char* name);
 ```
-
 ###### ts_pack_language_count()
 
 Return the total number of available languages (including aliases).
@@ -909,7 +871,6 @@ Return the total number of available languages (including aliases).
 ```c
 uintptr_t ts_pack_language_count();
 ```
-
 ###### ts_pack_process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -919,7 +880,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```c
 TsPackProcessResult ts_pack_process(const char* source, TsPackProcessConfig config);
 ```
-
 ###### ts_pack_default()
 
 **Signature:**
@@ -946,7 +906,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```c
 TsPackNode ts_pack_clone();
 ```
-
 ###### ts_pack_kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -956,7 +915,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```c
 const char* ts_pack_kind();
 ```
-
 ###### ts_pack_kind_id()
 
 Return the node's numeric kind ID.
@@ -966,7 +924,6 @@ Return the node's numeric kind ID.
 ```c
 uint16_t ts_pack_kind_id();
 ```
-
 ###### ts_pack_start_byte()
 
 Return the inclusive start byte offset of this node.
@@ -976,7 +933,6 @@ Return the inclusive start byte offset of this node.
 ```c
 uintptr_t ts_pack_start_byte();
 ```
-
 ###### ts_pack_end_byte()
 
 Return the exclusive end byte offset of this node.
@@ -986,7 +942,6 @@ Return the exclusive end byte offset of this node.
 ```c
 uintptr_t ts_pack_end_byte();
 ```
-
 ###### ts_pack_byte_range()
 
 Return the node's byte range as a `ByteRange`.
@@ -999,7 +954,6 @@ text accessor.
 ```c
 TsPackByteRange ts_pack_byte_range();
 ```
-
 ###### ts_pack_start_position()
 
 Return the start `Point` (row, column).
@@ -1009,7 +963,6 @@ Return the start `Point` (row, column).
 ```c
 TsPackPoint ts_pack_start_position();
 ```
-
 ###### ts_pack_end_position()
 
 Return the end `Point` (row, column).
@@ -1019,7 +972,6 @@ Return the end `Point` (row, column).
 ```c
 TsPackPoint ts_pack_end_position();
 ```
-
 ###### ts_pack_is_named()
 
 True when this node is named (not punctuation/whitespace).
@@ -1029,7 +981,6 @@ True when this node is named (not punctuation/whitespace).
 ```c
 bool ts_pack_is_named();
 ```
-
 ###### ts_pack_is_error()
 
 True when this is an error node.
@@ -1039,7 +990,6 @@ True when this is an error node.
 ```c
 bool ts_pack_is_error();
 ```
-
 ###### ts_pack_is_missing()
 
 True when this is a missing-token node.
@@ -1049,7 +999,6 @@ True when this is a missing-token node.
 ```c
 bool ts_pack_is_missing();
 ```
-
 ###### ts_pack_is_extra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1059,7 +1008,6 @@ True when this is an "extra" node (e.g. a comment).
 ```c
 bool ts_pack_is_extra();
 ```
-
 ###### ts_pack_has_error()
 
 True when this node or any descendant is an error.
@@ -1069,7 +1017,6 @@ True when this node or any descendant is an error.
 ```c
 bool ts_pack_has_error();
 ```
-
 ###### ts_pack_parent()
 
 Return this node's parent, if any.
@@ -1079,7 +1026,6 @@ Return this node's parent, if any.
 ```c
 TsPackNode* ts_pack_parent();
 ```
-
 ###### ts_pack_child()
 
 Return the i-th child of this node, if any.
@@ -1089,7 +1035,6 @@ Return the i-th child of this node, if any.
 ```c
 TsPackNode* ts_pack_child(uint32_t index);
 ```
-
 ###### ts_pack_child_count()
 
 Total number of children (including unnamed).
@@ -1099,7 +1044,6 @@ Total number of children (including unnamed).
 ```c
 uintptr_t ts_pack_child_count();
 ```
-
 ###### ts_pack_named_child()
 
 Return the i-th named child of this node, if any.
@@ -1109,7 +1053,6 @@ Return the i-th named child of this node, if any.
 ```c
 TsPackNode* ts_pack_named_child(uint32_t index);
 ```
-
 ###### ts_pack_named_child_count()
 
 Number of named children of this node.
@@ -1119,7 +1062,6 @@ Number of named children of this node.
 ```c
 uintptr_t ts_pack_named_child_count();
 ```
-
 ###### ts_pack_child_by_field_name()
 
 Look up a child by its grammar-defined field name.
@@ -1129,7 +1071,6 @@ Look up a child by its grammar-defined field name.
 ```c
 TsPackNode* ts_pack_child_by_field_name(const char* name);
 ```
-
 ###### ts_pack_to_sexp()
 
 Return the S-expression form of this node's subtree.
@@ -1139,7 +1080,6 @@ Return the S-expression form of this node's subtree.
 ```c
 const char* ts_pack_to_sexp();
 ```
-
 ###### ts_pack_walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1181,7 +1121,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 ```c
 TsPackPackConfig ts_pack_from_toml_file(const char* path);
 ```
-
 ###### ts_pack_discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1223,7 +1162,6 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 ```c
 void ts_pack_set_language(const char* name);
 ```
-
 ###### ts_pack_parse()
 
 Parse a UTF-8 source string. Returns `NULL` if parsing was cancelled
@@ -1234,7 +1172,6 @@ or no language is set.
 ```c
 TsPackTree* ts_pack_parse(const char* source);
 ```
-
 ###### ts_pack_parse_bytes()
 
 Parse a raw byte slice. Returns `NULL` if parsing was cancelled or
@@ -1245,7 +1182,6 @@ no language is set.
 ```c
 TsPackTree* ts_pack_parse_bytes(const uint8_t* source);
 ```
-
 ###### ts_pack_reset()
 
 Reset internal state. The next call to `parse` will
@@ -1256,7 +1192,6 @@ not be incremental.
 ```c
 void ts_pack_reset();
 ```
-
 ###### ts_pack_default()
 
 **Signature:**
@@ -1340,7 +1275,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```c
 TsPackProcessConfig ts_pack_default();
 ```
-
 ###### ts_pack_with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1350,7 +1284,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```c
 TsPackProcessConfig ts_pack_with_chunking(uintptr_t max_size);
 ```
-
 ###### ts_pack_all()
 
 Enable all analysis features.
@@ -1360,7 +1293,6 @@ Enable all analysis features.
 ```c
 TsPackProcessConfig ts_pack_all();
 ```
-
 ###### ts_pack_minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1465,7 +1397,6 @@ Return the root `Node` of this tree.
 ```c
 TsPackNode ts_pack_root_node();
 ```
-
 ###### ts_pack_walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1493,7 +1424,6 @@ Return the `Node` at the cursor's current position.
 ```c
 TsPackNode ts_pack_node();
 ```
-
 ###### ts_pack_goto_first_child()
 
 Move the cursor to the first child of the current node.
@@ -1504,7 +1434,6 @@ Returns `true` if a child existed.
 ```c
 bool ts_pack_goto_first_child();
 ```
-
 ###### ts_pack_goto_parent()
 
 Move the cursor to the parent of the current node.
@@ -1515,7 +1444,6 @@ Returns `true` if a parent existed.
 ```c
 bool ts_pack_goto_parent();
 ```
-
 ###### ts_pack_goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1526,7 +1454,6 @@ Returns `true` if a sibling existed.
 ```c
 bool ts_pack_goto_next_sibling();
 ```
-
 ###### ts_pack_field_name()
 
 Return the field name for the current node, if any.

@@ -64,6 +64,10 @@ jobs:
       release_php: ${{ steps.meta.outputs.release_php }}
       release_csharp: ${{ steps.meta.outputs.release_csharp }}
       release_homebrew: ${{ steps.meta.outputs.release_homebrew }}
+      release_dart: ${{ steps.meta.outputs.release_dart }}
+      release_swift: ${{ steps.meta.outputs.release_swift }}
+      release_zig: ${{ steps.meta.outputs.release_zig }}
+      release_kotlin_android: ${{ steps.meta.outputs.release_kotlin_android }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -72,7 +76,7 @@ jobs:
         id: meta
         uses: kreuzberg-dev/actions/prepare-release-metadata@v1
         with:
-          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew"
+          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,dart,swift,zig,kotlin-android"
 
       # In dry-run we may not yet have the tag pushed; check out the dispatch
       # SHA instead so jobs can still validate the workflow against current
@@ -179,6 +183,26 @@ jobs:
             "registry": "homebrew",
             "package": "ts-pack",
             "tap-repo": "kreuzberg-dev/homebrew-tap"
+          },
+          {
+            "name": "pub",
+            "registry": "pub",
+            "package": "tree_sitter_language_pack"
+          },
+          {
+            "name": "spi-swift",
+            "registry": "swift",
+            "package": "kreuzberg-dev/tree-sitter-language-pack"
+          },
+          {
+            "name": "zig",
+            "registry": "zig",
+            "package": "tree_sitter_language_pack"
+          },
+          {
+            "name": "maven-kotlin-android",
+            "registry": "maven",
+            "package": "dev.kreuzberg.tslp:tslp-android"
           }
         ]
 
@@ -2411,6 +2435,228 @@ jobs:
           dry-run: ${{ needs.prepare.outputs.dry_run }}
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  # ─── Dart (pub.dev) ───────────────────────────────────────────────
+  build-dart-package:
+    name: Build Dart package
+    needs: [prepare, check-registries]
+    if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          fetch-depth: 0
+      - uses: kreuzberg-dev/actions/setup-rust@v1
+      - uses: kreuzberg-dev/actions/build-dart-package@v1
+        with:
+          package-dir: packages/dart/rust
+          crate-name: tree-sitter-language-pack-dart
+      - uses: actions/upload-artifact@v8
+        with:
+          name: dart-package
+          path: packages/dart
+          retention-days: 14
+
+  publish-pub:
+    name: Publish Dart package to pub.dev
+    needs: [prepare, check-registries, build-dart-package]
+    if: ${{ needs.prepare.outputs.release_dart == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    timeout-minutes: 15
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dart-package
+          path: packages/dart
+      - uses: kreuzberg-dev/actions/publish-pub@v1
+        with:
+          package-dir: packages/dart
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+  # ─── Swift (Swift Package Index via tag) ──────────────────────────
+  build-swift-artifactbundle:
+    name: Build Swift artifact bundle
+    needs: [prepare, check-registries]
+    if: ${{ needs.prepare.outputs.release_swift == 'true' && (fromJson(needs.check-registries.outputs.results).spi-swift != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          fetch-depth: 0
+      - uses: kreuzberg-dev/actions/setup-rust@v1
+      - uses: kreuzberg-dev/actions/build-swift-artifactbundle@v1
+        id: bundle
+        with:
+          crate-name: tree-sitter-language-pack-swift
+          artifact-name: TreeSitterLanguagePackSwift
+      - uses: actions/upload-artifact@v8
+        with:
+          name: swift-artifactbundle
+          path: ${{ steps.bundle.outputs.bundle-zip }}
+          if-no-files-found: error
+          retention-days: 14
+
+  build-swift-package:
+    name: Build Swift package
+    needs: [prepare, check-registries]
+    if: ${{ needs.prepare.outputs.release_swift == 'true' && (fromJson(needs.check-registries.outputs.results).spi-swift != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          fetch-depth: 0
+      - uses: kreuzberg-dev/actions/setup-rust@v1
+      - uses: kreuzberg-dev/actions/build-swift-package@v1
+        with:
+          package-dir: packages/swift
+          crate-name: tree-sitter-language-pack-swift
+      - uses: actions/upload-artifact@v8
+        with:
+          name: swift-package
+          path: packages/swift
+          retention-days: 14
+
+  publish-swift:
+    name: Notify Swift Package Index
+    needs: [prepare, check-registries, build-swift-package, build-swift-artifactbundle]
+    if: ${{ needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).spi-swift != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+      - uses: kreuzberg-dev/actions/publish-swift@v1
+        with:
+          working-directory: packages/swift
+          tag: ${{ needs.prepare.outputs.tag }}
+          ping-spi: "true"
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+  # ─── Zig (GitHub Release tarball) ─────────────────────────────────
+  build-zig-package:
+    name: Build Zig package (smoke check)
+    needs: [prepare, check-registries]
+    if: ${{ needs.prepare.outputs.release_zig == 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          fetch-depth: 0
+      - uses: kreuzberg-dev/actions/setup-rust@v1
+      - uses: kreuzberg-dev/actions/build-zig-package@v1
+        with:
+          ffi-crate: ts-pack-core-ffi
+          package-dir: packages/zig
+
+  publish-zig:
+    name: Publish Zig package metadata to GitHub Release
+    needs: [prepare, check-registries, build-zig-package]
+    if: ${{ needs.prepare.outputs.release_zig == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+      - uses: kreuzberg-dev/actions/publish-zig@v1
+        with:
+          working-directory: packages/zig
+          tag: ${{ needs.prepare.outputs.tag }}
+          update-release-notes: "true"
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ─── Kotlin-Android (Maven Central via Gradle) ────────────────────
+  build-kotlin-android-natives:
+    name: Build kotlin-android natives (${{ matrix.abi }})
+    needs: [prepare, check-registries]
+    if: ${{ needs.prepare.outputs.release_kotlin_android == 'true' && (fromJson(needs.check-registries.outputs.results).maven-kotlin-android != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - abi: arm64-v8a
+            target: aarch64-linux-android
+          - abi: x86_64
+            target: x86_64-linux-android
+          - abi: armeabi-v7a
+            target: armv7-linux-androideabi
+          - abi: x86
+            target: i686-linux-android
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          submodules: recursive
+      - uses: kreuzberg-dev/actions/setup-rust@v1
+        with:
+          target: ${{ matrix.target }}
+          cache-key-prefix: kotlin-android-${{ matrix.abi }}
+      - uses: kreuzberg-dev/actions/setup-android-ndk@v1
+      - uses: kreuzberg-dev/actions/build-android-natives@v1
+        with:
+          crate-name: ts-pack-core-jni
+          lib-name: ts_pack_jni
+          abi: ${{ matrix.abi }}
+          target: ${{ matrix.target }}
+      - uses: actions/upload-artifact@v8
+        with:
+          name: kotlin-android-${{ matrix.abi }}
+          path: dist/android-natives/${{ matrix.abi }}/
+          if-no-files-found: error
+
+  publish-kotlin-android:
+    name: Publish kotlin-android (Maven Central via Gradle)
+    needs: [prepare, check-registries, build-kotlin-android-natives]
+    if: ${{ needs.prepare.outputs.release_kotlin_android == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).maven-kotlin-android != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: kotlin-android-*
+          path: kotlin-android-natives
+          merge-multiple: false
+      - name: Stage natives into AAR jniLibs
+        shell: bash
+        run: |
+          for abi in arm64-v8a x86_64 armeabi-v7a x86; do
+            src="kotlin-android-natives/kotlin-android-${abi}"
+            [ -d "$src" ] || continue
+            mkdir -p "packages/kotlin-android/src/main/jniLibs/${abi}"
+            cp -v "${src}/libts_pack_jni.so" \
+                  "packages/kotlin-android/src/main/jniLibs/${abi}/"
+          done
+      - uses: kreuzberg-dev/actions/publish-maven-gradle@v1
+        with:
+          working-directory: packages/kotlin-android
+          gradle-task: publishAndReleaseToMavenCentral
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+        env:
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+          MAVEN_GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
   # ─── Build CLI binaries ───────────────────────────────────────────
   build-cli:

@@ -1,7 +1,6 @@
 ---
 title: "Elixir API Reference"
 ---
-
 ## Elixir API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -18,7 +17,6 @@ Returns `nil` for unrecognized extensions. The match is case-insensitive.
 @spec detect_language_from_extension(ext) :: {:ok, term()} | {:error, term()}
 def detect_language_from_extension(ext)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -42,7 +40,6 @@ path has no extension or the extension is not recognized.
 @spec detect_language_from_path(path) :: {:ok, term()} | {:error, term()}
 def detect_language_from_path(path)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -61,7 +58,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -78,7 +74,6 @@ malformed, or the interpreter is not recognised.
 @spec detect_language_from_content(content) :: {:ok, term()} | {:error, term()}
 def detect_language_from_content(content)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -102,7 +97,6 @@ if no highlights query is bundled for this language.
 @spec get_highlights_query(language) :: {:ok, term()} | {:error, term()}
 def get_highlights_query(language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -126,7 +120,6 @@ if no injections query is bundled for this language.
 @spec get_injections_query(language) :: {:ok, term()} | {:error, term()}
 def get_injections_query(language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -150,7 +143,6 @@ if no locals query is bundled for this language.
 @spec get_locals_query(language) :: {:ok, term()} | {:error, term()}
 def get_locals_query(language)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -180,7 +172,6 @@ or `Error.Download` if auto-download fails.
 @spec get_language(name) :: {:ok, term()} | {:error, term()}
 def get_language(name)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -210,7 +201,6 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 @spec get_parser(name) :: {:ok, term()} | {:error, term()}
 def get_parser(name)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -234,7 +224,6 @@ This compatibility alias matches the pre-Alef Python binding API.
 @spec detect_language(path) :: {:ok, term()} | {:error, term()}
 def detect_language(path)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -258,7 +247,6 @@ plus any configured aliases.
 @spec available_languages() :: {:ok, term()} | {:error, term()}
 def available_languages()
 ```
-
 **Returns:** `list(String.t())`
 
 ---
@@ -276,7 +264,6 @@ dynamically available, or a known alias for one of these).
 @spec has_language(name) :: {:ok, term()} | {:error, term()}
 def has_language(name)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -300,7 +287,6 @@ and aliases.
 @spec language_count() :: {:ok, term()} | {:error, term()}
 def language_count()
 ```
-
 **Returns:** `integer()`
 
 ---
@@ -323,7 +309,6 @@ Returns an error if the language is not found or parsing fails.
 @spec process(source, config) :: {:ok, term()} | {:error, term()}
 def process(source, config)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -354,7 +339,6 @@ Returns an error if configuration cannot be applied or if downloads fail.
 @spec init(config) :: {:ok, term()} | {:error, term()}
 def init(config)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -385,7 +369,6 @@ Returns an error if the lock cannot be acquired.
 @spec configure(config) :: {:ok, term()} | {:error, term()}
 def configure(config)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -415,7 +398,6 @@ the download fails.
 @spec download(names) :: {:ok, term()} | {:error, term()}
 def download(names)
 ```
-
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -449,7 +431,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 @spec download_all() :: {:ok, term()} | {:error, term()}
 def download_all()
 ```
-
 **Returns:** `integer()`
 **Errors:** Returns `{:error, reason}`
 
@@ -473,7 +454,6 @@ Returns an error if the manifest cannot be fetched.
 @spec manifest_languages() :: {:ok, term()} | {:error, term()}
 def manifest_languages()
 ```
-
 **Returns:** `list(String.t())`
 **Errors:** Returns `{:error, reason}`
 
@@ -492,7 +472,6 @@ cache directory does not exist or cannot be read.
 @spec downloaded_languages() :: {:ok, term()} | {:error, term()}
 def downloaded_languages()
 ```
-
 **Returns:** `list(String.t())`
 
 ---
@@ -514,7 +493,6 @@ Returns an error if the cache directory cannot be removed.
 @spec clean_cache() :: {:ok, term()} | {:error, term()}
 def clean_cache()
 ```
-
 **Returns:** `:ok`
 **Errors:** Returns `{:error, reason}`
 
@@ -537,7 +515,6 @@ Returns an error if the system cache directory cannot be determined.
 @spec cache_dir() :: {:ok, term()} | {:error, term()}
 def cache_dir()
 ```
-
 **Returns:** `String.t()`
 **Errors:** Returns `{:error, reason}`
 
@@ -662,7 +639,6 @@ Create a new download manager for the given version.
 ```elixir
 def new(version)
 ```
-
 ###### with_cache_dir()
 
 Create a download manager with a custom cache directory.
@@ -672,7 +648,6 @@ Create a download manager with a custom cache directory.
 ```elixir
 def with_cache_dir(version, cache_dir)
 ```
-
 ###### default_cache_dir()
 
 Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
@@ -682,7 +657,6 @@ Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
 ```elixir
 def default_cache_dir(version)
 ```
-
 ###### cache_dir()
 
 Return the path to the libs cache directory.
@@ -692,7 +666,6 @@ Return the path to the libs cache directory.
 ```elixir
 def cache_dir()
 ```
-
 ###### installed_languages()
 
 List languages that are already downloaded and cached.
@@ -702,7 +675,6 @@ List languages that are already downloaded and cached.
 ```elixir
 def installed_languages()
 ```
-
 ###### ensure_languages()
 
 Ensure the specified languages are available in the cache.
@@ -713,7 +685,6 @@ Downloads the platform bundle if any requested languages are missing.
 ```elixir
 def ensure_languages(names)
 ```
-
 ###### ensure_group()
 
 Ensure all languages in a named group are available.
@@ -723,7 +694,6 @@ Ensure all languages in a named group are available.
 ```elixir
 def ensure_group(group)
 ```
-
 ###### lib_path()
 
 Get the expected path for a language's shared library in the cache.
@@ -733,7 +703,6 @@ Get the expected path for a language's shared library in the cache.
 ```elixir
 def lib_path(name)
 ```
-
 ###### fetch_manifest()
 
 Fetch the parser manifest from GitHub Releases.
@@ -743,7 +712,6 @@ Fetch the parser manifest from GitHub Releases.
 ```elixir
 def fetch_manifest()
 ```
-
 ###### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
@@ -760,7 +728,6 @@ Returns the number of library files extracted (including those already cached).
 ```elixir
 def download_all_best_effort()
 ```
-
 ###### clean_cache()
 
 Remove all cached parser libraries.
@@ -857,7 +824,6 @@ dynamic grammar shared libraries are stored in a non-standard location.
 ```elixir
 def with_libs_dir(libs_dir)
 ```
-
 ###### add_extra_libs_dir()
 
 Add an additional directory to search for dynamic libraries.
@@ -875,7 +841,6 @@ immutable while the directory list is updated.
 ```elixir
 def add_extra_libs_dir(dir)
 ```
-
 ###### get_language()
 
 Get a tree-sitter `Language` by name.
@@ -894,7 +859,6 @@ does not match any known grammar.
 ```elixir
 def get_language(name)
 ```
-
 ###### available_languages()
 
 List all available language names, sorted and deduplicated.
@@ -907,7 +871,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```elixir
 def available_languages()
 ```
-
 ###### has_language()
 
 Check whether a language is available by name or alias.
@@ -920,7 +883,6 @@ table or from a dynamic library on disk.
 ```elixir
 def has_language(name)
 ```
-
 ###### language_count()
 
 Return the total number of available languages (including aliases).
@@ -930,7 +892,6 @@ Return the total number of available languages (including aliases).
 ```elixir
 def language_count()
 ```
-
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -940,7 +901,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```elixir
 def process(source, config)
 ```
-
 ###### default()
 
 **Signature:**
@@ -967,7 +927,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```elixir
 def clone()
 ```
-
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -977,7 +936,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```elixir
 def kind()
 ```
-
 ###### kind_id()
 
 Return the node's numeric kind ID.
@@ -987,7 +945,6 @@ Return the node's numeric kind ID.
 ```elixir
 def kind_id()
 ```
-
 ###### start_byte()
 
 Return the inclusive start byte offset of this node.
@@ -997,7 +954,6 @@ Return the inclusive start byte offset of this node.
 ```elixir
 def start_byte()
 ```
-
 ###### end_byte()
 
 Return the exclusive end byte offset of this node.
@@ -1007,7 +963,6 @@ Return the exclusive end byte offset of this node.
 ```elixir
 def end_byte()
 ```
-
 ###### byte_range()
 
 Return the node's byte range as a `ByteRange`.
@@ -1020,7 +975,6 @@ text accessor.
 ```elixir
 def byte_range()
 ```
-
 ###### start_position()
 
 Return the start `Point` (row, column).
@@ -1030,7 +984,6 @@ Return the start `Point` (row, column).
 ```elixir
 def start_position()
 ```
-
 ###### end_position()
 
 Return the end `Point` (row, column).
@@ -1040,7 +993,6 @@ Return the end `Point` (row, column).
 ```elixir
 def end_position()
 ```
-
 ###### is_named()
 
 True when this node is named (not punctuation/whitespace).
@@ -1050,7 +1002,6 @@ True when this node is named (not punctuation/whitespace).
 ```elixir
 def is_named()
 ```
-
 ###### is_error()
 
 True when this is an error node.
@@ -1060,7 +1011,6 @@ True when this is an error node.
 ```elixir
 def is_error()
 ```
-
 ###### is_missing()
 
 True when this is a missing-token node.
@@ -1070,7 +1020,6 @@ True when this is a missing-token node.
 ```elixir
 def is_missing()
 ```
-
 ###### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1080,7 +1029,6 @@ True when this is an "extra" node (e.g. a comment).
 ```elixir
 def is_extra()
 ```
-
 ###### has_error()
 
 True when this node or any descendant is an error.
@@ -1090,7 +1038,6 @@ True when this node or any descendant is an error.
 ```elixir
 def has_error()
 ```
-
 ###### parent()
 
 Return this node's parent, if any.
@@ -1100,7 +1047,6 @@ Return this node's parent, if any.
 ```elixir
 def parent()
 ```
-
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -1110,7 +1056,6 @@ Return the i-th child of this node, if any.
 ```elixir
 def child(index)
 ```
-
 ###### child_count()
 
 Total number of children (including unnamed).
@@ -1120,7 +1065,6 @@ Total number of children (including unnamed).
 ```elixir
 def child_count()
 ```
-
 ###### named_child()
 
 Return the i-th named child of this node, if any.
@@ -1130,7 +1074,6 @@ Return the i-th named child of this node, if any.
 ```elixir
 def named_child(index)
 ```
-
 ###### named_child_count()
 
 Number of named children of this node.
@@ -1140,7 +1083,6 @@ Number of named children of this node.
 ```elixir
 def named_child_count()
 ```
-
 ###### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
@@ -1150,7 +1092,6 @@ Look up a child by its grammar-defined field name.
 ```elixir
 def child_by_field_name(name)
 ```
-
 ###### to_sexp()
 
 Return the S-expression form of this node's subtree.
@@ -1160,7 +1101,6 @@ Return the S-expression form of this node's subtree.
 ```elixir
 def to_sexp()
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1202,7 +1142,6 @@ Returns an error if the file cannot be read or the TOML is invalid.
 ```elixir
 def from_toml_file(path)
 ```
-
 ###### discover()
 
 Discover configuration by searching for `language-pack.toml` in:
@@ -1244,7 +1183,6 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 ```elixir
 def set_language(name)
 ```
-
 ###### parse()
 
 Parse a UTF-8 source string. Returns `nil` if parsing was cancelled
@@ -1255,7 +1193,6 @@ or no language is set.
 ```elixir
 def parse(source)
 ```
-
 ###### parse_bytes()
 
 Parse a raw byte slice. Returns `nil` if parsing was cancelled or
@@ -1266,7 +1203,6 @@ no language is set.
 ```elixir
 def parse_bytes(source)
 ```
-
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1277,7 +1213,6 @@ not be incremental.
 ```elixir
 def reset()
 ```
-
 ###### default()
 
 **Signature:**
@@ -1361,7 +1296,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```elixir
 def default()
 ```
-
 ###### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1371,7 +1305,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```elixir
 def with_chunking(max_size)
 ```
-
 ###### all()
 
 Enable all analysis features.
@@ -1381,7 +1314,6 @@ Enable all analysis features.
 ```elixir
 def all()
 ```
-
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1486,7 +1418,6 @@ Return the root `Node` of this tree.
 ```elixir
 def root_node()
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1514,7 +1445,6 @@ Return the `Node` at the cursor's current position.
 ```elixir
 def node()
 ```
-
 ###### goto_first_child()
 
 Move the cursor to the first child of the current node.
@@ -1525,7 +1455,6 @@ Returns `true` if a child existed.
 ```elixir
 def goto_first_child()
 ```
-
 ###### goto_parent()
 
 Move the cursor to the parent of the current node.
@@ -1536,7 +1465,6 @@ Returns `true` if a parent existed.
 ```elixir
 def goto_parent()
 ```
-
 ###### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1547,7 +1475,6 @@ Returns `true` if a sibling existed.
 ```elixir
 def goto_next_sibling()
 ```
-
 ###### field_name()
 
 Return the field name for the current node, if any.
