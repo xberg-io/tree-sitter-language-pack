@@ -1,0 +1,61 @@
+{
+  "": {
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/primary.swiftdeps"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/DownloadTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.dia"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ErrorHandlingTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.dia"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/LanguageDetectionTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.dia"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ParsingTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.dia"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ProcessTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.dia"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/QueryTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.dia"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/RegistryTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.dia"
+  },
+  "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/SmokeTests.swift": {
+    "dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.d",
+    "object": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o",
+    "swiftmodule": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swiftdeps",
+    "diagnostics": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.dia"
+  }
+}

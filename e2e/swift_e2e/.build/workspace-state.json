@@ -1,0 +1,27 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift",
+          "kind" : "fileSystem",
+          "location" : "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift",
+          "name" : "TreeSitterLanguagePack"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift"
+        },
+        "subpath" : "swift"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

@@ -444,10 +444,14 @@ result_type = "ProcessResult"
 options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.dart]
+options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.swift]
+options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.zig]
+options_type = "ProcessConfig"
+result_is_json_struct = true
 
 [crates.e2e.calls.detect_extension]
 function = "detect_language_from_extension"
@@ -555,6 +559,9 @@ args = []
 function = "ts_pack_language_count"
 raw_c_result_type = "uintptr_t"
 
+[crates.e2e.calls.language_count.overrides.zig]
+returns_result = false
+
 [crates.e2e.calls.get_language]
 function = "get_language"
 module = "tree_sitter_language_pack"
@@ -597,6 +604,9 @@ options_type = "PackConfig"
 [crates.e2e.calls.init_pack.overrides.java]
 options_type = "PackConfig"
 
+[crates.e2e.calls.init_pack.overrides.swift]
+options_type = "PackConfig"
+
 [crates.e2e.calls.configure_pack]
 function = "configure"
 module = "tree_sitter_language_pack"
@@ -617,6 +627,9 @@ options_type = "PackConfig"
 [crates.e2e.calls.configure_pack.overrides.java]
 options_type = "PackConfig"
 path_fields = ["cache_dir"]
+
+[crates.e2e.calls.configure_pack.overrides.swift]
+options_type = "PackConfig"
 
 [crates.e2e.calls.download_languages]
 function = "download"
