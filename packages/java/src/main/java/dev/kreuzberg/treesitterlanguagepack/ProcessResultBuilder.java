@@ -12,22 +12,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Complete analysis result from processing a source file.
  *
- * Contains metrics, structural analysis, imports/exports, comments,
- * docstrings, symbols, diagnostics, and optionally chunked code segments.
- * Fields are populated based on the {@code ProcessConfig} flags.
+ * Contains metrics, structural analysis, imports/exports, comments, docstrings, symbols, diagnostics, and optionally
+ * chunked code segments. Fields are populated based on the {@code ProcessConfig} flags.
  *
  * # Fields
  *
- * - {@code language} - The language used for parsing
- * - {@code metrics} - Always computed: line counts, byte sizes, error counts
- * - {@code structure} - Functions, classes, structs (when {@code config.structure = true})
- * - {@code imports} - Import statements (when {@code config.imports = true})
- * - {@code exports} - Export statements (when {@code config.exports = true})
- * - {@code comments} - Comments (when {@code config.comments = true})
- * - {@code docstrings} - Docstrings (when {@code config.docstrings = true})
- * - {@code symbols} - Symbol definitions (when {@code config.symbols = true})
- * - {@code diagnostics} - Parse errors (when {@code config.diagnostics = true})
- * - {@code chunks} - Chunked code segments (when {@code config.chunk_max_size} is set)
+ * - {@code language} - The language used for parsing - {@code metrics} - Always computed: line counts, byte sizes,
+ * error counts - {@code structure} - Functions, classes, structs (when {@code config.structure = true}) -
+ * {@code imports} - Import statements (when {@code config.imports = true}) - {@code exports} - Export statements (when
+ * {@code config.exports = true}) - {@code comments} - Comments (when {@code config.comments = true}) -
+ * {@code docstrings} - Docstrings (when {@code config.docstrings = true}) - {@code symbols} - Symbol definitions (when
+ * {@code config.symbols = true}) - {@code diagnostics} - Parse errors (when {@code config.diagnostics = true}) -
+ * {@code chunks} - Chunked code segments (when {@code config.chunk_max_size} is set)
  */
 @JsonPOJOBuilder(withPrefix = "with")
 public class ProcessResultBuilder {
@@ -125,17 +121,7 @@ public class ProcessResultBuilder {
 
     /** Builds the ProcessResult instance. */
     public ProcessResult build() {
-        return new ProcessResult(
-            language,
-            metrics,
-            structure,
-            imports,
-            exports,
-            comments,
-            docstrings,
-            symbols,
-            diagnostics,
-            chunks
-        );
+        return new ProcessResult(language, metrics, structure, imports, exports, comments, docstrings, symbols,
+                diagnostics, chunks);
     }
 }

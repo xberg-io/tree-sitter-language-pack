@@ -14,17 +14,13 @@ import org.jspecify.annotations.Nullable;
 /**
  * Configuration for the tree-sitter language pack.
  *
- * Controls cache directory and which languages to pre-download.
- * Can be loaded from a TOML file, constructed programmatically,
- * or passed as a dict/object from language bindings.
+ * Controls cache directory and which languages to pre-download. Can be loaded from a TOML file, constructed
+ * programmatically, or passed as a dict/object from language bindings.
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = PackConfigBuilder.class)
-public record PackConfig(
-    @JsonProperty("cache_dir") java.nio.file.@Nullable Path cacheDir,
-    @Nullable List<String> languages,
-    @Nullable List<String> groups
-) {
+public record PackConfig(@JsonProperty("cache_dir") java.nio.file.@Nullable Path cacheDir,
+        @Nullable List<String> languages, @Nullable List<String> groups) {
     public static PackConfigBuilder builder() {
         return new PackConfigBuilder();
     }
@@ -32,18 +28,19 @@ public record PackConfig(
     /**
      * Parse a {@code PackConfig} from a JSON string.
      *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
      */
     public static PackConfig fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, PackConfig.class);
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, PackConfig.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse PackConfig from JSON: " + e.getMessage(), e);
         }

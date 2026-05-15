@@ -15,13 +15,8 @@ import org.jspecify.annotations.Nullable;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = SymbolInfoBuilder.class)
-public record SymbolInfo(
-    String name,
-    SymbolKind kind,
-    Span span,
-    @Nullable @JsonProperty("type_annotation") String typeAnnotation,
-    @Nullable String doc
-) {
+public record SymbolInfo(String name, SymbolKind kind, Span span,
+        @Nullable @JsonProperty("type_annotation") String typeAnnotation, @Nullable String doc) {
     public static SymbolInfoBuilder builder() {
         return new SymbolInfoBuilder();
     }
@@ -29,18 +24,19 @@ public record SymbolInfo(
     /**
      * Parse a {@code SymbolInfo} from a JSON string.
      *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
      */
     public static SymbolInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, SymbolInfo.class);
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, SymbolInfo.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse SymbolInfo from JSON: " + e.getMessage(), e);
         }

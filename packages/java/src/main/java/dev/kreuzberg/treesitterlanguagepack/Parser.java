@@ -30,7 +30,9 @@ public class Parser implements AutoCloseable {
             NativeLib.TS_PACK_PARSER_SET_LANGUAGE.invoke(this.handle, cName);
             checkLastFfiError();
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("setLanguage: failed", e);
         }
     }
@@ -47,7 +49,8 @@ public class Parser implements AutoCloseable {
                 MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_TREE_TO_JSON.invoke(resultPtr);
                 if (jsonPtr.equals(MemorySegment.NULL)) {
                     checkLastFfiError();
-                    throw new TreeSitterLanguagePackRsException("parse: failed to serialize response", (Throwable) null);
+                    throw new TreeSitterLanguagePackRsException("parse: failed to serialize response",
+                            (Throwable) null);
                 }
                 String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
                 NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
@@ -56,7 +59,9 @@ public class Parser implements AutoCloseable {
                 NativeLib.TS_PACK_TREE_FREE.invoke(resultPtr);
             }
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("parse: failed", e);
         }
     }
@@ -66,7 +71,9 @@ public class Parser implements AutoCloseable {
             // TODO unsupported parameter type for source
             throw new TreeSitterLanguagePackRsException("parseBytes: unsupported parameter shape", (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("parseBytes: failed", e);
         }
     }
@@ -75,7 +82,9 @@ public class Parser implements AutoCloseable {
             NativeLib.TS_PACK_PARSER_RESET.invoke(this.handle);
             checkLastFfiError();
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("reset: failed", e);
         }
     }
@@ -93,19 +102,24 @@ public class Parser implements AutoCloseable {
     private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
         try {
             int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-            if (code == 0) { return; }
+            if (code == 0) {
+                return;
+            }
             MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            String msg = ctxPtr.equals(MemorySegment.NULL)
+                    ? "unknown"
+                    : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
             throw new TreeSitterLanguagePackRsException(code, msg);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("failed to read last error", e);
         }
     }
     private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .findAndRegisterModules()
-        .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+            .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+            .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+            .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

@@ -89,15 +89,7 @@ public class FileMetricsBuilder {
 
     /** Builds the FileMetrics instance. */
     public FileMetrics build() {
-        return new FileMetrics(
-            totalLines,
-            codeLines,
-            commentLines,
-            blankLines,
-            totalBytes,
-            nodeCount,
-            errorCount,
-            maxDepth
-        );
+        return new FileMetrics(totalLines, codeLines, commentLines, blankLines, totalBytes, nodeCount, errorCount,
+                maxDepth);
     }
 }

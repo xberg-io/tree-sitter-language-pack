@@ -43,7 +43,9 @@ public class TreeCursor implements AutoCloseable {
                 NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
             }
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("node: failed", e);
         }
     }
@@ -52,7 +54,9 @@ public class TreeCursor implements AutoCloseable {
             // TODO unsupported return shape for gotoFirstChild
             throw new TreeSitterLanguagePackRsException("gotoFirstChild: unsupported return shape", (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("gotoFirstChild: failed", e);
         }
     }
@@ -61,7 +65,9 @@ public class TreeCursor implements AutoCloseable {
             // TODO unsupported return shape for gotoParent
             throw new TreeSitterLanguagePackRsException("gotoParent: unsupported return shape", (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("gotoParent: failed", e);
         }
     }
@@ -70,7 +76,9 @@ public class TreeCursor implements AutoCloseable {
             // TODO unsupported return shape for gotoNextSibling
             throw new TreeSitterLanguagePackRsException("gotoNextSibling: unsupported return shape", (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("gotoNextSibling: failed", e);
         }
     }
@@ -79,7 +87,9 @@ public class TreeCursor implements AutoCloseable {
             // TODO unsupported return shape for fieldName
             throw new TreeSitterLanguagePackRsException("fieldName: unsupported return shape", (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("fieldName: failed", e);
         }
     }
@@ -97,19 +107,24 @@ public class TreeCursor implements AutoCloseable {
     private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
         try {
             int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-            if (code == 0) { return; }
+            if (code == 0) {
+                return;
+            }
             MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            String msg = ctxPtr.equals(MemorySegment.NULL)
+                    ? "unknown"
+                    : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
             throw new TreeSitterLanguagePackRsException(code, msg);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("failed to read last error", e);
         }
     }
     private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .findAndRegisterModules()
-        .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+            .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+            .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+            .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

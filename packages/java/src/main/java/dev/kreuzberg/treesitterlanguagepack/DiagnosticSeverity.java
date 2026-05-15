@@ -11,13 +11,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Severity level of a diagnostic produced during parsing.
  *
- * Used to classify parse errors, warnings, and informational messages
- * found in the syntax tree.
+ * Used to classify parse errors, warnings, and informational messages found in the syntax tree.
  */
 public enum DiagnosticSeverity {
-    Error("error"),
-    Warning("warning"),
-    Info("info");
+    Error("error"), Warning("warning"), Info("info");
 
     /** The string value. */
     private final String value;

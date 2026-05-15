@@ -29,16 +29,21 @@ public class DownloadManager implements AutoCloseable {
             // TODO unsupported return shape for cacheDir
             throw new TreeSitterLanguagePackRsException("cacheDir: unsupported return shape", (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("cacheDir: failed", e);
         }
     }
     public List<String> installedLanguages() throws TreeSitterLanguagePackRsException {
         try (var arena = Arena.ofShared()) {
             // TODO unsupported return shape for installedLanguages
-            throw new TreeSitterLanguagePackRsException("installedLanguages: unsupported return shape", (Throwable) null);
+            throw new TreeSitterLanguagePackRsException("installedLanguages: unsupported return shape",
+                    (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("installedLanguages: failed", e);
         }
     }
@@ -46,9 +51,12 @@ public class DownloadManager implements AutoCloseable {
         java.util.Objects.requireNonNull(names, "names must not be null");
         try (var arena = Arena.ofShared()) {
             // TODO unsupported parameter type for names
-            throw new TreeSitterLanguagePackRsException("ensureLanguages: unsupported parameter shape", (Throwable) null);
+            throw new TreeSitterLanguagePackRsException("ensureLanguages: unsupported parameter shape",
+                    (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("ensureLanguages: failed", e);
         }
     }
@@ -59,7 +67,9 @@ public class DownloadManager implements AutoCloseable {
             NativeLib.TS_PACK_DOWNLOAD_MANAGER_ENSURE_GROUP.invoke(this.handle, cGroup);
             checkLastFfiError();
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("ensureGroup: failed", e);
         }
     }
@@ -70,13 +80,16 @@ public class DownloadManager implements AutoCloseable {
             // TODO unsupported return shape for libPath
             throw new TreeSitterLanguagePackRsException("libPath: unsupported return shape", (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("libPath: failed", e);
         }
     }
     public ParserManifest fetchManifest() throws TreeSitterLanguagePackRsException {
         try (var arena = Arena.ofShared()) {
-            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_DOWNLOAD_MANAGER_FETCH_MANIFEST.invoke(this.handle);
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_DOWNLOAD_MANAGER_FETCH_MANIFEST
+                    .invoke(this.handle);
             if (resultPtr.equals(MemorySegment.NULL)) {
                 checkLastFfiError();
                 return null;
@@ -85,7 +98,8 @@ public class DownloadManager implements AutoCloseable {
                 MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_PARSER_MANIFEST_TO_JSON.invoke(resultPtr);
                 if (jsonPtr.equals(MemorySegment.NULL)) {
                     checkLastFfiError();
-                    throw new TreeSitterLanguagePackRsException("fetchManifest: failed to serialize response", (Throwable) null);
+                    throw new TreeSitterLanguagePackRsException("fetchManifest: failed to serialize response",
+                            (Throwable) null);
                 }
                 String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
                 NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
@@ -94,16 +108,21 @@ public class DownloadManager implements AutoCloseable {
                 NativeLib.TS_PACK_PARSER_MANIFEST_FREE.invoke(resultPtr);
             }
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("fetchManifest: failed", e);
         }
     }
     public long downloadAllBestEffort() throws TreeSitterLanguagePackRsException {
         try (var arena = Arena.ofShared()) {
             // TODO unsupported return shape for downloadAllBestEffort
-            throw new TreeSitterLanguagePackRsException("downloadAllBestEffort: unsupported return shape", (Throwable) null);
+            throw new TreeSitterLanguagePackRsException("downloadAllBestEffort: unsupported return shape",
+                    (Throwable) null);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("downloadAllBestEffort: failed", e);
         }
     }
@@ -112,7 +131,9 @@ public class DownloadManager implements AutoCloseable {
             NativeLib.TS_PACK_DOWNLOAD_MANAGER_CLEAN_CACHE.invoke(this.handle);
             checkLastFfiError();
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("cleanCache: failed", e);
         }
     }
@@ -130,19 +151,24 @@ public class DownloadManager implements AutoCloseable {
     private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
         try {
             int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-            if (code == 0) { return; }
+            if (code == 0) {
+                return;
+            }
             MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            String msg = ctxPtr.equals(MemorySegment.NULL)
+                    ? "unknown"
+                    : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
             throw new TreeSitterLanguagePackRsException(code, msg);
         } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
             throw new TreeSitterLanguagePackRsException("failed to read last error", e);
         }
     }
     private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .findAndRegisterModules()
-        .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+            .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+            .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+            .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

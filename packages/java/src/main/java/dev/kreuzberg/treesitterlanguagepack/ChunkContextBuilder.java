@@ -99,16 +99,7 @@ public class ChunkContextBuilder {
 
     /** Builds the ChunkContext instance. */
     public ChunkContext build() {
-        return new ChunkContext(
-            language,
-            chunkIndex,
-            totalChunks,
-            nodeTypes,
-            contextPath,
-            symbolsDefined,
-            comments,
-            docstrings,
-            hasErrorNodes
-        );
+        return new ChunkContext(language, chunkIndex, totalChunks, nodeTypes, contextPath, symbolsDefined, comments,
+                docstrings, hasErrorNodes);
     }
 }

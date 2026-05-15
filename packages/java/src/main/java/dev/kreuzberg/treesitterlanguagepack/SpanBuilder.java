@@ -11,8 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Byte and line/column range in source code.
  *
- * Represents both byte offsets (for slicing) and human-readable line/column
- * positions (for display and diagnostics).
+ * Represents both byte offsets (for slicing) and human-readable line/column positions (for display and diagnostics).
  */
 @JsonPOJOBuilder(withPrefix = "with")
 public class SpanBuilder {
@@ -74,13 +73,6 @@ public class SpanBuilder {
 
     /** Builds the Span instance. */
     public Span build() {
-        return new Span(
-            startByte,
-            endByte,
-            startLine,
-            startColumn,
-            endLine,
-            endColumn
-        );
+        return new Span(startByte, endByte, startLine, startColumn, endLine, endColumn);
     }
 }

@@ -13,18 +13,19 @@ public record LanguageInfo(String group, long size) {
     /**
      * Parse a {@code LanguageInfo} from a JSON string.
      *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
      */
     public static LanguageInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, LanguageInfo.class);
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, LanguageInfo.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse LanguageInfo from JSON: " + e.getMessage(), e);
         }

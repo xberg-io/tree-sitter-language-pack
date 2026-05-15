@@ -12,19 +12,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * Byte and line/column range in source code.
  *
- * Represents both byte offsets (for slicing) and human-readable line/column
- * positions (for display and diagnostics).
+ * Represents both byte offsets (for slicing) and human-readable line/column positions (for display and diagnostics).
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = SpanBuilder.class)
-public record Span(
-    @JsonProperty("start_byte") long startByte,
-    @JsonProperty("end_byte") long endByte,
-    @JsonProperty("start_line") long startLine,
-    @JsonProperty("start_column") long startColumn,
-    @JsonProperty("end_line") long endLine,
-    @JsonProperty("end_column") long endColumn
-) {
+public record Span(@JsonProperty("start_byte") long startByte, @JsonProperty("end_byte") long endByte,
+        @JsonProperty("start_line") long startLine, @JsonProperty("start_column") long startColumn,
+        @JsonProperty("end_line") long endLine, @JsonProperty("end_column") long endColumn) {
     public static SpanBuilder builder() {
         return new SpanBuilder();
     }
@@ -32,18 +26,19 @@ public record Span(
     /**
      * Parse a {@code Span} from a JSON string.
      *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
      */
     public static Span fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, Span.class);
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, Span.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse Span from JSON: " + e.getMessage(), e);
         }

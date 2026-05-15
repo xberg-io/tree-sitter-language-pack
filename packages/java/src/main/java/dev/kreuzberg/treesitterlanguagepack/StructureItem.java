@@ -16,17 +16,9 @@ import org.jspecify.annotations.Nullable;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = StructureItemBuilder.class)
-public record StructureItem(
-    StructureKind kind,
-    @Nullable String name,
-    @Nullable String visibility,
-    Span span,
-    List<StructureItem> children,
-    List<String> decorators,
-    @Nullable @JsonProperty("doc_comment") String docComment,
-    @Nullable String signature,
-    @Nullable @JsonProperty("body_span") Span bodySpan
-) {
+public record StructureItem(StructureKind kind, @Nullable String name, @Nullable String visibility, Span span,
+        List<StructureItem> children, List<String> decorators, @Nullable @JsonProperty("doc_comment") String docComment,
+        @Nullable String signature, @Nullable @JsonProperty("body_span") Span bodySpan) {
     public static StructureItemBuilder builder() {
         return new StructureItemBuilder();
     }
@@ -34,20 +26,22 @@ public record StructureItem(
     /**
      * Parse a {@code StructureItem} from a JSON string.
      *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
      */
     public static StructureItem fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, StructureItem.class);
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, StructureItem.class);
         } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse StructureItem from JSON: " + e.getMessage(), e);
+            throw new TreeSitterLanguagePackRsException("Failed to parse StructureItem from JSON: " + e.getMessage(),
+                    e);
         }
     }
 }

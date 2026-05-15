@@ -15,17 +15,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ChunkContextBuilder.class)
-public record ChunkContext(
-    String language,
-    @JsonProperty("chunk_index") long chunkIndex,
-    @JsonProperty("total_chunks") long totalChunks,
-    @JsonProperty("node_types") List<String> nodeTypes,
-    @JsonProperty("context_path") List<String> contextPath,
-    @JsonProperty("symbols_defined") List<String> symbolsDefined,
-    List<CommentInfo> comments,
-    List<DocstringInfo> docstrings,
-    @JsonProperty("has_error_nodes") boolean hasErrorNodes
-) {
+public record ChunkContext(String language, @JsonProperty("chunk_index") long chunkIndex,
+        @JsonProperty("total_chunks") long totalChunks, @JsonProperty("node_types") List<String> nodeTypes,
+        @JsonProperty("context_path") List<String> contextPath,
+        @JsonProperty("symbols_defined") List<String> symbolsDefined, List<CommentInfo> comments,
+        List<DocstringInfo> docstrings, @JsonProperty("has_error_nodes") boolean hasErrorNodes) {
     public static ChunkContextBuilder builder() {
         return new ChunkContextBuilder();
     }
@@ -33,18 +27,19 @@ public record ChunkContext(
     /**
      * Parse a {@code ChunkContext} from a JSON string.
      *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
      */
     public static ChunkContext fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, ChunkContext.class);
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, ChunkContext.class);
         } catch (Exception e) {
             throw new TreeSitterLanguagePackRsException("Failed to parse ChunkContext from JSON: " + e.getMessage(), e);
         }

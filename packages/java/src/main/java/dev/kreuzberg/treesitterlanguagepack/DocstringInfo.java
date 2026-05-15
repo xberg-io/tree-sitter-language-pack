@@ -16,13 +16,9 @@ import org.jspecify.annotations.Nullable;
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = DocstringInfoBuilder.class)
-public record DocstringInfo(
-    String text,
-    DocstringFormat format,
-    Span span,
-    @Nullable @JsonProperty("associated_item") String associatedItem,
-    @JsonProperty("parsed_sections") List<DocSection> parsedSections
-) {
+public record DocstringInfo(String text, DocstringFormat format, Span span,
+        @Nullable @JsonProperty("associated_item") String associatedItem,
+        @JsonProperty("parsed_sections") List<DocSection> parsedSections) {
     public static DocstringInfoBuilder builder() {
         return new DocstringInfoBuilder();
     }
@@ -30,20 +26,22 @@ public record DocstringInfo(
     /**
      * Parse a {@code DocstringInfo} from a JSON string.
      *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
      */
     public static DocstringInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
         try {
             return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, DocstringInfo.class);
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, DocstringInfo.class);
         } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse DocstringInfo from JSON: " + e.getMessage(), e);
+            throw new TreeSitterLanguagePackRsException("Failed to parse DocstringInfo from JSON: " + e.getMessage(),
+                    e);
         }
     }
 }

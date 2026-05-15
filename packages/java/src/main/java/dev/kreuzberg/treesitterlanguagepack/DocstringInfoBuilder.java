@@ -64,12 +64,6 @@ public class DocstringInfoBuilder {
 
     /** Builds the DocstringInfo instance. */
     public DocstringInfo build() {
-        return new DocstringInfo(
-            text,
-            format,
-            span,
-            associatedItem.orElse(null),
-            parsedSections
-        );
+        return new DocstringInfo(text, format, span, associatedItem.orElse(null), parsedSections);
     }
 }

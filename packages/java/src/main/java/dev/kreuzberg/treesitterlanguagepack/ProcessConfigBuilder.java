@@ -101,16 +101,7 @@ public class ProcessConfigBuilder {
 
     /** Builds the ProcessConfig instance. */
     public ProcessConfig build() {
-        return new ProcessConfig(
-            language,
-            structure,
-            imports,
-            exports,
-            comments,
-            docstrings,
-            symbols,
-            diagnostics,
-            chunkMaxSize.orElse(null)
-        );
+        return new ProcessConfig(language, structure, imports, exports, comments, docstrings, symbols, diagnostics,
+                chunkMaxSize.orElse(null));
     }
 }

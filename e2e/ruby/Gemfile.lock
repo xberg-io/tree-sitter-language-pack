@@ -1,7 +1,7 @@
 PATH
   remote: ../../packages/ruby
   specs:
-    tree_sitter_language_pack (1.8.0)
+    tree_sitter_language_pack (1.8.1)
       rb_sys (~> 0.9)
 
 GEM
@@ -106,7 +106,7 @@ CHECKSUMS
   rubocop-ast (1.49.1)
   rubocop-rspec (3.9.0)
   ruby-progressbar (1.13.0)
-  tree_sitter_language_pack (1.8.0)
+  tree_sitter_language_pack (1.8.1)
   unicode-display_width (3.2.0)
   unicode-emoji (4.2.0)
   uri (1.1.1)
