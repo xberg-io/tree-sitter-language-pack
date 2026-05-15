@@ -126,3 +126,6 @@ obj/
 .github/commands/
 .github/skills/
 # END ai-rulez
+e2e/zig/.zig-cache/
+packages/swift/Sources/RustBridge/SwiftBridgeCore.swift
+packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift

@@ -267,9 +267,9 @@ mod ffi {
         #[swift_bridge(swift_name = "parserSetLanguage")]
         fn parser_set_language(client: &mut Parser, name: String) -> Result<(), String>;
         #[swift_bridge(swift_name = "parserParse")]
-        fn parser_parse(client: &mut Parser, source: String) -> String;
+        fn parser_parse(client: &mut Parser, source: String) -> Option<Tree>;
         #[swift_bridge(swift_name = "parserParseBytes")]
-        fn parser_parse_bytes(client: &mut Parser, source: Vec<u8>) -> String;
+        fn parser_parse_bytes(client: &mut Parser, source: Vec<u8>) -> Option<Tree>;
         #[swift_bridge(swift_name = "parserReset")]
         fn parser_reset(client: &mut Parser) -> ();
     }
@@ -317,17 +317,17 @@ mod ffi {
         #[swift_bridge(swift_name = "nodeHasError")]
         fn node_has_error(client: &Node) -> bool;
         #[swift_bridge(swift_name = "nodeParent")]
-        fn node_parent(client: &Node) -> String;
+        fn node_parent(client: &Node) -> Option<Node>;
         #[swift_bridge(swift_name = "nodeChild")]
-        fn node_child(client: &Node, index: u32) -> String;
+        fn node_child(client: &Node, index: u32) -> Option<Node>;
         #[swift_bridge(swift_name = "nodeChildCount")]
         fn node_child_count(client: &Node) -> usize;
         #[swift_bridge(swift_name = "nodeNamedChild")]
-        fn node_named_child(client: &Node, index: u32) -> String;
+        fn node_named_child(client: &Node, index: u32) -> Option<Node>;
         #[swift_bridge(swift_name = "nodeNamedChildCount")]
         fn node_named_child_count(client: &Node) -> usize;
         #[swift_bridge(swift_name = "nodeChildByFieldName")]
-        fn node_child_by_field_name(client: &Node, name: String) -> String;
+        fn node_child_by_field_name(client: &Node, name: String) -> Option<Node>;
         #[swift_bridge(swift_name = "nodeToSexp")]
         fn node_to_sexp(client: &Node) -> String;
         #[swift_bridge(swift_name = "nodeWalk")]
@@ -1305,11 +1305,11 @@ pub struct Parser(pub tree_sitter_language_pack::Parser);
 pub fn parser_set_language(client: &mut Parser, name: String) -> Result<(), String> {
     client.0.set_language(&name).map_err(|e| e.to_string())
 }
-pub fn parser_parse(client: &mut Parser, source: String) -> String {
-    serde_json::to_string(&(client.0.parse(&source))).expect("serializable return")
+pub fn parser_parse(client: &mut Parser, source: String) -> Option<Tree> {
+    (client.0.parse(&source)).map(Tree)
 }
-pub fn parser_parse_bytes(client: &mut Parser, source: Vec<u8>) -> String {
-    serde_json::to_string(&(client.0.parse_bytes(source))).expect("serializable return")
+pub fn parser_parse_bytes(client: &mut Parser, source: Vec<u8>) -> Option<Tree> {
+    (client.0.parse_bytes(&source)).map(Tree)
 }
 pub fn parser_reset(client: &mut Parser) -> () {
     client.0.reset()
@@ -1365,23 +1365,23 @@ pub fn node_is_extra(client: &Node) -> bool {
 pub fn node_has_error(client: &Node) -> bool {
     client.0.has_error()
 }
-pub fn node_parent(client: &Node) -> String {
-    serde_json::to_string(&(client.0.parent())).expect("serializable return")
+pub fn node_parent(client: &Node) -> Option<Node> {
+    (client.0.parent()).map(Node)
 }
-pub fn node_child(client: &Node, index: u32) -> String {
-    serde_json::to_string(&(client.0.child(index))).expect("serializable return")
+pub fn node_child(client: &Node, index: u32) -> Option<Node> {
+    (client.0.child(index)).map(Node)
 }
 pub fn node_child_count(client: &Node) -> usize {
     client.0.child_count()
 }
-pub fn node_named_child(client: &Node, index: u32) -> String {
-    serde_json::to_string(&(client.0.named_child(index))).expect("serializable return")
+pub fn node_named_child(client: &Node, index: u32) -> Option<Node> {
+    (client.0.named_child(index)).map(Node)
 }
 pub fn node_named_child_count(client: &Node) -> usize {
     client.0.named_child_count()
 }
-pub fn node_child_by_field_name(client: &Node, name: String) -> String {
-    serde_json::to_string(&(client.0.child_by_field_name(&name))).expect("serializable return")
+pub fn node_child_by_field_name(client: &Node, name: String) -> Option<Node> {
+    (client.0.child_by_field_name(&name)).map(Node)
 }
 pub fn node_to_sexp(client: &Node) -> String {
     client.0.to_sexp().to_string()
@@ -1494,7 +1494,7 @@ impl ProcessConfig {
 pub struct LanguageRegistry(pub tree_sitter_language_pack::LanguageRegistry);
 
 pub fn language_registry_add_extra_libs_dir(client: &LanguageRegistry, dir: String) -> () {
-    client.0.add_extra_libs_dir(&dir)
+    client.0.add_extra_libs_dir(::std::path::PathBuf::from(dir))
 }
 pub fn language_registry_get_language(client: &LanguageRegistry, name: String) -> Result<Language, String> {
     client.0.get_language(&name).map_err(|e| e.to_string()).map(Language)
@@ -1515,7 +1515,7 @@ pub fn language_registry_process(
 ) -> Result<ProcessResult, String> {
     client
         .0
-        .process(&source, config.0)
+        .process(&source, &config.0)
         .map_err(|e| e.to_string())
         .map(ProcessResult)
 }
@@ -1574,7 +1574,10 @@ pub fn download_manager_installed_languages(client: &DownloadManager) -> Vec<Str
     client.0.installed_languages()
 }
 pub fn download_manager_ensure_languages(client: &DownloadManager, names: Vec<String>) -> Result<(), String> {
-    client.0.ensure_languages(names).map_err(|e| e.to_string())
+    client
+        .0
+        .ensure_languages(&names.iter().map(|s| s.as_str()).collect::<Vec<_>>())
+        .map_err(|e| e.to_string())
 }
 pub fn download_manager_ensure_group(client: &DownloadManager, group: String) -> Result<(), String> {
     client.0.ensure_group(&group).map_err(|e| e.to_string())

@@ -1218,3 +1218,12 @@ pub const DownloadManager = struct {
         c.ts_pack_download_manager_free(@as(*c.TS_PACKDownloadManager, @ptrCast(self._handle)));
     }
 };
+
+pub const Language = struct {
+    _handle: *anyopaque,
+
+    /// Release the underlying FFI handle. Safe to call once per instance.
+    pub fn free(self: *Language) void {
+        c.ts_pack_language_free(@as(*c.TS_PACKLanguage, @ptrCast(self._handle)));
+    }
+};

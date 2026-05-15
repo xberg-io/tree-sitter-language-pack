@@ -325,7 +325,7 @@ impl Parser {
     }
     #[frb]
     pub fn parse_bytes(&mut self, source: Vec<u8>) -> Option<Tree> {
-        (|v: Option<_>| v.map(Tree::from))(self.inner.parse_bytes(source))
+        (|v: Option<_>| v.map(Tree::from))(self.inner.parse_bytes(&source))
     }
     #[frb]
     pub fn reset(&mut self) -> () {
@@ -404,7 +404,7 @@ impl Node {
     }
     #[frb]
     pub fn child(&self, index: i64) -> Option<Node> {
-        (|v: Option<_>| v.map(Node::from))(self.inner.child(index))
+        (|v: Option<_>| v.map(Node::from))(self.inner.child(index as u32))
     }
     #[frb]
     pub fn child_count(&self) -> i64 {
@@ -412,7 +412,7 @@ impl Node {
     }
     #[frb]
     pub fn named_child(&self, index: i64) -> Option<Node> {
-        (|v: Option<_>| v.map(Node::from))(self.inner.named_child(index))
+        (|v: Option<_>| v.map(Node::from))(self.inner.named_child(index as u32))
     }
     #[frb]
     pub fn named_child_count(&self) -> i64 {
@@ -459,7 +459,7 @@ impl LanguageRegistry {
     // Method `with_libs_dir` is a static/associated function and is not yet bridged through FRB — skipped.
     #[frb]
     pub fn add_extra_libs_dir(&self, dir: String) -> () {
-        self.inner.add_extra_libs_dir(dir)
+        self.inner.add_extra_libs_dir(::std::path::PathBuf::from(dir))
     }
     #[frb]
     pub fn get_language(&self, name: String) -> Result<Language, String> {
@@ -505,7 +505,7 @@ impl DownloadManager {
     #[frb]
     pub fn ensure_languages(&self, names: Vec<String>) -> Result<(), String> {
         self.inner
-            .ensure_languages(names.iter().map(|s| s.as_str()).collect::<Vec<_>>())
+            .ensure_languages(&names.iter().map(|s| s.as_str()).collect::<Vec<_>>())
             .map_err(|e| e.to_string())
     }
     #[frb]
