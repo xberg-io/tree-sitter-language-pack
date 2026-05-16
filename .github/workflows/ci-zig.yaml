@@ -54,7 +54,7 @@ jobs:
           version: "0.16.0"
       - name: Build Zig package
         working-directory: packages/zig
-        run: zig build
+        run: zig build -Dffi_path=../../target/release
       - name: Run Zig tests
         working-directory: packages/zig
-        run: zig build test
+        run: zig build test -Dffi_path=../../target/release
