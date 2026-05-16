@@ -3,76 +3,163 @@ client:
   file-system: device-agnostic
 tools: {}
 targets:
-  "E2eSwiftPackageTests-arm64-apple-macosx-debug.module": ["<E2eSwiftPackageTests-arm64-apple-macosx-debug.module>"]
-  "E2eSwiftPackageTests-arm64-apple-macosx-debug.test": ["<E2eSwiftPackageTests-arm64-apple-macosx-debug.test>"]
+  "E2eSwiftPackageTests-arm64-apple-macosx-debug.module":
+    ["<E2eSwiftPackageTests-arm64-apple-macosx-debug.module>"]
+  "E2eSwiftPackageTests-arm64-apple-macosx-debug.test":
+    ["<E2eSwiftPackageTests-arm64-apple-macosx-debug.test>"]
   "PackageStructure": ["<PackageStructure>"]
   "RustBridge-arm64-apple-macosx-debug.module": ["<RustBridge-arm64-apple-macosx-debug.module>"]
   "RustBridgeC-arm64-apple-macosx-debug.module": ["<RustBridgeC-arm64-apple-macosx-debug.module>"]
-  "TreeSitterLanguagePack-arm64-apple-macosx-debug.module": ["<TreeSitterLanguagePack-arm64-apple-macosx-debug.module>"]
-  "TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module": ["<TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module>"]
+  "TreeSitterLanguagePack-arm64-apple-macosx-debug.module":
+    ["<TreeSitterLanguagePack-arm64-apple-macosx-debug.module>"]
+  "TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module":
+    ["<TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module>"]
   "main": []
-  "test": ["<E2eSwiftPackageTests-arm64-apple-macosx-debug.test>","<TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module>"]
+  "test":
+    [
+      "<E2eSwiftPackageTests-arm64-apple-macosx-debug.test>",
+      "<TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module>",
+    ]
 default: "main"
 nodes:
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/":
     is-directory-structure: true
-    content-exclusion-patterns: [".git",".build"]
+    content-exclusion-patterns: [".git", ".build"]
 commands:
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources":
     tool: write-auxiliary-file
-    inputs: ["<sources-file-list>","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.derived/runner.swift"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources"]
+    inputs:
+      [
+        "<sources-file-list>",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.derived/runner.swift",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources",
+      ]
     description: "Write auxiliary file /Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources"
 
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.derived/runner.swift":
     tool: test-entry-point-tool
     inputs: []
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.derived/runner.swift"]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.derived/runner.swift",
+      ]
 
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList":
     tool: write-auxiliary-file
-    inputs: ["<link-file-list>","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList"]
+    inputs:
+      [
+        "<link-file-list>",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList",
+      ]
     description: "Write auxiliary file /Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList"
 
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources":
     tool: write-auxiliary-file
-    inputs: ["<sources-file-list>","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/RustBridge.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/SwiftBridgeCore.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources"]
+    inputs:
+      [
+        "<sources-file-list>",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/RustBridge.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/SwiftBridgeCore.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources",
+      ]
     description: "Write auxiliary file /Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources"
 
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources":
     tool: write-auxiliary-file
-    inputs: ["<sources-file-list>","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/TreeSitterLanguagePack/TreeSitterLanguagePack.swift"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources"]
+    inputs:
+      [
+        "<sources-file-list>",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/TreeSitterLanguagePack/TreeSitterLanguagePack.swift",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources",
+      ]
     description: "Write auxiliary file /Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources"
 
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources":
     tool: write-auxiliary-file
-    inputs: ["<sources-file-list>","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/DownloadTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ErrorHandlingTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/LanguageDetectionTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ParsingTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ProcessTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/QueryTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/RegistryTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/SmokeTests.swift"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources"]
+    inputs:
+      [
+        "<sources-file-list>",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/DownloadTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ErrorHandlingTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/LanguageDetectionTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ParsingTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ProcessTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/QueryTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/RegistryTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/SmokeTests.swift",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources",
+      ]
     description: "Write auxiliary file /Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources"
 
   "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt":
     tool: write-auxiliary-file
-    inputs: ["<swift-get-version>","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt"]
+    inputs:
+      [
+        "<swift-get-version>",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt",
+      ]
     always-out-of-date: "true"
     description: "Write auxiliary file /Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt"
 
   "<E2eSwiftPackageTests-arm64-apple-macosx-debug.module>":
     tool: phony
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule",
+      ]
     outputs: ["<E2eSwiftPackageTests-arm64-apple-macosx-debug.module>"]
 
   "<E2eSwiftPackageTests-arm64-apple-macosx-debug.test>":
     tool: phony
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.xctest/Contents/MacOS/E2eSwiftPackageTests"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.xctest/Contents/MacOS/E2eSwiftPackageTests",
+      ]
     outputs: ["<E2eSwiftPackageTests-arm64-apple-macosx-debug.test>"]
 
   "<RustBridge-arm64-apple-macosx-debug.module>":
     tool: phony
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule",
+      ]
     outputs: ["<RustBridge-arm64-apple-macosx-debug.module>"]
 
   "<RustBridgeC-arm64-apple-macosx-debug.module>":
@@ -82,53 +169,507 @@ commands:
 
   "<TreeSitterLanguagePack-arm64-apple-macosx-debug.module>":
     tool: phony
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule",
+      ]
     outputs: ["<TreeSitterLanguagePack-arm64-apple-macosx-debug.module>"]
 
   "<TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module>":
     tool: phony
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule",
+      ]
     outputs: ["<TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module>"]
 
   "C.E2eSwiftPackageTests-arm64-apple-macosx-debug.module":
     tool: shell
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.derived/runner.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.derived/runner.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule",
+      ]
     description: "Compiling Swift Module 'E2eSwiftPackageTests' (1 sources)"
-    args: ["/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc","-module-name","E2eSwiftPackageTests","-emit-dependencies","-emit-module","-emit-module-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule","-output-file-map","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/output-file-map.json","-parse-as-library","-incremental","-c","@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources","-I","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx13.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-Xfrontend","-enable-cross-import-overlays","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-Xcc","-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap","-Xcc","-I","-Xcc","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC","-module-cache-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/include/E2eSwiftPackageTests-Swift.h","-I","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-L","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-plugin-path","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","swift_e2e"]
+    args:
+      [
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc",
+        "-module-name",
+        "E2eSwiftPackageTests",
+        "-emit-dependencies",
+        "-emit-module",
+        "-emit-module-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule",
+        "-output-file-map",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/output-file-map.json",
+        "-parse-as-library",
+        "-incremental",
+        "-c",
+        "@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/sources",
+        "-I",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules",
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC",
+        "-module-cache-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/include/E2eSwiftPackageTests-Swift.h",
+        "-I",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-L",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-plugin-path",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "swift_e2e",
+      ]
 
   "C.E2eSwiftPackageTests-arm64-apple-macosx-debug.test":
     tool: shell
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.xctest/Contents/MacOS/E2eSwiftPackageTests"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.build/runner.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.xctest/Contents/MacOS/E2eSwiftPackageTests",
+      ]
     description: "Linking ./.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.xctest/Contents/MacOS/E2eSwiftPackageTests"
-    args: ["/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc","-L","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug","-o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.xctest/Contents/MacOS/E2eSwiftPackageTests","-module-name","E2eSwiftPackageTests","-Xlinker","-no_warn_duplicate_libraries","-Xlinker","-bundle","-Xlinker","-rpath","-Xlinker","@loader_path/../../../","@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList","-Xlinker","-rpath","-Xlinker","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift-6.2/macosx","-target","arm64-apple-macosx14.0","-ltree_sitter_language_pack_swift","-framework","Security","-framework","CoreFoundation","-framework","SystemConfiguration","-L../../target/release","-L../../target/debug","-Xlinker","-add_ast_path","-Xlinker","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule","-Xlinker","-add_ast_path","-Xlinker","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule","-Xlinker","-add_ast_path","-Xlinker","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule","-Xlinker","-add_ast_path","-Xlinker","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule","-I","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-L","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-plugin-path","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g"]
+    args:
+      [
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc",
+        "-L",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug",
+        "-o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.xctest/Contents/MacOS/E2eSwiftPackageTests",
+        "-module-name",
+        "E2eSwiftPackageTests",
+        "-Xlinker",
+        "-no_warn_duplicate_libraries",
+        "-Xlinker",
+        "-bundle",
+        "-Xlinker",
+        "-rpath",
+        "-Xlinker",
+        "@loader_path/../../../",
+        "@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/E2eSwiftPackageTests.product/Objects.LinkFileList",
+        "-Xlinker",
+        "-rpath",
+        "-Xlinker",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift-6.2/macosx",
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-ltree_sitter_language_pack_swift",
+        "-framework",
+        "Security",
+        "-framework",
+        "CoreFoundation",
+        "-framework",
+        "SystemConfiguration",
+        "-L../../target/release",
+        "-L../../target/debug",
+        "-Xlinker",
+        "-add_ast_path",
+        "-Xlinker",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/E2eSwiftPackageTests.swiftmodule",
+        "-Xlinker",
+        "-add_ast_path",
+        "-Xlinker",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule",
+        "-Xlinker",
+        "-add_ast_path",
+        "-Xlinker",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule",
+        "-Xlinker",
+        "-add_ast_path",
+        "-Xlinker",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule",
+        "-I",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-L",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-plugin-path",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+      ]
 
   "C.RustBridge-arm64-apple-macosx-debug.module":
     tool: shell
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/RustBridge.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/SwiftBridgeCore.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/RustBridge.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/SwiftBridgeCore.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/RustBridge.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/SwiftBridgeCore.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/tree-sitter-language-pack-swift.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule",
+      ]
     description: "Compiling Swift Module 'RustBridge' (3 sources)"
-    args: ["/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc","-module-name","RustBridge","-emit-dependencies","-emit-module","-emit-module-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule","-output-file-map","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/output-file-map.json","-parse-as-library","-incremental","-c","@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources","-I","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx13.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-Xcc","-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap","-Xcc","-I","-Xcc","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC","-module-cache-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/include/RustBridge-Swift.h","-swift-version","6","-I","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-L","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-plugin-path","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","swift"]
+    args:
+      [
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc",
+        "-module-name",
+        "RustBridge",
+        "-emit-dependencies",
+        "-emit-module",
+        "-emit-module-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule",
+        "-output-file-map",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/output-file-map.json",
+        "-parse-as-library",
+        "-incremental",
+        "-c",
+        "@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/sources",
+        "-I",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules",
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC",
+        "-module-cache-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridge.build/include/RustBridge-Swift.h",
+        "-swift-version",
+        "6",
+        "-I",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-L",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-plugin-path",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "swift",
+      ]
 
   "C.TreeSitterLanguagePack-arm64-apple-macosx-debug.module":
     tool: shell
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/TreeSitterLanguagePack/TreeSitterLanguagePack.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/TreeSitterLanguagePack/TreeSitterLanguagePack.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/RustBridge.swiftmodule",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/TreeSitterLanguagePack.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule",
+      ]
     description: "Compiling Swift Module 'TreeSitterLanguagePack' (1 sources)"
-    args: ["/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc","-module-name","TreeSitterLanguagePack","-emit-dependencies","-emit-module","-emit-module-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule","-output-file-map","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/output-file-map.json","-parse-as-library","-incremental","-c","@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources","-I","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx13.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-Xcc","-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap","-Xcc","-I","-Xcc","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC","-module-cache-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/include/TreeSitterLanguagePack-Swift.h","-swift-version","6","-I","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-L","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-plugin-path","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","swift"]
+    args:
+      [
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc",
+        "-module-name",
+        "TreeSitterLanguagePack",
+        "-emit-dependencies",
+        "-emit-module",
+        "-emit-module-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule",
+        "-output-file-map",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/output-file-map.json",
+        "-parse-as-library",
+        "-incremental",
+        "-c",
+        "@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/sources",
+        "-I",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules",
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC",
+        "-module-cache-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/include/TreeSitterLanguagePack-Swift.h",
+        "-swift-version",
+        "6",
+        "-I",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-L",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-plugin-path",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "swift",
+      ]
 
   "C.TreeSitterLanguagePackE2ETests-arm64-apple-macosx-debug.module":
     tool: shell
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/DownloadTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ErrorHandlingTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/LanguageDetectionTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ParsingTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ProcessTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/QueryTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/RegistryTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/SmokeTests.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources"]
-    outputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/DownloadTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ErrorHandlingTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/LanguageDetectionTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ParsingTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ProcessTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/QueryTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/RegistryTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/SmokeTests.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/swift-version--2C27E03C6C076C25.txt",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePack.swiftmodule",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources",
+      ]
+    outputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/DownloadTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ErrorHandlingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/LanguageDetectionTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ParsingTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/ProcessTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/QueryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/RegistryTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/SmokeTests.swift.o",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule",
+      ]
     description: "Compiling Swift Module 'TreeSitterLanguagePackE2ETests' (8 sources)"
-    args: ["/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc","-module-name","TreeSitterLanguagePackE2ETests","-emit-dependencies","-emit-module","-emit-module-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule","-output-file-map","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/output-file-map.json","-parse-as-library","-incremental","-c","@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources","-I","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx14.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-Xfrontend","-enable-cross-import-overlays","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-Xcc","-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap","-Xcc","-I","-Xcc","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC","-module-cache-path","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-swift-version","6","-I","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-L","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing","-plugin-path","/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","swift_e2e"]
+    args:
+      [
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/bin/swiftc",
+        "-module-name",
+        "TreeSitterLanguagePackE2ETests",
+        "-emit-dependencies",
+        "-emit-module",
+        "-emit-module-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules/TreeSitterLanguagePackE2ETests.swiftmodule",
+        "-output-file-map",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/output-file-map.json",
+        "-parse-as-library",
+        "-incremental",
+        "-c",
+        "@/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePackE2ETests.build/sources",
+        "-I",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/Modules",
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-Xcc",
+        "-fmodule-map-file=/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/RustBridgeC.build/module.modulemap",
+        "-Xcc",
+        "-I",
+        "-Xcc",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC",
+        "-module-cache-path",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-I",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-L",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/macosx/testing",
+        "-plugin-path",
+        "/Users/naamanhirschfeld/Library/Developer/Toolchains/swift-6.3.1-RELEASE.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "swift_e2e",
+      ]
 
   "PackageStructure":
     tool: package-structure-tool
-    inputs: ["/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Package.swift","/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Package.resolved"]
+    inputs:
+      [
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Package.swift",
+        "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/Package.resolved",
+      ]
     outputs: ["<PackageStructure>"]
     description: "Planning build"
     allow-missing-inputs: true
-

@@ -23,7 +23,7 @@ tasks:
       - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
       - cd packages/dart && dart pub get
       - cd packages/dart/rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-dart
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart
       - cd packages/dart && dart pub get
 
   build:dev:
@@ -34,7 +34,7 @@ tasks:
       - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
       - cd packages/dart && dart pub get
       - cd packages/dart/rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build -p tree-sitter-language-pack-dart
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build -p tree-sitter-language-pack-dart
       - cd packages/dart && dart pub get
 
   build:release:
@@ -96,5 +96,5 @@ tasks:
       LD_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
       FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR: "{{.ROOT_DIR}}/target/release"
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-dart
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart
       - cd e2e/dart && dart pub get && dart test

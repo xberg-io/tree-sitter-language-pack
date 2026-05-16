@@ -1,27 +1,23 @@
 {
-  "object" : {
-    "artifacts" : [
-
-    ],
-    "dependencies" : [
+  "object": {
+    "artifacts": [],
+    "dependencies": [
       {
-        "basedOn" : null,
-        "packageRef" : {
-          "identity" : "swift",
-          "kind" : "fileSystem",
-          "location" : "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift",
-          "name" : "TreeSitterLanguagePack"
+        "basedOn": null,
+        "packageRef": {
+          "identity": "swift",
+          "kind": "fileSystem",
+          "location": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift",
+          "name": "TreeSitterLanguagePack"
         },
-        "state" : {
-          "name" : "fileSystem",
-          "path" : "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift"
+        "state": {
+          "name": "fileSystem",
+          "path": "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift"
         },
-        "subpath" : "swift"
+        "subpath": "swift"
       }
     ],
-    "prebuilts" : [
-
-    ]
+    "prebuilts": []
   },
-  "version" : 7
+  "version": 7
 }

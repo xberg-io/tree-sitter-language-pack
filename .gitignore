@@ -120,13 +120,14 @@ bin/
 obj/
 *.nupkg
 
+e2e/zig/.zig-cache/
+packages/swift/Sources/RustBridge/SwiftBridgeCore.swift
+packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift
+e2e/dart/.dart_tool/
+
 # BEGIN ai-rulez (DO NOT EDIT - managed by ai-rulez)
 .agents/
 .github/agents/
 .github/commands/
 .github/skills/
 # END ai-rulez
-e2e/zig/.zig-cache/
-packages/swift/Sources/RustBridge/SwiftBridgeCore.swift
-packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift
-e2e/dart/.dart_tool/

@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.16.16"
+alef_version = "0.16.18"
 languages = [
     "python",
     "node",
@@ -279,7 +279,7 @@ format = "cd packages/ruby && bundle exec rubocop -a ."
 
 [crates.lint.go]
 precondition = "command -v golangci-lint >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
 format = "cd packages/go && gofmt -w ./..."
 check = "cd packages/go && golangci-lint run ./..."
 
@@ -321,38 +321,38 @@ check = "cd packages/zig && zig fmt --check src"
 [crates.test.python]
 precondition = "command -v ruff >/dev/null 2>&1"
 before = "maturin develop --manifest-path crates/ts-pack-core-py/Cargo.toml"
-e2e = "cd e2e/python && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram uv run --project . --reinstall-package tree-sitter-language-pack pytest tests/ -q"
+e2e = "cd e2e/python && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg uv run --project . --reinstall-package tree-sitter-language-pack pytest tests/ -q"
 
 [crates.test.node]
 precondition = "command -v node >/dev/null 2>&1 && command -v pnpm >/dev/null 2>&1 && command -v napi >/dev/null 2>&1"
-before = "cd crates/ts-pack-core-node && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram napi build --release"
+before = "cd crates/ts-pack-core-node && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg napi build --release"
 command = "cd crates/ts-pack-core-node && node -e \"const m = require('./'); console.log('OK:', m.availableLanguages().length)\""
 e2e = "cd e2e/node && pnpm install && node ./node_modules/vitest/vitest.mjs run --fileParallelism=false"
 
 [crates.test.go]
 precondition = "command -v go >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
 command = "cd packages/go && go test -tags tspack_dev -v ./..."
 e2e = "cd e2e/go && go test ./... -count=1"
 
 [crates.test.ruby]
-before = "cd packages/ruby && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram bundle exec rake compile"
+before = "cd packages/ruby && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg bundle exec rake compile"
 e2e = "cd e2e/ruby && bundle exec rspec spec/"
 
 [crates.test.php]
 precondition = "command -v php >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release --manifest-path crates/ts-pack-core-php/Cargo.toml"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release --manifest-path crates/ts-pack-core-php/Cargo.toml"
 e2e = "cd e2e/php && php run_tests.php"
 
 [crates.test.java]
 precondition = "command -v mvn >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi && mvn package -f packages/java/pom.xml -DskipTests -B -q"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi && mvn package -f packages/java/pom.xml -DskipTests -B -q"
 command = "cd packages/java && mvn test"
 e2e = "cd e2e/java && mvn test -B"
 
 [crates.test.csharp]
 precondition = "command -v dotnet >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
 command = "cd packages/csharp && dotnet test TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release"
 e2e = "DYLD_LIBRARY_PATH=$PWD/target/release:${DYLD_LIBRARY_PATH:-} LD_LIBRARY_PATH=$PWD/target/release:${LD_LIBRARY_PATH:-} dotnet test e2e/csharp/TreeSitterLanguagePack.E2eTests.csproj -c Release"
 
@@ -378,12 +378,12 @@ e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release 
 # because Android tests require an emulator runner (out of scope until a
 # kreuzberg-dev/actions/setup-android-emulator action exists).
 precondition = "command -v gradle >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
 
 [crates.test.swift]
 precondition = "command -v swift >/dev/null 2>&1"
 before = [
-    "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-swift",
+    "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-swift",
     "bash scripts/setup-swift-bridge.sh",
 ]
 command = "cd packages/swift && swift test"
@@ -391,13 +391,13 @@ e2e = "cd packages/swift && swift test"
 
 [crates.test.dart]
 precondition = "command -v dart >/dev/null 2>&1"
-before = "{ command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0; } && cd packages/dart && dart pub get && cd rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml && cd ../../.. && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-dart"
+before = "{ command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0; } && cd packages/dart && dart pub get && cd rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml && cd ../../.. && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-dart"
 command = "cd packages/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
 e2e = "cd e2e/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
 
 [crates.test.zig]
 precondition = "command -v zig >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
 command = "cd packages/zig && zig build test"
 e2e = "cd e2e/zig && zig build test"
 

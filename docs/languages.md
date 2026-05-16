@@ -1,6 +1,6 @@
 # Supported Languages
 
-Tree-sitter-language-pack supports **306** languages.
+Tree-sitter-language-pack supports **305** languages.
 
 | Language         | Extensions                            | Repository                                                                                                        |
 | ---------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -300,7 +300,6 @@ Tree-sitter-language-pack supports **306** languages.
 | WGSL             | `.wgsl`                               | [szebniok/tree-sitter-wgsl](https://github.com/szebniok/tree-sitter-wgsl)                                         |
 | Wgsl Bevy        | —                                     | [tree-sitter-grammars/tree-sitter-wgsl-bevy](https://github.com/tree-sitter-grammars/tree-sitter-wgsl-bevy)       |
 | Wit              | `.wit`                                | [bytecodealliance/tree-sitter-wit](https://github.com/bytecodealliance/tree-sitter-wit)                           |
-| Wolfram          | `.wl`                                 | [bostick/tree-sitter-wolfram](https://github.com/bostick/tree-sitter-wolfram)                                     |
 | X86asm           | —                                     | [bearcove/tree-sitter-x86asm](https://github.com/bearcove/tree-sitter-x86asm)                                     |
 | Xcompose         | —                                     | [tree-sitter-grammars/tree-sitter-xcompose](https://github.com/tree-sitter-grammars/tree-sitter-xcompose)         |
 | XML              | `.xml`, `.xsl`, `.xslt`               | [tree-sitter-grammars/tree-sitter-xml](https://github.com/tree-sitter-grammars/tree-sitter-xml)                   |

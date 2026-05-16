@@ -299,7 +299,6 @@ SupportedLanguage = Literal[
     "wgsl",
     "wgsl_bevy",
     "wit",
-    "wolfram",
     "x86asm",
     "xcompose",
     "xml",

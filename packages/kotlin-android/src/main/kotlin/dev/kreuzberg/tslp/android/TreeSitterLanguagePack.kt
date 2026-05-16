@@ -9,51 +9,251 @@ import kotlinx.coroutines.withContext
 object TreeSitterLanguagePack {
     private val mapper = jacksonObjectMapper()
 
+    /**
+     * Detect language name from a file extension (without leading dot).
+     *
+     * Returns `null` for unrecognized extensions. The match is case-insensitive.
+     */
     fun detectLanguageFromExtension(ext: String): String? = TreeSitterLanguagePackBridge.nativeDetectLanguageFromExtension(ext)
 
+    /**
+     * Detect language name from a file path.
+     *
+     * Extracts the file extension and looks it up. Returns `null` if the
+     * path has no extension or the extension is not recognized.
+     */
     fun detectLanguageFromPath(path: String): String? = TreeSitterLanguagePackBridge.nativeDetectLanguageFromPath(path)
 
+    /**
+     * Detect language name from file content using the shebang line (`#!`).
+     *
+     * Inspects only the first line of `content`. If it begins with `#!`, the
+     * interpreter name is extracted and mapped to a language name.
+     *
+     * Handles common patterns:
+     * - `#!/usr/bin/env python3` → `"python"`
+     * - `#!/bin/bash` → `"bash"`
+     * - `#!/usr/bin/env node` → `"javascript"`
+     *
+     * The `-S` flag accepted by some `env` implementations is skipped automatically.
+     * Version suffixes (e.g. `python3.11`, `ruby3.2`) are stripped before matching.
+     *
+     * Returns `null` when content does not start with `#!`, the shebang is
+     * malformed, or the interpreter is not recognised.
+     */
     fun detectLanguageFromContent(content: String): String? = TreeSitterLanguagePackBridge.nativeDetectLanguageFromContent(content)
 
+    /**
+     * Get the highlights query for a language, if bundled.
+     *
+     * Returns the contents of `highlights.scm` as a static string, or `null`
+     * if no highlights query is bundled for this language.
+     */
     fun getHighlightsQuery(language: String): String? = TreeSitterLanguagePackBridge.nativeGetHighlightsQuery(language)
 
+    /**
+     * Get the injections query for a language, if bundled.
+     *
+     * Returns the contents of `injections.scm` as a static string, or `null`
+     * if no injections query is bundled for this language.
+     */
     fun getInjectionsQuery(language: String): String? = TreeSitterLanguagePackBridge.nativeGetInjectionsQuery(language)
 
+    /**
+     * Get the locals query for a language, if bundled.
+     *
+     * Returns the contents of `locals.scm` as a static string, or `null`
+     * if no locals query is bundled for this language.
+     */
     fun getLocalsQuery(language: String): String? = TreeSitterLanguagePackBridge.nativeGetLocalsQuery(language)
 
+    /**
+     * Get a tree-sitter `Language` by name using the global registry.
+     *
+     * Resolves language aliases (e.g., `"shell"` maps to `"bash"`).
+     * When the `download` feature is enabled (default), automatically downloads
+     * the parser from GitHub releases if not found locally.
+     *
+     * **Errors:**
+     *
+     * Returns `Error.LanguageNotFound` if the language is not recognized,
+     * or `Error.Download` if auto-download fails.
+     */
     fun getLanguage(name: String): Language = Language(TreeSitterLanguagePackBridge.nativeGetLanguage(name))
 
+    /**
+     * Get a `Parser` pre-configured for the given language.
+     *
+     * This is a convenience function that calls `get_language` and configures
+     * a new parser in one step.
+     *
+     * **Errors:**
+     *
+     * Returns `Error.LanguageNotFound` if the language is not recognized, or
+     * `Error.ParserSetup` if the language cannot be applied to the parser.
+     */
     fun getParser(name: String): Parser = Parser(TreeSitterLanguagePackBridge.nativeGetParser(name))
 
+    /**
+     * Detect language name from a file path or extension.
+     *
+     * This compatibility alias matches the pre-Alef Python binding API.
+     */
     fun detectLanguage(path: String): String? = TreeSitterLanguagePackBridge.nativeDetectLanguage(path)
 
+    /**
+     * List all available language names (sorted, deduplicated, includes aliases).
+     *
+     * Returns names of both statically compiled and dynamically loadable languages,
+     * plus any configured aliases.
+     */
     fun availableLanguages(): String = TreeSitterLanguagePackBridge.nativeAvailableLanguages()
 
+    /**
+     * Check if a language is available by name or alias.
+     *
+     * Returns `true` if the language can be loaded (statically compiled,
+     * dynamically available, or a known alias for one of these).
+     */
     fun hasLanguage(name: String): Boolean = TreeSitterLanguagePackBridge.nativeHasLanguage(name)
 
+    /**
+     * Return the number of available languages.
+     *
+     * Includes statically compiled languages, dynamically loadable languages,
+     * and aliases.
+     */
     fun languageCount(): Long = TreeSitterLanguagePackBridge.nativeLanguageCount()
 
+    /**
+     * Process source code and extract file intelligence using the global registry.
+     *
+     * Parses the source with tree-sitter and extracts metrics, structure, imports,
+     * exports, comments, docstrings, symbols, diagnostics, and/or chunks based on
+     * the flags set in `ProcessConfig`.
+     *
+     * **Errors:**
+     *
+     * Returns an error if the language is not found or parsing fails.
+     */
     fun process(source: String, config: ProcessConfig): ProcessResult {
         val resultJson = TreeSitterLanguagePackBridge.nativeProcess(source, mapper.writeValueAsString(config))
         return mapper.readValue(resultJson, ProcessResult::class.java)
     }
 
+    /**
+     * Process source code and extract file intelligence using the global registry.
+     *
+     * Parses the source with tree-sitter and extracts metrics, structure, imports,
+     * exports, comments, docstrings, symbols, diagnostics, and/or chunks based on
+     * the flags set in `ProcessConfig`.
+     *
+     * **Errors:**
+     *
+     * Returns an error if the language is not found or parsing fails.
+     */
     suspend fun processAsync(source: String, config: ProcessConfig): ProcessResult =
         withContext(Dispatchers.IO) { process(source, config) }
 
+    /**
+     * Initialize the language pack with the given configuration.
+     *
+     * Applies any custom cache directory, then downloads all languages and groups
+     * specified in the config. This is the recommended entry point when you want
+     * to pre-warm the cache before use.
+     *
+     * **Errors:**
+     *
+     * Returns an error if configuration cannot be applied or if downloads fail.
+     */
     fun init(config: PackConfig): Unit = TreeSitterLanguagePackBridge.nativeInit(mapper.writeValueAsString(config))
 
+    /**
+     * Apply download configuration without downloading anything.
+     *
+     * Use this to set a custom cache directory before the first call to
+     * `get_language` or any download function. Changing the cache dir
+     * after languages have been registered has no effect on already-loaded
+     * languages.
+     *
+     * **Errors:**
+     *
+     * Returns an error if the lock cannot be acquired.
+     */
     fun configure(config: PackConfig): Unit = TreeSitterLanguagePackBridge.nativeConfigure(mapper.writeValueAsString(config))
 
+    /**
+     * Download specific languages to the local cache.
+     *
+     * Returns the number of requested languages available after the call. Already
+     * compiled or cached languages are included in the count.
+     *
+     * **Errors:**
+     *
+     * Returns an error if any language is not available in the manifest or if
+     * the download fails.
+     */
     fun download(names: String): Long = TreeSitterLanguagePackBridge.nativeDownload(names)
 
+    /**
+     * Download all available languages from the remote manifest.
+     *
+     * Downloads the platform bundle and extracts every library it contains.
+     * Languages that appear in the manifest but are absent from the bundle
+     * (e.g. grammars that failed to compile at release time) are silently
+     * skipped — they are not treated as an error.
+     *
+     * Returns the total number of languages now available (statically compiled
+     * plus downloaded and cached).
+     *
+     * **Errors:**
+     *
+     * Returns an error if the manifest cannot be fetched or the bundle download fails.
+     */
     fun downloadAll(): Long = TreeSitterLanguagePackBridge.nativeDownloadAll()
 
+    /**
+     * Return all language names available in the remote manifest (305).
+     *
+     * Fetches (and caches) the remote manifest to discover the full list of
+     * downloadable languages. Use `downloaded_languages` to list what is
+     * already cached locally.
+     *
+     * **Errors:**
+     *
+     * Returns an error if the manifest cannot be fetched.
+     */
     fun manifestLanguages(): String = TreeSitterLanguagePackBridge.nativeManifestLanguages()
 
+    /**
+     * Return languages that are already downloaded and cached locally.
+     *
+     * Does not perform any network requests. Returns an empty list if the
+     * cache directory does not exist or cannot be read.
+     */
     fun downloadedLanguages(): String = TreeSitterLanguagePackBridge.nativeDownloadedLanguages()
 
+    /**
+     * Delete all cached parser shared libraries.
+     *
+     * Resets the cache registration so the next call to `get_language` or
+     * a download function will re-register the (now empty) cache directory.
+     *
+     * **Errors:**
+     *
+     * Returns an error if the cache directory cannot be removed.
+     */
     fun cleanCache(): Unit = TreeSitterLanguagePackBridge.nativeCleanCache()
 
+    /**
+     * Return the effective cache directory path.
+     *
+     * This is either the custom path set via `configure` / `init` or the
+     * default: `~/.cache/tree-sitter-language-pack/v{version}/libs/`.
+     *
+     * **Errors:**
+     *
+     * Returns an error if the system cache directory cannot be determined.
+     */
     fun cacheDir(): String = TreeSitterLanguagePackBridge.nativeCacheDir()
 }

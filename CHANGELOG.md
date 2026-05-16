@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- **`wolfram` grammar dropped from the language pack.** `tree-sitter-wolfram` produces glibc heap corruption (`free(): invalid next size`) when parsing trivial input under serial test execution on Linux; macOS allocator silently tolerated the corruption. The entire upstream ecosystem is unmaintained (canonical `bostick/tree-sitter-wolfram` last touched 2021-11-11 with 3 stars; every known fork — `LumaKernel`, `LoganAMorrison`, `JuanG970`, `jakassebaum` — ships the same `LANGUAGE_VERSION 13` parser tables and is inactive). Rather than fork-and-maintain a Wolfram grammar in-house for marginal demand, the entry is removed from `language_definitions.json`, all CI `TSLP_LANGUAGES` lists, the smoke fixture, the e2e harness, the docs, and the README ecosystem listings. **Total supported grammar count drops from 306 to 305**, which matches the long-standing "305 languages" marketing copy (previously off-by-one due to the broken wolfram entry).
+
+### Changed
+
+- Regenerated all alef-managed surfaces (per-binding READMEs, API reference docs, generated bindings, e2e tests) and the script-managed docs/languages.md + `_supported_languages.py` to reflect the 305-grammar count.
+- `scripts/generate_grammar_table.py` default output path corrected from `docs/supported-languages.md` to the canonical nav-referenced `docs/languages.md`; Taskfile `docs:generate:languages` `generates:` field updated to match.
+
 ## [1.9.0]
 
 ### Added

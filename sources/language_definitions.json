@@ -1620,11 +1620,6 @@
     "repo": "https://github.com/bytecodealliance/tree-sitter-wit",
     "rev": "ae17db1678681a8e75c1ac48107d6efb95343cb3"
   },
-  "wolfram": {
-    "extensions": ["wl"],
-    "repo": "https://github.com/bostick/tree-sitter-wolfram",
-    "rev": "63ebdac6f040d9082d3d8fa88be96ce24549adc5"
-  },
   "x86asm": {
     "extensions": [],
     "repo": "https://github.com/bearcove/tree-sitter-x86asm",

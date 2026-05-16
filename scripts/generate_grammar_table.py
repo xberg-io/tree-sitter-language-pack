@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate a markdown table of all supported grammars from language_definitions.json.
 
-Outputs docs/supported-languages.md (or a custom path via --output).
+Outputs docs/languages.md (or a custom path via --output).
 Supports --stdout to print to stdout instead of writing to disk.
 """
 
@@ -231,7 +231,7 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Generate docs/supported-languages.md (default)
+  # Generate docs/languages.md (default)
   python scripts/generate_grammar_table.py
 
   # Write to a custom path
@@ -245,7 +245,7 @@ Examples:
     parser.add_argument(
         "--output",
         metavar="PATH",
-        help="Output file path (default: docs/supported-languages.md)",
+        help="Output file path (default: docs/languages.md)",
     )
 
     parser.add_argument(
@@ -278,7 +278,7 @@ def main() -> int:
         print(content, end="")
         return 0
 
-    output_path = Path(args.output) if args.output else project_root / "docs" / "supported-languages.md"
+    output_path = Path(args.output) if args.output else project_root / "docs" / "languages.md"
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(content, encoding="utf-8")

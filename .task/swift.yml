@@ -19,7 +19,7 @@ tasks:
     preconditions:
       - sh: command -v swift >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-swift
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-swift
       - bash scripts/setup-swift-bridge.sh release
       - cd packages/swift && swift build
 
@@ -28,7 +28,7 @@ tasks:
     preconditions:
       - sh: command -v swift >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build -p tree-sitter-language-pack-swift
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build -p tree-sitter-language-pack-swift
       - bash scripts/setup-swift-bridge.sh debug
       - cd packages/swift && swift build
 
@@ -37,7 +37,7 @@ tasks:
     preconditions:
       - sh: command -v swift >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-swift
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-swift
       - bash scripts/setup-swift-bridge.sh release
       - cd packages/swift && swift build -c release
 
@@ -86,6 +86,6 @@ tasks:
     preconditions:
       - sh: command -v swift >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg,wolfram cargo build --release -p tree-sitter-language-pack-swift
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-swift
       - bash scripts/setup-swift-bridge.sh release
       - cd e2e/swift_e2e && swift test

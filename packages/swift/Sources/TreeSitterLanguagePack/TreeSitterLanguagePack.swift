@@ -196,50 +196,10 @@ public typealias ChunkContext = RustBridge.ChunkContext
 public typealias PackConfig = RustBridge.PackConfig
 
 /// A source position — row + column, zero-indexed.
-public struct Point: Codable, Sendable, Hashable {
-  public let row: UInt
-  public let column: UInt
-  public init(row: UInt, column: UInt) {
-    self.row = row
-    self.column = column
-  }
-}
-
-// MARK: - Internal FFI conversions for Point
-extension Point {
-  init(_ rb: RustBridge.Point) throws {
-    self.row = rb.row()
-    self.column = rb.column()
-  }
-  func intoRust() throws -> RustBridge.Point {
-    let data = try JSONEncoder().encode(self)
-    let json = String(data: data, encoding: .utf8) ?? "{}"
-    return try RustBridge.pointFromJson(json)
-  }
-}
+public typealias Point = RustBridge.Point
 
 /// A byte range — start (inclusive) to end (exclusive).
-public struct ByteRange: Codable, Sendable, Hashable {
-  public let start: UInt
-  public let end: UInt
-  public init(start: UInt, end: UInt) {
-    self.start = start
-    self.end = end
-  }
-}
-
-// MARK: - Internal FFI conversions for ByteRange
-extension ByteRange {
-  init(_ rb: RustBridge.ByteRange) throws {
-    self.start = rb.start()
-    self.end = rb.end()
-  }
-  func intoRust() throws -> RustBridge.ByteRange {
-    let data = try JSONEncoder().encode(self)
-    let json = String(data: data, encoding: .utf8) ?? "{}"
-    return try RustBridge.byteRangeFromJson(json)
-  }
-}
+public typealias ByteRange = RustBridge.ByteRange
 
 /// Configuration for the `process()` function.
 ///
@@ -260,14 +220,23 @@ extension ByteRange {
 /// let config = ProcessConfig::new("python").all();
 /// ```
 public struct ProcessConfig: Codable, Sendable, Hashable {
+  /// Language name (required).
   public let language: String
+  /// Extract structural items (functions, classes, etc.). Default: true.
   public let structure: Bool
+  /// Extract import statements. Default: true.
   public let imports: Bool
+  /// Extract export statements. Default: true.
   public let exports: Bool
+  /// Extract comments. Default: false.
   public let comments: Bool
+  /// Extract docstrings. Default: false.
   public let docstrings: Bool
+  /// Extract symbol definitions. Default: false.
   public let symbols: Bool
+  /// Include parse diagnostics. Default: false.
   public let diagnostics: Bool
+  /// Maximum chunk size in bytes. `None` disables chunking.
   public let chunkMaxSize: UInt?
   public init(
     language: String, structure: Bool, imports: Bool, exports: Bool, comments: Bool,
@@ -423,8 +392,7 @@ public func packConfigFromJson(_ json: String) throws -> PackConfig {
 }
 
 public func pointFromJson(_ json: String) throws -> Point {
-  let data = json.data(using: .utf8) ?? Data()
-  return try JSONDecoder().decode(Point.self, from: data)
+  return try RustBridge.pointFromJson(json)
 }
 
 public func processConfigFromJson(_ json: String) throws -> ProcessConfig {

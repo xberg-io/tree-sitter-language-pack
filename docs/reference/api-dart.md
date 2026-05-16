@@ -1,6 +1,7 @@
 ---
 title: "Dart API Reference"
 ---
+
 ## Dart API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -14,13 +15,14 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String? detectLanguageFromExtension(String ext)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `ext` | `String` | Yes | The ext |
+| Name  | Type     | Required | Description |
+| ----- | -------- | -------- | ----------- |
+| `ext` | `String` | Yes      | The ext     |
 
 **Returns:** `String?`
 
@@ -36,13 +38,14 @@ path has no extension or the extension is not recognized.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String? detectLanguageFromPath(String path)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `path` | `String` | Yes | Path to the file |
+| Name   | Type     | Required | Description      |
+| ------ | -------- | -------- | ---------------- |
+| `path` | `String` | Yes      | Path to the file |
 
 **Returns:** `String?`
 
@@ -56,6 +59,7 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
+
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -69,13 +73,14 @@ malformed, or the interpreter is not recognised.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String? detectLanguageFromContent(String content)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `content` | `String` | Yes | The content to process |
+| Name      | Type     | Required | Description            |
+| --------- | -------- | -------- | ---------------------- |
+| `content` | `String` | Yes      | The content to process |
 
 **Returns:** `String?`
 
@@ -91,13 +96,14 @@ if no highlights query is bundled for this language.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String? getHighlightsQuery(String language)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `language` | `String` | Yes | The language |
+| Name       | Type     | Required | Description  |
+| ---------- | -------- | -------- | ------------ |
+| `language` | `String` | Yes      | The language |
 
 **Returns:** `String?`
 
@@ -113,13 +119,14 @@ if no injections query is bundled for this language.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String? getInjectionsQuery(String language)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `language` | `String` | Yes | The language |
+| Name       | Type     | Required | Description  |
+| ---------- | -------- | -------- | ------------ |
+| `language` | `String` | Yes      | The language |
 
 **Returns:** `String?`
 
@@ -135,13 +142,14 @@ if no locals query is bundled for this language.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String? getLocalsQuery(String language)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `language` | `String` | Yes | The language |
+| Name       | Type     | Required | Description  |
+| ---------- | -------- | -------- | ------------ |
+| `language` | `String` | Yes      | The language |
 
 **Returns:** `String?`
 
@@ -163,13 +171,14 @@ or `Error.Download` if auto-download fails.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+Language getLanguage(String name)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `name` | `String` | Yes | The name |
+| Name   | Type     | Required | Description |
+| ------ | -------- | -------- | ----------- |
+| `name` | `String` | Yes      | The name    |
 
 **Returns:** `Language`
 **Errors:** Throws `Error`.
@@ -191,13 +200,14 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+Parser getParser(String name)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `name` | `String` | Yes | The name |
+| Name   | Type     | Required | Description |
+| ------ | -------- | -------- | ----------- |
+| `name` | `String` | Yes      | The name    |
 
 **Returns:** `Parser`
 **Errors:** Throws `Error`.
@@ -213,13 +223,14 @@ This compatibility alias matches the pre-Alef Python binding API.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String? detectLanguage(String path)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `path` | `String` | Yes | Path to the file |
+| Name   | Type     | Required | Description      |
+| ------ | -------- | -------- | ---------------- |
+| `path` | `String` | Yes      | Path to the file |
 
 **Returns:** `String?`
 
@@ -235,8 +246,9 @@ plus any configured aliases.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+List<String> availableLanguages()
 ```
+
 **Returns:** `List<String>`
 
 ---
@@ -251,13 +263,14 @@ dynamically available, or a known alias for one of these).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+bool hasLanguage(String name)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `name` | `String` | Yes | The name |
+| Name   | Type     | Required | Description |
+| ------ | -------- | -------- | ----------- |
+| `name` | `String` | Yes      | The name    |
 
 **Returns:** `bool`
 
@@ -273,8 +286,9 @@ and aliases.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+int languageCount()
 ```
+
 **Returns:** `int`
 
 ---
@@ -294,14 +308,15 @@ Returns an error if the language is not found or parsing fails.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+ProcessResult process(String source, ProcessConfig config)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `source` | `String` | Yes | The source |
-| `config` | `ProcessConfig` | Yes | The configuration options |
+| Name     | Type            | Required | Description               |
+| -------- | --------------- | -------- | ------------------------- |
+| `source` | `String`        | Yes      | The source                |
+| `config` | `ProcessConfig` | Yes      | The configuration options |
 
 **Returns:** `ProcessResult`
 **Errors:** Throws `Error`.
@@ -323,13 +338,14 @@ Returns an error if configuration cannot be applied or if downloads fail.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+void init(PackConfig config)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `config` | `PackConfig` | Yes | The configuration options |
+| Name     | Type         | Required | Description               |
+| -------- | ------------ | -------- | ------------------------- |
+| `config` | `PackConfig` | Yes      | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -352,13 +368,14 @@ Returns an error if the lock cannot be acquired.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+void configure(PackConfig config)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `config` | `PackConfig` | Yes | The configuration options |
+| Name     | Type         | Required | Description               |
+| -------- | ------------ | -------- | ------------------------- |
+| `config` | `PackConfig` | Yes      | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -380,13 +397,14 @@ the download fails.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+int download(List<String> names)
 ```
+
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `names` | `List<String>` | Yes | The names |
+| Name    | Type           | Required | Description |
+| ------- | -------------- | -------- | ----------- |
+| `names` | `List<String>` | Yes      | The names   |
 
 **Returns:** `int`
 **Errors:** Throws `Error`.
@@ -412,8 +430,9 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+int downloadAll()
 ```
+
 **Returns:** `int`
 **Errors:** Throws `Error`.
 
@@ -421,7 +440,7 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 
 #### manifestLanguages()
 
-Return all language names available in the remote manifest (305).
+Return all language names available in the remote manifest (304).
 
 Fetches (and caches) the remote manifest to discover the full list of
 downloadable languages. Use `downloaded_languages` to list what is
@@ -434,8 +453,9 @@ Returns an error if the manifest cannot be fetched.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+List<String> manifestLanguages()
 ```
+
 **Returns:** `List<String>`
 **Errors:** Throws `Error`.
 
@@ -451,8 +471,9 @@ cache directory does not exist or cannot be read.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+List<String> downloadedLanguages()
 ```
+
 **Returns:** `List<String>`
 
 ---
@@ -471,8 +492,9 @@ Returns an error if the cache directory cannot be removed.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+void cleanCache()
 ```
+
 **Returns:** `void`
 **Errors:** Throws `Error`.
 
@@ -492,8 +514,9 @@ Returns an error if the system cache directory cannot be determined.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend signature generation
+String cacheDir()
 ```
+
 **Returns:** `String`
 **Errors:** Throws `Error`.
 
@@ -505,11 +528,10 @@ Returns an error if the system cache directory cannot be determined.
 
 A byte range — start (inclusive) to end (exclusive).
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `start` | `int` | — | Inclusive start byte offset. |
-| `end` | `int` | — | Exclusive end byte offset. |
-
+| Field   | Type  | Default | Description                  |
+| ------- | ----- | ------- | ---------------------------- |
+| `start` | `int` | —       | Inclusive start byte offset. |
+| `end`   | `int` | —       | Exclusive end byte offset.   |
 
 ---
 
@@ -517,18 +539,17 @@ A byte range — start (inclusive) to end (exclusive).
 
 Metadata for a single chunk of source code.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | Language |
-| `chunkIndex` | `int` | — | Chunk index |
-| `totalChunks` | `int` | — | Total chunks |
-| `nodeTypes` | `List<String>` | `[]` | Node types |
-| `contextPath` | `List<String>` | `[]` | Context path |
-| `symbolsDefined` | `List<String>` | `[]` | Symbols defined |
-| `comments` | `List<CommentInfo>` | `[]` | Comments |
-| `docstrings` | `List<DocstringInfo>` | `[]` | Docstrings |
-| `hasErrorNodes` | `bool` | — | Whether error nodes |
-
+| Field            | Type                  | Default | Description         |
+| ---------------- | --------------------- | ------- | ------------------- |
+| `language`       | `String`              | —       | Language            |
+| `chunkIndex`     | `int`                 | —       | Chunk index         |
+| `totalChunks`    | `int`                 | —       | Total chunks        |
+| `nodeTypes`      | `List<String>`        | `[]`    | Node types          |
+| `contextPath`    | `List<String>`        | `[]`    | Context path        |
+| `symbolsDefined` | `List<String>`        | `[]`    | Symbols defined     |
+| `comments`       | `List<CommentInfo>`   | `[]`    | Comments            |
+| `docstrings`     | `List<DocstringInfo>` | `[]`    | Docstrings          |
+| `hasErrorNodes`  | `bool`                | —       | Whether error nodes |
 
 ---
 
@@ -536,15 +557,14 @@ Metadata for a single chunk of source code.
 
 A chunk of source code with rich metadata.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `content` | `String` | — | The extracted text content |
-| `startByte` | `int` | — | Start byte |
-| `endByte` | `int` | — | End byte |
-| `startLine` | `int` | — | Start line |
-| `endLine` | `int` | — | End line |
-| `metadata` | `ChunkContext` | — | Document metadata |
-
+| Field       | Type           | Default | Description                |
+| ----------- | -------------- | ------- | -------------------------- |
+| `content`   | `String`       | —       | The extracted text content |
+| `startByte` | `int`          | —       | Start byte                 |
+| `endByte`   | `int`          | —       | End byte                   |
+| `startLine` | `int`          | —       | Start line                 |
+| `endLine`   | `int`          | —       | End line                   |
+| `metadata`  | `ChunkContext` | —       | Document metadata          |
 
 ---
 
@@ -552,13 +572,12 @@ A chunk of source code with rich metadata.
 
 A comment extracted from source code.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `text` | `String` | — | Text |
-| `kind` | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
-| `span` | `Span` | — | Span (span) |
-| `associatedNode` | `String?` | `null` | Associated node |
-
+| Field            | Type          | Default            | Description         |
+| ---------------- | ------------- | ------------------ | ------------------- |
+| `text`           | `String`      | —                  | Text                |
+| `kind`           | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
+| `span`           | `Span`        | —                  | Span (span)         |
+| `associatedNode` | `String?`     | `null`             | Associated node     |
 
 ---
 
@@ -566,12 +585,11 @@ A comment extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `message` | `String` | — | Message |
+| Field      | Type                 | Default                    | Description                    |
+| ---------- | -------------------- | -------------------------- | ------------------------------ |
+| `message`  | `String`             | —                          | Message                        |
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity.Error` | Severity (diagnostic severity) |
-| `span` | `Span` | — | Span (span) |
-
+| `span`     | `Span`               | —                          | Span (span)                    |
 
 ---
 
@@ -579,12 +597,11 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `String` | — | Kind |
-| `name` | `String?` | `null` | The name |
-| `description` | `String` | — | Human-readable description |
-
+| Field         | Type      | Default | Description                |
+| ------------- | --------- | ------- | -------------------------- |
+| `kind`        | `String`  | —       | Kind                       |
+| `name`        | `String?` | `null`  | The name                   |
+| `description` | `String`  | —       | Human-readable description |
 
 ---
 
@@ -592,14 +609,13 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 A docstring extracted from source code.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `text` | `String` | — | Text |
-| `format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
-| `span` | `Span` | — | Span (span) |
-| `associatedItem` | `String?` | `null` | Associated item |
-| `parsedSections` | `List<DocSection>` | `[]` | Parsed sections |
-
+| Field            | Type               | Default                             | Description               |
+| ---------------- | ------------------ | ----------------------------------- | ------------------------- |
+| `text`           | `String`           | —                                   | Text                      |
+| `format`         | `DocstringFormat`  | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
+| `span`           | `Span`             | —                                   | Span (span)               |
+| `associatedItem` | `String?`          | `null`                              | Associated item           |
+| `parsedSections` | `List<DocSection>` | `[]`                                | Parsed sections           |
 
 ---
 
@@ -616,8 +632,9 @@ Create a new download manager for the given version.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+static DownloadManager new(String version)
 ```
+
 ###### withCacheDir()
 
 Create a download manager with a custom cache directory.
@@ -625,8 +642,9 @@ Create a download manager with a custom cache directory.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+static DownloadManager withCacheDir(String version, String cacheDir)
 ```
+
 ###### installedLanguages()
 
 List languages that are already downloaded and cached.
@@ -634,8 +652,9 @@ List languages that are already downloaded and cached.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+List<String> installedLanguages()
 ```
+
 ###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
@@ -650,8 +669,9 @@ Returns the number of library files extracted (including those already cached).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+int downloadAllBestEffort()
 ```
+
 ###### cleanCache()
 
 Remove all cached parser libraries.
@@ -659,7 +679,7 @@ Remove all cached parser libraries.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+void cleanCache()
 ```
 
 ---
@@ -668,12 +688,11 @@ Remove all cached parser libraries.
 
 An export statement extracted from source code.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `String` | — | The name |
+| Field  | Type         | Default            | Description        |
+| ------ | ------------ | ------------------ | ------------------ |
+| `name` | `String`     | —                  | The name           |
 | `kind` | `ExportKind` | `ExportKind.Named` | Kind (export kind) |
-| `span` | `Span` | — | Span (span) |
-
+| `span` | `Span`       | —                  | Span (span)        |
 
 ---
 
@@ -681,17 +700,16 @@ An export statement extracted from source code.
 
 Aggregate metrics for a source file.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `totalLines` | `int` | — | Total lines |
-| `codeLines` | `int` | — | Code lines |
-| `commentLines` | `int` | — | Comment lines |
-| `blankLines` | `int` | — | Blank lines |
-| `totalBytes` | `int` | — | Total bytes |
-| `nodeCount` | `int` | — | Number of nodes |
-| `errorCount` | `int` | — | Number of errors |
-| `maxDepth` | `int` | — | Maximum depth |
-
+| Field          | Type  | Default | Description      |
+| -------------- | ----- | ------- | ---------------- |
+| `totalLines`   | `int` | —       | Total lines      |
+| `codeLines`    | `int` | —       | Code lines       |
+| `commentLines` | `int` | —       | Comment lines    |
+| `blankLines`   | `int` | —       | Blank lines      |
+| `totalBytes`   | `int` | —       | Total bytes      |
+| `nodeCount`    | `int` | —       | Number of nodes  |
+| `errorCount`   | `int` | —       | Number of errors |
+| `maxDepth`     | `int` | —       | Maximum depth    |
 
 ---
 
@@ -699,19 +717,17 @@ Aggregate metrics for a source file.
 
 An import statement extracted from source code.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `source` | `String` | — | Source |
-| `items` | `List<String>` | `[]` | Items |
-| `alias` | `String?` | `null` | Alias |
-| `isWildcard` | `bool` | — | Whether wildcard |
-| `span` | `Span` | — | Span (span) |
-
+| Field        | Type           | Default | Description      |
+| ------------ | -------------- | ------- | ---------------- |
+| `source`     | `String`       | —       | Source           |
+| `items`      | `List<String>` | `[]`    | Items            |
+| `alias`      | `String?`      | `null`  | Alias            |
+| `isWildcard` | `bool`         | —       | Whether wildcard |
+| `span`       | `Span`         | —       | Span (span)      |
 
 ---
 
 #### Language
-
 
 ---
 
@@ -742,8 +758,9 @@ does not match any known grammar.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Language getLanguage(String name)
 ```
+
 ###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
@@ -754,8 +771,9 @@ Includes statically compiled languages, dynamically loadable languages
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+List<String> availableLanguages()
 ```
+
 ###### hasLanguage()
 
 Check whether a language is available by name or alias.
@@ -766,8 +784,9 @@ table or from a dynamic library on disk.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool hasLanguage(String name)
 ```
+
 ###### languageCount()
 
 Return the total number of available languages (including aliases).
@@ -775,8 +794,9 @@ Return the total number of available languages (including aliases).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+int languageCount()
 ```
+
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -784,14 +804,15 @@ Parse source code and extract file intelligence based on config in a single pass
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+ProcessResult process(String source, ProcessConfig config)
 ```
+
 ###### default()
 
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+static LanguageRegistry default()
 ```
 
 ---
@@ -810,8 +831,9 @@ regardless of how the tree is moved or stored at the FFI boundary.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Node clone()
 ```
+
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -819,8 +841,9 @@ Return the node's kind name (e.g. `"function_definition"`).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+String kind()
 ```
+
 ###### startByte()
 
 Return the inclusive start byte offset of this node.
@@ -828,8 +851,9 @@ Return the inclusive start byte offset of this node.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+int startByte()
 ```
+
 ###### endByte()
 
 Return the exclusive end byte offset of this node.
@@ -837,8 +861,9 @@ Return the exclusive end byte offset of this node.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+int endByte()
 ```
+
 ###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
@@ -849,8 +874,9 @@ text accessor.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+ByteRange byteRange()
 ```
+
 ###### startPosition()
 
 Return the start `Point` (row, column).
@@ -858,8 +884,9 @@ Return the start `Point` (row, column).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Point startPosition()
 ```
+
 ###### endPosition()
 
 Return the end `Point` (row, column).
@@ -867,8 +894,9 @@ Return the end `Point` (row, column).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Point endPosition()
 ```
+
 ###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
@@ -876,8 +904,9 @@ True when this node is named (not punctuation/whitespace).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool isNamed()
 ```
+
 ###### isError()
 
 True when this is an error node.
@@ -885,8 +914,9 @@ True when this is an error node.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool isError()
 ```
+
 ###### isMissing()
 
 True when this is a missing-token node.
@@ -894,8 +924,9 @@ True when this is a missing-token node.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool isMissing()
 ```
+
 ###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -903,8 +934,9 @@ True when this is an "extra" node (e.g. a comment).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool isExtra()
 ```
+
 ###### hasError()
 
 True when this node or any descendant is an error.
@@ -912,8 +944,9 @@ True when this node or any descendant is an error.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool hasError()
 ```
+
 ###### parent()
 
 Return this node's parent, if any.
@@ -921,8 +954,9 @@ Return this node's parent, if any.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Node? parent()
 ```
+
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -930,8 +964,9 @@ Return the i-th child of this node, if any.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Node? child(int index)
 ```
+
 ###### childCount()
 
 Total number of children (including unnamed).
@@ -939,8 +974,9 @@ Total number of children (including unnamed).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+int childCount()
 ```
+
 ###### namedChild()
 
 Return the i-th named child of this node, if any.
@@ -948,8 +984,9 @@ Return the i-th named child of this node, if any.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Node? namedChild(int index)
 ```
+
 ###### namedChildCount()
 
 Number of named children of this node.
@@ -957,8 +994,9 @@ Number of named children of this node.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+int namedChildCount()
 ```
+
 ###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
@@ -966,8 +1004,9 @@ Look up a child by its grammar-defined field name.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Node? childByFieldName(String name)
 ```
+
 ###### toSexp()
 
 Return the S-expression form of this node's subtree.
@@ -975,8 +1014,9 @@ Return the S-expression form of this node's subtree.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+String toSexp()
 ```
+
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -984,7 +1024,7 @@ Return a `TreeCursor` positioned at this node.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+TreeCursor walk()
 ```
 
 ---
@@ -997,12 +1037,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `cacheDir` | `String?` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `List<String>?` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `groups` | `List<String>?` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
-
+| Field       | Type            | Default | Description                                                                                      |
+| ----------- | --------------- | ------- | ------------------------------------------------------------------------------------------------ |
+| `cacheDir`  | `String?`       | `null`  | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `languages` | `List<String>?` | `[]`    | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`).    |
+| `groups`    | `List<String>?` | `[]`    | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).                      |
 
 ---
 
@@ -1027,8 +1066,9 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+void setLanguage(String name)
 ```
+
 ###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
@@ -1037,8 +1077,9 @@ or no language is set.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Tree? parse(String source)
 ```
+
 ###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
@@ -1047,8 +1088,9 @@ no language is set.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Tree? parseBytes(Uint8List source)
 ```
+
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1057,14 +1099,15 @@ not be incremental.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+void reset()
 ```
+
 ###### default()
 
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+static Parser default()
 ```
 
 ---
@@ -1073,10 +1116,10 @@ not be incremental.
 
 A source position — row + column, zero-indexed.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `row` | `int` | — | Zero-indexed row number. |
-| `column` | `int` | — | Zero-indexed column number, in UTF-16 code units. |
+| Field    | Type  | Default | Description                                       |
+| -------- | ----- | ------- | ------------------------------------------------- |
+| `row`    | `int` | —       | Zero-indexed row number.                          |
+| `column` | `int` | —       | Zero-indexed column number, in UTF-16 code units. |
 
 ##### Methods
 
@@ -1085,7 +1128,7 @@ A source position — row + column, zero-indexed.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+static Point from(Point p)
 ```
 
 ---
@@ -1096,17 +1139,17 @@ Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | Language name (required). |
-| `structure` | `bool` | `true` | Extract structural items (functions, classes, etc.). Default: true. |
-| `imports` | `bool` | `true` | Extract import statements. Default: true. |
-| `exports` | `bool` | `true` | Extract export statements. Default: true. |
-| `comments` | `bool` | `false` | Extract comments. Default: false. |
-| `docstrings` | `bool` | `false` | Extract docstrings. Default: false. |
-| `symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
-| `diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
-| `chunkMaxSize` | `int?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
+| Field          | Type     | Default | Description                                                         |
+| -------------- | -------- | ------- | ------------------------------------------------------------------- |
+| `language`     | `String` | —       | Language name (required).                                           |
+| `structure`    | `bool`   | `true`  | Extract structural items (functions, classes, etc.). Default: true. |
+| `imports`      | `bool`   | `true`  | Extract import statements. Default: true.                           |
+| `exports`      | `bool`   | `true`  | Extract export statements. Default: true.                           |
+| `comments`     | `bool`   | `false` | Extract comments. Default: false.                                   |
+| `docstrings`   | `bool`   | `false` | Extract docstrings. Default: false.                                 |
+| `symbols`      | `bool`   | `false` | Extract symbol definitions. Default: false.                         |
+| `diagnostics`  | `bool`   | `false` | Include parse diagnostics. Default: false.                          |
+| `chunkMaxSize` | `int?`   | `null`  | Maximum chunk size in bytes. `null` disables chunking.              |
 
 ##### Methods
 
@@ -1115,8 +1158,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+static ProcessConfig default()
 ```
+
 ###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1124,8 +1168,9 @@ Enable chunking with the given maximum chunk size in bytes.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+ProcessConfig withChunking(int maxSize)
 ```
+
 ###### all()
 
 Enable all analysis features.
@@ -1133,8 +1178,9 @@ Enable all analysis features.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+ProcessConfig all()
 ```
+
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1142,7 +1188,7 @@ Disable all analysis features (only metrics computed).
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+ProcessConfig minimal()
 ```
 
 ---
@@ -1155,19 +1201,18 @@ Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `language` | `String` | — | Language |
-| `metrics` | `FileMetrics` | — | Metrics (file metrics) |
-| `structure` | `List<StructureItem>` | `[]` | Structure |
-| `imports` | `List<ImportInfo>` | `[]` | Imports |
-| `exports` | `List<ExportInfo>` | `[]` | Exports |
-| `comments` | `List<CommentInfo>` | `[]` | Comments |
-| `docstrings` | `List<DocstringInfo>` | `[]` | Docstrings |
-| `symbols` | `List<SymbolInfo>` | `[]` | Symbols |
-| `diagnostics` | `List<Diagnostic>` | `[]` | Diagnostics |
-| `chunks` | `List<CodeChunk>` | `[]` | Text chunks for chunking/embedding |
-
+| Field         | Type                  | Default | Description                        |
+| ------------- | --------------------- | ------- | ---------------------------------- |
+| `language`    | `String`              | —       | Language                           |
+| `metrics`     | `FileMetrics`         | —       | Metrics (file metrics)             |
+| `structure`   | `List<StructureItem>` | `[]`    | Structure                          |
+| `imports`     | `List<ImportInfo>`    | `[]`    | Imports                            |
+| `exports`     | `List<ExportInfo>`    | `[]`    | Exports                            |
+| `comments`    | `List<CommentInfo>`   | `[]`    | Comments                           |
+| `docstrings`  | `List<DocstringInfo>` | `[]`    | Docstrings                         |
+| `symbols`     | `List<SymbolInfo>`    | `[]`    | Symbols                            |
+| `diagnostics` | `List<Diagnostic>`    | `[]`    | Diagnostics                        |
+| `chunks`      | `List<CodeChunk>`     | `[]`    | Text chunks for chunking/embedding |
 
 ---
 
@@ -1178,15 +1223,14 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `startByte` | `int` | — | Start byte |
-| `endByte` | `int` | — | End byte |
-| `startLine` | `int` | — | Start line |
-| `startColumn` | `int` | — | Start column |
-| `endLine` | `int` | — | End line |
-| `endColumn` | `int` | — | End column |
-
+| Field         | Type  | Default | Description  |
+| ------------- | ----- | ------- | ------------ |
+| `startByte`   | `int` | —       | Start byte   |
+| `endByte`     | `int` | —       | End byte     |
+| `startLine`   | `int` | —       | Start line   |
+| `startColumn` | `int` | —       | Start column |
+| `endLine`     | `int` | —       | End line     |
+| `endColumn`   | `int` | —       | End column   |
 
 ---
 
@@ -1194,18 +1238,17 @@ positions (for display and diagnostics).
 
 A structural item (function, class, struct, etc.) in source code.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `kind` | `StructureKind` | `StructureKind.Function` | Kind (structure kind) |
-| `name` | `String?` | `null` | The name |
-| `visibility` | `String?` | `null` | Visibility |
-| `span` | `Span` | — | Span (span) |
-| `children` | `List<StructureItem>` | `[]` | Children |
-| `decorators` | `List<String>` | `[]` | Decorators |
-| `docComment` | `String?` | `null` | Doc comment |
-| `signature` | `String?` | `null` | Signature |
-| `bodySpan` | `Span?` | `null` | Body span (span) |
-
+| Field        | Type                  | Default                  | Description           |
+| ------------ | --------------------- | ------------------------ | --------------------- |
+| `kind`       | `StructureKind`       | `StructureKind.Function` | Kind (structure kind) |
+| `name`       | `String?`             | `null`                   | The name              |
+| `visibility` | `String?`             | `null`                   | Visibility            |
+| `span`       | `Span`                | —                        | Span (span)           |
+| `children`   | `List<StructureItem>` | `[]`                     | Children              |
+| `decorators` | `List<String>`        | `[]`                     | Decorators            |
+| `docComment` | `String?`             | `null`                   | Doc comment           |
+| `signature`  | `String?`             | `null`                   | Signature             |
+| `bodySpan`   | `Span?`               | `null`                   | Body span (span)      |
 
 ---
 
@@ -1213,14 +1256,13 @@ A structural item (function, class, struct, etc.) in source code.
 
 A symbol (variable, function, type, etc.) extracted from source code.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | `String` | — | The name |
-| `kind` | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
-| `span` | `Span` | — | Span (span) |
-| `typeAnnotation` | `String?` | `null` | Type annotation |
-| `doc` | `String?` | `null` | Doc |
-
+| Field            | Type         | Default               | Description        |
+| ---------------- | ------------ | --------------------- | ------------------ |
+| `name`           | `String`     | —                     | The name           |
+| `kind`           | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
+| `span`           | `Span`       | —                     | Span (span)        |
+| `typeAnnotation` | `String?`    | `null`                | Type annotation    |
+| `doc`            | `String?`    | `null`                | Doc                |
 
 ---
 
@@ -1237,8 +1279,9 @@ Return the root `Node` of this tree.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Node rootNode()
 ```
+
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1246,7 +1289,7 @@ Return a `TreeCursor` positioned at the root.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+TreeCursor walk()
 ```
 
 ---
@@ -1264,8 +1307,9 @@ Return the `Node` at the cursor's current position.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+Node node()
 ```
+
 ###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
@@ -1274,8 +1318,9 @@ Returns `true` if a child existed.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool gotoFirstChild()
 ```
+
 ###### gotoParent()
 
 Move the cursor to the parent of the current node.
@@ -1284,8 +1329,9 @@ Returns `true` if a parent existed.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool gotoParent()
 ```
+
 ###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1294,8 +1340,9 @@ Returns `true` if a sibling existed.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+bool gotoNextSibling()
 ```
+
 ###### fieldName()
 
 Return the field name for the current node, if any.
@@ -1303,7 +1350,7 @@ Return the field name for the current node, if any.
 **Signature:**
 
 ```dart
-// Phase 1: dart backend method signature generation
+String? fieldName()
 ```
 
 ---
@@ -1318,20 +1365,19 @@ Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
 
-| Value | Description |
-|-------|-------------|
-| `Function` | Function |
-| `Method` | Method |
-| `Class` | Class |
-| `Struct` | Struct |
-| `Interface` | Interface |
-| `Enum` | Enum |
-| `Module` | Module |
-| `Trait` | Trait |
-| `Impl` | Impl |
-| `Namespace` | Namespace |
-| `Other` | Other — Fields: `0`: `String` |
-
+| Value       | Description                   |
+| ----------- | ----------------------------- |
+| `Function`  | Function                      |
+| `Method`    | Method                        |
+| `Class`     | Class                         |
+| `Struct`    | Struct                        |
+| `Interface` | Interface                     |
+| `Enum`      | Enum                          |
+| `Module`    | Module                        |
+| `Trait`     | Trait                         |
+| `Impl`      | Impl                          |
+| `Namespace` | Namespace                     |
+| `Other`     | Other — Fields: `0`: `String` |
 
 ---
 
@@ -1342,12 +1388,11 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-| Value | Description |
-|-------|-------------|
-| `Line` | Line |
-| `Block` | Block |
-| `Doc` | Doc |
-
+| Value   | Description |
+| ------- | ----------- |
+| `Line`  | Line        |
+| `Block` | Block       |
+| `Doc`   | Doc         |
 
 ---
 
@@ -1358,15 +1403,14 @@ The format of a docstring extracted from source code.
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 
-| Value | Description |
-|-------|-------------|
-| `PythonTripleQuote` | Python triple quote |
-| `JsDoc` | J s doc |
-| `Rustdoc` | Rustdoc |
-| `GoDoc` | Go doc |
-| `JavaDoc` | Java doc |
-| `Other` | Other — Fields: `0`: `String` |
-
+| Value               | Description                   |
+| ------------------- | ----------------------------- |
+| `PythonTripleQuote` | Python triple quote           |
+| `JsDoc`             | J s doc                       |
+| `Rustdoc`           | Rustdoc                       |
+| `GoDoc`             | Go doc                        |
+| `JavaDoc`           | Java doc                      |
+| `Other`             | Other — Fields: `0`: `String` |
 
 ---
 
@@ -1376,12 +1420,11 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-| Value | Description |
-|-------|-------------|
-| `Named` | Named |
-| `Default` | Default |
-| `ReExport` | Re export |
-
+| Value      | Description |
+| ---------- | ----------- |
+| `Named`    | Named       |
+| `Default`  | Default     |
+| `ReExport` | Re export   |
 
 ---
 
@@ -1392,18 +1435,17 @@ The kind of a symbol definition found in source code.
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
 
-| Value | Description |
-|-------|-------------|
-| `Variable` | Variable |
-| `Constant` | Constant |
-| `Function` | Function |
-| `Class` | Class |
-| `Type` | Type |
-| `Interface` | Interface |
-| `Enum` | Enum |
-| `Module` | Module |
-| `Other` | Other — Fields: `0`: `String` |
-
+| Value       | Description                   |
+| ----------- | ----------------------------- |
+| `Variable`  | Variable                      |
+| `Constant`  | Constant                      |
+| `Function`  | Function                      |
+| `Class`     | Class                         |
+| `Type`      | Type                          |
+| `Interface` | Interface                     |
+| `Enum`      | Enum                          |
+| `Module`    | Module                        |
+| `Other`     | Other — Fields: `0`: `String` |
 
 ---
 
@@ -1414,12 +1456,11 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-| Value | Description |
-|-------|-------------|
-| `Error` | Error |
-| `Warning` | Warning |
-| `Info` | Info |
-
+| Value     | Description |
+| --------- | ----------- |
+| `Error`   | Error       |
+| `Warning` | Warning     |
+| `Info`    | Info        |
 
 ---
 
@@ -1433,18 +1474,17 @@ Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
-| Variant | Description |
-|---------|-------------|
-| `LanguageNotFound` | Language '{0}' not found |
-| `DynamicLoad` | Dynamic library load error: {0} |
+| Variant               | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| `LanguageNotFound`    | Language '{0}' not found                          |
+| `DynamicLoad`         | Dynamic library load error: {0}                   |
 | `NullLanguagePointer` | Language function returned null pointer for '{0}' |
-| `ParserSetup` | Failed to set parser language: {0} |
-| `LockPoisoned` | Registry lock poisoned: {0} |
-| `Config` | Configuration error: {0} |
-| `ParseFailed` | Parse failed: parsing returned no tree |
-| `QueryError` | Query error: {0} |
-| `InvalidRange` | Invalid byte range: {0} |
-| `Io` | IO error: {0} |
-
+| `ParserSetup`         | Failed to set parser language: {0}                |
+| `LockPoisoned`        | Registry lock poisoned: {0}                       |
+| `Config`              | Configuration error: {0}                          |
+| `ParseFailed`         | Parse failed: parsing returned no tree            |
+| `QueryError`          | Query error: {0}                                  |
+| `InvalidRange`        | Invalid byte range: {0}                           |
+| `Io`                  | IO error: {0}                                     |
 
 ---

@@ -45,7 +45,7 @@ vars:
     sh: pwd
   VERSION:
     sh: python3 -c "import tomllib; print(tomllib.load(open('Cargo.toml','rb'))['workspace']['package']['version'])"
-  FFI_TEST_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram"
+  FFI_TEST_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg"
 
 # Preconditions for task setup:
 # - Rust toolchain (rustup) — install via https://rustup.rs
@@ -256,7 +256,7 @@ tasks:
     sources:
       - sources/language_definitions.json
     generates:
-      - docs/supported-languages.md
+      - docs/languages.md
 
   docs:generate:api:
     desc: Generate API reference docs (via alef)

@@ -91,14 +91,11 @@ Pre-compiled tree-sitter grammars for 306 programming languages, with on-demand 
 
 ## Installation
 
-
 ```bash
 cargo add tree-sitter-language-pack
 ```
 
-
 ## Quick Start
-
 
 ```rust
 use tree_sitter_language_pack::{get_language, get_parser};
@@ -107,7 +104,6 @@ let mut parser = get_parser("python").expect("language available");
 let tree = parser.parse("def hello(): pass", None).unwrap();
 println!("{}", tree.root_node().to_sexp());
 ```
-
 
 ## Features
 

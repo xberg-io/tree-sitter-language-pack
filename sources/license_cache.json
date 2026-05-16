@@ -74,7 +74,6 @@
   "benwilliamgraham/tree-sitter-llvm": "MIT",
   "bkegley/tree-sitter-graphql": "MIT",
   "bollian/tree-sitter-openscad": "MIT",
-  "bostick/tree-sitter-wolfram": "MIT",
   "briot/tree-sitter-ada": "MIT",
   "bufbuild/tree-sitter-cel": "Apache-2.0",
   "bytecodealliance/tree-sitter-wit": "Apache-2.0",

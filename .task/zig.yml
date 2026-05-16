@@ -19,7 +19,7 @@ tasks:
     preconditions:
       - sh: command -v zig >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi
       - cd packages/zig && zig build
 
   build:dev:
@@ -27,7 +27,7 @@ tasks:
     preconditions:
       - sh: command -v zig >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build -p ts-pack-core-ffi
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build -p ts-pack-core-ffi
       - cd packages/zig && zig build
 
   build:release:
@@ -35,7 +35,7 @@ tasks:
     preconditions:
       - sh: command -v zig >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi
       - cd packages/zig && zig build -Doptimize=ReleaseFast
 
   test:
@@ -43,7 +43,7 @@ tasks:
     preconditions:
       - sh: command -v zig >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi
       - cd packages/zig && zig build test
 
   lint:
@@ -83,5 +83,5 @@ tasks:
     preconditions:
       - sh: command -v zig >/dev/null 2>&1
     cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,bash,c,cpp,java,ruby,swift,kotlin,mojo,nim,norg,wolfram cargo build --release -p ts-pack-core-ffi
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,bash,c,cpp,java,ruby,swift,kotlin,mojo,nim,norg cargo build --release -p ts-pack-core-ffi
       - cd e2e/zig && zig build test
