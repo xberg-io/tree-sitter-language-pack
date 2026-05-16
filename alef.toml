@@ -22,11 +22,17 @@ languages = [
 Language = "tree_sitter_language_pack::Language"
 
 [workspace.dto]
+# Languages without an entry below use alef's `DtoConfig` schema default.
+# alef's `DtoConfig` (alef-core/src/config/dto.rs) covers python/node/ruby/php/elixir/go/java/csharp/r.
+# wasm, dart, swift, zig, kotlin_android, ffi have no DTO config concept — they
+# emit native types via their backend (TS interface, frb class, swift struct,
+# zig comptime struct, kotlin data class, C struct).
 python = "dataclass"
 python_output = "typed-dict"
 node = "interface"
 ruby = "struct"
 php = "readonly-class"
+elixir = "struct"
 go = "struct"
 java = "record"
 csharp = "record"

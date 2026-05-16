@@ -39,6 +39,7 @@ use tree_sitter::TreeCursor;
 /// entire source. Ranges are non-overlapping, contiguous, and each range is
 /// at most `max_chunk_size` bytes (except when a single indivisible token
 /// exceeds that limit).
+#[cfg_attr(alef, alef(skip))]
 pub fn split_code(source: &str, tree: &tree_sitter::Tree, max_chunk_size: usize) -> Vec<(usize, usize)> {
     if source.is_empty() || max_chunk_size == 0 {
         return Vec::new();
