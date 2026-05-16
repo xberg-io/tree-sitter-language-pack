@@ -5,190 +5,172 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.lang.foreign.Arena;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 
 /**
  * Thread-safe registry of tree-sitter language parsers.
  *
- * <p>Manages both statically compiled and dynamically loaded language grammars. Use
- * LanguageRegistry::new() for the default registry, or access the global instance via the
- * module-level convenience functions ({@code get_language}, {@code available_languages}, etc.).
+ * Manages both statically compiled and dynamically loaded language grammars. Use LanguageRegistry::new() for the
+ * default registry, or access the global instance via the module-level convenience functions ({@code get_language},
+ * {@code available_languages}, etc.).
  */
 public class LanguageRegistry implements AutoCloseable {
-  private final MemorySegment handle;
+    private final MemorySegment handle;
 
-  LanguageRegistry(MemorySegment handle) {
-    this.handle = handle;
-  }
+    LanguageRegistry(MemorySegment handle) {
+        this.handle = handle;
+    }
 
-  MemorySegment handle() {
-    return this.handle;
-  }
+    MemorySegment handle() {
+        return this.handle;
+    }
 
-  public Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(name, "name must not be null");
-    try (var arena = Arena.ofShared()) {
-      var cName = arena.allocateFrom(name);
-      MemorySegment resultPtr =
-          (MemorySegment)
-              NativeLib.TS_PACK_LANGUAGE_REGISTRY_GET_LANGUAGE.invoke(this.handle, cName);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr =
-            (MemorySegment) NativeLib.TS_PACK_LANGUAGE_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "getLanguage: failed to serialize response", (Throwable) null);
+    public Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(name, "name must not be null");
+        try (var arena = Arena.ofShared()) {
+            var cName = arena.allocateFrom(name);
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_LANGUAGE_REGISTRY_GET_LANGUAGE
+                    .invoke(this.handle, cName);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_LANGUAGE_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("getLanguage: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Language.class);
+            } finally {
+                NativeLib.TS_PACK_LANGUAGE_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("getLanguage: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Language.class);
-      } finally {
-        NativeLib.TS_PACK_LANGUAGE_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("getLanguage: failed", e);
     }
-  }
-
-  public List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      // TODO unsupported return shape for availableLanguages
-      throw new TreeSitterLanguagePackRsException(
-          "availableLanguages: unsupported return shape", (Throwable) null);
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("availableLanguages: failed", e);
+    public List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            // TODO unsupported return shape for availableLanguages
+            throw new TreeSitterLanguagePackRsException("availableLanguages: unsupported return shape",
+                    (Throwable) null);
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("availableLanguages: failed", e);
+        }
     }
-  }
-
-  public boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(name, "name must not be null");
-    try (var arena = Arena.ofShared()) {
-      var cName = arena.allocateFrom(name);
-      var result =
-          (boolean) NativeLib.TS_PACK_LANGUAGE_REGISTRY_HAS_LANGUAGE.invoke(this.handle, cName);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("hasLanguage: failed", e);
+    public boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(name, "name must not be null");
+        try (var arena = Arena.ofShared()) {
+            var cName = arena.allocateFrom(name);
+            var result = (boolean) NativeLib.TS_PACK_LANGUAGE_REGISTRY_HAS_LANGUAGE.invoke(this.handle, cName);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("hasLanguage: failed", e);
+        }
     }
-  }
-
-  public long languageCount() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (long) NativeLib.TS_PACK_LANGUAGE_REGISTRY_LANGUAGE_COUNT.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("languageCount: failed", e);
+    public long languageCount() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (long) NativeLib.TS_PACK_LANGUAGE_REGISTRY_LANGUAGE_COUNT.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("languageCount: failed", e);
+        }
     }
-  }
+    public ProcessResult process(final String source, final ProcessConfig config)
+            throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(source, "source must not be null");
+        java.util.Objects.requireNonNull(config, "config must not be null");
+        try (var arena = Arena.ofShared()) {
+            var cSource = arena.allocateFrom(source);
+            String cConfigJson = STREAM_MAPPER.writeValueAsString(config);
+            var cConfigJsonSeg = arena.allocateFrom(cConfigJson);
+            MemorySegment cConfig = (MemorySegment) NativeLib.TS_PACK_PROCESS_CONFIG_FROM_JSON.invoke(cConfigJsonSeg);
+            if (cConfig.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                throw new TreeSitterLanguagePackRsException("process: failed to marshal config", (Throwable) null);
+            }
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_LANGUAGE_REGISTRY_PROCESS.invoke(this.handle,
+                    cSource, cConfig);
+            if (!cConfig.equals(MemorySegment.NULL)) {
+                try {
+                    NativeLib.TS_PACK_PROCESS_CONFIG_FREE.invoke(cConfig);
+                } catch (Throwable ignore) {
+                }
+            }
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS_RESULT_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("process: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, ProcessResult.class);
+            } finally {
+                NativeLib.TS_PACK_PROCESS_RESULT_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("process: failed", e);
+        }
+    }
+    @Override
+    public void close() {
+        if (handle != null && !handle.equals(MemorySegment.NULL)) {
+            try {
+                NativeLib.TS_PACK_LANGUAGE_REGISTRY_FREE.invoke(handle);
+            } catch (Throwable e) {
+                throw new RuntimeException("Failed to free LanguageRegistry: " + e.getMessage(), e);
+            }
+        }
+    }
 
-  public ProcessResult process(final String source, final ProcessConfig config)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(source, "source must not be null");
-    java.util.Objects.requireNonNull(config, "config must not be null");
-    try (var arena = Arena.ofShared()) {
-      var cSource = arena.allocateFrom(source);
-      String cConfigJson = STREAM_MAPPER.writeValueAsString(config);
-      var cConfigJsonSeg = arena.allocateFrom(cConfigJson);
-      MemorySegment cConfig =
-          (MemorySegment) NativeLib.TS_PACK_PROCESS_CONFIG_FROM_JSON.invoke(cConfigJsonSeg);
-      if (cConfig.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        throw new TreeSitterLanguagePackRsException(
-            "process: failed to marshal config", (Throwable) null);
-      }
-      MemorySegment resultPtr =
-          (MemorySegment)
-              NativeLib.TS_PACK_LANGUAGE_REGISTRY_PROCESS.invoke(this.handle, cSource, cConfig);
-      if (!cConfig.equals(MemorySegment.NULL)) {
+    private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
         try {
-          NativeLib.TS_PACK_PROCESS_CONFIG_FREE.invoke(cConfig);
-        } catch (Throwable ignore) {
+            int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+            if (code == 0) {
+                return;
+            }
+            MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+            String msg = ctxPtr.equals(MemorySegment.NULL)
+                    ? "unknown"
+                    : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            throw new TreeSitterLanguagePackRsException(code, msg);
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("failed to read last error", e);
         }
-      }
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr =
-            (MemorySegment) NativeLib.TS_PACK_PROCESS_RESULT_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "process: failed to serialize response", (Throwable) null);
-        }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, ProcessResult.class);
-      } finally {
-        NativeLib.TS_PACK_PROCESS_RESULT_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("process: failed", e);
     }
-  }
-
-  @Override
-  public void close() {
-    if (handle != null && !handle.equals(MemorySegment.NULL)) {
-      try {
-        NativeLib.TS_PACK_LANGUAGE_REGISTRY_FREE.invoke(handle);
-      } catch (Throwable e) {
-        throw new RuntimeException("Failed to free LanguageRegistry: " + e.getMessage(), e);
-      }
-    }
-  }
-
-  private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
-    try {
-      int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-      if (code == 0) {
-        return;
-      }
-      MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-      String msg =
-          ctxPtr.equals(MemorySegment.NULL)
-              ? "unknown"
-              : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      throw new TreeSitterLanguagePackRsException(code, msg);
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("failed to read last error", e);
-    }
-  }
-
-  private static final ObjectMapper STREAM_MAPPER =
-      new ObjectMapper()
-          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-          .findAndRegisterModules()
-          .setPropertyNamingStrategy(
-              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-          .configure(
-              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+    private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
+            .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+            .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+            .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

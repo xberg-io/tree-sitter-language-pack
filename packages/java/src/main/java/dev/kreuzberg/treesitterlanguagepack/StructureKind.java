@@ -11,50 +11,40 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The kind of structural item found in source code.
  *
- * <p>Categorizes top-level and nested declarations such as functions, classes, structs, enums,
- * traits, and more. Use Other(StructureKind::Other) for language-specific constructs that do not
- * fit a standard category.
+ * Categorizes top-level and nested declarations such as functions, classes, structs, enums, traits, and more. Use
+ * Other(StructureKind::Other) for language-specific constructs that do not fit a standard category.
  */
 public enum StructureKind {
-  Function("function"),
-  Method("method"),
-  Class("class"),
-  Struct("struct"),
-  Interface("interface"),
-  Enum("enum"),
-  Module("module"),
-  Trait("trait"),
-  Impl("impl"),
-  Namespace("namespace"),
-  Other("other");
+    Function("function"), Method("method"), Class("class"), Struct("struct"), Interface("interface"), Enum(
+            "enum"), Module("module"), Trait("trait"), Impl("impl"), Namespace("namespace"), Other("other");
 
-  /** The string value. */
-  private final String value;
+    /** The string value. */
+    private final String value;
 
-  StructureKind(final String value) {
-    this.value = value;
-  }
-
-  /** Returns the string value. */
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  /** Creates an instance from a string value. */
-  @JsonCreator
-  public static StructureKind fromValue(final String value) {
-    for (StructureKind e : values()) {
-      if (e.value.equalsIgnoreCase(value)) {
-        return e;
-      }
+    StructureKind(final String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unknown value: " + value);
-  }
 
-  /** Returns the wire-format string value (matches JSON serialization). */
-  @Override
-  public String toString() {
-    return value;
-  }
+    /** Returns the string value. */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /** Creates an instance from a string value. */
+    @JsonCreator
+    public static StructureKind fromValue(final String value) {
+        for (StructureKind e : values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown value: " + value);
+    }
+
+    /** Returns the wire-format string value (matches JSON serialization). */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

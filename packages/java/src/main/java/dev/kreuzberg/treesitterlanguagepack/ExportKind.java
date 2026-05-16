@@ -11,40 +11,38 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The kind of an export statement found in source code.
  *
- * <p>Covers named exports, default exports, and re-exports from other modules.
+ * Covers named exports, default exports, and re-exports from other modules.
  */
 public enum ExportKind {
-  Named("named"),
-  Default("default"),
-  ReExport("reexport");
+    Named("named"), Default("default"), ReExport("reexport");
 
-  /** The string value. */
-  private final String value;
+    /** The string value. */
+    private final String value;
 
-  ExportKind(final String value) {
-    this.value = value;
-  }
-
-  /** Returns the string value. */
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  /** Creates an instance from a string value. */
-  @JsonCreator
-  public static ExportKind fromValue(final String value) {
-    for (ExportKind e : values()) {
-      if (e.value.equalsIgnoreCase(value)) {
-        return e;
-      }
+    ExportKind(final String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unknown value: " + value);
-  }
 
-  /** Returns the wire-format string value (matches JSON serialization). */
-  @Override
-  public String toString() {
-    return value;
-  }
+    /** Returns the string value. */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /** Creates an instance from a string value. */
+    @JsonCreator
+    public static ExportKind fromValue(final String value) {
+        for (ExportKind e : values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown value: " + value);
+    }
+
+    /** Returns the wire-format string value (matches JSON serialization). */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

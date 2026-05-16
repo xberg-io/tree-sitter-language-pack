@@ -10,6 +10,8 @@
 #![allow(unused_variables)]
 #![allow(unused_mut)]
 #![allow(dead_code)]
+#![allow(clippy::let_unit_value)]
+#![allow(clippy::unused_unit)]
 
 use futures_util::StreamExt;
 use futures_util::stream::BoxStream;

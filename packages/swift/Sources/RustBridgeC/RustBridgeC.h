@@ -437,42 +437,6 @@ void* __swift_bridge__$Vec_LanguageRegistry$get_mut(void* vec_ptr, uintptr_t ind
 uintptr_t __swift_bridge__$Vec_LanguageRegistry$len(void* vec_ptr);
 void* __swift_bridge__$Vec_LanguageRegistry$as_ptr(void* vec_ptr);
 
-typedef struct ParserManifest ParserManifest;
-void __swift_bridge__$ParserManifest$_free(void* self);
-
-void* __swift_bridge__$Vec_ParserManifest$new(void);
-void __swift_bridge__$Vec_ParserManifest$drop(void* vec_ptr);
-void __swift_bridge__$Vec_ParserManifest$push(void* vec_ptr, void* item_ptr);
-void* __swift_bridge__$Vec_ParserManifest$pop(void* vec_ptr);
-void* __swift_bridge__$Vec_ParserManifest$get(void* vec_ptr, uintptr_t index);
-void* __swift_bridge__$Vec_ParserManifest$get_mut(void* vec_ptr, uintptr_t index);
-uintptr_t __swift_bridge__$Vec_ParserManifest$len(void* vec_ptr);
-void* __swift_bridge__$Vec_ParserManifest$as_ptr(void* vec_ptr);
-
-typedef struct PlatformBundle PlatformBundle;
-void __swift_bridge__$PlatformBundle$_free(void* self);
-
-void* __swift_bridge__$Vec_PlatformBundle$new(void);
-void __swift_bridge__$Vec_PlatformBundle$drop(void* vec_ptr);
-void __swift_bridge__$Vec_PlatformBundle$push(void* vec_ptr, void* item_ptr);
-void* __swift_bridge__$Vec_PlatformBundle$pop(void* vec_ptr);
-void* __swift_bridge__$Vec_PlatformBundle$get(void* vec_ptr, uintptr_t index);
-void* __swift_bridge__$Vec_PlatformBundle$get_mut(void* vec_ptr, uintptr_t index);
-uintptr_t __swift_bridge__$Vec_PlatformBundle$len(void* vec_ptr);
-void* __swift_bridge__$Vec_PlatformBundle$as_ptr(void* vec_ptr);
-
-typedef struct LanguageInfo LanguageInfo;
-void __swift_bridge__$LanguageInfo$_free(void* self);
-
-void* __swift_bridge__$Vec_LanguageInfo$new(void);
-void __swift_bridge__$Vec_LanguageInfo$drop(void* vec_ptr);
-void __swift_bridge__$Vec_LanguageInfo$push(void* vec_ptr, void* item_ptr);
-void* __swift_bridge__$Vec_LanguageInfo$pop(void* vec_ptr);
-void* __swift_bridge__$Vec_LanguageInfo$get(void* vec_ptr, uintptr_t index);
-void* __swift_bridge__$Vec_LanguageInfo$get_mut(void* vec_ptr, uintptr_t index);
-uintptr_t __swift_bridge__$Vec_LanguageInfo$len(void* vec_ptr);
-void* __swift_bridge__$Vec_LanguageInfo$as_ptr(void* vec_ptr);
-
 typedef struct DownloadManager DownloadManager;
 void __swift_bridge__$DownloadManager$_free(void* self);
 
@@ -674,7 +638,6 @@ void* __swift_bridge__$tree_root_node(void* client);
 void* __swift_bridge__$tree_walk(void* client);
 void* __swift_bridge__$node_clone(void* client);
 void* __swift_bridge__$node_kind(void* client);
-uint16_t __swift_bridge__$node_kind_id(void* client);
 uintptr_t __swift_bridge__$node_start_byte(void* client);
 uintptr_t __swift_bridge__$node_end_byte(void* client);
 void* __swift_bridge__$node_byte_range(void* client);
@@ -708,27 +671,12 @@ bool __swift_bridge__$ProcessConfig$docstrings(void* self);
 bool __swift_bridge__$ProcessConfig$symbols(void* self);
 bool __swift_bridge__$ProcessConfig$diagnostics(void* self);
 struct __private__OptionUsize __swift_bridge__$ProcessConfig$chunk_max_size(void* self);
-void __swift_bridge__$language_registry_add_extra_libs_dir(void* client, void* dir);
 struct __private__ResultPtrAndPtr __swift_bridge__$language_registry_get_language(void* client, void* name);
 void* __swift_bridge__$language_registry_available_languages(void* client);
 bool __swift_bridge__$language_registry_has_language(void* client, void* name);
 uintptr_t __swift_bridge__$language_registry_language_count(void* client);
 struct __private__ResultPtrAndPtr __swift_bridge__$language_registry_process(void* client, void* source, void* config);
-void* __swift_bridge__$ParserManifest$version(void* self);
-void* __swift_bridge__$ParserManifest$platforms(void* self);
-void* __swift_bridge__$ParserManifest$languages(void* self);
-void* __swift_bridge__$ParserManifest$groups(void* self);
-void* __swift_bridge__$PlatformBundle$url(void* self);
-void* __swift_bridge__$PlatformBundle$sha256(void* self);
-uint64_t __swift_bridge__$PlatformBundle$size(void* self);
-void* __swift_bridge__$LanguageInfo$group(void* self);
-uint64_t __swift_bridge__$LanguageInfo$size(void* self);
-void* __swift_bridge__$download_manager_cache_dir(void* client);
 void* __swift_bridge__$download_manager_installed_languages(void* client);
-void* __swift_bridge__$download_manager_ensure_languages(void* client, void* names);
-void* __swift_bridge__$download_manager_ensure_group(void* client, void* group);
-void* __swift_bridge__$download_manager_lib_path(void* client, void* name);
-struct __private__ResultPtrAndPtr __swift_bridge__$download_manager_fetch_manifest(void* client);
 struct __swift_bridge__$ResultUIntAndString __swift_bridge__$download_manager_download_all_best_effort(void* client);
 void* __swift_bridge__$download_manager_clean_cache(void* client);
 void* __swift_bridge__$StructureKind$to_string(void* self);

@@ -1851,6 +1851,17 @@ char *ts_pack_diagnostic_severity_to_string(const TS_PACKDiagnosticSeverity *ptr
 char *ts_pack_detect_language_from_extension(const char *ext);
 
 /**
+ * Return the byte length of the C string that `ts_pack_detect_language_from_extension` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_detect_language_from_extension`.
+ */
+uintptr_t ts_pack_detect_language_from_extension_len(const char *ext);
+
+/**
  * Detect language name from a file path.
  *
  * Extracts the file extension and looks it up. Returns `None` if the
@@ -1867,6 +1878,17 @@ char *ts_pack_detect_language_from_extension(const char *ext);
  * Returned pointers must be freed with the appropriate free function.
  */
 char *ts_pack_detect_language_from_path(const char *path);
+
+/**
+ * Return the byte length of the C string that `ts_pack_detect_language_from_path` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_detect_language_from_path`.
+ */
+uintptr_t ts_pack_detect_language_from_path_len(const char *path);
 
 /**
  * Detect language name from file content using the shebang line (`#!`).
@@ -1898,6 +1920,17 @@ char *ts_pack_detect_language_from_path(const char *path);
 char *ts_pack_detect_language_from_content(const char *content);
 
 /**
+ * Return the byte length of the C string that `ts_pack_detect_language_from_content` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_detect_language_from_content`.
+ */
+uintptr_t ts_pack_detect_language_from_content_len(const char *content);
+
+/**
  * Get the highlights query for a language, if bundled.
  *
  * Returns the contents of `highlights.scm` as a static string, or `None`
@@ -1919,6 +1952,17 @@ char *ts_pack_detect_language_from_content(const char *content);
  * Returned pointers must be freed with the appropriate free function.
  */
 char *ts_pack_get_highlights_query(const char *language);
+
+/**
+ * Return the byte length of the C string that `ts_pack_get_highlights_query` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_get_highlights_query`.
+ */
+uintptr_t ts_pack_get_highlights_query_len(const char *language);
 
 /**
  * Get the injections query for a language, if bundled.
@@ -1943,6 +1987,17 @@ char *ts_pack_get_highlights_query(const char *language);
 char *ts_pack_get_injections_query(const char *language);
 
 /**
+ * Return the byte length of the C string that `ts_pack_get_injections_query` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_get_injections_query`.
+ */
+uintptr_t ts_pack_get_injections_query_len(const char *language);
+
+/**
  * Get the locals query for a language, if bundled.
  *
  * Returns the contents of `locals.scm` as a static string, or `None`
@@ -1963,6 +2018,17 @@ char *ts_pack_get_injections_query(const char *language);
  * Returned pointers must be freed with the appropriate free function.
  */
 char *ts_pack_get_locals_query(const char *language);
+
+/**
+ * Return the byte length of the C string that `ts_pack_get_locals_query` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_get_locals_query`.
+ */
+uintptr_t ts_pack_get_locals_query_len(const char *language);
 
 /**
  * Get a tree-sitter [`Language`] by name using the global registry.
@@ -2032,6 +2098,17 @@ TS_PACKParser *ts_pack_get_parser(const char *name);
 char *ts_pack_detect_language(const char *path);
 
 /**
+ * Return the byte length of the C string that `ts_pack_detect_language` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_detect_language`.
+ */
+uintptr_t ts_pack_detect_language_len(const char *path);
+
+/**
  * List all available language names (sorted, deduplicated, includes aliases).
  *
  * Returns names of both statically compiled and dynamically loadable languages,
@@ -2052,6 +2129,17 @@ char *ts_pack_detect_language(const char *path);
  * Returned pointers must be freed with the appropriate free function.
  */
 char *ts_pack_available_languages(void);
+
+/**
+ * Return the byte length of the C string that `ts_pack_available_languages` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_available_languages`.
+ */
+uintptr_t ts_pack_available_languages_len(void);
 
 /**
  * Check if a language is available by name or alias.
@@ -2263,6 +2351,17 @@ uintptr_t ts_pack_download_all(void);
 char *ts_pack_manifest_languages(void);
 
 /**
+ * Return the byte length of the C string that `ts_pack_manifest_languages` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_manifest_languages`.
+ */
+uintptr_t ts_pack_manifest_languages_len(void);
+
+/**
  * Return languages that are already downloaded and cached locally.
  *
  * Does not perform any network requests. Returns an empty list if the
@@ -2281,6 +2380,17 @@ char *ts_pack_manifest_languages(void);
  * Returned pointers must be freed with the appropriate free function.
  */
 char *ts_pack_downloaded_languages(void);
+
+/**
+ * Return the byte length of the C string that `ts_pack_downloaded_languages` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_downloaded_languages`.
+ */
+uintptr_t ts_pack_downloaded_languages_len(void);
 
 /**
  * Delete all cached parser shared libraries.
@@ -2329,5 +2439,16 @@ int32_t ts_pack_clean_cache(void);
  * Returned pointers must be freed with the appropriate free function.
  */
 char *ts_pack_cache_dir(void);
+
+/**
+ * Return the byte length of the C string that `ts_pack_cache_dir` would return
+ * for the same arguments, without allocating.  Returns 0 when the underlying value is
+ * None or an error occurs.  Enables safe slice construction in Zig and Java FFM Panama
+ * without a NUL-scan.
+ *
+ * # Safety
+ * All pointer parameters obey the same validity rules as `ts_pack_cache_dir`.
+ */
+uintptr_t ts_pack_cache_dir_len(void);
 
 #endif  /* TS_PACK_H */

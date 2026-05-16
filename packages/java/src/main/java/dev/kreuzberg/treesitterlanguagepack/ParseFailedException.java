@@ -3,13 +3,13 @@
 package dev.kreuzberg.treesitterlanguagepack;
 
 public class ParseFailedException extends ErrorException {
-  /** Creates a new ParseFailedException with the given message. */
-  public ParseFailedException(final String message) {
-    super(message);
-  }
+    /** Creates a new ParseFailedException with the given message. */
+    public ParseFailedException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new ParseFailedException with the given message and cause. */
-  public ParseFailedException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new ParseFailedException with the given message and cause. */
+    public ParseFailedException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

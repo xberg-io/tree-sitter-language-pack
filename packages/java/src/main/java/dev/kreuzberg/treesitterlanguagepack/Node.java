@@ -5,477 +5,443 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.lang.foreign.Arena;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * A single syntax node within a Tree.
  *
- * <p>Nodes hold a strong reference to their parent tree so they remain valid regardless of how the
- * tree is moved or stored at the FFI boundary.
+ * Nodes hold a strong reference to their parent tree so they remain valid regardless of how the tree is moved or stored
+ * at the FFI boundary.
  */
 public class Node implements AutoCloseable {
-  private final MemorySegment handle;
+    private final MemorySegment handle;
 
-  Node(MemorySegment handle) {
-    this.handle = handle;
-  }
+    Node(MemorySegment handle) {
+        this.handle = handle;
+    }
 
-  MemorySegment handle() {
-    return this.handle;
-  }
+    MemorySegment handle() {
+        return this.handle;
+    }
 
-  public Node clone() {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_CLONE.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "clone: failed to serialize response", (Throwable) null);
+    public Node clone() {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_CLONE.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("clone: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Node.class);
+            } finally {
+                NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof RuntimeException re) {
+                throw re;
+            }
+            throw new RuntimeException("clone: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Node.class);
-      } finally {
-        NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof RuntimeException re) {
-        throw re;
-      }
-      throw new RuntimeException("clone: failed", e);
     }
-  }
-
-  public String kind() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_KIND.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        String result = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        return result;
-      } finally {
-        NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("kind: failed", e);
-    }
-  }
-
-  public long startByte() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (long) NativeLib.TS_PACK_NODE_START_BYTE.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("startByte: failed", e);
-    }
-  }
-
-  public long endByte() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (long) NativeLib.TS_PACK_NODE_END_BYTE.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("endByte: failed", e);
-    }
-  }
-
-  public ByteRange byteRange() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr =
-          (MemorySegment) NativeLib.TS_PACK_NODE_BYTE_RANGE.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr =
-            (MemorySegment) NativeLib.TS_PACK_BYTE_RANGE_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "byteRange: failed to serialize response", (Throwable) null);
+    public String kind() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_KIND.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                String result = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                return result;
+            } finally {
+                NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("kind: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, ByteRange.class);
-      } finally {
-        NativeLib.TS_PACK_BYTE_RANGE_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("byteRange: failed", e);
     }
-  }
-
-  public Point startPosition() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr =
-          (MemorySegment) NativeLib.TS_PACK_NODE_START_POSITION.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_POINT_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "startPosition: failed to serialize response", (Throwable) null);
+    public long startByte() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (long) NativeLib.TS_PACK_NODE_START_BYTE.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("startByte: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Point.class);
-      } finally {
-        NativeLib.TS_PACK_POINT_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("startPosition: failed", e);
     }
-  }
-
-  public Point endPosition() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr =
-          (MemorySegment) NativeLib.TS_PACK_NODE_END_POSITION.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_POINT_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "endPosition: failed to serialize response", (Throwable) null);
+    public long endByte() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (long) NativeLib.TS_PACK_NODE_END_BYTE.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("endByte: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Point.class);
-      } finally {
-        NativeLib.TS_PACK_POINT_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("endPosition: failed", e);
     }
-  }
-
-  public boolean isNamed() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (boolean) NativeLib.TS_PACK_NODE_IS_NAMED.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("isNamed: failed", e);
-    }
-  }
-
-  public boolean isError() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (boolean) NativeLib.TS_PACK_NODE_IS_ERROR.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("isError: failed", e);
-    }
-  }
-
-  public boolean isMissing() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (boolean) NativeLib.TS_PACK_NODE_IS_MISSING.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("isMissing: failed", e);
-    }
-  }
-
-  public boolean isExtra() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (boolean) NativeLib.TS_PACK_NODE_IS_EXTRA.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("isExtra: failed", e);
-    }
-  }
-
-  public boolean hasError() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (boolean) NativeLib.TS_PACK_NODE_HAS_ERROR.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("hasError: failed", e);
-    }
-  }
-
-  public Node parent() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_PARENT.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "parent: failed to serialize response", (Throwable) null);
+    public ByteRange byteRange() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_BYTE_RANGE.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_BYTE_RANGE_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("byteRange: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, ByteRange.class);
+            } finally {
+                NativeLib.TS_PACK_BYTE_RANGE_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("byteRange: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Node.class);
-      } finally {
-        NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("parent: failed", e);
     }
-  }
-
-  public Node child(final int index) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr =
-          (MemorySegment) NativeLib.TS_PACK_NODE_CHILD.invoke(this.handle, index);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "child: failed to serialize response", (Throwable) null);
+    public Point startPosition() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_START_POSITION.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_POINT_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("startPosition: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Point.class);
+            } finally {
+                NativeLib.TS_PACK_POINT_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("startPosition: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Node.class);
-      } finally {
-        NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("child: failed", e);
     }
-  }
-
-  public long childCount() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (long) NativeLib.TS_PACK_NODE_CHILD_COUNT.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("childCount: failed", e);
-    }
-  }
-
-  public Node namedChild(final int index) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr =
-          (MemorySegment) NativeLib.TS_PACK_NODE_NAMED_CHILD.invoke(this.handle, index);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "namedChild: failed to serialize response", (Throwable) null);
+    public Point endPosition() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_END_POSITION.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_POINT_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("endPosition: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Point.class);
+            } finally {
+                NativeLib.TS_PACK_POINT_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("endPosition: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Node.class);
-      } finally {
-        NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("namedChild: failed", e);
     }
-  }
-
-  public long namedChildCount() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var result = (long) NativeLib.TS_PACK_NODE_NAMED_CHILD_COUNT.invoke(this.handle);
-      return result;
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("namedChildCount: failed", e);
-    }
-  }
-
-  public Node childByFieldName(final String name) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(name, "name must not be null");
-    try (var arena = Arena.ofShared()) {
-      var cName = arena.allocateFrom(name);
-      MemorySegment resultPtr =
-          (MemorySegment) NativeLib.TS_PACK_NODE_CHILD_BY_FIELD_NAME.invoke(this.handle, cName);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "childByFieldName: failed to serialize response", (Throwable) null);
+    public boolean isNamed() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (boolean) NativeLib.TS_PACK_NODE_IS_NAMED.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("isNamed: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, Node.class);
-      } finally {
-        NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("childByFieldName: failed", e);
     }
-  }
-
-  public String toSexp() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_SEXP.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        String result = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        return result;
-      } finally {
-        NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("toSexp: failed", e);
-    }
-  }
-
-  public TreeCursor walk() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_WALK.invoke(this.handle);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastFfiError();
-        return null;
-      }
-      try {
-        MemorySegment jsonPtr =
-            (MemorySegment) NativeLib.TS_PACK_TREE_CURSOR_TO_JSON.invoke(resultPtr);
-        if (jsonPtr.equals(MemorySegment.NULL)) {
-          checkLastFfiError();
-          throw new TreeSitterLanguagePackRsException(
-              "walk: failed to serialize response", (Throwable) null);
+    public boolean isError() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (boolean) NativeLib.TS_PACK_NODE_IS_ERROR.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("isError: failed", e);
         }
-        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-        return STREAM_MAPPER.readValue(json, TreeCursor.class);
-      } finally {
-        NativeLib.TS_PACK_TREE_CURSOR_FREE.invoke(resultPtr);
-      }
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("walk: failed", e);
     }
-  }
-
-  @Override
-  public void close() {
-    if (handle != null && !handle.equals(MemorySegment.NULL)) {
-      try {
-        NativeLib.TS_PACK_NODE_FREE.invoke(handle);
-      } catch (Throwable e) {
-        throw new RuntimeException("Failed to free Node: " + e.getMessage(), e);
-      }
+    public boolean isMissing() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (boolean) NativeLib.TS_PACK_NODE_IS_MISSING.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("isMissing: failed", e);
+        }
     }
-  }
-
-  private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
-    try {
-      int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-      if (code == 0) {
-        return;
-      }
-      MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-      String msg =
-          ctxPtr.equals(MemorySegment.NULL)
-              ? "unknown"
-              : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      throw new TreeSitterLanguagePackRsException(code, msg);
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException ex) {
-        throw ex;
-      }
-      throw new TreeSitterLanguagePackRsException("failed to read last error", e);
+    public boolean isExtra() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (boolean) NativeLib.TS_PACK_NODE_IS_EXTRA.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("isExtra: failed", e);
+        }
     }
-  }
+    public boolean hasError() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (boolean) NativeLib.TS_PACK_NODE_HAS_ERROR.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("hasError: failed", e);
+        }
+    }
+    public Node parent() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_PARENT.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("parent: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Node.class);
+            } finally {
+                NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("parent: failed", e);
+        }
+    }
+    public Node child(final int index) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_CHILD.invoke(this.handle, index);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("child: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Node.class);
+            } finally {
+                NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("child: failed", e);
+        }
+    }
+    public long childCount() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (long) NativeLib.TS_PACK_NODE_CHILD_COUNT.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("childCount: failed", e);
+        }
+    }
+    public Node namedChild(final int index) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_NAMED_CHILD.invoke(this.handle, index);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("namedChild: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Node.class);
+            } finally {
+                NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("namedChild: failed", e);
+        }
+    }
+    public long namedChildCount() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var result = (long) NativeLib.TS_PACK_NODE_NAMED_CHILD_COUNT.invoke(this.handle);
+            return result;
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("namedChildCount: failed", e);
+        }
+    }
+    public Node childByFieldName(final String name) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(name, "name must not be null");
+        try (var arena = Arena.ofShared()) {
+            var cName = arena.allocateFrom(name);
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_CHILD_BY_FIELD_NAME.invoke(this.handle,
+                    cName);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("childByFieldName: failed to serialize response",
+                            (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, Node.class);
+            } finally {
+                NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("childByFieldName: failed", e);
+        }
+    }
+    public String toSexp() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_SEXP.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                String result = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                return result;
+            } finally {
+                NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("toSexp: failed", e);
+        }
+    }
+    public TreeCursor walk() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_NODE_WALK.invoke(this.handle);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastFfiError();
+                return null;
+            }
+            try {
+                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_TREE_CURSOR_TO_JSON.invoke(resultPtr);
+                if (jsonPtr.equals(MemorySegment.NULL)) {
+                    checkLastFfiError();
+                    throw new TreeSitterLanguagePackRsException("walk: failed to serialize response", (Throwable) null);
+                }
+                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+                return STREAM_MAPPER.readValue(json, TreeCursor.class);
+            } finally {
+                NativeLib.TS_PACK_TREE_CURSOR_FREE.invoke(resultPtr);
+            }
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("walk: failed", e);
+        }
+    }
+    @Override
+    public void close() {
+        if (handle != null && !handle.equals(MemorySegment.NULL)) {
+            try {
+                NativeLib.TS_PACK_NODE_FREE.invoke(handle);
+            } catch (Throwable e) {
+                throw new RuntimeException("Failed to free Node: " + e.getMessage(), e);
+            }
+        }
+    }
 
-  private static final ObjectMapper STREAM_MAPPER =
-      new ObjectMapper()
-          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-          .findAndRegisterModules()
-          .setPropertyNamingStrategy(
-              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-          .configure(
-              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+    private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
+        try {
+            int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+            if (code == 0) {
+                return;
+            }
+            MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+            String msg = ctxPtr.equals(MemorySegment.NULL)
+                    ? "unknown"
+                    : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            throw new TreeSitterLanguagePackRsException(code, msg);
+        } catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException ex) {
+                throw ex;
+            }
+            throw new TreeSitterLanguagePackRsException("failed to read last error", e);
+        }
+    }
+    private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
+            .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+            .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+            .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

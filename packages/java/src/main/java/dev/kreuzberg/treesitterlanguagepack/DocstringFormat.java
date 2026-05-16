@@ -11,44 +11,40 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The format of a docstring extracted from source code.
  *
- * <p>Identifies the docstring convention used, which varies by language (e.g., Python triple-quoted
- * strings, JSDoc, Rustdoc {@code ///} comments).
+ * Identifies the docstring convention used, which varies by language (e.g., Python triple-quoted strings, JSDoc,
+ * Rustdoc {@code ///} comments).
  */
 public enum DocstringFormat {
-  PythonTripleQuote("pythontriplequote"),
-  JSDoc("jsdoc"),
-  Rustdoc("rustdoc"),
-  GoDoc("godoc"),
-  JavaDoc("javadoc"),
-  Other("other");
+    PythonTripleQuote("pythontriplequote"), JSDoc("jsdoc"), Rustdoc("rustdoc"), GoDoc("godoc"), JavaDoc(
+            "javadoc"), Other("other");
 
-  /** The string value. */
-  private final String value;
+    /** The string value. */
+    private final String value;
 
-  DocstringFormat(final String value) {
-    this.value = value;
-  }
-
-  /** Returns the string value. */
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  /** Creates an instance from a string value. */
-  @JsonCreator
-  public static DocstringFormat fromValue(final String value) {
-    for (DocstringFormat e : values()) {
-      if (e.value.equalsIgnoreCase(value)) {
-        return e;
-      }
+    DocstringFormat(final String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unknown value: " + value);
-  }
 
-  /** Returns the wire-format string value (matches JSON serialization). */
-  @Override
-  public String toString() {
-    return value;
-  }
+    /** Returns the string value. */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /** Creates an instance from a string value. */
+    @JsonCreator
+    public static DocstringFormat fromValue(final String value) {
+        for (DocstringFormat e : values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown value: " + value);
+    }
+
+    /** Returns the wire-format string value (matches JSON serialization). */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

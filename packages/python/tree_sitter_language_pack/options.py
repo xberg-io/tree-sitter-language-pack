@@ -8,14 +8,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, TypedDict
+from typing import TypedDict
 
-if TYPE_CHECKING:
-    from ._native import (
-        CommentKind,
-        DiagnosticSeverity,
-        ExportKind,
-    )
+from ._native import (
+    CommentKind,
+    DiagnosticSeverity,
+    ExportKind,
+)
 
 
 @dataclass

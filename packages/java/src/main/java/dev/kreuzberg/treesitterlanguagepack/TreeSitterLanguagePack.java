@@ -7,279 +7,270 @@ package dev.kreuzberg.treesitterlanguagepack;
 
 import java.util.List;
 import org.jspecify.annotations.Nullable;
-
 public final class TreeSitterLanguagePack {
-  private TreeSitterLanguagePack() {}
+    private TreeSitterLanguagePack() {
+    }
 
-  /**
-   * Detect language name from a file extension (without leading dot).
-   *
-   * <p>Returns {@code None} for unrecognized extensions. The match is case-insensitive.
-   *
-   * <p>{@code }{@code } use tree_sitter_language_pack::detect_language_from_extension;
-   * assert_eq!(detect_language_from_extension("py"), Some("python"));
-   * assert_eq!(detect_language_from_extension("RS"), Some("rust"));
-   * assert_eq!(detect_language_from_extension("xyz"), None); {@code }{@code }
-   */
-  public static @Nullable String detectLanguageFromExtension(final String ext)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(ext, "ext must not be null");
-    return TreeSitterLanguagePackRs.detectLanguageFromExtension(ext);
-  }
+    /**
+     * Detect language name from a file extension (without leading dot).
+     *
+     * Returns {@code None} for unrecognized extensions. The match is case-insensitive.
+     *
+     * {@code }{@code } use tree_sitter_language_pack::detect_language_from_extension;
+     * assert_eq!(detect_language_from_extension("py"), Some("python"));
+     * assert_eq!(detect_language_from_extension("RS"), Some("rust")); assert_eq!(detect_language_from_extension("xyz"),
+     * None); {@code }{@code }
+     */
+    public static @Nullable String detectLanguageFromExtension(final String ext)
+            throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(ext, "ext must not be null");
+        return TreeSitterLanguagePackRs.detectLanguageFromExtension(ext);
+    }
 
-  /**
-   * Detect language name from a file path.
-   *
-   * <p>Extracts the file extension and looks it up. Returns {@code None} if the path has no
-   * extension or the extension is not recognized.
-   *
-   * <p>{@code }{@code } use tree_sitter_language_pack::detect_language_from_path;
-   * assert_eq!(detect_language_from_path("src/main.rs"), Some("rust"));
-   * assert_eq!(detect_language_from_path("README.md"), Some("markdown"));
-   * assert_eq!(detect_language_from_path("Makefile"), None); {@code }{@code }
-   */
-  public static @Nullable String detectLanguageFromPath(final String path)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(path, "path must not be null");
-    return TreeSitterLanguagePackRs.detectLanguageFromPath(path);
-  }
+    /**
+     * Detect language name from a file path.
+     *
+     * Extracts the file extension and looks it up. Returns {@code None} if the path has no extension or the extension
+     * is not recognized.
+     *
+     * {@code }{@code } use tree_sitter_language_pack::detect_language_from_path;
+     * assert_eq!(detect_language_from_path("src/main.rs"), Some("rust"));
+     * assert_eq!(detect_language_from_path("README.md"), Some("markdown"));
+     * assert_eq!(detect_language_from_path("Makefile"), None); {@code }{@code }
+     */
+    public static @Nullable String detectLanguageFromPath(final String path) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(path, "path must not be null");
+        return TreeSitterLanguagePackRs.detectLanguageFromPath(path);
+    }
 
-  /**
-   * Detect language name from file content using the shebang line ({@code #!}).
-   *
-   * <p>Inspects only the first line of {@code content}. If it begins with {@code #!}, the
-   * interpreter name is extracted and mapped to a language name.
-   *
-   * <p>Handles common patterns: - {@code #!/usr/bin/env python3} → {@code "python"} - {@code
-   * #!/bin/bash} → {@code "bash"} - {@code #!/usr/bin/env node} → {@code "javascript"}
-   *
-   * <p>The {@code -S} flag accepted by some {@code env} implementations is skipped automatically.
-   * Version suffixes (e.g. {@code python3.11}, {@code ruby3.2}) are stripped before matching.
-   *
-   * <p>Returns {@code None} when content does not start with {@code #!}, the shebang is malformed,
-   * or the interpreter is not recognised.
-   *
-   * <p>{@code }{@code } use tree_sitter_language_pack::detect_language_from_content;
-   * assert_eq!(detect_language_from_content("#!/usr/bin/env python3\npass"), Some("python"));
-   * assert_eq!(detect_language_from_content("#!/bin/bash\necho hi"), Some("bash"));
-   * assert_eq!(detect_language_from_content("no shebang here"), None); {@code }{@code }
-   */
-  public static @Nullable String detectLanguageFromContent(final String content)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(content, "content must not be null");
-    return TreeSitterLanguagePackRs.detectLanguageFromContent(content);
-  }
+    /**
+     * Detect language name from file content using the shebang line ({@code #!}).
+     *
+     * Inspects only the first line of {@code content}. If it begins with {@code #!}, the interpreter name is extracted
+     * and mapped to a language name.
+     *
+     * Handles common patterns: - {@code #!/usr/bin/env python3} → {@code "python"} - {@code #!/bin/bash} →
+     * {@code "bash"} - {@code #!/usr/bin/env node} → {@code "javascript"}
+     *
+     * The {@code -S} flag accepted by some {@code env} implementations is skipped automatically. Version suffixes (e.g.
+     * {@code python3.11}, {@code ruby3.2}) are stripped before matching.
+     *
+     * Returns {@code None} when content does not start with {@code #!}, the shebang is malformed, or the interpreter is
+     * not recognised.
+     *
+     * {@code }{@code } use tree_sitter_language_pack::detect_language_from_content;
+     * assert_eq!(detect_language_from_content("#!/usr/bin/env python3\npass"), Some("python"));
+     * assert_eq!(detect_language_from_content("#!/bin/bash\necho hi"), Some("bash"));
+     * assert_eq!(detect_language_from_content("no shebang here"), None); {@code }{@code }
+     */
+    public static @Nullable String detectLanguageFromContent(final String content)
+            throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(content, "content must not be null");
+        return TreeSitterLanguagePackRs.detectLanguageFromContent(content);
+    }
 
-  /**
-   * Get the highlights query for a language, if bundled.
-   *
-   * <p>Returns the contents of {@code highlights.scm} as a static string, or {@code None} if no
-   * highlights query is bundled for this language.
-   */
-  public static @Nullable String getHighlightsQuery(final String language)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(language, "language must not be null");
-    return TreeSitterLanguagePackRs.getHighlightsQuery(language);
-  }
+    /**
+     * Get the highlights query for a language, if bundled.
+     *
+     * Returns the contents of {@code highlights.scm} as a static string, or {@code None} if no highlights query is
+     * bundled for this language.
+     */
+    public static @Nullable String getHighlightsQuery(final String language) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(language, "language must not be null");
+        return TreeSitterLanguagePackRs.getHighlightsQuery(language);
+    }
 
-  /**
-   * Get the injections query for a language, if bundled.
-   *
-   * <p>Returns the contents of {@code injections.scm} as a static string, or {@code None} if no
-   * injections query is bundled for this language.
-   */
-  public static @Nullable String getInjectionsQuery(final String language)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(language, "language must not be null");
-    return TreeSitterLanguagePackRs.getInjectionsQuery(language);
-  }
+    /**
+     * Get the injections query for a language, if bundled.
+     *
+     * Returns the contents of {@code injections.scm} as a static string, or {@code None} if no injections query is
+     * bundled for this language.
+     */
+    public static @Nullable String getInjectionsQuery(final String language) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(language, "language must not be null");
+        return TreeSitterLanguagePackRs.getInjectionsQuery(language);
+    }
 
-  /**
-   * Get the locals query for a language, if bundled.
-   *
-   * <p>Returns the contents of {@code locals.scm} as a static string, or {@code None} if no locals
-   * query is bundled for this language.
-   */
-  public static @Nullable String getLocalsQuery(final String language)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(language, "language must not be null");
-    return TreeSitterLanguagePackRs.getLocalsQuery(language);
-  }
+    /**
+     * Get the locals query for a language, if bundled.
+     *
+     * Returns the contents of {@code locals.scm} as a static string, or {@code None} if no locals query is bundled for
+     * this language.
+     */
+    public static @Nullable String getLocalsQuery(final String language) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(language, "language must not be null");
+        return TreeSitterLanguagePackRs.getLocalsQuery(language);
+    }
 
-  /**
-   * Get a tree-sitter Language by name using the global registry.
-   *
-   * <p>Resolves language aliases (e.g., {@code "shell"} maps to {@code "bash"}). When the {@code
-   * download} feature is enabled (default), automatically downloads the parser from GitHub releases
-   * if not found locally. {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound
-   * if the language is not recognized, or Error::Download if auto-download fails.
-   */
-  public static Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(name, "name must not be null");
-    return TreeSitterLanguagePackRs.getLanguage(name);
-  }
+    /**
+     * Get a tree-sitter Language by name using the global registry.
+     *
+     * Resolves language aliases (e.g., {@code "shell"} maps to {@code "bash"}). When the {@code download} feature is
+     * enabled (default), automatically downloads the parser from GitHub releases if not found locally.
+     * {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound if the language is not recognized, or
+     * Error::Download if auto-download fails.
+     */
+    public static Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(name, "name must not be null");
+        return TreeSitterLanguagePackRs.getLanguage(name);
+    }
 
-  /**
-   * Get a Parser pre-configured for the given language.
-   *
-   * <p>This is a convenience function that calls get_language and configures a new parser in one
-   * step. {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound if the language
-   * is not recognized, or Error::ParserSetup if the language cannot be applied to the parser.
-   */
-  public static Parser getParser(final String name) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(name, "name must not be null");
-    return TreeSitterLanguagePackRs.getParser(name);
-  }
+    /**
+     * Get a Parser pre-configured for the given language.
+     *
+     * This is a convenience function that calls get_language and configures a new parser in one step.
+     * {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound if the language is not recognized, or
+     * Error::ParserSetup if the language cannot be applied to the parser.
+     */
+    public static Parser getParser(final String name) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(name, "name must not be null");
+        return TreeSitterLanguagePackRs.getParser(name);
+    }
 
-  /**
-   * Detect language name from a file path or extension.
-   *
-   * <p>This compatibility alias matches the pre-Alef Python binding API.
-   */
-  public static @Nullable String detectLanguage(final String path)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(path, "path must not be null");
-    return TreeSitterLanguagePackRs.detectLanguage(path);
-  }
+    /**
+     * Detect language name from a file path or extension.
+     *
+     * This compatibility alias matches the pre-Alef Python binding API.
+     */
+    public static @Nullable String detectLanguage(final String path) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(path, "path must not be null");
+        return TreeSitterLanguagePackRs.detectLanguage(path);
+    }
 
-  /**
-   * List all available language names (sorted, deduplicated, includes aliases).
-   *
-   * <p>Returns names of both statically compiled and dynamically loadable languages, plus any
-   * configured aliases.
-   */
-  public static List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
-    return TreeSitterLanguagePackRs.availableLanguages();
-  }
+    /**
+     * List all available language names (sorted, deduplicated, includes aliases).
+     *
+     * Returns names of both statically compiled and dynamically loadable languages, plus any configured aliases.
+     */
+    public static List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
+        return TreeSitterLanguagePackRs.availableLanguages();
+    }
 
-  /**
-   * Check if a language is available by name or alias.
-   *
-   * <p>Returns {@code true} if the language can be loaded (statically compiled, dynamically
-   * available, or a known alias for one of these).
-   */
-  public static boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(name, "name must not be null");
-    return TreeSitterLanguagePackRs.hasLanguage(name);
-  }
+    /**
+     * Check if a language is available by name or alias.
+     *
+     * Returns {@code true} if the language can be loaded (statically compiled, dynamically available, or a known alias
+     * for one of these).
+     */
+    public static boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(name, "name must not be null");
+        return TreeSitterLanguagePackRs.hasLanguage(name);
+    }
 
-  /**
-   * Return the number of available languages.
-   *
-   * <p>Includes statically compiled languages, dynamically loadable languages, and aliases.
-   */
-  public static long languageCount() throws TreeSitterLanguagePackRsException {
-    return TreeSitterLanguagePackRs.languageCount();
-  }
+    /**
+     * Return the number of available languages.
+     *
+     * Includes statically compiled languages, dynamically loadable languages, and aliases.
+     */
+    public static long languageCount() throws TreeSitterLanguagePackRsException {
+        return TreeSitterLanguagePackRs.languageCount();
+    }
 
-  /**
-   * Process source code and extract file intelligence using the global registry.
-   *
-   * <p>Parses the source with tree-sitter and extracts metrics, structure, imports, exports,
-   * comments, docstrings, symbols, diagnostics, and/or chunks based on the flags set in
-   * ProcessConfig. {@literal @}throws KreuzbergRsException Returns an error if the language is not
-   * found or parsing fails.
-   */
-  public static ProcessResult process(final String source, final ProcessConfig config)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(source, "source must not be null");
-    java.util.Objects.requireNonNull(config, "config must not be null");
-    return TreeSitterLanguagePackRs.process(source, config);
-  }
+    /**
+     * Process source code and extract file intelligence using the global registry.
+     *
+     * Parses the source with tree-sitter and extracts metrics, structure, imports, exports, comments, docstrings,
+     * symbols, diagnostics, and/or chunks based on the flags set in ProcessConfig. {@literal @}throws
+     * KreuzbergRsException Returns an error if the language is not found or parsing fails.
+     */
+    public static ProcessResult process(final String source, final ProcessConfig config)
+            throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(source, "source must not be null");
+        java.util.Objects.requireNonNull(config, "config must not be null");
+        return TreeSitterLanguagePackRs.process(source, config);
+    }
 
-  /**
-   * Initialize the language pack with the given configuration.
-   *
-   * <p>Applies any custom cache directory, then downloads all languages and groups specified in the
-   * config. This is the recommended entry point when you want to pre-warm the cache before use.
-   * {@literal @}throws KreuzbergRsException Returns an error if configuration cannot be applied or
-   * if downloads fail.
-   */
-  public static void init(final PackConfig config) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(config, "config must not be null");
-    TreeSitterLanguagePackRs.init(config);
-  }
+    /**
+     * Initialize the language pack with the given configuration.
+     *
+     * Applies any custom cache directory, then downloads all languages and groups specified in the config. This is the
+     * recommended entry point when you want to pre-warm the cache before use. {@literal @}throws KreuzbergRsException
+     * Returns an error if configuration cannot be applied or if downloads fail.
+     */
+    public static void init(final PackConfig config) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(config, "config must not be null");
+        TreeSitterLanguagePackRs.init(config);
+    }
 
-  /**
-   * Apply download configuration without downloading anything.
-   *
-   * <p>Use this to set a custom cache directory before the first call to get_language or any
-   * download function. Changing the cache dir after languages have been registered has no effect on
-   * already-loaded languages. {@literal @}throws KreuzbergRsException Returns an error if the lock
-   * cannot be acquired.
-   */
-  public static void configure(final PackConfig config) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(config, "config must not be null");
-    TreeSitterLanguagePackRs.configure(config);
-  }
+    /**
+     * Apply download configuration without downloading anything.
+     *
+     * Use this to set a custom cache directory before the first call to get_language or any download function. Changing
+     * the cache dir after languages have been registered has no effect on already-loaded languages. {@literal @}throws
+     * KreuzbergRsException Returns an error if the lock cannot be acquired.
+     */
+    public static void configure(final PackConfig config) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(config, "config must not be null");
+        TreeSitterLanguagePackRs.configure(config);
+    }
 
-  /**
-   * Download specific languages to the local cache.
-   *
-   * <p>Returns the number of requested languages available after the call. Already compiled or
-   * cached languages are included in the count. {@literal @}throws KreuzbergRsException Returns an
-   * error if any language is not available in the manifest or if the download fails.
-   */
-  public static long download(final List<String> names) throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(names, "names must not be null");
-    return TreeSitterLanguagePackRs.download(names);
-  }
+    /**
+     * Download specific languages to the local cache.
+     *
+     * Returns the number of requested languages available after the call. Already compiled or cached languages are
+     * included in the count. {@literal @}throws KreuzbergRsException Returns an error if any language is not available
+     * in the manifest or if the download fails.
+     */
+    public static long download(final List<String> names) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(names, "names must not be null");
+        return TreeSitterLanguagePackRs.download(names);
+    }
 
-  /**
-   * Download all available languages from the remote manifest.
-   *
-   * <p>Downloads the platform bundle and extracts every library it contains. Languages that appear
-   * in the manifest but are absent from the bundle (e.g. grammars that failed to compile at release
-   * time) are silently skipped — they are not treated as an error.
-   *
-   * <p>Returns the total number of languages now available (statically compiled plus downloaded and
-   * cached). {@literal @}throws KreuzbergRsException Returns an error if the manifest cannot be
-   * fetched or the bundle download fails.
-   */
-  public static long downloadAll() throws TreeSitterLanguagePackRsException {
-    return TreeSitterLanguagePackRs.downloadAll();
-  }
+    /**
+     * Download all available languages from the remote manifest.
+     *
+     * Downloads the platform bundle and extracts every library it contains. Languages that appear in the manifest but
+     * are absent from the bundle (e.g. grammars that failed to compile at release time) are silently skipped — they are
+     * not treated as an error.
+     *
+     * Returns the total number of languages now available (statically compiled plus downloaded and cached).
+     * {@literal @}throws KreuzbergRsException Returns an error if the manifest cannot be fetched or the bundle download
+     * fails.
+     */
+    public static long downloadAll() throws TreeSitterLanguagePackRsException {
+        return TreeSitterLanguagePackRs.downloadAll();
+    }
 
-  /**
-   * Return all language names available in the remote manifest (305).
-   *
-   * <p>Fetches (and caches) the remote manifest to discover the full list of downloadable
-   * languages. Use downloaded_languages to list what is already cached locally. {@literal @}throws
-   * KreuzbergRsException Returns an error if the manifest cannot be fetched.
-   */
-  public static List<String> manifestLanguages() throws TreeSitterLanguagePackRsException {
-    return TreeSitterLanguagePackRs.manifestLanguages();
-  }
+    /**
+     * Return all language names available in the remote manifest (305).
+     *
+     * Fetches (and caches) the remote manifest to discover the full list of downloadable languages. Use
+     * downloaded_languages to list what is already cached locally. {@literal @}throws KreuzbergRsException Returns an
+     * error if the manifest cannot be fetched.
+     */
+    public static List<String> manifestLanguages() throws TreeSitterLanguagePackRsException {
+        return TreeSitterLanguagePackRs.manifestLanguages();
+    }
 
-  /**
-   * Return languages that are already downloaded and cached locally.
-   *
-   * <p>Does not perform any network requests. Returns an empty list if the cache directory does not
-   * exist or cannot be read.
-   */
-  public static List<String> downloadedLanguages() throws TreeSitterLanguagePackRsException {
-    return TreeSitterLanguagePackRs.downloadedLanguages();
-  }
+    /**
+     * Return languages that are already downloaded and cached locally.
+     *
+     * Does not perform any network requests. Returns an empty list if the cache directory does not exist or cannot be
+     * read.
+     */
+    public static List<String> downloadedLanguages() throws TreeSitterLanguagePackRsException {
+        return TreeSitterLanguagePackRs.downloadedLanguages();
+    }
 
-  /**
-   * Delete all cached parser shared libraries.
-   *
-   * <p>Resets the cache registration so the next call to get_language or a download function will
-   * re-register the (now empty) cache directory. {@literal @}throws KreuzbergRsException Returns an
-   * error if the cache directory cannot be removed.
-   */
-  public static void cleanCache() throws TreeSitterLanguagePackRsException {
-    TreeSitterLanguagePackRs.cleanCache();
-  }
+    /**
+     * Delete all cached parser shared libraries.
+     *
+     * Resets the cache registration so the next call to get_language or a download function will re-register the (now
+     * empty) cache directory. {@literal @}throws KreuzbergRsException Returns an error if the cache directory cannot be
+     * removed.
+     */
+    public static void cleanCache() throws TreeSitterLanguagePackRsException {
+        TreeSitterLanguagePackRs.cleanCache();
+    }
 
-  /**
-   * Return the effective cache directory path.
-   *
-   * <p>This is either the custom path set via configure / init or the default: {@code
-   * ~/.cache/tree-sitter-language-pack/v{version}/libs/}. {@literal @}throws KreuzbergRsException
-   * Returns an error if the system cache directory cannot be determined.
-   */
-  public static String cacheDir() throws TreeSitterLanguagePackRsException {
-    return TreeSitterLanguagePackRs.cacheDir();
-  }
+    /**
+     * Return the effective cache directory path.
+     *
+     * This is either the custom path set via configure / init or the default:
+     * {@code ~/.cache/tree-sitter-language-pack/v{version}/libs/}. {@literal @}throws KreuzbergRsException Returns an
+     * error if the system cache directory cannot be determined.
+     */
+    public static String cacheDir() throws TreeSitterLanguagePackRsException {
+        return TreeSitterLanguagePackRs.cacheDir();
+    }
 }

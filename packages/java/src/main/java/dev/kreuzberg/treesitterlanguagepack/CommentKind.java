@@ -11,41 +11,38 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The kind of a comment found in source code.
  *
- * <p>Distinguishes between single-line comments, block (multi-line) comments, and documentation
- * comments.
+ * Distinguishes between single-line comments, block (multi-line) comments, and documentation comments.
  */
 public enum CommentKind {
-  Line("line"),
-  Block("block"),
-  Doc("doc");
+    Line("line"), Block("block"), Doc("doc");
 
-  /** The string value. */
-  private final String value;
+    /** The string value. */
+    private final String value;
 
-  CommentKind(final String value) {
-    this.value = value;
-  }
-
-  /** Returns the string value. */
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  /** Creates an instance from a string value. */
-  @JsonCreator
-  public static CommentKind fromValue(final String value) {
-    for (CommentKind e : values()) {
-      if (e.value.equalsIgnoreCase(value)) {
-        return e;
-      }
+    CommentKind(final String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unknown value: " + value);
-  }
 
-  /** Returns the wire-format string value (matches JSON serialization). */
-  @Override
-  public String toString() {
-    return value;
-  }
+    /** Returns the string value. */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /** Creates an instance from a string value. */
+    @JsonCreator
+    public static CommentKind fromValue(final String value) {
+        for (CommentKind e : values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown value: " + value);
+    }
+
+    /** Returns the wire-format string value (matches JSON serialization). */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

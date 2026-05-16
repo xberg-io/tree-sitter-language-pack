@@ -1276,7 +1276,7 @@ pub fn parser_parse(client: &mut Parser, source: String) -> Option<Tree> {
 pub fn parser_parse_bytes(client: &mut Parser, source: Vec<u8>) -> Option<Tree> {
     (client.0.parse_bytes(&source)).map(Tree)
 }
-pub fn parser_reset(client: &mut Parser) -> () {
+pub fn parser_reset(client: &mut Parser) {
     client.0.reset()
 }
 

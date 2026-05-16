@@ -3,13 +3,13 @@
 package dev.kreuzberg.treesitterlanguagepack;
 
 public class IoException extends ErrorException {
-  /** Creates a new IoException with the given message. */
-  public IoException(final String message) {
-    super(message);
-  }
+    /** Creates a new IoException with the given message. */
+    public IoException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new IoException with the given message and cause. */
-  public IoException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new IoException with the given message and cause. */
+    public IoException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

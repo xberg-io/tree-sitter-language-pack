@@ -10,364 +10,343 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.List;
 import java.util.Optional;
-
 public final class TreeSitterLanguagePackRs {
-  private TreeSitterLanguagePackRs() {}
-
-  public static Optional<String> detectLanguageFromExtension(final String ext)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cext = arena.allocateFrom(ext);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_EXTENSION.invoke(cext);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return Optional.empty();
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return Optional.of(str);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    private TreeSitterLanguagePackRs() {
     }
-  }
 
-  public static Optional<String> detectLanguageFromPath(final String path)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cpath = arena.allocateFrom(path);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_PATH.invoke(cpath);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return Optional.empty();
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return Optional.of(str);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Optional<String> detectLanguageFromExtension(final String ext)
+            throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cext = arena.allocateFrom(ext);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_EXTENSION.invoke(cext);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return Optional.empty();
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return Optional.of(str);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static Optional<String> detectLanguageFromContent(final String content)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var ccontent = arena.allocateFrom(content);
-      var resultPtr =
-          (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_CONTENT.invoke(ccontent);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return Optional.empty();
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return Optional.of(str);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Optional<String> detectLanguageFromPath(final String path) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cpath = arena.allocateFrom(path);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_PATH.invoke(cpath);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return Optional.empty();
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return Optional.of(str);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static Optional<String> getHighlightsQuery(final String language)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var clanguage = arena.allocateFrom(language);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_HIGHLIGHTS_QUERY.invoke(clanguage);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return Optional.empty();
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return Optional.of(str);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Optional<String> detectLanguageFromContent(final String content)
+            throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var ccontent = arena.allocateFrom(content);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_CONTENT.invoke(ccontent);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return Optional.empty();
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return Optional.of(str);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static Optional<String> getInjectionsQuery(final String language)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var clanguage = arena.allocateFrom(language);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_INJECTIONS_QUERY.invoke(clanguage);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return Optional.empty();
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return Optional.of(str);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Optional<String> getHighlightsQuery(final String language) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var clanguage = arena.allocateFrom(language);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_HIGHLIGHTS_QUERY.invoke(clanguage);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return Optional.empty();
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return Optional.of(str);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static Optional<String> getLocalsQuery(final String language)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var clanguage = arena.allocateFrom(language);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LOCALS_QUERY.invoke(clanguage);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return Optional.empty();
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return Optional.of(str);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Optional<String> getInjectionsQuery(final String language) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var clanguage = arena.allocateFrom(language);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_INJECTIONS_QUERY.invoke(clanguage);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return Optional.empty();
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return Optional.of(str);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cname = arena.allocateFrom(name);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LANGUAGE.invoke(cname);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return null;
-      }
-      return new Language(resultPtr);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Optional<String> getLocalsQuery(final String language) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var clanguage = arena.allocateFrom(language);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LOCALS_QUERY.invoke(clanguage);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return Optional.empty();
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return Optional.of(str);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static Parser getParser(final String name) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cname = arena.allocateFrom(name);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_PARSER.invoke(cname);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return null;
-      }
-      return new Parser(resultPtr);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cname = arena.allocateFrom(name);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LANGUAGE.invoke(cname);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return null;
+            }
+            return new Language(resultPtr);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static Optional<String> detectLanguage(final String path)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cpath = arena.allocateFrom(path);
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE.invoke(cpath);
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return Optional.empty();
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return Optional.of(str);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Parser getParser(final String name) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cname = arena.allocateFrom(name);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_PARSER.invoke(cname);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return null;
+            }
+            return new Parser(resultPtr);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_AVAILABLE_LANGUAGES.invoke();
-      return readJsonList(
-          resultPtr,
-          new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {});
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static Optional<String> detectLanguage(final String path) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cpath = arena.allocateFrom(path);
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE.invoke(cpath);
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return Optional.empty();
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return Optional.of(str);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cname = arena.allocateFrom(name);
-      var primitiveResult = (boolean) NativeLib.TS_PACK_HAS_LANGUAGE.invoke(cname);
-      return primitiveResult;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_AVAILABLE_LANGUAGES.invoke();
+            return readJsonList(resultPtr, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {
+            });
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static long languageCount() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var primitiveResult = (long) NativeLib.TS_PACK_LANGUAGE_COUNT.invoke();
-      return primitiveResult;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cname = arena.allocateFrom(name);
+            var primitiveResult = (boolean) NativeLib.TS_PACK_HAS_LANGUAGE.invoke(cname);
+            return primitiveResult;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static ProcessResult process(final String source, final ProcessConfig config)
-      throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var csource = arena.allocateFrom(source);
-      var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
-      var cconfigJsonSeg =
-          cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
-      var cconfig =
-          cconfigJson != null
-              ? (MemorySegment) NativeLib.TS_PACK_PROCESS_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
-              : MemorySegment.NULL;
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS.invoke(csource, cconfig);
-      if (!cconfig.equals(MemorySegment.NULL)) {
-        NativeLib.TS_PACK_PROCESS_CONFIG_FREE.invoke(cconfig);
-      }
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return null;
-      }
-      var jsonPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS_RESULT_TO_JSON.invoke(resultPtr);
-      NativeLib.TS_PACK_PROCESS_RESULT_FREE.invoke(resultPtr);
-      if (jsonPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return null;
-      }
-      String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-      return MAPPER.readValue(json, ProcessResult.class);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static long languageCount() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var primitiveResult = (long) NativeLib.TS_PACK_LANGUAGE_COUNT.invoke();
+            return primitiveResult;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static void init(final PackConfig config) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
-      var cconfigJsonSeg =
-          cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
-      var cconfig =
-          cconfigJson != null
-              ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
-              : MemorySegment.NULL;
-      NativeLib.TS_PACK_INIT.invoke(cconfig);
-      if (!cconfig.equals(MemorySegment.NULL)) {
-        NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
-      }
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static ProcessResult process(final String source, final ProcessConfig config)
+            throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var csource = arena.allocateFrom(source);
+            var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
+            var cconfigJsonSeg = cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
+            var cconfig = cconfigJson != null
+                    ? (MemorySegment) NativeLib.TS_PACK_PROCESS_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
+                    : MemorySegment.NULL;
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS.invoke(csource, cconfig);
+            if (!cconfig.equals(MemorySegment.NULL)) {
+                NativeLib.TS_PACK_PROCESS_CONFIG_FREE.invoke(cconfig);
+            }
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return null;
+            }
+            var jsonPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS_RESULT_TO_JSON.invoke(resultPtr);
+            NativeLib.TS_PACK_PROCESS_RESULT_FREE.invoke(resultPtr);
+            if (jsonPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return null;
+            }
+            String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+            return MAPPER.readValue(json, ProcessResult.class);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static void configure(final PackConfig config) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
-      var cconfigJsonSeg =
-          cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
-      var cconfig =
-          cconfigJson != null
-              ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
-              : MemorySegment.NULL;
-      NativeLib.TS_PACK_CONFIGURE.invoke(cconfig);
-      if (!cconfig.equals(MemorySegment.NULL)) {
-        NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
-      }
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static void init(final PackConfig config) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
+            var cconfigJsonSeg = cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
+            var cconfig = cconfigJson != null
+                    ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
+                    : MemorySegment.NULL;
+            NativeLib.TS_PACK_INIT.invoke(cconfig);
+            if (!cconfig.equals(MemorySegment.NULL)) {
+                NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
+            }
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static long download(final List<String> names) throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var cnamesJson = MAPPER.writeValueAsString(names);
-      var cnames = arena.allocateFrom(cnamesJson);
-      var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD.invoke(cnames);
-      return primitiveResult;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static void configure(final PackConfig config) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
+            var cconfigJsonSeg = cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
+            var cconfig = cconfigJson != null
+                    ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
+                    : MemorySegment.NULL;
+            NativeLib.TS_PACK_CONFIGURE.invoke(cconfig);
+            if (!cconfig.equals(MemorySegment.NULL)) {
+                NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
+            }
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static long downloadAll() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD_ALL.invoke();
-      return primitiveResult;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static long download(final List<String> names) throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var cnamesJson = MAPPER.writeValueAsString(names);
+            var cnames = arena.allocateFrom(cnamesJson);
+            var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD.invoke(cnames);
+            return primitiveResult;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static List<String> manifestLanguages() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_MANIFEST_LANGUAGES.invoke();
-      return readJsonList(
-          resultPtr,
-          new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {});
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static long downloadAll() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD_ALL.invoke();
+            return primitiveResult;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static List<String> downloadedLanguages() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DOWNLOADED_LANGUAGES.invoke();
-      return readJsonList(
-          resultPtr,
-          new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {});
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static List<String> manifestLanguages() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_MANIFEST_LANGUAGES.invoke();
+            return readJsonList(resultPtr, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {
+            });
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static void cleanCache() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      NativeLib.TS_PACK_CLEAN_CACHE.invoke();
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static List<String> downloadedLanguages() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DOWNLOADED_LANGUAGES.invoke();
+            return readJsonList(resultPtr, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {
+            });
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  public static String cacheDir() throws TreeSitterLanguagePackRsException {
-    try (var arena = Arena.ofShared()) {
-      var resultPtr = (MemorySegment) NativeLib.TS_PACK_CACHE_DIR.invoke();
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return null;
-      }
-      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return str;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    public static void cleanCache() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            NativeLib.TS_PACK_CLEAN_CACHE.invoke();
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  // Helper methods for FFI marshalling
-
-  private static void checkLastError() throws Throwable {
-    int errCode = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-    if (errCode != 0) {
-      var ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-      String msg = ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      switch (errCode) {
-        case 1 -> throw new InvalidInputException(msg);
-        case 2 -> throw new ConversionErrorException(msg);
-        default -> throw new TreeSitterLanguagePackRsException(errCode, msg);
-      }
+    public static String cacheDir() throws TreeSitterLanguagePackRsException {
+        try (var arena = Arena.ofShared()) {
+            var resultPtr = (MemorySegment) NativeLib.TS_PACK_CACHE_DIR.invoke();
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return null;
+            }
+            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return str;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
     }
-  }
 
-  private static com.fasterxml.jackson.databind.ObjectMapper createObjectMapper() {
-    return new com.fasterxml.jackson.databind.ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .findAndRegisterModules()
-        .setPropertyNamingStrategy(
-            com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        .configure(
-            com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
-  }
+    // Helper methods for FFI marshalling
 
-  private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER = createObjectMapper();
-
-  private static <T> java.util.List<T> readJsonList(
-      MemorySegment resultPtr,
-      com.fasterxml.jackson.core.type.TypeReference<java.util.List<T>> typeRef)
-      throws TreeSitterLanguagePackRsException {
-    try {
-      if (resultPtr.equals(MemorySegment.NULL)) {
-        checkLastError();
-        return java.util.List.of();
-      }
-      String json = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-      return MAPPER.readValue(json, typeRef);
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+    private static void checkLastError() throws Throwable {
+        int errCode = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+        if (errCode != 0) {
+            var ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+            String msg = ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            switch (errCode) {
+                case 1 -> throw new InvalidInputException(msg);
+                case 2 -> throw new ConversionErrorException(msg);
+                default -> throw new TreeSitterLanguagePackRsException(errCode, msg);
+            }
+        }
     }
-  }
+    private static com.fasterxml.jackson.databind.ObjectMapper createObjectMapper() {
+        return new com.fasterxml.jackson.databind.ObjectMapper()
+                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+    }
+
+    private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER = createObjectMapper();
+    private static <T> java.util.List<T> readJsonList(MemorySegment resultPtr,
+            com.fasterxml.jackson.core.type.TypeReference<java.util.List<T>> typeRef)
+            throws TreeSitterLanguagePackRsException {
+        try {
+            if (resultPtr.equals(MemorySegment.NULL)) {
+                checkLastError();
+                return java.util.List.of();
+            }
+            String json = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+            return MAPPER.readValue(json, typeRef);
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
+        }
+    }
 }

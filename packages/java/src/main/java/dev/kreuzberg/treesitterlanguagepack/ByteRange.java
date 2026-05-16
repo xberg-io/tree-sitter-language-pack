@@ -7,30 +7,30 @@ package dev.kreuzberg.treesitterlanguagepack;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-/** A byte range — start (inclusive) to end (exclusive). */
+/**
+ * A byte range — start (inclusive) to end (exclusive).
+ */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 public record ByteRange(long start, long end) {
 
-  /**
-   * Parse a {@code ByteRange} from a JSON string.
-   *
-   * @param json JSON serialisation matching the Rust-side field names (snake_case).
-   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-   */
-  public static ByteRange fromJson(String json) throws TreeSitterLanguagePackRsException {
-    try {
-      return new com.fasterxml.jackson.databind.ObjectMapper()
-          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-          .findAndRegisterModules()
-          .setPropertyNamingStrategy(
-              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-          .configure(
-              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-          .readValue(json, ByteRange.class);
-    } catch (Exception e) {
-      throw new TreeSitterLanguagePackRsException(
-          "Failed to parse ByteRange from JSON: " + e.getMessage(), e);
+    /**
+     * Parse a {@code ByteRange} from a JSON string.
+     *
+     * @param json
+     *            JSON serialisation matching the Rust-side field names (snake_case).
+     * @throws TreeSitterLanguagePackRsException
+     *             if the JSON cannot be deserialised.
+     */
+    public static ByteRange fromJson(String json) throws TreeSitterLanguagePackRsException {
+        try {
+            return new com.fasterxml.jackson.databind.ObjectMapper()
+                    .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module()).findAndRegisterModules()
+                    .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+                    .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                    .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .readValue(json, ByteRange.class);
+        } catch (Exception e) {
+            throw new TreeSitterLanguagePackRsException("Failed to parse ByteRange from JSON: " + e.getMessage(), e);
+        }
     }
-  }
 }

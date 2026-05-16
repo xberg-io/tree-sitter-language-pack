@@ -68,7 +68,7 @@ pub const Span = struct {
 /// docstrings, symbols, diagnostics, and optionally chunked code segments.
 /// Fields are populated based on the `ProcessConfig` flags.
 pub const ProcessResult = struct {
-    language: [:0]const u8,
+    language: []const u8,
     metrics: FileMetrics,
     structure: []const StructureItem,
     imports: []const ImportInfo,
@@ -95,75 +95,75 @@ pub const FileMetrics = struct {
 /// A structural item (function, class, struct, etc.) in source code.
 pub const StructureItem = struct {
     kind: StructureKind,
-    name: ?[:0]const u8,
-    visibility: ?[:0]const u8,
+    name: ?[]const u8,
+    visibility: ?[]const u8,
     span: Span,
     children: []const StructureItem,
-    decorators: []const [:0]const u8,
-    doc_comment: ?[:0]const u8,
-    signature: ?[:0]const u8,
+    decorators: []const []const u8,
+    doc_comment: ?[]const u8,
+    signature: ?[]const u8,
     body_span: ?Span,
 };
 
 /// A comment extracted from source code.
 pub const CommentInfo = struct {
-    text: [:0]const u8,
+    text: []const u8,
     kind: CommentKind,
     span: Span,
-    associated_node: ?[:0]const u8,
+    associated_node: ?[]const u8,
 };
 
 /// A docstring extracted from source code.
 pub const DocstringInfo = struct {
-    text: [:0]const u8,
+    text: []const u8,
     format: DocstringFormat,
     span: Span,
-    associated_item: ?[:0]const u8,
+    associated_item: ?[]const u8,
     parsed_sections: []const DocSection,
 };
 
 /// A section within a docstring (e.g., Args, Returns, Raises).
 pub const DocSection = struct {
-    kind: [:0]const u8,
-    name: ?[:0]const u8,
-    description: [:0]const u8,
+    kind: []const u8,
+    name: ?[]const u8,
+    description: []const u8,
 };
 
 /// An import statement extracted from source code.
 pub const ImportInfo = struct {
-    source: [:0]const u8,
-    items: []const [:0]const u8,
-    alias: ?[:0]const u8,
+    source: []const u8,
+    items: []const []const u8,
+    alias: ?[]const u8,
     is_wildcard: bool,
     span: Span,
 };
 
 /// An export statement extracted from source code.
 pub const ExportInfo = struct {
-    name: [:0]const u8,
+    name: []const u8,
     kind: ExportKind,
     span: Span,
 };
 
 /// A symbol (variable, function, type, etc.) extracted from source code.
 pub const SymbolInfo = struct {
-    name: [:0]const u8,
+    name: []const u8,
     kind: SymbolKind,
     span: Span,
-    type_annotation: ?[:0]const u8,
-    doc: ?[:0]const u8,
+    type_annotation: ?[]const u8,
+    doc: ?[]const u8,
 };
 
 /// A diagnostic (syntax error, missing node, etc.) from parsing.
 pub const Diagnostic = struct {
-    message: [:0]const u8,
+    message: []const u8,
     severity: DiagnosticSeverity,
     span: Span,
 };
 
 /// A chunk of source code with rich metadata.
 pub const CodeChunk = struct {
-    content: [:0]const u8,
+    content: []const u8,
     start_byte: u64,
     end_byte: u64,
     start_line: u64,
@@ -173,12 +173,12 @@ pub const CodeChunk = struct {
 
 /// Metadata for a single chunk of source code.
 pub const ChunkContext = struct {
-    language: [:0]const u8,
+    language: []const u8,
     chunk_index: u64,
     total_chunks: u64,
-    node_types: []const [:0]const u8,
-    context_path: []const [:0]const u8,
-    symbols_defined: []const [:0]const u8,
+    node_types: []const []const u8,
+    context_path: []const []const u8,
+    symbols_defined: []const []const u8,
     comments: []const CommentInfo,
     docstrings: []const DocstringInfo,
     has_error_nodes: bool,
@@ -190,9 +190,9 @@ pub const ChunkContext = struct {
 /// Can be loaded from a TOML file, constructed programmatically,
 /// or passed as a dict/object from language bindings.
 pub const PackConfig = struct {
-    cache_dir: ?[:0]const u8,
-    languages: ?[]const [:0]const u8,
-    groups: ?[]const [:0]const u8,
+    cache_dir: ?[]const u8,
+    languages: ?[]const []const u8,
+    groups: ?[]const []const u8,
 };
 
 /// A source position — row + column, zero-indexed.
@@ -211,7 +211,7 @@ pub const ByteRange = struct {
 ///
 /// Controls which analysis features are enabled and whether chunking is performed.
 pub const ProcessConfig = struct {
-    language: [:0]const u8,
+    language: []const u8,
     structure: bool,
     imports: bool,
     exports: bool,
@@ -238,7 +238,7 @@ pub const StructureKind = union(enum) {
     trait: void,
     impl: void,
     namespace: void,
-    other: [:0]const u8,
+    other: []const u8,
 };
 
 /// The kind of a comment found in source code.
@@ -261,7 +261,7 @@ pub const DocstringFormat = union(enum) {
     rustdoc: void,
     go_doc: void,
     java_doc: void,
-    other: [:0]const u8,
+    other: []const u8,
 };
 
 /// The kind of an export statement found in source code.
@@ -286,7 +286,7 @@ pub const SymbolKind = union(enum) {
     interface: void,
     enum_: void,
     module: void,
-    other: [:0]const u8,
+    other: []const u8,
 };
 
 /// Severity level of a diagnostic produced during parsing.
@@ -306,9 +306,10 @@ pub fn detect_language_from_extension(ext: []const u8) error{OutOfMemory}!?[]u8 
     const ext_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{ext}, 0);
     defer std.heap.c_allocator.free(ext_z);
     const _result = c.ts_pack_detect_language_from_extension(ext_z);
+    const _result_len = c.ts_pack_detect_language_from_extension_len(ext_z);
     return blk: {
         if (_result == null) break :blk null;
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -323,9 +324,10 @@ pub fn detect_language_from_path(path: []const u8) error{OutOfMemory}!?[]u8 {
     const path_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{path}, 0);
     defer std.heap.c_allocator.free(path_z);
     const _result = c.ts_pack_detect_language_from_path(path_z);
+    const _result_len = c.ts_pack_detect_language_from_path_len(path_z);
     return blk: {
         if (_result == null) break :blk null;
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -351,9 +353,10 @@ pub fn detect_language_from_content(content: []const u8) error{OutOfMemory}!?[]u
     const content_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{content}, 0);
     defer std.heap.c_allocator.free(content_z);
     const _result = c.ts_pack_detect_language_from_content(content_z);
+    const _result_len = c.ts_pack_detect_language_from_content_len(content_z);
     return blk: {
         if (_result == null) break :blk null;
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -368,9 +371,10 @@ pub fn get_highlights_query(language: []const u8) error{OutOfMemory}!?[]u8 {
     const language_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{language}, 0);
     defer std.heap.c_allocator.free(language_z);
     const _result = c.ts_pack_get_highlights_query(language_z);
+    const _result_len = c.ts_pack_get_highlights_query_len(language_z);
     return blk: {
         if (_result == null) break :blk null;
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -385,9 +389,10 @@ pub fn get_injections_query(language: []const u8) error{OutOfMemory}!?[]u8 {
     const language_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{language}, 0);
     defer std.heap.c_allocator.free(language_z);
     const _result = c.ts_pack_get_injections_query(language_z);
+    const _result_len = c.ts_pack_get_injections_query_len(language_z);
     return blk: {
         if (_result == null) break :blk null;
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -402,9 +407,10 @@ pub fn get_locals_query(language: []const u8) error{OutOfMemory}!?[]u8 {
     const language_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{language}, 0);
     defer std.heap.c_allocator.free(language_z);
     const _result = c.ts_pack_get_locals_query(language_z);
+    const _result_len = c.ts_pack_get_locals_query_len(language_z);
     return blk: {
         if (_result == null) break :blk null;
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -457,9 +463,10 @@ pub fn detect_language(path: []const u8) error{OutOfMemory}!?[]u8 {
     const path_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{path}, 0);
     defer std.heap.c_allocator.free(path_z);
     const _result = c.ts_pack_detect_language(path_z);
+    const _result_len = c.ts_pack_detect_language_len(path_z);
     return blk: {
         if (_result == null) break :blk null;
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -472,8 +479,9 @@ pub fn detect_language(path: []const u8) error{OutOfMemory}!?[]u8 {
 /// plus any configured aliases.
 pub fn available_languages() error{OutOfMemory}![]u8 {
     const _result = c.ts_pack_available_languages();
+    const _result_len = c.ts_pack_available_languages_len();
     return blk: {
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -625,11 +633,12 @@ pub fn download_all() Error!u64 {
 /// Returns an error if the manifest cannot be fetched.
 pub fn manifest_languages() Error![]u8 {
     const _result = c.ts_pack_manifest_languages();
+    const _result_len = c.ts_pack_manifest_languages_len();
     if (c.ts_pack_last_error_code() != 0) {
         return _first_error(Error);
     }
     return blk: {
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -642,8 +651,9 @@ pub fn manifest_languages() Error![]u8 {
 /// cache directory does not exist or cannot be read.
 pub fn downloaded_languages() error{OutOfMemory}![]u8 {
     const _result = c.ts_pack_downloaded_languages();
+    const _result_len = c.ts_pack_downloaded_languages_len();
     return blk: {
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
@@ -676,11 +686,12 @@ pub fn clean_cache() Error!void {
 /// Returns an error if the system cache directory cannot be determined.
 pub fn cache_dir() Error![]u8 {
     const _result = c.ts_pack_cache_dir();
+    const _result_len = c.ts_pack_cache_dir_len();
     if (c.ts_pack_last_error_code() != 0) {
         return _first_error(Error);
     }
     return blk: {
-        const slice = std.mem.sliceTo(_result, 0);
+        const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
         break :blk owned;
