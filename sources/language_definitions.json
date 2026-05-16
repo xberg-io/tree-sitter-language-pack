@@ -117,6 +117,7 @@
   },
   "bsl": {
     "branch": "develop",
+    "directory": "grammars/bsl",
     "extensions": ["bsl"],
     "repo": "https://github.com/alkoleft/tree-sitter-bsl",
     "rev": "b424b53e72ca0746ea9a7131d80aec1947523a0c"

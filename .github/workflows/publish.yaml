@@ -192,12 +192,14 @@ jobs:
           {
             "name": "spi-swift",
             "registry": "swift",
-            "package": "kreuzberg-dev/tree-sitter-language-pack"
+            "package": "kreuzberg-dev/tree-sitter-language-pack",
+            "repo": "kreuzberg-dev/tree-sitter-language-pack"
           },
           {
             "name": "zig",
             "registry": "zig",
-            "package": "tree_sitter_language_pack"
+            "package": "tree_sitter_language_pack",
+            "repo": "kreuzberg-dev/tree-sitter-language-pack"
           },
           {
             "name": "maven-kotlin-android",
