@@ -45,7 +45,12 @@ fn string_to_jstring(env: &mut JNIEnv, s: &str) -> jstring {
 }
 
 fn throw_jni_error(env: &mut JNIEnv, msg: &str) {
-    let _ = env.throw_new(ERROR_CLASS, msg);
+    // If the error class cannot be found (misconfigured AAR), fall back to a
+    // generic RuntimeException so the caller always gets *some* exception rather
+    // than a silent null/zero return that looks like a valid result.
+    if env.throw_new(ERROR_CLASS, msg).is_err() {
+        let _ = env.throw_new("java/lang/RuntimeException", msg);
+    }
 }
 
 fn run_or_throw<T, F>(env: &mut JNIEnv, f: F) -> Option<T>

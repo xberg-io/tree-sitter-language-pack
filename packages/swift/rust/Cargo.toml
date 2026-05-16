@@ -12,7 +12,7 @@ license = "MIT"
 # across regens, and ignored here so cargo-machete does not flag the
 # downstream (no-adapters, no-derives) case as unused.
 [package.metadata.cargo-machete]
-ignored = ["async-trait", "serde", "tokio"]
+ignored = ["async-trait", "serde"]
 
 [lib]
 crate-type = ["cdylib", "staticlib"]

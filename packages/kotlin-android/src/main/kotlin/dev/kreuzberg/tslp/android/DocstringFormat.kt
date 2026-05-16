@@ -19,7 +19,5 @@ sealed class DocstringFormat {
 
     object JavaDoc : DocstringFormat()
 
-    data class Other(
-        val value: String,
-    ) : DocstringFormat()
+    data class Other(val value: String) : DocstringFormat()
 }

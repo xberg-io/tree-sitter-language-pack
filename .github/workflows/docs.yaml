@@ -22,29 +22,41 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  lint:
+    name: Lint documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v6.2.0
+      - uses: kreuzberg-dev/actions/lint-docs@v1
         with:
-          python-version: "3.13"
+          working-directory: .
+          strict: "false"
+          validate-snippets: "false"
+
+  build:
+    name: Build documentation
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
 
       - uses: astral-sh/setup-uv@v8.1.0
         with:
           enable-cache: true
 
-      - name: Install docs dependencies
-        run: uv sync --group doc --no-editable --no-install-workspace --no-install-project
-
       - name: Generate supported languages table
-        run: uv run --no-sync python scripts/generate_grammar_table.py
+        run: uv run python scripts/generate_grammar_table.py
 
-      - name: Build docs
-        run: uv run --no-sync zensical build --clean
+      - uses: kreuzberg-dev/actions/build-docs@v1
+        with:
+          working-directory: .
+          strict: "true"
+          python-version: "3.13"
 
       - uses: actions/upload-pages-artifact@v5.0.0
         with:

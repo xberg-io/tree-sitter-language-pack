@@ -25,7 +25,5 @@ sealed class SymbolKind {
 
     object Module : SymbolKind()
 
-    data class Other(
-        val value: String,
-    ) : SymbolKind()
+    data class Other(val value: String) : SymbolKind()
 }

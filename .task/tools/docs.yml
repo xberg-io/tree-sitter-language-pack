@@ -30,27 +30,27 @@ tasks:
   # are alef-generated signature declarations that aren't standalone-runnable;
   # they are excluded from validation but discoverable via `snippets:list`.
   snippets:list:
-    desc: List all documentation snippets discovered by alef
+    desc: List all documentation snippets discovered by alef-snippets
     cmds:
-      - alef snippets list
-
-  snippets:audit:
-    desc: Audit snippet and markdown structure (unknown fence languages, missing tags)
-    cmds:
-      - alef snippets audit
+      - alef-snippets list --snippets docs/snippets
 
   snippets:gaps:
-    desc: Report snippet reference and language-variant gaps
+    desc: Report snippet coverage gaps (missing variants, unreferenced files, etc.)
     cmds:
-      - alef snippets gaps
+      - alef-snippets gaps --snippets docs/snippets --docs docs --required-languages rust,python,typescript,go,ruby,php,java,csharp,elixir,cli,swift,dart,kotlin-android,zig,wasm
+
+  snippets:audit:
+    desc: Run structural audit (frontmatter, fences, includes)
+    cmds:
+      - alef-snippets audit --snippets docs/snippets --docs docs
 
   snippets:validate:
     desc: Validate all documentation snippets compile / parse cleanly
     cmds:
-      - alef snippets validate -s docs/snippets -s docs/getting-started -s docs/guides -s docs/concepts -s README.md
+      - alef-snippets validate --snippets docs/snippets docs/getting-started docs/guides docs/concepts README.md
 
   snippets:check:
     desc: Run snippet QA — gaps + validate (audit is informational; run separately)
     cmds:
-      - alef snippets gaps
-      - alef snippets validate -s docs/snippets -s docs/getting-started -s docs/guides -s docs/concepts -s README.md
+      - alef-snippets gaps --snippets docs/snippets --docs docs --required-languages rust,python,typescript,go,ruby,php,java,csharp,elixir,cli,swift,dart,kotlin-android,zig,wasm
+      - alef-snippets validate --snippets docs/snippets docs/getting-started docs/guides docs/concepts README.md

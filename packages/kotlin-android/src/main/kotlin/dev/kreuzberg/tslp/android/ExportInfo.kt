@@ -5,8 +5,4 @@ package dev.kreuzberg.tslp.android
 /**
  * An export statement extracted from source code.
  */
-data class ExportInfo(
-    val name: String,
-    val kind: ExportKind,
-    val span: Span,
-)
+data class ExportInfo(val name: String, val kind: ExportKind, val span: Span)

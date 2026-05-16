@@ -30,7 +30,5 @@ sealed class StructureKind {
 
     object Namespace : StructureKind()
 
-    data class Other(
-        val value: String,
-    ) : StructureKind()
+    data class Other(val value: String) : StructureKind()
 }
