@@ -52,7 +52,7 @@ repos:
 
   # Node/TS/WASM: oxlint
   - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
-    rev: v1.0.5
+    rev: v1.1.2
     hooks:
       - id: cargo-sort
         args: [-w]
@@ -76,6 +76,25 @@ repos:
       - id: cargo-machete
       - id: cargo-deny
         args: ["check"]
+      - id: rustdoc-lint
+        # Scope to the core library only. The binding wrappers (node/py/php/
+        # wasm/jni/ffi/cli) are alef-generated — rustdoc gaps there are alef's
+        # responsibility, fixed upstream and pulled in via the next alef-rev bump.
+        files: ^crates/ts-pack-core/src/.*\.rs$
+        exclude: /tests/
+        args: ["-p", "ts-pack-core"]
+      - id: pydocstyle
+        files: ^packages/python/.*\.py$
+        exclude: ^packages/python/(tests/|.*_native\.py$)
+      - id: javadoc-lint
+        files: ^packages/java/src/main/.*\.java$
+      - id: cs-xmldoc-lint
+        files: ^packages/csharp/TreeSitterLanguagePack/.*\.cs$
+      - id: phpdoc-lint
+        files: ^packages/php/src/.*\.php$
+      - id: dart-doc-lint
+        files: ^packages/dart/lib/.*\.dart$
+        exclude: ^packages/dart/lib/src/rust/
       - id: shfmt
         args: ["-w", "-i", "2"]
       - id: shellcheck
