@@ -206,8 +206,10 @@ tasks:
       - task: kotlin-android:upgrade
       - echo "Updating language grammar revisions..."
       - uv run --no-sync scripts/pin_vendors.py
-      - echo "Bumping GitHub Actions to latest versions..."
-      - npx --yes actions-up@latest --yes --style preserve
+      # GitHub Actions pin bumps removed: `actions-up` corrupts pins by
+      # stacking patch suffixes on each invocation (@v6 -> @v6.0.2 ->
+      # @v6.0.2.0.2 -> ...), which red-flagged every workflow in f2044075.
+      # Bump GHA action pins manually or with a known-good tool (pinact).
       - echo "Refreshing pre-commit hooks..."
       - prek autoupdate
       - echo "Cross-major upgrade complete (breaking bumps applied)"
