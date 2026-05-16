@@ -1,7 +1,6 @@
 ---
 title: "PHP API Reference"
 ---
-
 ## PHP API Reference <span class="version-badge">v1.8.1</span>
 
 ### Functions
@@ -17,12 +16,11 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 ```php
 public static function detectLanguageFromExtension(string $ext): ?string
 ```
-
 **Parameters:**
 
-| Name  | Type     | Required | Description |
-| ----- | -------- | -------- | ----------- |
-| `ext` | `string` | Yes      | The ext     |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `ext` | `string` | Yes | The ext |
 
 **Returns:** `?string`
 
@@ -40,12 +38,11 @@ path has no extension or the extension is not recognized.
 ```php
 public static function detectLanguageFromPath(string $path): ?string
 ```
-
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `path` | `string` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `string` | Yes | Path to the file |
 
 **Returns:** `?string`
 
@@ -59,7 +56,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -75,12 +71,11 @@ malformed, or the interpreter is not recognised.
 ```php
 public static function detectLanguageFromContent(string $content): ?string
 ```
-
 **Parameters:**
 
-| Name      | Type     | Required | Description            |
-| --------- | -------- | -------- | ---------------------- |
-| `content` | `string` | Yes      | The content to process |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `content` | `string` | Yes | The content to process |
 
 **Returns:** `?string`
 
@@ -98,12 +93,11 @@ if no highlights query is bundled for this language.
 ```php
 public static function getHighlightsQuery(string $language): ?string
 ```
-
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `string` | Yes | The language |
 
 **Returns:** `?string`
 
@@ -121,12 +115,11 @@ if no injections query is bundled for this language.
 ```php
 public static function getInjectionsQuery(string $language): ?string
 ```
-
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `string` | Yes | The language |
 
 **Returns:** `?string`
 
@@ -144,12 +137,11 @@ if no locals query is bundled for this language.
 ```php
 public static function getLocalsQuery(string $language): ?string
 ```
-
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `string` | Yes | The language |
 
 **Returns:** `?string`
 
@@ -173,12 +165,11 @@ or `Error::Download` if auto-download fails.
 ```php
 public static function getLanguage(string $name): Language
 ```
-
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
 
 **Returns:** `Language`
 **Errors:** Throws `Error`.
@@ -202,12 +193,11 @@ Returns `Error::LanguageNotFound` if the language is not recognized, or
 ```php
 public static function getParser(string $name): Parser
 ```
-
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
 
 **Returns:** `Parser`
 **Errors:** Throws `Error`.
@@ -225,12 +215,11 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```php
 public static function detectLanguage(string $path): ?string
 ```
-
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `path` | `string` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `string` | Yes | Path to the file |
 
 **Returns:** `?string`
 
@@ -248,7 +237,6 @@ plus any configured aliases.
 ```php
 public static function availableLanguages(): array<string>
 ```
-
 **Returns:** `array<string>`
 
 ---
@@ -265,12 +253,11 @@ dynamically available, or a known alias for one of these).
 ```php
 public static function hasLanguage(string $name): bool
 ```
-
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
 
 **Returns:** `bool`
 
@@ -288,7 +275,6 @@ and aliases.
 ```php
 public static function languageCount(): int
 ```
-
 **Returns:** `int`
 
 ---
@@ -310,13 +296,12 @@ Returns an error if the language is not found or parsing fails.
 ```php
 public static function process(string $source, ProcessConfig $config): ProcessResult
 ```
-
 **Parameters:**
 
-| Name     | Type            | Required | Description               |
-| -------- | --------------- | -------- | ------------------------- |
-| `source` | `string`        | Yes      | The source                |
-| `config` | `ProcessConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `string` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
 **Errors:** Throws `Error`.
@@ -340,12 +325,11 @@ Returns an error if configuration cannot be applied or if downloads fail.
 ```php
 public static function init(PackConfig $config): void
 ```
-
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -370,12 +354,11 @@ Returns an error if the lock cannot be acquired.
 ```php
 public static function configure(PackConfig $config): void
 ```
-
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -399,12 +382,11 @@ the download fails.
 ```php
 public static function download(array<string> $names): int
 ```
-
 **Parameters:**
 
-| Name    | Type            | Required | Description |
-| ------- | --------------- | -------- | ----------- |
-| `names` | `array<string>` | Yes      | The names   |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `names` | `array<string>` | Yes | The names |
 
 **Returns:** `int`
 **Errors:** Throws `Error`.
@@ -432,7 +414,6 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 ```php
 public static function downloadAll(): int
 ```
-
 **Returns:** `int`
 **Errors:** Throws `Error`.
 
@@ -455,7 +436,6 @@ Returns an error if the manifest cannot be fetched.
 ```php
 public static function manifestLanguages(): array<string>
 ```
-
 **Returns:** `array<string>`
 **Errors:** Throws `Error`.
 
@@ -473,7 +453,6 @@ cache directory does not exist or cannot be read.
 ```php
 public static function downloadedLanguages(): array<string>
 ```
-
 **Returns:** `array<string>`
 
 ---
@@ -494,7 +473,6 @@ Returns an error if the cache directory cannot be removed.
 ```php
 public static function cleanCache(): void
 ```
-
 **Returns:** `void`
 **Errors:** Throws `Error`.
 
@@ -516,7 +494,6 @@ Returns an error if the system cache directory cannot be determined.
 ```php
 public static function cacheDir(): string
 ```
-
 **Returns:** `string`
 **Errors:** Throws `Error`.
 
@@ -528,10 +505,11 @@ public static function cacheDir(): string
 
 A byte range — start (inclusive) to end (exclusive).
 
-| Field   | Type  | Default | Description                  |
-| ------- | ----- | ------- | ---------------------------- |
-| `start` | `int` | —       | Inclusive start byte offset. |
-| `end`   | `int` | —       | Exclusive end byte offset.   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `start` | `int` | — | Inclusive start byte offset. |
+| `end` | `int` | — | Exclusive end byte offset. |
+
 
 ---
 
@@ -539,17 +517,18 @@ A byte range — start (inclusive) to end (exclusive).
 
 Metadata for a single chunk of source code.
 
-| Field            | Type                   | Default | Description         |
-| ---------------- | ---------------------- | ------- | ------------------- |
-| `language`       | `string`               | —       | Language            |
-| `chunkIndex`     | `int`                  | —       | Chunk index         |
-| `totalChunks`    | `int`                  | —       | Total chunks        |
-| `nodeTypes`      | `array<string>`        | `[]`    | Node types          |
-| `contextPath`    | `array<string>`        | `[]`    | Context path        |
-| `symbolsDefined` | `array<string>`        | `[]`    | Symbols defined     |
-| `comments`       | `array<CommentInfo>`   | `[]`    | Comments            |
-| `docstrings`     | `array<DocstringInfo>` | `[]`    | Docstrings          |
-| `hasErrorNodes`  | `bool`                 | —       | Whether error nodes |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `string` | — | Language |
+| `chunkIndex` | `int` | — | Chunk index |
+| `totalChunks` | `int` | — | Total chunks |
+| `nodeTypes` | `array<string>` | `[]` | Node types |
+| `contextPath` | `array<string>` | `[]` | Context path |
+| `symbolsDefined` | `array<string>` | `[]` | Symbols defined |
+| `comments` | `array<CommentInfo>` | `[]` | Comments |
+| `docstrings` | `array<DocstringInfo>` | `[]` | Docstrings |
+| `hasErrorNodes` | `bool` | — | Whether error nodes |
+
 
 ---
 
@@ -557,14 +536,15 @@ Metadata for a single chunk of source code.
 
 A chunk of source code with rich metadata.
 
-| Field       | Type           | Default | Description                |
-| ----------- | -------------- | ------- | -------------------------- |
-| `content`   | `string`       | —       | The extracted text content |
-| `startByte` | `int`          | —       | Start byte                 |
-| `endByte`   | `int`          | —       | End byte                   |
-| `startLine` | `int`          | —       | Start line                 |
-| `endLine`   | `int`          | —       | End line                   |
-| `metadata`  | `ChunkContext` | —       | Document metadata          |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `content` | `string` | — | The extracted text content |
+| `startByte` | `int` | — | Start byte |
+| `endByte` | `int` | — | End byte |
+| `startLine` | `int` | — | Start line |
+| `endLine` | `int` | — | End line |
+| `metadata` | `ChunkContext` | — | Document metadata |
+
 
 ---
 
@@ -572,12 +552,13 @@ A chunk of source code with rich metadata.
 
 A comment extracted from source code.
 
-| Field            | Type          | Default             | Description         |
-| ---------------- | ------------- | ------------------- | ------------------- |
-| `text`           | `string`      | —                   | Text                |
-| `kind`           | `CommentKind` | `CommentKind::Line` | Kind (comment kind) |
-| `span`           | `Span`        | —                   | Span (span)         |
-| `associatedNode` | `?string`     | `null`              | Associated node     |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `string` | — | Text |
+| `kind` | `CommentKind` | `CommentKind::Line` | Kind (comment kind) |
+| `span` | `Span` | — | Span (span) |
+| `associatedNode` | `?string` | `null` | Associated node |
+
 
 ---
 
@@ -585,11 +566,12 @@ A comment extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-| Field      | Type                 | Default                     | Description                    |
-| ---------- | -------------------- | --------------------------- | ------------------------------ |
-| `message`  | `string`             | —                           | Message                        |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | `string` | — | Message |
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity::Error` | Severity (diagnostic severity) |
-| `span`     | `Span`               | —                           | Span (span)                    |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
@@ -597,11 +579,12 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-| Field         | Type      | Default | Description                |
-| ------------- | --------- | ------- | -------------------------- |
-| `kind`        | `string`  | —       | Kind                       |
-| `name`        | `?string` | `null`  | The name                   |
-| `description` | `string`  | —       | Human-readable description |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `string` | — | Kind |
+| `name` | `?string` | `null` | The name |
+| `description` | `string` | — | Human-readable description |
+
 
 ---
 
@@ -609,13 +592,14 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 A docstring extracted from source code.
 
-| Field            | Type                | Default                              | Description               |
-| ---------------- | ------------------- | ------------------------------------ | ------------------------- |
-| `text`           | `string`            | —                                    | Text                      |
-| `format`         | `DocstringFormat`   | `DocstringFormat::PythonTripleQuote` | Format (docstring format) |
-| `span`           | `Span`              | —                                    | Span (span)               |
-| `associatedItem` | `?string`           | `null`                               | Associated item           |
-| `parsedSections` | `array<DocSection>` | `[]`                                 | Parsed sections           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `string` | — | Text |
+| `format` | `DocstringFormat` | `DocstringFormat::PythonTripleQuote` | Format (docstring format) |
+| `span` | `Span` | — | Span (span) |
+| `associatedItem` | `?string` | `null` | Associated item |
+| `parsedSections` | `array<DocSection>` | `[]` | Parsed sections |
+
 
 ---
 
@@ -634,7 +618,6 @@ Create a new download manager for the given version.
 ```php
 public static function new(string $version): DownloadManager
 ```
-
 ###### withCacheDir()
 
 Create a download manager with a custom cache directory.
@@ -644,27 +627,6 @@ Create a download manager with a custom cache directory.
 ```php
 public static function withCacheDir(string $version, string $cacheDir): DownloadManager
 ```
-
-###### defaultCacheDir()
-
-Default cache directory: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
-
-**Signature:**
-
-```php
-public static function defaultCacheDir(string $version): string
-```
-
-###### cacheDir()
-
-Return the path to the libs cache directory.
-
-**Signature:**
-
-```php
-public function cacheDir(): string
-```
-
 ###### installedLanguages()
 
 List languages that are already downloaded and cached.
@@ -674,48 +636,6 @@ List languages that are already downloaded and cached.
 ```php
 public function installedLanguages(): array<string>
 ```
-
-###### ensureLanguages()
-
-Ensure the specified languages are available in the cache.
-Downloads the platform bundle if any requested languages are missing.
-
-**Signature:**
-
-```php
-public function ensureLanguages(array<string> $names): void
-```
-
-###### ensureGroup()
-
-Ensure all languages in a named group are available.
-
-**Signature:**
-
-```php
-public function ensureGroup(string $group): void
-```
-
-###### libPath()
-
-Get the expected path for a language's shared library in the cache.
-
-**Signature:**
-
-```php
-public function libPath(string $name): string
-```
-
-###### fetchManifest()
-
-Fetch the parser manifest from GitHub Releases.
-
-**Signature:**
-
-```php
-public function fetchManifest(): ParserManifest
-```
-
 ###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
@@ -732,7 +652,6 @@ Returns the number of library files extracted (including those already cached).
 ```php
 public function downloadAllBestEffort(): int
 ```
-
 ###### cleanCache()
 
 Remove all cached parser libraries.
@@ -749,11 +668,12 @@ public function cleanCache(): void
 
 An export statement extracted from source code.
 
-| Field  | Type         | Default             | Description        |
-| ------ | ------------ | ------------------- | ------------------ |
-| `name` | `string`     | —                   | The name           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `string` | — | The name |
 | `kind` | `ExportKind` | `ExportKind::Named` | Kind (export kind) |
-| `span` | `Span`       | —                   | Span (span)        |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
@@ -761,16 +681,17 @@ An export statement extracted from source code.
 
 Aggregate metrics for a source file.
 
-| Field          | Type  | Default | Description      |
-| -------------- | ----- | ------- | ---------------- |
-| `totalLines`   | `int` | —       | Total lines      |
-| `codeLines`    | `int` | —       | Code lines       |
-| `commentLines` | `int` | —       | Comment lines    |
-| `blankLines`   | `int` | —       | Blank lines      |
-| `totalBytes`   | `int` | —       | Total bytes      |
-| `nodeCount`    | `int` | —       | Number of nodes  |
-| `errorCount`   | `int` | —       | Number of errors |
-| `maxDepth`     | `int` | —       | Maximum depth    |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `totalLines` | `int` | — | Total lines |
+| `codeLines` | `int` | — | Code lines |
+| `commentLines` | `int` | — | Comment lines |
+| `blankLines` | `int` | — | Blank lines |
+| `totalBytes` | `int` | — | Total bytes |
+| `nodeCount` | `int` | — | Number of nodes |
+| `errorCount` | `int` | — | Number of errors |
+| `maxDepth` | `int` | — | Maximum depth |
+
 
 ---
 
@@ -778,26 +699,19 @@ Aggregate metrics for a source file.
 
 An import statement extracted from source code.
 
-| Field        | Type            | Default | Description      |
-| ------------ | --------------- | ------- | ---------------- |
-| `source`     | `string`        | —       | Source           |
-| `items`      | `array<string>` | `[]`    | Items            |
-| `alias`      | `?string`       | `null`  | Alias            |
-| `isWildcard` | `bool`          | —       | Whether wildcard |
-| `span`       | `Span`          | —       | Span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `source` | `string` | — | Source |
+| `items` | `array<string>` | `[]` | Items |
+| `alias` | `?string` | `null` | Alias |
+| `isWildcard` | `bool` | — | Whether wildcard |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
 #### Language
 
----
-
-#### LanguageInfo
-
-| Field   | Type     | Default | Description   |
-| ------- | -------- | ------- | ------------- |
-| `group` | `string` | —       | Group         |
-| `size`  | `int`    | —       | Size in bytes |
 
 ---
 
@@ -811,37 +725,6 @@ global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
 ##### Methods
-
-###### withLibsDir()
-
-Create a registry with a custom directory for dynamic libraries.
-
-Overrides the default build-time library directory. Useful when
-dynamic grammar shared libraries are stored in a non-standard location.
-
-**Signature:**
-
-```php
-public static function withLibsDir(string $libsDir): LanguageRegistry
-```
-
-###### addExtraLibsDir()
-
-Add an additional directory to search for dynamic libraries.
-
-When `get_language` cannot find a grammar in the
-primary library directory, it searches these extra directories in order.
-Typically used by the download system to register its cache directory.
-
-Takes `&self` (not `&mut self`) because `extra_lib_dirs` uses interior
-mutability via an `Arc<RwLock<...>>`, so the outer registry can remain
-immutable while the directory list is updated.
-
-**Signature:**
-
-```php
-public function addExtraLibsDir(string $dir): void
-```
 
 ###### getLanguage()
 
@@ -861,7 +744,6 @@ does not match any known grammar.
 ```php
 public function getLanguage(string $name): Language
 ```
-
 ###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
@@ -874,7 +756,6 @@ Includes statically compiled languages, dynamically loadable languages
 ```php
 public function availableLanguages(): array<string>
 ```
-
 ###### hasLanguage()
 
 Check whether a language is available by name or alias.
@@ -887,7 +768,6 @@ table or from a dynamic library on disk.
 ```php
 public function hasLanguage(string $name): bool
 ```
-
 ###### languageCount()
 
 Return the total number of available languages (including aliases).
@@ -897,7 +777,6 @@ Return the total number of available languages (including aliases).
 ```php
 public function languageCount(): int
 ```
-
 ###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
@@ -907,7 +786,6 @@ Parse source code and extract file intelligence based on config in a single pass
 ```php
 public function process(string $source, ProcessConfig $config): ProcessResult
 ```
-
 ###### default()
 
 **Signature:**
@@ -934,7 +812,6 @@ regardless of how the tree is moved or stored at the FFI boundary.
 ```php
 public function clone(): Node
 ```
-
 ###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
@@ -944,17 +821,6 @@ Return the node's kind name (e.g. `"function_definition"`).
 ```php
 public function kind(): string
 ```
-
-###### kindId()
-
-Return the node's numeric kind ID.
-
-**Signature:**
-
-```php
-public function kindId(): int
-```
-
 ###### startByte()
 
 Return the inclusive start byte offset of this node.
@@ -964,7 +830,6 @@ Return the inclusive start byte offset of this node.
 ```php
 public function startByte(): int
 ```
-
 ###### endByte()
 
 Return the exclusive end byte offset of this node.
@@ -974,7 +839,6 @@ Return the exclusive end byte offset of this node.
 ```php
 public function endByte(): int
 ```
-
 ###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
@@ -987,7 +851,6 @@ text accessor.
 ```php
 public function byteRange(): ByteRange
 ```
-
 ###### startPosition()
 
 Return the start `Point` (row, column).
@@ -997,7 +860,6 @@ Return the start `Point` (row, column).
 ```php
 public function startPosition(): Point
 ```
-
 ###### endPosition()
 
 Return the end `Point` (row, column).
@@ -1007,7 +869,6 @@ Return the end `Point` (row, column).
 ```php
 public function endPosition(): Point
 ```
-
 ###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
@@ -1017,7 +878,6 @@ True when this node is named (not punctuation/whitespace).
 ```php
 public function isNamed(): bool
 ```
-
 ###### isError()
 
 True when this is an error node.
@@ -1027,7 +887,6 @@ True when this is an error node.
 ```php
 public function isError(): bool
 ```
-
 ###### isMissing()
 
 True when this is a missing-token node.
@@ -1037,7 +896,6 @@ True when this is a missing-token node.
 ```php
 public function isMissing(): bool
 ```
-
 ###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
@@ -1047,7 +905,6 @@ True when this is an "extra" node (e.g. a comment).
 ```php
 public function isExtra(): bool
 ```
-
 ###### hasError()
 
 True when this node or any descendant is an error.
@@ -1057,7 +914,6 @@ True when this node or any descendant is an error.
 ```php
 public function hasError(): bool
 ```
-
 ###### parent()
 
 Return this node's parent, if any.
@@ -1067,7 +923,6 @@ Return this node's parent, if any.
 ```php
 public function parent(): ?Node
 ```
-
 ###### child()
 
 Return the i-th child of this node, if any.
@@ -1077,7 +932,6 @@ Return the i-th child of this node, if any.
 ```php
 public function child(int $index): ?Node
 ```
-
 ###### childCount()
 
 Total number of children (including unnamed).
@@ -1087,7 +941,6 @@ Total number of children (including unnamed).
 ```php
 public function childCount(): int
 ```
-
 ###### namedChild()
 
 Return the i-th named child of this node, if any.
@@ -1097,7 +950,6 @@ Return the i-th named child of this node, if any.
 ```php
 public function namedChild(int $index): ?Node
 ```
-
 ###### namedChildCount()
 
 Number of named children of this node.
@@ -1107,7 +959,6 @@ Number of named children of this node.
 ```php
 public function namedChildCount(): int
 ```
-
 ###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
@@ -1117,7 +968,6 @@ Look up a child by its grammar-defined field name.
 ```php
 public function childByFieldName(string $name): ?Node
 ```
-
 ###### toSexp()
 
 Return the S-expression form of this node's subtree.
@@ -1127,7 +977,6 @@ Return the S-expression form of this node's subtree.
 ```php
 public function toSexp(): string
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at this node.
@@ -1148,43 +997,12 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-| Field       | Type             | Default | Description                                                                                      |
-| ----------- | ---------------- | ------- | ------------------------------------------------------------------------------------------------ |
-| `cacheDir`  | `?string`        | `null`  | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `?array<string>` | `[]`    | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`).    |
-| `groups`    | `?array<string>` | `[]`    | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).                      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `cacheDir` | `?string` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `languages` | `?array<string>` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `?array<string>` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
-##### Methods
-
-###### fromTomlFile()
-
-Load configuration from a TOML file.
-
-**Errors:**
-
-Returns an error if the file cannot be read or the TOML is invalid.
-
-**Signature:**
-
-```php
-public static function fromTomlFile(string $path): PackConfig
-```
-
-###### discover()
-
-Discover configuration by searching for `language-pack.toml` in:
-
-1. Current directory and up to 10 parent directories
-2. `$XDG_CONFIG_HOME/tree-sitter-language-pack/config.toml`
-3. `~/.config/tree-sitter-language-pack/config.toml`
-
-Returns `null` if no configuration file is found.
-
-**Signature:**
-
-```php
-public static function discover(): ?PackConfig
-```
 
 ---
 
@@ -1211,7 +1029,6 @@ or `Error::ParserSetup` if the language ABI is incompatible.
 ```php
 public function setLanguage(string $name): void
 ```
-
 ###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
@@ -1222,7 +1039,6 @@ or no language is set.
 ```php
 public function parse(string $source): ?Tree
 ```
-
 ###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
@@ -1233,7 +1049,6 @@ no language is set.
 ```php
 public function parseBytes(string $source): ?Tree
 ```
-
 ###### reset()
 
 Reset internal state. The next call to `parse` will
@@ -1244,7 +1059,6 @@ not be incremental.
 ```php
 public function reset(): void
 ```
-
 ###### default()
 
 **Signature:**
@@ -1255,37 +1069,14 @@ public static function default(): Parser
 
 ---
 
-#### ParserManifest
-
-Manifest describing available parser downloads for a specific version.
-
-| Field       | Type                            | Default | Description    |
-| ----------- | ------------------------------- | ------- | -------------- |
-| `version`   | `string`                        | —       | Version string |
-| `platforms` | `array<string, PlatformBundle>` | —       | Platforms      |
-| `languages` | `array<string, LanguageInfo>`   | —       | Languages      |
-| `groups`    | `array<string, array<string>>`  | —       | Groups         |
-
----
-
-#### PlatformBundle
-
-| Field    | Type     | Default | Description   |
-| -------- | -------- | ------- | ------------- |
-| `url`    | `string` | —       | Url           |
-| `sha256` | `string` | —       | Sha256        |
-| `size`   | `int`    | —       | Size in bytes |
-
----
-
 #### Point
 
 A source position — row + column, zero-indexed.
 
-| Field    | Type  | Default | Description                                       |
-| -------- | ----- | ------- | ------------------------------------------------- |
-| `row`    | `int` | —       | Zero-indexed row number.                          |
-| `column` | `int` | —       | Zero-indexed column number, in UTF-16 code units. |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `row` | `int` | — | Zero-indexed row number. |
+| `column` | `int` | — | Zero-indexed column number, in UTF-16 code units. |
 
 ##### Methods
 
@@ -1305,17 +1096,17 @@ Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
 
-| Field          | Type     | Default | Description                                                         |
-| -------------- | -------- | ------- | ------------------------------------------------------------------- |
-| `language`     | `string` | —       | Language name (required).                                           |
-| `structure`    | `bool`   | `true`  | Extract structural items (functions, classes, etc.). Default: true. |
-| `imports`      | `bool`   | `true`  | Extract import statements. Default: true.                           |
-| `exports`      | `bool`   | `true`  | Extract export statements. Default: true.                           |
-| `comments`     | `bool`   | `false` | Extract comments. Default: false.                                   |
-| `docstrings`   | `bool`   | `false` | Extract docstrings. Default: false.                                 |
-| `symbols`      | `bool`   | `false` | Extract symbol definitions. Default: false.                         |
-| `diagnostics`  | `bool`   | `false` | Include parse diagnostics. Default: false.                          |
-| `chunkMaxSize` | `?int`   | `null`  | Maximum chunk size in bytes. `null` disables chunking.              |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `string` | — | Language name (required). |
+| `structure` | `bool` | `true` | Extract structural items (functions, classes, etc.). Default: true. |
+| `imports` | `bool` | `true` | Extract import statements. Default: true. |
+| `exports` | `bool` | `true` | Extract export statements. Default: true. |
+| `comments` | `bool` | `false` | Extract comments. Default: false. |
+| `docstrings` | `bool` | `false` | Extract docstrings. Default: false. |
+| `symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
+| `diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
+| `chunkMaxSize` | `?int` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 
 ##### Methods
 
@@ -1326,7 +1117,6 @@ Controls which analysis features are enabled and whether chunking is performed.
 ```php
 public static function default(): ProcessConfig
 ```
-
 ###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
@@ -1336,7 +1126,6 @@ Enable chunking with the given maximum chunk size in bytes.
 ```php
 public function withChunking(int $maxSize): ProcessConfig
 ```
-
 ###### all()
 
 Enable all analysis features.
@@ -1346,7 +1135,6 @@ Enable all analysis features.
 ```php
 public function all(): ProcessConfig
 ```
-
 ###### minimal()
 
 Disable all analysis features (only metrics computed).
@@ -1367,18 +1155,19 @@ Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
 
-| Field         | Type                   | Default | Description                        |
-| ------------- | ---------------------- | ------- | ---------------------------------- |
-| `language`    | `string`               | —       | Language                           |
-| `metrics`     | `FileMetrics`          | —       | Metrics (file metrics)             |
-| `structure`   | `array<StructureItem>` | `[]`    | Structure                          |
-| `imports`     | `array<ImportInfo>`    | `[]`    | Imports                            |
-| `exports`     | `array<ExportInfo>`    | `[]`    | Exports                            |
-| `comments`    | `array<CommentInfo>`   | `[]`    | Comments                           |
-| `docstrings`  | `array<DocstringInfo>` | `[]`    | Docstrings                         |
-| `symbols`     | `array<SymbolInfo>`    | `[]`    | Symbols                            |
-| `diagnostics` | `array<Diagnostic>`    | `[]`    | Diagnostics                        |
-| `chunks`      | `array<CodeChunk>`     | `[]`    | Text chunks for chunking/embedding |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `string` | — | Language |
+| `metrics` | `FileMetrics` | — | Metrics (file metrics) |
+| `structure` | `array<StructureItem>` | `[]` | Structure |
+| `imports` | `array<ImportInfo>` | `[]` | Imports |
+| `exports` | `array<ExportInfo>` | `[]` | Exports |
+| `comments` | `array<CommentInfo>` | `[]` | Comments |
+| `docstrings` | `array<DocstringInfo>` | `[]` | Docstrings |
+| `symbols` | `array<SymbolInfo>` | `[]` | Symbols |
+| `diagnostics` | `array<Diagnostic>` | `[]` | Diagnostics |
+| `chunks` | `array<CodeChunk>` | `[]` | Text chunks for chunking/embedding |
+
 
 ---
 
@@ -1389,14 +1178,15 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-| Field         | Type  | Default | Description  |
-| ------------- | ----- | ------- | ------------ |
-| `startByte`   | `int` | —       | Start byte   |
-| `endByte`     | `int` | —       | End byte     |
-| `startLine`   | `int` | —       | Start line   |
-| `startColumn` | `int` | —       | Start column |
-| `endLine`     | `int` | —       | End line     |
-| `endColumn`   | `int` | —       | End column   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `startByte` | `int` | — | Start byte |
+| `endByte` | `int` | — | End byte |
+| `startLine` | `int` | — | Start line |
+| `startColumn` | `int` | — | Start column |
+| `endLine` | `int` | — | End line |
+| `endColumn` | `int` | — | End column |
+
 
 ---
 
@@ -1404,17 +1194,18 @@ positions (for display and diagnostics).
 
 A structural item (function, class, struct, etc.) in source code.
 
-| Field        | Type                   | Default                   | Description           |
-| ------------ | ---------------------- | ------------------------- | --------------------- |
-| `kind`       | `StructureKind`        | `StructureKind::Function` | Kind (structure kind) |
-| `name`       | `?string`              | `null`                    | The name              |
-| `visibility` | `?string`              | `null`                    | Visibility            |
-| `span`       | `Span`                 | —                         | Span (span)           |
-| `children`   | `array<StructureItem>` | `[]`                      | Children              |
-| `decorators` | `array<string>`        | `[]`                      | Decorators            |
-| `docComment` | `?string`              | `null`                    | Doc comment           |
-| `signature`  | `?string`              | `null`                    | Signature             |
-| `bodySpan`   | `?Span`                | `null`                    | Body span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `StructureKind` | `StructureKind::Function` | Kind (structure kind) |
+| `name` | `?string` | `null` | The name |
+| `visibility` | `?string` | `null` | Visibility |
+| `span` | `Span` | — | Span (span) |
+| `children` | `array<StructureItem>` | `[]` | Children |
+| `decorators` | `array<string>` | `[]` | Decorators |
+| `docComment` | `?string` | `null` | Doc comment |
+| `signature` | `?string` | `null` | Signature |
+| `bodySpan` | `?Span` | `null` | Body span (span) |
+
 
 ---
 
@@ -1422,13 +1213,14 @@ A structural item (function, class, struct, etc.) in source code.
 
 A symbol (variable, function, type, etc.) extracted from source code.
 
-| Field            | Type         | Default                | Description        |
-| ---------------- | ------------ | ---------------------- | ------------------ |
-| `name`           | `string`     | —                      | The name           |
-| `kind`           | `SymbolKind` | `SymbolKind::Variable` | Kind (symbol kind) |
-| `span`           | `Span`       | —                      | Span (span)        |
-| `typeAnnotation` | `?string`    | `null`                 | Type annotation    |
-| `doc`            | `?string`    | `null`                 | Doc                |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `string` | — | The name |
+| `kind` | `SymbolKind` | `SymbolKind::Variable` | Kind (symbol kind) |
+| `span` | `Span` | — | Span (span) |
+| `typeAnnotation` | `?string` | `null` | Type annotation |
+| `doc` | `?string` | `null` | Doc |
+
 
 ---
 
@@ -1447,7 +1239,6 @@ Return the root `Node` of this tree.
 ```php
 public function rootNode(): Node
 ```
-
 ###### walk()
 
 Return a `TreeCursor` positioned at the root.
@@ -1475,7 +1266,6 @@ Return the `Node` at the cursor's current position.
 ```php
 public function node(): Node
 ```
-
 ###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
@@ -1486,7 +1276,6 @@ Returns `true` if a child existed.
 ```php
 public function gotoFirstChild(): bool
 ```
-
 ###### gotoParent()
 
 Move the cursor to the parent of the current node.
@@ -1497,7 +1286,6 @@ Returns `true` if a parent existed.
 ```php
 public function gotoParent(): bool
 ```
-
 ###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
@@ -1508,7 +1296,6 @@ Returns `true` if a sibling existed.
 ```php
 public function gotoNextSibling(): bool
 ```
-
 ###### fieldName()
 
 Return the field name for the current node, if any.
@@ -1531,19 +1318,20 @@ Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Function`  | Function                      |
-| `Method`    | Method                        |
-| `Class`     | Class                         |
-| `Struct`    | Struct                        |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Trait`     | Trait                         |
-| `Impl`      | Impl                          |
-| `Namespace` | Namespace                     |
-| `Other`     | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `Function` | Function |
+| `Method` | Method |
+| `Class` | Class |
+| `Struct` | Struct |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Trait` | Trait |
+| `Impl` | Impl |
+| `Namespace` | Namespace |
+| `Other` | Other — Fields: `0`: `string` |
+
 
 ---
 
@@ -1554,11 +1342,12 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-| Value   | Description |
-| ------- | ----------- |
-| `Line`  | Line        |
-| `Block` | Block       |
-| `Doc`   | Doc         |
+| Value | Description |
+|-------|-------------|
+| `Line` | Line |
+| `Block` | Block |
+| `Doc` | Doc |
+
 
 ---
 
@@ -1569,14 +1358,15 @@ The format of a docstring extracted from source code.
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 
-| Value               | Description                   |
-| ------------------- | ----------------------------- |
-| `PythonTripleQuote` | Python triple quote           |
-| `JsDoc`             | J s doc                       |
-| `Rustdoc`           | Rustdoc                       |
-| `GoDoc`             | Go doc                        |
-| `JavaDoc`           | Java doc                      |
-| `Other`             | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `PythonTripleQuote` | Python triple quote |
+| `JsDoc` | J s doc |
+| `Rustdoc` | Rustdoc |
+| `GoDoc` | Go doc |
+| `JavaDoc` | Java doc |
+| `Other` | Other — Fields: `0`: `string` |
+
 
 ---
 
@@ -1586,11 +1376,12 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-| Value      | Description |
-| ---------- | ----------- |
-| `Named`    | Named       |
-| `Default`  | Default     |
-| `ReExport` | Re export   |
+| Value | Description |
+|-------|-------------|
+| `Named` | Named |
+| `Default` | Default |
+| `ReExport` | Re export |
+
 
 ---
 
@@ -1601,17 +1392,18 @@ The kind of a symbol definition found in source code.
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Variable`  | Variable                      |
-| `Constant`  | Constant                      |
-| `Function`  | Function                      |
-| `Class`     | Class                         |
-| `Type`      | Type                          |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Other`     | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `Variable` | Variable |
+| `Constant` | Constant |
+| `Function` | Function |
+| `Class` | Class |
+| `Type` | Type |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Other` | Other — Fields: `0`: `string` |
+
 
 ---
 
@@ -1622,11 +1414,12 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-| Value     | Description |
-| --------- | ----------- |
-| `Error`   | Error       |
-| `Warning` | Warning     |
-| `Info`    | Info        |
+| Value | Description |
+|-------|-------------|
+| `Error` | Error |
+| `Warning` | Warning |
+| `Info` | Info |
+
 
 ---
 
@@ -1640,17 +1433,18 @@ Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
-| Variant               | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `LanguageNotFound`    | Language '{0}' not found                          |
-| `DynamicLoad`         | Dynamic library load error: {0}                   |
+| Variant | Description |
+|---------|-------------|
+| `LanguageNotFound` | Language '{0}' not found |
+| `DynamicLoad` | Dynamic library load error: {0} |
 | `NullLanguagePointer` | Language function returned null pointer for '{0}' |
-| `ParserSetup`         | Failed to set parser language: {0}                |
-| `LockPoisoned`        | Registry lock poisoned: {0}                       |
-| `Config`              | Configuration error: {0}                          |
-| `ParseFailed`         | Parse failed: parsing returned no tree            |
-| `QueryError`          | Query error: {0}                                  |
-| `InvalidRange`        | Invalid byte range: {0}                           |
-| `Io`                  | IO error: {0}                                     |
+| `ParserSetup` | Failed to set parser language: {0} |
+| `LockPoisoned` | Registry lock poisoned: {0} |
+| `Config` | Configuration error: {0} |
+| `ParseFailed` | Parse failed: parsing returned no tree |
+| `QueryError` | Query error: {0} |
+| `InvalidRange` | Invalid byte range: {0} |
+| `Io` | IO error: {0} |
+
 
 ---
