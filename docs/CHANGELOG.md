@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
 
-## [1.0.0-rc.13] - 2026-03-19
+## 1.0.0-rc.13 - 2026-03-19
 
 ### Fixed
 
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Publish: workflow triggers on release event (not just workflow_dispatch)
 - Publish: npm tag computed in prepare job (rc→next, stable→latest)
 
-## [1.0.0-rc.12] - 2026-03-19
+## 1.0.0-rc.12 - 2026-03-19
 
 ### Added
 
@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dead code: `sources/language_extension.c`, `scripts/publish/go/tag-and-push-go-module.sh`, `tools/e2e-generator/src/generators/mod.rs.bak`
 
-## [1.0.0-rc.11] - 2026-03-19
+## 1.0.0-rc.11 - 2026-03-19
 
 ### Added
 
@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Node test: remove redundant `init()` call in download API tests
 - WASM serde fix
 
-## [1.0.0-rc.10] - 2026-03-19
+## 1.0.0-rc.10 - 2026-03-19
 
 ### Added
 
@@ -74,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `init()` accepts optional config, `process()` registers cache for download feature
 - `cargo fmt` formatting
 
-## [1.0.0-rc.9] - 2026-03-19
+## 1.0.0-rc.9 - 2026-03-19
 
 ### Added
 
@@ -99,7 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Musl cross-compile from publish workflow
 
-## [1.0.0-rc.8] - 2026-03-18
+## 1.0.0-rc.8 - 2026-03-18
 
 ### Added
 
@@ -146,7 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Go minimum: 1.22 → 1.26
 - Smoke tests removed from publish workflow (replaced by test_apps)
 
-## [1.0.0-rc.7] - 2026-03-17
+## 1.0.0-rc.7 - 2026-03-17
 
 ### Fixed
 
@@ -155,7 +155,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Language discovery: `available_languages()` scans download cache directories
 - Python test_app uses `ProcessConfig` instead of raw dicts
 
-## [1.0.0-rc.6] - 2026-03-17
+## 1.0.0-rc.6 - 2026-03-17
 
 ### Fixed
 
@@ -163,7 +163,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Language discovery in extra library directories
 - Smoke tests removed from publish workflow
 
-## [1.0.0-rc.5] - 2026-03-16
+## 1.0.0-rc.5 - 2026-03-16
 
 ### Fixed
 
@@ -171,7 +171,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upload artifacts script: empty array initialization, comma-separated pattern support
 - Smoke test jobs: added checkout steps
 
-## [1.0.0-rc.4] - 2026-03-16
+## 1.0.0-rc.4 - 2026-03-16
 
 ### Fixed
 
@@ -179,7 +179,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Maven Central: GPG signing enabled in publish profile (`gpg.skip=false`)
 - Elixir Hex.pm: skip docs during publish for NIF packages
 
-## [1.0.0-rc.3] - 2026-03-16
+## 1.0.0-rc.3 - 2026-03-16
 
 ### Fixed
 
@@ -196,7 +196,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Shared JSON test fixtures for cross-language test parity
 - Version sync for test_app dependency manifests
 
-## [1.0.0-rc.2] - 2026-03-16
+## 1.0.0-rc.2 - 2026-03-16
 
 ### Fixed
 
@@ -209,7 +209,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test apps structure and shared fixtures
 - Task definitions for test-apps:smoke and test-apps:comprehensive
 
-## [1.0.0-rc.1] - 2026-03-09
+## 1.0.0-rc.1 - 2026-03-09
 
 Complete rewrite from Python to Rust with polyglot language bindings.
 
@@ -255,7 +255,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 ## Pre-1.0 Releases (Python-only)
 
-### [0.12.0]
+### 0.12.0
 
 #### Added
 
@@ -267,7 +267,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Alpine Linux (musl) wheel platform tag support (PEP 656)
 - Wheel file discovery in CI test action
 
-### [0.11.0]
+### 0.11.0
 
 #### Added
 
@@ -277,7 +277,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 - Updated all dependencies and relocked
 
-### [0.10.0]
+### 0.10.0
 
 #### Added
 
@@ -289,14 +289,14 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Adopted prek pre-commit workflow
 - CI: cancel superseded workflow runs
 
-### [0.9.1]
+### 0.9.1
 
 #### Added
 
 - WASM (wast & wat) grammar support
 - F# and F# signature grammar support
 
-### [0.9.0]
+### 0.9.0
 
 #### Added
 
@@ -304,13 +304,13 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Tree-sitter-ini grammar support
 - Swift grammar update (trailing comma support)
 
-### [0.8.0]
+### 0.8.0
 
 #### Fixed
 
 - Sdist build issues resolved
 
-### [0.7.4]
+### 0.7.4
 
 #### Added
 
@@ -318,13 +318,13 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Kotlin grammar support (SAM conversions)
 - Netlinx grammar support
 
-### [0.7.3]
+### 0.7.3
 
 #### Changed
 
 - Swift grammar update (macros + copyable)
 
-### [0.7.2]
+### 0.7.2
 
 #### Added
 
@@ -334,7 +334,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 - MSYS2 GCC build issues
 
-### [0.7.1]
+### 0.7.1
 
 #### Added
 
@@ -346,7 +346,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Pinned elm and rust grammar versions
 - Pinned tree-sitter-tcl to known-good revision
 
-### [0.6.1]
+### 0.6.1
 
 #### Added
 
@@ -356,19 +356,19 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 
 - Build issue resolved
 
-### [0.6.0]
+### 0.6.0
 
 #### Fixed
 
 - Windows DLL loading compatibility issues
 
-### [0.5.0]
+### 0.5.0
 
 #### Fixed
 
 - Windows compatibility and encoding issues for non-English locales
 
-### [0.4.0]
+### 0.4.0
 
 #### Added
 
@@ -376,32 +376,32 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Protocol Buffers (proto) grammar support
 - SPARQL grammar support
 
-### [0.3.0]
+### 0.3.0
 
 #### Changed
 
 - Updated generation setup and build matrix
 - Removed magik and swift grammars (temporarily)
 
-### [0.2.0]
+### 0.2.0
 
 #### Changed
 
 - Version bump with dependency updates
 
-### [0.1.2]
+### 0.1.2
 
 #### Fixed
 
 - Added MANIFEST.in for sdist packaging
 
-### [0.1.1]
+### 0.1.1
 
 #### Fixed
 
 - Missing parsers in package data
 
-### [0.1.0]
+### 0.1.0
 
 #### Added
 

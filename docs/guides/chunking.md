@@ -94,7 +94,7 @@ Set `chunk_max_size` in `ProcessConfig` to enable chunking:
 | `end_byte`   | int       | End byte offset in source                      |
 | `start_line` | int       | First line (1-indexed)                         |
 | `end_line`   | int       | Last line (1-indexed)                          |
-| `node_types` | list[str] | Top-level tree-sitter node types in this chunk |
+| `node_types` | `list[str]` | Top-level tree-sitter node types in this chunk |
 
 ## How it works
 

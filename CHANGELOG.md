@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
 
 ### Fixed
 
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Regenerated all alef-managed surfaces (per-binding READMEs, API reference docs, generated bindings, e2e tests) and the script-managed docs/languages.md + `_supported_languages.py` to reflect the 305-grammar count.
 - `scripts/generate_grammar_table.py` default output path corrected from `docs/supported-languages.md` to the canonical nav-referenced `docs/languages.md`; Taskfile `docs:generate:languages` `generates:` field updated to match.
 
-## [1.9.0]
+## 1.9.0
 
 ### Added
 
@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Per-language CI workflows: `ci-zig.yaml`, `ci-swift.yaml`, `ci-dart.yaml`, plus a combined `ci-mobile.yaml` covering Android cross-compile + iOS cargo check.
 - Publish jobs for pub.dev (`publish-pub`), Swift Package Index (`publish-swift`), Zig (`publish-zig` → GitHub Release tarball), and Maven Central kotlin-android (`publish-kotlin-android`).
 
-## [1.8.1] - 2026-05-13
+## 1.8.1 - 2026-05-13
 
 ### Added
 
@@ -53,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI pinned to Node 22 LTS across all workflows. `tree-sitter@0.25.0` (the `tree-sitter` npm package) ships a `binding.cc` written against pre-C++20 stdlib (no `std::ranges`, `concept`, `requires`) and fails to compile against Node 24/26's V8 headers. Node 22 is the latest supported runtime until upstream `node-tree-sitter` updates its `cflags_cc` or ships prebuilds.
 - CPD pre-commit hook and `packages/java/pom.xml` `maven-pmd-plugin` minimum-tokens bumped from 100 → 250: alef's java codegen emits ~200-token `try`/`catch` cleanup blocks on `DownloadManager` / `LanguageRegistry`. Refactoring the codegen to share a helper is tracked separately.
 
-## [1.8.0] - 2026-05-09
+## 1.8.0 - 2026-05-09
 
 ### Added
 
@@ -87,7 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHP: document `mlocati/php-extension-installer` prerequisite in install docs and correct minimum PHP version to 8.4+ (#106)
 - Go: regenerate stale `binding.go` with current alef generator
 
-## [1.7.0] - 2026-04-22
+## 1.7.0 - 2026-04-22
 
 ### Added
 
@@ -112,7 +112,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker CI: `uv run` changed to `uv run --no-project` to avoid triggering root pyproject.toml build
 - Ruby CI: removed stale `working-directory` that pointed to wrong path
 
-## [1.6.3] - 2026-04-20
+## 1.6.3 - 2026-04-20
 
 ### Fixed
 
@@ -123,7 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FFI: add extra libs dir from `cache_dir()` to registry on creation (#102)
 - Docs: fix textlint pre-commit hook — add `additional_dependencies` for all textlint plugins (#102)
 
-## [1.6.2] - 2026-04-18
+## 1.6.2 - 2026-04-18
 
 ### Fixed
 
@@ -134,7 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update dependencies across lockfiles
 - Regenerate READMEs for 1.6.1 version bump (#101)
 
-## [1.6.1] - 2026-04-17
+## 1.6.1 - 2026-04-17
 
 ### Fixed
 
@@ -151,7 +151,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update dependencies across Python, Node.js, PHP, and Rust lockfiles
 - Replace feature group docs with `download`/`TSLP_LANGUAGES` documentation in READMEs
 
-## [1.6.0] - 2026-04-14
+## 1.6.0 - 2026-04-14
 
 ### Added
 
@@ -180,7 +180,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All 305 `lang-*` Cargo features and group features (`all`, `web`, `systems`, `scripting`, `data`, `jvm`, `functional`, `wasm`) — language selection is now via `TSLP_LANGUAGES` env var at build time; the `download` feature (default) fetches parsers at runtime
 
-## [1.5.0] - 2026-04-08
+## 1.5.0 - 2026-04-08
 
 ### Added
 
@@ -193,7 +193,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `less` grammar: regenerated parser from ABI 11 to ABI 14 (was incompatible with tree-sitter 0.26)
 - `corn` smoke fixture: replaced invalid `"x"` snippet with valid corn syntax
 
-## [1.4.1] - 2026-03-31
+## 1.4.1 - 2026-03-31
 
 ### Fixed
 
@@ -203,7 +203,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated dependencies across all language ecosystems
 
-## [1.4.0] - 2026-03-29
+## 1.4.0 - 2026-03-29
 
 ### Fixed
 
@@ -215,7 +215,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All language snippet READMEs and documentation corrected
 - Removed automated grammar updates workflow
 
-## [1.3.3] - 2026-03-27
+## 1.3.3 - 2026-03-27
 
 ### Fixed
 
@@ -232,7 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependency updates across all language ecosystems
 - `rustler_precompiled` updated to 0.9.0 (Elixir)
 
-## [1.3.2] - 2026-03-26
+## 1.3.2 - 2026-03-26
 
 ### Fixed
 
@@ -247,7 +247,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Smoke test fixtures for all `c_symbol` override languages (csharp, vb, embeddedtemplate, nushell)
 - Dynamic-linking CI step in `ci-all-grammars.yaml` to catch `c_symbol` naming mismatches
 
-## [1.3.1] - 2026-03-26
+## 1.3.1 - 2026-03-26
 
 ### Fixed
 
@@ -256,7 +256,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Go E2E generator: use typed `*ProcessResult` struct fields instead of invalid `json.Unmarshal` on non-string return
 - Elixir CI: stage NIF with both hyphenated and underscored filenames to satisfy Rustler force-build check and `load_from` loader
 
-## [1.3.0] - 2026-03-26
+## 1.3.0 - 2026-03-26
 
 ### Added
 
@@ -280,7 +280,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation: stale version numbers, incomplete API references, incorrect function signatures
 - Java version requirement standardized to JDK 25+
 
-## [1.2.1] - 2026-03-25
+## 1.2.1 - 2026-03-25
 
 ### Fixed
 
@@ -308,7 +308,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docs: rewrite all 12 API references to match actual binding source code
 - Docs: add JSON-LD structured data and Open Graph metadata for crawlers
 
-## [1.2.0] - 2026-03-25
+## 1.2.0 - 2026-03-25
 
 ### Added
 
@@ -333,7 +333,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed e2e fixture assertions from `intel_*`/`meta_*` to `process_*`
 - All documentation and package descriptions updated to reflect 248 languages
 
-## [1.1.4] - 2026-03-24
+## 1.1.4 - 2026-03-24
 
 ### Added
 
@@ -347,7 +347,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `prolog` grammar (codeberg foxy, AGPL-3.0 copyleft) with Rukiza/tree-sitter-prolog (ISC)
 - Docs: align mkdocs config with kreuzberg branding; mermaid diagrams now render (fixes [#81](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues/81))
 
-## [1.1.3] - 2026-03-24
+## 1.1.3 - 2026-03-24
 
 ### Fixed
 
@@ -360,14 +360,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI workflow (`ci-all-grammars.yaml`) that tests all 197 grammars end-to-end, preventing regressions like #80
 - `rust:e2e:all-grammars` task for running the full grammar suite locally
 
-## [1.1.2] - 2026-03-23
+## 1.1.2 - 2026-03-23
 
 ### Fixed
 
 - Elixir NIF: fix Rustler crate name mismatch (`ts_pack_elixir` → `ts-pack-elixir`) causing compilation failure
 - Rust crate publish: embed query file contents at build time instead of using `include_str!` with relative paths that break in the cargo package tarball
 
-## [1.1.1] - 2026-03-23
+## 1.1.1 - 2026-03-23
 
 ### Fixed
 
@@ -382,7 +382,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Switch from `std::HashMap`/`HashSet` to `ahash::AHashMap`/`AHashSet` for faster hashing in registry
 
-## [1.1.0] - 2026-03-23
+## 1.1.0 - 2026-03-23
 
 ### Added
 
@@ -413,7 +413,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pre-existing registry test failures from global `RwLock` poisoning — test helpers now use local `LanguageRegistry::new()`
 - Removed ambiguous `.os` (bsl) and `.cls` (apex/LaTeX conflict) extensions
 
-## [1.0.0] - 2026-03-21
+## 1.0.0 - 2026-03-21
 
 ### Changed
 
@@ -435,7 +435,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Pre-1.0 Releases (Python-only)
 
-### [0.12.0]
+### 0.12.0
 
 #### Added
 
@@ -447,7 +447,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Alpine Linux (musl) wheel platform tag support (PEP 656)
 - Wheel file discovery in CI test action
 
-### [0.11.0]
+### 0.11.0
 
 #### Added
 
@@ -457,7 +457,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated all dependencies and relocked
 
-### [0.10.0]
+### 0.10.0
 
 #### Added
 
@@ -469,14 +469,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adopted prek pre-commit workflow
 - CI: cancel superseded workflow runs
 
-### [0.9.1]
+### 0.9.1
 
 #### Added
 
 - WASM (wast & wat) grammar support
 - F# and F# signature grammar support
 
-### [0.9.0]
+### 0.9.0
 
 #### Added
 
@@ -484,13 +484,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - tree-sitter-ini grammar support
 - Swift grammar update (trailing comma support)
 
-### [0.8.0]
+### 0.8.0
 
 #### Fixed
 
 - sdist build issues resolved
 
-### [0.7.4]
+### 0.7.4
 
 #### Added
 
@@ -498,13 +498,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Kotlin grammar support (SAM conversions)
 - Netlinx grammar support
 
-### [0.7.3]
+### 0.7.3
 
 #### Changed
 
 - Swift grammar update (macros + copyable)
 
-### [0.7.2]
+### 0.7.2
 
 #### Added
 
@@ -514,7 +514,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - MSYS2 GCC build issues
 
-### [0.7.1]
+### 0.7.1
 
 #### Added
 
@@ -526,7 +526,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pinned elm and rust grammar versions
 - Pinned tree-sitter-tcl to known-good revision
 
-### [0.6.1]
+### 0.6.1
 
 #### Added
 
@@ -536,19 +536,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Build issue resolved
 
-### [0.6.0]
+### 0.6.0
 
 #### Fixed
 
 - Windows DLL loading compatibility issues
 
-### [0.5.0]
+### 0.5.0
 
 #### Fixed
 
 - Windows compatibility and encoding issues for non-English locales
 
-### [0.4.0]
+### 0.4.0
 
 #### Added
 
@@ -556,32 +556,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Protocol Buffers (proto) grammar support
 - SPARQL grammar support
 
-### [0.3.0]
+### 0.3.0
 
 #### Changed
 
 - Updated generation setup and build matrix
 - Removed magik and swift grammars (temporarily)
 
-### [0.2.0]
+### 0.2.0
 
 #### Changed
 
 - Version bump with dependency updates
 
-### [0.1.2]
+### 0.1.2
 
 #### Fixed
 
 - Added MANIFEST.in for sdist packaging
 
-### [0.1.1]
+### 0.1.1
 
 #### Fixed
 
 - Missing parsers in package data
 
-### [0.1.0]
+### 0.1.0
 
 #### Added
 
