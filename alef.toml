@@ -45,6 +45,20 @@ extra_paths = [
   "pyproject.toml",
 ]
 
+[workspace.citation]
+title = "tree-sitter-language-pack"
+abstract = "Tree-sitter grammars and code-intelligence primitives."
+repository-code = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+url = "https://kreuzberg.dev"
+license = "MIT"
+date-released = "2026-05-17"
+
+[[workspace.citation.authors]]
+family-names = "Hirschfeld"
+given-names = "Na'aman"
+email = "naaman@kreuzberg.dev"
+orcid = "https://orcid.org/0009-0000-2247-5072"
+
 [[workspace.sync.text_replacements]]
 path = "test_apps/node/package.json"
 search = '"@kreuzberg/tree-sitter-language-pack": "[^"]*"'
