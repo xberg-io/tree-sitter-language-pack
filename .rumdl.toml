@@ -2,7 +2,20 @@
 # https://github.com/rvben/rumdl
 
 respect-gitignore = true
-exclude = ["node_modules", "target", "dist", "vendor", "parsers", "e2e", "docs/reference"]
+exclude = [
+  "node_modules",
+  "target",
+  "dist",
+  "vendor",
+  "parsers",
+  "e2e",
+  "docs/reference",
+  # alef-managed READMEs — rumdl auto-fixes MD022 (blank lines around headings)
+  # but alef readme emits its own canonical form. Exclude so the CI freshness
+  # check (alef readme && git diff --exit-code) does not loop.
+  "packages/*/README.md",
+  "crates/*/README.md",
+]
 
 # MD012: Multiple consecutive blank lines
 # MD013: Line length (tables/code can be long)
