@@ -10,10 +10,50 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use crate::error::Error;
+use crate::pack_config::TlsRootsMode;
 
 const GITHUB_RELEASE_BASE: &str = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download";
 const CACHE_REMOVE_RETRIES: usize = 5;
 const CACHE_REMOVE_RETRY_DELAY: Duration = Duration::from_millis(10);
+const HTTP_TIMEOUT: Duration = Duration::from_secs(60);
+const TLS_ROOTS_ENV: &str = "TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS";
+
+/// Resolve which CA root set the downloader's TLS client should trust.
+///
+/// Layered override: `tls_roots` struct field (if `Some`) > `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS`
+/// environment variable (`platform` or `webpki`, case-insensitive) > compile-time default.
+fn resolve_tls_roots(override_mode: Option<TlsRootsMode>) -> TlsRootsMode {
+    if let Some(mode) = override_mode {
+        return mode;
+    }
+    match std::env::var(TLS_ROOTS_ENV)
+        .ok()
+        .as_deref()
+        .map(str::trim)
+        .map(str::to_ascii_lowercase)
+        .as_deref()
+    {
+        Some("webpki") => TlsRootsMode::WebPki,
+        Some("platform") => TlsRootsMode::Platform,
+        // Empty / unset / any other value → compile-time default. Unknown
+        // values are *not* hard errors because PackConfig is the supported
+        // override path for picky callers.
+        _ => TlsRootsMode::default(),
+    }
+}
+
+/// Build a configured ureq `Agent` whose TLS root set follows the given mode.
+fn build_agent(mode: TlsRootsMode) -> ureq::Agent {
+    let root_certs = match mode {
+        TlsRootsMode::Platform => ureq::tls::RootCerts::PlatformVerifier,
+        TlsRootsMode::WebPki => ureq::tls::RootCerts::WebPki,
+    };
+    ureq::Agent::config_builder()
+        .tls_config(ureq::tls::TlsConfig::builder().root_certs(root_certs).build())
+        .timeout_global(Some(HTTP_TIMEOUT))
+        .build()
+        .new_agent()
+}
 
 /// Manifest describing available parser downloads for a specific version.
 #[cfg_attr(alef, alef(skip))]
@@ -45,25 +85,38 @@ pub struct DownloadManager {
     version: String,
     cache_dir: PathBuf,
     manifest: Mutex<Option<ParserManifest>>,
+    agent: ureq::Agent,
 }
 
 impl DownloadManager {
     /// Create a new download manager for the given version.
     pub fn new(version: &str) -> Result<Self, Error> {
         let cache_dir = Self::default_cache_dir(version)?;
-        Ok(Self {
-            version: version.to_string(),
-            cache_dir,
-            manifest: Mutex::new(None),
-        })
+        Ok(Self::with_cache_dir_and_tls(version, cache_dir, None))
     }
 
     /// Create a download manager with a custom cache directory.
     pub fn with_cache_dir(version: &str, cache_dir: PathBuf) -> Self {
+        Self::with_cache_dir_and_tls(version, cache_dir, None)
+    }
+
+    /// Create a download manager with a custom cache directory and explicit TLS roots mode.
+    ///
+    /// Passing `None` for `tls_roots` falls back to the
+    /// `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS` environment variable, then the
+    /// compile-time default ([`TlsRootsMode::Platform`]).
+    ///
+    /// Rust-only. Bindings should rely on `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS`
+    /// to override the default mode, since `TlsRootsMode` is intentionally not
+    /// exported across the binding boundary (see `pack_config.rs`).
+    #[cfg_attr(alef, alef(skip))]
+    pub fn with_cache_dir_and_tls(version: &str, cache_dir: PathBuf, tls_roots: Option<TlsRootsMode>) -> Self {
+        let mode = resolve_tls_roots(tls_roots);
         Self {
             version: version.to_string(),
             cache_dir,
             manifest: Mutex::new(None),
+            agent: build_agent(mode),
         }
     }
 
@@ -233,7 +286,9 @@ impl DownloadManager {
 
         let url = format!("{}/v{}/parsers.json", GITHUB_RELEASE_BASE, self.version);
 
-        let body = ureq::get(&url)
+        let body = self
+            .agent
+            .get(&url)
             .call()
             .map_err(|e| Error::Download(format!("Failed to fetch manifest from {}: {}", url, e)))?
             .into_body()
@@ -309,7 +364,9 @@ impl DownloadManager {
 
     /// Download a bundle archive from the given URL.
     fn download_bundle(&self, url: &str) -> Result<Vec<u8>, Error> {
-        let response = ureq::get(url)
+        let response = self
+            .agent
+            .get(url)
             .call()
             .map_err(|e| Error::Download(format!("Failed to download {}: {}", url, e)))?;
 
@@ -719,5 +776,123 @@ mod tests {
         });
 
         assert!(!manager.cache_dir().exists());
+    }
+
+    // ----- TLS root selection (#125) -----
+    //
+    // Env-var-mutating tests share a single mutex guard so they run serially
+    // even under `cargo test` default parallelism. Without this, concurrent
+    // tests racing on `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS` would flake.
+    static TLS_ENV_GUARD: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+    struct EnvVarGuard {
+        key: &'static str,
+        previous: Option<String>,
+    }
+
+    impl EnvVarGuard {
+        fn set(key: &'static str, value: &str) -> Self {
+            let previous = std::env::var(key).ok();
+            // SAFETY: tests serialised via TLS_ENV_GUARD; no other test thread
+            // is concurrently observing or mutating the same env var.
+            unsafe { std::env::set_var(key, value) };
+            Self { key, previous }
+        }
+
+        fn unset(key: &'static str) -> Self {
+            let previous = std::env::var(key).ok();
+            // SAFETY: see set() above.
+            unsafe { std::env::remove_var(key) };
+            Self { key, previous }
+        }
+    }
+
+    impl Drop for EnvVarGuard {
+        fn drop(&mut self) {
+            // SAFETY: see set() above.
+            unsafe {
+                match &self.previous {
+                    Some(value) => std::env::set_var(self.key, value),
+                    None => std::env::remove_var(self.key),
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn resolve_tls_roots_returns_explicit_override_when_provided() {
+        let _guard = TLS_ENV_GUARD.lock().expect("env guard should not be poisoned");
+        // Env var should be ignored when the caller passes an explicit override.
+        let _env = EnvVarGuard::set(TLS_ROOTS_ENV, "webpki");
+        assert_eq!(resolve_tls_roots(Some(TlsRootsMode::Platform)), TlsRootsMode::Platform);
+        assert_eq!(resolve_tls_roots(Some(TlsRootsMode::WebPki)), TlsRootsMode::WebPki);
+    }
+
+    #[test]
+    fn resolve_tls_roots_reads_env_var_platform() {
+        let _guard = TLS_ENV_GUARD.lock().expect("env guard should not be poisoned");
+        let _env = EnvVarGuard::set(TLS_ROOTS_ENV, "platform");
+        assert_eq!(resolve_tls_roots(None), TlsRootsMode::Platform);
+    }
+
+    #[test]
+    fn resolve_tls_roots_reads_env_var_webpki() {
+        let _guard = TLS_ENV_GUARD.lock().expect("env guard should not be poisoned");
+        let _env = EnvVarGuard::set(TLS_ROOTS_ENV, "webpki");
+        assert_eq!(resolve_tls_roots(None), TlsRootsMode::WebPki);
+    }
+
+    #[test]
+    fn resolve_tls_roots_is_case_insensitive_and_trims_whitespace() {
+        let _guard = TLS_ENV_GUARD.lock().expect("env guard should not be poisoned");
+        let _env = EnvVarGuard::set(TLS_ROOTS_ENV, "  WebPKI  ");
+        assert_eq!(resolve_tls_roots(None), TlsRootsMode::WebPki);
+    }
+
+    #[test]
+    fn resolve_tls_roots_falls_back_to_default_when_env_unset() {
+        let _guard = TLS_ENV_GUARD.lock().expect("env guard should not be poisoned");
+        let _env = EnvVarGuard::unset(TLS_ROOTS_ENV);
+        assert_eq!(resolve_tls_roots(None), TlsRootsMode::default());
+        // Default must be Platform: that is the user-facing fix for #125.
+        assert_eq!(TlsRootsMode::default(), TlsRootsMode::Platform);
+    }
+
+    #[test]
+    fn resolve_tls_roots_falls_back_to_default_when_env_is_garbage() {
+        let _guard = TLS_ENV_GUARD.lock().expect("env guard should not be poisoned");
+        // Unknown values are not hard errors — fall back to the default rather than
+        // panicking deep inside the downloader at first use.
+        let _env = EnvVarGuard::set(TLS_ROOTS_ENV, "not-a-mode");
+        assert_eq!(resolve_tls_roots(None), TlsRootsMode::default());
+    }
+
+    #[test]
+    fn build_agent_platform_mode_constructs_an_agent() {
+        // Smoke test: building the agent in platform-verifier mode succeeds on
+        // every supported host (the verifier itself only fails when the request
+        // actually reaches the network, which is covered by the integration test).
+        let _agent = build_agent(TlsRootsMode::Platform);
+    }
+
+    #[test]
+    fn build_agent_webpki_mode_constructs_an_agent() {
+        let _agent = build_agent(TlsRootsMode::WebPki);
+    }
+
+    #[test]
+    fn download_manager_constructor_honours_explicit_tls_override() {
+        let temp_dir = temp_cache_dir();
+        // Construct in both modes; assert the agent field is populated by
+        // attempting a call against a non-existent localhost port — both modes
+        // must produce a connection error (not a panic, not a TLS-config panic).
+        for mode in [TlsRootsMode::Platform, TlsRootsMode::WebPki] {
+            let dm = DownloadManager::with_cache_dir_and_tls("test", temp_dir.path().join("libs"), Some(mode));
+            let result = dm.agent.get("http://127.0.0.1:1/never").call();
+            assert!(
+                result.is_err(),
+                "agent should fail to connect to a closed port in mode {mode:?}"
+            );
+        }
     }
 }

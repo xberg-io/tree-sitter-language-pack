@@ -203,6 +203,18 @@ ts-pack list --downloaded
 ts-pack list --filter python
 ```
 
+## TLS trust store
+
+The downloader trusts the **host OS trust store** by default — the same set of CAs that `curl`, `pip`, and `git` use on each platform (`/etc/ssl/certs` on Linux, Keychain on macOS, SChannel on Windows). This works out of the box in corp environments where GitHub HTTPS traffic is presented with a chain rooted in a locally trusted CA (TLS-intercepting proxies, internal mirrors, WSL2 with Windows-managed certs, RHEL/UBI with extra anchors).
+
+Set `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS=webpki` to force the downloader to trust **only** the bundled Mozilla webpki roots (the historical pre-fix default). Use this on hosts whose platform trust store is intentionally narrowed or where you need byte-for-byte build reproducibility against a known root set:
+
+```bash
+TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS=webpki python -c "import tree_sitter_language_pack; tree_sitter_language_pack.get_parser('python')"
+```
+
+Set `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS=platform` to make the default explicit. Any other value falls back to the default (no hard error).
+
 ## Troubleshooting
 
 **Downloads failing**
@@ -212,6 +224,8 @@ ts-pack cache-dir           # verify the cache path
 ts-pack download python     # retry the download
 ts-pack clean               # clear a corrupted cache
 ```
+
+`UnknownIssuer` / `invalid peer certificate` errors mean the chain GitHub serves is not in the trust store the downloader is configured to use. The default (Platform mode) already reads the host trust store; if you set `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS=webpki` explicitly, switch back to `platform` (or unset the variable). If `curl https://github.com` also fails on the same host with the same error, fix the host trust store first — the language pack honours it.
 
 For offline environments: pre-download on a machine with network access, then copy the cache directory to the target machine. See [Docker](docker.md) for baking parsers into a container image.
 

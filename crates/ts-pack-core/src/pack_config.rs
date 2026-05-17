@@ -1,5 +1,27 @@
 use std::path::PathBuf;
 
+/// Which CA root set the downloader's TLS client should trust.
+///
+/// `Platform` (the default) uses the host OS trust store via
+/// `rustls-platform-verifier` — matching the behaviour of `curl`, `pip`, and
+/// `git` and honouring locally installed CAs (corp TLS-intercepting proxies,
+/// internal mirrors, WSL2 with Windows-managed certs, RHEL/UBI with extra
+/// anchors). `WebPki` uses ureq's bundled Mozilla roots only; pick this on
+/// hosts whose platform trust store is intentionally narrowed or where the
+/// bundled Mozilla roots are required for reproducibility.
+///
+/// Selected at process start via the `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS`
+/// environment variable (`platform` or `webpki`, case-insensitive). The enum
+/// is exposed publicly for callers that construct a [`DownloadManager`]
+/// directly via [`DownloadManager::with_cache_dir_and_tls`].
+#[cfg_attr(alef, alef(skip))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum TlsRootsMode {
+    #[default]
+    Platform,
+    WebPki,
+}
+
 /// Configuration for the tree-sitter language pack.
 ///
 /// Controls cache directory and which languages to pre-download.

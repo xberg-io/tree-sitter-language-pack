@@ -72,7 +72,7 @@ pub use intel::types::{
     DocstringInfo, ExportInfo, ExportKind, FileMetrics, ImportInfo, ProcessResult, Span, StructureItem, StructureKind,
     SymbolInfo, SymbolKind,
 };
-pub use pack_config::PackConfig;
+pub use pack_config::{PackConfig, TlsRootsMode};
 pub use parsing::{ByteRange, Node, Parser, Point, Tree, TreeCursor};
 pub use process_config::ProcessConfig;
 pub use queries::{get_highlights_query, get_injections_query, get_locals_query};
