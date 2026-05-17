@@ -516,7 +516,7 @@ jobs:
         run: pip install maturin
 
       - name: Build wheel
-        run: maturin build --release --manifest-path crates/ts-pack-core-py/Cargo.toml --out dist
+        run: maturin build --release --manifest-path crates/ts-pack-core-py/Cargo.toml --features extension-module --out dist
 
       - name: Upload wheel
         uses: actions/upload-artifact@v7.0.1
@@ -765,7 +765,7 @@ jobs:
 
       - name: Build WASM (Node.js target)
         working-directory: crates/ts-pack-core-wasm
-        run: wasm-pack build --target nodejs --release
+        run: wasm-pack build --target nodejs --release --out-dir pkg/nodejs
         env:
           PROJECT_ROOT: ${{ github.workspace }}
 
