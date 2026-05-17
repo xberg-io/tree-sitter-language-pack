@@ -170,6 +170,11 @@ style = "frb"
 # on Android (max JDK 17), which is why Android needs its own JNI-based
 # package with bundled .so files.
 package = "dev.kreuzberg.tslp.android"
+# JNI shim depends on serde-derived (de)serialization of DTOs (`ProcessConfig`,
+# `ProcessResult`, `Point`, `ByteRange`, ...). The umbrella crate gates those
+# derives behind the `serde` feature; enable it here so the scaffold-emitted
+# `<crate>-jni/Cargo.toml` lists `features = ["serde"]` on the umbrella dep.
+features = ["serde"]
 
 [crates.swift]
 module_name = "TreeSitterLanguagePack"
@@ -254,7 +259,11 @@ functions = [
 [crates.lint.python]
 precondition = "command -v ruff >/dev/null 2>&1"
 before = "uv sync --no-install-project"
-format = "uv run --no-sync ruff check --fix --select I packages/python scripts && uv run --no-sync ruff format packages/python scripts"
+# Apply ALL auto-fixable ruff rules (not just isort) so the alef-generated
+# output stays clean under the prek `ruff (legacy alias)` hook, which runs
+# `ruff check --fix` (full ruleset). Without this, alef only fixed isort
+# and downstream prek runs kept finding rule violations to autofix.
+format = "uv run --no-sync ruff check --fix packages/python scripts && uv run --no-sync ruff format packages/python scripts"
 check = "uv run --no-sync ruff check packages/python scripts && uv run --no-sync ruff format --check packages/python scripts"
 
 [crates.lint.node]
@@ -286,6 +295,12 @@ check = "cd packages/go && golangci-lint run ./..."
 [crates.lint.elixir]
 precondition = "command -v mix >/dev/null 2>&1"
 before = "cd packages/elixir && mix deps.get"
+# `mix format` enforces line length (default 98) and idiomatic indentation
+# rules that alef's emit-time formatting cannot fully match (e.g. long
+# string keyword args get hoisted onto a continuation line). Running it
+# during alef's fmt pass keeps generated `.ex` files idempotent under the
+# prek `mix-format` hook.
+format = "cd packages/elixir && mix format"
 check = "cd packages/elixir && mix credo"
 
 [crates.lint.java]

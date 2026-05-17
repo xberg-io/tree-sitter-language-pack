@@ -12,6 +12,7 @@ categories = ["text-processing"]
 
 [lib]
 name = "tree_sitter_language_pack_nif"
+
 crate-type = ["cdylib"]
 
 [dependencies]

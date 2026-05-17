@@ -15,12 +15,12 @@ get_filename_component(_FFI_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 get_filename_component(_FFI_PREFIX "${_FFI_CMAKE_DIR}/.." ABSOLUTE)
 
 find_library(_FFI_LIBRARY
-  NAMES ts_pack_ffi libts_pack_ffi
+  NAMES ts_pack_core_ffi libts_pack_core_ffi
   PATHS "${_FFI_PREFIX}/lib"
   NO_DEFAULT_PATH
 )
 if(NOT _FFI_LIBRARY)
-  find_library(_FFI_LIBRARY NAMES ts_pack_ffi libts_pack_ffi)
+  find_library(_FFI_LIBRARY NAMES ts_pack_core_ffi libts_pack_core_ffi)
 endif()
 
 find_path(_FFI_INCLUDE_DIR
@@ -55,7 +55,7 @@ if(ts_pack_core_ffi_FOUND)
 
   if(WIN32 AND _FFI_LIB_TYPE STREQUAL "SHARED")
     find_file(_FFI_DLL
-      NAMES ts_pack_ffi.dll libts_pack_ffi.dll
+      NAMES ts_pack_core_ffi.dll libts_pack_core_ffi.dll
       PATHS "${_FFI_PREFIX}/bin" "${_FFI_PREFIX}/lib"
       NO_DEFAULT_PATH
     )

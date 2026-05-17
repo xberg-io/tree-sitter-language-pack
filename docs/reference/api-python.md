@@ -440,7 +440,7 @@ def download_all() -> int
 
 #### manifest_languages()
 
-Return all language names available in the remote manifest (304).
+Return all language names available in the remote manifest (305).
 
 Fetches (and caches) the remote manifest to discover the full list of
 downloadable languages. Use `downloaded_languages` to list what is
@@ -1482,17 +1482,17 @@ features are enabled.
 
 **Base class:** `Error(Exception)`
 
-| Exception                    | Description                                       |
-| ---------------------------- | ------------------------------------------------- |
-| `LanguageNotFound(Error)`    | Language '{0}' not found                          |
-| `DynamicLoad(Error)`         | Dynamic library load error: {0}                   |
+| Exception | Description |
+|-----------|-------------|
+| `LanguageNotFound(Error)` | Language '{0}' not found |
+| `DynamicLoad(Error)` | Dynamic library load error: {0} |
 | `NullLanguagePointer(Error)` | Language function returned null pointer for '{0}' |
-| `ParserSetup(Error)`         | Failed to set parser language: {0}                |
-| `LockPoisoned(Error)`        | Registry lock poisoned: {0}                       |
-| `Config(Error)`              | Configuration error: {0}                          |
-| `ParseFailed(Error)`         | Parse failed: parsing returned no tree            |
-| `QueryError(Error)`          | Query error: {0}                                  |
-| `InvalidRange(Error)`        | Invalid byte range: {0}                           |
-| `Io(Error)`                  | IO error: {0}                                     |
+| `ParserSetup(Error)` | Failed to set parser language: {0} |
+| `LockPoisoned(Error)` | Registry lock poisoned: {0} |
+| `Config(Error)` | Configuration error: {0} |
+| `ParseFailed(Error)` | Parse failed: parsing returned no tree |
+| `QueryError(Error)` | Query error: {0} |
+| `InvalidRange(Error)` | Invalid byte range: {0} |
+| `Io(Error)` | IO error: {0} |
 
 ---
