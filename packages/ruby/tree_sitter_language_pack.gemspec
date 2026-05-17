@@ -17,4 +17,5 @@ Gem::Specification.new do |spec|
   spec.extensions    = ['ext/ts_pack_core_rb/extconf.rb']
 
   spec.add_dependency 'rb_sys', '~> 0.9'
+  spec.add_dependency 'sorbet-runtime', '~> 0.5'
 end
