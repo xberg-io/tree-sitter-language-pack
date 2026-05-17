@@ -87,7 +87,7 @@
   </a>
 </div>
 
-Pre-compiled tree-sitter grammars for 306 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem.
+Pre-compiled tree-sitter grammars for 305 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem.
 
 ## Installation
 

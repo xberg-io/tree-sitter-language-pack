@@ -12,6 +12,8 @@
 
 package dev.kreuzberg.tslp.android
 
+import com.fasterxml.jackson.core.type.TypeReference
+
 /** JNI-backed wrapper holding a native `Parser` handle. */
 @Suppress("TooManyFunctions")
 class Parser internal constructor(internal val handle: Long) : AutoCloseable {
@@ -308,7 +310,7 @@ class LanguageRegistry internal constructor(internal val handle: Long) : AutoClo
     // (if the `dynamic-loading` feature is enabled), and all configured aliases.
     fun availableLanguages(): List<String> {
         val responseJson = TreeSitterLanguagePackBridge.nativeLanguageRegistryAvailableLanguages(handle)
-        return MAPPER.readValue(responseJson, List<String>::class.java)
+        return MAPPER.readValue(responseJson, object : TypeReference<List<String>>() {})
     }
 
     // Check whether a language is available by name or alias.
@@ -358,7 +360,7 @@ class DownloadManager internal constructor(internal val handle: Long) : AutoClos
     // List languages that are already downloaded and cached.
     fun installedLanguages(): List<String> {
         val responseJson = TreeSitterLanguagePackBridge.nativeDownloadManagerInstalledLanguages(handle)
-        return MAPPER.readValue(responseJson, List<String>::class.java)
+        return MAPPER.readValue(responseJson, object : TypeReference<List<String>>() {})
     }
 
     // Download the platform bundle and extract every library file it contains.

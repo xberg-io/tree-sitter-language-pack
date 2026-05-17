@@ -87,7 +87,7 @@
   </a>
 </div>
 
-Android (AAR) bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Android (AAR) bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 JNI-based with bundled per-ABI native libraries and a coroutine-friendly Kotlin facade.
 JVM consumers should use the canonical `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack` Java artifact directly.
 

@@ -658,6 +658,7 @@ pub fn manifest_languages() Error![]u8 {
         return _first_error(Error);
     }
     return blk: {
+        if (_result == null) return _first_error(Error);
         const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
@@ -711,6 +712,7 @@ pub fn cache_dir() Error![]u8 {
         return _first_error(Error);
     }
     return blk: {
+        if (_result == null) return _first_error(Error);
         const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);

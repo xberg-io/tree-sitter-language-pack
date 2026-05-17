@@ -87,7 +87,7 @@
   </a>
 </div>
 
-Swift bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Swift bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/await.
 
 

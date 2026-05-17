@@ -171,7 +171,7 @@ repos:
         args: ["--minimum-tokens=250"]
   # Alef: polyglot binding generation and version sync
   - repo: https://github.com/kreuzberg-dev/alef
-    rev: v0.16.25
+    rev: v0.16.32
     hooks:
       - id: alef-verify
       - id: alef-sync-versions

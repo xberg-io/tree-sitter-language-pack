@@ -87,7 +87,7 @@
   </a>
 </div>
 
-Pre-compiled tree-sitter grammars for 306 programming languages with PHP bindings via ext-php-rs.
+Pre-compiled tree-sitter grammars for 305 programming languages with PHP bindings via ext-php-rs.
 
 ## Installation
 

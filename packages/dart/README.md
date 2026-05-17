@@ -87,7 +87,7 @@
   </a>
 </div>
 
-Dart / Flutter bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Dart / Flutter bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 Built with flutter_rust_bridge for isolate-safe Future APIs and Flutter-native type mapping.
 
 

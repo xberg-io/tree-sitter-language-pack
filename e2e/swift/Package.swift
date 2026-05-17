@@ -5,15 +5,15 @@ let package = Package(
     name: "E2eSwift",
     platforms: [
         .macOS(.v13),
-        .iOS(.v14),
+        .iOS(.v16),
     ],
     dependencies: [
-        .package(path: "../../packages/swift"),
+        .package(name: "TreeSitterLanguagePack", path: "../../packages/swift"),
     ],
     targets: [
         .testTarget(
             name: "TreeSitterLanguagePackE2ETests",
-            dependencies: [.product(name: "TreeSitterLanguagePack", package: "swift")]
+            dependencies: [.product(name: "TreeSitterLanguagePack", package: "TreeSitterLanguagePack")]
         ),
     ]
 )

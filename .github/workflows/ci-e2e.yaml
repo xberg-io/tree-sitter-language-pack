@@ -158,12 +158,10 @@ jobs:
               - 'fixtures/**'
             node:
               - 'crates/ts-pack-core-node/**'
-              - 'packages/typescript/**'
               - 'e2e/node/**'
               - 'fixtures/**'
             wasm:
               - 'crates/ts-pack-core-wasm/**'
-              - 'packages/wasm/**'
               - 'e2e/wasm/**'
               - 'fixtures/**'
             go:
@@ -464,14 +462,9 @@ jobs:
           name: node-${{ matrix.platform }}
           path: crates/ts-pack-core-node/
 
-      - name: Smoke test native module
-        shell: bash
-        working-directory: crates/ts-pack-core-node
-        run: node -e "const m = require('./'); console.log('Languages:', m.availableLanguages().length)"
-
       - name: Run E2E tests
         shell: bash
-        working-directory: e2e/typescript
+        working-directory: e2e/node
         run: npx vitest run
 
   # ---------------------------------------------------------------------------
