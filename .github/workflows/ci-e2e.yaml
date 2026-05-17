@@ -517,9 +517,9 @@ jobs:
         shell: bash
         run: |
           for FILE in \
-            crates/ts-pack-core-wasm/pkg/ts_pack_wasm.js \
-            crates/ts-pack-core-wasm/pkg/ts_pack_wasm.d.ts \
-            crates/ts-pack-core-wasm/pkg/ts_pack_wasm_bg.wasm; do
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.js \
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.d.ts \
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm_bg.wasm; do
             if [ ! -f "$FILE" ]; then
               echo "ERROR: Expected file missing: $FILE"
               exit 1
@@ -979,9 +979,9 @@ jobs:
       - name: Create PHP extension ini
         if: matrix.os == 'ubuntu-latest'
         run: |
-          EXT_FILE="${{ github.workspace }}/target/release/libts_pack_php.so"
+          EXT_FILE="${{ github.workspace }}/target/release/libts_pack_core_php.so"
           if [ ! -f "$EXT_FILE" ]; then
-            EXT_FILE=$(find ${{ github.workspace }}/target/release -name "*ts_pack_php*" | head -1)
+            EXT_FILE=$(find ${{ github.workspace }}/target/release -name "*ts_pack_core_php*" | head -1)
           fi
           if [ -z "$EXT_FILE" ]; then
             echo "ERROR: PHP extension not found"
@@ -1065,21 +1065,12 @@ jobs:
           sed -i 's/args ++ \["--cfg", "build_#{System.system_time(:millisecond)}"\]/args ++ ["--", "--cfg", "build_#{System.system_time(:millisecond)}"]/' deps/rustler/lib/rustler/compiler.ex
           mix deps.compile rustler --force
 
-      - name: Build NIF library
-        working-directory: packages/elixir
-        run: cargo build --release
-
-      - name: Stage NIF for Elixir
-        run: |
-          mkdir -p packages/elixir/priv/native
-          cp packages/elixir/target/release/libts_pack_elixir.so packages/elixir/priv/native/ts_pack_elixir.so
-          cp packages/elixir/target/release/libts_pack_elixir.so packages/elixir/priv/native/ts-pack-elixir.so
-
       - name: Compile Elixir (warnings as errors)
         working-directory: packages/elixir
         env:
           MIX_ENV: test
           TSLP_BUILD: "1"
+          TREE_SITTER_LANGUAGE_PACK_BUILD: "1"
         run: mix compile --warnings-as-errors
 
       - name: Run Elixir tests
@@ -1134,6 +1125,9 @@ jobs:
 
       - name: Install Task
         uses: kreuzberg-dev/actions/install-task@v1
+
+      - name: Install alef
+        uses: kreuzberg-dev/actions/install-alef@v1
 
       - name: Generate C E2E tests
         run: task c:e2e:generate

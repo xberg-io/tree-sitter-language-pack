@@ -435,6 +435,10 @@ e2e = "cd e2e/zig && zig build test"
 precondition = "command -v pnpm >/dev/null 2>&1"
 install = "cd crates/ts-pack-core-node && pnpm install"
 
+[crates.setup.wasm]
+precondition = "command -v pnpm >/dev/null 2>&1"
+install = "cd crates/ts-pack-core-wasm && pnpm install"
+
 [crates.publish]
 core_crate = "crates/ts-pack-core"
 
