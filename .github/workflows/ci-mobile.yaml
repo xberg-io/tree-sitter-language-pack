@@ -80,13 +80,12 @@ jobs:
       - uses: kreuzberg-dev/actions/build-android-natives@v1
         with:
           crate-name: tree-sitter-language-pack-jni
-          lib-name: tree_sitter_language_pack_jni
-          abi: ${{ matrix.abi }}
-          target: ${{ matrix.target }}
+          lib-name: ts_pack_jni
+          abis: ${{ matrix.abi }}
       - name: Stage native into AAR jniLibs
         run: |
           mkdir -p "packages/kotlin-android/src/main/jniLibs/${{ matrix.abi }}"
-          cp -v "dist/android-natives/${{ matrix.abi }}/libtree_sitter_language_pack_jni.so" \
+          cp -v "dist/android-natives/${{ matrix.abi }}/libts_pack_jni.so" \
                 "packages/kotlin-android/src/main/jniLibs/${{ matrix.abi }}/"
         shell: bash
       - uses: kreuzberg-dev/actions/setup-gradle@v1

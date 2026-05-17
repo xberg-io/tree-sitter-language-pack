@@ -2614,10 +2614,9 @@ jobs:
       - uses: kreuzberg-dev/actions/setup-android-ndk@v1
       - uses: kreuzberg-dev/actions/build-android-natives@v1
         with:
-          crate-name: ts-pack-core-jni
+          crate-name: tree-sitter-language-pack-jni
           lib-name: ts_pack_jni
-          abi: ${{ matrix.abi }}
-          target: ${{ matrix.target }}
+          abis: ${{ matrix.abi }}
       - uses: actions/upload-artifact@v7.0.1
         with:
           name: kotlin-android-${{ matrix.abi }}
