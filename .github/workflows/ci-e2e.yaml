@@ -830,11 +830,11 @@ jobs:
 
       - name: Build C# bindings
         working-directory: packages/csharp
-        run: dotnet build TreeSitterLanguagePack.csproj -c Release
+        run: dotnet build TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release
 
       - name: Run C# unit tests
         working-directory: packages/csharp
-        run: dotnet test TreeSitterLanguagePack.csproj -c Release --no-build
+        run: dotnet test TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release --no-build
 
       - name: Run C# E2E tests
         working-directory: e2e/csharp
