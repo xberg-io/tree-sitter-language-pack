@@ -282,7 +282,12 @@ jobs:
       - name: Check version sync
         run: |
           alef sync-versions
-          git diff --exit-code -- packages/ crates/ || {
+          # Ignore whitespace-only diffs — `alef readme` (run in a previous
+          # step) leaves rumdl-vs-alef blank-line drift in crates/*/README.md
+          # files that's tolerated by the freshness check above but would
+          # otherwise trip this strict diff. Real version drift will still
+          # show up (manifest version strings have no whitespace ambiguity).
+          git diff -w --ignore-blank-lines --exit-code -- packages/ crates/ || {
             echo "::error::Versions are out of sync. Run 'alef sync-versions' and commit."
             exit 1
           }
