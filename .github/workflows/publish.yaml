@@ -700,7 +700,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.307.0
+        uses: ruby/setup-ruby@v1.308.0
         with:
           ruby-version: "3.4"
           bundler: none
@@ -2055,7 +2055,7 @@ jobs:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.307.0
+        uses: ruby/setup-ruby@v1.308.0
         with:
           ruby-version: "3.4"
           bundler: none
@@ -2242,7 +2242,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Elixir
-        uses: erlef/setup-elixir@v1.24.0
+        uses: erlef/setup-elixir@v1.24
         with:
           elixir-version: "1.17"
           otp-version: "27.2"

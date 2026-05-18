@@ -884,7 +884,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.307.0
+        uses: ruby/setup-ruby@v1.308.0
         with:
           ruby-version: "3.4"
 
@@ -1042,7 +1042,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Elixir
-        uses: erlef/setup-elixir@v1.24.0
+        uses: erlef/setup-elixir@v1.24
         with:
           elixir-version: "1.17"
           otp-version: "27.2"

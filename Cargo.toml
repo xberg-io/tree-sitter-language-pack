@@ -67,6 +67,10 @@ zstd = "0.13"
 [workspace.lints.clippy]
 all = { level = "deny", priority = -1 }
 duplicated_attributes = "allow"
+# Generated JNI shims emit `let v = call(); v` for jboolean returns since the
+# marshal is a pass-through. Suppressed upstream in alef ≥ 0.16.41; remove when
+# pin is bumped past that version.
+let_and_return = "allow"
 
 [workspace.lints.rust]
 unsafe_code = "deny"
