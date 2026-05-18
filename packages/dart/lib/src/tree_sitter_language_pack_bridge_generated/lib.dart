@@ -180,6 +180,22 @@ Future<PlatformInt64> download({required List<String> names}) =>
 /// Returns an error if the manifest cannot be fetched or the bundle download fails.
 Future<PlatformInt64> downloadAll() => RustLib.instance.api.crateDownloadAll();
 
+/// Download every language in a named group (e.g. `"web"`, `"data"`).
+///
+/// Groups are defined in the remote manifest and let you ensure a curated
+/// set of related grammars in one call instead of listing each name to
+/// `download`. Already-cached languages are skipped.
+///
+/// Returns the total number of languages now available (statically compiled
+/// plus downloaded and cached).
+///
+/// **Errors:**
+///
+/// Returns an error if the manifest cannot be fetched, the group is unknown,
+/// or any constituent language fails to download.
+Future<PlatformInt64> downloadGroup({required String name}) =>
+    RustLib.instance.api.crateDownloadGroup(name: name);
+
 /// Return all language names available in the remote manifest (305).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of
@@ -325,6 +341,8 @@ abstract class Node implements RustOpaqueInterface {
   Future<bool> isNamed();
 
   Future<String> kind();
+
+  Future<PlatformInt64> kindId();
 
   Future<Node?> namedChild({required PlatformInt64 index});
 

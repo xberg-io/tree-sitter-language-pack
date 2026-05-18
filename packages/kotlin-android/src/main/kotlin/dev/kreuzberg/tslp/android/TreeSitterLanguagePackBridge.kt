@@ -69,6 +69,9 @@ object TreeSitterLanguagePackBridge {
     external fun nativeDownloadAll(): Long
 
     @Throws(TreeSitterLanguagePackBridgeException::class)
+    external fun nativeDownloadGroup(name: String): Long
+
+    @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeManifestLanguages(): String
 
     @Throws(TreeSitterLanguagePackBridgeException::class)
@@ -108,6 +111,9 @@ object TreeSitterLanguagePackBridge {
 
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeNodeKind(handle: Long): String
+
+    @Throws(TreeSitterLanguagePackBridgeException::class)
+    external fun nativeNodeKindId(handle: Long): Short
 
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeNodeStartByte(handle: Long): Long

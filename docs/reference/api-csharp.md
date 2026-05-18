@@ -438,6 +438,39 @@ public static nuint DownloadAll()
 
 ---
 
+#### DownloadGroup()
+
+Download every language in a named group (e.g. `"web"`, `"data"`).
+
+Groups are defined in the remote manifest and let you ensure a curated
+set of related grammars in one call instead of listing each name to
+`download`. Already-cached languages are skipped.
+
+Returns the total number of languages now available (statically compiled
+plus downloaded and cached).
+
+**Errors:**
+
+Returns an error if the manifest cannot be fetched, the group is unknown,
+or any constituent language fails to download.
+
+**Signature:**
+
+```csharp
+public static nuint DownloadGroup(string name)
+```
+
+**Parameters:**
+
+| Name   | Type     | Required | Description |
+| ------ | -------- | -------- | ----------- |
+| `Name` | `string` | Yes      | The name    |
+
+**Returns:** `nuint`
+**Errors:** Throws `Error`.
+
+---
+
 #### ManifestLanguages()
 
 Return all language names available in the remote manifest (305).
@@ -842,6 +875,20 @@ Return the node's kind name (e.g. `"function_definition"`).
 
 ```csharp
 public string Kind()
+```
+
+###### KindId()
+
+Return the node's numeric kind ID.
+
+Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+(e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+than comparing the string `kind()` in tight AST loops.
+
+**Signature:**
+
+```csharp
+public ushort KindId()
 ```
 
 ###### StartByte()

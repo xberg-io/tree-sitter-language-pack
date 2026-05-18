@@ -368,6 +368,33 @@ class TreeSitterLanguagePackBridge {
     return await rust_bridge.downloadAll();
   }
 
+  /// Download every language in a named group (e.g. `"web"`, `"data"`).
+  ///
+  /// Groups are defined in the remote manifest and let you ensure a curated
+  /// set of related grammars in one call instead of listing each name to
+  /// [`download`]. Already-cached languages are skipped.
+  ///
+  /// Returns the total number of languages now available (statically compiled
+  /// plus downloaded and cached).
+  ///
+  /// # Errors
+  ///
+  /// Returns an error if the manifest cannot be fetched, the group is unknown,
+  /// or any constituent language fails to download.
+  ///
+  /// # Example
+  ///
+  /// ```no_run
+  /// use tree_sitter_language_pack::download_group;
+  ///
+  /// let count = download_group("web").unwrap();
+  /// println!("{} languages available", count);
+  /// ```
+  /// throws Error on failure
+  static Future<int> downloadGroup(String name) async {
+    return await rust_bridge.downloadGroup(name: name);
+  }
+
   /// Return all language names available in the remote manifest (305).
   ///
   /// Fetches (and caches) the remote manifest to discover the full list of

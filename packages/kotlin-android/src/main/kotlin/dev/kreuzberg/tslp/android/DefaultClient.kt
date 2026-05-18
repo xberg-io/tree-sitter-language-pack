@@ -121,6 +121,15 @@ class Node internal constructor(internal val handle: Long) : AutoCloseable {
         return TreeSitterLanguagePackBridge.nativeNodeKind(handle)
     }
 
+    // Return the node's numeric kind ID.
+    //
+    // Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+    // (e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+    // than comparing the string [`kind()`](Self::kind) in tight AST loops.
+    fun kindId(): Short {
+        return TreeSitterLanguagePackBridge.nativeNodeKindId(handle)
+    }
+
     // Return the inclusive start byte offset of this node.
     fun startByte(): Long {
         return TreeSitterLanguagePackBridge.nativeNodeStartByte(handle)

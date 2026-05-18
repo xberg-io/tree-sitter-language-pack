@@ -464,6 +464,10 @@ impl Node {
         self.inner.kind()
     }
     #[frb]
+    pub fn kind_id(&self) -> i64 {
+        (|v| v as i64)(self.inner.kind_id())
+    }
+    #[frb]
     pub fn start_byte(&self) -> i64 {
         (|v| v as i64)(self.inner.start_byte())
     }
@@ -1212,6 +1216,25 @@ pub fn download(names: Vec<String>) -> Result<i64, String> {
 /// Returns an error if the manifest cannot be fetched or the bundle download fails.
 pub fn download_all() -> Result<i64, String> {
     tree_sitter_language_pack::download_all()
+        .map(|v| v as i64)
+        .map_err(|e| e.to_string())
+}
+
+/// Download every language in a named group (e.g. `"web"`, `"data"`).
+///
+/// Groups are defined in the remote manifest and let you ensure a curated
+/// set of related grammars in one call instead of listing each name to
+/// `download`. Already-cached languages are skipped.
+///
+/// Returns the total number of languages now available (statically compiled
+/// plus downloaded and cached).
+///
+/// **Errors:**
+///
+/// Returns an error if the manifest cannot be fetched, the group is unknown,
+/// or any constituent language fails to download.
+pub fn download_group(name: String) -> Result<i64, String> {
+    tree_sitter_language_pack::download_group(&name)
         .map(|v| v as i64)
         .map_err(|e| e.to_string())
 }

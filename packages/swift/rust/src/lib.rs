@@ -298,6 +298,8 @@ mod ffi {
         fn node_clone(client: &Node) -> Node;
         #[swift_bridge(swift_name = "nodeKind")]
         fn node_kind(client: &Node) -> String;
+        #[swift_bridge(swift_name = "nodeKindId")]
+        fn node_kind_id(client: &Node) -> u16;
         #[swift_bridge(swift_name = "nodeStartByte")]
         fn node_start_byte(client: &Node) -> usize;
         #[swift_bridge(swift_name = "nodeEndByte")]
@@ -477,6 +479,8 @@ mod ffi {
         fn download(names: Vec<String>) -> Result<usize, String>;
         #[swift_bridge(swift_name = "downloadAll")]
         fn download_all() -> Result<usize, String>;
+        #[swift_bridge(swift_name = "downloadGroup")]
+        fn download_group(name: String) -> Result<usize, String>;
         #[swift_bridge(swift_name = "manifestLanguages")]
         fn manifest_languages() -> Result<Vec<String>, String>;
         #[swift_bridge(swift_name = "downloadedLanguages")]
@@ -1307,6 +1311,9 @@ pub fn node_clone(client: &Node) -> Node {
 pub fn node_kind(client: &Node) -> String {
     client.0.kind().to_string()
 }
+pub fn node_kind_id(client: &Node) -> u16 {
+    client.0.kind_id()
+}
 pub fn node_start_byte(client: &Node) -> usize {
     client.0.start_byte()
 }
@@ -1790,6 +1797,10 @@ pub fn download(names: Vec<String>) -> Result<usize, String> {
 
 pub fn download_all() -> Result<usize, String> {
     tree_sitter_language_pack::download_all().map_err(|e| e.to_string())
+}
+
+pub fn download_group(name: String) -> Result<usize, String> {
+    tree_sitter_language_pack::download_group(&name).map_err(|e| e.to_string())
 }
 
 pub fn manifest_languages() -> Result<Vec<String>, String> {

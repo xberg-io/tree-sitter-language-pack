@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.16.47"
+alef_version = "0.16.50"
 languages = [
   "python",
   "node",
@@ -265,6 +265,7 @@ functions = [
   "configure",
   "download",
   "download_all",
+  "download_group",
   "manifest_languages",
   "downloaded_languages",
   "clean_cache",

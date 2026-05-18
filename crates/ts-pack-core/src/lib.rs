@@ -462,6 +462,40 @@ pub fn download_all() -> Result<usize, Error> {
     Ok(REGISTRY.language_count())
 }
 
+/// Download every language in a named group (e.g. `"web"`, `"data"`).
+///
+/// Groups are defined in the remote manifest and let you ensure a curated
+/// set of related grammars in one call instead of listing each name to
+/// [`download`]. Already-cached languages are skipped.
+///
+/// Returns the total number of languages now available (statically compiled
+/// plus downloaded and cached).
+///
+/// # Errors
+///
+/// Returns an error if the manifest cannot be fetched, the group is unknown,
+/// or any constituent language fails to download.
+///
+/// # Example
+///
+/// ```no_run
+/// use tree_sitter_language_pack::download_group;
+///
+/// let count = download_group("web").unwrap();
+/// println!("{} languages available", count);
+/// ```
+#[cfg(feature = "download")]
+pub fn download_group(name: &str) -> Result<usize, Error> {
+    let _cache_guard = DOWNLOAD_CACHE_LOCK
+        .lock()
+        .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+    ensure_cache_registered()?;
+    let cache_dir = effective_cache_dir()?;
+    let dm = DownloadManager::with_cache_dir(env!("CARGO_PKG_VERSION"), cache_dir);
+    dm.ensure_group(name)?;
+    Ok(REGISTRY.language_count())
+}
+
 /// Return all language names available in the remote manifest (305).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of

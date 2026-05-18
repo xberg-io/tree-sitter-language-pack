@@ -1315,6 +1315,17 @@ TS_PACKNode *ts_pack_node_clone(const TS_PACKNode *this_);
 char *ts_pack_node_kind(const TS_PACKNode *this_);
 
 /**
+ * Return the node's numeric kind ID.
+ *
+ * Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+ * (e.g. `"function_definition" â 42`). Comparing `kind_id()` is cheaper
+ * than comparing the string `kind()` (Self::kind) in tight AST loops.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ */
+uint16_t ts_pack_node_kind_id(const TS_PACKNode *this_);
+
+/**
  * Return the inclusive start byte offset of this node.
  * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
  * freed with the appropriate free function.
@@ -2352,6 +2363,28 @@ uintptr_t ts_pack_download(const char *names);
  * \endcode
  */
 uintptr_t ts_pack_download_all(void);
+
+/**
+ * Download every language in a named group (e.g. `"web"`, `"data"`).
+ *
+ * Groups are defined in the remote manifest and let you ensure a curated
+ * set of related grammars in one call instead of listing each name to
+ * [`download`]. Already-cached languages are skipped.
+ *
+ * Returns the total number of languages now available (statically compiled
+ * plus downloaded and cached).
+ * \note Returns an error if the manifest cannot be fetched, the group is unknown,
+ * or any constituent language fails to download.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ * \code
+ * use tree_sitter_language_pack::download_group;
+ *
+ * let count = download_group("web").unwrap();
+ * println!("{} languages available", count);
+ * \endcode
+ */
+uintptr_t ts_pack_download_group(const char *name);
 
 /**
  * Return all language names available in the remote manifest (305).

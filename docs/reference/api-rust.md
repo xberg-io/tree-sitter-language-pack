@@ -438,6 +438,39 @@ pub fn download_all() -> Result<usize, Error>
 
 ---
 
+#### download_group()
+
+Download every language in a named group (e.g. `"web"`, `"data"`).
+
+Groups are defined in the remote manifest and let you ensure a curated
+set of related grammars in one call instead of listing each name to
+`download`. Already-cached languages are skipped.
+
+Returns the total number of languages now available (statically compiled
+plus downloaded and cached).
+
+**Errors:**
+
+Returns an error if the manifest cannot be fetched, the group is unknown,
+or any constituent language fails to download.
+
+**Signature:**
+
+```rust
+pub fn download_group(name: &str) -> Result<usize, Error>
+```
+
+**Parameters:**
+
+| Name   | Type     | Required | Description |
+| ------ | -------- | -------- | ----------- |
+| `name` | `String` | Yes      | The name    |
+
+**Returns:** `usize`
+**Errors:** Returns `Err(Error)`.
+
+---
+
 #### manifest_languages()
 
 Return all language names available in the remote manifest (305).
@@ -842,6 +875,20 @@ Return the node's kind name (e.g. `"function_definition"`).
 
 ```rust
 pub fn kind(&self) -> String
+```
+
+###### kind_id()
+
+Return the node's numeric kind ID.
+
+Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+(e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+than comparing the string `kind()` in tight AST loops.
+
+**Signature:**
+
+```rust
+pub fn kind_id(&self) -> u16
 ```
 
 ###### start_byte()
