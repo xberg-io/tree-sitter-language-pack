@@ -2,15 +2,9 @@
   "id": "error_handling_huge_source",
   "description": "Parsing a ~120KB python source produces a tree without error",
   "category": "error-handling",
-  "tags": [
-    "error-handling",
-    "stress"
-  ],
+  "tags": ["error-handling", "stress"],
   "skip": {
-    "languages": [
-      "java",
-      "csharp"
-    ],
+    "languages": ["java", "csharp"],
     "reason": "Java/C# string literals max ~64KB; this fixture embeds a ~120KB source for the Rust core stress test"
   },
   "input": {

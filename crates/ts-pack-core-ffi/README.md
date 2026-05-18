@@ -91,7 +91,6 @@ C ABI for tree-sitter-language-pack — link against the shared library to use t
 
 ## Installation
 
-
 Download the prebuilt static/dynamic library from the [GitHub releases page](https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases) or build from source:
 
 ```bash
@@ -99,12 +98,9 @@ git clone https://github.com/kreuzberg-dev/tree-sitter-language-pack
 cargo build --release -p tree-sitter-language-pack-ffi
 ```
 
-
 ## Quick Start
 
-
 See the [language guide](https://docs.tree-sitter-language-pack.kreuzberg.dev) for `ffi`-specific usage.
-
 
 ## Features
 

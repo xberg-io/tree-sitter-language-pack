@@ -91,14 +91,11 @@ Pre-compiled tree-sitter grammars in a WebAssembly bundle for browsers, Deno, an
 
 ## Installation
 
-
 ```bash
 npm install @kreuzberg/tree-sitter-language-pack-wasm
 ```
 
-
 ## Quick Start
-
 
 ```typescript
 import init, { getParser } from "@kreuzberg/tree-sitter-language-pack-wasm";
@@ -107,7 +104,6 @@ await init();
 const parser = getParser("python");
 const tree = parser.parse("def hello(): pass");
 ```
-
 
 ## Features
 

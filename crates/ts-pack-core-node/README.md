@@ -91,14 +91,11 @@ Pre-compiled tree-sitter grammars for 305 programming languages with TypeScript 
 
 ## Installation
 
-
 ```bash
 npm install @kreuzberg/tree-sitter-language-pack
 ```
 
-
 ## Quick Start
-
 
 ```typescript
 import { getParser } from "@kreuzberg/tree-sitter-language-pack";
@@ -107,7 +104,6 @@ const parser = getParser("python");
 const tree = parser.parse("def hello(): pass");
 console.log(tree.rootNode.toString());
 ```
-
 
 ## Features
 
