@@ -12,16 +12,13 @@ importers:
     devDependencies:
       '@napi-rs/cli':
         specifier: ^3.6.2
-        version: 3.6.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(node-addon-api@8.7.0)
+        version: 3.6.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
 
   e2e/node:
     devDependencies:
       '@kreuzberg/tree-sitter-language-pack':
         specifier: workspace:*
         version: link:../../crates/ts-pack-core-node
-      tree-sitter:
-        specifier: ^0.25.0
-        version: 0.25.0
       vitest:
         specifier: ^3.0.0
         version: 3.2.4
@@ -1055,14 +1052,6 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  node-addon-api@8.7.0:
-    resolution: {integrity: sha512-9MdFxmkKaOYVTV+XVRG8ArDwwQ77XIgIPyKASB1k3JPq3M8fGQQQE3YpMOrKm6g//Ktx8ivZr8xo1Qmtqub+GA==}
-    engines: {node: ^18 || ^20 || >= 21}
-
-  node-gyp-build@4.8.4:
-    resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
-    hasBin: true
-
   obug@2.1.1:
     resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
 
@@ -1138,9 +1127,6 @@ packages:
   tinyspy@4.0.4:
     resolution: {integrity: sha512-azl+t0z7pw/z958Gy9svOTuzqIk6xq+NSheJzn5MMWtWTFywIacg2wUlzKFGtt3cthx0r2SxMK0yzJOR0IES7Q==}
     engines: {node: '>=14.0.0'}
-
-  tree-sitter@0.25.0:
-    resolution: {integrity: sha512-PGZZzFW63eElZJDe/b/R/LbsjDDYJa5UEjLZJB59RQsMX+fo0j54fqBPn1MGKav/QNa0JR0zBiVaikYDWCj5KQ==}
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
@@ -1418,7 +1404,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@napi-rs/cli@3.6.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(node-addon-api@8.7.0)':
+  '@napi-rs/cli@3.6.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
       '@inquirer/prompts': 8.4.3
       '@napi-rs/cross-toolchain': 1.0.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
@@ -1426,7 +1412,7 @@ snapshots:
       '@octokit/rest': 22.0.1
       clipanion: 4.0.0-rc.4(typanion@3.14.0)
       colorette: 2.0.20
-      emnapi: 1.10.0(node-addon-api@8.7.0)
+      emnapi: 1.10.0
       es-toolkit: 1.46.1
       js-yaml: 4.1.1
       obug: 2.1.1
@@ -1917,9 +1903,7 @@ snapshots:
 
   deep-eql@5.0.2: {}
 
-  emnapi@1.10.0(node-addon-api@8.7.0):
-    optionalDependencies:
-      node-addon-api: 8.7.0
+  emnapi@1.10.0: {}
 
   es-module-lexer@1.7.0: {}
 
@@ -2003,10 +1987,6 @@ snapshots:
 
   nanoid@3.3.12: {}
 
-  node-addon-api@8.7.0: {}
-
-  node-gyp-build@4.8.4: {}
-
   obug@2.1.1: {}
 
   pathe@2.0.3: {}
@@ -2086,11 +2066,6 @@ snapshots:
   tinyrainbow@2.0.0: {}
 
   tinyspy@4.0.4: {}
-
-  tree-sitter@0.25.0:
-    dependencies:
-      node-addon-api: 8.7.0
-      node-gyp-build: 4.8.4
 
   tslib@2.8.1:
     optional: true

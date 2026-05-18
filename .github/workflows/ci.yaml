@@ -262,7 +262,9 @@ jobs:
       - name: Check README freshness
         run: |
           alef readme
-          git diff --exit-code -- packages/*/README.md crates/*/README.md || {
+          # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
+          # blank lines and table column padding that alef emits.
+          git diff -w --ignore-blank-lines --exit-code -- packages/*/README.md crates/*/README.md || {
             echo "::error::READMEs are out of date. Run 'alef readme' and commit."
             exit 1
           }
@@ -270,8 +272,9 @@ jobs:
       - name: Check API docs freshness
         run: |
           alef docs
-          # Ignore whitespace-only diffs (markdown formatter may add/remove blank lines)
-          git diff --ignore-blank-lines --exit-code -- docs/reference/ || {
+          # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
+          # blank lines and table column padding that alef emits.
+          git diff -w --ignore-blank-lines --exit-code -- docs/reference/ || {
             echo "::error::API docs are out of date. Run 'alef docs' and commit."
             exit 1
           }
