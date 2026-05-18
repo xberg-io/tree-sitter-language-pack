@@ -52,10 +52,9 @@ kotlin {
     }
 }
 
-repositories {
-    mavenCentral()
-    google()
-}
+// Repositories declared in settings.gradle.kts via
+// dependencyResolutionManagement (FAIL_ON_PROJECT_REPOS). Re-declaring them
+// here triggers Gradle "repository was added by build file" errors.
 
 dependencies {
     // JNA for loading the native library from java.library.path
