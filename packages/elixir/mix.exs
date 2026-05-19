@@ -26,7 +26,6 @@ defmodule TreeSitterLanguagePack.MixProject do
     [
       {:rustler, "~> 0.37.0", runtime: false},
       {:rustler_precompiled, "~> 0.9"},
-      {:jason, "~> 1.4"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false}
     ]

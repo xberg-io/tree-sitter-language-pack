@@ -288,7 +288,6 @@
                 <configuration>
                     <targetJdk>${maven.compiler.release}</targetJdk>
                     <typeResolution>false</typeResolution>
-                    <minimumTokens>250</minimumTokens>
                     <rulesets>
                         <ruleset>/rulesets/java/quickstart.xml</ruleset>
                     </rulesets>
