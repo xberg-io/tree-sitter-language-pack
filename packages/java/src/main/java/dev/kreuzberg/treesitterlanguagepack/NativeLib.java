@@ -5,13 +5,13 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
+import java.io.File;
 import java.lang.foreign.Arena;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
 import java.lang.foreign.SymbolLookup;
 import java.lang.foreign.ValueLayout;
 import java.lang.invoke.MethodHandle;
-import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,749 +24,712 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 final class NativeLib {
-    private static final Linker LINKER = Linker.nativeLinker();
-    private static SymbolLookup LIB;
-    private static final String NATIVES_RESOURCE_ROOT = "/natives";
-    private static final Object NATIVE_EXTRACT_LOCK = new Object();
-    private static String cachedExtractKey;
-    private static Path cachedExtractDir;
-    private static String loadedLibraryName;
+  private static final Linker LINKER = Linker.nativeLinker();
+  private static SymbolLookup LIB;
+  private static final String NATIVES_RESOURCE_ROOT = "/natives";
+  private static final Object NATIVE_EXTRACT_LOCK = new Object();
+  private static String cachedExtractKey;
+  private static Path cachedExtractDir;
+  private static String loadedLibraryName;
 
-    static {
-        loadNativeLibrary();
+  static {
+    loadNativeLibrary();
+    try {
+      Arena arena = Arena.ofShared();
+      // Try the loaded library name first (for System.load() path case)
+      try {
+        LIB = SymbolLookup.libraryLookup(loadedLibraryName, arena);
+      } catch (Throwable inner1) {
+        // Try with 'lib' prefix if not already present (for System.loadLibrary() case)
+        String nameWithLib =
+            loadedLibraryName.startsWith("lib") ? loadedLibraryName : "lib" + loadedLibraryName;
         try {
-            Arena arena = Arena.ofShared();
-            // Try the loaded library name first (for System.load() path case)
-            try {
-                LIB = SymbolLookup.libraryLookup(loadedLibraryName, arena);
-            } catch (Throwable inner1) {
-                // Try with 'lib' prefix if not already present (for System.loadLibrary() case)
-                String nameWithLib = loadedLibraryName.startsWith("lib") ? loadedLibraryName : "lib" + loadedLibraryName;
-                try {
-                    LIB = SymbolLookup.libraryLookup(nameWithLib, arena);
-                } catch (Throwable inner2) {
-                    // Last fallback: use LINKER.defaultLookup()
-                    LIB = LINKER.defaultLookup();
-                }
-            }
-        } catch (Throwable e) {
-            throw new ExceptionInInitializerError("Failed to initialize library symbols: " + e.getMessage());
+          LIB = SymbolLookup.libraryLookup(nameWithLib, arena);
+        } catch (Throwable inner2) {
+          // Last fallback: use LINKER.defaultLookup()
+          LIB = LINKER.defaultLookup();
         }
+      }
+    } catch (Throwable e) {
+      throw new ExceptionInInitializerError(
+          "Failed to initialize library symbols: " + e.getMessage());
+    }
+  }
+
+  private static void loadNativeLibrary() {
+    String osName = System.getProperty("os.name", "").toLowerCase(java.util.Locale.ROOT);
+    String osArch = System.getProperty("os.arch", "").toLowerCase(java.util.Locale.ROOT);
+
+    String libName;
+    String libExt;
+    if (osName.contains("mac") || osName.contains("darwin")) {
+      libName = "libts_pack_core_ffi";
+      libExt = ".dylib";
+    } else if (osName.contains("win")) {
+      libName = "ts_pack_core_ffi";
+      libExt = ".dll";
+    } else {
+      libName = "libts_pack_core_ffi";
+      libExt = ".so";
     }
 
-    private static void loadNativeLibrary() {
-        String osName = System.getProperty("os.name", "").toLowerCase(java.util.Locale.ROOT);
-        String osArch = System.getProperty("os.arch", "").toLowerCase(java.util.Locale.ROOT);
+    String nativesRid = resolveNativesRid(osName, osArch);
+    String nativesDir = NATIVES_RESOURCE_ROOT + "/" + nativesRid;
 
-        String libName;
-        String libExt;
-        if (osName.contains("mac") || osName.contains("darwin")) {
-            libName = "libts_pack_core_ffi";
-            libExt = ".dylib";
-        } else if (osName.contains("win")) {
-            libName = "ts_pack_core_ffi";
-            libExt = ".dll";
-        } else {
-            libName = "libts_pack_core_ffi";
-            libExt = ".so";
-        }
-
-        String nativesRid = resolveNativesRid(osName, osArch);
-        String nativesDir = NATIVES_RESOURCE_ROOT + "/" + nativesRid;
-
-        Path extracted = tryExtractAndLoadFromResources(nativesDir, libName, libExt);
-        if (extracted != null) {
-            return;
-        }
-
-        try {
-            System.loadLibrary("ts_pack_core_ffi");
-            // Find the full path by searching java.library.path
-            loadedLibraryName = findLoadedLibraryPath("ts_pack_core_ffi", libName, libExt);
-        } catch (UnsatisfiedLinkError e) {
-            String msg = "Failed to load ts_pack_core_ffi native library. Expected resource: " + nativesDir + "/" + libName
-                    + libExt + " (RID: " + nativesRid + "). "
-                    + "Ensure the library is bundled in the JAR under natives/{os-arch}/, "
-                    + "or place it on the system library path (java.library.path).";
-            UnsatisfiedLinkError out = new UnsatisfiedLinkError(msg + " Original error: " + e.getMessage());
-            out.initCause(e);
-            throw out;
-        }
+    Path extracted = tryExtractAndLoadFromResources(nativesDir, libName, libExt);
+    if (extracted != null) {
+      return;
     }
 
-    private static Path tryExtractAndLoadFromResources(String nativesDir, String libName, String libExt) {
-        String resourcePath = nativesDir + "/" + libName + libExt;
-        URL resource = NativeLib.class.getResource(resourcePath);
-        if (resource == null) {
-            return null;
-        }
+    try {
+      System.loadLibrary("ts_pack_core_ffi");
+      // Find the full path by searching java.library.path
+      loadedLibraryName = findLoadedLibraryPath("ts_pack_core_ffi", libName, libExt);
+    } catch (UnsatisfiedLinkError e) {
+      String msg =
+          "Failed to load ts_pack_core_ffi native library. Expected resource: "
+              + nativesDir
+              + "/"
+              + libName
+              + libExt
+              + " (RID: "
+              + nativesRid
+              + "). "
+              + "Ensure the library is bundled in the JAR under natives/{os-arch}/, "
+              + "or place it on the system library path (java.library.path).";
+      UnsatisfiedLinkError out =
+          new UnsatisfiedLinkError(msg + " Original error: " + e.getMessage());
+      out.initCause(e);
+      throw out;
+    }
+  }
 
-        try {
-            Path tempDir = extractOrReuseNativeDirectory(nativesDir);
-            Path libPath = tempDir.resolve(libName + libExt);
-            if (!Files.exists(libPath)) {
-                throw new UnsatisfiedLinkError("Missing extracted native library: " + libPath);
-            }
-            System.load(libPath.toAbsolutePath().toString());
-            loadedLibraryName = libPath.toAbsolutePath().toString();
-            return libPath;
-        } catch (Exception e) {
-            System.err.println("[NativeLib] Failed to extract and load native library from resources: " + e.getMessage());
-            return null;
-        }
+  private static Path tryExtractAndLoadFromResources(
+      String nativesDir, String libName, String libExt) {
+    String resourcePath = nativesDir + "/" + libName + libExt;
+    URL resource = NativeLib.class.getResource(resourcePath);
+    if (resource == null) {
+      return null;
     }
 
-    private static Path extractOrReuseNativeDirectory(String nativesDir) throws Exception {
-        URL location = NativeLib.class.getProtectionDomain().getCodeSource().getLocation();
-        if (location == null) {
-            throw new IllegalStateException("Missing code source location for ts_pack_core_ffi JAR");
-        }
+    try {
+      Path tempDir = extractOrReuseNativeDirectory(nativesDir);
+      Path libPath = tempDir.resolve(libName + libExt);
+      if (!Files.exists(libPath)) {
+        throw new UnsatisfiedLinkError("Missing extracted native library: " + libPath);
+      }
+      System.load(libPath.toAbsolutePath().toString());
+      loadedLibraryName = libPath.toAbsolutePath().toString();
+      return libPath;
+    } catch (Exception e) {
+      System.err.println(
+          "[NativeLib] Failed to extract and load native library from resources: "
+              + e.getMessage());
+      return null;
+    }
+  }
 
-        Path codePath = Path.of(location.toURI());
-        String key = codePath.toAbsolutePath() + "::" + nativesDir;
-
-        synchronized (NATIVE_EXTRACT_LOCK) {
-            if (cachedExtractDir != null && key.equals(cachedExtractKey)) {
-                return cachedExtractDir;
-            }
-            Path tempDir = Files.createTempDirectory("ts_pack_core_ffi_native");
-            tempDir.toFile().deleteOnExit();
-            List<Path> extracted = extractNativeDirectory(codePath, nativesDir, tempDir);
-            if (extracted.isEmpty()) {
-                throw new IllegalStateException("No native files extracted from resources dir: " + nativesDir);
-            }
-            cachedExtractKey = key;
-            cachedExtractDir = tempDir;
-            return tempDir;
-        }
+  private static Path extractOrReuseNativeDirectory(String nativesDir) throws Exception {
+    URL location = NativeLib.class.getProtectionDomain().getCodeSource().getLocation();
+    if (location == null) {
+      throw new IllegalStateException("Missing code source location for ts_pack_core_ffi JAR");
     }
 
-    private static List<Path> extractNativeDirectory(Path codePath, String nativesDir, Path destDir) throws Exception {
-        if (!Files.exists(destDir) || !Files.isDirectory(destDir)) {
-            throw new IllegalArgumentException("Destination directory does not exist: " + destDir);
-        }
+    Path codePath = Path.of(location.toURI());
+    String key = codePath.toAbsolutePath() + "::" + nativesDir;
 
-        String prefix = nativesDir.startsWith("/") ? nativesDir.substring(1) : nativesDir;
-        if (!prefix.endsWith("/")) {
-            prefix = prefix + "/";
-        }
+    synchronized (NATIVE_EXTRACT_LOCK) {
+      if (cachedExtractDir != null && key.equals(cachedExtractKey)) {
+        return cachedExtractDir;
+      }
+      Path tempDir = Files.createTempDirectory("ts_pack_core_ffi_native");
+      tempDir.toFile().deleteOnExit();
+      List<Path> extracted = extractNativeDirectory(codePath, nativesDir, tempDir);
+      if (extracted.isEmpty()) {
+        throw new IllegalStateException(
+            "No native files extracted from resources dir: " + nativesDir);
+      }
+      cachedExtractKey = key;
+      cachedExtractDir = tempDir;
+      return tempDir;
+    }
+  }
 
-        if (Files.isDirectory(codePath)) {
-            Path nativesPath = codePath.resolve(prefix);
-            if (!Files.exists(nativesPath) || !Files.isDirectory(nativesPath)) {
-                return List.of();
-            }
-            return copyDirectory(nativesPath, destDir);
-        }
-
-        List<Path> extracted = new ArrayList<>();
-        try (JarFile jar = new JarFile(codePath.toFile())) {
-            Enumeration<JarEntry> entries = jar.entries();
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement();
-                String name = entry.getName();
-                if (!name.startsWith(prefix) || entry.isDirectory()) {
-                    continue;
-                }
-                String relative = name.substring(prefix.length());
-                Path out = safeResolve(destDir, relative);
-                Files.createDirectories(out.getParent());
-                try (var in = jar.getInputStream(entry)) {
-                    Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
-                }
-                out.toFile().deleteOnExit();
-                extracted.add(out);
-            }
-        }
-        return extracted;
+  private static List<Path> extractNativeDirectory(Path codePath, String nativesDir, Path destDir)
+      throws Exception {
+    if (!Files.exists(destDir) || !Files.isDirectory(destDir)) {
+      throw new IllegalArgumentException("Destination directory does not exist: " + destDir);
     }
 
-    private static List<Path> copyDirectory(Path srcDir, Path destDir) throws Exception {
-        List<Path> copied = new ArrayList<>();
-        try (var paths = Files.walk(srcDir)) {
-            for (Path src : (Iterable<Path>) paths::iterator) {
-                if (Files.isDirectory(src)) {
-                    continue;
-                }
-                Path relative = srcDir.relativize(src);
-                Path out = safeResolve(destDir, relative.toString());
-                Files.createDirectories(out.getParent());
-                Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
-                out.toFile().deleteOnExit();
-                copied.add(out);
-            }
-        }
-        return copied;
+    String prefix = nativesDir.startsWith("/") ? nativesDir.substring(1) : nativesDir;
+    if (!prefix.endsWith("/")) {
+      prefix = prefix + "/";
     }
 
-    private static Path safeResolve(Path destDir, String relative) throws Exception {
-        Path normalizedDest = destDir.toAbsolutePath().normalize();
-        Path out = normalizedDest.resolve(relative).normalize();
-        if (!out.startsWith(normalizedDest)) {
-            throw new SecurityException("Blocked extracting native file outside destination directory: " + relative);
-        }
-        return out;
+    if (Files.isDirectory(codePath)) {
+      Path nativesPath = codePath.resolve(prefix);
+      if (!Files.exists(nativesPath) || !Files.isDirectory(nativesPath)) {
+        return List.of();
+      }
+      return copyDirectory(nativesPath, destDir);
     }
 
-    private static String resolveNativesRid(String osName, String osArch) {
-        String arch;
-        if (osArch.contains("aarch64") || osArch.contains("arm64")) {
-            arch = "arm64";
-        } else if (osArch.contains("x86_64") || osArch.contains("amd64")) {
-            arch = "x86_64";
-        } else {
-            arch = osArch.replaceAll("[^a-z0-9_]+", "");
+    List<Path> extracted = new ArrayList<>();
+    try (JarFile jar = new JarFile(codePath.toFile())) {
+      Enumeration<JarEntry> entries = jar.entries();
+      while (entries.hasMoreElements()) {
+        JarEntry entry = entries.nextElement();
+        String name = entry.getName();
+        if (!name.startsWith(prefix) || entry.isDirectory()) {
+          continue;
         }
-
-        String os;
-        if (osName.contains("mac") || osName.contains("darwin")) {
-            os = "macos";
-        } else if (osName.contains("win")) {
-            os = "windows";
-        } else {
-            os = "linux";
+        String relative = name.substring(prefix.length());
+        Path out = safeResolve(destDir, relative);
+        Files.createDirectories(out.getParent());
+        try (var in = jar.getInputStream(entry)) {
+          Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
         }
+        out.toFile().deleteOnExit();
+        extracted.add(out);
+      }
+    }
+    return extracted;
+  }
 
-        return os + "-" + arch;
+  private static List<Path> copyDirectory(Path srcDir, Path destDir) throws Exception {
+    List<Path> copied = new ArrayList<>();
+    try (var paths = Files.walk(srcDir)) {
+      for (Path src : (Iterable<Path>) paths::iterator) {
+        if (Files.isDirectory(src)) {
+          continue;
+        }
+        Path relative = srcDir.relativize(src);
+        Path out = safeResolve(destDir, relative.toString());
+        Files.createDirectories(out.getParent());
+        Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
+        out.toFile().deleteOnExit();
+        copied.add(out);
+      }
+    }
+    return copied;
+  }
+
+  private static Path safeResolve(Path destDir, String relative) throws Exception {
+    Path normalizedDest = destDir.toAbsolutePath().normalize();
+    Path out = normalizedDest.resolve(relative).normalize();
+    if (!out.startsWith(normalizedDest)) {
+      throw new SecurityException(
+          "Blocked extracting native file outside destination directory: " + relative);
+    }
+    return out;
+  }
+
+  private static String resolveNativesRid(String osName, String osArch) {
+    String arch;
+    if (osArch.contains("aarch64") || osArch.contains("arm64")) {
+      arch = "arm64";
+    } else if (osArch.contains("x86_64") || osArch.contains("amd64")) {
+      arch = "x86_64";
+    } else {
+      arch = osArch.replaceAll("[^a-z0-9_]+", "");
     }
 
-    private static String findLoadedLibraryPath(String libName, String fullLibName, String libExt) {
-        // Search java.library.path for the library file
-        String javaLibPath = System.getProperty("java.library.path");
-        if (javaLibPath != null) {
-            for (String path : javaLibPath.split(File.pathSeparator)) {
-                Path libPath = Paths.get(path, fullLibName + libExt);
-                if (java.nio.file.Files.exists(libPath)) {
-                    try {
-                        return libPath.toRealPath().toString();
-                    } catch (java.io.IOException e) {
-                        return libPath.toAbsolutePath().toString();
-                    }
-                }
-            }
-        }
-        // Fallback: try just the library name (may work on some systems)
-        return libName;
+    String os;
+    if (osName.contains("mac") || osName.contains("darwin")) {
+      os = "macos";
+    } else if (osName.contains("win")) {
+      os = "windows";
+    } else {
+      os = "linux";
     }
 
-
-    static final MethodHandle TS_PACK_DETECT_LANGUAGE_FROM_EXTENSION = LINKER.downcallHandle(
-        LIB.find("ts_pack_detect_language_from_extension").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DETECT_LANGUAGE_FROM_PATH = LINKER.downcallHandle(
-        LIB.find("ts_pack_detect_language_from_path").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DETECT_LANGUAGE_FROM_CONTENT = LINKER.downcallHandle(
-        LIB.find("ts_pack_detect_language_from_content").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_GET_HIGHLIGHTS_QUERY = LINKER.downcallHandle(
-        LIB.find("ts_pack_get_highlights_query").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_GET_INJECTIONS_QUERY = LINKER.downcallHandle(
-        LIB.find("ts_pack_get_injections_query").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_GET_LOCALS_QUERY = LINKER.downcallHandle(
-        LIB.find("ts_pack_get_locals_query").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_GET_LANGUAGE = LINKER.downcallHandle(
-        LIB.find("ts_pack_get_language").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_GET_PARSER = LINKER.downcallHandle(
-        LIB.find("ts_pack_get_parser").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DETECT_LANGUAGE = LINKER.downcallHandle(
-        LIB.find("ts_pack_detect_language").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_AVAILABLE_LANGUAGES = LINKER.downcallHandle(
-        LIB.find("ts_pack_available_languages").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_HAS_LANGUAGE = LINKER.downcallHandle(
-        LIB.find("ts_pack_has_language").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_COUNT = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_count").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG)
-    );
-
-
-    static final MethodHandle TS_PACK_PROCESS = LINKER.downcallHandle(
-        LIB.find("ts_pack_process").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_INIT = LINKER.downcallHandle(
-        LIB.find("ts_pack_init").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_CONFIGURE = LINKER.downcallHandle(
-        LIB.find("ts_pack_configure").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOAD = LINKER.downcallHandle(
-        LIB.find("ts_pack_download").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOAD_ALL = LINKER.downcallHandle(
-        LIB.find("ts_pack_download_all").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOAD_GROUP = LINKER.downcallHandle(
-        LIB.find("ts_pack_download_group").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_MANIFEST_LANGUAGES = LINKER.downcallHandle(
-        LIB.find("ts_pack_manifest_languages").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOADED_LANGUAGES = LINKER.downcallHandle(
-        LIB.find("ts_pack_downloaded_languages").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_CLEAN_CACHE = LINKER.downcallHandle(
-        LIB.find("ts_pack_clean_cache").orElseThrow(),
-        FunctionDescriptor.ofVoid()
-    );
-
-
-    static final MethodHandle TS_PACK_CACHE_DIR = LINKER.downcallHandle(
-        LIB.find("ts_pack_cache_dir").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_FREE_STRING = LINKER.downcallHandle(
-        LIB.find("ts_pack_free_string").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_FREE_BYTES = LINKER.downcallHandle(
-        LIB.find("ts_pack_free_bytes").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
-    );
-
-
-    static final MethodHandle TS_PACK_PARSER_SET_LANGUAGE = LINKER.downcallHandle(
-        LIB.find("ts_pack_parser_set_language").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PARSER_PARSE = LINKER.downcallHandle(
-        LIB.find("ts_pack_parser_parse").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PARSER_PARSE_BYTES = LINKER.downcallHandle(
-        LIB.find("ts_pack_parser_parse_bytes").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
-
-
-    static final MethodHandle TS_PACK_PARSER_RESET = LINKER.downcallHandle(
-        LIB.find("ts_pack_parser_reset").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_ROOT_NODE = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_root_node").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_WALK = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_walk").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_CLONE = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_clone").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_KIND = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_kind").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_KIND_ID = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_kind_id").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_START_BYTE = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_start_byte").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_END_BYTE = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_end_byte").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_BYTE_RANGE = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_byte_range").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_START_POSITION = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_start_position").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_END_POSITION = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_end_position").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_IS_NAMED = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_is_named").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_IS_ERROR = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_is_error").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_IS_MISSING = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_is_missing").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_IS_EXTRA = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_is_extra").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_HAS_ERROR = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_has_error").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_PARENT = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_parent").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_CHILD = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_child").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_CHILD_COUNT = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_child_count").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_NAMED_CHILD = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_named_child").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_NAMED_CHILD_COUNT = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_named_child_count").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_CHILD_BY_FIELD_NAME = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_child_by_field_name").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_TO_SEXP = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_to_sexp").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_WALK = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_walk").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_CURSOR_NODE = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_cursor_node").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_CURSOR_GOTO_FIRST_CHILD = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_cursor_goto_first_child").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_CURSOR_GOTO_PARENT = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_cursor_goto_parent").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_CURSOR_GOTO_NEXT_SIBLING = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_cursor_goto_next_sibling").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_CURSOR_FIELD_NAME = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_cursor_field_name").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_GET_LANGUAGE = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_registry_get_language").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_AVAILABLE_LANGUAGES = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_registry_available_languages").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_HAS_LANGUAGE = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_registry_has_language").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_LANGUAGE_COUNT = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_registry_language_count").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_PROCESS = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_registry_process").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_INSTALLED_LANGUAGES = LINKER.downcallHandle(
-        LIB.find("ts_pack_download_manager_installed_languages").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_DOWNLOAD_ALL_BEST_EFFORT = LINKER.downcallHandle(
-        LIB.find("ts_pack_download_manager_download_all_best_effort").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_CLEAN_CACHE = LINKER.downcallHandle(
-        LIB.find("ts_pack_download_manager_clean_cache").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LAST_ERROR_CODE = LINKER.downcallHandle(
-        LIB.find("ts_pack_last_error_code").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-
-    static final MethodHandle TS_PACK_LAST_ERROR_CONTEXT = LINKER.downcallHandle(
-        LIB.find("ts_pack_last_error_context").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_TO_JSON = LIB.find("ts_pack_language_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PARSER_TO_JSON = LIB.find("ts_pack_parser_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_PARSER_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_parser_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PROCESS_RESULT_TO_JSON = LIB.find("ts_pack_process_result_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_PROCESS_RESULT_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_process_result_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PROCESS_CONFIG_FROM_JSON = LINKER.downcallHandle(
-        LIB.find("ts_pack_process_config_from_json").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PROCESS_CONFIG_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_process_config_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PACK_CONFIG_FROM_JSON = LINKER.downcallHandle(
-        LIB.find("ts_pack_pack_config_from_json").orElseThrow(),
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_PACK_CONFIG_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_pack_config_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_TO_JSON = LIB.find("ts_pack_tree_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_NODE_TO_JSON = LIB.find("ts_pack_node_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_TREE_CURSOR_TO_JSON = LIB.find("ts_pack_tree_cursor_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_BYTE_RANGE_TO_JSON = LIB.find("ts_pack_byte_range_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_BYTE_RANGE_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_byte_range_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_POINT_TO_JSON = LIB.find("ts_pack_point_to_json")
-        .map(s -> LINKER.downcallHandle(s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
-        .orElse(null);
-
-
-    static final MethodHandle TS_PACK_POINT_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_point_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_NODE_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_node_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_TREE_CURSOR_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_tree_cursor_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_language_registry_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
-    static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_FREE = LINKER.downcallHandle(
-        LIB.find("ts_pack_download_manager_free").orElseThrow(),
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-
-
+    return os + "-" + arch;
+  }
+
+  private static String findLoadedLibraryPath(String libName, String fullLibName, String libExt) {
+    // Search java.library.path for the library file
+    String javaLibPath = System.getProperty("java.library.path");
+    if (javaLibPath != null) {
+      for (String path : javaLibPath.split(File.pathSeparator)) {
+        Path libPath = Paths.get(path, fullLibName + libExt);
+        if (java.nio.file.Files.exists(libPath)) {
+          try {
+            return libPath.toRealPath().toString();
+          } catch (java.io.IOException e) {
+            return libPath.toAbsolutePath().toString();
+          }
+        }
+      }
+    }
+    // Fallback: try just the library name (may work on some systems)
+    return libName;
+  }
+
+  static final MethodHandle TS_PACK_DETECT_LANGUAGE_FROM_EXTENSION =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_detect_language_from_extension").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DETECT_LANGUAGE_FROM_PATH =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_detect_language_from_path").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DETECT_LANGUAGE_FROM_CONTENT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_detect_language_from_content").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_GET_HIGHLIGHTS_QUERY =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_get_highlights_query").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_GET_INJECTIONS_QUERY =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_get_injections_query").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_GET_LOCALS_QUERY =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_get_locals_query").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_GET_LANGUAGE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_get_language").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_GET_PARSER =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_get_parser").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DETECT_LANGUAGE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_detect_language").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_AVAILABLE_LANGUAGES =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_available_languages").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_HAS_LANGUAGE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_has_language").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_COUNT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_count").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG));
+
+  static final MethodHandle TS_PACK_PROCESS =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_process").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_INIT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_init").orElseThrow(), FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_CONFIGURE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_configure").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DOWNLOAD =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_download").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DOWNLOAD_ALL =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_download_all").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG));
+
+  static final MethodHandle TS_PACK_DOWNLOAD_GROUP =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_download_group").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_MANIFEST_LANGUAGES =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_manifest_languages").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DOWNLOADED_LANGUAGES =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_downloaded_languages").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_CLEAN_CACHE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_clean_cache").orElseThrow(), FunctionDescriptor.ofVoid());
+
+  static final MethodHandle TS_PACK_CACHE_DIR =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_cache_dir").orElseThrow(), FunctionDescriptor.of(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_FREE_STRING =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_free_string").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_FREE_BYTES =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_free_bytes").orElseThrow(),
+          FunctionDescriptor.ofVoid(
+              ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG));
+
+  static final MethodHandle TS_PACK_PARSER_SET_LANGUAGE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_parser_set_language").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PARSER_PARSE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_parser_parse").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PARSER_PARSE_BYTES =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_parser_parse_bytes").orElseThrow(),
+          FunctionDescriptor.of(
+              ValueLayout.ADDRESS,
+              ValueLayout.ADDRESS,
+              ValueLayout.ADDRESS,
+              ValueLayout.JAVA_LONG));
+
+  static final MethodHandle TS_PACK_PARSER_RESET =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_parser_reset").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_ROOT_NODE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_root_node").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_WALK =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_walk").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_CLONE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_clone").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_KIND =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_kind").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_KIND_ID =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_kind_id").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_START_BYTE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_start_byte").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_END_BYTE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_end_byte").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_BYTE_RANGE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_byte_range").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_START_POSITION =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_start_position").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_END_POSITION =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_end_position").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_IS_NAMED =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_is_named").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_IS_ERROR =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_is_error").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_IS_MISSING =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_is_missing").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_IS_EXTRA =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_is_extra").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_HAS_ERROR =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_has_error").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_PARENT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_parent").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_CHILD =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_child").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT));
+
+  static final MethodHandle TS_PACK_NODE_CHILD_COUNT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_child_count").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_NAMED_CHILD =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_named_child").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT));
+
+  static final MethodHandle TS_PACK_NODE_NAMED_CHILD_COUNT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_named_child_count").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_CHILD_BY_FIELD_NAME =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_child_by_field_name").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_TO_SEXP =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_to_sexp").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_WALK =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_walk").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_CURSOR_NODE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_cursor_node").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_CURSOR_GOTO_FIRST_CHILD =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_cursor_goto_first_child").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_CURSOR_GOTO_PARENT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_cursor_goto_parent").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_CURSOR_GOTO_NEXT_SIBLING =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_cursor_goto_next_sibling").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_CURSOR_FIELD_NAME =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_cursor_field_name").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_GET_LANGUAGE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_registry_get_language").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_AVAILABLE_LANGUAGES =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_registry_available_languages").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_HAS_LANGUAGE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_registry_has_language").orElseThrow(),
+          FunctionDescriptor.of(
+              ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_LANGUAGE_COUNT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_registry_language_count").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_PROCESS =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_registry_process").orElseThrow(),
+          FunctionDescriptor.of(
+              ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_INSTALLED_LANGUAGES =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_download_manager_installed_languages").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_DOWNLOAD_ALL_BEST_EFFORT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_download_manager_download_all_best_effort").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_CLEAN_CACHE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_download_manager_clean_cache").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LAST_ERROR_CODE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_last_error_code").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.JAVA_INT));
+
+  static final MethodHandle TS_PACK_LAST_ERROR_CONTEXT =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_last_error_context").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_TO_JSON =
+      LIB.find("ts_pack_language_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_LANGUAGE_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PARSER_TO_JSON =
+      LIB.find("ts_pack_parser_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_PARSER_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_parser_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PROCESS_RESULT_TO_JSON =
+      LIB.find("ts_pack_process_result_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_PROCESS_RESULT_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_process_result_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PROCESS_CONFIG_FROM_JSON =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_process_config_from_json").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PROCESS_CONFIG_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_process_config_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PACK_CONFIG_FROM_JSON =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_pack_config_from_json").orElseThrow(),
+          FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_PACK_CONFIG_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_pack_config_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_TO_JSON =
+      LIB.find("ts_pack_tree_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_NODE_TO_JSON =
+      LIB.find("ts_pack_node_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_TREE_CURSOR_TO_JSON =
+      LIB.find("ts_pack_tree_cursor_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_BYTE_RANGE_TO_JSON =
+      LIB.find("ts_pack_byte_range_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_BYTE_RANGE_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_byte_range_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_POINT_TO_JSON =
+      LIB.find("ts_pack_point_to_json")
+          .map(
+              s ->
+                  LINKER.downcallHandle(
+                      s, FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)))
+          .orElse(null);
+
+  static final MethodHandle TS_PACK_POINT_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_point_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_NODE_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_node_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_TREE_CURSOR_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_tree_cursor_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_LANGUAGE_REGISTRY_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_language_registry_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
+
+  static final MethodHandle TS_PACK_DOWNLOAD_MANAGER_FREE =
+      LINKER.downcallHandle(
+          LIB.find("ts_pack_download_manager_free").orElseThrow(),
+          FunctionDescriptor.ofVoid(ValueLayout.ADDRESS));
 }

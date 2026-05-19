@@ -5,138 +5,152 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.Arena;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.util.List;
 
-/**
- * Manages downloading and caching of pre-built parser shared libraries.
- */
+/** Manages downloading and caching of pre-built parser shared libraries. */
 public class DownloadManager implements AutoCloseable {
-    private final MemorySegment handle;
+  private final MemorySegment handle;
 
-    DownloadManager(MemorySegment handle) {
-        this.handle = handle;
-    }
+  DownloadManager(MemorySegment handle) {
+    this.handle = handle;
+  }
 
-    MemorySegment handle() {
-        return this.handle;
-    }
+  MemorySegment handle() {
+    return this.handle;
+  }
 
-    /**
-     * List languages that are already downloaded and cached.
-     */
-    public List<String> installedLanguages() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            // TODO unsupported return shape for installedLanguages
-            throw new TreeSitterLanguagePackRsException("installedLanguages: unsupported return shape", (Throwable) null);
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("installedLanguages: failed", e);
-        }
+  /** List languages that are already downloaded and cached. */
+  public List<String> installedLanguages() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      // TODO unsupported return shape for installedLanguages
+      throw new TreeSitterLanguagePackRsException(
+          "installedLanguages: unsupported return shape", (Throwable) null);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("installedLanguages: failed", e);
     }
-    /**
-     * Download the platform bundle and extract every library file it contains.
-     *
-     * Unlike ensure_languages, this does not check the manifest language list
-     * against archive contents — it simply extracts all {@code .so}/{@code .dylib}/{@code .dll} files
-     * from the bundle. Languages in the manifest that are missing from the archive
-     * are silently ignored rather than returning an error.
-     *
-     * Returns the number of library files extracted (including those already cached).
-     */
-    public long downloadAllBestEffort() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var result = (long) NativeLib.TS_PACK_DOWNLOAD_MANAGER_DOWNLOAD_ALL_BEST_EFFORT.invoke(this.handle);
-            return result;
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("downloadAllBestEffort: failed", e);
-        }
-    }
-    /**
-     * Remove all cached parser libraries.
-     */
-    public void cleanCache() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            NativeLib.TS_PACK_DOWNLOAD_MANAGER_CLEAN_CACHE.invoke(this.handle);
-            checkLastFfiError();
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("cleanCache: failed", e);
-        }
-    }
-    /**
-     * Create a new download manager for the given version.
-     */
-    public static DownloadManager create(final String version) throws TreeSitterLanguagePackRsException {
-        java.util.Objects.requireNonNull(version, "version must not be null");
-        try (var arena = Arena.ofShared()) {
-            var cVersion = arena.allocateFrom(version);
-            var handle = (MemorySegment) NativeLib.TS_PACK_DOWNLOAD_MANAGER_NEW.invoke(cVersion);
-            if (handle == null || handle.equals(MemorySegment.NULL)) {
-throw new TreeSitterLanguagePackRsException("create returned null");
-            }
-            return new DownloadManager(handle);
-        }
-        catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException) throw (TreeSitterLanguagePackRsException) e;
-            throw new RuntimeException("create failed: " + e.getMessage(), e);
-        }
-    }
+  }
 
-    /**
-     * Create a download manager with a custom cache directory.
-     */
-    public static DownloadManager withCacheDir(
-        final String version,
-        final java.nio.file.Path cacheDir
-    ) throws TreeSitterLanguagePackRsException {
-        java.util.Objects.requireNonNull(version, "version must not be null");
-        java.util.Objects.requireNonNull(cacheDir, "cacheDir must not be null");
-        try (var arena = Arena.ofShared()) {
-            var cVersion = arena.allocateFrom(version);
-            var cCacheDir = arena.allocateFrom(cacheDir.toString());
-            var handle = (MemorySegment) NativeLib.TS_PACK_DOWNLOAD_MANAGER_WITH_CACHE_DIR.invoke(cVersion, cCacheDir);
-            if (handle == null || handle.equals(MemorySegment.NULL)) {
-throw new TreeSitterLanguagePackRsException("withCacheDir returned null");
-            }
-            return new DownloadManager(handle);
-        }
-        catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException) throw (TreeSitterLanguagePackRsException) e;
-            throw new RuntimeException("withCacheDir failed: " + e.getMessage(), e);
-        }
+  /**
+   * Download the platform bundle and extract every library file it contains.
+   *
+   * <p>Unlike ensure_languages, this does not check the manifest language list against archive
+   * contents — it simply extracts all {@code .so}/{@code .dylib}/{@code .dll} files from the
+   * bundle. Languages in the manifest that are missing from the archive are silently ignored rather
+   * than returning an error.
+   *
+   * <p>Returns the number of library files extracted (including those already cached).
+   */
+  public long downloadAllBestEffort() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var result =
+          (long) NativeLib.TS_PACK_DOWNLOAD_MANAGER_DOWNLOAD_ALL_BEST_EFFORT.invoke(this.handle);
+      return result;
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("downloadAllBestEffort: failed", e);
     }
+  }
 
-    @Override
-    public void close() {
-        if (handle != null && !handle.equals(MemorySegment.NULL)) {
-            try {
-                NativeLib.TS_PACK_DOWNLOAD_MANAGER_FREE.invoke(handle);
-            } catch (Throwable e) {
-                throw new RuntimeException("Failed to free DownloadManager: " + e.getMessage(), e);
-            }
-        }
+  /** Remove all cached parser libraries. */
+  public void cleanCache() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      NativeLib.TS_PACK_DOWNLOAD_MANAGER_CLEAN_CACHE.invoke(this.handle);
+      checkLastFfiError();
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("cleanCache: failed", e);
     }
+  }
 
-    private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
-        try {
-            int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-            if (code == 0) { return; }
-            MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            throw new TreeSitterLanguagePackRsException(code, msg);
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("failed to read last error", e);
-        }
+  /** Create a new download manager for the given version. */
+  public static DownloadManager create(final String version)
+      throws TreeSitterLanguagePackRsException {
+    java.util.Objects.requireNonNull(version, "version must not be null");
+    try (var arena = Arena.ofShared()) {
+      var cVersion = arena.allocateFrom(version);
+      var handle = (MemorySegment) NativeLib.TS_PACK_DOWNLOAD_MANAGER_NEW.invoke(cVersion);
+      if (handle == null || handle.equals(MemorySegment.NULL)) {
+        throw new TreeSitterLanguagePackRsException("create returned null");
+      }
+      return new DownloadManager(handle);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException)
+        throw (TreeSitterLanguagePackRsException) e;
+      throw new RuntimeException("create failed: " + e.getMessage(), e);
     }
-    private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .findAndRegisterModules()
-        .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+  }
+
+  /** Create a download manager with a custom cache directory. */
+  public static DownloadManager withCacheDir(
+      final String version, final java.nio.file.Path cacheDir)
+      throws TreeSitterLanguagePackRsException {
+    java.util.Objects.requireNonNull(version, "version must not be null");
+    java.util.Objects.requireNonNull(cacheDir, "cacheDir must not be null");
+    try (var arena = Arena.ofShared()) {
+      var cVersion = arena.allocateFrom(version);
+      var cCacheDir = arena.allocateFrom(cacheDir.toString());
+      var handle =
+          (MemorySegment)
+              NativeLib.TS_PACK_DOWNLOAD_MANAGER_WITH_CACHE_DIR.invoke(cVersion, cCacheDir);
+      if (handle == null || handle.equals(MemorySegment.NULL)) {
+        throw new TreeSitterLanguagePackRsException("withCacheDir returned null");
+      }
+      return new DownloadManager(handle);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException)
+        throw (TreeSitterLanguagePackRsException) e;
+      throw new RuntimeException("withCacheDir failed: " + e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public void close() {
+    if (handle != null && !handle.equals(MemorySegment.NULL)) {
+      try {
+        NativeLib.TS_PACK_DOWNLOAD_MANAGER_FREE.invoke(handle);
+      } catch (Throwable e) {
+        throw new RuntimeException("Failed to free DownloadManager: " + e.getMessage(), e);
+      }
+    }
+  }
+
+  private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
+    try {
+      int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+      if (code == 0) {
+        return;
+      }
+      MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+      String msg =
+          ctxPtr.equals(MemorySegment.NULL)
+              ? "unknown"
+              : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      throw new TreeSitterLanguagePackRsException(code, msg);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("failed to read last error", e);
+    }
+  }
+
+  private static final ObjectMapper STREAM_MAPPER =
+      new ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

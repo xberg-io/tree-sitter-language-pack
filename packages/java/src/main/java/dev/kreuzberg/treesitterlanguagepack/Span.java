@@ -5,16 +5,16 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 /**
  * Byte and line/column range in source code.
  *
- * Represents both byte offsets (for slicing) and human-readable line/column
- * positions (for display and diagnostics).
+ * <p>Represents both byte offsets (for slicing) and human-readable line/column positions (for
+ * display and diagnostics).
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = Span.Builder.class)
@@ -24,102 +24,102 @@ public record Span(
     @JsonProperty("start_line") long startLine,
     @JsonProperty("start_column") long startColumn,
     @JsonProperty("end_line") long endLine,
-    @JsonProperty("end_column") long endColumn
-) {
-    public static Builder builder() {
-        return new Builder();
+    @JsonProperty("end_column") long endColumn) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code Span} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static Span fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, Span.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse Span from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("start_byte")
+    private long startByte = 0;
+
+    @JsonProperty("end_byte")
+    private long endByte = 0;
+
+    @JsonProperty("start_line")
+    private long startLine = 0;
+
+    @JsonProperty("start_column")
+    private long startColumn = 0;
+
+    @JsonProperty("end_line")
+    private long endLine = 0;
+
+    @JsonProperty("end_column")
+    private long endColumn = 0;
+
+    /** Sets the startByte field. */
+    @JsonProperty("start_byte")
+    public Builder withStartByte(final long value) {
+      this.startByte = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code Span} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static Span fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, Span.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse Span from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the endByte field. */
+    @JsonProperty("end_byte")
+    public Builder withEndByte(final long value) {
+      this.endByte = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("start_byte")
-        private long startByte = 0;
-        @JsonProperty("end_byte")
-        private long endByte = 0;
-        @JsonProperty("start_line")
-        private long startLine = 0;
-        @JsonProperty("start_column")
-        private long startColumn = 0;
-        @JsonProperty("end_line")
-        private long endLine = 0;
-        @JsonProperty("end_column")
-        private long endColumn = 0;
-
-        /** Sets the startByte field. */
-        @JsonProperty("start_byte")
-        public Builder withStartByte(final long value) {
-            this.startByte = value;
-            return this;
-        }
-
-        /** Sets the endByte field. */
-        @JsonProperty("end_byte")
-        public Builder withEndByte(final long value) {
-            this.endByte = value;
-            return this;
-        }
-
-        /** Sets the startLine field. */
-        @JsonProperty("start_line")
-        public Builder withStartLine(final long value) {
-            this.startLine = value;
-            return this;
-        }
-
-        /** Sets the startColumn field. */
-        @JsonProperty("start_column")
-        public Builder withStartColumn(final long value) {
-            this.startColumn = value;
-            return this;
-        }
-
-        /** Sets the endLine field. */
-        @JsonProperty("end_line")
-        public Builder withEndLine(final long value) {
-            this.endLine = value;
-            return this;
-        }
-
-        /** Sets the endColumn field. */
-        @JsonProperty("end_column")
-        public Builder withEndColumn(final long value) {
-            this.endColumn = value;
-            return this;
-        }
-
-        /** Builds the Span instance. */
-        public Span build() {
-            return new Span(
-                startByte,
-                endByte,
-                startLine,
-                startColumn,
-                endLine,
-                endColumn
-            );
-        }
+    /** Sets the startLine field. */
+    @JsonProperty("start_line")
+    public Builder withStartLine(final long value) {
+      this.startLine = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the startColumn field. */
+    @JsonProperty("start_column")
+    public Builder withStartColumn(final long value) {
+      this.startColumn = value;
+      return this;
+    }
+
+    /** Sets the endLine field. */
+    @JsonProperty("end_line")
+    public Builder withEndLine(final long value) {
+      this.endLine = value;
+      return this;
+    }
+
+    /** Sets the endColumn field. */
+    @JsonProperty("end_column")
+    public Builder withEndColumn(final long value) {
+      this.endColumn = value;
+      return this;
+    }
+
+    /** Builds the Span instance. */
+    public Span build() {
+      return new Span(startByte, endByte, startLine, startColumn, endLine, endColumn);
+    }
+  }
+  // CPD-ON
 }

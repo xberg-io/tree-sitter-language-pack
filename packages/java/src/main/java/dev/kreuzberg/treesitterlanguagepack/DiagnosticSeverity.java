@@ -11,41 +11,40 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Severity level of a diagnostic produced during parsing.
  *
- * Used to classify parse errors, warnings, and informational messages
- * found in the syntax tree.
+ * <p>Used to classify parse errors, warnings, and informational messages found in the syntax tree.
  */
 public enum DiagnosticSeverity {
-    Error("error"),
-    Warning("warning"),
-    Info("info");
+  Error("error"),
+  Warning("warning"),
+  Info("info");
 
-    /** The string value. */
-    private final String value;
+  /** The string value. */
+  private final String value;
 
-    DiagnosticSeverity(final String value) {
-        this.value = value;
+  DiagnosticSeverity(final String value) {
+    this.value = value;
+  }
+
+  /** Returns the string value. */
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  /** Creates an instance from a string value. */
+  @JsonCreator
+  public static DiagnosticSeverity fromValue(final String value) {
+    for (DiagnosticSeverity e : values()) {
+      if (e.value.equalsIgnoreCase(value)) {
+        return e;
+      }
     }
+    throw new IllegalArgumentException("Unknown value: " + value);
+  }
 
-    /** Returns the string value. */
-    @JsonValue
-    public String getValue() {
-        return value;
-    }
-
-    /** Creates an instance from a string value. */
-    @JsonCreator
-    public static DiagnosticSeverity fromValue(final String value) {
-        for (DiagnosticSeverity e : values()) {
-            if (e.value.equalsIgnoreCase(value)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("Unknown value: " + value);
-    }
-
-    /** Returns the wire-format string value (matches JSON serialization). */
-    @Override
-    public String toString() {
-        return value;
-    }
+  /** Returns the wire-format string value (matches JSON serialization). */
+  @Override
+  public String toString() {
+    return value;
+  }
 }

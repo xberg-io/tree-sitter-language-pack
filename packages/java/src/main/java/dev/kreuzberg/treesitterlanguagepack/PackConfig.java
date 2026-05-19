@@ -5,20 +5,19 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.List;
-import java.util.Optional;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Configuration for the tree-sitter language pack.
  *
- * Controls cache directory and which languages to pre-download.
- * Can be loaded from a TOML file, constructed programmatically,
- * or passed as a dict/object from language bindings.
+ * <p>Controls cache directory and which languages to pre-download. Can be loaded from a TOML file,
+ * constructed programmatically, or passed as a dict/object from language bindings.
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = PackConfig.Builder.class)
@@ -26,84 +25,84 @@ public record PackConfig(
     /**
      * Override default cache directory.
      *
-     * Default: {@code ~/.cache/tree-sitter-language-pack/v{version}/libs/}
+     * <p>Default: {@code ~/.cache/tree-sitter-language-pack/v{version}/libs/}
      */
     @JsonProperty("cache_dir") java.nio.file.@Nullable Path cacheDir,
     /**
      * Languages to pre-download on init.
      *
-     * Each entry is a language name (e.g. {@code "python"}, {@code "rust"}).
+     * <p>Each entry is a language name (e.g. {@code "python"}, {@code "rust"}).
      */
     @Nullable List<String> languages,
     /**
      * Language groups to pre-download (e.g. {@code "web"}, {@code "systems"}, {@code "scripting"}).
      */
-    @Nullable List<String> groups
-) {
-    public static Builder builder() {
-        return new Builder();
+    @Nullable List<String> groups) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code PackConfig} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static PackConfig fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, PackConfig.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse PackConfig from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("cache_dir")
+    private Optional<java.nio.file.Path> cacheDir = Optional.empty();
+
+    @JsonProperty("languages")
+    private Optional<List<String>> languages = Optional.empty();
+
+    @JsonProperty("groups")
+    private Optional<List<String>> groups = Optional.empty();
+
+    /** Sets the cacheDir field. */
+    @JsonProperty("cache_dir")
+    public Builder withCacheDir(final Optional<java.nio.file.Path> value) {
+      this.cacheDir = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code PackConfig} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static PackConfig fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, PackConfig.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse PackConfig from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the languages field. */
+    @JsonProperty("languages")
+    public Builder withLanguages(final Optional<List<String>> value) {
+      this.languages = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("cache_dir")
-        private Optional<java.nio.file.Path> cacheDir = Optional.empty();
-        @JsonProperty("languages")
-        private Optional<List<String>> languages = Optional.empty();
-        @JsonProperty("groups")
-        private Optional<List<String>> groups = Optional.empty();
-
-        /** Sets the cacheDir field. */
-        @JsonProperty("cache_dir")
-        public Builder withCacheDir(final Optional<java.nio.file.Path> value) {
-            this.cacheDir = value;
-            return this;
-        }
-
-        /** Sets the languages field. */
-        @JsonProperty("languages")
-        public Builder withLanguages(final Optional<List<String>> value) {
-            this.languages = value;
-            return this;
-        }
-
-        /** Sets the groups field. */
-        @JsonProperty("groups")
-        public Builder withGroups(final Optional<List<String>> value) {
-            this.groups = value;
-            return this;
-        }
-
-        /** Builds the PackConfig instance. */
-        public PackConfig build() {
-            return new PackConfig(
-                cacheDir.orElse(null),
-                languages.orElse(null),
-                groups.orElse(null)
-            );
-        }
+    /** Sets the groups field. */
+    @JsonProperty("groups")
+    public Builder withGroups(final Optional<List<String>> value) {
+      this.groups = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Builds the PackConfig instance. */
+    public PackConfig build() {
+      return new PackConfig(cacheDir.orElse(null), languages.orElse(null), groups.orElse(null));
+    }
+  }
+  // CPD-ON
 }

@@ -10,526 +10,558 @@ import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.List;
 import java.util.Optional;
+
 public final class TreeSitterLanguagePackRs {
-    private TreeSitterLanguagePackRs() { }
+  private TreeSitterLanguagePackRs() {}
 
-    /**
-     * Detect language name from a file extension (without leading dot).
-     *
-     * Returns {@code None} for unrecognized extensions. The match is case-insensitive.
-     *
-     * {@code }{@code }
-     * use tree_sitter_language_pack::detect_language_from_extension;
-     * assert_eq!(detect_language_from_extension("py"), Some("python"));
-     * assert_eq!(detect_language_from_extension("RS"), Some("rust"));
-     * assert_eq!(detect_language_from_extension("xyz"), None);
-     * {@code }{@code }
-     */
-    public static Optional<String> detectLanguageFromExtension(final String ext) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cext = arena.allocateFrom(ext);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_EXTENSION.invoke(cext);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return Optional.empty();            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return Optional.of(str);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Detect language name from a file extension (without leading dot).
+   *
+   * <p>Returns {@code None} for unrecognized extensions. The match is case-insensitive.
+   *
+   * <p>{@code }{@code } use tree_sitter_language_pack::detect_language_from_extension;
+   * assert_eq!(detect_language_from_extension("py"), Some("python"));
+   * assert_eq!(detect_language_from_extension("RS"), Some("rust"));
+   * assert_eq!(detect_language_from_extension("xyz"), None); {@code }{@code }
+   */
+  public static Optional<String> detectLanguageFromExtension(final String ext)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cext = arena.allocateFrom(ext);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_EXTENSION.invoke(cext);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return Optional.empty();
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return Optional.of(str);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Detect language name from a file path.
-     *
-     * Extracts the file extension and looks it up. Returns {@code None} if the
-     * path has no extension or the extension is not recognized.
-     *
-     * {@code }{@code }
-     * use tree_sitter_language_pack::detect_language_from_path;
-     * assert_eq!(detect_language_from_path("src/main.rs"), Some("rust"));
-     * assert_eq!(detect_language_from_path("README.md"), Some("markdown"));
-     * assert_eq!(detect_language_from_path("Makefile"), None);
-     * {@code }{@code }
-     */
-    public static Optional<String> detectLanguageFromPath(final String path) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cpath = arena.allocateFrom(path);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_PATH.invoke(cpath);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return Optional.empty();            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return Optional.of(str);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Detect language name from a file path.
+   *
+   * <p>Extracts the file extension and looks it up. Returns {@code None} if the path has no
+   * extension or the extension is not recognized.
+   *
+   * <p>{@code }{@code } use tree_sitter_language_pack::detect_language_from_path;
+   * assert_eq!(detect_language_from_path("src/main.rs"), Some("rust"));
+   * assert_eq!(detect_language_from_path("README.md"), Some("markdown"));
+   * assert_eq!(detect_language_from_path("Makefile"), None); {@code }{@code }
+   */
+  public static Optional<String> detectLanguageFromPath(final String path)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cpath = arena.allocateFrom(path);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_PATH.invoke(cpath);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return Optional.empty();
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return Optional.of(str);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Detect language name from file content using the shebang line ({@code #!}).
-     *
-     * Inspects only the first line of {@code content}. If it begins with {@code #!}, the
-     * interpreter name is extracted and mapped to a language name.
-     *
-     * Handles common patterns:
-     * - {@code #!/usr/bin/env python3} → {@code "python"}
-     * - {@code #!/bin/bash} → {@code "bash"}
-     * - {@code #!/usr/bin/env node} → {@code "javascript"}
-     *
-     * The {@code -S} flag accepted by some {@code env} implementations is skipped automatically.
-     * Version suffixes (e.g. {@code python3.11}, {@code ruby3.2}) are stripped before matching.
-     *
-     * Returns {@code None} when content does not start with {@code #!}, the shebang is
-     * malformed, or the interpreter is not recognised.
-     *
-     * {@code }{@code }
-     * use tree_sitter_language_pack::detect_language_from_content;
-     * assert_eq!(detect_language_from_content("#!/usr/bin/env python3\npass"), Some("python"));
-     * assert_eq!(detect_language_from_content("#!/bin/bash\necho hi"), Some("bash"));
-     * assert_eq!(detect_language_from_content("no shebang here"), None);
-     * {@code }{@code }
-     */
-    public static Optional<String> detectLanguageFromContent(final String content) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var ccontent = arena.allocateFrom(content);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_CONTENT.invoke(ccontent);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return Optional.empty();            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return Optional.of(str);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Detect language name from file content using the shebang line ({@code #!}).
+   *
+   * <p>Inspects only the first line of {@code content}. If it begins with {@code #!}, the
+   * interpreter name is extracted and mapped to a language name.
+   *
+   * <p>Handles common patterns: - {@code #!/usr/bin/env python3} → {@code "python"} - {@code
+   * #!/bin/bash} → {@code "bash"} - {@code #!/usr/bin/env node} → {@code "javascript"}
+   *
+   * <p>The {@code -S} flag accepted by some {@code env} implementations is skipped automatically.
+   * Version suffixes (e.g. {@code python3.11}, {@code ruby3.2}) are stripped before matching.
+   *
+   * <p>Returns {@code None} when content does not start with {@code #!}, the shebang is malformed,
+   * or the interpreter is not recognised.
+   *
+   * <p>{@code }{@code } use tree_sitter_language_pack::detect_language_from_content;
+   * assert_eq!(detect_language_from_content("#!/usr/bin/env python3\npass"), Some("python"));
+   * assert_eq!(detect_language_from_content("#!/bin/bash\necho hi"), Some("bash"));
+   * assert_eq!(detect_language_from_content("no shebang here"), None); {@code }{@code }
+   */
+  public static Optional<String> detectLanguageFromContent(final String content)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var ccontent = arena.allocateFrom(content);
+      var resultPtr =
+          (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE_FROM_CONTENT.invoke(ccontent);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return Optional.empty();
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return Optional.of(str);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Get the highlights query for a language, if bundled.
-     *
-     * Returns the contents of {@code highlights.scm} as a static string, or {@code None}
-     * if no highlights query is bundled for this language.
-     */
-    public static Optional<String> getHighlightsQuery(final String language) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var clanguage = arena.allocateFrom(language);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_HIGHLIGHTS_QUERY.invoke(clanguage);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return Optional.empty();            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return Optional.of(str);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Get the highlights query for a language, if bundled.
+   *
+   * <p>Returns the contents of {@code highlights.scm} as a static string, or {@code None} if no
+   * highlights query is bundled for this language.
+   */
+  public static Optional<String> getHighlightsQuery(final String language)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var clanguage = arena.allocateFrom(language);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_HIGHLIGHTS_QUERY.invoke(clanguage);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return Optional.empty();
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return Optional.of(str);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Get the injections query for a language, if bundled.
-     *
-     * Returns the contents of {@code injections.scm} as a static string, or {@code None}
-     * if no injections query is bundled for this language.
-     */
-    public static Optional<String> getInjectionsQuery(final String language) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var clanguage = arena.allocateFrom(language);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_INJECTIONS_QUERY.invoke(clanguage);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return Optional.empty();            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return Optional.of(str);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Get the injections query for a language, if bundled.
+   *
+   * <p>Returns the contents of {@code injections.scm} as a static string, or {@code None} if no
+   * injections query is bundled for this language.
+   */
+  public static Optional<String> getInjectionsQuery(final String language)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var clanguage = arena.allocateFrom(language);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_INJECTIONS_QUERY.invoke(clanguage);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return Optional.empty();
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return Optional.of(str);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Get the locals query for a language, if bundled.
-     *
-     * Returns the contents of {@code locals.scm} as a static string, or {@code None}
-     * if no locals query is bundled for this language.
-     */
-    public static Optional<String> getLocalsQuery(final String language) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var clanguage = arena.allocateFrom(language);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LOCALS_QUERY.invoke(clanguage);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return Optional.empty();            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return Optional.of(str);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Get the locals query for a language, if bundled.
+   *
+   * <p>Returns the contents of {@code locals.scm} as a static string, or {@code None} if no locals
+   * query is bundled for this language.
+   */
+  public static Optional<String> getLocalsQuery(final String language)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var clanguage = arena.allocateFrom(language);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LOCALS_QUERY.invoke(clanguage);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return Optional.empty();
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return Optional.of(str);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Get a tree-sitter Language by name using the global registry.
-     *
-     * Resolves language aliases (e.g., {@code "shell"} maps to {@code "bash"}).
-     * When the {@code download} feature is enabled (default), automatically downloads
-     * the parser from GitHub releases if not found locally.
-     * {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound if the language is not recognized,
-     * or Error::Download if auto-download fails.
-     */
-    public static Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cname = arena.allocateFrom(name);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LANGUAGE.invoke(cname);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return null;            }
-            return new Language(resultPtr);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Get a tree-sitter Language by name using the global registry.
+   *
+   * <p>Resolves language aliases (e.g., {@code "shell"} maps to {@code "bash"}). When the {@code
+   * download} feature is enabled (default), automatically downloads the parser from GitHub releases
+   * if not found locally. {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound
+   * if the language is not recognized, or Error::Download if auto-download fails.
+   */
+  public static Language getLanguage(final String name) throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cname = arena.allocateFrom(name);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_LANGUAGE.invoke(cname);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return null;
+      }
+      return new Language(resultPtr);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Get a Parser pre-configured for the given language.
-     *
-     * This is a convenience function that calls get_language and configures
-     * a new parser in one step.
-     * {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound if the language is not recognized, or
-     * Error::ParserSetup if the language cannot be applied to the parser.
-     */
-    public static Parser getParser(final String name) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cname = arena.allocateFrom(name);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_PARSER.invoke(cname);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return null;            }
-            return new Parser(resultPtr);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Get a Parser pre-configured for the given language.
+   *
+   * <p>This is a convenience function that calls get_language and configures a new parser in one
+   * step. {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound if the language
+   * is not recognized, or Error::ParserSetup if the language cannot be applied to the parser.
+   */
+  public static Parser getParser(final String name) throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cname = arena.allocateFrom(name);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_GET_PARSER.invoke(cname);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return null;
+      }
+      return new Parser(resultPtr);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Detect language name from a file path or extension.
-     *
-     * This compatibility alias matches the pre-Alef Python binding API.
-     */
-    public static Optional<String> detectLanguage(final String path) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cpath = arena.allocateFrom(path);
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE.invoke(cpath);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return Optional.empty();            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return Optional.of(str);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Detect language name from a file path or extension.
+   *
+   * <p>This compatibility alias matches the pre-Alef Python binding API.
+   */
+  public static Optional<String> detectLanguage(final String path)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cpath = arena.allocateFrom(path);
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DETECT_LANGUAGE.invoke(cpath);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return Optional.empty();
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return Optional.of(str);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * List all available language names (sorted, deduplicated, includes aliases).
-     *
-     * Returns names of both statically compiled and dynamically loadable languages,
-     * plus any configured aliases.
-     */
-    public static List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_AVAILABLE_LANGUAGES.invoke();
-            return readJsonList(resultPtr, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() { });
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * List all available language names (sorted, deduplicated, includes aliases).
+   *
+   * <p>Returns names of both statically compiled and dynamically loadable languages, plus any
+   * configured aliases.
+   */
+  public static List<String> availableLanguages() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_AVAILABLE_LANGUAGES.invoke();
+      return readJsonList(
+          resultPtr,
+          new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {});
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Check if a language is available by name or alias.
-     *
-     * Returns {@code true} if the language can be loaded (statically compiled,
-     * dynamically available, or a known alias for one of these).
-     */
-    public static boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cname = arena.allocateFrom(name);
-            var primitiveResult = (boolean) NativeLib.TS_PACK_HAS_LANGUAGE.invoke(cname);
-            return primitiveResult;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Check if a language is available by name or alias.
+   *
+   * <p>Returns {@code true} if the language can be loaded (statically compiled, dynamically
+   * available, or a known alias for one of these).
+   */
+  public static boolean hasLanguage(final String name) throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cname = arena.allocateFrom(name);
+      var primitiveResult = (boolean) NativeLib.TS_PACK_HAS_LANGUAGE.invoke(cname);
+      return primitiveResult;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Return the number of available languages.
-     *
-     * Includes statically compiled languages, dynamically loadable languages,
-     * and aliases.
-     */
-    public static long languageCount() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var primitiveResult = (long) NativeLib.TS_PACK_LANGUAGE_COUNT.invoke();
-            return primitiveResult;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Return the number of available languages.
+   *
+   * <p>Includes statically compiled languages, dynamically loadable languages, and aliases.
+   */
+  public static long languageCount() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var primitiveResult = (long) NativeLib.TS_PACK_LANGUAGE_COUNT.invoke();
+      return primitiveResult;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Process source code and extract file intelligence using the global registry.
-     *
-     * Parses the source with tree-sitter and extracts metrics, structure, imports,
-     * exports, comments, docstrings, symbols, diagnostics, and/or chunks based on
-     * the flags set in ProcessConfig.
-     * {@literal @}throws KreuzbergRsException Returns an error if the language is not found or parsing fails.
-     */
-    public static ProcessResult process(final String source, final ProcessConfig config) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var csource = arena.allocateFrom(source);
-            var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
-            var cconfigJsonSeg = cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
-            var cconfig = cconfigJson != null
-                ? (MemorySegment) NativeLib.TS_PACK_PROCESS_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
-                : MemorySegment.NULL;
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS.invoke(csource, cconfig);
-            if (!cconfig.equals(MemorySegment.NULL)) {
-                NativeLib.TS_PACK_PROCESS_CONFIG_FREE.invoke(cconfig);
-            }
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return null;            }
-            // CPD-OFF
-            var jsonPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS_RESULT_TO_JSON.invoke(resultPtr);
-            NativeLib.TS_PACK_PROCESS_RESULT_FREE.invoke(resultPtr);
-            if (jsonPtr.equals(MemorySegment.NULL)) {
-                checkLastError();
-                return null;
-            }
-            String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-            return MAPPER.readValue(json, ProcessResult.class);
-            // CPD-ON
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Process source code and extract file intelligence using the global registry.
+   *
+   * <p>Parses the source with tree-sitter and extracts metrics, structure, imports, exports,
+   * comments, docstrings, symbols, diagnostics, and/or chunks based on the flags set in
+   * ProcessConfig. {@literal @}throws KreuzbergRsException Returns an error if the language is not
+   * found or parsing fails.
+   */
+  public static ProcessResult process(final String source, final ProcessConfig config)
+      throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var csource = arena.allocateFrom(source);
+      var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
+      var cconfigJsonSeg =
+          cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
+      var cconfig =
+          cconfigJson != null
+              ? (MemorySegment) NativeLib.TS_PACK_PROCESS_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
+              : MemorySegment.NULL;
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS.invoke(csource, cconfig);
+      if (!cconfig.equals(MemorySegment.NULL)) {
+        NativeLib.TS_PACK_PROCESS_CONFIG_FREE.invoke(cconfig);
+      }
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return null;
+      }
+      // CPD-OFF
+      var jsonPtr = (MemorySegment) NativeLib.TS_PACK_PROCESS_RESULT_TO_JSON.invoke(resultPtr);
+      NativeLib.TS_PACK_PROCESS_RESULT_FREE.invoke(resultPtr);
+      if (jsonPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return null;
+      }
+      String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+      return MAPPER.readValue(json, ProcessResult.class);
+      // CPD-ON
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Initialize the language pack with the given configuration.
-     *
-     * Applies any custom cache directory, then downloads all languages and groups
-     * specified in the config. This is the recommended entry point when you want
-     * to pre-warm the cache before use.
-     * {@literal @}throws KreuzbergRsException Returns an error if configuration cannot be applied or if downloads fail.
-     */
-    public static void init(final PackConfig config) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
-            var cconfigJsonSeg = cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
-            var cconfig = cconfigJson != null
-                ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
-                : MemorySegment.NULL;
-            NativeLib.TS_PACK_INIT.invoke(cconfig);
-            if (!cconfig.equals(MemorySegment.NULL)) {
-                NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
-            }
-            checkLastError();
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Initialize the language pack with the given configuration.
+   *
+   * <p>Applies any custom cache directory, then downloads all languages and groups specified in the
+   * config. This is the recommended entry point when you want to pre-warm the cache before use.
+   * {@literal @}throws KreuzbergRsException Returns an error if configuration cannot be applied or
+   * if downloads fail.
+   */
+  public static void init(final PackConfig config) throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
+      var cconfigJsonSeg =
+          cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
+      var cconfig =
+          cconfigJson != null
+              ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
+              : MemorySegment.NULL;
+      NativeLib.TS_PACK_INIT.invoke(cconfig);
+      if (!cconfig.equals(MemorySegment.NULL)) {
+        NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
+      }
+      checkLastError();
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Apply download configuration without downloading anything.
-     *
-     * Use this to set a custom cache directory before the first call to
-     * get_language or any download function. Changing the cache dir
-     * after languages have been registered has no effect on already-loaded
-     * languages.
-     * {@literal @}throws KreuzbergRsException Returns an error if the lock cannot be acquired.
-     */
-    public static void configure(final PackConfig config) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
-            var cconfigJsonSeg = cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
-            var cconfig = cconfigJson != null
-                ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
-                : MemorySegment.NULL;
-            NativeLib.TS_PACK_CONFIGURE.invoke(cconfig);
-            if (!cconfig.equals(MemorySegment.NULL)) {
-                NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
-            }
-            checkLastError();
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Apply download configuration without downloading anything.
+   *
+   * <p>Use this to set a custom cache directory before the first call to get_language or any
+   * download function. Changing the cache dir after languages have been registered has no effect on
+   * already-loaded languages. {@literal @}throws KreuzbergRsException Returns an error if the lock
+   * cannot be acquired.
+   */
+  public static void configure(final PackConfig config) throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cconfigJson = config != null ? MAPPER.writeValueAsString(config) : null;
+      var cconfigJsonSeg =
+          cconfigJson != null ? arena.allocateFrom(cconfigJson) : MemorySegment.NULL;
+      var cconfig =
+          cconfigJson != null
+              ? (MemorySegment) NativeLib.TS_PACK_PACK_CONFIG_FROM_JSON.invoke(cconfigJsonSeg)
+              : MemorySegment.NULL;
+      NativeLib.TS_PACK_CONFIGURE.invoke(cconfig);
+      if (!cconfig.equals(MemorySegment.NULL)) {
+        NativeLib.TS_PACK_PACK_CONFIG_FREE.invoke(cconfig);
+      }
+      checkLastError();
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Download specific languages to the local cache.
-     *
-     * Returns the number of requested languages available after the call. Already
-     * compiled or cached languages are included in the count.
-     * {@literal @}throws KreuzbergRsException Returns an error if any language is not available in the manifest or if
-     * the download fails.
-     */
-    public static long download(final List<String> names) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cnamesJson = MAPPER.writeValueAsString(names);
-            var cnames = arena.allocateFrom(cnamesJson);
-            var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD.invoke(cnames);
-            checkLastError();
-            return primitiveResult;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Download specific languages to the local cache.
+   *
+   * <p>Returns the number of requested languages available after the call. Already compiled or
+   * cached languages are included in the count. {@literal @}throws KreuzbergRsException Returns an
+   * error if any language is not available in the manifest or if the download fails.
+   */
+  public static long download(final List<String> names) throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cnamesJson = MAPPER.writeValueAsString(names);
+      var cnames = arena.allocateFrom(cnamesJson);
+      var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD.invoke(cnames);
+      checkLastError();
+      return primitiveResult;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Download all available languages from the remote manifest.
-     *
-     * Downloads the platform bundle and extracts every library it contains.
-     * Languages that appear in the manifest but are absent from the bundle
-     * (e.g. grammars that failed to compile at release time) are silently
-     * skipped — they are not treated as an error.
-     *
-     * Returns the total number of languages now available (statically compiled
-     * plus downloaded and cached).
-     * {@literal @}throws KreuzbergRsException Returns an error if the manifest cannot be fetched or the bundle download fails.
-     */
-    public static long downloadAll() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD_ALL.invoke();
-            checkLastError();
-            return primitiveResult;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Download all available languages from the remote manifest.
+   *
+   * <p>Downloads the platform bundle and extracts every library it contains. Languages that appear
+   * in the manifest but are absent from the bundle (e.g. grammars that failed to compile at release
+   * time) are silently skipped — they are not treated as an error.
+   *
+   * <p>Returns the total number of languages now available (statically compiled plus downloaded and
+   * cached). {@literal @}throws KreuzbergRsException Returns an error if the manifest cannot be
+   * fetched or the bundle download fails.
+   */
+  public static long downloadAll() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD_ALL.invoke();
+      checkLastError();
+      return primitiveResult;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Download every language in a named group (e.g. {@code "web"}, {@code "data"}).
-     *
-     * Groups are defined in the remote manifest and let you ensure a curated
-     * set of related grammars in one call instead of listing each name to
-     * download. Already-cached languages are skipped.
-     *
-     * Returns the total number of languages now available (statically compiled
-     * plus downloaded and cached).
-     * {@literal @}throws KreuzbergRsException Returns an error if the manifest cannot be fetched, the group is unknown,
-     * or any constituent language fails to download.
-     */
-    public static long downloadGroup(final String name) throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var cname = arena.allocateFrom(name);
-            var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD_GROUP.invoke(cname);
-            checkLastError();
-            return primitiveResult;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Download every language in a named group (e.g. {@code "web"}, {@code "data"}).
+   *
+   * <p>Groups are defined in the remote manifest and let you ensure a curated set of related
+   * grammars in one call instead of listing each name to download. Already-cached languages are
+   * skipped.
+   *
+   * <p>Returns the total number of languages now available (statically compiled plus downloaded and
+   * cached). {@literal @}throws KreuzbergRsException Returns an error if the manifest cannot be
+   * fetched, the group is unknown, or any constituent language fails to download.
+   */
+  public static long downloadGroup(final String name) throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var cname = arena.allocateFrom(name);
+      var primitiveResult = (long) NativeLib.TS_PACK_DOWNLOAD_GROUP.invoke(cname);
+      checkLastError();
+      return primitiveResult;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Return all language names available in the remote manifest (305).
-     *
-     * Fetches (and caches) the remote manifest to discover the full list of
-     * downloadable languages. Use downloaded_languages to list what is
-     * already cached locally.
-     * {@literal @}throws KreuzbergRsException Returns an error if the manifest cannot be fetched.
-     */
-    public static List<String> manifestLanguages() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_MANIFEST_LANGUAGES.invoke();
-            return readJsonList(resultPtr, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() { });
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Return all language names available in the remote manifest (305).
+   *
+   * <p>Fetches (and caches) the remote manifest to discover the full list of downloadable
+   * languages. Use downloaded_languages to list what is already cached locally. {@literal @}throws
+   * KreuzbergRsException Returns an error if the manifest cannot be fetched.
+   */
+  public static List<String> manifestLanguages() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_MANIFEST_LANGUAGES.invoke();
+      return readJsonList(
+          resultPtr,
+          new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {});
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Return languages that are already downloaded and cached locally.
-     *
-     * Does not perform any network requests. Returns an empty list if the
-     * cache directory does not exist or cannot be read.
-     */
-    public static List<String> downloadedLanguages() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_DOWNLOADED_LANGUAGES.invoke();
-            return readJsonList(resultPtr, new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() { });
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Return languages that are already downloaded and cached locally.
+   *
+   * <p>Does not perform any network requests. Returns an empty list if the cache directory does not
+   * exist or cannot be read.
+   */
+  public static List<String> downloadedLanguages() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_DOWNLOADED_LANGUAGES.invoke();
+      return readJsonList(
+          resultPtr,
+          new com.fasterxml.jackson.core.type.TypeReference<java.util.List<String>>() {});
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Delete all cached parser shared libraries.
-     *
-     * Resets the cache registration so the next call to get_language or
-     * a download function will re-register the (now empty) cache directory.
-     * {@literal @}throws KreuzbergRsException Returns an error if the cache directory cannot be removed.
-     */
-    public static void cleanCache() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            NativeLib.TS_PACK_CLEAN_CACHE.invoke();
-            checkLastError();
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Delete all cached parser shared libraries.
+   *
+   * <p>Resets the cache registration so the next call to get_language or a download function will
+   * re-register the (now empty) cache directory. {@literal @}throws KreuzbergRsException Returns an
+   * error if the cache directory cannot be removed.
+   */
+  public static void cleanCache() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      NativeLib.TS_PACK_CLEAN_CACHE.invoke();
+      checkLastError();
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    /**
-     * Return the effective cache directory path.
-     *
-     * This is either the custom path set via configure / init or the
-     * default: {@code ~/.cache/tree-sitter-language-pack/v{version}/libs/}.
-     * {@literal @}throws KreuzbergRsException Returns an error if the system cache directory cannot be determined.
-     */
-    public static String cacheDir() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var resultPtr = (MemorySegment) NativeLib.TS_PACK_CACHE_DIR.invoke();
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();                return null;            }
-            String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return str;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  /**
+   * Return the effective cache directory path.
+   *
+   * <p>This is either the custom path set via configure / init or the default: {@code
+   * ~/.cache/tree-sitter-language-pack/v{version}/libs/}. {@literal @}throws KreuzbergRsException
+   * Returns an error if the system cache directory cannot be determined.
+   */
+  public static String cacheDir() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var resultPtr = (MemorySegment) NativeLib.TS_PACK_CACHE_DIR.invoke();
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return null;
+      }
+      String str = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return str;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 
-    // Helper methods for FFI marshalling
+  // Helper methods for FFI marshalling
 
-    private static void checkLastError() throws Throwable {
-        int errCode = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-        if (errCode != 0) {
-            var ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            switch (errCode) {
-                case 1 -> throw new InvalidInputException(msg);
-                case 2 -> throw new ConversionErrorException(msg);
-                default -> throw new TreeSitterLanguagePackRsException(errCode, msg);
-            }
-        }
+  private static void checkLastError() throws Throwable {
+    int errCode = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+    if (errCode != 0) {
+      var ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+      String msg = ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      switch (errCode) {
+        case 1 -> throw new InvalidInputException(msg);
+        case 2 -> throw new ConversionErrorException(msg);
+        default -> throw new TreeSitterLanguagePackRsException(errCode, msg);
+      }
     }
-    private static com.fasterxml.jackson.databind.ObjectMapper createObjectMapper() {
-        return new com.fasterxml.jackson.databind.ObjectMapper()
-            .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-            .findAndRegisterModules()
-            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-            .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-            .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
-    }
+  }
 
-    private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER = createObjectMapper();
-    private static <T> java.util.List<T> readJsonList(
-        MemorySegment resultPtr,
-        com.fasterxml.jackson.core.type.TypeReference<java.util.List<T>> typeRef
-    ) throws TreeSitterLanguagePackRsException {
-        try {
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastError();
-                return java.util.List.of();
-            }
-            String json = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            return MAPPER.readValue(json, typeRef);
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("FFI call failed", e);
-        }
+  private static com.fasterxml.jackson.databind.ObjectMapper createObjectMapper() {
+    return new com.fasterxml.jackson.databind.ObjectMapper()
+        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+        .findAndRegisterModules()
+        .setPropertyNamingStrategy(
+            com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+        .configure(
+            com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+  }
+
+  private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER = createObjectMapper();
+
+  private static <T> java.util.List<T> readJsonList(
+      MemorySegment resultPtr,
+      com.fasterxml.jackson.core.type.TypeReference<java.util.List<T>> typeRef)
+      throws TreeSitterLanguagePackRsException {
+    try {
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastError();
+        return java.util.List.of();
+      }
+      String json = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      return MAPPER.readValue(json, typeRef);
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("FFI call failed", e);
     }
+  }
 }

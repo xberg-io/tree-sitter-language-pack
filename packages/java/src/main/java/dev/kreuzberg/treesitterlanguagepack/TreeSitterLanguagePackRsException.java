@@ -8,23 +8,23 @@ package dev.kreuzberg.treesitterlanguagepack;
 /** Exception thrown by TreeSitterLanguagePackRs. */
 @SuppressWarnings("checkstyle:LineLength")
 public class TreeSitterLanguagePackRsException extends Exception {
-    /** The error code. */
-    private final int code;
+  /** The error code. */
+  private final int code;
 
-    /** Creates a new TreeSitterLanguagePackRsException. */
-    public TreeSitterLanguagePackRsException(final int code, final String message) {
-        super(message);
-        this.code = code;
-    }
+  /** Creates a new TreeSitterLanguagePackRsException. */
+  public TreeSitterLanguagePackRsException(final int code, final String message) {
+    super(message);
+    this.code = code;
+  }
 
-    /** Creates a new TreeSitterLanguagePackRsException with a cause. */
-    public TreeSitterLanguagePackRsException(final String message, final Throwable cause) {
-        super(message, cause);
-        this.code = -1;
-    }
+  /** Creates a new TreeSitterLanguagePackRsException with a cause. */
+  public TreeSitterLanguagePackRsException(final String message, final Throwable cause) {
+    super(message, cause);
+    this.code = -1;
+  }
 
-    /** Returns the error code. */
-    public int getCode() {
-        return code;
-    }
+  /** Returns the error code. */
+  public int getCode() {
+    return code;
+  }
 }

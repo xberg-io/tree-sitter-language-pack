@@ -5,15 +5,13 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 
-/**
- * Metadata for a single chunk of source code.
- */
+/** Metadata for a single chunk of source code. */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ChunkContext.Builder.class)
 public record ChunkContext(
@@ -25,132 +23,141 @@ public record ChunkContext(
     @JsonProperty("symbols_defined") List<String> symbolsDefined,
     List<CommentInfo> comments,
     List<DocstringInfo> docstrings,
-    @JsonProperty("has_error_nodes") boolean hasErrorNodes
-) {
-    public static Builder builder() {
-        return new Builder();
+    @JsonProperty("has_error_nodes") boolean hasErrorNodes) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code ChunkContext} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static ChunkContext fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, ChunkContext.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse ChunkContext from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("language")
+    private String language = "";
+
+    @JsonProperty("chunk_index")
+    private long chunkIndex = 0;
+
+    @JsonProperty("total_chunks")
+    private long totalChunks = 0;
+
+    @JsonProperty("node_types")
+    private List<String> nodeTypes = List.of();
+
+    @JsonProperty("context_path")
+    private List<String> contextPath = List.of();
+
+    @JsonProperty("symbols_defined")
+    private List<String> symbolsDefined = List.of();
+
+    @JsonProperty("comments")
+    private List<CommentInfo> comments = List.of();
+
+    @JsonProperty("docstrings")
+    private List<DocstringInfo> docstrings = List.of();
+
+    @JsonProperty("has_error_nodes")
+    private boolean hasErrorNodes = false;
+
+    /** Sets the language field. */
+    @JsonProperty("language")
+    public Builder withLanguage(final String value) {
+      this.language = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code ChunkContext} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static ChunkContext fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, ChunkContext.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse ChunkContext from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the chunkIndex field. */
+    @JsonProperty("chunk_index")
+    public Builder withChunkIndex(final long value) {
+      this.chunkIndex = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("language")
-        private String language = "";
-        @JsonProperty("chunk_index")
-        private long chunkIndex = 0;
-        @JsonProperty("total_chunks")
-        private long totalChunks = 0;
-        @JsonProperty("node_types")
-        private List<String> nodeTypes = List.of();
-        @JsonProperty("context_path")
-        private List<String> contextPath = List.of();
-        @JsonProperty("symbols_defined")
-        private List<String> symbolsDefined = List.of();
-        @JsonProperty("comments")
-        private List<CommentInfo> comments = List.of();
-        @JsonProperty("docstrings")
-        private List<DocstringInfo> docstrings = List.of();
-        @JsonProperty("has_error_nodes")
-        private boolean hasErrorNodes = false;
-
-        /** Sets the language field. */
-        @JsonProperty("language")
-        public Builder withLanguage(final String value) {
-            this.language = value;
-            return this;
-        }
-
-        /** Sets the chunkIndex field. */
-        @JsonProperty("chunk_index")
-        public Builder withChunkIndex(final long value) {
-            this.chunkIndex = value;
-            return this;
-        }
-
-        /** Sets the totalChunks field. */
-        @JsonProperty("total_chunks")
-        public Builder withTotalChunks(final long value) {
-            this.totalChunks = value;
-            return this;
-        }
-
-        /** Sets the nodeTypes field. */
-        @JsonProperty("node_types")
-        public Builder withNodeTypes(final List<String> value) {
-            this.nodeTypes = value;
-            return this;
-        }
-
-        /** Sets the contextPath field. */
-        @JsonProperty("context_path")
-        public Builder withContextPath(final List<String> value) {
-            this.contextPath = value;
-            return this;
-        }
-
-        /** Sets the symbolsDefined field. */
-        @JsonProperty("symbols_defined")
-        public Builder withSymbolsDefined(final List<String> value) {
-            this.symbolsDefined = value;
-            return this;
-        }
-
-        /** Sets the comments field. */
-        @JsonProperty("comments")
-        public Builder withComments(final List<CommentInfo> value) {
-            this.comments = value;
-            return this;
-        }
-
-        /** Sets the docstrings field. */
-        @JsonProperty("docstrings")
-        public Builder withDocstrings(final List<DocstringInfo> value) {
-            this.docstrings = value;
-            return this;
-        }
-
-        /** Sets the hasErrorNodes field. */
-        @JsonProperty("has_error_nodes")
-        public Builder withHasErrorNodes(final boolean value) {
-            this.hasErrorNodes = value;
-            return this;
-        }
-
-        /** Builds the ChunkContext instance. */
-        public ChunkContext build() {
-            return new ChunkContext(
-                language,
-                chunkIndex,
-                totalChunks,
-                nodeTypes,
-                contextPath,
-                symbolsDefined,
-                comments,
-                docstrings,
-                hasErrorNodes
-            );
-        }
+    /** Sets the totalChunks field. */
+    @JsonProperty("total_chunks")
+    public Builder withTotalChunks(final long value) {
+      this.totalChunks = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the nodeTypes field. */
+    @JsonProperty("node_types")
+    public Builder withNodeTypes(final List<String> value) {
+      this.nodeTypes = value;
+      return this;
+    }
+
+    /** Sets the contextPath field. */
+    @JsonProperty("context_path")
+    public Builder withContextPath(final List<String> value) {
+      this.contextPath = value;
+      return this;
+    }
+
+    /** Sets the symbolsDefined field. */
+    @JsonProperty("symbols_defined")
+    public Builder withSymbolsDefined(final List<String> value) {
+      this.symbolsDefined = value;
+      return this;
+    }
+
+    /** Sets the comments field. */
+    @JsonProperty("comments")
+    public Builder withComments(final List<CommentInfo> value) {
+      this.comments = value;
+      return this;
+    }
+
+    /** Sets the docstrings field. */
+    @JsonProperty("docstrings")
+    public Builder withDocstrings(final List<DocstringInfo> value) {
+      this.docstrings = value;
+      return this;
+    }
+
+    /** Sets the hasErrorNodes field. */
+    @JsonProperty("has_error_nodes")
+    public Builder withHasErrorNodes(final boolean value) {
+      this.hasErrorNodes = value;
+      return this;
+    }
+
+    /** Builds the ChunkContext instance. */
+    public ChunkContext build() {
+      return new ChunkContext(
+          language,
+          chunkIndex,
+          totalChunks,
+          nodeTypes,
+          contextPath,
+          symbolsDefined,
+          comments,
+          docstrings,
+          hasErrorNodes);
+    }
+  }
+  // CPD-ON
 }

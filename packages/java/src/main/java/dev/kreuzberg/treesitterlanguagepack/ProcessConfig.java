@@ -5,203 +5,196 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.Optional;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Configuration for the {@code process()} function.
  *
- * Controls which analysis features are enabled and whether chunking is performed.
+ * <p>Controls which analysis features are enabled and whether chunking is performed.
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ProcessConfig.Builder.class)
 public record ProcessConfig(
-    /**
-     * Language name (required).
-     */
+    /** Language name (required). */
     String language,
-    /**
-     * Extract structural items (functions, classes, etc.). Default: true.
-     */
+    /** Extract structural items (functions, classes, etc.). Default: true. */
     boolean structure,
-    /**
-     * Extract import statements. Default: true.
-     */
+    /** Extract import statements. Default: true. */
     boolean imports,
-    /**
-     * Extract export statements. Default: true.
-     */
+    /** Extract export statements. Default: true. */
     boolean exports,
-    /**
-     * Extract comments. Default: false.
-     */
+    /** Extract comments. Default: false. */
     boolean comments,
-    /**
-     * Extract docstrings. Default: false.
-     */
+    /** Extract docstrings. Default: false. */
     boolean docstrings,
-    /**
-     * Extract symbol definitions. Default: false.
-     */
+    /** Extract symbol definitions. Default: false. */
     boolean symbols,
-    /**
-     * Include parse diagnostics. Default: false.
-     */
+    /** Include parse diagnostics. Default: false. */
     boolean diagnostics,
-    /**
-     * Maximum chunk size in bytes. {@code None} disables chunking.
-     */
-    @Nullable @JsonProperty("chunk_max_size") Long chunkMaxSize
-) {
-    public static Builder builder() {
-        return new Builder();
+    /** Maximum chunk size in bytes. {@code None} disables chunking. */
+    @Nullable @JsonProperty("chunk_max_size") Long chunkMaxSize) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code ProcessConfig} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static ProcessConfig fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, ProcessConfig.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse ProcessConfig from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("language")
+    private String language = "";
+
+    @JsonProperty("structure")
+    private boolean structure = true;
+
+    @JsonProperty("imports")
+    private boolean imports = true;
+
+    @JsonProperty("exports")
+    private boolean exports = true;
+
+    @JsonProperty("comments")
+    private boolean comments = false;
+
+    @JsonProperty("docstrings")
+    private boolean docstrings = false;
+
+    @JsonProperty("symbols")
+    private boolean symbols = false;
+
+    @JsonProperty("diagnostics")
+    private boolean diagnostics = false;
+
+    @JsonProperty("chunk_max_size")
+    private Optional<Long> chunkMaxSize = Optional.empty();
+
+    /** Sets the language field. */
+    @JsonProperty("language")
+    public Builder withLanguage(final String value) {
+      this.language = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code ProcessConfig} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static ProcessConfig fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, ProcessConfig.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse ProcessConfig from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the structure field. */
+    @JsonProperty("structure")
+    public Builder withStructure(final boolean value) {
+      this.structure = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("language")
-        private String language = "";
-        @JsonProperty("structure")
-        private boolean structure = true;
-        @JsonProperty("imports")
-        private boolean imports = true;
-        @JsonProperty("exports")
-        private boolean exports = true;
-        @JsonProperty("comments")
-        private boolean comments = false;
-        @JsonProperty("docstrings")
-        private boolean docstrings = false;
-        @JsonProperty("symbols")
-        private boolean symbols = false;
-        @JsonProperty("diagnostics")
-        private boolean diagnostics = false;
-        @JsonProperty("chunk_max_size")
-        private Optional<Long> chunkMaxSize = Optional.empty();
-
-        /** Sets the language field. */
-        @JsonProperty("language")
-        public Builder withLanguage(final String value) {
-            this.language = value;
-            return this;
-        }
-
-        /** Sets the structure field. */
-        @JsonProperty("structure")
-        public Builder withStructure(final boolean value) {
-            this.structure = value;
-            return this;
-        }
-
-        /** Sets the imports field. */
-        @JsonProperty("imports")
-        public Builder withImports(final boolean value) {
-            this.imports = value;
-            return this;
-        }
-
-        /** Sets the exports field. */
-        @JsonProperty("exports")
-        public Builder withExports(final boolean value) {
-            this.exports = value;
-            return this;
-        }
-
-        /** Sets the comments field. */
-        @JsonProperty("comments")
-        public Builder withComments(final boolean value) {
-            this.comments = value;
-            return this;
-        }
-
-        /** Sets the docstrings field. */
-        @JsonProperty("docstrings")
-        public Builder withDocstrings(final boolean value) {
-            this.docstrings = value;
-            return this;
-        }
-
-        /** Sets the symbols field. */
-        @JsonProperty("symbols")
-        public Builder withSymbols(final boolean value) {
-            this.symbols = value;
-            return this;
-        }
-
-        /** Sets the diagnostics field. */
-        @JsonProperty("diagnostics")
-        public Builder withDiagnostics(final boolean value) {
-            this.diagnostics = value;
-            return this;
-        }
-
-        /** Sets the chunkMaxSize field. */
-        @JsonProperty("chunk_max_size")
-        public Builder withChunkMaxSize(final Optional<Long> value) {
-            this.chunkMaxSize = value;
-            return this;
-        }
-
-        /** Builds the ProcessConfig instance. */
-        public ProcessConfig build() {
-            return new ProcessConfig(
-                language,
-                structure,
-                imports,
-                exports,
-                comments,
-                docstrings,
-                symbols,
-                diagnostics,
-                chunkMaxSize.orElse(null)
-            );
-        }
+    /** Sets the imports field. */
+    @JsonProperty("imports")
+    public Builder withImports(final boolean value) {
+      this.imports = value;
+      return this;
     }
-    // CPD-ON
-    public static ProcessConfig defaultInstance() {
-        throw new UnsupportedOperationException("defaultInstance is not yet bridged via JNI; use the Builder instead.");
+
+    /** Sets the exports field. */
+    @JsonProperty("exports")
+    public Builder withExports(final boolean value) {
+      this.exports = value;
+      return this;
     }
-    /**
-     * Enable chunking with the given maximum chunk size in bytes.
-     */
-    public ProcessConfig withChunking(long maxSize) {
-        throw new UnsupportedOperationException("withChunking is not yet bridged via JNI; reconstruct via Builder.");
+
+    /** Sets the comments field. */
+    @JsonProperty("comments")
+    public Builder withComments(final boolean value) {
+      this.comments = value;
+      return this;
     }
-    /**
-     * Enable all analysis features.
-     */
-    public ProcessConfig all() {
-        throw new UnsupportedOperationException("all is not yet bridged via JNI; reconstruct via Builder.");
+
+    /** Sets the docstrings field. */
+    @JsonProperty("docstrings")
+    public Builder withDocstrings(final boolean value) {
+      this.docstrings = value;
+      return this;
     }
-    /**
-     * Disable all analysis features (only metrics computed).
-     */
-    public ProcessConfig minimal() {
-        throw new UnsupportedOperationException("minimal is not yet bridged via JNI; reconstruct via Builder.");
+
+    /** Sets the symbols field. */
+    @JsonProperty("symbols")
+    public Builder withSymbols(final boolean value) {
+      this.symbols = value;
+      return this;
     }
+
+    /** Sets the diagnostics field. */
+    @JsonProperty("diagnostics")
+    public Builder withDiagnostics(final boolean value) {
+      this.diagnostics = value;
+      return this;
+    }
+
+    /** Sets the chunkMaxSize field. */
+    @JsonProperty("chunk_max_size")
+    public Builder withChunkMaxSize(final Optional<Long> value) {
+      this.chunkMaxSize = value;
+      return this;
+    }
+
+    /** Builds the ProcessConfig instance. */
+    public ProcessConfig build() {
+      return new ProcessConfig(
+          language,
+          structure,
+          imports,
+          exports,
+          comments,
+          docstrings,
+          symbols,
+          diagnostics,
+          chunkMaxSize.orElse(null));
+    }
+  }
+
+  // CPD-ON
+  public static ProcessConfig defaultInstance() {
+    throw new UnsupportedOperationException(
+        "defaultInstance is not yet bridged via JNI; use the Builder instead.");
+  }
+
+  /** Enable chunking with the given maximum chunk size in bytes. */
+  public ProcessConfig withChunking(long maxSize) {
+    throw new UnsupportedOperationException(
+        "withChunking is not yet bridged via JNI; reconstruct via Builder.");
+  }
+
+  /** Enable all analysis features. */
+  public ProcessConfig all() {
+    throw new UnsupportedOperationException(
+        "all is not yet bridged via JNI; reconstruct via Builder.");
+  }
+
+  /** Disable all analysis features (only metrics computed). */
+  public ProcessConfig minimal() {
+    throw new UnsupportedOperationException(
+        "minimal is not yet bridged via JNI; reconstruct via Builder.");
+  }
 }

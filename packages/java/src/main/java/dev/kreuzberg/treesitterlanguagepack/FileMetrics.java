@@ -5,14 +5,12 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-/**
- * Aggregate metrics for a source file.
- */
+/** Aggregate metrics for a source file. */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = FileMetrics.Builder.class)
 public record FileMetrics(
@@ -23,122 +21,130 @@ public record FileMetrics(
     @JsonProperty("total_bytes") long totalBytes,
     @JsonProperty("node_count") long nodeCount,
     @JsonProperty("error_count") long errorCount,
-    @JsonProperty("max_depth") long maxDepth
-) {
-    public static Builder builder() {
-        return new Builder();
+    @JsonProperty("max_depth") long maxDepth) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code FileMetrics} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static FileMetrics fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, FileMetrics.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse FileMetrics from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("total_lines")
+    private long totalLines = 0;
+
+    @JsonProperty("code_lines")
+    private long codeLines = 0;
+
+    @JsonProperty("comment_lines")
+    private long commentLines = 0;
+
+    @JsonProperty("blank_lines")
+    private long blankLines = 0;
+
+    @JsonProperty("total_bytes")
+    private long totalBytes = 0;
+
+    @JsonProperty("node_count")
+    private long nodeCount = 0;
+
+    @JsonProperty("error_count")
+    private long errorCount = 0;
+
+    @JsonProperty("max_depth")
+    private long maxDepth = 0;
+
+    /** Sets the totalLines field. */
+    @JsonProperty("total_lines")
+    public Builder withTotalLines(final long value) {
+      this.totalLines = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code FileMetrics} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static FileMetrics fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, FileMetrics.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse FileMetrics from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the codeLines field. */
+    @JsonProperty("code_lines")
+    public Builder withCodeLines(final long value) {
+      this.codeLines = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("total_lines")
-        private long totalLines = 0;
-        @JsonProperty("code_lines")
-        private long codeLines = 0;
-        @JsonProperty("comment_lines")
-        private long commentLines = 0;
-        @JsonProperty("blank_lines")
-        private long blankLines = 0;
-        @JsonProperty("total_bytes")
-        private long totalBytes = 0;
-        @JsonProperty("node_count")
-        private long nodeCount = 0;
-        @JsonProperty("error_count")
-        private long errorCount = 0;
-        @JsonProperty("max_depth")
-        private long maxDepth = 0;
-
-        /** Sets the totalLines field. */
-        @JsonProperty("total_lines")
-        public Builder withTotalLines(final long value) {
-            this.totalLines = value;
-            return this;
-        }
-
-        /** Sets the codeLines field. */
-        @JsonProperty("code_lines")
-        public Builder withCodeLines(final long value) {
-            this.codeLines = value;
-            return this;
-        }
-
-        /** Sets the commentLines field. */
-        @JsonProperty("comment_lines")
-        public Builder withCommentLines(final long value) {
-            this.commentLines = value;
-            return this;
-        }
-
-        /** Sets the blankLines field. */
-        @JsonProperty("blank_lines")
-        public Builder withBlankLines(final long value) {
-            this.blankLines = value;
-            return this;
-        }
-
-        /** Sets the totalBytes field. */
-        @JsonProperty("total_bytes")
-        public Builder withTotalBytes(final long value) {
-            this.totalBytes = value;
-            return this;
-        }
-
-        /** Sets the nodeCount field. */
-        @JsonProperty("node_count")
-        public Builder withNodeCount(final long value) {
-            this.nodeCount = value;
-            return this;
-        }
-
-        /** Sets the errorCount field. */
-        @JsonProperty("error_count")
-        public Builder withErrorCount(final long value) {
-            this.errorCount = value;
-            return this;
-        }
-
-        /** Sets the maxDepth field. */
-        @JsonProperty("max_depth")
-        public Builder withMaxDepth(final long value) {
-            this.maxDepth = value;
-            return this;
-        }
-
-        /** Builds the FileMetrics instance. */
-        public FileMetrics build() {
-            return new FileMetrics(
-                totalLines,
-                codeLines,
-                commentLines,
-                blankLines,
-                totalBytes,
-                nodeCount,
-                errorCount,
-                maxDepth
-            );
-        }
+    /** Sets the commentLines field. */
+    @JsonProperty("comment_lines")
+    public Builder withCommentLines(final long value) {
+      this.commentLines = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the blankLines field. */
+    @JsonProperty("blank_lines")
+    public Builder withBlankLines(final long value) {
+      this.blankLines = value;
+      return this;
+    }
+
+    /** Sets the totalBytes field. */
+    @JsonProperty("total_bytes")
+    public Builder withTotalBytes(final long value) {
+      this.totalBytes = value;
+      return this;
+    }
+
+    /** Sets the nodeCount field. */
+    @JsonProperty("node_count")
+    public Builder withNodeCount(final long value) {
+      this.nodeCount = value;
+      return this;
+    }
+
+    /** Sets the errorCount field. */
+    @JsonProperty("error_count")
+    public Builder withErrorCount(final long value) {
+      this.errorCount = value;
+      return this;
+    }
+
+    /** Sets the maxDepth field. */
+    @JsonProperty("max_depth")
+    public Builder withMaxDepth(final long value) {
+      this.maxDepth = value;
+      return this;
+    }
+
+    /** Builds the FileMetrics instance. */
+    public FileMetrics build() {
+      return new FileMetrics(
+          totalLines,
+          codeLines,
+          commentLines,
+          blankLines,
+          totalBytes,
+          nodeCount,
+          errorCount,
+          maxDepth);
+    }
+  }
+  // CPD-ON
 }

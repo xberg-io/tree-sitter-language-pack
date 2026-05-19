@@ -5,17 +5,15 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.List;
-import java.util.Optional;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 
-/**
- * A structural item (function, class, struct, etc.) in source code.
- */
+/** A structural item (function, class, struct, etc.) in source code. */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = StructureItem.Builder.class)
 public record StructureItem(
@@ -27,132 +25,141 @@ public record StructureItem(
     List<String> decorators,
     @Nullable @JsonProperty("doc_comment") String docComment,
     @Nullable String signature,
-    @Nullable @JsonProperty("body_span") Span bodySpan
-) {
-    public static Builder builder() {
-        return new Builder();
+    @Nullable @JsonProperty("body_span") Span bodySpan) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code StructureItem} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static StructureItem fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, StructureItem.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse StructureItem from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("kind")
+    private StructureKind kind = null;
+
+    @JsonProperty("name")
+    private Optional<String> name = Optional.empty();
+
+    @JsonProperty("visibility")
+    private Optional<String> visibility = Optional.empty();
+
+    @JsonProperty("span")
+    private Span span = null;
+
+    @JsonProperty("children")
+    private List<StructureItem> children = List.of();
+
+    @JsonProperty("decorators")
+    private List<String> decorators = List.of();
+
+    @JsonProperty("doc_comment")
+    private Optional<String> docComment = Optional.empty();
+
+    @JsonProperty("signature")
+    private Optional<String> signature = Optional.empty();
+
+    @JsonProperty("body_span")
+    private Optional<Span> bodySpan = Optional.empty();
+
+    /** Sets the kind field. */
+    @JsonProperty("kind")
+    public Builder withKind(final StructureKind value) {
+      this.kind = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code StructureItem} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static StructureItem fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, StructureItem.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse StructureItem from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the name field. */
+    @JsonProperty("name")
+    public Builder withName(final Optional<String> value) {
+      this.name = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("kind")
-        private StructureKind kind = null;
-        @JsonProperty("name")
-        private Optional<String> name = Optional.empty();
-        @JsonProperty("visibility")
-        private Optional<String> visibility = Optional.empty();
-        @JsonProperty("span")
-        private Span span = null;
-        @JsonProperty("children")
-        private List<StructureItem> children = List.of();
-        @JsonProperty("decorators")
-        private List<String> decorators = List.of();
-        @JsonProperty("doc_comment")
-        private Optional<String> docComment = Optional.empty();
-        @JsonProperty("signature")
-        private Optional<String> signature = Optional.empty();
-        @JsonProperty("body_span")
-        private Optional<Span> bodySpan = Optional.empty();
-
-        /** Sets the kind field. */
-        @JsonProperty("kind")
-        public Builder withKind(final StructureKind value) {
-            this.kind = value;
-            return this;
-        }
-
-        /** Sets the name field. */
-        @JsonProperty("name")
-        public Builder withName(final Optional<String> value) {
-            this.name = value;
-            return this;
-        }
-
-        /** Sets the visibility field. */
-        @JsonProperty("visibility")
-        public Builder withVisibility(final Optional<String> value) {
-            this.visibility = value;
-            return this;
-        }
-
-        /** Sets the span field. */
-        @JsonProperty("span")
-        public Builder withSpan(final Span value) {
-            this.span = value;
-            return this;
-        }
-
-        /** Sets the children field. */
-        @JsonProperty("children")
-        public Builder withChildren(final List<StructureItem> value) {
-            this.children = value;
-            return this;
-        }
-
-        /** Sets the decorators field. */
-        @JsonProperty("decorators")
-        public Builder withDecorators(final List<String> value) {
-            this.decorators = value;
-            return this;
-        }
-
-        /** Sets the docComment field. */
-        @JsonProperty("doc_comment")
-        public Builder withDocComment(final Optional<String> value) {
-            this.docComment = value;
-            return this;
-        }
-
-        /** Sets the signature field. */
-        @JsonProperty("signature")
-        public Builder withSignature(final Optional<String> value) {
-            this.signature = value;
-            return this;
-        }
-
-        /** Sets the bodySpan field. */
-        @JsonProperty("body_span")
-        public Builder withBodySpan(final Optional<Span> value) {
-            this.bodySpan = value;
-            return this;
-        }
-
-        /** Builds the StructureItem instance. */
-        public StructureItem build() {
-            return new StructureItem(
-                kind,
-                name.orElse(null),
-                visibility.orElse(null),
-                span,
-                children,
-                decorators,
-                docComment.orElse(null),
-                signature.orElse(null),
-                bodySpan.orElse(null)
-            );
-        }
+    /** Sets the visibility field. */
+    @JsonProperty("visibility")
+    public Builder withVisibility(final Optional<String> value) {
+      this.visibility = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the span field. */
+    @JsonProperty("span")
+    public Builder withSpan(final Span value) {
+      this.span = value;
+      return this;
+    }
+
+    /** Sets the children field. */
+    @JsonProperty("children")
+    public Builder withChildren(final List<StructureItem> value) {
+      this.children = value;
+      return this;
+    }
+
+    /** Sets the decorators field. */
+    @JsonProperty("decorators")
+    public Builder withDecorators(final List<String> value) {
+      this.decorators = value;
+      return this;
+    }
+
+    /** Sets the docComment field. */
+    @JsonProperty("doc_comment")
+    public Builder withDocComment(final Optional<String> value) {
+      this.docComment = value;
+      return this;
+    }
+
+    /** Sets the signature field. */
+    @JsonProperty("signature")
+    public Builder withSignature(final Optional<String> value) {
+      this.signature = value;
+      return this;
+    }
+
+    /** Sets the bodySpan field. */
+    @JsonProperty("body_span")
+    public Builder withBodySpan(final Optional<Span> value) {
+      this.bodySpan = value;
+      return this;
+    }
+
+    /** Builds the StructureItem instance. */
+    public StructureItem build() {
+      return new StructureItem(
+          kind,
+          name.orElse(null),
+          visibility.orElse(null),
+          span,
+          children,
+          decorators,
+          docComment.orElse(null),
+          signature.orElse(null),
+          bodySpan.orElse(null));
+    }
+  }
+  // CPD-ON
 }

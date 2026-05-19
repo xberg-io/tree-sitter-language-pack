@@ -5,83 +5,82 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.Optional;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 
-/**
- * A section within a docstring (e.g., Args, Returns, Raises).
- */
+/** A section within a docstring (e.g., Args, Returns, Raises). */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = DocSection.Builder.class)
 public record DocSection(String kind, @Nullable String name, String description) {
-    public static Builder builder() {
-        return new Builder();
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code DocSection} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static DocSection fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, DocSection.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse DocSection from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("kind")
+    private String kind = "";
+
+    @JsonProperty("name")
+    private Optional<String> name = Optional.empty();
+
+    @JsonProperty("description")
+    private String description = "";
+
+    /** Sets the kind field. */
+    @JsonProperty("kind")
+    public Builder withKind(final String value) {
+      this.kind = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code DocSection} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static DocSection fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, DocSection.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse DocSection from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the name field. */
+    @JsonProperty("name")
+    public Builder withName(final Optional<String> value) {
+      this.name = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("kind")
-        private String kind = "";
-        @JsonProperty("name")
-        private Optional<String> name = Optional.empty();
-        @JsonProperty("description")
-        private String description = "";
-
-        /** Sets the kind field. */
-        @JsonProperty("kind")
-        public Builder withKind(final String value) {
-            this.kind = value;
-            return this;
-        }
-
-        /** Sets the name field. */
-        @JsonProperty("name")
-        public Builder withName(final Optional<String> value) {
-            this.name = value;
-            return this;
-        }
-
-        /** Sets the description field. */
-        @JsonProperty("description")
-        public Builder withDescription(final String value) {
-            this.description = value;
-            return this;
-        }
-
-        /** Builds the DocSection instance. */
-        public DocSection build() {
-            return new DocSection(
-                kind,
-                name.orElse(null),
-                description
-            );
-        }
+    /** Sets the description field. */
+    @JsonProperty("description")
+    public Builder withDescription(final String value) {
+      this.description = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Builds the DocSection instance. */
+    public DocSection build() {
+      return new DocSection(kind, name.orElse(null), description);
+    }
+  }
+  // CPD-ON
 }

@@ -5,18 +5,17 @@ package dev.kreuzberg.treesitterlanguagepack;
 /**
  * Errors that can occur when using the tree-sitter language pack.
  *
- * Covers language lookup failures, parse errors, query errors, and I/O issues.
- * Feature-gated variants are included when `config`, `download`, or related
- * features are enabled.
+ * <p>Covers language lookup failures, parse errors, query errors, and I/O issues. Feature-gated
+ * variants are included when `config`, `download`, or related features are enabled.
  */
 public class ErrorException extends Exception {
-    /** Creates a new ErrorException with the given message. */
-    public ErrorException(final String message) {
-        super(message);
-    }
+  /** Creates a new ErrorException with the given message. */
+  public ErrorException(final String message) {
+    super(message);
+  }
 
-    /** Creates a new ErrorException with the given message and cause. */
-    public ErrorException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
+  /** Creates a new ErrorException with the given message and cause. */
+  public ErrorException(final String message, final Throwable cause) {
+    super(message, cause);
+  }
 }

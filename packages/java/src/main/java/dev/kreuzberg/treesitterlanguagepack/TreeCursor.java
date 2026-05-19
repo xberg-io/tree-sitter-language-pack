@@ -5,138 +5,160 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.Arena;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.util.Optional;
 
-/**
- * A cursor for traversing a Tree.
- */
+/** A cursor for traversing a Tree. */
 public class TreeCursor implements AutoCloseable {
-    private final MemorySegment handle;
+  private final MemorySegment handle;
 
-    TreeCursor(MemorySegment handle) {
-        this.handle = handle;
-    }
+  TreeCursor(MemorySegment handle) {
+    this.handle = handle;
+  }
 
-    MemorySegment handle() {
-        return this.handle;
-    }
+  MemorySegment handle() {
+    return this.handle;
+  }
 
-    /**
-     * Return the Node at the cursor's current position.
-     */
-    public Node node() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_TREE_CURSOR_NODE.invoke(this.handle);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastFfiError();
-                return null;
-            }
-            try {
-                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
-                if (jsonPtr.equals(MemorySegment.NULL)) {
-                    checkLastFfiError();
-                    throw new TreeSitterLanguagePackRsException("node: failed to serialize response", (Throwable) null);
-                }
-                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-                return STREAM_MAPPER.readValue(json, Node.class);
-            } finally {
-                NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
-            }
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("node: failed", e);
+  /** Return the Node at the cursor's current position. */
+  public Node node() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      MemorySegment resultPtr =
+          (MemorySegment) NativeLib.TS_PACK_TREE_CURSOR_NODE.invoke(this.handle);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastFfiError();
+        return null;
+      }
+      try {
+        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_NODE_TO_JSON.invoke(resultPtr);
+        if (jsonPtr.equals(MemorySegment.NULL)) {
+          checkLastFfiError();
+          throw new TreeSitterLanguagePackRsException(
+              "node: failed to serialize response", (Throwable) null);
         }
+        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+        return STREAM_MAPPER.readValue(json, Node.class);
+      } finally {
+        NativeLib.TS_PACK_NODE_FREE.invoke(resultPtr);
+      }
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("node: failed", e);
     }
-    /**
-     * Move the cursor to the first child of the current node.
-     * Returns {@code true} if a child existed.
-     */
-    public boolean gotoFirstChild() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var result = (boolean) NativeLib.TS_PACK_TREE_CURSOR_GOTO_FIRST_CHILD.invoke(this.handle);
-            return result;
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("gotoFirstChild: failed", e);
-        }
-    }
-    /**
-     * Move the cursor to the parent of the current node.
-     * Returns {@code true} if a parent existed.
-     */
-    public boolean gotoParent() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var result = (boolean) NativeLib.TS_PACK_TREE_CURSOR_GOTO_PARENT.invoke(this.handle);
-            return result;
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("gotoParent: failed", e);
-        }
-    }
-    /**
-     * Move the cursor to the next sibling of the current node.
-     * Returns {@code true} if a sibling existed.
-     */
-    public boolean gotoNextSibling() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var result = (boolean) NativeLib.TS_PACK_TREE_CURSOR_GOTO_NEXT_SIBLING.invoke(this.handle);
-            return result;
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("gotoNextSibling: failed", e);
-        }
-    }
-    /**
-     * Return the field name for the current node, if any.
-     */
-    public Optional<String> fieldName() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_TREE_CURSOR_FIELD_NAME.invoke(this.handle);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                return java.util.Optional.empty();
-            }
-            try {
-                String result = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
-                return java.util.Optional.of(result);
-            } finally {
-                NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
-            }
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("fieldName: failed", e);
-        }
-    }
-    @Override
-    public void close() {
-        if (handle != null && !handle.equals(MemorySegment.NULL)) {
-            try {
-                NativeLib.TS_PACK_TREE_CURSOR_FREE.invoke(handle);
-            } catch (Throwable e) {
-                throw new RuntimeException("Failed to free TreeCursor: " + e.getMessage(), e);
-            }
-        }
-    }
+  }
 
-    private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
-        try {
-            int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-            if (code == 0) { return; }
-            MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            throw new TreeSitterLanguagePackRsException(code, msg);
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("failed to read last error", e);
-        }
+  /**
+   * Move the cursor to the first child of the current node. Returns {@code true} if a child
+   * existed.
+   */
+  public boolean gotoFirstChild() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var result = (boolean) NativeLib.TS_PACK_TREE_CURSOR_GOTO_FIRST_CHILD.invoke(this.handle);
+      return result;
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("gotoFirstChild: failed", e);
     }
-    private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .findAndRegisterModules()
-        .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+  }
+
+  /**
+   * Move the cursor to the parent of the current node. Returns {@code true} if a parent existed.
+   */
+  public boolean gotoParent() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var result = (boolean) NativeLib.TS_PACK_TREE_CURSOR_GOTO_PARENT.invoke(this.handle);
+      return result;
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("gotoParent: failed", e);
+    }
+  }
+
+  /**
+   * Move the cursor to the next sibling of the current node. Returns {@code true} if a sibling
+   * existed.
+   */
+  public boolean gotoNextSibling() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var result = (boolean) NativeLib.TS_PACK_TREE_CURSOR_GOTO_NEXT_SIBLING.invoke(this.handle);
+      return result;
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("gotoNextSibling: failed", e);
+    }
+  }
+
+  /** Return the field name for the current node, if any. */
+  public Optional<String> fieldName() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      MemorySegment resultPtr =
+          (MemorySegment) NativeLib.TS_PACK_TREE_CURSOR_FIELD_NAME.invoke(this.handle);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        return java.util.Optional.empty();
+      }
+      try {
+        String result = resultPtr.reinterpret(Long.MAX_VALUE).getString(0);
+        return java.util.Optional.of(result);
+      } finally {
+        NativeLib.TS_PACK_FREE_STRING.invoke(resultPtr);
+      }
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("fieldName: failed", e);
+    }
+  }
+
+  @Override
+  public void close() {
+    if (handle != null && !handle.equals(MemorySegment.NULL)) {
+      try {
+        NativeLib.TS_PACK_TREE_CURSOR_FREE.invoke(handle);
+      } catch (Throwable e) {
+        throw new RuntimeException("Failed to free TreeCursor: " + e.getMessage(), e);
+      }
+    }
+  }
+
+  private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
+    try {
+      int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+      if (code == 0) {
+        return;
+      }
+      MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+      String msg =
+          ctxPtr.equals(MemorySegment.NULL)
+              ? "unknown"
+              : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      throw new TreeSitterLanguagePackRsException(code, msg);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("failed to read last error", e);
+    }
+  }
+
+  private static final ObjectMapper STREAM_MAPPER =
+      new ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

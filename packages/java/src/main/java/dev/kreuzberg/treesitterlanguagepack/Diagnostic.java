@@ -5,81 +5,80 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-/**
- * A diagnostic (syntax error, missing node, etc.) from parsing.
- */
+/** A diagnostic (syntax error, missing node, etc.) from parsing. */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = Diagnostic.Builder.class)
 public record Diagnostic(String message, DiagnosticSeverity severity, Span span) {
-    public static Builder builder() {
-        return new Builder();
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code Diagnostic} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static Diagnostic fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, Diagnostic.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse Diagnostic from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("message")
+    private String message = "";
+
+    @JsonProperty("severity")
+    private DiagnosticSeverity severity = null;
+
+    @JsonProperty("span")
+    private Span span = null;
+
+    /** Sets the message field. */
+    @JsonProperty("message")
+    public Builder withMessage(final String value) {
+      this.message = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code Diagnostic} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static Diagnostic fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, Diagnostic.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse Diagnostic from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the severity field. */
+    @JsonProperty("severity")
+    public Builder withSeverity(final DiagnosticSeverity value) {
+      this.severity = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("message")
-        private String message = "";
-        @JsonProperty("severity")
-        private DiagnosticSeverity severity = null;
-        @JsonProperty("span")
-        private Span span = null;
-
-        /** Sets the message field. */
-        @JsonProperty("message")
-        public Builder withMessage(final String value) {
-            this.message = value;
-            return this;
-        }
-
-        /** Sets the severity field. */
-        @JsonProperty("severity")
-        public Builder withSeverity(final DiagnosticSeverity value) {
-            this.severity = value;
-            return this;
-        }
-
-        /** Sets the span field. */
-        @JsonProperty("span")
-        public Builder withSpan(final Span value) {
-            this.span = value;
-            return this;
-        }
-
-        /** Builds the Diagnostic instance. */
-        public Diagnostic build() {
-            return new Diagnostic(
-                message,
-                severity,
-                span
-            );
-        }
+    /** Sets the span field. */
+    @JsonProperty("span")
+    public Builder withSpan(final Span value) {
+      this.span = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Builds the Diagnostic instance. */
+    public Diagnostic build() {
+      return new Diagnostic(message, severity, span);
+    }
+  }
+  // CPD-ON
 }

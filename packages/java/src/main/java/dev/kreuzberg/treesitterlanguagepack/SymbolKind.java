@@ -11,47 +11,47 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * The kind of a symbol definition found in source code.
  *
- * Categorizes symbol definitions such as variables, constants, functions,
- * classes, types, interfaces, enums, and modules.
+ * <p>Categorizes symbol definitions such as variables, constants, functions, classes, types,
+ * interfaces, enums, and modules.
  */
 public enum SymbolKind {
-    Variable("variable"),
-    Constant("constant"),
-    Function("function"),
-    Class("class"),
-    Type("type"),
-    Interface("interface"),
-    Enum("enum"),
-    Module("module"),
-    Other("other");
+  Variable("variable"),
+  Constant("constant"),
+  Function("function"),
+  Class("class"),
+  Type("type"),
+  Interface("interface"),
+  Enum("enum"),
+  Module("module"),
+  Other("other");
 
-    /** The string value. */
-    private final String value;
+  /** The string value. */
+  private final String value;
 
-    SymbolKind(final String value) {
-        this.value = value;
+  SymbolKind(final String value) {
+    this.value = value;
+  }
+
+  /** Returns the string value. */
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  /** Creates an instance from a string value. */
+  @JsonCreator
+  public static SymbolKind fromValue(final String value) {
+    for (SymbolKind e : values()) {
+      if (e.value.equalsIgnoreCase(value)) {
+        return e;
+      }
     }
+    throw new IllegalArgumentException("Unknown value: " + value);
+  }
 
-    /** Returns the string value. */
-    @JsonValue
-    public String getValue() {
-        return value;
-    }
-
-    /** Creates an instance from a string value. */
-    @JsonCreator
-    public static SymbolKind fromValue(final String value) {
-        for (SymbolKind e : values()) {
-            if (e.value.equalsIgnoreCase(value)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("Unknown value: " + value);
-    }
-
-    /** Returns the wire-format string value (matches JSON serialization). */
-    @Override
-    public String toString() {
-        return value;
-    }
+  /** Returns the wire-format string value (matches JSON serialization). */
+  @Override
+  public String toString() {
+    return value;
+  }
 }

@@ -5,31 +5,29 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 
 /**
  * Complete analysis result from processing a source file.
  *
- * Contains metrics, structural analysis, imports/exports, comments,
- * docstrings, symbols, diagnostics, and optionally chunked code segments.
- * Fields are populated based on the {@code ProcessConfig} flags.
+ * <p>Contains metrics, structural analysis, imports/exports, comments, docstrings, symbols,
+ * diagnostics, and optionally chunked code segments. Fields are populated based on the {@code
+ * ProcessConfig} flags.
  *
- * # Fields
+ * <p># Fields
  *
- * - {@code language} - The language used for parsing
- * - {@code metrics} - Always computed: line counts, byte sizes, error counts
- * - {@code structure} - Functions, classes, structs (when {@code config.structure = true})
- * - {@code imports} - Import statements (when {@code config.imports = true})
- * - {@code exports} - Export statements (when {@code config.exports = true})
- * - {@code comments} - Comments (when {@code config.comments = true})
- * - {@code docstrings} - Docstrings (when {@code config.docstrings = true})
- * - {@code symbols} - Symbol definitions (when {@code config.symbols = true})
- * - {@code diagnostics} - Parse errors (when {@code config.diagnostics = true})
- * - {@code chunks} - Chunked code segments (when {@code config.chunk_max_size} is set)
+ * <p>- {@code language} - The language used for parsing - {@code metrics} - Always computed: line
+ * counts, byte sizes, error counts - {@code structure} - Functions, classes, structs (when {@code
+ * config.structure = true}) - {@code imports} - Import statements (when {@code config.imports =
+ * true}) - {@code exports} - Export statements (when {@code config.exports = true}) - {@code
+ * comments} - Comments (when {@code config.comments = true}) - {@code docstrings} - Docstrings
+ * (when {@code config.docstrings = true}) - {@code symbols} - Symbol definitions (when {@code
+ * config.symbols = true}) - {@code diagnostics} - Parse errors (when {@code config.diagnostics =
+ * true}) - {@code chunks} - Chunked code segments (when {@code config.chunk_max_size} is set)
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ProcessResult.Builder.class)
@@ -43,142 +41,152 @@ public record ProcessResult(
     List<DocstringInfo> docstrings,
     List<SymbolInfo> symbols,
     List<Diagnostic> diagnostics,
-    List<CodeChunk> chunks
-) {
-    public static Builder builder() {
-        return new Builder();
+    List<CodeChunk> chunks) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code ProcessResult} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static ProcessResult fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, ProcessResult.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse ProcessResult from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("language")
+    private String language = "";
+
+    @JsonProperty("metrics")
+    private FileMetrics metrics = null;
+
+    @JsonProperty("structure")
+    private List<StructureItem> structure = List.of();
+
+    @JsonProperty("imports")
+    private List<ImportInfo> imports = List.of();
+
+    @JsonProperty("exports")
+    private List<ExportInfo> exports = List.of();
+
+    @JsonProperty("comments")
+    private List<CommentInfo> comments = List.of();
+
+    @JsonProperty("docstrings")
+    private List<DocstringInfo> docstrings = List.of();
+
+    @JsonProperty("symbols")
+    private List<SymbolInfo> symbols = List.of();
+
+    @JsonProperty("diagnostics")
+    private List<Diagnostic> diagnostics = List.of();
+
+    @JsonProperty("chunks")
+    private List<CodeChunk> chunks = List.of();
+
+    /** Sets the language field. */
+    @JsonProperty("language")
+    public Builder withLanguage(final String value) {
+      this.language = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code ProcessResult} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static ProcessResult fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, ProcessResult.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse ProcessResult from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the metrics field. */
+    @JsonProperty("metrics")
+    public Builder withMetrics(final FileMetrics value) {
+      this.metrics = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("language")
-        private String language = "";
-        @JsonProperty("metrics")
-        private FileMetrics metrics = null;
-        @JsonProperty("structure")
-        private List<StructureItem> structure = List.of();
-        @JsonProperty("imports")
-        private List<ImportInfo> imports = List.of();
-        @JsonProperty("exports")
-        private List<ExportInfo> exports = List.of();
-        @JsonProperty("comments")
-        private List<CommentInfo> comments = List.of();
-        @JsonProperty("docstrings")
-        private List<DocstringInfo> docstrings = List.of();
-        @JsonProperty("symbols")
-        private List<SymbolInfo> symbols = List.of();
-        @JsonProperty("diagnostics")
-        private List<Diagnostic> diagnostics = List.of();
-        @JsonProperty("chunks")
-        private List<CodeChunk> chunks = List.of();
-
-        /** Sets the language field. */
-        @JsonProperty("language")
-        public Builder withLanguage(final String value) {
-            this.language = value;
-            return this;
-        }
-
-        /** Sets the metrics field. */
-        @JsonProperty("metrics")
-        public Builder withMetrics(final FileMetrics value) {
-            this.metrics = value;
-            return this;
-        }
-
-        /** Sets the structure field. */
-        @JsonProperty("structure")
-        public Builder withStructure(final List<StructureItem> value) {
-            this.structure = value;
-            return this;
-        }
-
-        /** Sets the imports field. */
-        @JsonProperty("imports")
-        public Builder withImports(final List<ImportInfo> value) {
-            this.imports = value;
-            return this;
-        }
-
-        /** Sets the exports field. */
-        @JsonProperty("exports")
-        public Builder withExports(final List<ExportInfo> value) {
-            this.exports = value;
-            return this;
-        }
-
-        /** Sets the comments field. */
-        @JsonProperty("comments")
-        public Builder withComments(final List<CommentInfo> value) {
-            this.comments = value;
-            return this;
-        }
-
-        /** Sets the docstrings field. */
-        @JsonProperty("docstrings")
-        public Builder withDocstrings(final List<DocstringInfo> value) {
-            this.docstrings = value;
-            return this;
-        }
-
-        /** Sets the symbols field. */
-        @JsonProperty("symbols")
-        public Builder withSymbols(final List<SymbolInfo> value) {
-            this.symbols = value;
-            return this;
-        }
-
-        /** Sets the diagnostics field. */
-        @JsonProperty("diagnostics")
-        public Builder withDiagnostics(final List<Diagnostic> value) {
-            this.diagnostics = value;
-            return this;
-        }
-
-        /** Sets the chunks field. */
-        @JsonProperty("chunks")
-        public Builder withChunks(final List<CodeChunk> value) {
-            this.chunks = value;
-            return this;
-        }
-
-        /** Builds the ProcessResult instance. */
-        public ProcessResult build() {
-            return new ProcessResult(
-                language,
-                metrics,
-                structure,
-                imports,
-                exports,
-                comments,
-                docstrings,
-                symbols,
-                diagnostics,
-                chunks
-            );
-        }
+    /** Sets the structure field. */
+    @JsonProperty("structure")
+    public Builder withStructure(final List<StructureItem> value) {
+      this.structure = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the imports field. */
+    @JsonProperty("imports")
+    public Builder withImports(final List<ImportInfo> value) {
+      this.imports = value;
+      return this;
+    }
+
+    /** Sets the exports field. */
+    @JsonProperty("exports")
+    public Builder withExports(final List<ExportInfo> value) {
+      this.exports = value;
+      return this;
+    }
+
+    /** Sets the comments field. */
+    @JsonProperty("comments")
+    public Builder withComments(final List<CommentInfo> value) {
+      this.comments = value;
+      return this;
+    }
+
+    /** Sets the docstrings field. */
+    @JsonProperty("docstrings")
+    public Builder withDocstrings(final List<DocstringInfo> value) {
+      this.docstrings = value;
+      return this;
+    }
+
+    /** Sets the symbols field. */
+    @JsonProperty("symbols")
+    public Builder withSymbols(final List<SymbolInfo> value) {
+      this.symbols = value;
+      return this;
+    }
+
+    /** Sets the diagnostics field. */
+    @JsonProperty("diagnostics")
+    public Builder withDiagnostics(final List<Diagnostic> value) {
+      this.diagnostics = value;
+      return this;
+    }
+
+    /** Sets the chunks field. */
+    @JsonProperty("chunks")
+    public Builder withChunks(final List<CodeChunk> value) {
+      this.chunks = value;
+      return this;
+    }
+
+    /** Builds the ProcessResult instance. */
+    public ProcessResult build() {
+      return new ProcessResult(
+          language,
+          metrics,
+          structure,
+          imports,
+          exports,
+          comments,
+          docstrings,
+          symbols,
+          diagnostics,
+          chunks);
+    }
+  }
+  // CPD-ON
 }

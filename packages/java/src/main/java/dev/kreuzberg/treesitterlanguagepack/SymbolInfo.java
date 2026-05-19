@@ -5,16 +5,14 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.Optional;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 
-/**
- * A symbol (variable, function, type, etc.) extracted from source code.
- */
+/** A symbol (variable, function, type, etc.) extracted from source code. */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = SymbolInfo.Builder.class)
 public record SymbolInfo(
@@ -22,92 +20,92 @@ public record SymbolInfo(
     SymbolKind kind,
     Span span,
     @Nullable @JsonProperty("type_annotation") String typeAnnotation,
-    @Nullable String doc
-) {
-    public static Builder builder() {
-        return new Builder();
+    @Nullable String doc) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code SymbolInfo} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static SymbolInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, SymbolInfo.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse SymbolInfo from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("name")
+    private String name = "";
+
+    @JsonProperty("kind")
+    private SymbolKind kind = null;
+
+    @JsonProperty("span")
+    private Span span = null;
+
+    @JsonProperty("type_annotation")
+    private Optional<String> typeAnnotation = Optional.empty();
+
+    @JsonProperty("doc")
+    private Optional<String> doc = Optional.empty();
+
+    /** Sets the name field. */
+    @JsonProperty("name")
+    public Builder withName(final String value) {
+      this.name = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code SymbolInfo} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static SymbolInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, SymbolInfo.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse SymbolInfo from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the kind field. */
+    @JsonProperty("kind")
+    public Builder withKind(final SymbolKind value) {
+      this.kind = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("name")
-        private String name = "";
-        @JsonProperty("kind")
-        private SymbolKind kind = null;
-        @JsonProperty("span")
-        private Span span = null;
-        @JsonProperty("type_annotation")
-        private Optional<String> typeAnnotation = Optional.empty();
-        @JsonProperty("doc")
-        private Optional<String> doc = Optional.empty();
-
-        /** Sets the name field. */
-        @JsonProperty("name")
-        public Builder withName(final String value) {
-            this.name = value;
-            return this;
-        }
-
-        /** Sets the kind field. */
-        @JsonProperty("kind")
-        public Builder withKind(final SymbolKind value) {
-            this.kind = value;
-            return this;
-        }
-
-        /** Sets the span field. */
-        @JsonProperty("span")
-        public Builder withSpan(final Span value) {
-            this.span = value;
-            return this;
-        }
-
-        /** Sets the typeAnnotation field. */
-        @JsonProperty("type_annotation")
-        public Builder withTypeAnnotation(final Optional<String> value) {
-            this.typeAnnotation = value;
-            return this;
-        }
-
-        /** Sets the doc field. */
-        @JsonProperty("doc")
-        public Builder withDoc(final Optional<String> value) {
-            this.doc = value;
-            return this;
-        }
-
-        /** Builds the SymbolInfo instance. */
-        public SymbolInfo build() {
-            return new SymbolInfo(
-                name,
-                kind,
-                span,
-                typeAnnotation.orElse(null),
-                doc.orElse(null)
-            );
-        }
+    /** Sets the span field. */
+    @JsonProperty("span")
+    public Builder withSpan(final Span value) {
+      this.span = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the typeAnnotation field. */
+    @JsonProperty("type_annotation")
+    public Builder withTypeAnnotation(final Optional<String> value) {
+      this.typeAnnotation = value;
+      return this;
+    }
+
+    /** Sets the doc field. */
+    @JsonProperty("doc")
+    public Builder withDoc(final Optional<String> value) {
+      this.doc = value;
+      return this;
+    }
+
+    /** Builds the SymbolInfo instance. */
+    public SymbolInfo build() {
+      return new SymbolInfo(name, kind, span, typeAnnotation.orElse(null), doc.orElse(null));
+    }
+  }
+  // CPD-ON
 }

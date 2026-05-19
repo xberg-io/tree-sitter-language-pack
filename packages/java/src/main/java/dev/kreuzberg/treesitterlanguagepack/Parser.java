@@ -5,142 +5,162 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.Arena;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.util.Optional;
 
-/**
- * A tree-sitter parser configured for one language at a time.
- */
+/** A tree-sitter parser configured for one language at a time. */
 public class Parser implements AutoCloseable {
-    private final MemorySegment handle;
+  private final MemorySegment handle;
 
-    Parser(MemorySegment handle) {
-        this.handle = handle;
-    }
+  Parser(MemorySegment handle) {
+    this.handle = handle;
+  }
 
-    MemorySegment handle() {
-        return this.handle;
-    }
+  MemorySegment handle() {
+    return this.handle;
+  }
 
-    /**
-     * Configure the parser to use the language identified by name (e.g. {@code "python"}).
-     *
-     * Resolves the language through the global registry — auto-downloading
-     * if necessary, when the {@code download} feature is enabled.
-     * {@literal @}throws KreuzbergRsException Returns Error::LanguageNotFound if the language is not recognized,
-     * or Error::ParserSetup if the language ABI is incompatible.
-     */
-    public void setLanguage(final String name) throws TreeSitterLanguagePackRsException {
-        java.util.Objects.requireNonNull(name, "name must not be null");
-        try (var arena = Arena.ofShared()) {
-            var cName = arena.allocateFrom(name);
-            NativeLib.TS_PACK_PARSER_SET_LANGUAGE.invoke(this.handle, cName);
-            checkLastFfiError();
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("setLanguage: failed", e);
-        }
+  /**
+   * Configure the parser to use the language identified by name (e.g. {@code "python"}).
+   *
+   * <p>Resolves the language through the global registry — auto-downloading if necessary, when the
+   * {@code download} feature is enabled. {@literal @}throws KreuzbergRsException Returns
+   * Error::LanguageNotFound if the language is not recognized, or Error::ParserSetup if the
+   * language ABI is incompatible.
+   */
+  public void setLanguage(final String name) throws TreeSitterLanguagePackRsException {
+    java.util.Objects.requireNonNull(name, "name must not be null");
+    try (var arena = Arena.ofShared()) {
+      var cName = arena.allocateFrom(name);
+      NativeLib.TS_PACK_PARSER_SET_LANGUAGE.invoke(this.handle, cName);
+      checkLastFfiError();
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("setLanguage: failed", e);
     }
-    /**
-     * Parse a UTF-8 source string. Returns {@code None} if parsing was cancelled
-     * or no language is set.
-     */
-    public Optional<Tree> parse(final String source) throws TreeSitterLanguagePackRsException {
-        java.util.Objects.requireNonNull(source, "source must not be null");
-        try (var arena = Arena.ofShared()) {
-            var cSource = arena.allocateFrom(source);
-            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_PARSER_PARSE.invoke(this.handle, cSource);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastFfiError();
-                return java.util.Optional.empty();
-            }
-            try {
-                MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_TREE_TO_JSON.invoke(resultPtr);
-                if (jsonPtr.equals(MemorySegment.NULL)) {
-                    checkLastFfiError();
-                    throw new TreeSitterLanguagePackRsException("parse: failed to serialize response", (Throwable) null);
-                }
-                String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
-                NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
-                return java.util.Optional.of(STREAM_MAPPER.readValue(json, Tree.class));
-            } finally {
-                NativeLib.TS_PACK_TREE_FREE.invoke(resultPtr);
-            }
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("parse: failed", e);
-        }
-    }
-    /**
-     * Parse a raw byte slice. Returns {@code None} if parsing was cancelled or
-     * no language is set.
-     */
-    public Optional<Tree> parseBytes(final byte[] source) throws TreeSitterLanguagePackRsException {
-        java.util.Objects.requireNonNull(source, "source must not be null");
-        try (var arena = Arena.ofShared()) {
-            // TODO unsupported parameter type for source
-            throw new TreeSitterLanguagePackRsException("parseBytes: unsupported parameter shape", (Throwable) null);
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("parseBytes: failed", e);
-        }
-    }
-    /**
-     * Reset internal state. The next call to parse(Self::parse) will
-     * not be incremental.
-     */
-    public void reset() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            NativeLib.TS_PACK_PARSER_RESET.invoke(this.handle);
-            checkLastFfiError();
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("reset: failed", e);
-        }
-    }
-    public static Parser defaultInstance() throws TreeSitterLanguagePackRsException {
-        try (var arena = Arena.ofShared()) {
-            var handle = (MemorySegment) NativeLib.TS_PACK_PARSER_DEFAULT.invoke();
-            if (handle == null || handle.equals(MemorySegment.NULL)) {
-throw new TreeSitterLanguagePackRsException("defaultInstance returned null");
-            }
-            return new Parser(handle);
-        }
-        catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException) throw (TreeSitterLanguagePackRsException) e;
-            throw new RuntimeException("defaultInstance failed: " + e.getMessage(), e);
-        }
-    }
+  }
 
-    @Override
-    public void close() {
-        if (handle != null && !handle.equals(MemorySegment.NULL)) {
-            try {
-                NativeLib.TS_PACK_PARSER_FREE.invoke(handle);
-            } catch (Throwable e) {
-                throw new RuntimeException("Failed to free Parser: " + e.getMessage(), e);
-            }
+  /**
+   * Parse a UTF-8 source string. Returns {@code None} if parsing was cancelled or no language is
+   * set.
+   */
+  public Optional<Tree> parse(final String source) throws TreeSitterLanguagePackRsException {
+    java.util.Objects.requireNonNull(source, "source must not be null");
+    try (var arena = Arena.ofShared()) {
+      var cSource = arena.allocateFrom(source);
+      MemorySegment resultPtr =
+          (MemorySegment) NativeLib.TS_PACK_PARSER_PARSE.invoke(this.handle, cSource);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastFfiError();
+        return java.util.Optional.empty();
+      }
+      try {
+        MemorySegment jsonPtr = (MemorySegment) NativeLib.TS_PACK_TREE_TO_JSON.invoke(resultPtr);
+        if (jsonPtr.equals(MemorySegment.NULL)) {
+          checkLastFfiError();
+          throw new TreeSitterLanguagePackRsException(
+              "parse: failed to serialize response", (Throwable) null);
         }
+        String json = jsonPtr.reinterpret(Long.MAX_VALUE).getString(0);
+        NativeLib.TS_PACK_FREE_STRING.invoke(jsonPtr);
+        return java.util.Optional.of(STREAM_MAPPER.readValue(json, Tree.class));
+      } finally {
+        NativeLib.TS_PACK_TREE_FREE.invoke(resultPtr);
+      }
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("parse: failed", e);
     }
+  }
 
-    private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
-        try {
-            int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-            if (code == 0) { return; }
-            MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            throw new TreeSitterLanguagePackRsException(code, msg);
-        } catch (Throwable e) {
-            if (e instanceof TreeSitterLanguagePackRsException ex) { throw ex; }
-            throw new TreeSitterLanguagePackRsException("failed to read last error", e);
-        }
+  /**
+   * Parse a raw byte slice. Returns {@code None} if parsing was cancelled or no language is set.
+   */
+  public Optional<Tree> parseBytes(final byte[] source) throws TreeSitterLanguagePackRsException {
+    java.util.Objects.requireNonNull(source, "source must not be null");
+    try (var arena = Arena.ofShared()) {
+      // TODO unsupported parameter type for source
+      throw new TreeSitterLanguagePackRsException(
+          "parseBytes: unsupported parameter shape", (Throwable) null);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("parseBytes: failed", e);
     }
-    private static final ObjectMapper STREAM_MAPPER = new ObjectMapper()
-        .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-        .findAndRegisterModules()
-        .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-        .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-        .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+  }
+
+  /** Reset internal state. The next call to parse(Self::parse) will not be incremental. */
+  public void reset() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      NativeLib.TS_PACK_PARSER_RESET.invoke(this.handle);
+      checkLastFfiError();
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("reset: failed", e);
+    }
+  }
+
+  public static Parser defaultInstance() throws TreeSitterLanguagePackRsException {
+    try (var arena = Arena.ofShared()) {
+      var handle = (MemorySegment) NativeLib.TS_PACK_PARSER_DEFAULT.invoke();
+      if (handle == null || handle.equals(MemorySegment.NULL)) {
+        throw new TreeSitterLanguagePackRsException("defaultInstance returned null");
+      }
+      return new Parser(handle);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException)
+        throw (TreeSitterLanguagePackRsException) e;
+      throw new RuntimeException("defaultInstance failed: " + e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public void close() {
+    if (handle != null && !handle.equals(MemorySegment.NULL)) {
+      try {
+        NativeLib.TS_PACK_PARSER_FREE.invoke(handle);
+      } catch (Throwable e) {
+        throw new RuntimeException("Failed to free Parser: " + e.getMessage(), e);
+      }
+    }
+  }
+
+  private void checkLastFfiError() throws TreeSitterLanguagePackRsException {
+    try {
+      int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+      if (code == 0) {
+        return;
+      }
+      MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+      String msg =
+          ctxPtr.equals(MemorySegment.NULL)
+              ? "unknown"
+              : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      throw new TreeSitterLanguagePackRsException(code, msg);
+    } catch (Throwable e) {
+      if (e instanceof TreeSitterLanguagePackRsException ex) {
+        throw ex;
+      }
+      throw new TreeSitterLanguagePackRsException("failed to read last error", e);
+    }
+  }
+
+  private static final ObjectMapper STREAM_MAPPER =
+      new ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
 }

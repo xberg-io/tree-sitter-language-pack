@@ -5,14 +5,12 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-/**
- * A chunk of source code with rich metadata.
- */
+/** A chunk of source code with rich metadata. */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = CodeChunk.Builder.class)
 public record CodeChunk(
@@ -21,102 +19,102 @@ public record CodeChunk(
     @JsonProperty("end_byte") long endByte,
     @JsonProperty("start_line") long startLine,
     @JsonProperty("end_line") long endLine,
-    ChunkContext metadata
-) {
-    public static Builder builder() {
-        return new Builder();
+    ChunkContext metadata) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code CodeChunk} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static CodeChunk fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, CodeChunk.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse CodeChunk from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("content")
+    private String content = "";
+
+    @JsonProperty("start_byte")
+    private long startByte = 0;
+
+    @JsonProperty("end_byte")
+    private long endByte = 0;
+
+    @JsonProperty("start_line")
+    private long startLine = 0;
+
+    @JsonProperty("end_line")
+    private long endLine = 0;
+
+    @JsonProperty("metadata")
+    private ChunkContext metadata = null;
+
+    /** Sets the content field. */
+    @JsonProperty("content")
+    public Builder withContent(final String value) {
+      this.content = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code CodeChunk} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static CodeChunk fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, CodeChunk.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse CodeChunk from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the startByte field. */
+    @JsonProperty("start_byte")
+    public Builder withStartByte(final long value) {
+      this.startByte = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("content")
-        private String content = "";
-        @JsonProperty("start_byte")
-        private long startByte = 0;
-        @JsonProperty("end_byte")
-        private long endByte = 0;
-        @JsonProperty("start_line")
-        private long startLine = 0;
-        @JsonProperty("end_line")
-        private long endLine = 0;
-        @JsonProperty("metadata")
-        private ChunkContext metadata = null;
-
-        /** Sets the content field. */
-        @JsonProperty("content")
-        public Builder withContent(final String value) {
-            this.content = value;
-            return this;
-        }
-
-        /** Sets the startByte field. */
-        @JsonProperty("start_byte")
-        public Builder withStartByte(final long value) {
-            this.startByte = value;
-            return this;
-        }
-
-        /** Sets the endByte field. */
-        @JsonProperty("end_byte")
-        public Builder withEndByte(final long value) {
-            this.endByte = value;
-            return this;
-        }
-
-        /** Sets the startLine field. */
-        @JsonProperty("start_line")
-        public Builder withStartLine(final long value) {
-            this.startLine = value;
-            return this;
-        }
-
-        /** Sets the endLine field. */
-        @JsonProperty("end_line")
-        public Builder withEndLine(final long value) {
-            this.endLine = value;
-            return this;
-        }
-
-        /** Sets the metadata field. */
-        @JsonProperty("metadata")
-        public Builder withMetadata(final ChunkContext value) {
-            this.metadata = value;
-            return this;
-        }
-
-        /** Builds the CodeChunk instance. */
-        public CodeChunk build() {
-            return new CodeChunk(
-                content,
-                startByte,
-                endByte,
-                startLine,
-                endLine,
-                metadata
-            );
-        }
+    /** Sets the endByte field. */
+    @JsonProperty("end_byte")
+    public Builder withEndByte(final long value) {
+      this.endByte = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the startLine field. */
+    @JsonProperty("start_line")
+    public Builder withStartLine(final long value) {
+      this.startLine = value;
+      return this;
+    }
+
+    /** Sets the endLine field. */
+    @JsonProperty("end_line")
+    public Builder withEndLine(final long value) {
+      this.endLine = value;
+      return this;
+    }
+
+    /** Sets the metadata field. */
+    @JsonProperty("metadata")
+    public Builder withMetadata(final ChunkContext value) {
+      this.metadata = value;
+      return this;
+    }
+
+    /** Builds the CodeChunk instance. */
+    public CodeChunk build() {
+      return new CodeChunk(content, startByte, endByte, startLine, endLine, metadata);
+    }
+  }
+  // CPD-ON
 }

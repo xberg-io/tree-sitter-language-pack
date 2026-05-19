@@ -5,17 +5,15 @@
 // Issues & docs: https://github.com/kreuzberg-dev/alef
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.util.List;
-import java.util.Optional;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
+import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 
-/**
- * An import statement extracted from source code.
- */
+/** An import statement extracted from source code. */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ImportInfo.Builder.class)
 public record ImportInfo(
@@ -23,92 +21,92 @@ public record ImportInfo(
     List<String> items,
     @Nullable String alias,
     @JsonProperty("is_wildcard") boolean isWildcard,
-    Span span
-) {
-    public static Builder builder() {
-        return new Builder();
+    Span span) {
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * Parse a {@code ImportInfo} from a JSON string.
+   *
+   * @param json JSON serialisation matching the Rust-side field names (snake_case).
+   * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
+   */
+  public static ImportInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
+    try {
+      return new com.fasterxml.jackson.databind.ObjectMapper()
+          .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+          .findAndRegisterModules()
+          .setPropertyNamingStrategy(
+              com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
+          .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+          .configure(
+              com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+          .readValue(json, ImportInfo.class);
+    } catch (Exception e) {
+      throw new TreeSitterLanguagePackRsException(
+          "Failed to parse ImportInfo from JSON: " + e.getMessage(), e);
+    }
+  }
+
+  // CPD-OFF
+  @JsonPOJOBuilder(withPrefix = "with")
+  public static final class Builder {
+
+    @JsonProperty("source")
+    private String source = "";
+
+    @JsonProperty("items")
+    private List<String> items = List.of();
+
+    @JsonProperty("alias")
+    private Optional<String> alias = Optional.empty();
+
+    @JsonProperty("is_wildcard")
+    private boolean isWildcard = false;
+
+    @JsonProperty("span")
+    private Span span = null;
+
+    /** Sets the source field. */
+    @JsonProperty("source")
+    public Builder withSource(final String value) {
+      this.source = value;
+      return this;
     }
 
-    /**
-     * Parse a {@code ImportInfo} from a JSON string.
-     *
-     * @param json JSON serialisation matching the Rust-side field names (snake_case).
-     * @throws TreeSitterLanguagePackRsException if the JSON cannot be deserialised.
-     */
-    public static ImportInfo fromJson(String json) throws TreeSitterLanguagePackRsException {
-        try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                .registerModule(new com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
-                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
-                .configure(com.fasterxml.jackson.databind.MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .readValue(json, ImportInfo.class);
-        } catch (Exception e) {
-            throw new TreeSitterLanguagePackRsException("Failed to parse ImportInfo from JSON: " + e.getMessage(), e);
-        }
+    /** Sets the items field. */
+    @JsonProperty("items")
+    public Builder withItems(final List<String> value) {
+      this.items = value;
+      return this;
     }
 
-    // CPD-OFF
-    @JsonPOJOBuilder(withPrefix = "with")
-    public static final class Builder {
-
-        @JsonProperty("source")
-        private String source = "";
-        @JsonProperty("items")
-        private List<String> items = List.of();
-        @JsonProperty("alias")
-        private Optional<String> alias = Optional.empty();
-        @JsonProperty("is_wildcard")
-        private boolean isWildcard = false;
-        @JsonProperty("span")
-        private Span span = null;
-
-        /** Sets the source field. */
-        @JsonProperty("source")
-        public Builder withSource(final String value) {
-            this.source = value;
-            return this;
-        }
-
-        /** Sets the items field. */
-        @JsonProperty("items")
-        public Builder withItems(final List<String> value) {
-            this.items = value;
-            return this;
-        }
-
-        /** Sets the alias field. */
-        @JsonProperty("alias")
-        public Builder withAlias(final Optional<String> value) {
-            this.alias = value;
-            return this;
-        }
-
-        /** Sets the isWildcard field. */
-        @JsonProperty("is_wildcard")
-        public Builder withIsWildcard(final boolean value) {
-            this.isWildcard = value;
-            return this;
-        }
-
-        /** Sets the span field. */
-        @JsonProperty("span")
-        public Builder withSpan(final Span value) {
-            this.span = value;
-            return this;
-        }
-
-        /** Builds the ImportInfo instance. */
-        public ImportInfo build() {
-            return new ImportInfo(
-                source,
-                items,
-                alias.orElse(null),
-                isWildcard,
-                span
-            );
-        }
+    /** Sets the alias field. */
+    @JsonProperty("alias")
+    public Builder withAlias(final Optional<String> value) {
+      this.alias = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the isWildcard field. */
+    @JsonProperty("is_wildcard")
+    public Builder withIsWildcard(final boolean value) {
+      this.isWildcard = value;
+      return this;
+    }
+
+    /** Sets the span field. */
+    @JsonProperty("span")
+    public Builder withSpan(final Span value) {
+      this.span = value;
+      return this;
+    }
+
+    /** Builds the ImportInfo instance. */
+    public ImportInfo build() {
+      return new ImportInfo(source, items, alias.orElse(null), isWildcard, span);
+    }
+  }
+  // CPD-ON
 }
