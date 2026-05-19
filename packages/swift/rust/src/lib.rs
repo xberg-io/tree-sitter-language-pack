@@ -16,6 +16,21 @@
     clippy::inherent_to_string
 )]
 
+/// Process-wide tokio runtime shared across every swift-bridge async wrapper.
+///
+/// alef-emitted; see shims.rs for the rationale (orphaned reqwest connection
+/// pools when each call creates and drops its own current-thread runtime).
+fn __alef_tokio_runtime() -> &'static ::tokio::runtime::Runtime {
+    use std::sync::OnceLock;
+    static RT: OnceLock<::tokio::runtime::Runtime> = OnceLock::new();
+    RT.get_or_init(|| {
+        ::tokio::runtime::Builder::new_multi_thread()
+            .enable_all()
+            .build()
+            .expect("build process-wide alef tokio runtime")
+    })
+}
+
 #[swift_bridge::bridge]
 mod ffi {
     extern "Rust" {
