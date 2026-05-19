@@ -711,7 +711,6 @@ void* __swift_bridge__$downloaded_languages(void);
 void* __swift_bridge__$clean_cache(void);
 struct __private__ResultPtrAndPtr __swift_bridge__$cache_dir(void);
 struct __private__ResultPtrAndPtr __swift_bridge__$pack_config_from_json(void* json);
-struct __private__ResultPtrAndPtr __swift_bridge__$point_from_json(void* json);
 struct __private__ResultPtrAndPtr __swift_bridge__$process_config_from_json(void* json);
 typedef enum __swift_bridge__$ResultUIntAndString$Tag {__swift_bridge__$ResultUIntAndString$ResultOk, __swift_bridge__$ResultUIntAndString$ResultErr} __swift_bridge__$ResultUIntAndString$Tag;
 union __swift_bridge__$ResultUIntAndString$Fields {uintptr_t ok; void* err;};
