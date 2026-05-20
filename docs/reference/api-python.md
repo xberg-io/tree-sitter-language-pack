@@ -20,9 +20,9 @@ def detect_language_from_extension(ext: str) -> str | None
 
 **Parameters:**
 
-| Name  | Type  | Required | Description |
-| ----- | ----- | -------- | ----------- |
-| `ext` | `str` | Yes      | The ext     |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `ext` | `str` | Yes | The ext |
 
 **Returns:** `str | None`
 
@@ -43,9 +43,9 @@ def detect_language_from_path(path: str) -> str | None
 
 **Parameters:**
 
-| Name   | Type  | Required | Description      |
-| ------ | ----- | -------- | ---------------- |
-| `path` | `str` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `str` | Yes | Path to the file |
 
 **Returns:** `str | None`
 
@@ -59,7 +59,6 @@ Inspects only the first line of `content`. If it begins with `#!`, the
 interpreter name is extracted and mapped to a language name.
 
 Handles common patterns:
-
 - `#!/usr/bin/env python3` → `"python"`
 - `#!/bin/bash` → `"bash"`
 - `#!/usr/bin/env node` → `"javascript"`
@@ -78,9 +77,9 @@ def detect_language_from_content(content: str) -> str | None
 
 **Parameters:**
 
-| Name      | Type  | Required | Description            |
-| --------- | ----- | -------- | ---------------------- |
-| `content` | `str` | Yes      | The content to process |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `content` | `str` | Yes | The content to process |
 
 **Returns:** `str | None`
 
@@ -101,9 +100,9 @@ def get_highlights_query(language: str) -> str | None
 
 **Parameters:**
 
-| Name       | Type  | Required | Description  |
-| ---------- | ----- | -------- | ------------ |
-| `language` | `str` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `str` | Yes | The language |
 
 **Returns:** `str | None`
 
@@ -124,9 +123,9 @@ def get_injections_query(language: str) -> str | None
 
 **Parameters:**
 
-| Name       | Type  | Required | Description  |
-| ---------- | ----- | -------- | ------------ |
-| `language` | `str` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `str` | Yes | The language |
 
 **Returns:** `str | None`
 
@@ -147,9 +146,9 @@ def get_locals_query(language: str) -> str | None
 
 **Parameters:**
 
-| Name       | Type  | Required | Description  |
-| ---------- | ----- | -------- | ------------ |
-| `language` | `str` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `str` | Yes | The language |
 
 **Returns:** `str | None`
 
@@ -176,9 +175,9 @@ def get_language(name: str) -> Language
 
 **Parameters:**
 
-| Name   | Type  | Required | Description |
-| ------ | ----- | -------- | ----------- |
-| `name` | `str` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
 
 **Returns:** `Language`
 **Errors:** Raises `Error`.
@@ -205,9 +204,9 @@ def get_parser(name: str) -> Parser
 
 **Parameters:**
 
-| Name   | Type  | Required | Description |
-| ------ | ----- | -------- | ----------- |
-| `name` | `str` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
 
 **Returns:** `Parser`
 **Errors:** Raises `Error`.
@@ -228,9 +227,9 @@ def detect_language(path: str) -> str | None
 
 **Parameters:**
 
-| Name   | Type  | Required | Description      |
-| ------ | ----- | -------- | ---------------- |
-| `path` | `str` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `str` | Yes | Path to the file |
 
 **Returns:** `str | None`
 
@@ -268,9 +267,9 @@ def has_language(name: str) -> bool
 
 **Parameters:**
 
-| Name   | Type  | Required | Description |
-| ------ | ----- | -------- | ----------- |
-| `name` | `str` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
 
 **Returns:** `bool`
 
@@ -313,10 +312,10 @@ def process(source: str, config: ProcessConfig) -> ProcessResult
 
 **Parameters:**
 
-| Name     | Type            | Required | Description               |
-| -------- | --------------- | -------- | ------------------------- |
-| `source` | `str`           | Yes      | The source                |
-| `config` | `ProcessConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `str` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
 **Errors:** Raises `Error`.
@@ -343,9 +342,9 @@ def init(config: PackConfig) -> None
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `None`
 **Errors:** Raises `Error`.
@@ -373,9 +372,9 @@ def configure(config: PackConfig) -> None
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `None`
 **Errors:** Raises `Error`.
@@ -402,9 +401,9 @@ def download(names: list[str]) -> int
 
 **Parameters:**
 
-| Name    | Type        | Required | Description |
-| ------- | ----------- | -------- | ----------- |
-| `names` | `list[str]` | Yes      | The names   |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `names` | `list[str]` | Yes | The names |
 
 **Returns:** `int`
 **Errors:** Raises `Error`.
@@ -462,9 +461,9 @@ def download_group(name: str) -> int
 
 **Parameters:**
 
-| Name   | Type  | Required | Description |
-| ------ | ----- | -------- | ----------- |
-| `name` | `str` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
 
 **Returns:** `int`
 **Errors:** Raises `Error`.
@@ -561,10 +560,12 @@ def cache_dir() -> str
 
 A byte range — start (inclusive) to end (exclusive).
 
-| Field   | Type  | Default | Description                  |
-| ------- | ----- | ------- | ---------------------------- |
-| `start` | `int` | —       | Inclusive start byte offset. |
-| `end`   | `int` | —       | Exclusive end byte offset.   |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `start` | `int` | — | Inclusive start byte offset. |
+| `end` | `int` | — | Exclusive end byte offset. |
+
 
 ---
 
@@ -572,17 +573,19 @@ A byte range — start (inclusive) to end (exclusive).
 
 Metadata for a single chunk of source code.
 
-| Field             | Type                  | Default | Description         |
-| ----------------- | --------------------- | ------- | ------------------- |
-| `language`        | `str`                 | —       | Language            |
-| `chunk_index`     | `int`                 | —       | Chunk index         |
-| `total_chunks`    | `int`                 | —       | Total chunks        |
-| `node_types`      | `list[str]`           | `[]`    | Node types          |
-| `context_path`    | `list[str]`           | `[]`    | Context path        |
-| `symbols_defined` | `list[str]`           | `[]`    | Symbols defined     |
-| `comments`        | `list[CommentInfo]`   | `[]`    | Comments            |
-| `docstrings`      | `list[DocstringInfo]` | `[]`    | Docstrings          |
-| `has_error_nodes` | `bool`                | —       | Whether error nodes |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `str` | — | Language |
+| `chunk_index` | `int` | — | Chunk index |
+| `total_chunks` | `int` | — | Total chunks |
+| `node_types` | `list[str]` | `[]` | Node types |
+| `context_path` | `list[str]` | `[]` | Context path |
+| `symbols_defined` | `list[str]` | `[]` | Symbols defined |
+| `comments` | `list[CommentInfo]` | `[]` | Comments |
+| `docstrings` | `list[DocstringInfo]` | `[]` | Docstrings |
+| `has_error_nodes` | `bool` | — | Whether error nodes |
+
 
 ---
 
@@ -590,14 +593,16 @@ Metadata for a single chunk of source code.
 
 A chunk of source code with rich metadata.
 
-| Field        | Type           | Default | Description                |
-| ------------ | -------------- | ------- | -------------------------- |
-| `content`    | `str`          | —       | The extracted text content |
-| `start_byte` | `int`          | —       | Start byte                 |
-| `end_byte`   | `int`          | —       | End byte                   |
-| `start_line` | `int`          | —       | Start line                 |
-| `end_line`   | `int`          | —       | End line                   |
-| `metadata`   | `ChunkContext` | —       | Document metadata          |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `content` | `str` | — | The extracted text content |
+| `start_byte` | `int` | — | Start byte |
+| `end_byte` | `int` | — | End byte |
+| `start_line` | `int` | — | Start line |
+| `end_line` | `int` | — | End line |
+| `metadata` | `ChunkContext` | — | Document metadata |
+
 
 ---
 
@@ -605,12 +610,14 @@ A chunk of source code with rich metadata.
 
 A comment extracted from source code.
 
-| Field             | Type          | Default            | Description         |
-| ----------------- | ------------- | ------------------ | ------------------- |
-| `text`            | `str`         | —                  | Text                |
-| `kind`            | `CommentKind` | `CommentKind.LINE` | Kind (comment kind) |
-| `span`            | `Span`        | —                  | Span (span)         |
-| `associated_node` | `str \| None` | `None`             | Associated node     |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `str` | — | Text |
+| `kind` | `CommentKind` | `CommentKind.LINE` | Kind (comment kind) |
+| `span` | `Span` | — | Span (span) |
+| `associated_node` | `str \| None` | `None` | Associated node |
+
 
 ---
 
@@ -618,11 +625,13 @@ A comment extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-| Field      | Type                 | Default                    | Description                    |
-| ---------- | -------------------- | -------------------------- | ------------------------------ |
-| `message`  | `str`                | —                          | Message                        |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | `str` | — | Message |
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity.ERROR` | Severity (diagnostic severity) |
-| `span`     | `Span`               | —                          | Span (span)                    |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
@@ -630,11 +639,13 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-| Field         | Type          | Default | Description                |
-| ------------- | ------------- | ------- | -------------------------- |
-| `kind`        | `str`         | —       | Kind                       |
-| `name`        | `str \| None` | `None`  | The name                   |
-| `description` | `str`         | —       | Human-readable description |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `str` | — | Kind |
+| `name` | `str \| None` | `None` | The name |
+| `description` | `str` | — | Human-readable description |
+
 
 ---
 
@@ -642,13 +653,15 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 A docstring extracted from source code.
 
-| Field             | Type               | Default                               | Description               |
-| ----------------- | ------------------ | ------------------------------------- | ------------------------- |
-| `text`            | `str`              | —                                     | Text                      |
-| `format`          | `DocstringFormat`  | `DocstringFormat.PYTHON_TRIPLE_QUOTE` | Format (docstring format) |
-| `span`            | `Span`             | —                                     | Span (span)               |
-| `associated_item` | `str \| None`      | `None`                                | Associated item           |
-| `parsed_sections` | `list[DocSection]` | `[]`                                  | Parsed sections           |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `str` | — | Text |
+| `format` | `DocstringFormat` | `DocstringFormat.PYTHON_TRIPLE_QUOTE` | Format (docstring format) |
+| `span` | `Span` | — | Span (span) |
+| `associated_item` | `str \| None` | `None` | Associated item |
+| `parsed_sections` | `list[DocSection]` | `[]` | Parsed sections |
+
 
 ---
 
@@ -656,9 +669,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-##### Methods
+### Methods
 
-###### new()
+#### new()
 
 Create a new download manager for the given version.
 
@@ -669,7 +682,7 @@ Create a new download manager for the given version.
 def new(version: str) -> DownloadManager
 ```
 
-###### with_cache_dir()
+#### with_cache_dir()
 
 Create a download manager with a custom cache directory.
 
@@ -680,7 +693,7 @@ Create a download manager with a custom cache directory.
 def with_cache_dir(version: str, cache_dir: str) -> DownloadManager
 ```
 
-###### installed_languages()
+#### installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -690,7 +703,7 @@ List languages that are already downloaded and cached.
 def installed_languages(self) -> list[str]
 ```
 
-###### download_all_best_effort()
+#### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -707,7 +720,7 @@ Returns the number of library files extracted (including those already cached).
 def download_all_best_effort(self) -> int
 ```
 
-###### clean_cache()
+#### clean_cache()
 
 Remove all cached parser libraries.
 
@@ -717,17 +730,20 @@ Remove all cached parser libraries.
 def clean_cache(self) -> None
 ```
 
+
 ---
 
 #### ExportInfo
 
 An export statement extracted from source code.
 
-| Field  | Type         | Default            | Description        |
-| ------ | ------------ | ------------------ | ------------------ |
-| `name` | `str`        | —                  | The name           |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `str` | — | The name |
 | `kind` | `ExportKind` | `ExportKind.NAMED` | Kind (export kind) |
-| `span` | `Span`       | —                  | Span (span)        |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
@@ -735,16 +751,18 @@ An export statement extracted from source code.
 
 Aggregate metrics for a source file.
 
-| Field           | Type  | Default | Description      |
-| --------------- | ----- | ------- | ---------------- |
-| `total_lines`   | `int` | —       | Total lines      |
-| `code_lines`    | `int` | —       | Code lines       |
-| `comment_lines` | `int` | —       | Comment lines    |
-| `blank_lines`   | `int` | —       | Blank lines      |
-| `total_bytes`   | `int` | —       | Total bytes      |
-| `node_count`    | `int` | —       | Number of nodes  |
-| `error_count`   | `int` | —       | Number of errors |
-| `max_depth`     | `int` | —       | Maximum depth    |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `total_lines` | `int` | — | Total lines |
+| `code_lines` | `int` | — | Code lines |
+| `comment_lines` | `int` | — | Comment lines |
+| `blank_lines` | `int` | — | Blank lines |
+| `total_bytes` | `int` | — | Total bytes |
+| `node_count` | `int` | — | Number of nodes |
+| `error_count` | `int` | — | Number of errors |
+| `max_depth` | `int` | — | Maximum depth |
+
 
 ---
 
@@ -752,17 +770,20 @@ Aggregate metrics for a source file.
 
 An import statement extracted from source code.
 
-| Field         | Type          | Default | Description      |
-| ------------- | ------------- | ------- | ---------------- |
-| `source`      | `str`         | —       | Source           |
-| `items`       | `list[str]`   | `[]`    | Items            |
-| `alias`       | `str \| None` | `None`  | Alias            |
-| `is_wildcard` | `bool`        | —       | Whether wildcard |
-| `span`        | `Span`        | —       | Span (span)      |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `source` | `str` | — | Source |
+| `items` | `list[str]` | `[]` | Items |
+| `alias` | `str \| None` | `None` | Alias |
+| `is_wildcard` | `bool` | — | Whether wildcard |
+| `span` | `Span` | — | Span (span) |
+
 
 ---
 
 #### Language
+
 
 ---
 
@@ -775,9 +796,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-##### Methods
+### Methods
 
-###### get_language()
+#### get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -796,7 +817,7 @@ does not match any known grammar.
 def get_language(self, name: str) -> Language
 ```
 
-###### available_languages()
+#### available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -809,7 +830,7 @@ Includes statically compiled languages, dynamically loadable languages
 def available_languages(self) -> list[str]
 ```
 
-###### has_language()
+#### has_language()
 
 Check whether a language is available by name or alias.
 
@@ -822,7 +843,7 @@ table or from a dynamic library on disk.
 def has_language(self, name: str) -> bool
 ```
 
-###### language_count()
+#### language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -832,7 +853,7 @@ Return the total number of available languages (including aliases).
 def language_count(self) -> int
 ```
 
-###### process()
+#### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -842,7 +863,7 @@ Parse source code and extract file intelligence based on config in a single pass
 def process(self, source: str, config: ProcessConfig) -> ProcessResult
 ```
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -850,6 +871,7 @@ def process(self, source: str, config: ProcessConfig) -> ProcessResult
 @staticmethod
 def default() -> LanguageRegistry
 ```
+
 
 ---
 
@@ -860,9 +882,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-##### Methods
+### Methods
 
-###### clone()
+#### clone()
 
 **Signature:**
 
@@ -870,7 +892,7 @@ regardless of how the tree is moved or stored at the FFI boundary.
 def clone(self) -> Node
 ```
 
-###### kind()
+#### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -880,7 +902,7 @@ Return the node's kind name (e.g. `"function_definition"`).
 def kind(self) -> str
 ```
 
-###### kind_id()
+#### kind_id()
 
 Return the node's numeric kind ID.
 
@@ -894,7 +916,7 @@ than comparing the string `kind()` in tight AST loops.
 def kind_id(self) -> int
 ```
 
-###### start_byte()
+#### start_byte()
 
 Return the inclusive start byte offset of this node.
 
@@ -904,7 +926,7 @@ Return the inclusive start byte offset of this node.
 def start_byte(self) -> int
 ```
 
-###### end_byte()
+#### end_byte()
 
 Return the exclusive end byte offset of this node.
 
@@ -914,7 +936,7 @@ Return the exclusive end byte offset of this node.
 def end_byte(self) -> int
 ```
 
-###### byte_range()
+#### byte_range()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -927,7 +949,7 @@ text accessor.
 def byte_range(self) -> ByteRange
 ```
 
-###### start_position()
+#### start_position()
 
 Return the start `Point` (row, column).
 
@@ -937,7 +959,7 @@ Return the start `Point` (row, column).
 def start_position(self) -> Point
 ```
 
-###### end_position()
+#### end_position()
 
 Return the end `Point` (row, column).
 
@@ -947,7 +969,7 @@ Return the end `Point` (row, column).
 def end_position(self) -> Point
 ```
 
-###### is_named()
+#### is_named()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -957,7 +979,7 @@ True when this node is named (not punctuation/whitespace).
 def is_named(self) -> bool
 ```
 
-###### is_error()
+#### is_error()
 
 True when this is an error node.
 
@@ -967,7 +989,7 @@ True when this is an error node.
 def is_error(self) -> bool
 ```
 
-###### is_missing()
+#### is_missing()
 
 True when this is a missing-token node.
 
@@ -977,7 +999,7 @@ True when this is a missing-token node.
 def is_missing(self) -> bool
 ```
 
-###### is_extra()
+#### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -987,7 +1009,7 @@ True when this is an "extra" node (e.g. a comment).
 def is_extra(self) -> bool
 ```
 
-###### has_error()
+#### has_error()
 
 True when this node or any descendant is an error.
 
@@ -997,7 +1019,7 @@ True when this node or any descendant is an error.
 def has_error(self) -> bool
 ```
 
-###### parent()
+#### parent()
 
 Return this node's parent, if any.
 
@@ -1007,7 +1029,7 @@ Return this node's parent, if any.
 def parent(self) -> Node | None
 ```
 
-###### child()
+#### child()
 
 Return the i-th child of this node, if any.
 
@@ -1017,7 +1039,7 @@ Return the i-th child of this node, if any.
 def child(self, index: int) -> Node | None
 ```
 
-###### child_count()
+#### child_count()
 
 Total number of children (including unnamed).
 
@@ -1027,7 +1049,7 @@ Total number of children (including unnamed).
 def child_count(self) -> int
 ```
 
-###### named_child()
+#### named_child()
 
 Return the i-th named child of this node, if any.
 
@@ -1037,7 +1059,7 @@ Return the i-th named child of this node, if any.
 def named_child(self, index: int) -> Node | None
 ```
 
-###### named_child_count()
+#### named_child_count()
 
 Number of named children of this node.
 
@@ -1047,7 +1069,7 @@ Number of named children of this node.
 def named_child_count(self) -> int
 ```
 
-###### child_by_field_name()
+#### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
 
@@ -1057,7 +1079,7 @@ Look up a child by its grammar-defined field name.
 def child_by_field_name(self, name: str) -> Node | None
 ```
 
-###### to_sexp()
+#### to_sexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1067,7 +1089,7 @@ Return the S-expression form of this node's subtree.
 def to_sexp(self) -> str
 ```
 
-###### walk()
+#### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1076,6 +1098,7 @@ Return a `TreeCursor` positioned at this node.
 ```python
 def walk(self) -> TreeCursor
 ```
+
 
 ---
 
@@ -1087,11 +1110,13 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-| Field       | Type                | Default | Description                                                                                      |
-| ----------- | ------------------- | ------- | ------------------------------------------------------------------------------------------------ |
-| `cache_dir` | `str \| None`       | `None`  | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `list[str] \| None` | `[]`    | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`).    |
-| `groups`    | `list[str] \| None` | `[]`    | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).                      |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `cache_dir` | `str \| None` | `None` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `languages` | `list[str] \| None` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `list[str] \| None` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+
 
 ---
 
@@ -1099,9 +1124,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-##### Methods
+### Methods
 
-###### set_language()
+#### set_language()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1119,7 +1144,7 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 def set_language(self, name: str) -> None
 ```
 
-###### parse()
+#### parse()
 
 Parse a UTF-8 source string. Returns `None` if parsing was cancelled
 or no language is set.
@@ -1130,7 +1155,7 @@ or no language is set.
 def parse(self, source: str) -> Tree | None
 ```
 
-###### parse_bytes()
+#### parse_bytes()
 
 Parse a raw byte slice. Returns `None` if parsing was cancelled or
 no language is set.
@@ -1141,7 +1166,7 @@ no language is set.
 def parse_bytes(self, source: bytes) -> Tree | None
 ```
 
-###### reset()
+#### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1152,7 +1177,7 @@ not be incremental.
 def reset(self) -> None
 ```
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -1161,16 +1186,19 @@ def reset(self) -> None
 def default() -> Parser
 ```
 
+
 ---
 
 #### Point
 
 A source position — row + column, zero-indexed.
 
-| Field    | Type  | Default | Description                                       |
-| -------- | ----- | ------- | ------------------------------------------------- |
-| `row`    | `int` | —       | Zero-indexed row number.                          |
-| `column` | `int` | —       | Zero-indexed column number, in UTF-16 code units. |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `row` | `int` | — | Zero-indexed row number. |
+| `column` | `int` | — | Zero-indexed column number, in UTF-16 code units. |
+
 
 ---
 
@@ -1180,21 +1208,22 @@ Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
 
-| Field            | Type          | Default | Description                                                         |
-| ---------------- | ------------- | ------- | ------------------------------------------------------------------- |
-| `language`       | `str`         | —       | Language name (required).                                           |
-| `structure`      | `bool`        | `True`  | Extract structural items (functions, classes, etc.). Default: true. |
-| `imports`        | `bool`        | `True`  | Extract import statements. Default: true.                           |
-| `exports`        | `bool`        | `True`  | Extract export statements. Default: true.                           |
-| `comments`       | `bool`        | `False` | Extract comments. Default: false.                                   |
-| `docstrings`     | `bool`        | `False` | Extract docstrings. Default: false.                                 |
-| `symbols`        | `bool`        | `False` | Extract symbol definitions. Default: false.                         |
-| `diagnostics`    | `bool`        | `False` | Include parse diagnostics. Default: false.                          |
-| `chunk_max_size` | `int \| None` | `None`  | Maximum chunk size in bytes. `None` disables chunking.              |
 
-##### Methods
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `str` | — | Language name (required). |
+| `structure` | `bool` | `True` | Extract structural items (functions, classes, etc.). Default: true. |
+| `imports` | `bool` | `True` | Extract import statements. Default: true. |
+| `exports` | `bool` | `True` | Extract export statements. Default: true. |
+| `comments` | `bool` | `False` | Extract comments. Default: false. |
+| `docstrings` | `bool` | `False` | Extract docstrings. Default: false. |
+| `symbols` | `bool` | `False` | Extract symbol definitions. Default: false. |
+| `diagnostics` | `bool` | `False` | Include parse diagnostics. Default: false. |
+| `chunk_max_size` | `int \| None` | `None` | Maximum chunk size in bytes. `None` disables chunking. |
 
-###### default()
+### Methods
+
+#### default()
 
 **Signature:**
 
@@ -1203,7 +1232,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 def default() -> ProcessConfig
 ```
 
-###### with_chunking()
+#### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1213,7 +1242,7 @@ Enable chunking with the given maximum chunk size in bytes.
 def with_chunking(self, max_size: int) -> ProcessConfig
 ```
 
-###### all()
+#### all()
 
 Enable all analysis features.
 
@@ -1223,7 +1252,7 @@ Enable all analysis features.
 def all(self) -> ProcessConfig
 ```
 
-###### minimal()
+#### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1232,6 +1261,7 @@ Disable all analysis features (only metrics computed).
 ```python
 def minimal(self) -> ProcessConfig
 ```
+
 
 ---
 
@@ -1243,18 +1273,20 @@ Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
 
-| Field         | Type                  | Default | Description                        |
-| ------------- | --------------------- | ------- | ---------------------------------- |
-| `language`    | `str`                 | —       | Language                           |
-| `metrics`     | `FileMetrics`         | —       | Metrics (file metrics)             |
-| `structure`   | `list[StructureItem]` | `[]`    | Structure                          |
-| `imports`     | `list[ImportInfo]`    | `[]`    | Imports                            |
-| `exports`     | `list[ExportInfo]`    | `[]`    | Exports                            |
-| `comments`    | `list[CommentInfo]`   | `[]`    | Comments                           |
-| `docstrings`  | `list[DocstringInfo]` | `[]`    | Docstrings                         |
-| `symbols`     | `list[SymbolInfo]`    | `[]`    | Symbols                            |
-| `diagnostics` | `list[Diagnostic]`    | `[]`    | Diagnostics                        |
-| `chunks`      | `list[CodeChunk]`     | `[]`    | Text chunks for chunking/embedding |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `str` | — | Language |
+| `metrics` | `FileMetrics` | — | Metrics (file metrics) |
+| `structure` | `list[StructureItem]` | `[]` | Structure |
+| `imports` | `list[ImportInfo]` | `[]` | Imports |
+| `exports` | `list[ExportInfo]` | `[]` | Exports |
+| `comments` | `list[CommentInfo]` | `[]` | Comments |
+| `docstrings` | `list[DocstringInfo]` | `[]` | Docstrings |
+| `symbols` | `list[SymbolInfo]` | `[]` | Symbols |
+| `diagnostics` | `list[Diagnostic]` | `[]` | Diagnostics |
+| `chunks` | `list[CodeChunk]` | `[]` | Text chunks for chunking/embedding |
+
 
 ---
 
@@ -1265,14 +1297,16 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-| Field          | Type  | Default | Description  |
-| -------------- | ----- | ------- | ------------ |
-| `start_byte`   | `int` | —       | Start byte   |
-| `end_byte`     | `int` | —       | End byte     |
-| `start_line`   | `int` | —       | Start line   |
-| `start_column` | `int` | —       | Start column |
-| `end_line`     | `int` | —       | End line     |
-| `end_column`   | `int` | —       | End column   |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `start_byte` | `int` | — | Start byte |
+| `end_byte` | `int` | — | End byte |
+| `start_line` | `int` | — | Start line |
+| `start_column` | `int` | — | Start column |
+| `end_line` | `int` | — | End line |
+| `end_column` | `int` | — | End column |
+
 
 ---
 
@@ -1280,17 +1314,19 @@ positions (for display and diagnostics).
 
 A structural item (function, class, struct, etc.) in source code.
 
-| Field         | Type                  | Default                  | Description           |
-| ------------- | --------------------- | ------------------------ | --------------------- |
-| `kind`        | `StructureKind`       | `StructureKind.FUNCTION` | Kind (structure kind) |
-| `name`        | `str \| None`         | `None`                   | The name              |
-| `visibility`  | `str \| None`         | `None`                   | Visibility            |
-| `span`        | `Span`                | —                        | Span (span)           |
-| `children`    | `list[StructureItem]` | `[]`                     | Children              |
-| `decorators`  | `list[str]`           | `[]`                     | Decorators            |
-| `doc_comment` | `str \| None`         | `None`                   | Doc comment           |
-| `signature`   | `str \| None`         | `None`                   | Signature             |
-| `body_span`   | `Span \| None`        | `None`                   | Body span (span)      |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `StructureKind` | `StructureKind.FUNCTION` | Kind (structure kind) |
+| `name` | `str \| None` | `None` | The name |
+| `visibility` | `str \| None` | `None` | Visibility |
+| `span` | `Span` | — | Span (span) |
+| `children` | `list[StructureItem]` | `[]` | Children |
+| `decorators` | `list[str]` | `[]` | Decorators |
+| `doc_comment` | `str \| None` | `None` | Doc comment |
+| `signature` | `str \| None` | `None` | Signature |
+| `body_span` | `Span \| None` | `None` | Body span (span) |
+
 
 ---
 
@@ -1298,13 +1334,15 @@ A structural item (function, class, struct, etc.) in source code.
 
 A symbol (variable, function, type, etc.) extracted from source code.
 
-| Field             | Type          | Default               | Description        |
-| ----------------- | ------------- | --------------------- | ------------------ |
-| `name`            | `str`         | —                     | The name           |
-| `kind`            | `SymbolKind`  | `SymbolKind.VARIABLE` | Kind (symbol kind) |
-| `span`            | `Span`        | —                     | Span (span)        |
-| `type_annotation` | `str \| None` | `None`                | Type annotation    |
-| `doc`             | `str \| None` | `None`                | Doc                |
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `str` | — | The name |
+| `kind` | `SymbolKind` | `SymbolKind.VARIABLE` | Kind (symbol kind) |
+| `span` | `Span` | — | Span (span) |
+| `type_annotation` | `str \| None` | `None` | Type annotation |
+| `doc` | `str \| None` | `None` | Doc |
+
 
 ---
 
@@ -1312,9 +1350,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-##### Methods
+### Methods
 
-###### root_node()
+#### root_node()
 
 Return the root `Node` of this tree.
 
@@ -1324,7 +1362,7 @@ Return the root `Node` of this tree.
 def root_node(self) -> Node
 ```
 
-###### walk()
+#### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1334,15 +1372,16 @@ Return a `TreeCursor` positioned at the root.
 def walk(self) -> TreeCursor
 ```
 
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-##### Methods
+### Methods
 
-###### node()
+#### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1352,7 +1391,7 @@ Return the `Node` at the cursor's current position.
 def node(self) -> Node
 ```
 
-###### goto_first_child()
+#### goto_first_child()
 
 Move the cursor to the first child of the current node.
 Returns `True` if a child existed.
@@ -1363,7 +1402,7 @@ Returns `True` if a child existed.
 def goto_first_child(self) -> bool
 ```
 
-###### goto_parent()
+#### goto_parent()
 
 Move the cursor to the parent of the current node.
 Returns `True` if a parent existed.
@@ -1374,7 +1413,7 @@ Returns `True` if a parent existed.
 def goto_parent(self) -> bool
 ```
 
-###### goto_next_sibling()
+#### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `True` if a sibling existed.
@@ -1385,7 +1424,7 @@ Returns `True` if a sibling existed.
 def goto_next_sibling(self) -> bool
 ```
 
-###### field_name()
+#### field_name()
 
 Return the field name for the current node, if any.
 
@@ -1394,6 +1433,7 @@ Return the field name for the current node, if any.
 ```python
 def field_name(self) -> str | None
 ```
+
 
 ---
 
@@ -1407,19 +1447,20 @@ Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
 
-| Value       | Description                |
-| ----------- | -------------------------- |
-| `FUNCTION`  | Function                   |
-| `METHOD`    | Method                     |
-| `CLASS`     | Class                      |
-| `STRUCT`    | Struct                     |
-| `INTERFACE` | Interface                  |
-| `ENUM`      | Enum                       |
-| `MODULE`    | Module                     |
-| `TRAIT`     | Trait                      |
-| `IMPL`      | Impl                       |
-| `NAMESPACE` | Namespace                  |
-| `OTHER`     | Other — Fields: `0`: `str` |
+| Value | Description |
+|-------|-------------|
+| `FUNCTION` | Function |
+| `METHOD` | Method |
+| `CLASS` | Class |
+| `STRUCT` | Struct |
+| `INTERFACE` | Interface |
+| `ENUM` | Enum |
+| `MODULE` | Module |
+| `TRAIT` | Trait |
+| `IMPL` | Impl |
+| `NAMESPACE` | Namespace |
+| `OTHER` | Other — Fields: `0`: `str` |
+
 
 ---
 
@@ -1430,11 +1471,12 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-| Value   | Description |
-| ------- | ----------- |
-| `LINE`  | Line        |
-| `BLOCK` | Block       |
-| `DOC`   | Doc         |
+| Value | Description |
+|-------|-------------|
+| `LINE` | Line |
+| `BLOCK` | Block |
+| `DOC` | Doc |
+
 
 ---
 
@@ -1445,14 +1487,15 @@ The format of a docstring extracted from source code.
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 
-| Value                 | Description                |
-| --------------------- | -------------------------- |
-| `PYTHON_TRIPLE_QUOTE` | Python triple quote        |
-| `JS_DOC`              | J s doc                    |
-| `RUSTDOC`             | Rustdoc                    |
-| `GO_DOC`              | Go doc                     |
-| `JAVA_DOC`            | Java doc                   |
-| `OTHER`               | Other — Fields: `0`: `str` |
+| Value | Description |
+|-------|-------------|
+| `PYTHON_TRIPLE_QUOTE` | Python triple quote |
+| `JS_DOC` | J s doc |
+| `RUSTDOC` | Rustdoc |
+| `GO_DOC` | Go doc |
+| `JAVA_DOC` | Java doc |
+| `OTHER` | Other — Fields: `0`: `str` |
+
 
 ---
 
@@ -1462,11 +1505,12 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-| Value       | Description |
-| ----------- | ----------- |
-| `NAMED`     | Named       |
-| `DEFAULT`   | Default     |
-| `RE_EXPORT` | Re export   |
+| Value | Description |
+|-------|-------------|
+| `NAMED` | Named |
+| `DEFAULT` | Default |
+| `RE_EXPORT` | Re export |
+
 
 ---
 
@@ -1477,17 +1521,18 @@ The kind of a symbol definition found in source code.
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
 
-| Value       | Description                |
-| ----------- | -------------------------- |
-| `VARIABLE`  | Variable                   |
-| `CONSTANT`  | Constant                   |
-| `FUNCTION`  | Function                   |
-| `CLASS`     | Class                      |
-| `TYPE`      | Type                       |
-| `INTERFACE` | Interface                  |
-| `ENUM`      | Enum                       |
-| `MODULE`    | Module                     |
-| `OTHER`     | Other — Fields: `0`: `str` |
+| Value | Description |
+|-------|-------------|
+| `VARIABLE` | Variable |
+| `CONSTANT` | Constant |
+| `FUNCTION` | Function |
+| `CLASS` | Class |
+| `TYPE` | Type |
+| `INTERFACE` | Interface |
+| `ENUM` | Enum |
+| `MODULE` | Module |
+| `OTHER` | Other — Fields: `0`: `str` |
+
 
 ---
 
@@ -1498,11 +1543,12 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-| Value     | Description |
-| --------- | ----------- |
-| `ERROR`   | Error       |
-| `WARNING` | Warning     |
-| `INFO`    | Info        |
+| Value | Description |
+|-------|-------------|
+| `ERROR` | Error |
+| `WARNING` | Warning |
+| `INFO` | Info |
+
 
 ---
 
@@ -1517,6 +1563,7 @@ Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
 **Base class:** `Error(Exception)`
+
 | Exception | Description |
 |-----------|-------------|
 | `LanguageNotFound(Error)` | Language '{0}' not found |
@@ -1529,5 +1576,6 @@ features are enabled.
 | `QueryError(Error)` | Query error: {0} |
 | `InvalidRange(Error)` | Invalid byte range: {0} |
 | `Io(Error)` | IO error: {0} |
+
 
 ---
