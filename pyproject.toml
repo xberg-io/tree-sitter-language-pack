@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling"]
+requires = [ "hatchling" ]
 
 [project]
 name = "tree-sitter-language-pack"
@@ -18,7 +18,7 @@ keywords = [
   "tree-sitter",
 ]
 license = "MIT"
-authors = [{ name = "Na'aman Hirschfeld", email = "naaman@kreuzberg.dev" }]
+authors = [ { name = "Na'aman Hirschfeld", email = "naaman@kreuzberg.dev" } ]
 requires-python = ">=3.10.0"
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -53,10 +53,10 @@ dev = [
   "typing-extensions>=4.15.0",
   "uv-bump",
 ]
-doc = ["zensical"]
+doc = [ "zensical" ]
 
 [tool.hatch]
-build.targets.wheel.packages = ["scripts"]
+build.targets.wheel.packages = [ "scripts" ]
 
 [tool.uv]
 sources.uv-bump = { git = "https://github.com/Goldziher/uv-bump" }
@@ -64,29 +64,29 @@ sources.uv-bump = { git = "https://github.com/Goldziher/uv-bump" }
 [tool.ruff]
 target-version = "py310"
 line-length = 120
-src = ["packages/python", "scripts"]
-extend-exclude = ["fixtures/bench"]
+src = [ "packages/python", "scripts" ]
+extend-exclude = [ "fixtures/bench" ]
 format.docstring-code-line-length = 120
 format.docstring-code-format = true
-lint.select = ["ALL"]
+lint.select = [ "ALL" ]
 lint.ignore = [
   "ANN401", # dynamically typed ANY
   "COM812", # Conflicts with formatter
-  "D100", # pydocstyle - missing docstring in public module
-  "D104", # pydocstyle - missing docstring in public package
-  "D107", # pydocstyle - missing docstring in __init__
-  "D205", # pydocstyle - 1 blank line required between summary line and description
-  "E501", # pycodestyle line too long, handled by ruff format
-  "EM", # Exception messages
-  "FBT", # Boolean values
-  "FIX", # we allow todo and fixme comments
+  "D100",   # pydocstyle - missing docstring in public module
+  "D104",   # pydocstyle - missing docstring in public package
+  "D107",   # pydocstyle - missing docstring in __init__
+  "D205",   # pydocstyle - 1 blank line required between summary line and description
+  "E501",   # pycodestyle line too long, handled by ruff format
+  "EM",     # Exception messages
+  "FBT",    # Boolean values
+  "FIX",    # we allow todo and fixme comments
   "ISC001", # Conflicts with formatter
-  "TD", # we allow todo and fixme comments
-  "TRY", # Try except block, rules are too strict
+  "TD",     # we allow todo and fixme comments
+  "TRY",    # Try except block, rules are too strict
 ]
-lint.per-file-ignores."options.py" = ["TC001"]
-lint.per-file-ignores."scripts/**/*.*" = ["ASYNC", "D", "S", "T201"]
-lint.isort.known-first-party = ["scripts"]
+lint.per-file-ignores."options.py" = [ "TC001" ]
+lint.per-file-ignores."scripts/**/*.*" = [ "ASYNC", "D", "S", "T201" ]
+lint.isort.known-first-party = [ "scripts" ]
 lint.pydocstyle.convention = "google"
 
 [tool.codespell]
@@ -97,8 +97,8 @@ keep_full_version = true
 max_supported_python = "3.14"
 
 [tool.mypy]
-packages = ["scripts"]
-exclude = ["fixtures/bench", "scripts/clone_vendors.py"]
+packages = [ "scripts" ]
+exclude = [ "fixtures/bench", "scripts/clone_vendors.py" ]
 python_version = "3.10"
 disallow_untyped_decorators = true
 disallow_any_unimported = true
