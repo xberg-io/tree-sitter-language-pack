@@ -43,8 +43,6 @@ data class PackConfig(
      * Each entry is a language name (e.g. `"python"`, `"rust"`).
      */
     val languages: List<String>?,
-    /**
-     * Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).
-     */
+    /** Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). */
     val groups: List<String>?
 )

@@ -21,9 +21,7 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * A docstring extracted from source code.
- */
+/** A docstring extracted from source code. */
 data class DocstringInfo(
     val text: String,
     val format: DocstringFormat,

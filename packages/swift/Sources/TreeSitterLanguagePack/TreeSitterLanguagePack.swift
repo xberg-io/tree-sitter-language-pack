@@ -35,7 +35,7 @@ public struct Span: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for Span
 internal extension Span {
-    init(_ rb: RustBridge.Span) throws {
+    init(_ rb: RustBridge.SpanRef) throws {
         self.startByte = rb.start_byte()
         self.endByte = rb.end_byte()
         self.startLine = rb.start_line()
@@ -102,7 +102,7 @@ public struct FileMetrics: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for FileMetrics
 internal extension FileMetrics {
-    init(_ rb: RustBridge.FileMetrics) throws {
+    init(_ rb: RustBridge.FileMetricsRef) throws {
         self.totalLines = rb.total_lines()
         self.codeLines = rb.code_lines()
         self.commentLines = rb.comment_lines()
@@ -142,7 +142,7 @@ public struct CommentInfo: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for CommentInfo
 internal extension CommentInfo {
-    init(_ rb: RustBridge.CommentInfo) throws {
+    init(_ rb: RustBridge.CommentInfoRef) throws {
         self.text = rb.text().toString()
         self.kind = CommentKind(rawValue: rb.kind().toString()) ?? { fatalError("Unknown CommentKind: \(rb.kind().toString())") }()
         self.span = try Span(rb.span())
@@ -170,7 +170,7 @@ public struct DocSection: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for DocSection
 internal extension DocSection {
-    init(_ rb: RustBridge.DocSection) throws {
+    init(_ rb: RustBridge.DocSectionRef) throws {
         self.kind = rb.kind().toString()
         self.name = rb.name()?.toString()
         self.description = rb.description().toString()
@@ -205,16 +205,16 @@ public struct ImportInfo: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for ImportInfo
 internal extension ImportInfo {
-    init(_ rb: RustBridge.ImportInfo) throws {
+    init(_ rb: RustBridge.ImportInfoRef) throws {
         self.source = rb.source().toString()
-        self.items = rb.items().map { $0.toString() }
+        self.items = rb.items().map { $0.as_str().toString() }
         self.alias = rb.alias()?.toString()
         self.isWildcard = rb.is_wildcard()
         self.span = try Span(rb.span())
     }
     func intoRust() throws -> RustBridge.ImportInfo {
-        let __items = RustVec<String>()
-        for __elem in self.items { __items.push(value: __elem) }
+        let __items = RustVec<RustString>()
+        for __elem in self.items { __items.push(value: RustString(__elem)) }
         return RustBridge.ImportInfo(self.source, __items, self.alias, self.isWildcard, try self.span.intoRust())
     }
 }
@@ -233,7 +233,7 @@ public struct ExportInfo: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for ExportInfo
 internal extension ExportInfo {
-    init(_ rb: RustBridge.ExportInfo) throws {
+    init(_ rb: RustBridge.ExportInfoRef) throws {
         self.name = rb.name().toString()
         self.kind = ExportKind(rawValue: rb.kind().toString()) ?? { fatalError("Unknown ExportKind: \(rb.kind().toString())") }()
         self.span = try Span(rb.span())
@@ -260,7 +260,7 @@ public struct Diagnostic: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for Diagnostic
 internal extension Diagnostic {
-    init(_ rb: RustBridge.Diagnostic) throws {
+    init(_ rb: RustBridge.DiagnosticRef) throws {
         self.message = rb.message().toString()
         self.severity = DiagnosticSeverity(rawValue: rb.severity().toString()) ?? { fatalError("Unknown DiagnosticSeverity: \(rb.severity().toString())") }()
         self.span = try Span(rb.span())
@@ -309,7 +309,7 @@ public struct Point: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for Point
 internal extension Point {
-    init(_ rb: RustBridge.Point) throws {
+    init(_ rb: RustBridge.PointRef) throws {
         self.row = rb.row()
         self.column = rb.column()
     }
@@ -332,7 +332,7 @@ public struct ByteRange: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for ByteRange
 internal extension ByteRange {
-    init(_ rb: RustBridge.ByteRange) throws {
+    init(_ rb: RustBridge.ByteRangeRef) throws {
         self.start = rb.start()
         self.end = rb.end()
     }
@@ -404,7 +404,7 @@ public struct ProcessConfig: Codable, Sendable, Hashable {
 
 // MARK: - Internal FFI conversions for ProcessConfig
 internal extension ProcessConfig {
-    init(_ rb: RustBridge.ProcessConfig) throws {
+    init(_ rb: RustBridge.ProcessConfigRef) throws {
         self.language = rb.language().toString()
         self.structure = rb.structure()
         self.imports = rb.imports()
@@ -440,6 +440,13 @@ public enum StructureKind {
     case namespace
     case other(field0: String)
 }
+extension StructureKind {
+    func intoRust() throws -> RustBridge.StructureKind {
+        let data = try JSONEncoder().encode(self)
+        let json = String(data: data, encoding: .utf8) ?? "null"
+        return try RustBridge.structureKindFromJson(json)
+    }
+}
 
 /// The kind of a comment found in source code.
 ///
@@ -449,6 +456,13 @@ public enum CommentKind: String, Codable, Sendable, Hashable {
     case line = "Line"
     case block = "Block"
     case doc = "Doc"
+}
+extension CommentKind {
+    func intoRust() throws -> RustBridge.CommentKind {
+        let data = try JSONEncoder().encode(self)
+        let json = String(data: data, encoding: .utf8) ?? "null"
+        return try RustBridge.commentKindFromJson(json)
+    }
 }
 
 /// The format of a docstring extracted from source code.
@@ -463,6 +477,13 @@ public enum DocstringFormat {
     case javaDoc
     case other(field0: String)
 }
+extension DocstringFormat {
+    func intoRust() throws -> RustBridge.DocstringFormat {
+        let data = try JSONEncoder().encode(self)
+        let json = String(data: data, encoding: .utf8) ?? "null"
+        return try RustBridge.docstringFormatFromJson(json)
+    }
+}
 
 /// The kind of an export statement found in source code.
 ///
@@ -471,6 +492,13 @@ public enum ExportKind: String, Codable, Sendable, Hashable {
     case named = "Named"
     case `default` = "Default"
     case reExport = "ReExport"
+}
+extension ExportKind {
+    func intoRust() throws -> RustBridge.ExportKind {
+        let data = try JSONEncoder().encode(self)
+        let json = String(data: data, encoding: .utf8) ?? "null"
+        return try RustBridge.exportKindFromJson(json)
+    }
 }
 
 /// The kind of a symbol definition found in source code.
@@ -488,6 +516,13 @@ public enum SymbolKind {
     case module
     case other(field0: String)
 }
+extension SymbolKind {
+    func intoRust() throws -> RustBridge.SymbolKind {
+        let data = try JSONEncoder().encode(self)
+        let json = String(data: data, encoding: .utf8) ?? "null"
+        return try RustBridge.symbolKindFromJson(json)
+    }
+}
 
 /// Severity level of a diagnostic produced during parsing.
 ///
@@ -497,6 +532,13 @@ public enum DiagnosticSeverity: String, Codable, Sendable, Hashable {
     case error = "Error"
     case warning = "Warning"
     case info = "Info"
+}
+extension DiagnosticSeverity {
+    func intoRust() throws -> RustBridge.DiagnosticSeverity {
+        let data = try JSONEncoder().encode(self)
+        let json = String(data: data, encoding: .utf8) ?? "null"
+        return try RustBridge.diagnosticSeverityFromJson(json)
+    }
 }
 
 /// Errors that can occur when using the tree-sitter language pack.
@@ -522,13 +564,112 @@ public enum TreeSitterLanguagePackError: Swift.Error {
 // First-class struct types (Codable) use JSONDecoder directly.
 // Opaque RustBridge types forward to RustBridge.
 
+public func spanFromJson(_ json: String) throws -> Span {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(Span.self, from: data)
+}
+
+public func processResultFromJson(_ json: String) throws -> ProcessResult {
+    return try RustBridge.processResultFromJson(json)
+}
+
+public func fileMetricsFromJson(_ json: String) throws -> FileMetrics {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(FileMetrics.self, from: data)
+}
+
+public func structureItemFromJson(_ json: String) throws -> StructureItem {
+    return try RustBridge.structureItemFromJson(json)
+}
+
+public func commentInfoFromJson(_ json: String) throws -> CommentInfo {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(CommentInfo.self, from: data)
+}
+
+public func docstringInfoFromJson(_ json: String) throws -> DocstringInfo {
+    return try RustBridge.docstringInfoFromJson(json)
+}
+
+public func docSectionFromJson(_ json: String) throws -> DocSection {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(DocSection.self, from: data)
+}
+
+public func importInfoFromJson(_ json: String) throws -> ImportInfo {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(ImportInfo.self, from: data)
+}
+
+public func exportInfoFromJson(_ json: String) throws -> ExportInfo {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(ExportInfo.self, from: data)
+}
+
+public func symbolInfoFromJson(_ json: String) throws -> SymbolInfo {
+    return try RustBridge.symbolInfoFromJson(json)
+}
+
+public func diagnosticFromJson(_ json: String) throws -> Diagnostic {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(Diagnostic.self, from: data)
+}
+
+public func codeChunkFromJson(_ json: String) throws -> CodeChunk {
+    return try RustBridge.codeChunkFromJson(json)
+}
+
+public func chunkContextFromJson(_ json: String) throws -> ChunkContext {
+    return try RustBridge.chunkContextFromJson(json)
+}
+
 public func packConfigFromJson(_ json: String) throws -> PackConfig {
     return try RustBridge.packConfigFromJson(json)
+}
+
+public func pointFromJson(_ json: String) throws -> Point {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(Point.self, from: data)
+}
+
+public func byteRangeFromJson(_ json: String) throws -> ByteRange {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(ByteRange.self, from: data)
 }
 
 public func processConfigFromJson(_ json: String) throws -> ProcessConfig {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(ProcessConfig.self, from: data)
+}
+
+public func structureKindFromJson(_ json: String) throws -> StructureKind {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(StructureKind.self, from: data)
+}
+
+public func commentKindFromJson(_ json: String) throws -> CommentKind {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(CommentKind.self, from: data)
+}
+
+public func docstringFormatFromJson(_ json: String) throws -> DocstringFormat {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(DocstringFormat.self, from: data)
+}
+
+public func exportKindFromJson(_ json: String) throws -> ExportKind {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(ExportKind.self, from: data)
+}
+
+public func symbolKindFromJson(_ json: String) throws -> SymbolKind {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(SymbolKind.self, from: data)
+}
+
+public func diagnosticSeverityFromJson(_ json: String) throws -> DiagnosticSeverity {
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(DiagnosticSeverity.self, from: data)
 }
 
 // MARK: - Free-function Forwarders
@@ -724,7 +865,7 @@ public func detectLanguage(path: String) -> String? {
 /// }
 /// ```
 public func availableLanguages() -> [String] {
-    return RustBridge.availableLanguages().map { $0.toString() }
+    return RustBridge.availableLanguages().map { $0.as_str().toString() }
 }
 
 /// Check if a language is available by name or alias.
@@ -935,7 +1076,7 @@ public func downloadGroup(name: String) throws -> UInt {
 /// println!("{} languages available for download", langs.len());
 /// ```
 public func manifestLanguages() throws -> [String] {
-    return try RustBridge.manifestLanguages().map { $0.toString() }
+    return try RustBridge.manifestLanguages().map { $0.as_str().toString() }
 }
 
 /// Return languages that are already downloaded and cached locally.
@@ -952,7 +1093,7 @@ public func manifestLanguages() throws -> [String] {
 /// println!("{} languages already cached", langs.len());
 /// ```
 public func downloadedLanguages() -> [String] {
-    return RustBridge.downloadedLanguages().map { $0.toString() }
+    return RustBridge.downloadedLanguages().map { $0.as_str().toString() }
 }
 
 /// Delete all cached parser shared libraries.
@@ -994,5 +1135,5 @@ public func cleanCache() throws {
 /// println!("Cache directory: {dir}");
 /// ```
 public func cacheDir() throws -> String {
-    return try RustBridge.cacheDir()
+    return try RustBridge.cacheDir().toString()
 }

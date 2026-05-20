@@ -21,16 +21,10 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * A byte range — start (inclusive) to end (exclusive).
- */
+/** A byte range — start (inclusive) to end (exclusive). */
 data class ByteRange(
-    /**
-     * Inclusive start byte offset.
-     */
+    /** Inclusive start byte offset. */
     val start: Long,
-    /**
-     * Exclusive end byte offset.
-     */
+    /** Exclusive end byte offset. */
     val end: Long
 )

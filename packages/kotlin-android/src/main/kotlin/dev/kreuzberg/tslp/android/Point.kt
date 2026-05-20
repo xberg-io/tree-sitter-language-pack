@@ -21,16 +21,10 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * A source position — row + column, zero-indexed.
- */
+/** A source position — row + column, zero-indexed. */
 data class Point(
-    /**
-     * Zero-indexed row number.
-     */
+    /** Zero-indexed row number. */
     val row: Long,
-    /**
-     * Zero-indexed column number, in UTF-16 code units.
-     */
+    /** Zero-indexed column number, in UTF-16 code units. */
     val column: Long
 )

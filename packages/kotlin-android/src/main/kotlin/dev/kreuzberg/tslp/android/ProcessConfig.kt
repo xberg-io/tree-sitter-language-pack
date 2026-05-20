@@ -27,40 +27,22 @@ package dev.kreuzberg.tslp.android
  * Controls which analysis features are enabled and whether chunking is performed.
  */
 data class ProcessConfig(
-    /**
-     * Language name (required).
-     */
+    /** Language name (required). */
     val language: String,
-    /**
-     * Extract structural items (functions, classes, etc.). Default: true.
-     */
+    /** Extract structural items (functions, classes, etc.). Default: true. */
     val structure: Boolean,
-    /**
-     * Extract import statements. Default: true.
-     */
+    /** Extract import statements. Default: true. */
     val imports: Boolean,
-    /**
-     * Extract export statements. Default: true.
-     */
+    /** Extract export statements. Default: true. */
     val exports: Boolean,
-    /**
-     * Extract comments. Default: false.
-     */
+    /** Extract comments. Default: false. */
     val comments: Boolean,
-    /**
-     * Extract docstrings. Default: false.
-     */
+    /** Extract docstrings. Default: false. */
     val docstrings: Boolean,
-    /**
-     * Extract symbol definitions. Default: false.
-     */
+    /** Extract symbol definitions. Default: false. */
     val symbols: Boolean,
-    /**
-     * Include parse diagnostics. Default: false.
-     */
+    /** Include parse diagnostics. Default: false. */
     val diagnostics: Boolean,
-    /**
-     * Maximum chunk size in bytes. `null` disables chunking.
-     */
+    /** Maximum chunk size in bytes. `null` disables chunking. */
     val chunkMaxSize: Long?
 )

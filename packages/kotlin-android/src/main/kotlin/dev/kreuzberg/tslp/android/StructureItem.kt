@@ -21,9 +21,7 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * A structural item (function, class, struct, etc.) in source code.
- */
+/** A structural item (function, class, struct, etc.) in source code. */
 data class StructureItem(
     val kind: StructureKind,
     val name: String?,

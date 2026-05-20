@@ -21,9 +21,7 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * Aggregate metrics for a source file.
- */
+/** Aggregate metrics for a source file. */
 data class FileMetrics(
     val totalLines: Long,
     val codeLines: Long,

@@ -21,9 +21,7 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * A chunk of source code with rich metadata.
- */
+/** A chunk of source code with rich metadata. */
 data class CodeChunk(
     val content: String,
     val startByte: Long,

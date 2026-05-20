@@ -21,7 +21,5 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * A section within a docstring (e.g., Args, Returns, Raises).
- */
+/** A section within a docstring (e.g., Args, Returns, Raises). */
 data class DocSection(val kind: String, val name: String?, val description: String)

@@ -21,9 +21,7 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * Metadata for a single chunk of source code.
- */
+/** Metadata for a single chunk of source code. */
 data class ChunkContext(
     val language: String,
     val chunkIndex: Long,

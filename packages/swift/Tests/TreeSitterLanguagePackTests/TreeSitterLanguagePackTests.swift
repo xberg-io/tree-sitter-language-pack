@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import TreeSitterLanguagePack
 
 final class TreeSitterLanguagePackTests: XCTestCase {

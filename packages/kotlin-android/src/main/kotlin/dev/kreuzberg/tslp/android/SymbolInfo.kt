@@ -21,9 +21,7 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * A symbol (variable, function, type, etc.) extracted from source code.
- */
+/** A symbol (variable, function, type, etc.) extracted from source code. */
 data class SymbolInfo(
     val name: String,
     val kind: SymbolKind,

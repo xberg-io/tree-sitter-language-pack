@@ -21,9 +21,7 @@
 
 package dev.kreuzberg.tslp.android
 
-/**
- * An import statement extracted from source code.
- */
+/** An import statement extracted from source code. */
 data class ImportInfo(
     val source: String,
     val items: List<String>,
