@@ -531,7 +531,7 @@ result_is_option = true
 args = [{ name = "ext", field = "extension", type = "string" }]
 
 [crates.e2e.calls.detect_extension.overrides.go]
-result_is_pointer = false
+result_is_pointer = true
 
 [crates.e2e.calls.detect_extension.overrides.c]
 function = "ts_pack_detect_language_from_extension"
@@ -546,7 +546,7 @@ result_is_option = true
 args = [{ name = "path", field = "path", type = "string" }]
 
 [crates.e2e.calls.detect_path.overrides.go]
-result_is_pointer = false
+result_is_pointer = true
 
 [crates.e2e.calls.detect_path.overrides.c]
 function = "ts_pack_detect_language_from_path"
@@ -606,7 +606,7 @@ result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
 
 [crates.e2e.calls.highlights.overrides.go]
-result_is_pointer = false
+result_is_pointer = true
 
 [crates.e2e.calls.highlights.overrides.c]
 function = "ts_pack_get_highlights_query"
@@ -621,7 +621,7 @@ result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
 
 [crates.e2e.calls.injections.overrides.go]
-result_is_pointer = false
+result_is_pointer = true
 
 [crates.e2e.calls.injections.overrides.c]
 function = "ts_pack_get_injections_query"
@@ -636,7 +636,7 @@ result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
 
 [crates.e2e.calls.locals.overrides.go]
-result_is_pointer = false
+result_is_pointer = true
 
 [crates.e2e.calls.locals.overrides.c]
 function = "ts_pack_get_locals_query"
