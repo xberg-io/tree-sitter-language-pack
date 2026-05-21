@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Split pub.dev publish into a dedicated `publish-pubdev.yaml` workflow triggered by `push: tags: v*`.** pub.dev OIDC trusted publishing rejects tokens from `release` events; only `push` and `workflow_dispatch` events are accepted. The new workflow produces an accepted token. One-time setup required: configure pub.dev → tree_sitter_language_pack package → Admin → Automated publishing with workflow path `.github/workflows/publish-pubdev.yaml`. (`.github/workflows/publish-pubdev.yaml`, `.github/workflows/publish.yaml`)
 - Regenerated all alef-managed surfaces (per-binding READMEs, API reference docs, generated bindings, e2e tests) and the script-managed docs/languages.md + `_supported_languages.py` to reflect the 305-grammar count.
 - `scripts/generate_grammar_table.py` default output path corrected from `docs/supported-languages.md` to the canonical nav-referenced `docs/languages.md`; Taskfile `docs:generate:languages` `generates:` field updated to match.
 

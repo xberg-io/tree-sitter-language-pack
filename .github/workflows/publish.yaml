@@ -2495,25 +2495,6 @@ jobs:
           path: packages/dart
           retention-days: 14
 
-  publish-pub:
-    name: Publish Dart package to pub.dev
-    needs: [prepare, check-registries, build-dart-package]
-    if: ${{ needs.prepare.outputs.release_dart == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    timeout-minutes: 15
-    steps:
-      - uses: actions/download-artifact@v8.0.1
-        with:
-          name: dart-package
-          path: packages/dart
-      - uses: kreuzberg-dev/actions/publish-pub@v1
-        with:
-          package-dir: packages/dart
-          dry-run: ${{ needs.prepare.outputs.dry_run }}
-
   # ─── Swift (Swift Package Index via tag) ──────────────────────────
   build-swift-artifactbundle:
     name: Build Swift artifact bundle
