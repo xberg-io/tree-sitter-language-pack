@@ -17,14 +17,20 @@ download = [
     "dep:tar",
     "dep:zstd",
     "dep:dirs",
+    "dep:fd-lock",
     "dep:serde",
     "dep:serde_json",
     "dynamic-loading",
 ]
+# Exposes internal helpers (e.g. `_testing_extract_languages`) for integration
+# tests or downstream crates that need to exercise the raw extraction path.
+# Never enable in production builds.
+test-internals = ["download"]
 
 [dependencies]
 ahash = { workspace = true }
 dirs = { workspace = true, optional = true }
+fd-lock = { workspace = true, optional = true }
 memchr = { workspace = true }
 serde = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
@@ -54,6 +60,11 @@ zstd = { workspace = true }
 criterion = { workspace = true }
 tempfile = { workspace = true }
 
+[[test]]
+name = "concurrent_download"
+path = "tests/concurrent_download.rs"
+required-features = ["test-internals"]
+
 [[bench]]
 name = "benchmarks"
 harness = false
@@ -64,4 +75,4 @@ duplicated_attributes = "allow"
 
 [lints.rust]
 unsafe_code = "allow"
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(alef)'] }
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(alef)', 'cfg(feature, values("test-internals"))'] }

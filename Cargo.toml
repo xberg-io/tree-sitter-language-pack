@@ -36,6 +36,7 @@ clap = { version = "4", features = ["derive"] }
 clap_complete = "4"
 criterion = { version = "0.8", features = ["html_reports"] }
 dirs = "6"
+fd-lock = "4"
 js-sys = "0.3"
 libloading = "0.9"
 magnus = "0.8"

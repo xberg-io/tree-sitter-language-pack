@@ -56,4 +56,8 @@ pub enum Error {
         expected: String,
         actual: String,
     },
+
+    #[cfg(feature = "download")]
+    #[error("Download cache lock error: {0}")]
+    CacheLock(String),
 }

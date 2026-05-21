@@ -40,14 +40,14 @@ repos:
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.13
+    rev: v0.15.14
     hooks:
       - id: ruff
         args:
           - --fix
       - id: ruff-format
   - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
-    rev: v1.1.13
+    rev: v1.1.17
     hooks:
       - id: cargo-sort
         args:
@@ -184,7 +184,7 @@ repos:
       - id: zig-fmt
       - id: zig-build-check
   - repo: https://github.com/kreuzberg-dev/alef
-    rev: v0.17.15
+    rev: v0.17.18
     hooks:
       - id: alef-verify
       - id: alef-sync-versions
