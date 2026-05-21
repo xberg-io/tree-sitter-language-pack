@@ -459,6 +459,14 @@ fixtures = "fixtures"
 output = "e2e"
 fields_array = ["chunks", "imports", "structure"]
 
+# `e2e/node/tests/capsule_passthrough.test.ts` imports the upstream
+# `tree-sitter` npm package to verify FFI capsule type-tag passthrough between
+# our `Language` object and tree-sitter's native module. Without this entry
+# `alef e2e generate` strips the devDependency from `e2e/node/package.json` on
+# every regen. Lands via the alef 0.17.13+ `harness_extras` knob.
+[crates.e2e.harness_extras.node]
+dev_dependencies = { "tree-sitter" = "^0.25.0" }
+
 [crates.e2e.call]
 function = "process"
 module = "tree_sitter_language_pack"
