@@ -830,10 +830,12 @@ jobs:
       - name: Set library paths for .NET
         shell: bash
         run: |
-          echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
-          echo "DYLD_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
-          echo "DYLD_FALLBACK_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_FALLBACK_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
-          echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release" >> "$GITHUB_ENV"
+          {
+            echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}"
+            echo "DYLD_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_LIBRARY_PATH:-}"
+            echo "DYLD_FALLBACK_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_FALLBACK_LIBRARY_PATH:-}"
+            echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release"
+          } >> "$GITHUB_ENV"
 
       - name: Stage native library into runtimes/
         shell: bash

@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.17.11"
+alef_version = "0.17.13"
 languages = [
   "python",
   "node",
@@ -553,7 +553,7 @@ result_is_option = true
 args = [{ name = "content", field = "content", type = "string" }]
 
 [crates.e2e.calls.detect_content.overrides.go]
-result_is_pointer = false
+result_is_pointer = true
 
 [crates.e2e.calls.detect_content.overrides.c]
 function = "ts_pack_detect_language_from_content"
@@ -568,6 +568,7 @@ args = [{ name = "name", field = "language", type = "string" }]
 
 [crates.e2e.calls.has_language.overrides.go]
 returns_result = false
+result_is_pointer = false
 
 [crates.e2e.calls.has_language.overrides.c]
 function = "ts_pack_has_language"
@@ -642,6 +643,7 @@ args = []
 
 [crates.e2e.calls.language_count.overrides.go]
 returns_result = false
+result_is_pointer = false
 
 [crates.e2e.calls.language_count.overrides.c]
 function = "ts_pack_language_count"
