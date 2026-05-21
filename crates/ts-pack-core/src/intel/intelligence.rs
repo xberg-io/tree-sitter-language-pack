@@ -11,7 +11,7 @@ pub fn extract_intelligence(source: &str, language: &str, tree: &tree_sitter::Tr
     ProcessResult {
         language: language.to_string(),
         metrics: compute_metrics(source, &root),
-        structure: extract_structure(&root, source),
+        structure: extract_structure(&root, source, language),
         imports: extract_imports(&root, source, language),
         exports: extract_exports(&root, source, language),
         comments: extract_comments(&root, source, language),
@@ -247,9 +247,9 @@ fn collect_exports(node: &tree_sitter::Node, source: &str, language: &str, expor
     }
 }
 
-pub(crate) fn extract_structure(root: &tree_sitter::Node, source: &str) -> Vec<StructureItem> {
+pub(crate) fn extract_structure(root: &tree_sitter::Node, source: &str, language: &str) -> Vec<StructureItem> {
     let mut items = Vec::with_capacity(32);
-    collect_structure(root, source, &mut items);
+    collect_structure(root, source, language, &mut items);
     items
 }
 
@@ -282,18 +282,19 @@ fn resolve_structure_name(node: &tree_sitter::Node, source: &str) -> Option<Stri
     None
 }
 
-fn collect_structure(node: &tree_sitter::Node, source: &str, items: &mut Vec<StructureItem>) {
+fn collect_structure(node: &tree_sitter::Node, source: &str, language: &str, items: &mut Vec<StructureItem>) {
     let kind = node.kind();
     let structure_kind = match kind {
         "function_definition" | "function_declaration" | "function_item" | "arrow_function" => {
             Some(StructureKind::Function)
         }
-        "method_definition" | "method_declaration" => Some(StructureKind::Method),
+        "method_definition" | "method_declaration" | "method" | "singleton_method" => Some(StructureKind::Method),
         "class_definition" | "class_declaration" | "class" => Some(StructureKind::Class),
         "struct_item" | "struct_definition" | "struct_declaration" => Some(StructureKind::Struct),
         "interface_declaration" | "interface_definition" => Some(StructureKind::Interface),
         "enum_item" | "enum_definition" | "enum_declaration" => Some(StructureKind::Enum),
         "module_definition" | "mod_item" | "package_header" | "package_declaration" => Some(StructureKind::Module),
+        "module" if language == "ruby" => Some(StructureKind::Module),
         "trait_item" => Some(StructureKind::Trait),
         "impl_item" => Some(StructureKind::Impl),
         _ => None,
@@ -304,7 +305,7 @@ fn collect_structure(node: &tree_sitter::Node, source: &str, items: &mut Vec<Str
         let body_span = node.child_by_field_name("body").map(|n| span_from_node(&n));
         let mut children = Vec::new();
         if let Some(body) = node.child_by_field_name("body") {
-            collect_structure(&body, source, &mut children);
+            collect_structure(&body, source, language, &mut children);
         }
         items.push(StructureItem {
             kind: sk,
@@ -320,7 +321,7 @@ fn collect_structure(node: &tree_sitter::Node, source: &str, items: &mut Vec<Str
     } else {
         let mut cursor = node.walk();
         for child in node.children(&mut cursor) {
-            collect_structure(&child, source, items);
+            collect_structure(&child, source, language, items);
         }
     }
 }
@@ -439,6 +440,34 @@ mod tests {
         assert!(!class.children.is_empty(), "class should have child methods");
         assert_eq!(class.children[0].kind, StructureKind::Function);
         assert_eq!(class.children[0].name.as_deref(), Some("method"));
+    }
+
+    #[test]
+    fn test_extract_ruby_module_class_and_methods() {
+        let source = "module Outer\n  class Widget\n    def call\n      true\n    end\n\n    def self.build\n      new\n    end\n  end\nend\n";
+        let Some(tree) = parse_or_skip(source, "ruby") else {
+            return;
+        };
+        let intel = extract_intelligence(source, "ruby", &tree);
+
+        let module = intel.structure.iter().find(|s| s.kind == StructureKind::Module);
+        assert!(module.is_some(), "should find a Ruby module entry");
+        let module = module.unwrap();
+        assert_eq!(module.name.as_deref(), Some("Outer"));
+
+        let class = module.children.iter().find(|s| s.kind == StructureKind::Class);
+        assert!(class.is_some(), "should find a Ruby class inside the module");
+        let class = class.unwrap();
+        assert_eq!(class.name.as_deref(), Some("Widget"));
+
+        let method_names = class
+            .children
+            .iter()
+            .filter(|s| s.kind == StructureKind::Method)
+            .filter_map(|s| s.name.as_deref())
+            .collect::<Vec<_>>();
+        assert!(method_names.contains(&"call"), "should find an instance method");
+        assert!(method_names.contains(&"build"), "should find a singleton method");
     }
 
     #[test]
