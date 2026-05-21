@@ -78,7 +78,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install Python dependencies
-        run: uv sync --no-install-project
+        run: uv sync --no-install-project --no-install-workspace
 
       - name: Cache parsers
         uses: actions/cache@v5.0.5

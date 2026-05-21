@@ -50,7 +50,7 @@ jobs:
           enable-cache: true
 
       - name: Generate supported languages table
-        run: uv run python scripts/generate_grammar_table.py
+        run: uv run --no-sync python scripts/generate_grammar_table.py
 
       - uses: kreuzberg-dev/actions/build-docs@v1
         with:

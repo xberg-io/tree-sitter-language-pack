@@ -127,7 +127,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: uv sync --no-install-project
+        run: uv sync --no-install-project --no-install-workspace
 
       - name: Setup Node.js (for tree-sitter-cli)
         uses: actions/setup-node@v6.4.0

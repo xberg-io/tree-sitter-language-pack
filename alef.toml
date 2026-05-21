@@ -274,7 +274,7 @@ functions = [
 
 [crates.lint.python]
 precondition = "command -v ruff >/dev/null 2>&1"
-before = "uv sync --no-install-project"
+before = "uv sync --no-install-project --no-install-workspace"
 # Apply ALL auto-fixable ruff rules (not just isort) so the alef-generated
 # output stays clean under the prek `ruff (legacy alias)` hook, which runs
 # `ruff check --fix` (full ruleset). Without this, alef only fixed isort
