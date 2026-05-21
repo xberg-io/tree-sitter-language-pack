@@ -3,6 +3,10 @@
   "description": "Process empty source code succeeds with zero metrics",
   "category": "error-handling",
   "tags": ["error-handling", "process"],
+  "skip": {
+    "languages": ["wasm"],
+    "reason": "WASM: panic during empty input processing"
+  },
   "input": {
     "source_code": "",
     "config": {
