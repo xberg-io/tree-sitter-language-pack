@@ -701,22 +701,6 @@ List languages that are already downloaded and cached.
 func (o *DownloadManager) InstalledLanguages() []string
 ```
 
-#### TestingExtractLanguages()
-
-Thin public re-export of `extract_languages` gated on the
-`test-internals` feature (or `#[cfg(test)]`).
-
-Integration tests that need to call `extract_languages` directly (e.g.
-the cross-process concurrency test) should use this wrapper so they do
-not bypass the cross-process file lock invisibly. The name makes the
-test-only nature obvious.
-
-**Signature:**
-
-```go
-func (o *DownloadManager) TestingExtractLanguages(archiveData []byte, names []string) error
-```
-
 #### DownloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.

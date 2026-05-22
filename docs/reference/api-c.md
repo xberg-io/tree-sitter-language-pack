@@ -701,22 +701,6 @@ List languages that are already downloaded and cached.
 const char** ts_pack_installed_languages();
 ```
 
-#### ts_pack_testing_extract_languages()
-
-Thin public re-export of `extract_languages` gated on the
-`test-internals` feature (or `#[cfg(test)]`).
-
-Integration tests that need to call `extract_languages` directly (e.g.
-the cross-process concurrency test) should use this wrapper so they do
-not bypass the cross-process file lock invisibly. The name makes the
-test-only nature obvious.
-
-**Signature:**
-
-```c
-void ts_pack_testing_extract_languages(const uint8_t* archive_data, const char** names);
-```
-
 #### ts_pack_download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.

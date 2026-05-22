@@ -715,23 +715,6 @@ List languages that are already downloaded and cached.
 fun installedLanguages(): List<String>
 ```
 
-#### testingExtractLanguages()
-
-Thin public re-export of `extract_languages` gated on the
-`test-internals` feature (or `#[cfg(test)]`).
-
-Integration tests that need to call `extract_languages` directly (e.g.
-the cross-process concurrency test) should use this wrapper so they do
-not bypass the cross-process file lock invisibly. The name makes the
-test-only nature obvious.
-
-**Signature:**
-
-```kotlin
-@Throws(Error::class)
-fun testingExtractLanguages(archiveData: ByteArray, names: List<String>)
-```
-
 #### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.

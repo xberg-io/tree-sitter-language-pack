@@ -702,6 +702,7 @@ impl DownloadManager {
     /// not bypass the cross-process file lock invisibly. The name makes the
     /// test-only nature obvious.
     #[cfg(any(test, feature = "test-internals"))]
+    #[cfg_attr(alef, alef(skip))]
     pub fn _testing_extract_languages(&self, archive_data: &[u8], names: &[&str]) -> Result<(), Error> {
         self.extract_languages(archive_data, names)
     }
