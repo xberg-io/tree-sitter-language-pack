@@ -7,7 +7,7 @@ multi-ecosystem-groups:
 
 updates:
   - package-ecosystem: "cargo"
-    # Explicitly list root only — crates/ts-pack-ruby/ext has a standalone workspace
+    # Explicitly list root only — packages/ruby/ext has a standalone workspace
     # with path deps to vendored crates that only exist at build time
     directories:
       - "/"
@@ -20,15 +20,15 @@ updates:
   - package-ecosystem: "pip"
     directories:
       - "/"
-      - "/crates/ts-pack-python"
+      - "/packages/python"
     patterns: ["*"]
     multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "npm"
     directories:
       - "/"
-      - "/crates/ts-pack-node"
-      - "/crates/ts-pack-wasm"
+      - "/crates/ts-pack-core-node"
+      - "/crates/ts-pack-core-wasm"
     patterns: ["*"]
     multi-ecosystem-group: "dependencies"
 
