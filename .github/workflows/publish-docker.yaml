@@ -76,7 +76,7 @@ jobs:
       exists: ${{ steps.check.outputs.exists }}
     steps:
       - name: Log in to GHCR
-        uses: docker/login-action@v4.1.0
+        uses: docker/login-action@v4.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
