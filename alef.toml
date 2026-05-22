@@ -447,7 +447,7 @@ before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --relea
 [crates.test.swift]
 precondition = "command -v swift >/dev/null 2>&1"
 before = [
-  "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-swift",
+  "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-swift",
   "bash scripts/setup-swift-bridge.sh",
 ]
 command = "cd packages/swift && swift test"
@@ -455,7 +455,7 @@ e2e = "cd packages/swift && swift test"
 
 [crates.test.dart]
 precondition = "command -v dart >/dev/null 2>&1"
-before = "{ command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0; } && cd packages/dart && dart pub get && cd rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml && cd ../../.. && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-dart"
+before = "{ command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0; } && cd packages/dart && dart pub get && cd rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml && cd ../../.. && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart"
 command = "cd packages/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
 e2e = "cd e2e/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
 
