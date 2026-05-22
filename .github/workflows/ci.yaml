@@ -723,7 +723,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
-      TSLP_LANGUAGES: "all"
+      TSLP_LANGUAGES: "python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
+      TSLP_LINK_MODE: static
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -739,7 +740,7 @@ jobs:
         with:
           target: wasm32-unknown-unknown
           components: ""
-          use-sccache: "true"
+          use-sccache: "false"
           install-llvm-cov: "false"
 
       - name: Install wasm-pack
@@ -753,6 +754,8 @@ jobs:
         run: wasm-pack build --target web --release
         env:
           PROJECT_ROOT: ${{ github.workspace }}
+          CARGO_PROFILE_RELEASE_LTO: "false"
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
 
       - name: Verify WASM artifacts
         shell: bash
@@ -784,6 +787,8 @@ jobs:
         run: wasm-pack build --target nodejs --release --out-dir pkg/nodejs
         env:
           PROJECT_ROOT: ${{ github.workspace }}
+          CARGO_PROFILE_RELEASE_LTO: "false"
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
 
       - name: Upload WASM Node.js artifacts
         uses: actions/upload-artifact@v7.0.1
