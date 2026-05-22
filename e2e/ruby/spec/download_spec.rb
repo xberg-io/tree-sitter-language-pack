@@ -44,7 +44,7 @@ RSpec.describe 'download' do
 
   it 'download_invalid_language: download with an unknown language name returns an error' do
     expect {
-      TreeSitterLanguagePack.download([])
+      TreeSitterLanguagePack.download(['zzz_definitely_not_a_real_language_xyz'])
     }.to raise_error
   end
 
@@ -57,13 +57,13 @@ RSpec.describe 'download' do
   end
 
   it 'download_multiple_languages: download([\'python\', \'rust\']) returns count >= 2' do
-    result = TreeSitterLanguagePack.download([])
+    result = TreeSitterLanguagePack.download(['python', 'rust'])
     expect(result).to be >= 2
 
   end
 
   it 'download_single_language: Download a single language parser and verify count' do
-    result = TreeSitterLanguagePack.download([])
+    result = TreeSitterLanguagePack.download(['python'])
     expect(result).to be >= 1
 
   end
