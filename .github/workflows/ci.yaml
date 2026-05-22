@@ -1071,8 +1071,25 @@ jobs:
       - name: Set library paths for .NET
         shell: bash
         run: |
-          echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
-          echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release" >> "$GITHUB_ENV"
+          {
+            echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}"
+            echo "DYLD_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_LIBRARY_PATH:-}"
+            echo "DYLD_FALLBACK_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_FALLBACK_LIBRARY_PATH:-}"
+            echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release"
+          } >> "$GITHUB_ENV"
+
+      - name: Stage native library into runtimes/
+        shell: bash
+        run: |
+          case "${{ matrix.os }}" in
+            macos-latest) RID=osx-arm64 ;;
+            ubuntu-latest) RID=linux-x64 ;;
+            *) echo "Unknown OS"; exit 1 ;;
+          esac
+          dest=packages/csharp/TreeSitterLanguagePack/runtimes/$RID/native
+          mkdir -p "$dest"
+          cp target/release/libts_pack_core_ffi.* "$dest/" 2>/dev/null || true
+          ls -la "$dest"
 
       - name: Build C# bindings
         working-directory: packages/csharp
