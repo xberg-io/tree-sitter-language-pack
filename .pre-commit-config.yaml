@@ -176,6 +176,10 @@ repos:
       - id: detekt
       - id: ktlint
       - id: cppcheck
+        # RustBridgeC.h is swift-bridge-generated glue; its boilerplate structs
+        # (RustStr, FfiSlice, OptionU8, …) trip cppcheck's unusedStructMember
+        # style check because the header is analysed in isolation.
+        exclude: ^packages/swift/Sources/RustBridgeC/
       - id: hadolint
       - id: dart-format
       - id: dart-analyze
