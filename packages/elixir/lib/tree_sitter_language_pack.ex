@@ -6,6 +6,10 @@
 defmodule TreeSitterLanguagePack do
   @moduledoc "High-level API for tree_sitter_language_pack"
 
+  defp config_from_opts(opts) when is_binary(opts), do: opts
+  defp config_from_opts(opts) when is_list(opts), do: Keyword.get(opts, :config)
+  defp config_from_opts(nil), do: nil
+
   @doc "Detect language name from a file extension (without leading dot)."
   @spec detect_language_from_extension(String.t()) :: String.t() | nil
   def detect_language_from_extension(ext) do
@@ -66,6 +70,10 @@ defmodule TreeSitterLanguagePack do
     TreeSitterLanguagePack.Native.available_languages()
   end
 
+  def available_languages(_unused, _unused_opts) do
+    available_languages()
+  end
+
   @doc "Check if a language is available by name or alias."
   @spec has_language(String.t()) :: boolean()
   def has_language(name) do
@@ -78,25 +86,29 @@ defmodule TreeSitterLanguagePack do
     TreeSitterLanguagePack.Native.language_count()
   end
 
+  def language_count(_unused, _unused_opts) do
+    language_count()
+  end
+
   @doc "Process source code and extract file intelligence using the global registry."
   @spec process(String.t(), keyword()) :: {:ok, map()} | {:error, atom, String.t()}
   def process(source, opts \\ []) do
     TreeSitterLanguagePack.Native.process(
       source,
-      Keyword.get(opts, :config)
+      config_from_opts(opts)
     )
   end
 
   @doc "Initialize the language pack with the given configuration."
   @spec init(keyword()) :: {:ok, nil} | {:error, atom, String.t()}
   def init(opts \\ []) do
-    TreeSitterLanguagePack.Native.init(Keyword.get(opts, :config))
+    TreeSitterLanguagePack.Native.init(config_from_opts(opts))
   end
 
   @doc "Apply download configuration without downloading anything."
   @spec configure(keyword()) :: {:ok, nil} | {:error, atom, String.t()}
   def configure(opts \\ []) do
-    TreeSitterLanguagePack.Native.configure(Keyword.get(opts, :config))
+    TreeSitterLanguagePack.Native.configure(config_from_opts(opts))
   end
 
   @doc "Download specific languages to the local cache."
@@ -123,10 +135,18 @@ defmodule TreeSitterLanguagePack do
     TreeSitterLanguagePack.Native.manifest_languages()
   end
 
+  def manifest_languages(_unused, _unused_opts) do
+    manifest_languages()
+  end
+
   @doc "Return languages that are already downloaded and cached locally."
   @spec downloaded_languages() :: [String.t()]
   def downloaded_languages do
     TreeSitterLanguagePack.Native.downloaded_languages()
+  end
+
+  def downloaded_languages(_unused, _unused_opts) do
+    downloaded_languages()
   end
 
   @doc "Delete all cached parser shared libraries."
