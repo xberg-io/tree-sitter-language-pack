@@ -4,7 +4,6 @@
   align="center"
   style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0"
 >
-  <!-- Built with -->
   <a href="https://github.com/kreuzberg-dev/alef">
     <img
       src="https://img.shields.io/badge/bindings%20by-alef%20%D7%90-007ec6"
@@ -36,9 +35,11 @@
       alt="WASM"
     />
   </a>
-  <a href="https://central.sonatype.com/artifact/dev.kreuzberg/tree-sitter-language-pack">
+  <a
+    href="https://central.sonatype.com/artifact/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack"
+  >
     <img
-      src="https://img.shields.io/maven-central/v/dev.kreuzberg/tree-sitter-language-pack?label=Java&color=007ec6"
+      src="https://img.shields.io/maven-central/v/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6"
       alt="Java"
     />
   </a>
@@ -48,7 +49,7 @@
       alt="Go"
     />
   </a>
-  <a href="https://www.nuget.org/packages/TreeSitterLanguagePack">
+  <a href="https://www.nuget.org/packages/TreeSitterLanguagePack/">
     <img
       src="https://img.shields.io/nuget/v/TreeSitterLanguagePack?label=C%23&color=007ec6"
       alt="C#"
@@ -72,9 +73,27 @@
       alt="Elixir"
     />
   </a>
+  <a href="https://pub.dev/packages/tree_sitter_language_pack">
+    <img
+      src="https://img.shields.io/pub/v/tree_sitter_language_pack?label=Dart&color=007ec6"
+      alt="Dart"
+    />
+  </a>
   <a
-    href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/crates/tree-sitter-language-pack-ffi"
+    href="https://central.sonatype.com/artifact/dev.kreuzberg.tslp.android/tree-sitter-language-pack-android"
   >
+    <img
+      src="https://img.shields.io/maven-central/v/dev.kreuzberg.tslp.android/tree-sitter-language-pack-android?label=Kotlin&color=007ec6"
+      alt="Kotlin"
+    />
+  </a>
+  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/packages/swift">
+    <img src="https://img.shields.io/badge/Swift-SPM-007ec6" alt="Swift" />
+  </a>
+  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/packages/zig">
+    <img src="https://img.shields.io/badge/Zig-package-007ec6" alt="Zig" />
+  </a>
+  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases">
     <img src="https://img.shields.io/badge/C-FFI-007ec6" alt="C FFI" />
   </a>
 
@@ -83,19 +102,54 @@
     <img src="https://img.shields.io/badge/License-MIT-007ec6" alt="License" />
   </a>
   <a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
-    <img src="https://img.shields.io/badge/docs-kreuzberg.dev-007ec6" alt="Docs" />
+    <img src="https://img.shields.io/badge/docs-kreuzberg.dev-007ec6" alt="Documentation" />
+  </a>
+</div>
+
+<div align="center" style="margin: 24px 0 0">
+  <a href="https://kreuzberg.dev">
+    <img
+      width="3384"
+      height="573"
+      alt="tree-sitter-language-pack"
+      src="https:&#x2f;&#x2f;github.com&#x2f;user-attachments&#x2f;assets&#x2f;478a83da-237b-446b-b3a8-e564c13e00a8"
+    />
+  </a>
+</div>
+
+<div
+  align="center"
+  style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 28px 0 24px"
+>
+  <a href="https://discord.gg/xt9WY3GnKR">
+    <img
+      height="32"
+      src="https://img.shields.io/badge/Discord-Join%20our%20community-007ec6?logo=discord&logoColor=white"
+      alt="Join Discord"
+    />
   </a>
 </div>
 
 Pre-compiled tree-sitter grammars for 305 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem.
 
+## What This Package Provides
+
+- **Parser access** — load a tree-sitter language parser by name without wiring individual grammar crates or packages.
+- **Code intelligence primitives** — parse trees, functions, classes, imports, exports, symbols, docstrings, diagnostics, and syntax-aware chunks.
+- **Shared cache model** — parsers are fetched and cached once, then reused by every call in the process.
+- **Same catalog as every binding** — Rust, Python, Node.js, Go, Java, PHP, Ruby, .NET, Elixir, WASM, Dart, Kotlin Android, Swift, Zig, and C FFI use the same grammar set.
+- **Rust crate** — canonical API used by the other bindings and by Kreuzberg code intelligence.
+
 ## Installation
+
 
 ```bash
 cargo add tree-sitter-language-pack
 ```
 
+
 ## Quick Start
+
 
 ```rust
 use tree_sitter_language_pack::{get_language, get_parser};
@@ -104,6 +158,7 @@ let mut parser = get_parser("python").expect("language available");
 let tree = parser.parse("def hello(): pass", None).unwrap();
 println!("{}", tree.root_node().to_sexp());
 ```
+
 
 ## Features
 

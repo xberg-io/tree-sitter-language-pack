@@ -4,6 +4,44 @@
 
 {{ description }}
 
+## What This Package Provides
+
+- **Parser access** — load a tree-sitter language parser by name without wiring individual grammar crates or packages.
+- **Code intelligence primitives** — parse trees, functions, classes, imports, exports, symbols, docstrings, diagnostics, and syntax-aware chunks.
+- **Shared cache model** — parsers are fetched and cached once, then reused by every call in the process.
+- **Same catalog as every binding** — Rust, Python, Node.js, Go, Java, PHP, Ruby, .NET, Elixir, WASM, Dart, Kotlin Android, Swift, Zig, and C FFI use the same grammar set.
+{% if language == "typescript" %}
+- **Node-first TypeScript API** — native NAPI package with typed parser and query helpers.
+{% elif language == "python" %}
+- **Python package** — wheels for parser loading and code-intelligence pipelines.
+{% elif language == "rust" %}
+- **Rust crate** — canonical API used by the other bindings and by Kreuzberg code intelligence.
+{% elif language == "go" %}
+- **Go module** — cgo-backed access to the shared parser pack.
+{% elif language == "java" %}
+- **Java package** — Panama FFM binding for direct parser calls.
+{% elif language == "php" %}
+- **PHP extension** — typed PHP surface over the Rust parser pack.
+{% elif language == "ruby" %}
+- **Ruby package** — Magnus-backed parser access with Ruby objects.
+{% elif language == "csharp" %}
+- **.NET package** — P/Invoke binding for parser loading and analysis.
+{% elif language == "elixir" %}
+- **BEAM package** — Rustler NIF binding for parser calls inside Elixir systems.
+{% elif language == "wasm" %}
+- **WASM package** — browser and edge-compatible parser bundle.
+{% elif language == "ffi" %}
+- **C ABI** — stable native surface for languages that bind through C.
+{% elif language == "kotlin_android" %}
+- **Android AAR** — JNI-backed package for mobile parser workloads.
+{% elif language == "swift" %}
+- **SwiftPM package** — swift-bridge API for Apple and Linux targets.
+{% elif language == "dart" %}
+- **Dart package** — flutter_rust_bridge Future APIs for Dart and Flutter.
+{% elif language == "zig" %}
+- **Zig package** — wrapper over the C FFI with explicit ownership.
+{% endif %}
+
 ## Installation
 
 {% include 'partials/installation.md' %}
