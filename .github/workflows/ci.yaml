@@ -705,7 +705,7 @@ jobs:
 
       - name: Run E2E tests
         shell: bash
-        working-directory: e2e/typescript
+        working-directory: e2e/node
         run: npx vitest run
 
   # ---------------------------------------------------------------------------
