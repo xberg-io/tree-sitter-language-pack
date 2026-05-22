@@ -25,32 +25,30 @@ package dev.kreuzberg.tslp.android
 /**
  * Severity level of a diagnostic produced during parsing.
  *
- * Used to classify parse errors, warnings, and informational messages
- * found in the syntax tree.
+ * Used to classify parse errors, warnings, and informational messages found in the syntax tree.
  */
 enum class DiagnosticSeverity {
-    @com.fasterxml.jackson.annotation.JsonProperty("Error")
-    ERROR,
-    @com.fasterxml.jackson.annotation.JsonProperty("Warning")
-    WARNING,
-    @com.fasterxml.jackson.annotation.JsonProperty("Info")
-    INFO;
+    @com.fasterxml.jackson.annotation.JsonProperty("Error") ERROR,
+    @com.fasterxml.jackson.annotation.JsonProperty("Warning") WARNING,
+    @com.fasterxml.jackson.annotation.JsonProperty("Info") INFO;
 
     @com.fasterxml.jackson.annotation.JsonValue
-    fun toWire(): String = when (this) {
-        ERROR -> "Error"
-        WARNING -> "Warning"
-        INFO -> "Info"
-    }
+    fun toWire(): String =
+        when (this) {
+            ERROR -> "Error"
+            WARNING -> "Warning"
+            INFO -> "Info"
+        }
 
     companion object {
         @com.fasterxml.jackson.annotation.JsonCreator
         @JvmStatic
-        fun fromWire(value: String): DiagnosticSeverity = when (value) {
-            "Error" -> ERROR
-            "Warning" -> WARNING
-            "Info" -> INFO
-            else -> throw IllegalArgumentException("Unknown DiagnosticSeverity value: $value")
-        }
+        fun fromWire(value: String): DiagnosticSeverity =
+            when (value) {
+                "Error" -> ERROR
+                "Warning" -> WARNING
+                "Info" -> INFO
+                else -> throw IllegalArgumentException("Unknown DiagnosticSeverity value: $value")
+            }
     }
 }

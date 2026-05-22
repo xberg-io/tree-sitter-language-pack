@@ -28,5 +28,5 @@ data class SymbolInfo(
     val kind: SymbolKind,
     val span: Span = Span(),
     val typeAnnotation: String? = null,
-    val doc: String? = null
+    val doc: String? = null,
 )
