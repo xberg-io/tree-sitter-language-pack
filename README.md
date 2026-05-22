@@ -2,7 +2,7 @@
 
 <div align="center" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0;">
   <a href="https://github.com/kreuzberg-dev/alef">
-    <img src="https://img.shields.io/badge/bindings%20by-alef%20%D7%90-007ec6" alt="Bindings by alef">
+    <img src="https://img.shields.io/badge/Bindings-alef%20%D7%90-007ec6" alt="Bindings">
   </a>
   <!-- Language Bindings -->
   <a href="https://crates.io/crates/tree-sitter-language-pack">
@@ -56,19 +56,19 @@
     <img src="https://img.shields.io/badge/License-MIT-007ec6" alt="License">
   </a>
   <a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
-    <img src="https://img.shields.io/badge/docs-kreuzberg.dev-007ec6" alt="Documentation">
+    <img src="https://img.shields.io/badge/Docs-tree--sitter--language--pack-007ec6" alt="Documentation">
   </a>
 </div>
 
 <div align="center" style="margin: 24px 0 0;">
   <a href="https://kreuzberg.dev">
-    <img width="3384" height="573" alt="tree-sitter-language-pack" src="https://github.com/user-attachments/assets/478a83da-237b-446b-b3a8-e564c13e00a8" />
+    <img alt="tree-sitter-language-pack" src="https://github.com/user-attachments/assets/478a83da-237b-446b-b3a8-e564c13e00a8" />
   </a>
 </div>
 
 <div align="center" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 28px 0 24px;">
   <a href="https://discord.gg/xt9WY3GnKR">
-    <img height="32" src="https://img.shields.io/badge/Discord-Join%20our%20community-007ec6?logo=discord&logoColor=white" alt="Join Discord">
+    <img height="22" src="https://img.shields.io/badge/Discord-Chat-007ec6?logo=discord&logoColor=white" alt="Join Discord">
   </a>
 </div>
 
@@ -76,7 +76,7 @@ A comprehensive collection of tree-sitter language parsers with polyglot binding
 
 ## Overview
 
-**tree-sitter-language-pack** bundles 306 tree-sitter language parsers into a single package with native bindings for multiple programming languages. Ship syntax analysis in your application without managing individual parser dependencies.
+**tree-sitter-language-pack** bundles 300+ tree-sitter language parsers into a single package with native bindings for multiple programming languages. Ship syntax analysis in your application without managing individual parser dependencies.
 
 ## Architecture
 
@@ -251,18 +251,18 @@ The `process()` function returns structured analysis including functions, classe
 
 ## Supported Languages
 
-This pack includes 306 languages. See the [full language list](docs/languages.md) for all supported grammars with extensions and repository links.
+This pack includes 300+ languages. See the [full language list](docs/languages.md) for all supported grammars with extensions and repository links.
 
 ## Package READMEs
 
-- [Rust](crates/ts-pack-core/README.md) -- Rust core library providing access to 306 tree-sitter parsers with on-demand download and caching support.
+- [Rust](crates/ts-pack-core/README.md) -- Rust core library providing access to 300+ tree-sitter parsers with on-demand download and caching support.
 - [Python](packages/python/README.md) -- Python bindings for tree-sitter-language-pack, providing access to 306 pre-compiled tree-sitter parsers with on-demand downloads.
 - [Node.js](crates/ts-pack-core-node/README.md) -- Node.js NAPI bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [Go](packages/go/README.md) -- Go bindings for tree-sitter-language-pack with on-demand parser caching.
 - [Java](packages/java/README.md) -- Java bindings for tree-sitter-language-pack with on-demand parser downloads (JDK 22+).
 - [Elixir](packages/elixir/README.md) -- Elixir bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [Ruby](packages/ruby/README.md) -- Ruby bindings for tree-sitter-language-pack with on-demand parser downloads.
-- [WebAssembly](crates/ts-pack-core-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 306 languages, use native bindings (Python, Node.js, etc.).
+- [WebAssembly](crates/ts-pack-core-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 300+ languages, use native bindings (Python, Node.js, etc.).
 - [PHP](packages/php/README.md) -- PHP extension via ext-php-rs with on-demand parser downloads.
 - [.NET (C#)](packages/csharp/README.md) -- .NET P/Invoke bindings with on-demand parser downloads.
 - [C/C++ (FFI)](crates/ts-pack-core-ffi/README.md) -- C-compatible FFI bindings for tree-sitter-language-pack. Use from any language with C interop.
@@ -276,7 +276,7 @@ Join our [Discord community](https://discord.gg/xt9WY3GnKR) for questions and di
 
 ## Part of Kreuzberg.dev
 
-- [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
+- [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
 - [Kreuzberg Cloud](https://github.com/kreuzberg-dev/kreuzberg-cloud) — managed extraction API with SDKs, dashboards, and observability.
 - [kreuzcrawl](https://github.com/kreuzberg-dev/kreuzcrawl) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://github.com/kreuzberg-dev/html-to-markdown) — fast, lossless HTML→Markdown engine.

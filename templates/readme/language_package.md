@@ -52,7 +52,7 @@
 
 ## Features
 
-- **306 languages** — pre-compiled tree-sitter grammars covering every major programming language and many minor ones.
+- **300+ languages** — pre-compiled tree-sitter grammars covering every major programming language and many minor ones.
 - **On-demand download + cache** — parsers fetched at first use; subsequent runs hit the local cache.
 - **Code intelligence** — extract functions, classes, imports, exports, symbols, docstrings, and diagnostics with one API.
 - **Syntax-aware chunking** — semantic chunks for RAG/LLM pipelines.
@@ -65,7 +65,7 @@
 
 ## Part of Kreuzberg.dev
 
-- [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
+- [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
 - [Kreuzberg Cloud](https://github.com/kreuzberg-dev/kreuzberg-cloud) — managed extraction API with SDKs, dashboards, and observability.
 - [kreuzcrawl](https://github.com/kreuzberg-dev/kreuzcrawl) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://github.com/kreuzberg-dev/html-to-markdown) — fast, lossless HTML→Markdown engine.
