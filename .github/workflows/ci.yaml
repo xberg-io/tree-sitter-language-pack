@@ -1319,6 +1319,9 @@ jobs:
         env:
           TSLP_BUILD: "1"
 
+      - name: Install alef
+        uses: kreuzberg-dev/actions/install-alef@v1
+
       - name: Generate Elixir E2E tests
         run: task elixir:e2e:generate
 
