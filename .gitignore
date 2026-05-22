@@ -66,6 +66,7 @@ test_apps/c/build/
 # E2E build artifacts
 e2e/c/build/
 e2e/c/test_*
+e2e/swift_e2e/.build/
 
 # IDE / OS
 .DS_store
