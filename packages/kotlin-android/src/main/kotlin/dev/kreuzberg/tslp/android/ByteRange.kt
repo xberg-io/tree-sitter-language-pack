@@ -26,5 +26,5 @@ data class ByteRange(
     /** Inclusive start byte offset. */
     val start: Long,
     /** Exclusive end byte offset. */
-    val end: Long
+    val end: Long,
 )

@@ -26,5 +26,5 @@ data class CommentInfo(
     val text: String = "",
     val kind: CommentKind = CommentKind.LINE,
     val span: Span,
-    val associatedNode: String? = null
+    val associatedNode: String? = null,
 )

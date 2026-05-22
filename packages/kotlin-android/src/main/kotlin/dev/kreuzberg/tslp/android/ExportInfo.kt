@@ -25,5 +25,5 @@ package dev.kreuzberg.tslp.android
 data class ExportInfo(
     val name: String = "",
     val kind: ExportKind = ExportKind.NAMED,
-    val span: Span
+    val span: Span,
 )

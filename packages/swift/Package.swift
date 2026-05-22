@@ -43,7 +43,11 @@ let package = Package(
         .linkedFramework("SystemConfiguration", .when(platforms: [.macOS])),
       ]
     ),
-    .target(name: "TreeSitterLanguagePack", dependencies: ["RustBridge"], path: "Sources/TreeSitterLanguagePack"),
-    .testTarget(name: "TreeSitterLanguagePackTests", dependencies: ["TreeSitterLanguagePack"], path: "Tests/TreeSitterLanguagePackTests"),
+    .target(
+      name: "TreeSitterLanguagePack", dependencies: ["RustBridge"],
+      path: "Sources/TreeSitterLanguagePack"),
+    .testTarget(
+      name: "TreeSitterLanguagePackTests", dependencies: ["TreeSitterLanguagePack"],
+      path: "Tests/TreeSitterLanguagePackTests"),
   ]
 )

@@ -26,5 +26,5 @@ data class Point(
     /** Zero-indexed row number. */
     val row: Long,
     /** Zero-indexed column number, in UTF-16 code units. */
-    val column: Long
+    val column: Long,
 )

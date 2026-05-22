@@ -30,5 +30,5 @@ data class FileMetrics(
     val totalBytes: Long = 0L,
     val nodeCount: Long = 0L,
     val errorCount: Long = 0L,
-    val maxDepth: Long = 0L
+    val maxDepth: Long = 0L,
 )

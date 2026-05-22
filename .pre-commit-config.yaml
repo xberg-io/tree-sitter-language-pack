@@ -3,7 +3,7 @@ default_install_hook_types:
   - commit-msg
 default_stages:
   - pre-commit
-exclude: ^e2e/|^test_apps/|vendor/|node_modules/|target/|parsers/|crates/.*/deps/|crates/.*/tmp/|_build/
+exclude: ^e2e/|^test_apps/|vendor/|node_modules/|target/|parsers/|crates/.*/deps/|crates/.*/tmp/|_build/|^docs/assets/
 repos:
   - repo: https://github.com/Goldziher/ai-rulez
     rev: v4.2.1
@@ -183,11 +183,6 @@ repos:
       - id: swiftlint
       - id: zig-fmt
       - id: zig-build-check
-  - repo: https://github.com/kreuzberg-dev/alef
-    rev: v0.17.18
-    hooks:
-      - id: alef-verify
-      - id: alef-sync-versions
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.12
     hooks:

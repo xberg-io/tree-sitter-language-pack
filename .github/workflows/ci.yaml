@@ -171,7 +171,7 @@ jobs:
           cache-dependency-path: packages/go/go.sum
 
       - name: Install golangci-lint
-        uses: golangci/golangci-lint-action@v9.2.0
+        uses: golangci/golangci-lint-action@v9.2.1
         with:
           install-only: true
 
@@ -188,7 +188,7 @@ jobs:
 
       # --- Ruby ---
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.308.0
+        uses: ruby/setup-ruby@v1.310.0
         with:
           ruby-version: "3.4"
           bundler-cache: true
@@ -1120,7 +1120,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.308.0
+        uses: ruby/setup-ruby@v1.310.0
         with:
           ruby-version: "3.4"
 

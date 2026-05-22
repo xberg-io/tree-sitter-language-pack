@@ -31,5 +31,5 @@ data class StructureItem(
     val decorators: List<String> = emptyList(),
     val docComment: String? = null,
     val signature: String? = null,
-    val bodySpan: Span? = null
+    val bodySpan: Span? = null,
 )

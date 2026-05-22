@@ -236,7 +236,7 @@ jobs:
 
       - name: Build and push multiplatform
         if: ${{ needs.prepare.outputs.dry_run != 'true' }}
-        uses: docker/build-push-action@v7.1.0
+        uses: docker/build-push-action@v7.2.0
         with:
           context: .
           file: docker/Dockerfile

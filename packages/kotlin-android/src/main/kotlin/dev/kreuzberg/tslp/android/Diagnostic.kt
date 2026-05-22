@@ -25,5 +25,5 @@ package dev.kreuzberg.tslp.android
 data class Diagnostic(
     val message: String = "",
     val severity: DiagnosticSeverity = DiagnosticSeverity.ERROR,
-    val span: Span
+    val span: Span,
 )

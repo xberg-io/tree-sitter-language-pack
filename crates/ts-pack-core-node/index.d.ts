@@ -3,7 +3,7 @@
 /** Manages downloading and caching of pre-built parser shared libraries. */
 export declare class DownloadManager {
   /** List languages that are already downloaded and cached. */
-  installedLanguages(): Array<string>
+  installedLanguages(): Array<string>;
   /**
    * Download the platform bundle and extract every library file it contains.
    *
@@ -14,15 +14,15 @@ export declare class DownloadManager {
    *
    * Returns the number of library files extracted (including those already cached).
    */
-  downloadAllBestEffort(): number
+  downloadAllBestEffort(): number;
   /** Remove all cached parser libraries. */
-  cleanCache(): void
+  cleanCache(): void;
   /** Create a new download manager for the given version. */
-  static new(version: string): DownloadManager
+  static new(version: string): DownloadManager;
   /** Create a download manager with a custom cache directory. */
-  static withCacheDir(version: string, cacheDir: string): DownloadManager
+  static withCacheDir(version: string, cacheDir: string): DownloadManager;
 }
-export type JsDownloadManager = DownloadManager
+export type JsDownloadManager = DownloadManager;
 
 /**
  * Thread-safe registry of tree-sitter language parsers.
@@ -41,21 +41,21 @@ export declare class LanguageRegistry {
    * Includes statically compiled languages, dynamically loadable languages
    * (if the `dynamic-loading` feature is enabled), and all configured aliases.
    */
-  availableLanguages(): Array<string>
+  availableLanguages(): Array<string>;
   /**
    * Check whether a language is available by name or alias.
    *
    * Returns `true` if the language can be loaded, either from the static
    * table or from a dynamic library on disk.
    */
-  hasLanguage(name: string): boolean
+  hasLanguage(name: string): boolean;
   /** Return the total number of available languages (including aliases). */
-  languageCount(): number
+  languageCount(): number;
   /** Parse source code and extract file intelligence based on config in a single pass. */
-  process(source: string, config: ProcessConfig): ProcessResult
-  static default(): LanguageRegistry
+  process(source: string, config: ProcessConfig): ProcessResult;
+  static default(): LanguageRegistry;
 }
-export type JsLanguageRegistry = LanguageRegistry
+export type JsLanguageRegistry = LanguageRegistry;
 
 /**
  * A single syntax node within a `Tree`.
@@ -64,9 +64,9 @@ export type JsLanguageRegistry = LanguageRegistry
  * regardless of how the tree is moved or stored at the FFI boundary.
  */
 export declare class Node {
-  clone(): Node
+  clone(): Node;
   /** Return the node's kind name (e.g. `"function_definition"`). */
-  kind(): string
+  kind(): string;
   /**
    * Return the node's numeric kind ID.
    *
@@ -74,50 +74,50 @@ export declare class Node {
    * (e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
    * than comparing the string `kind()`(Self.kind) in tight AST loops.
    */
-  kindId(): number
+  kindId(): number;
   /** Return the inclusive start byte offset of this node. */
-  startByte(): number
+  startByte(): number;
   /** Return the exclusive end byte offset of this node. */
-  endByte(): number
+  endByte(): number;
   /**
    * Return the node's byte range as a `ByteRange`.
    *
    * Callers should slice their own source bytes — this is a zero-copy
    * text accessor.
    */
-  byteRange(): ByteRange
+  byteRange(): ByteRange;
   /** Return the start `Point` (row, column). */
-  startPosition(): Point
+  startPosition(): Point;
   /** Return the end `Point` (row, column). */
-  endPosition(): Point
+  endPosition(): Point;
   /** True when this node is named (not punctuation/whitespace). */
-  isNamed(): boolean
+  isNamed(): boolean;
   /** True when this is an error node. */
-  isError(): boolean
+  isError(): boolean;
   /** True when this is a missing-token node. */
-  isMissing(): boolean
+  isMissing(): boolean;
   /** True when this is an "extra" node (e.g. a comment). */
-  isExtra(): boolean
+  isExtra(): boolean;
   /** True when this node or any descendant is an error. */
-  hasError(): boolean
+  hasError(): boolean;
   /** Return this node's parent, if any. */
-  parent(): Node | null
+  parent(): Node | null;
   /** Return the i-th child of this node, if any. */
-  child(index: number): Node | null
+  child(index: number): Node | null;
   /** Total number of children (including unnamed). */
-  childCount(): number
+  childCount(): number;
   /** Return the i-th named child of this node, if any. */
-  namedChild(index: number): Node | null
+  namedChild(index: number): Node | null;
   /** Number of named children of this node. */
-  namedChildCount(): number
+  namedChildCount(): number;
   /** Look up a child by its grammar-defined field name. */
-  childByFieldName(name: string): Node | null
+  childByFieldName(name: string): Node | null;
   /** Return the S-expression form of this node's subtree. */
-  toSexp(): string
+  toSexp(): string;
   /** Return a `TreeCursor` positioned at this node. */
-  walk(): JsTreeCursor
+  walk(): JsTreeCursor;
 }
-export type JsNode = Node
+export type JsNode = Node;
 
 /**
  * A tree-sitter parser configured for one language at a time.
@@ -136,58 +136,58 @@ export declare class Parser {
    * Returns `Error.LanguageNotFound` if the language is not recognized,
    * or `Error.ParserSetup` if the language ABI is incompatible.
    */
-  setLanguage(name: string): void
+  setLanguage(name: string): void;
   /**
    * Parse a UTF-8 source string. Returns `None` if parsing was cancelled
    * or no language is set.
    */
-  parse(source: string): JsTree | null
+  parse(source: string): JsTree | null;
   /**
    * Parse a raw byte slice. Returns `None` if parsing was cancelled or
    * no language is set.
    */
-  parseBytes(source: Buffer): JsTree | null
+  parseBytes(source: Buffer): JsTree | null;
   /**
    * Reset internal state. The next call to `parse`(Self.parse) will
    * not be incremental.
    */
-  reset(): void
-  static default(): Parser
+  reset(): void;
+  static default(): Parser;
 }
-export type JsParser = Parser
+export type JsParser = Parser;
 
 /** A parsed syntax tree. Cheap to clone (refcount bump). */
 export declare class Tree {
   /** Return the root `Node` of this tree. */
-  rootNode(): JsNode
+  rootNode(): JsNode;
   /** Return a `TreeCursor` positioned at the root. */
-  walk(): JsTreeCursor
+  walk(): JsTreeCursor;
 }
-export type JsTree = Tree
+export type JsTree = Tree;
 
 /** A cursor for traversing a `Tree`. */
 export declare class TreeCursor {
   /** Return the `Node` at the cursor's current position. */
-  node(): Node
+  node(): Node;
   /**
    * Move the cursor to the first child of the current node.
    * Returns `true` if a child existed.
    */
-  gotoFirstChild(): boolean
+  gotoFirstChild(): boolean;
   /**
    * Move the cursor to the parent of the current node.
    * Returns `true` if a parent existed.
    */
-  gotoParent(): boolean
+  gotoParent(): boolean;
   /**
    * Move the cursor to the next sibling of the current node.
    * Returns `true` if a sibling existed.
    */
-  gotoNextSibling(): boolean
+  gotoNextSibling(): boolean;
   /** Return the field name for the current node, if any. */
-  fieldName(): string | null
+  fieldName(): string | null;
 }
-export type JsTreeCursor = TreeCursor
+export type JsTreeCursor = TreeCursor;
 
 /**
  * List all available language names (sorted, deduplicated, includes aliases).
@@ -197,14 +197,14 @@ export type JsTreeCursor = TreeCursor
  *
  * # Example
  */
-export declare function availableLanguages(): Array<string>
+export declare function availableLanguages(): Array<string>;
 
 /** A byte range — start (inclusive) to end (exclusive). */
 export interface ByteRange {
   /** Inclusive start byte offset. */
-  start: number
+  start: number;
   /** Exclusive end byte offset. */
-  end: number
+  end: number;
 }
 
 /**
@@ -219,19 +219,19 @@ export interface ByteRange {
  *
  * # Example
  */
-export declare function cacheDir(): string
+export declare function cacheDir(): string;
 
 /** Metadata for a single chunk of source code. */
 export interface ChunkContext {
-  language?: string
-  chunkIndex?: number
-  totalChunks?: number
-  nodeTypes?: Array<string>
-  contextPath?: Array<string>
-  symbolsDefined?: Array<string>
-  comments?: Array<CommentInfo>
-  docstrings?: Array<DocstringInfo>
-  hasErrorNodes?: boolean
+  language?: string;
+  chunkIndex?: number;
+  totalChunks?: number;
+  nodeTypes?: Array<string>;
+  contextPath?: Array<string>;
+  symbolsDefined?: Array<string>;
+  comments?: Array<CommentInfo>;
+  docstrings?: Array<DocstringInfo>;
+  hasErrorNodes?: boolean;
 }
 
 /**
@@ -246,24 +246,24 @@ export interface ChunkContext {
  *
  * # Example
  */
-export declare function cleanCache(): void
+export declare function cleanCache(): void;
 
 /** A chunk of source code with rich metadata. */
 export interface CodeChunk {
-  content?: string
-  startByte?: number
-  endByte?: number
-  startLine?: number
-  endLine?: number
-  metadata?: JsChunkContext
+  content?: string;
+  startByte?: number;
+  endByte?: number;
+  startLine?: number;
+  endLine?: number;
+  metadata?: JsChunkContext;
 }
 
 /** A comment extracted from source code. */
 export interface CommentInfo {
-  text?: string
-  kind?: JsCommentKind
-  span?: Span
-  associatedNode?: string
+  text?: string;
+  kind?: JsCommentKind;
+  span?: Span;
+  associatedNode?: string;
 }
 
 /**
@@ -273,9 +273,9 @@ export interface CommentInfo {
  * and documentation comments.
  */
 export declare const enum CommentKind {
-  Line = 'Line',
-  Block = 'Block',
-  Doc = 'Doc'
+  Line = "Line",
+  Block = "Block",
+  Doc = "Doc",
 }
 
 /**
@@ -292,14 +292,14 @@ export declare const enum CommentKind {
  *
  * # Example
  */
-export declare function configure(config?: PackConfig | undefined | null): void
+export declare function configure(config?: PackConfig | undefined | null): void;
 
 /**
  * Detect language name from a file path or extension.
  *
  * This compatibility alias matches the pre-Alef Python binding API.
  */
-export declare function detectLanguage(path: string): string | null
+export declare function detectLanguage(path: string): string | null;
 
 /**
  * Detect language name from file content using the shebang line (`#!`).
@@ -318,14 +318,14 @@ export declare function detectLanguage(path: string): string | null
  * Returns `None` when content does not start with `#!`, the shebang is
  * malformed, or the interpreter is not recognised.
  */
-export declare function detectLanguageFromContent(content: string): string | null
+export declare function detectLanguageFromContent(content: string): string | null;
 
 /**
  * Detect language name from a file extension (without leading dot).
  *
  * Returns `None` for unrecognized extensions. The match is case-insensitive.
  */
-export declare function detectLanguageFromExtension(ext: string): string | null
+export declare function detectLanguageFromExtension(ext: string): string | null;
 
 /**
  * Detect language name from a file path.
@@ -333,13 +333,13 @@ export declare function detectLanguageFromExtension(ext: string): string | null
  * Extracts the file extension and looks it up. Returns `None` if the
  * path has no extension or the extension is not recognized.
  */
-export declare function detectLanguageFromPath(path: string): string | null
+export declare function detectLanguageFromPath(path: string): string | null;
 
 /** A diagnostic (syntax error, missing node, etc.) from parsing. */
 export interface Diagnostic {
-  message?: string
-  severity?: JsDiagnosticSeverity
-  span?: Span
+  message?: string;
+  severity?: JsDiagnosticSeverity;
+  span?: Span;
 }
 
 /**
@@ -349,16 +349,16 @@ export interface Diagnostic {
  * found in the syntax tree.
  */
 export declare const enum DiagnosticSeverity {
-  Error = 'Error',
-  Warning = 'Warning',
-  Info = 'Info'
+  Error = "Error",
+  Warning = "Warning",
+  Info = "Info",
 }
 
 /** A section within a docstring (e.g., Args, Returns, Raises). */
 export interface DocSection {
-  kind?: string
-  name?: string
-  description?: string
+  kind?: string;
+  name?: string;
+  description?: string;
 }
 
 /**
@@ -368,21 +368,21 @@ export interface DocSection {
  * (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
  */
 export declare const enum DocstringFormat {
-  PythonTripleQuote = 'PythonTripleQuote',
-  JSDoc = 'JSDoc',
-  Rustdoc = 'Rustdoc',
-  GoDoc = 'GoDoc',
-  JavaDoc = 'JavaDoc',
-  Other = 'Other'
+  PythonTripleQuote = "PythonTripleQuote",
+  JSDoc = "JSDoc",
+  Rustdoc = "Rustdoc",
+  GoDoc = "GoDoc",
+  JavaDoc = "JavaDoc",
+  Other = "Other",
 }
 
 /** A docstring extracted from source code. */
 export interface DocstringInfo {
-  text?: string
-  format?: JsDocstringFormat
-  span?: Span
-  associatedItem?: string
-  parsedSections?: Array<JsDocSection>
+  text?: string;
+  format?: JsDocstringFormat;
+  span?: Span;
+  associatedItem?: string;
+  parsedSections?: Array<JsDocSection>;
 }
 
 /**
@@ -398,7 +398,7 @@ export interface DocstringInfo {
  *
  * # Example
  */
-export declare function download(names: Array<string>): number
+export declare function download(names: Array<string>): number;
 
 /**
  * Download all available languages from the remote manifest.
@@ -417,7 +417,7 @@ export declare function download(names: Array<string>): number
  *
  * # Example
  */
-export declare function downloadAll(): number
+export declare function downloadAll(): number;
 
 /**
  * Return languages that are already downloaded and cached locally.
@@ -427,7 +427,7 @@ export declare function downloadAll(): number
  *
  * # Example
  */
-export declare function downloadedLanguages(): Array<string>
+export declare function downloadedLanguages(): Array<string>;
 
 /**
  * Download every language in a named group (e.g. `"web"`, `"data"`).
@@ -446,13 +446,13 @@ export declare function downloadedLanguages(): Array<string>
  *
  * # Example
  */
-export declare function downloadGroup(name: string): number
+export declare function downloadGroup(name: string): number;
 
 /** An export statement extracted from source code. */
 export interface ExportInfo {
-  name?: string
-  kind?: JsExportKind
-  span?: Span
+  name?: string;
+  kind?: JsExportKind;
+  span?: Span;
 }
 
 /**
@@ -461,21 +461,21 @@ export interface ExportInfo {
  * Covers named exports, default exports, and re-exports from other modules.
  */
 export declare const enum ExportKind {
-  Named = 'Named',
-  Default = 'Default',
-  ReExport = 'ReExport'
+  Named = "Named",
+  Default = "Default",
+  ReExport = "ReExport",
 }
 
 /** Aggregate metrics for a source file. */
 export interface FileMetrics {
-  totalLines?: number
-  codeLines?: number
-  commentLines?: number
-  blankLines?: number
-  totalBytes?: number
-  nodeCount?: number
-  errorCount?: number
-  maxDepth?: number
+  totalLines?: number;
+  codeLines?: number;
+  commentLines?: number;
+  blankLines?: number;
+  totalBytes?: number;
+  nodeCount?: number;
+  errorCount?: number;
+  maxDepth?: number;
 }
 
 /**
@@ -486,7 +486,7 @@ export interface FileMetrics {
  *
  * # Example
  */
-export declare function getHighlightsQuery(language: string): string | null
+export declare function getHighlightsQuery(language: string): string | null;
 
 /**
  * Get the injections query for a language, if bundled.
@@ -496,9 +496,9 @@ export declare function getHighlightsQuery(language: string): string | null
  *
  * # Example
  */
-export declare function getInjectionsQuery(language: string): string | null
+export declare function getInjectionsQuery(language: string): string | null;
 
-export declare function getLanguage(name: string): object
+export declare function getLanguage(name: string): object;
 
 /**
  * Get the locals query for a language, if bundled.
@@ -508,7 +508,7 @@ export declare function getLanguage(name: string): object
  *
  * # Example
  */
-export declare function getLocalsQuery(language: string): string | null
+export declare function getLocalsQuery(language: string): string | null;
 
 /**
  * Get a `Parser` pre-configured for the given language.
@@ -523,7 +523,7 @@ export declare function getLocalsQuery(language: string): string | null
  *
  * # Example
  */
-export declare function getParser(name: string): Parser
+export declare function getParser(name: string): Parser;
 
 /**
  * Check if a language is available by name or alias.
@@ -533,15 +533,15 @@ export declare function getParser(name: string): Parser
  *
  * # Example
  */
-export declare function hasLanguage(name: string): boolean
+export declare function hasLanguage(name: string): boolean;
 
 /** An import statement extracted from source code. */
 export interface ImportInfo {
-  source?: string
-  items?: Array<string>
-  alias?: string
-  isWildcard?: boolean
-  span?: Span
+  source?: string;
+  items?: Array<string>;
+  alias?: string;
+  isWildcard?: boolean;
+  span?: Span;
 }
 
 /**
@@ -557,7 +557,7 @@ export interface ImportInfo {
  *
  * # Example
  */
-export declare function init(config?: PackConfig | undefined | null): void
+export declare function init(config?: PackConfig | undefined | null): void;
 
 /**
  * Return the number of available languages.
@@ -567,7 +567,7 @@ export declare function init(config?: PackConfig | undefined | null): void
  *
  * # Example
  */
-export declare function languageCount(): number
+export declare function languageCount(): number;
 
 /**
  * Return all language names available in the remote manifest (305).
@@ -582,7 +582,7 @@ export declare function languageCount(): number
  *
  * # Example
  */
-export declare function manifestLanguages(): Array<string>
+export declare function manifestLanguages(): Array<string>;
 
 /**
  * Configuration for the tree-sitter language pack.
@@ -599,23 +599,23 @@ export interface PackConfig {
    *
    * Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
    */
-  cacheDir?: string
+  cacheDir?: string;
   /**
    * Languages to pre-download on init.
    *
    * Each entry is a language name (e.g. `"python"`, `"rust"`).
    */
-  languages?: Array<string>
+  languages?: Array<string>;
   /** Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). */
-  groups?: Array<string>
+  groups?: Array<string>;
 }
 
 /** A source position — row + column, zero-indexed. */
 export interface Point {
   /** Zero-indexed row number. */
-  row: number
+  row: number;
   /** Zero-indexed column number, in UTF-16 code units. */
-  column: number
+  column: number;
 }
 
 /**
@@ -631,7 +631,10 @@ export interface Point {
  *
  * # Example
  */
-export declare function process(source: string, config?: ProcessConfig | undefined | null): ProcessResult
+export declare function process(
+  source: string,
+  config?: ProcessConfig | undefined | null,
+): ProcessResult;
 
 /**
  * Configuration for the `process()` function.
@@ -642,35 +645,38 @@ export declare function process(source: string, config?: ProcessConfig | undefin
  */
 export interface ProcessConfig {
   /** Language name (required). */
-  language?: string
+  language?: string;
   /** Extract structural items (functions, classes, etc.). Default: true. */
-  structure?: boolean
+  structure?: boolean;
   /** Extract import statements. Default: true. */
-  imports?: boolean
+  imports?: boolean;
   /** Extract export statements. Default: true. */
-  exports?: boolean
+  exports?: boolean;
   /** Extract comments. Default: false. */
-  comments?: boolean
+  comments?: boolean;
   /** Extract docstrings. Default: false. */
-  docstrings?: boolean
+  docstrings?: boolean;
   /** Extract symbol definitions. Default: false. */
-  symbols?: boolean
+  symbols?: boolean;
   /** Include parse diagnostics. Default: false. */
-  diagnostics?: boolean
+  diagnostics?: boolean;
   /** Maximum chunk size in bytes. `None` disables chunking. */
-  chunkMaxSize?: number
+  chunkMaxSize?: number;
 }
 
 /** Enable all analysis features. */
-export declare function processConfigAll(cfg: ProcessConfig): ProcessConfig
+export declare function processConfigAll(cfg: ProcessConfig): ProcessConfig;
 
-export declare function processConfigDefault(): ProcessConfig
+export declare function processConfigDefault(): ProcessConfig;
 
 /** Disable all analysis features (only metrics computed). */
-export declare function processConfigMinimal(cfg: ProcessConfig): ProcessConfig
+export declare function processConfigMinimal(cfg: ProcessConfig): ProcessConfig;
 
 /** Enable chunking with the given maximum chunk size in bytes. */
-export declare function processConfigWithChunking(cfg: ProcessConfig, maxSize: number): ProcessConfig
+export declare function processConfigWithChunking(
+  cfg: ProcessConfig,
+  maxSize: number,
+): ProcessConfig;
 
 /**
  * Complete analysis result from processing a source file.
@@ -693,16 +699,16 @@ export declare function processConfigWithChunking(cfg: ProcessConfig, maxSize: n
  * - `chunks` - Chunked code segments (when `config.chunk_max_size` is set)
  */
 export interface ProcessResult {
-  language?: string
-  metrics?: JsFileMetrics
-  structure?: Array<JsStructureItem>
-  imports?: Array<JsImportInfo>
-  exports?: Array<JsExportInfo>
-  comments?: Array<JsCommentInfo>
-  docstrings?: Array<JsDocstringInfo>
-  symbols?: Array<JsSymbolInfo>
-  diagnostics?: Array<JsDiagnostic>
-  chunks?: Array<JsCodeChunk>
+  language?: string;
+  metrics?: JsFileMetrics;
+  structure?: Array<JsStructureItem>;
+  imports?: Array<JsImportInfo>;
+  exports?: Array<JsExportInfo>;
+  comments?: Array<JsCommentInfo>;
+  docstrings?: Array<JsDocstringInfo>;
+  symbols?: Array<JsSymbolInfo>;
+  diagnostics?: Array<JsDiagnostic>;
+  chunks?: Array<JsCodeChunk>;
 }
 
 /**
@@ -712,25 +718,25 @@ export interface ProcessResult {
  * positions (for display and diagnostics).
  */
 export interface Span {
-  startByte?: number
-  endByte?: number
-  startLine?: number
-  startColumn?: number
-  endLine?: number
-  endColumn?: number
+  startByte?: number;
+  endByte?: number;
+  startLine?: number;
+  startColumn?: number;
+  endLine?: number;
+  endColumn?: number;
 }
 
 /** A structural item (function, class, struct, etc.) in source code. */
 export interface StructureItem {
-  kind?: JsStructureKind
-  name?: string
-  visibility?: string
-  span?: Span
-  children?: Array<StructureItem>
-  decorators?: Array<string>
-  docComment?: string
-  signature?: string
-  bodySpan?: Span
+  kind?: JsStructureKind;
+  name?: string;
+  visibility?: string;
+  span?: Span;
+  children?: Array<StructureItem>;
+  decorators?: Array<string>;
+  docComment?: string;
+  signature?: string;
+  bodySpan?: Span;
 }
 
 /**
@@ -741,26 +747,26 @@ export interface StructureItem {
  * language-specific constructs that do not fit a standard category.
  */
 export declare const enum StructureKind {
-  Function = 'Function',
-  Method = 'Method',
-  Class = 'Class',
-  Struct = 'Struct',
-  Interface = 'Interface',
-  Enum = 'Enum',
-  Module = 'Module',
-  Trait = 'Trait',
-  Impl = 'Impl',
-  Namespace = 'Namespace',
-  Other = 'Other'
+  Function = "Function",
+  Method = "Method",
+  Class = "Class",
+  Struct = "Struct",
+  Interface = "Interface",
+  Enum = "Enum",
+  Module = "Module",
+  Trait = "Trait",
+  Impl = "Impl",
+  Namespace = "Namespace",
+  Other = "Other",
 }
 
 /** A symbol (variable, function, type, etc.) extracted from source code. */
 export interface SymbolInfo {
-  name?: string
-  kind?: JsSymbolKind
-  span?: Span
-  typeAnnotation?: string
-  doc?: string
+  name?: string;
+  kind?: JsSymbolKind;
+  span?: Span;
+  typeAnnotation?: string;
+  doc?: string;
 }
 
 /**
@@ -770,13 +776,13 @@ export interface SymbolInfo {
  * classes, types, interfaces, enums, and modules.
  */
 export declare const enum SymbolKind {
-  Variable = 'Variable',
-  Constant = 'Constant',
-  Function = 'Function',
-  Class = 'Class',
-  Type = 'Type',
-  Interface = 'Interface',
-  Enum = 'Enum',
-  Module = 'Module',
-  Other = 'Other'
+  Variable = "Variable",
+  Constant = "Constant",
+  Function = "Function",
+  Class = "Class",
+  Type = "Type",
+  Interface = "Interface",
+  Enum = "Enum",
+  Module = "Module",
+  Other = "Other",
 }

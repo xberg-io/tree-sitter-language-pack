@@ -28,5 +28,5 @@ data class CodeChunk(
     val endByte: Long = 0L,
     val startLine: Long = 0L,
     val endLine: Long = 0L,
-    val metadata: ChunkContext
+    val metadata: ChunkContext,
 )
