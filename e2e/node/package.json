@@ -9,6 +9,6 @@
   "devDependencies": {
     "@kreuzberg/tree-sitter-language-pack": "workspace:*",
     "tree-sitter": "^0.25.0",
-    "vitest": "^3.0.0"
+    "vitest": "^4.1.5"
   }
 }

@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@kreuzberg/tree-sitter-language-pack": "1.8.1",
-    "vitest": "^3.0.0"
+    "tree-sitter": "^0.25.0",
+    "vitest": "^4.1.5"
   }
 }
