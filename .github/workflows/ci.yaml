@@ -1367,6 +1367,9 @@ jobs:
       - name: Install Task
         uses: kreuzberg-dev/actions/install-task@v1
 
+      - name: Install alef
+        uses: kreuzberg-dev/actions/install-alef@v1
+
       - name: Generate C E2E tests
         run: task c:e2e:generate
 
