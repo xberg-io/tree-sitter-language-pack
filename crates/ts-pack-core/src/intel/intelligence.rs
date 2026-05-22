@@ -288,7 +288,8 @@ fn collect_structure(node: &tree_sitter::Node, source: &str, language: &str, ite
         "function_definition" | "function_declaration" | "function_item" | "arrow_function" => {
             Some(StructureKind::Function)
         }
-        "method_definition" | "method_declaration" | "method" | "singleton_method" => Some(StructureKind::Method),
+        "method_definition" | "method_declaration" => Some(StructureKind::Method),
+        "method" | "singleton_method" if language == "ruby" => Some(StructureKind::Method),
         "class_definition" | "class_declaration" | "class" => Some(StructureKind::Class),
         "struct_item" | "struct_definition" | "struct_declaration" => Some(StructureKind::Struct),
         "interface_declaration" | "interface_definition" => Some(StructureKind::Interface),
