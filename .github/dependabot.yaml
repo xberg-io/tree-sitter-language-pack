@@ -33,7 +33,7 @@ updates:
     multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "bundler"
-    directory: "/crates/ts-pack-ruby"
+    directory: "/packages/ruby"
     patterns: ["*"]
     multi-ecosystem-group: "dependencies"
 
@@ -50,7 +50,7 @@ updates:
     multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "maven"
-    directory: "/crates/ts-pack-java"
+    directory: "/packages/java"
     patterns: ["*"]
     multi-ecosystem-group: "dependencies"
 
@@ -60,6 +60,6 @@ updates:
     multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "mix"
-    directory: "/crates/ts-pack-elixir"
+    directory: "/packages/elixir"
     patterns: ["*"]
     multi-ecosystem-group: "dependencies"
