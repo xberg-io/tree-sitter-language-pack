@@ -2550,7 +2550,10 @@ pub fn process(source: String, config: JsValue) -> Result<WasmProcessResult, JsV
     let config_core: tree_sitter_language_pack::ProcessConfig = if config.is_undefined() {
         tree_sitter_language_pack::ProcessConfig::default()
     } else {
-        serde_wasm_bindgen::from_value::<tree_sitter_language_pack::ProcessConfig>(config)
+        let value = serde_wasm_bindgen::from_value::<serde_json::Value>(config)
+            .map_err(|e| JsValue::from_str(&e.to_string()))?;
+        let value = tree_sitter_language_pack::json_utils::camel_to_snake(value);
+        serde_json::from_value::<tree_sitter_language_pack::ProcessConfig>(value)
             .map_err(|e| JsValue::from_str(&e.to_string()))?
     };
     let result =

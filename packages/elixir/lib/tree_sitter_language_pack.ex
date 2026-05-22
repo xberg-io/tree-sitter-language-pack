@@ -155,10 +155,18 @@ defmodule TreeSitterLanguagePack do
     TreeSitterLanguagePack.Native.clean_cache()
   end
 
+  def clean_cache(_unused, _unused_opts) do
+    clean_cache()
+  end
+
   @doc "Return the effective cache directory path."
   @spec cache_dir() :: {:ok, String.t()} | {:error, atom, String.t()}
   def cache_dir do
     TreeSitterLanguagePack.Native.cache_dir()
+  end
+
+  def cache_dir(_unused, _unused_opts) do
+    cache_dir()
   end
 
   @doc "Configure the parser to use the language identified by name (e.g. `\"python\"`)."

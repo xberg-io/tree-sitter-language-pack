@@ -44,7 +44,8 @@ pub mod error;
 pub(crate) mod extensions;
 pub(crate) mod intel;
 #[cfg(feature = "serde")]
-pub(crate) mod json_utils;
+#[doc(hidden)]
+pub mod json_utils;
 pub mod pack_config;
 pub(crate) mod parse;
 pub mod parsing;
