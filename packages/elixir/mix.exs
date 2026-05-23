@@ -18,7 +18,7 @@ defmodule TreeSitterLanguagePack.MixProject do
     [
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/kreuzberg-dev/tree-sitter-language-pack"},
-      files: ~w(lib native .formatter.exs mix.exs README* checksum-*.exs)
+      files: ~w(.formatter.exs mix.exs README* native)
     ]
   end
 

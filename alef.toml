@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.17.36"
+alef_version = "0.18.0"
 languages = [
   "python",
   "node",
@@ -134,6 +134,7 @@ Language = "tree_sitter.Language"
 
 [crates.node]
 package_name = "@kreuzberg/tree-sitter-language-pack"
+crate_dir = "crates/ts-pack-core-node"
 
 [crates.node.capsule_types.Language]
 type = "Language"
@@ -155,6 +156,7 @@ cargo_crate_name = "ts-pack-core-php"
 app_name = "tree_sitter_language_pack"
 
 [crates.wasm]
+crate_dir = "crates/ts-pack-core-wasm"
 # C-stdlib symbols imported by tree-sitter external scanners under wasm32.
 # `wasm-objdump -j Import` on the bundle shows these 10 are pulled in by the
 # curated grammar set; alef emits Rust shims for each.
@@ -434,7 +436,7 @@ e2e = "cd e2e/python && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg uv ru
 
 [crates.test.node]
 precondition = "command -v node >/dev/null 2>&1 && command -v pnpm >/dev/null 2>&1 && command -v napi >/dev/null 2>&1"
-before = "cd crates/ts-pack-core-node && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg napi build --release"
+before = "cd crates/ts-pack-core-node && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg napi build --platform --release"
 command = "cd crates/ts-pack-core-node && node -e \"const m = require('./'); console.log('OK:', m.availableLanguages().length)\""
 e2e = "cd e2e/node && pnpm install && node ./node_modules/vitest/vitest.mjs run --fileParallelism=false"
 
@@ -484,7 +486,7 @@ e2e = "cd e2e/rust && cargo test -- --test-threads=1"
 
 [crates.test.c]
 precondition = "command -v make >/dev/null 2>&1"
-e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release ./test_runner"
+e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release ./run_tests"
 
 [crates.test.kotlin_android]
 # Android-only AAR — no JVM JAR to run `gradle test` against. E2E excluded
@@ -511,8 +513,8 @@ e2e = "cd e2e/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LI
 [crates.test.zig]
 precondition = "command -v zig >/dev/null 2>&1"
 before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
-command = "cd packages/zig && zig build test"
-e2e = "cd e2e/zig && zig build test"
+command = "cd packages/zig && zig build test -Dffi_path=../../target/release"
+e2e = "cd e2e/zig && zig build test -Dffi_path=../../target/release"
 
 [crates.setup.node]
 precondition = "command -v pnpm >/dev/null 2>&1"
@@ -540,6 +542,40 @@ cmake_config = true
 fixtures = "fixtures"
 output = "e2e"
 fields_array = ["chunks", "imports", "structure"]
+
+# `ProcessResult.metrics` is a nested `FileMetrics` struct. Listing
+# `result_fields` enables alef's namespace-aware field navigator so dotted
+# paths like `metrics.total_lines` are correctly walked into the nested
+# struct accessor rather than collapsed to a non-existent flat accessor on
+# `ProcessResult`. The C e2e backend additionally needs `fields_c_types` to
+# know:
+#   - the intermediate type (`process_result.metrics → FileMetrics`) so it
+#     can call `ts_pack_file_metrics_*` accessors, not `ts_pack_metrics_*`
+#   - the leaf C type (`file_metrics.<field> → uintptr_t`) so it emits
+#     `uintptr_t lines = ...(metrics_handle);` instead of `char* lines = ...`.
+result_fields = [
+  "language",
+  "metrics",
+  "structure",
+  "imports",
+  "exports",
+  "comments",
+  "docstrings",
+  "symbols",
+  "diagnostics",
+  "chunks",
+]
+
+[crates.e2e.fields_c_types]
+"process_result.metrics" = "FileMetrics"
+"file_metrics.total_lines" = "uintptr_t"
+"file_metrics.code_lines" = "uintptr_t"
+"file_metrics.comment_lines" = "uintptr_t"
+"file_metrics.blank_lines" = "uintptr_t"
+"file_metrics.total_bytes" = "uintptr_t"
+"file_metrics.node_count" = "uintptr_t"
+"file_metrics.error_count" = "uintptr_t"
+"file_metrics.max_depth" = "uintptr_t"
 
 # `e2e/node/tests/capsule_passthrough.test.ts` imports the upstream
 # `tree-sitter` npm package to verify FFI capsule type-tag passthrough between

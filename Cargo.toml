@@ -1,16 +1,16 @@
 [workspace]
 members = ["crates/*", "packages/dart/rust", "packages/swift/rust"]
 exclude = [
-    "crates/tree-sitter-language-pack-ffi",
-    "crates/tree-sitter-language-pack-wasm",
-    "crates/ts-pack-elixir",
-    "crates/ts-pack-java",
-    "crates/ts-pack-node",
-    "crates/ts-pack-php",
-    "e2e/rust",
-    "packages/elixir/native/tree_sitter_language_pack_nif",
-    "packages/ruby/ext/ts_pack_core_rb/native",
-    "test_apps/rust",
+  "crates/tree-sitter-language-pack-ffi",
+  "crates/tree-sitter-language-pack-wasm",
+  "crates/ts-pack-elixir",
+  "crates/ts-pack-java",
+  "crates/ts-pack-node",
+  "crates/ts-pack-php",
+  "e2e/rust",
+  "packages/elixir/native/tree_sitter_language_pack_nif",
+  "packages/ruby/ext/ts_pack_core_rb/native",
+  "test_apps/rust",
 ]
 resolver = "2"
 
@@ -26,9 +26,9 @@ keywords = ["tree-sitter", "parser", "syntax", "language-pack", "kreuzberg"]
 
 [workspace.dependencies]
 ahash = { version = "0.8", default-features = false, features = [
-    "std",
-    "compile-time-rng",
-    "serde",
+  "std",
+  "compile-time-rng",
+  "serde",
 ] }
 cbindgen = "0.29"
 cc = "1"
