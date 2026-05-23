@@ -137,11 +137,9 @@ Pre-compiled tree-sitter grammars for 305 programming languages with Ruby bindin
 
 ## Installation
 
-
 ```bash
 gem install tree_sitter_language_pack
 ```
-
 
 ## Quick Start
 

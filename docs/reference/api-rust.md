@@ -2,7 +2,7 @@
 title: "Rust API Reference"
 ---
 
-## Rust API Reference <span class="version-badge">v1.9.0-rc.1</span>
+## Rust API Reference <span class="version-badge">v1.9.0-rc.2</span>
 
 ### Functions
 
@@ -560,19 +560,16 @@ pub fn cache_dir() -> Result<String, Error>
 
 A byte range — start (inclusive) to end (exclusive).
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `start` | `usize` | — | Inclusive start byte offset. |
 | `end` | `usize` | — | Exclusive end byte offset. |
-
 
 ---
 
 #### ChunkContext
 
 Metadata for a single chunk of source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -586,13 +583,11 @@ Metadata for a single chunk of source code.
 | `docstrings` | `Vec<DocstringInfo>` | `vec![]` | Docstrings |
 | `has_error_nodes` | `bool` | — | Whether error nodes |
 
-
 ---
 
 #### CodeChunk
 
 A chunk of source code with rich metadata.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -603,13 +598,11 @@ A chunk of source code with rich metadata.
 | `end_line` | `usize` | — | End line |
 | `metadata` | `ChunkContext` | — | Document metadata |
 
-
 ---
 
 #### CommentInfo
 
 A comment extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -618,13 +611,11 @@ A comment extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `associated_node` | `Option<String>` | `Default::default()` | Associated node |
 
-
 ---
 
 #### Diagnostic
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -632,13 +623,11 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity::Error` | Severity (diagnostic severity) |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### DocSection
 
 A section within a docstring (e.g., Args, Returns, Raises).
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -646,13 +635,11 @@ A section within a docstring (e.g., Args, Returns, Raises).
 | `name` | `Option<String>` | `Default::default()` | The name |
 | `description` | `String` | — | Human-readable description |
 
-
 ---
 
 #### DocstringInfo
 
 A docstring extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -661,7 +648,6 @@ A docstring extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `associated_item` | `Option<String>` | `Default::default()` | Associated item |
 | `parsed_sections` | `Vec<DocSection>` | `vec![]` | Parsed sections |
-
 
 ---
 
@@ -735,13 +721,11 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 pub fn clean_cache(&self)
 ```
 
-
 ---
 
 #### ExportInfo
 
 An export statement extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -749,13 +733,11 @@ An export statement extracted from source code.
 | `kind` | `ExportKind` | `ExportKind::Named` | Kind (export kind) |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### FileMetrics
 
 Aggregate metrics for a source file.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -768,13 +750,11 @@ Aggregate metrics for a source file.
 | `error_count` | `usize` | — | Number of errors |
 | `max_depth` | `usize` | — | Maximum depth |
 
-
 ---
 
 #### ImportInfo
 
 An import statement extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -784,11 +764,9 @@ An import statement extracted from source code.
 | `is_wildcard` | `bool` | — | Whether wildcard |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### Language
-
 
 ---
 
@@ -875,7 +853,6 @@ pub fn process(&self, source: &str, config: ProcessConfig) -> ProcessResult
 ```rust
 pub fn default() -> LanguageRegistry
 ```
-
 
 ---
 
@@ -1103,7 +1080,6 @@ Return a `TreeCursor` positioned at this node.
 pub fn walk(&self) -> TreeCursor
 ```
 
-
 ---
 
 #### PackConfig
@@ -1114,13 +1090,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cache_dir` | `Option<PathBuf>` | `Default::default()` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
 | `languages` | `Option<Vec<String>>` | `vec![]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
 | `groups` | `Option<Vec<String>>` | `vec![]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
-
 
 ---
 
@@ -1189,19 +1163,16 @@ pub fn reset(&self)
 pub fn default() -> Parser
 ```
 
-
 ---
 
 #### Point
 
 A source position — row + column, zero-indexed.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `row` | `usize` | — | Zero-indexed row number. |
 | `column` | `usize` | — | Zero-indexed column number, in UTF-16 code units. |
-
 
 ---
 
@@ -1210,7 +1181,6 @@ A source position — row + column, zero-indexed.
 Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1264,7 +1234,6 @@ Disable all analysis features (only metrics computed).
 pub fn minimal(&self) -> ProcessConfig
 ```
 
-
 ---
 
 #### ProcessResult
@@ -1274,7 +1243,6 @@ Complete analysis result from processing a source file.
 Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1289,7 +1257,6 @@ Fields are populated based on the `ProcessConfig` flags.
 | `diagnostics` | `Vec<Diagnostic>` | `vec![]` | Diagnostics |
 | `chunks` | `Vec<CodeChunk>` | `vec![]` | Text chunks for chunking/embedding |
 
-
 ---
 
 #### Span
@@ -1298,7 +1265,6 @@ Byte and line/column range in source code.
 
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1309,13 +1275,11 @@ positions (for display and diagnostics).
 | `end_line` | `usize` | — | End line |
 | `end_column` | `usize` | — | End column |
 
-
 ---
 
 #### StructureItem
 
 A structural item (function, class, struct, etc.) in source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1329,13 +1293,11 @@ A structural item (function, class, struct, etc.) in source code.
 | `signature` | `Option<String>` | `Default::default()` | Signature |
 | `body_span` | `Option<Span>` | `Default::default()` | Body span (span) |
 
-
 ---
 
 #### SymbolInfo
 
 A symbol (variable, function, type, etc.) extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1344,7 +1306,6 @@ A symbol (variable, function, type, etc.) extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `type_annotation` | `Option<String>` | `Default::default()` | Type annotation |
 | `doc` | `Option<String>` | `Default::default()` | Doc |
-
 
 ---
 
@@ -1373,7 +1334,6 @@ Return a `TreeCursor` positioned at the root.
 ```rust
 pub fn walk(&self) -> TreeCursor
 ```
-
 
 ---
 
@@ -1436,7 +1396,6 @@ Return the field name for the current node, if any.
 pub fn field_name(&self) -> Option<String>
 ```
 
-
 ---
 
 ### Enums
@@ -1463,7 +1422,6 @@ language-specific constructs that do not fit a standard category.
 | `Namespace` | Namespace |
 | `Other` | Other — Fields: `0`: `String` |
 
-
 ---
 
 #### CommentKind
@@ -1478,7 +1436,6 @@ and documentation comments.
 | `Line` | Line |
 | `Block` | Block |
 | `Doc` | Doc |
-
 
 ---
 
@@ -1498,7 +1455,6 @@ Identifies the docstring convention used, which varies by language
 | `JavaDoc` | Java doc |
 | `Other` | Other — Fields: `0`: `String` |
 
-
 ---
 
 #### ExportKind
@@ -1512,7 +1468,6 @@ Covers named exports, default exports, and re-exports from other modules.
 | `Named` | Named |
 | `Default` | Default |
 | `ReExport` | Re export |
-
 
 ---
 
@@ -1535,7 +1490,6 @@ classes, types, interfaces, enums, and modules.
 | `Module` | Module |
 | `Other` | Other — Fields: `0`: `String` |
 
-
 ---
 
 #### DiagnosticSeverity
@@ -1551,7 +1505,6 @@ found in the syntax tree.
 | `Warning` | Warning |
 | `Info` | Info |
 
-
 ---
 
 ### Errors
@@ -1563,7 +1516,6 @@ Errors that can occur when using the tree-sitter language pack.
 Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
-
 
 | Variant | Description |
 |---------|-------------|
@@ -1577,6 +1529,5 @@ features are enabled.
 | `QueryError` | Query error: {0} |
 | `InvalidRange` | Invalid byte range: {0} |
 | `Io` | IO error: {0} |
-
 
 ---

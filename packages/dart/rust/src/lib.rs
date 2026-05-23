@@ -916,7 +916,7 @@ impl From<tree_sitter_language_pack::ByteRange> for ByteRange {
 impl From<tree_sitter_language_pack::ProcessConfig> for ProcessConfig {
     fn from(v: tree_sitter_language_pack::ProcessConfig) -> Self {
         ProcessConfig {
-            language: v.language.into_owned(),
+            language: v.language.into(),
             structure: v.structure as _,
             imports: v.imports as _,
             exports: v.exports as _,

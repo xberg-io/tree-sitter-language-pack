@@ -128,7 +128,6 @@
 Swift bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/await.
 
-
 ## What This Package Provides
 
 - **Parser access** — load a tree-sitter language parser by name without wiring individual grammar crates or packages.
@@ -138,7 +137,6 @@ Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/awa
 - **SwiftPM package** — swift-bridge API for Apple and Linux targets.
 
 ## Installation
-
 
 ## Quick Start
 

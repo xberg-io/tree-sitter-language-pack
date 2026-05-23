@@ -128,7 +128,6 @@
 Dart / Flutter bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 Built with flutter_rust_bridge for isolate-safe Future APIs and Flutter-native type mapping.
 
-
 ## What This Package Provides
 
 - **Parser access** — load a tree-sitter language parser by name without wiring individual grammar crates or packages.
@@ -138,7 +137,6 @@ Built with flutter_rust_bridge for isolate-safe Future APIs and Flutter-native t
 - **Dart package** — flutter_rust_bridge Future APIs for Dart and Flutter.
 
 ## Installation
-
 
 ## Quick Start
 

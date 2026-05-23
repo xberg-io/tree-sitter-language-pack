@@ -137,11 +137,9 @@ Pre-compiled tree-sitter grammars for 305 programming languages with C# bindings
 
 ## Installation
 
-
 ```bash
 dotnet add package TreeSitterLanguagePack
 ```
-
 
 ## Quick Start
 

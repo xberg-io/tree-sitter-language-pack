@@ -13,7 +13,6 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `start_byte` | `int` | — | Start byte |
@@ -32,7 +31,6 @@ Complete analysis result from processing a source file.
 Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -53,7 +51,6 @@ Fields are populated based on the `ProcessConfig` flags.
 
 Aggregate metrics for a source file.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `total_lines` | `int` | — | Total lines |
@@ -70,7 +67,6 @@ Aggregate metrics for a source file.
 ### StructureItem
 
 A structural item (function, class, struct, etc.) in source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -90,7 +86,6 @@ A structural item (function, class, struct, etc.) in source code.
 
 A comment extracted from source code.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `text` | `str` | — | Text |
@@ -103,7 +98,6 @@ A comment extracted from source code.
 ### DocstringInfo
 
 A docstring extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -119,7 +113,6 @@ A docstring extracted from source code.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `kind` | `str` | — | Kind |
@@ -131,7 +124,6 @@ A section within a docstring (e.g., Args, Returns, Raises).
 ### ImportInfo
 
 An import statement extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -147,7 +139,6 @@ An import statement extracted from source code.
 
 An export statement extracted from source code.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `name` | `str` | — | The name |
@@ -159,7 +150,6 @@ An export statement extracted from source code.
 ### SymbolInfo
 
 A symbol (variable, function, type, etc.) extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -175,7 +165,6 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `message` | `str` | — | Message |
@@ -187,7 +176,6 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 ### CodeChunk
 
 A chunk of source code with rich metadata.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -203,7 +191,6 @@ A chunk of source code with rich metadata.
 ### ChunkContext
 
 Metadata for a single chunk of source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -227,7 +214,6 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cache_dir` | `str \| None` | `None` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
@@ -241,7 +227,6 @@ or passed as a dict/object from language bindings.
 Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -266,7 +251,6 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-
 | Variant | Description |
 |---------|-------------|
 | `Line` | Line |
@@ -282,7 +266,6 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-
 | Variant | Description |
 |---------|-------------|
 | `Error` | Error |
@@ -297,7 +280,6 @@ The format of a docstring extracted from source code.
 
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
-
 
 | Variant | Description |
 |---------|-------------|
@@ -316,7 +298,6 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-
 | Variant | Description |
 |---------|-------------|
 | `Named` | Named |
@@ -332,7 +313,6 @@ The kind of structural item found in source code.
 Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
-
 
 | Variant | Description |
 |---------|-------------|
@@ -356,7 +336,6 @@ The kind of a symbol definition found in source code.
 
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
-
 
 | Variant | Description |
 |---------|-------------|

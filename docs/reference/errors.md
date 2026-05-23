@@ -14,7 +14,6 @@ Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
-
 | Variant | Message | Description |
 |---------|---------|-------------|
 | `LanguageNotFound` | Language '{0}' not found | Language not found errors |

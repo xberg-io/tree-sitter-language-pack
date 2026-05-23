@@ -2,7 +2,7 @@
 title: "Python API Reference"
 ---
 
-## Python API Reference <span class="version-badge">v1.9.0-rc.1</span>
+## Python API Reference <span class="version-badge">v1.9.0-rc.2</span>
 
 ### Functions
 
@@ -560,19 +560,16 @@ def cache_dir() -> str
 
 A byte range — start (inclusive) to end (exclusive).
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `start` | `int` | — | Inclusive start byte offset. |
 | `end` | `int` | — | Exclusive end byte offset. |
-
 
 ---
 
 #### ChunkContext
 
 Metadata for a single chunk of source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -586,13 +583,11 @@ Metadata for a single chunk of source code.
 | `docstrings` | `list[DocstringInfo]` | `[]` | Docstrings |
 | `has_error_nodes` | `bool` | — | Whether error nodes |
 
-
 ---
 
 #### CodeChunk
 
 A chunk of source code with rich metadata.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -603,13 +598,11 @@ A chunk of source code with rich metadata.
 | `end_line` | `int` | — | End line |
 | `metadata` | `ChunkContext` | — | Document metadata |
 
-
 ---
 
 #### CommentInfo
 
 A comment extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -618,13 +611,11 @@ A comment extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `associated_node` | `str \| None` | `None` | Associated node |
 
-
 ---
 
 #### Diagnostic
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -632,13 +623,11 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity.ERROR` | Severity (diagnostic severity) |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### DocSection
 
 A section within a docstring (e.g., Args, Returns, Raises).
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -646,13 +635,11 @@ A section within a docstring (e.g., Args, Returns, Raises).
 | `name` | `str \| None` | `None` | The name |
 | `description` | `str` | — | Human-readable description |
 
-
 ---
 
 #### DocstringInfo
 
 A docstring extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -661,7 +648,6 @@ A docstring extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `associated_item` | `str \| None` | `None` | Associated item |
 | `parsed_sections` | `list[DocSection]` | `[]` | Parsed sections |
-
 
 ---
 
@@ -737,13 +723,11 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 def clean_cache(self) -> None
 ```
 
-
 ---
 
 #### ExportInfo
 
 An export statement extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -751,13 +735,11 @@ An export statement extracted from source code.
 | `kind` | `ExportKind` | `ExportKind.NAMED` | Kind (export kind) |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### FileMetrics
 
 Aggregate metrics for a source file.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -770,13 +752,11 @@ Aggregate metrics for a source file.
 | `error_count` | `int` | — | Number of errors |
 | `max_depth` | `int` | — | Maximum depth |
 
-
 ---
 
 #### ImportInfo
 
 An import statement extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -786,11 +766,9 @@ An import statement extracted from source code.
 | `is_wildcard` | `bool` | — | Whether wildcard |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### Language
-
 
 ---
 
@@ -878,7 +856,6 @@ def process(self, source: str, config: ProcessConfig) -> ProcessResult
 @staticmethod
 def default() -> LanguageRegistry
 ```
-
 
 ---
 
@@ -1106,7 +1083,6 @@ Return a `TreeCursor` positioned at this node.
 def walk(self) -> TreeCursor
 ```
 
-
 ---
 
 #### PackConfig
@@ -1117,13 +1093,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cache_dir` | `str \| None` | `None` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
 | `languages` | `list[str] \| None` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
 | `groups` | `list[str] \| None` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
-
 
 ---
 
@@ -1193,19 +1167,16 @@ def reset(self) -> None
 def default() -> Parser
 ```
 
-
 ---
 
 #### Point
 
 A source position — row + column, zero-indexed.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `row` | `int` | — | Zero-indexed row number. |
 | `column` | `int` | — | Zero-indexed column number, in UTF-16 code units. |
-
 
 ---
 
@@ -1214,7 +1185,6 @@ A source position — row + column, zero-indexed.
 Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1269,7 +1239,6 @@ Disable all analysis features (only metrics computed).
 def minimal(self) -> ProcessConfig
 ```
 
-
 ---
 
 #### ProcessResult
@@ -1279,7 +1248,6 @@ Complete analysis result from processing a source file.
 Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1294,7 +1262,6 @@ Fields are populated based on the `ProcessConfig` flags.
 | `diagnostics` | `list[Diagnostic]` | `[]` | Diagnostics |
 | `chunks` | `list[CodeChunk]` | `[]` | Text chunks for chunking/embedding |
 
-
 ---
 
 #### Span
@@ -1303,7 +1270,6 @@ Byte and line/column range in source code.
 
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1314,13 +1280,11 @@ positions (for display and diagnostics).
 | `end_line` | `int` | — | End line |
 | `end_column` | `int` | — | End column |
 
-
 ---
 
 #### StructureItem
 
 A structural item (function, class, struct, etc.) in source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1334,13 +1298,11 @@ A structural item (function, class, struct, etc.) in source code.
 | `signature` | `str \| None` | `None` | Signature |
 | `body_span` | `Span \| None` | `None` | Body span (span) |
 
-
 ---
 
 #### SymbolInfo
 
 A symbol (variable, function, type, etc.) extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1349,7 +1311,6 @@ A symbol (variable, function, type, etc.) extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `type_annotation` | `str \| None` | `None` | Type annotation |
 | `doc` | `str \| None` | `None` | Doc |
-
 
 ---
 
@@ -1378,7 +1339,6 @@ Return a `TreeCursor` positioned at the root.
 ```python
 def walk(self) -> TreeCursor
 ```
-
 
 ---
 
@@ -1441,7 +1401,6 @@ Return the field name for the current node, if any.
 def field_name(self) -> str | None
 ```
 
-
 ---
 
 ### Enums
@@ -1468,7 +1427,6 @@ language-specific constructs that do not fit a standard category.
 | `NAMESPACE` | Namespace |
 | `OTHER` | Other — Fields: `0`: `str` |
 
-
 ---
 
 #### CommentKind
@@ -1483,7 +1441,6 @@ and documentation comments.
 | `LINE` | Line |
 | `BLOCK` | Block |
 | `DOC` | Doc |
-
 
 ---
 
@@ -1503,7 +1460,6 @@ Identifies the docstring convention used, which varies by language
 | `JAVA_DOC` | Java doc |
 | `OTHER` | Other — Fields: `0`: `str` |
 
-
 ---
 
 #### ExportKind
@@ -1517,7 +1473,6 @@ Covers named exports, default exports, and re-exports from other modules.
 | `NAMED` | Named |
 | `DEFAULT` | Default |
 | `RE_EXPORT` | Re export |
-
 
 ---
 
@@ -1540,7 +1495,6 @@ classes, types, interfaces, enums, and modules.
 | `MODULE` | Module |
 | `OTHER` | Other — Fields: `0`: `str` |
 
-
 ---
 
 #### DiagnosticSeverity
@@ -1555,7 +1509,6 @@ found in the syntax tree.
 | `ERROR` | Error |
 | `WARNING` | Warning |
 | `INFO` | Info |
-
 
 ---
 
@@ -1583,6 +1536,5 @@ features are enabled.
 | `QueryError(Error)` | Query error: {0} |
 | `InvalidRange(Error)` | Invalid byte range: {0} |
 | `Io(Error)` | IO error: {0} |
-
 
 ---

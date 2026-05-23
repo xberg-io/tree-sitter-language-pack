@@ -137,7 +137,6 @@ Pre-compiled tree-sitter grammars for 305 programming languages with Java bindin
 
 ## Installation
 
-
 ```xml
 <dependency>
   <groupId>dev.kreuzberg</groupId>
@@ -145,7 +144,6 @@ Pre-compiled tree-sitter grammars for 305 programming languages with Java bindin
   <version>1.9.0-rc.2</version>
 </dependency>
 ```
-
 
 ## Quick Start
 

@@ -28,5 +28,5 @@ data class ImportInfo(
     val items: List<String> = emptyList(),
     val alias: String? = null,
     val isWildcard: Boolean = false,
-    val span: Span = Span(),
+    val span: Span = Span()
 )

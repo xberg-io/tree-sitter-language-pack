@@ -2,7 +2,7 @@
 title: "Elixir API Reference"
 ---
 
-## Elixir API Reference <span class="version-badge">v1.9.0-rc.1</span>
+## Elixir API Reference <span class="version-badge">v1.9.0-rc.2</span>
 
 ### Functions
 
@@ -582,19 +582,16 @@ def cache_dir()
 
 A byte range — start (inclusive) to end (exclusive).
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `start` | `integer()` | — | Inclusive start byte offset. |
 | `end` | `integer()` | — | Exclusive end byte offset. |
-
 
 ---
 
 #### ChunkContext
 
 Metadata for a single chunk of source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -608,13 +605,11 @@ Metadata for a single chunk of source code.
 | `docstrings` | `list(DocstringInfo)` | `[]` | Docstrings |
 | `has_error_nodes` | `boolean()` | — | Whether error nodes |
 
-
 ---
 
 #### CodeChunk
 
 A chunk of source code with rich metadata.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -625,13 +620,11 @@ A chunk of source code with rich metadata.
 | `end_line` | `integer()` | — | End line |
 | `metadata` | `ChunkContext` | — | Document metadata |
 
-
 ---
 
 #### CommentInfo
 
 A comment extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -640,13 +633,11 @@ A comment extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `associated_node` | `String.t() \| nil` | `nil` | Associated node |
 
-
 ---
 
 #### Diagnostic
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -654,13 +645,11 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 | `severity` | `DiagnosticSeverity` | `:error` | Severity (diagnostic severity) |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### DocSection
 
 A section within a docstring (e.g., Args, Returns, Raises).
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -668,13 +657,11 @@ A section within a docstring (e.g., Args, Returns, Raises).
 | `name` | `String.t() \| nil` | `nil` | The name |
 | `description` | `String.t()` | — | Human-readable description |
 
-
 ---
 
 #### DocstringInfo
 
 A docstring extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -683,7 +670,6 @@ A docstring extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `associated_item` | `String.t() \| nil` | `nil` | Associated item |
 | `parsed_sections` | `list(DocSection)` | `[]` | Parsed sections |
-
 
 ---
 
@@ -757,13 +743,11 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 def clean_cache()
 ```
 
-
 ---
 
 #### ExportInfo
 
 An export statement extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -771,13 +755,11 @@ An export statement extracted from source code.
 | `kind` | `ExportKind` | `:named` | Kind (export kind) |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### FileMetrics
 
 Aggregate metrics for a source file.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -790,13 +772,11 @@ Aggregate metrics for a source file.
 | `error_count` | `integer()` | — | Number of errors |
 | `max_depth` | `integer()` | — | Maximum depth |
 
-
 ---
 
 #### ImportInfo
 
 An import statement extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -806,11 +786,9 @@ An import statement extracted from source code.
 | `is_wildcard` | `boolean()` | — | Whether wildcard |
 | `span` | `Span` | — | Span (span) |
 
-
 ---
 
 #### Language
-
 
 ---
 
@@ -897,7 +875,6 @@ def process(source, config)
 ```elixir
 def default()
 ```
-
 
 ---
 
@@ -1125,7 +1102,6 @@ Return a `TreeCursor` positioned at this node.
 def walk()
 ```
 
-
 ---
 
 #### PackConfig
@@ -1136,13 +1112,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cache_dir` | `String.t() \| nil` | `nil` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
 | `languages` | `list(String.t()) \| nil` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
 | `groups` | `list(String.t()) \| nil` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
-
 
 ---
 
@@ -1211,19 +1185,16 @@ def reset()
 def default()
 ```
 
-
 ---
 
 #### Point
 
 A source position — row + column, zero-indexed.
 
-
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `row` | `integer()` | — | Zero-indexed row number. |
 | `column` | `integer()` | — | Zero-indexed column number, in UTF-16 code units. |
-
 
 ---
 
@@ -1232,7 +1203,6 @@ A source position — row + column, zero-indexed.
 Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1286,7 +1256,6 @@ Disable all analysis features (only metrics computed).
 def minimal()
 ```
 
-
 ---
 
 #### ProcessResult
@@ -1296,7 +1265,6 @@ Complete analysis result from processing a source file.
 Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1311,7 +1279,6 @@ Fields are populated based on the `ProcessConfig` flags.
 | `diagnostics` | `list(Diagnostic)` | `[]` | Diagnostics |
 | `chunks` | `list(CodeChunk)` | `[]` | Text chunks for chunking/embedding |
 
-
 ---
 
 #### Span
@@ -1320,7 +1287,6 @@ Byte and line/column range in source code.
 
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1331,13 +1297,11 @@ positions (for display and diagnostics).
 | `end_line` | `integer()` | — | End line |
 | `end_column` | `integer()` | — | End column |
 
-
 ---
 
 #### StructureItem
 
 A structural item (function, class, struct, etc.) in source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1351,13 +1315,11 @@ A structural item (function, class, struct, etc.) in source code.
 | `signature` | `String.t() \| nil` | `nil` | Signature |
 | `body_span` | `Span \| nil` | `nil` | Body span (span) |
 
-
 ---
 
 #### SymbolInfo
 
 A symbol (variable, function, type, etc.) extracted from source code.
-
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -1366,7 +1328,6 @@ A symbol (variable, function, type, etc.) extracted from source code.
 | `span` | `Span` | — | Span (span) |
 | `type_annotation` | `String.t() \| nil` | `nil` | Type annotation |
 | `doc` | `String.t() \| nil` | `nil` | Doc |
-
 
 ---
 
@@ -1395,7 +1356,6 @@ Return a `TreeCursor` positioned at the root.
 ```elixir
 def walk()
 ```
-
 
 ---
 
@@ -1458,7 +1418,6 @@ Return the field name for the current node, if any.
 def field_name()
 ```
 
-
 ---
 
 ### Enums
@@ -1485,7 +1444,6 @@ language-specific constructs that do not fit a standard category.
 | `namespace` | Namespace |
 | `other` | Other — Fields: `0`: `String.t()` |
 
-
 ---
 
 #### CommentKind
@@ -1500,7 +1458,6 @@ and documentation comments.
 | `line` | Line |
 | `block` | Block |
 | `doc` | Doc |
-
 
 ---
 
@@ -1520,7 +1477,6 @@ Identifies the docstring convention used, which varies by language
 | `java_doc` | Java doc |
 | `other` | Other — Fields: `0`: `String.t()` |
 
-
 ---
 
 #### ExportKind
@@ -1534,7 +1490,6 @@ Covers named exports, default exports, and re-exports from other modules.
 | `named` | Named |
 | `default` | Default |
 | `re_export` | Re export |
-
 
 ---
 
@@ -1557,7 +1512,6 @@ classes, types, interfaces, enums, and modules.
 | `module` | Module |
 | `other` | Other — Fields: `0`: `String.t()` |
 
-
 ---
 
 #### DiagnosticSeverity
@@ -1573,7 +1527,6 @@ found in the syntax tree.
 | `warning` | Warning |
 | `info` | Info |
 
-
 ---
 
 ### Errors
@@ -1585,7 +1538,6 @@ Errors that can occur when using the tree-sitter language pack.
 Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
-
 
 | Variant | Description |
 |---------|-------------|
@@ -1599,6 +1551,5 @@ features are enabled.
 | `query_error` | Query error: {0} |
 | `invalid_range` | Invalid byte range: {0} |
 | `io` | IO error: {0} |
-
 
 ---

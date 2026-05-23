@@ -129,7 +129,6 @@ Android (AAR) bindings for **tree-sitter-language-pack** — 305 pre-compiled tr
 JNI-based with bundled per-ABI native libraries and a coroutine-friendly Kotlin facade.
 JVM consumers should use the canonical `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack` Java artifact directly.
 
-
 ## What This Package Provides
 
 - **Parser access** — load a tree-sitter language parser by name without wiring individual grammar crates or packages.
@@ -139,7 +138,6 @@ JVM consumers should use the canonical `dev.kreuzberg.treesitterlanguagepack:tre
 - **Android AAR** — JNI-backed package for mobile parser workloads.
 
 ## Installation
-
 
 ## Quick Start
 

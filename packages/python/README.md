@@ -137,14 +137,11 @@ Pre-compiled tree-sitter grammars for 305 programming languages with on-demand p
 
 ## Installation
 
-
 ```bash
 pip install tree-sitter-language-pack
 ```
 
-
 ## Quick Start
-
 
 ```python
 from tree_sitter_language_pack import get_parser
@@ -153,7 +150,6 @@ parser = get_parser("python")
 tree = parser.parse(b"def hello(): pass")
 print(tree.root_node.sexp())
 ```
-
 
 ## Features
 

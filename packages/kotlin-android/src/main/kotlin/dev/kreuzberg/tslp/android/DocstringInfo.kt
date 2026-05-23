@@ -28,5 +28,5 @@ data class DocstringInfo(
     val format: DocstringFormat,
     val span: Span = Span(),
     val associatedItem: String? = null,
-    val parsedSections: List<DocSection> = emptyList(),
+    val parsedSections: List<DocSection> = emptyList()
 )

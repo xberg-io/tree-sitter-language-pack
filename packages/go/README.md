@@ -137,11 +137,9 @@ Pre-compiled tree-sitter grammars for 305 programming languages with idiomatic G
 
 ## Installation
 
-
 ```bash
 go get github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go
 ```
-
 
 ## Quick Start
 

@@ -144,7 +144,6 @@ git clone https://github.com/kreuzberg-dev/tree-sitter-language-pack
 cargo build --release -p tree-sitter-language-pack-ffi
 ```
 
-
 ## Quick Start
 
 See the [language guide](https://docs.tree-sitter-language-pack.kreuzberg.dev) for `ffi`-specific usage.

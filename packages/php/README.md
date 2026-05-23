@@ -137,11 +137,9 @@ Pre-compiled tree-sitter grammars for 305 programming languages with PHP binding
 
 ## Installation
 
-
 ```bash
 composer require kreuzberg/tree-sitter-language-pack
 ```
-
 
 ## Quick Start
 
