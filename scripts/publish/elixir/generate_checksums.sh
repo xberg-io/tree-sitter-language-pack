@@ -12,7 +12,7 @@ set -euo pipefail
 
 VERSION="${1:?Usage: $0 <version>}"
 REPO="kreuzberg-dev/tree-sitter-language-pack"
-CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.exs"
+CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.Native.exs"
 
 # Targets that are built in CI (from publish.yaml build-elixir-nifs matrix)
 TARGETS=(

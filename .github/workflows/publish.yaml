@@ -2303,7 +2303,7 @@ jobs:
 
       - name: Verify checksum file exists before compile
         run: |
-          CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.exs"
+          CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.Native.exs"
           if [[ ! -f "$CHECKSUM_FILE" ]]; then
             echo "ERROR: Checksum file not found: $CHECKSUM_FILE"
             echo "The generate_checksums.sh step must have failed silently."
