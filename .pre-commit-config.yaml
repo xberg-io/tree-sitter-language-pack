@@ -47,7 +47,7 @@ repos:
           - --fix
       - id: ruff-format
   - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
-    rev: v1.1.17
+    rev: v1.1.18
     hooks:
       - id: cargo-sort
         args:
@@ -196,7 +196,7 @@ repos:
     hooks:
       - id: gh-actions-updater
   - repo: https://github.com/crate-ci/typos
-    rev: v1.46.2
+    rev: v1.46.3
     hooks:
       - id: typos
         args:
