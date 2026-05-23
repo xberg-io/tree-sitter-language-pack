@@ -102,4 +102,4 @@ tasks:
       - sh: command -v zig >/dev/null 2>&1
     cmds:
       - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,bash,c,cpp,java,ruby,swift,kotlin,mojo,nim,norg cargo build --release -p ts-pack-core-ffi
-      - cd e2e/zig && zig build test
+      - cd e2e/zig && zig build test -Dffi_path=../../target/release
