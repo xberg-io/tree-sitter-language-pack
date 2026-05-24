@@ -521,6 +521,7 @@ jobs:
         with:
           package-dir: packages/python
           output-dir: dist
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
       - name: Upload sdist
         uses: actions/upload-artifact@v7.0.1
@@ -963,6 +964,7 @@ jobs:
           lib-name: ts_pack_core_ffi
           header-path: crates/ts-pack-core-ffi/include/ts_pack.h
           output-dir: dist/go-ffi
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
       - name: Upload FFI artifact
         uses: actions/upload-artifact@v7.0.1
@@ -1032,6 +1034,7 @@ jobs:
           crate-name: ts-pack-core-ffi
           lib-name: ts_pack_core_ffi
           classifier: ${{ matrix.platform }}
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
           output-dir: dist/java-ffi
 
       - name: Upload native artifact
@@ -1416,6 +1419,7 @@ jobs:
           lib-name: ts_pack_core_php
           php-version: ${{ matrix.php }}
           php-ts: nts
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
       - name: Determine Windows compiler
         if: runner.os == 'Windows'
@@ -1514,6 +1518,7 @@ jobs:
           lib-name: ts_pack_core_ffi
           rid: ${{ matrix.rid }}
           output-dir: dist/csharp-ffi
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
       - name: Upload native artifact
         uses: actions/upload-artifact@v7.0.1
@@ -1795,48 +1800,12 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      - name: Dry run - verify crate packaging
-        if: ${{ inputs.dry_run }}
-        run: |
-          cargo package -p tree-sitter-language-pack --allow-dirty 2>&1 | tail -5
-          cargo package -p ts-pack-cli --allow-dirty 2>&1 | tail -5
-          {
-            echo "## Crates Dry Run"
-            echo "- tree-sitter-language-pack: packaged successfully"
-            echo "- ts-pack-cli: packaged successfully"
-          } >> "$GITHUB_STEP_SUMMARY"
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
-
-      - name: Publish tree-sitter-language-pack
-        if: ${{ !inputs.dry_run }}
-        run: |
-          output=$(cargo publish -p tree-sitter-language-pack 2>&1) || {
-            if echo "$output" | grep -qiE "(already uploaded|already exists)"; then
-              echo "::notice::tree-sitter-language-pack already published; skipping."
-            else
-              echo "$output"
-              exit 1
-            fi
-          }
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-          PROJECT_ROOT: ${{ github.workspace }}
-
-      - name: Publish ts-pack-cli
-        if: ${{ !inputs.dry_run }}
-        run: |
-          output=$(cargo publish -p ts-pack-cli 2>&1) || {
-            if echo "$output" | grep -qiE "(already uploaded|already exists)"; then
-              echo "::notice::ts-pack-cli already published; skipping."
-            else
-              echo "$output"
-              exit 1
-            fi
-          }
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-          PROJECT_ROOT: ${{ github.workspace }}
+      - name: Publish crates
+        uses: kreuzberg-dev/actions/publish-crates@v1
+        with:
+          crates: "tree-sitter-language-pack ts-pack-cli"
+          version: ${{ needs.prepare.outputs.version }}
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
   # ─── Publish Python to PyPI ────────────────────────────────────────
   publish-pypi:
@@ -1883,11 +1852,10 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish to PyPI
-        if: ${{ !inputs.dry_run }}
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: kreuzberg-dev/actions/publish-pypi@v1
         with:
           packages-dir: dist
-          skip-existing: true
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
   # ─── Publish Node.js to npm ────────────────────────────────────────
   publish-node:
@@ -2330,6 +2298,19 @@ jobs:
           package: tree_sitter_language_pack
           version: ${{ needs.prepare.outputs.version }}
 
+      # On dry-run, exercise the actual Hex tarball build via the shared
+      # build-elixir-hex@v1 action (generates Cargo.lock via cargo
+      # generate-lockfile to satisfy mix.exs files list when the core crate
+      # is not yet on crates.io).
+      - name: Validate Hex tarball build (dry-run)
+        if: ${{ inputs.dry_run }}
+        uses: kreuzberg-dev/actions/build-elixir-hex@v1
+        with:
+          package-dir: packages/elixir
+          nif-crate-path: packages/elixir/native/tree_sitter_language_pack_nif
+          dry-run: "true"
+          rewrite-native-deps: "false"
+
       - name: Publish to Hex.pm
         if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
         uses: kreuzberg-dev/actions/publish-hex@v1
@@ -2342,7 +2323,7 @@ jobs:
 
       - name: Dry run summary
         if: ${{ inputs.dry_run }}
-        run: echo "Dry run requested; Hex.pm publish skipped." >> "$GITHUB_STEP_SUMMARY"
+        run: echo "Dry run requested; Hex.pm publish skipped (tarball build validated above)." >> "$GITHUB_STEP_SUMMARY"
 
   # ─── Upload PHP PIE artifacts to GitHub Release ──────────────────
   # Runs unconditionally on every release_php=true publish, even if Packagist
