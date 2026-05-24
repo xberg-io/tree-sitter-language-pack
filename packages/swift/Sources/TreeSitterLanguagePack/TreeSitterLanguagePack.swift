@@ -215,7 +215,7 @@ public struct DocstringInfo: Codable, Sendable, Hashable {
 internal extension DocstringInfo {
     init(_ rb: RustBridge.DocstringInfoRef) throws {
         self.text = rb.text().toString()
-        self.format = try DocstringFormat(rb.format())
+        self.format = try JSONDecoder().decode(DocstringFormat.self, from: (rb.format().toString().data(using: .utf8) ?? Data("null".utf8)))
         self.span = try Span(rb.span())
         self.associatedItem = rb.associatedItem()?.toString()
         self.parsedSections = try rb.parsedSections().map { try DocSection($0) }
@@ -379,7 +379,7 @@ public struct SymbolInfo: Codable, Sendable, Hashable {
 internal extension SymbolInfo {
     init(_ rb: RustBridge.SymbolInfoRef) throws {
         self.name = rb.name().toString()
-        self.kind = try SymbolKind(rb.kind())
+        self.kind = try JSONDecoder().decode(SymbolKind.self, from: (rb.kind().toString().data(using: .utf8) ?? Data("null".utf8)))
         self.span = try Span(rb.span())
         self.typeAnnotation = rb.typeAnnotation()?.toString()
         self.doc = rb.doc()?.toString()

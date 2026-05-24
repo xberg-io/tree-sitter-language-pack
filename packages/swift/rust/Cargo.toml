@@ -26,16 +26,16 @@ doctest = false
 bench = false
 
 [dependencies]
-tree_sitter_language_pack = { version = "1.9.0-rc.4", path = "../../../crates/ts-pack-core", features = [
+async-trait = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+swift-bridge = "0.1.59"
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
+tree_sitter_language_pack = { version = "1.9.0-rc.3", path = "../../../crates/ts-pack-core", features = [
     "serde",
     "config",
     "download",
 ], package = "tree-sitter-language-pack" }
-async-trait = "0.1"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
-swift-bridge = "0.1.59"
 
 [build-dependencies]
 swift-bridge-build = "0.1.59"

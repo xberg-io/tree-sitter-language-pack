@@ -1,15 +1,15 @@
 [build-system]
 build-backend = "maturin"
-requires = [ "maturin>=1.0,<2.0" ]
+requires = ["maturin>=1.0,<2.0"]
 
 [project]
 name = "tree-sitter-language-pack"
 version = "1.9.0rc4"
 description = "Pre-compiled tree-sitter grammars for 305 programming languages"
-keywords = [ "language-pack", "parser", "syntax", "tree-sitter" ]
+keywords = ["language-pack", "parser", "syntax", "tree-sitter"]
 license = "MIT"
-license-files = [ "LICENSE" ]
-authors = [ { name = "Kreuzberg Team" } ]
+license-files = ["LICENSE"]
+authors = [{ name = "Kreuzberg Team" }]
 requires-python = ">=3.10"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
@@ -20,24 +20,24 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 urls.repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
-dependencies = [ "tree-sitter>=0.23" ]
+dependencies = ["tree-sitter>=0.23"]
 [dependency-groups]
-dev = [ "mypy>=1.19.0", "ruff>=0.14.8" ]
+dev = ["mypy>=1.19.0", "ruff>=0.14.8"]
 
 [tool.maturin]
 module-name = "tree_sitter_language_pack._native"
 manifest-path = "../../crates/ts-pack-core-py/Cargo.toml"
 # abi3-py310 produces a single wheel per platform that loads on Python 3.10+,
 # avoiding a per-Python-version build matrix.
-features = [ "pyo3/extension-module", "pyo3/abi3-py310" ]
-python-packages = [ "tree_sitter_language_pack" ]
+features = ["pyo3/extension-module", "pyo3/abi3-py310"]
+python-packages = ["tree_sitter_language_pack"]
 
 [tool.ruff]
 target-version = "py310"
 line-length = 120
 format.docstring-code-format = true
 format.docstring-code-line-length = 120
-lint.select = [ "ALL" ]
+lint.select = ["ALL"]
 lint.ignore = [
   "ANN401",
   "ASYNC109",
@@ -64,16 +64,16 @@ lint.ignore = [
   "TRY",
 ]
 lint.mccabe.max-complexity = 15
-lint.per-file-ignores."tests/**" = [ "ANN", "D103", "PLR2004", "S101" ]
+lint.per-file-ignores."tests/**" = ["ANN", "D103", "PLR2004", "S101"]
 # The alef Python codegen still emits cosmetic warnings on the wrapper
 # modules: api.py keeps the legacy `from typing import AsyncIterator` and a
 # single-line import block, options.py carries # noqa: TC001 / F401 markers
 # that turn out unused on every regen, __init__.py star-imports re-sort with
 # a different convention. Silence these specific rules on the wrappers until
 # the codegen is updated to emit ruff-clean output.
-lint.per-file-ignores."tree_sitter_language_pack/api.py" = [ "F401", "I001", "UP035" ]
-lint.per-file-ignores."tree_sitter_language_pack/options.py" = [ "F401", "RUF100" ]
-lint.per-file-ignores."tree_sitter_language_pack/__init__.py" = [ "I001" ]
+lint.per-file-ignores."tree_sitter_language_pack/api.py" = ["F401", "I001", "UP035"]
+lint.per-file-ignores."tree_sitter_language_pack/options.py" = ["F401", "RUF100"]
+lint.per-file-ignores."tree_sitter_language_pack/__init__.py" = ["I001"]
 lint.pydocstyle.convention = "google"
 lint.pylint.max-args = 10
 lint.pylint.max-branches = 15
@@ -93,5 +93,10 @@ overrides = [
   # sees only the static-type discrepancy. Disable the four error codes the
   # discrepancy raises until the codegen emits matching `_to_rust_*` calls and
   # casts the return values.
-  { module = "tree_sitter_language_pack.api", disable_error_code = [ "call-arg", "arg-type", "return-value", "attr-defined" ] },
+  { module = "tree_sitter_language_pack.api", disable_error_code = [
+    "call-arg",
+    "arg-type",
+    "return-value",
+    "attr-defined",
+  ] },
 ]

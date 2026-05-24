@@ -8,17 +8,6 @@ readme = false
 keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 categories = ["text-processing"]
 
-[lib]
-name = "_native"
-crate-type = ["cdylib"]
-
-[dependencies]
-tree-sitter-language-pack = { version = "1.9.0-rc.3", path = "../ts-pack-core", features = ["serde", "config", "download"] }
-pyo3 = { version = "0.28" }
-pyo3-async-runtimes = { version = "0.28", features = ["tokio-runtime"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-
 # `pyo3-async-runtimes` and `serde_json` are emitted unconditionally above so
 # the manifest is stable across regens, but for umbrella crates with no
 # async fns or no JSON-marshalled return types they are genuinely unused.
@@ -28,5 +17,20 @@ serde_json = "1"
 [package.metadata.cargo-machete]
 ignored = ["pyo3-async-runtimes", "serde_json"]
 
+[lib]
+name = "_native"
+crate-type = ["cdylib"]
+
 [features]
 extension-module = ["pyo3/extension-module", "pyo3/abi3-py310"]
+
+[dependencies]
+pyo3 = { version = "0.28" }
+pyo3-async-runtimes = { version = "0.28", features = ["tokio-runtime"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tree-sitter-language-pack = { version = "1.9.0-rc.3", path = "../ts-pack-core", features = [
+    "serde",
+    "config",
+    "download",
+] }
