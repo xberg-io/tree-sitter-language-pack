@@ -2088,15 +2088,10 @@ jobs:
           path: dist
           merge-multiple: true
 
-      - name: Set up Python (for vendor script)
-        uses: actions/setup-python@v6.2.0
+      - name: Rewrite native dependencies
+        uses: kreuzberg-dev/actions/rewrite-native-deps@v1
         with:
-          python-version: "3.14"
-
-      - name: Vendor core for source gem
-        run: python3 scripts/ci/ruby/vendor-core.py
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
+          lang: ruby
 
       - name: Build source gem (fallback for unsupported platforms)
         working-directory: packages/ruby

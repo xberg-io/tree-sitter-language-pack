@@ -26,13 +26,6 @@ tasks:
       - echo "Checking for remaining outdated dependencies..."
       - bundle outdated || true
 
-  vendor:
-    desc: Vendor ts-pack-core into Ruby package
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-    cmds:
-      - python3 scripts/ci/ruby/vendor-core.py
-
   build:
     desc: Build Ruby native extension (requires Ruby 3.2-3.4)
     dir: packages/ruby
