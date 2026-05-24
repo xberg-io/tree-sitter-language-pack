@@ -3,11 +3,30 @@
 
 version = '4.0'
 name = 'tree-sitter-language-pack'
-description = 'Comprehensive tree-sitter grammar compilation and polyglot parser bindings (Python, TypeScript, Ruby, Go, Java, C#, Elixir, PHP, WASM)'
+description = 'Tree-sitter grammar pack and code-intelligence library with active Python, TypeScript/Node, Ruby, PHP, Go, Java/JNI, C#, Elixir, WebAssembly, Dart, Kotlin Android, Swift, Zig, and C FFI bindings'
 gitignore = true
 default = 'full'
 presets = ['claude', 'copilot', 'cursor', 'antigravity', 'codex']
-builtins = ['rust', 'python', 'typescript', 'go', 'php', 'csharp', 'default-commands']
+builtins = [
+  'rust',
+  'python',
+  'typescript',
+  'go',
+  'java',
+  'ruby',
+  'php',
+  'csharp',
+  'elixir',
+  'wasm',
+  'pyo3',
+  'napi-rs',
+  'magnus',
+  'ext-php-rs',
+  'rustler',
+  'cgo',
+  'jni-rs',
+  'default-commands',
+]
 
 [header]
 style = 'minimal'

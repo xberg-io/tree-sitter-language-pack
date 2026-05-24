@@ -44,4 +44,4 @@ tasks:
   e2e:test:
     desc: Run C E2E tests
     cmds:
-      - alef test --lang ffi --e2e --jobs 1
+      - alef test --lang c --e2e --jobs 1

@@ -325,6 +325,6 @@ Use from any JavaScript environment — browsers, Deno, and Cloudflare Workers.
 ## Next Steps
 
 - [:material-arrow-right: Quick Start](quickstart.md) — parse your first file in 5 minutes
-- [:material-arrow-right: Download parsers](quickstart.md#step-2-download-parsers) — pre-download grammars for production, CI, or offline use
+- [:material-arrow-right: Download parsers](quickstart.md#2-download-parsers) — pre-download grammars for production, CI, or offline use
 - [:material-arrow-right: Download model](../concepts/download-model.md) — understand how parser caching works
 - [:material-arrow-right: Languages](../languages.md) — full list of 306 supported languages

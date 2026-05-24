@@ -91,7 +91,7 @@ jobs:
           cache-dependency-path: packages/go/go.sum
 
       - name: Install golangci-lint
-        uses: golangci/golangci-lint-action@v9.2.0
+        uses: golangci/golangci-lint-action@v9.2.1
         with:
           install-only: true
 
@@ -108,7 +108,7 @@ jobs:
 
       # --- Ruby ---
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.307.0
+        uses: ruby/setup-ruby@v1.310.0
         with:
           ruby-version: "3.4"
           bundler-cache: true
@@ -182,7 +182,9 @@ jobs:
       - name: Check README freshness
         run: |
           alef readme
-          git diff --exit-code -- packages/*/README.md crates/*/README.md || {
+          # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
+          # blank lines and table column padding that alef emits.
+          git diff -w --ignore-blank-lines --exit-code -- packages/*/README.md crates/*/README.md || {
             echo "::error::READMEs are out of date. Run 'alef readme' and commit."
             exit 1
           }
@@ -190,8 +192,9 @@ jobs:
       - name: Check API docs freshness
         run: |
           alef docs
-          # Ignore whitespace-only diffs (markdown formatter may add/remove blank lines)
-          git diff --ignore-blank-lines --exit-code -- docs/reference/ || {
+          # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
+          # blank lines and table column padding that alef emits.
+          git diff -w --ignore-blank-lines --exit-code -- docs/reference/ || {
             echo "::error::API docs are out of date. Run 'alef docs' and commit."
             exit 1
           }
@@ -199,7 +202,12 @@ jobs:
       - name: Check version sync
         run: |
           alef sync-versions
-          git diff --exit-code -- packages/ crates/ || {
+          # Ignore whitespace-only diffs — `alef readme` (run in a previous
+          # step) leaves rumdl-vs-alef blank-line drift in crates/*/README.md
+          # files that's tolerated by the freshness check above but would
+          # otherwise trip this strict diff. Real version drift will still
+          # show up (manifest version strings have no whitespace ambiguity).
+          git diff -w --ignore-blank-lines --exit-code -- packages/ crates/ || {
             echo "::error::Versions are out of sync. Run 'alef sync-versions' and commit."
             exit 1
           }
@@ -235,7 +243,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install Python dependencies
-        run: uv sync --no-install-project
+        run: uv sync --no-install-project --no-install-workspace
 
       - name: Cache parsers
         uses: actions/cache@v5.0.5

@@ -28,7 +28,7 @@ pub fn process(
     };
 
     if config.structure {
-        result.structure = intelligence::extract_structure(&root, source);
+        result.structure = intelligence::extract_structure(&root, source, &config.language);
     }
     if config.imports {
         result.imports = intelligence::extract_imports(&root, source, &config.language);

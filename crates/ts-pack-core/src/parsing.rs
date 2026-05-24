@@ -184,7 +184,10 @@ impl Node {
     }
 
     /// Return the node's numeric kind ID.
-    #[cfg_attr(alef, alef(skip))]
+    ///
+    /// Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+    /// (e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+    /// than comparing the string [`kind()`](Self::kind) in tight AST loops.
     #[must_use]
     pub fn kind_id(&self) -> u16 {
         self.raw.kind_id()

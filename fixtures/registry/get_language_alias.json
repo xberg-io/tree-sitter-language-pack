@@ -3,6 +3,10 @@
   "description": "get_language('shell') resolves the alias to 'bash' and returns ok",
   "category": "registry",
   "tags": ["registry"],
+  "skip": {
+    "languages": ["bash"],
+    "reason": "Test requires 'bash' language to be available"
+  },
   "call": "get_language",
   "input": {
     "language": "shell"

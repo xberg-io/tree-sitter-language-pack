@@ -360,6 +360,7 @@ pub fn detect_language_from_path(path: []const u8) error{OutOfMemory}!?[]u8 {
 /// interpreter name is extracted and mapped to a language name.
 ///
 /// Handles common patterns:
+///
 /// - `#!/usr/bin/env python3` → `"python"`
 /// - `#!/bin/bash` → `"bash"`
 /// - `#!/usr/bin/env node` → `"javascript"`
@@ -642,6 +643,29 @@ pub fn download_all() Error!u64 {
     return _result;
 }
 
+/// Download every language in a named group (e.g. `"web"`, `"data"`).
+///
+/// Groups are defined in the remote manifest and let you ensure a curated
+/// set of related grammars in one call instead of listing each name to
+/// `download`. Already-cached languages are skipped.
+///
+/// Returns the total number of languages now available (statically compiled
+/// plus downloaded and cached).
+///
+/// **Errors:**
+///
+/// Returns an error if the manifest cannot be fetched, the group is unknown,
+/// or any constituent language fails to download.
+pub fn download_group(name: []const u8) Error!u64 {
+    const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
+    defer std.heap.c_allocator.free(name_z);
+    const _result = c.ts_pack_download_group(name_z);
+    if (c.ts_pack_last_error_code() != 0) {
+        return _first_error(Error);
+    }
+    return _result;
+}
+
 /// Return all language names available in the remote manifest (305).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of
@@ -658,6 +682,7 @@ pub fn manifest_languages() Error![]u8 {
         return _first_error(Error);
     }
     return blk: {
+        if (_result == null) return _first_error(Error);
         const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
@@ -711,6 +736,7 @@ pub fn cache_dir() Error![]u8 {
         return _first_error(Error);
     }
     return blk: {
+        if (_result == null) return _first_error(Error);
         const slice = _result[0.._result_len];
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         _free_string(_result);
@@ -811,6 +837,16 @@ pub const Node = struct {
             c.ts_pack_free_string(_result);
             break :blk owned;
         };
+    }
+
+    /// Return the node's numeric kind ID.
+    ///
+    /// Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+    /// (e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+    /// than comparing the string `kind()` in tight AST loops.
+    pub fn kind_id(self: *Node) u16 {
+        const _result = c.ts_pack_node_kind_id(@as(*c.TS_PACKNode, @ptrCast(self._handle)));
+        return _result;
     }
 
     /// Return the inclusive start byte offset of this node.
@@ -1121,6 +1157,13 @@ pub const DownloadManager = struct {
     }
 
     /// Remove all cached parser libraries.
+    ///
+    /// Acquires the cross-process lock so `clean_cache` cannot race a concurrent
+    /// downloader (avoids Windows sharing-violation errors against an in-flight
+    /// bundle write). The `.download.lock` file itself is **not** removed — it is
+    /// permanent infrastructure; deleting it could allow a concurrent process that
+    /// already opened the file to continue holding a stale lock handle while a new
+    /// process opens a fresh inode, breaking the mutual-exclusion guarantee.
     pub fn clean_cache(self: *DownloadManager) (Error || error{OutOfMemory})!void {
         _ = c.ts_pack_download_manager_clean_cache(@as(*c.TS_PACKDownloadManager, @ptrCast(self._handle)));
         if (c.ts_pack_last_error_code() != 0) {

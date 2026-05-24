@@ -16,10 +16,10 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
+  "tree-sitter-language-pack",
   "pytest>=7.4",
   "pytest-asyncio>=0.23",
   "pytest-timeout>=2.1",
-  "tree-sitter-language-pack",
 ]
 
 [tool.setuptools]

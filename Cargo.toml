@@ -1,21 +1,21 @@
 [workspace]
 members = ["crates/*", "packages/dart/rust", "packages/swift/rust"]
 exclude = [
-  "crates/tree-sitter-language-pack-ffi",
-  "crates/tree-sitter-language-pack-wasm",
-  "crates/ts-pack-elixir",
-  "crates/ts-pack-java",
-  "crates/ts-pack-node",
-  "crates/ts-pack-php",
-  "crates/ts-pack-ruby",
-  "e2e/rust",
-  "packages/elixir/native/tree_sitter_language_pack_nif",
-  "test_apps/rust",
+    "crates/tree-sitter-language-pack-ffi",
+    "crates/tree-sitter-language-pack-wasm",
+    "crates/ts-pack-elixir",
+    "crates/ts-pack-java",
+    "crates/ts-pack-node",
+    "crates/ts-pack-php",
+    "e2e/rust",
+    "packages/elixir/native/tree_sitter_language_pack_nif",
+    "packages/ruby/ext/ts_pack_core_rb/native",
+    "test_apps/rust",
 ]
 resolver = "2"
 
 [workspace.package]
-version = "1.8.1"
+version = "1.9.0-rc.4"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
@@ -26,9 +26,9 @@ keywords = ["tree-sitter", "parser", "syntax", "language-pack", "kreuzberg"]
 
 [workspace.dependencies]
 ahash = { version = "0.8", default-features = false, features = [
-  "std",
-  "compile-time-rng",
-  "serde",
+    "std",
+    "compile-time-rng",
+    "serde",
 ] }
 cbindgen = "0.29"
 cc = "1"
@@ -36,6 +36,7 @@ clap = { version = "4", features = ["derive"] }
 clap_complete = "4"
 criterion = { version = "0.8", features = ["html_reports"] }
 dirs = "6"
+fd-lock = "4"
 js-sys = "0.3"
 libloading = "0.9"
 magnus = "0.8"
@@ -58,7 +59,7 @@ toml = "1.1"
 toml_edit = "0.25"
 tree-sitter = "0.26"
 tree-sitter-language-pack = { path = "crates/ts-pack-core" }
-ureq = "3"
+ureq = { version = "3", features = ["platform-verifier"] }
 walkdir = "2.5"
 wasm-bindgen = "0.2"
 wasm-bindgen-test = "0.3"

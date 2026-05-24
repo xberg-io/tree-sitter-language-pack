@@ -67,7 +67,7 @@ jobs:
       release_dart: ${{ steps.meta.outputs.release_dart }}
       release_swift: ${{ steps.meta.outputs.release_swift }}
       release_zig: ${{ steps.meta.outputs.release_zig }}
-      release_kotlin_android: ${{ steps.meta.outputs.release_kotlin_android }}
+      release_kotlin_android: ${{ steps.meta.outputs.release_kotlin }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -76,7 +76,7 @@ jobs:
         id: meta
         uses: kreuzberg-dev/actions/prepare-release-metadata@v1
         with:
-          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,dart,swift,zig,kotlin-android"
+          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,dart,swift,zig,kotlin"
 
       # In dry-run we may not yet have the tag pushed; check out the dispatch
       # SHA instead so jobs can still validate the workflow against current
@@ -237,7 +237,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install dependencies
-        run: uv sync --no-install-project
+        run: uv sync --no-install-project --no-install-workspace
 
       - name: Cache parsers
         uses: actions/cache@v5.0.5
@@ -488,8 +488,8 @@ jobs:
   # ─── Build Python sdist ────────────────────────────────────────────
   build-python-sdist:
     name: Build Python sdist
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_python == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_python == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -511,14 +511,16 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      - name: Install maturin
-        run: pip install maturin
+      - name: Setup Python
+        uses: actions/setup-python@v6.2.0
+        with:
+          python-version: "3.13"
 
       - name: Build sdist
-        working-directory: packages/python
-        run: maturin sdist --out ../../dist
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
+        uses: kreuzberg-dev/actions/build-python-sdist@v1
+        with:
+          package-dir: packages/python
+          output-dir: dist
 
       - name: Upload sdist
         uses: actions/upload-artifact@v7.0.1
@@ -530,11 +532,6 @@ jobs:
       # Smoke: install the just-built sdist with parsers/ hidden from the
       # build, so build.rs has to fetch the source bundle. Proves the #122
       # codepath works end-to-end before we cut a release.
-      - name: Setup Python for smoke
-        uses: actions/setup-python@v6.2.0
-        with:
-          python-version: "3.13"
-
       - name: Pack a smoke source bundle
         id: smoke-bundle
         uses: kreuzberg-dev/actions/pack-source-bundle@v1
@@ -604,6 +601,9 @@ jobs:
           - os: macos-latest
             label: darwin-arm64
             napi_target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: darwin-x64
+            napi_target: x86_64-apple-darwin
           - os: windows-latest
             label: win32-x64-msvc
             napi_target: x86_64-pc-windows-msvc
@@ -658,8 +658,8 @@ jobs:
   # ─── Build Ruby gems ──────────────────────────────────────────────
   build-ruby-gem:
     name: Build Ruby gem (${{ matrix.label }})
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_ruby == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_ruby == 'true' }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     env:
@@ -700,7 +700,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.307.0
+        uses: ruby/setup-ruby@v1.310.0
         with:
           ruby-version: "3.4"
           bundler: none
@@ -714,6 +714,11 @@ jobs:
         run: |
           bundle config set --local path vendor/bundle
           bundle check || bundle install
+
+      - name: Rewrite native dependencies
+        uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+        with:
+          lang: ruby
 
       - name: Compile native extension
         working-directory: packages/ruby
@@ -998,9 +1003,9 @@ jobs:
             target: x86_64-pc-windows-msvc
             platform: windows-x86_64
           - os: windows-11-arm
-            label: windows-aarch64
+            label: windows-arm64
             target: aarch64-pc-windows-msvc
-            platform: windows-aarch64
+            platform: windows-arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -1071,7 +1076,7 @@ jobs:
         with:
           artifacts-dir: artifacts/java-natives
           resources-dir: packages/java/src/main/resources/natives
-          required-classifiers: linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-aarch64
+          required-classifiers: linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-arm64
           lib-name: ts_pack_core_ffi
 
       - name: Build and package
@@ -1093,10 +1098,22 @@ jobs:
             exit 1
           fi
           echo "Checking JAR: $JAR"
-          COUNT=$(jar tf "$JAR" | grep -cE '^natives/[^/]+/(lib)?ts_pack_core_ffi\.(so|dll|dylib)$' || true)
-          echo "Native libs found in JAR: $COUNT"
-          if [ "$COUNT" -eq 0 ]; then
-            echo "::error::JAR contains no natives/ entries — native staging failed"
+          ENTRIES=$(jar tf "$JAR" | grep -E '^natives/[^/]+/(lib)?ts_pack_core_ffi\.(so|dll|dylib)$' || true)
+          echo "Native lib entries:"
+          echo "$ENTRIES"
+          # Issue #128: a previous bug staged every lib under `natives/native/`
+          # because the re-stage loop walked one dirname too far. Require each
+          # expected classifier directory to be present individually so the
+          # collapse-to-`native` regression cannot ship again.
+          REQUIRED_CLASSIFIERS="linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-arm64"
+          missing=()
+          for c in $REQUIRED_CLASSIFIERS; do
+            if ! echo "$ENTRIES" | grep -qE "^natives/$c/(lib)?ts_pack_core_ffi\.(so|dll|dylib)$"; then
+              missing+=("$c")
+            fi
+          done
+          if (( ${#missing[@]} > 0 )); then
+            echo "::error::JAR missing natives for classifiers: ${missing[*]}"
             jar tf "$JAR" | grep -E '^natives/' || echo "(no natives/ entries at all)"
             exit 1
           fi
@@ -1111,8 +1128,8 @@ jobs:
   # ─── Build Elixir NIFs ────────────────────────────────────────────
   build-elixir-nifs:
     name: Build Elixir NIF (${{ matrix.label }})
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_elixir == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_elixir == 'true' }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     strategy:
@@ -1150,6 +1167,11 @@ jobs:
           components: ""
           use-sccache: "false"
           install-llvm-cov: "false"
+
+      - name: Rewrite native dependencies
+        uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+        with:
+          lang: elixir
 
       - name: Build Elixir NIF
         working-directory: packages/elixir/native/tree_sitter_language_pack_nif
@@ -1328,8 +1350,8 @@ jobs:
   # ─── Build PHP PIE package ──────────────────────────────────────────
   build-php-extension:
     name: Build PHP PIE binary (php${{ matrix.php }} ${{ matrix.platform.label }})
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_php == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_php == 'true' }}
     runs-on: ${{ matrix.platform.os }}
     timeout-minutes: 60
     permissions:
@@ -1356,6 +1378,10 @@ jobs:
             target: x86_64-pc-windows-msvc
           # windows-aarch64 omitted: ext-php-rs C wrapper compilation fails on
           # Windows ARM64 because PHP SDK headers (mmintrin.h) are X86-only.
+        exclude:
+          - php: "8.5"
+            platform:
+              label: windows-x86_64
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -1949,8 +1975,6 @@ jobs:
           packages-dir: crates/ts-pack-core-node/npm
           npm-tag: ${{ needs.prepare.outputs.npm_tag }}
           dry-run: ${{ inputs.dry_run }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish main package to npm
         if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
@@ -1959,8 +1983,6 @@ jobs:
           package-dir: crates/ts-pack-core-node
           npm-tag: ${{ needs.prepare.outputs.npm_tag }}
           dry-run: ${{ inputs.dry_run }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # ─── Publish WASM to npm ───────────────────────────────────────────
   publish-wasm:
@@ -2022,8 +2044,6 @@ jobs:
           npm-tag: ${{ needs.prepare.outputs.npm_tag }}
           provenance: "true"
           dry-run: ${{ inputs.dry_run }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Wait for npm indexing
         if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
@@ -2055,7 +2075,7 @@ jobs:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.307.0
+        uses: ruby/setup-ruby@v1.310.0
         with:
           ruby-version: "3.4"
           bundler: none
@@ -2068,15 +2088,10 @@ jobs:
           path: dist
           merge-multiple: true
 
-      - name: Set up Python (for vendor script)
-        uses: actions/setup-python@v6.2.0
+      - name: Rewrite native dependencies
+        uses: kreuzberg-dev/actions/rewrite-native-deps@v1
         with:
-          python-version: "3.14"
-
-      - name: Vendor core for source gem
-        run: python3 scripts/ci/ruby/vendor-core.py
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
+          lang: ruby
 
       - name: Build source gem (fallback for unsupported platforms)
         working-directory: packages/ruby
@@ -2190,17 +2205,36 @@ jobs:
         run: |
           ARTIFACTS_DIR="artifacts/java-natives"
           RESOURCES_DIR="packages/java/src/main/resources/natives"
+          REQUIRED_CLASSIFIERS="linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-arm64"
           mkdir -p "$RESOURCES_DIR"
-          # Mirror the build-java-package staging step exactly:
-          # artifact layout is $ARTIFACTS_DIR/java-natives-{label}/{platform}/native/{libfile}
+          # build-java-natives@v1 stages each lib at
+          # `{output-dir}/native/{classifier}/{libfile}` and uploads that tree as
+          # artifact `java-natives-{label}`. download-artifact with
+          # `merge-multiple: false` preserves the artifact-name wrapper, so the
+          # final layout is:
+          #   $ARTIFACTS_DIR/java-natives-{label}/native/{classifier}/{libfile}
+          # The classifier is the lib's immediate parent — one `dirname` up.
           find "$ARTIFACTS_DIR" \( -name '*.so' -o -name '*.dll' -o -name '*.dylib' \) -print0 |
           while IFS= read -r -d '' f; do
-            platform=$(basename "$(dirname "$(dirname "$f")")")
+            platform=$(basename "$(dirname "$f")")
             mkdir -p "$RESOURCES_DIR/$platform"
             cp "$f" "$RESOURCES_DIR/$platform/"
           done
           echo "=== Staged native resources for deploy ==="
           find "$RESOURCES_DIR" -type f | sort
+          # Fail loudly if any required classifier directory is empty — this
+          # caught us on 1.8.1 where natives collapsed under `natives/native/`
+          # because the previous loop used `dirname "$(dirname …)"`.
+          missing=()
+          for c in $REQUIRED_CLASSIFIERS; do
+            if ! ls "$RESOURCES_DIR/$c"/*ts_pack_core_ffi* >/dev/null 2>&1; then
+              missing+=("$c")
+            fi
+          done
+          if (( ${#missing[@]} > 0 )); then
+            echo "::error::missing classifier dirs: ${missing[*]}"
+            exit 1
+          fi
 
       - name: Publish to Maven Central
         if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
@@ -2242,7 +2276,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Elixir
-        uses: erlef/setup-elixir@v1.24.0
+        uses: erlef/setup-elixir@v1.24
         with:
           elixir-version: "1.17"
           otp-version: "27.2"
@@ -2269,7 +2303,7 @@ jobs:
 
       - name: Verify checksum file exists before compile
         run: |
-          CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.exs"
+          CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.Native.exs"
           if [[ ! -f "$CHECKSUM_FILE" ]]; then
             echo "ERROR: Checksum file not found: $CHECKSUM_FILE"
             echo "The generate_checksums.sh step must have failed silently."
@@ -2455,30 +2489,11 @@ jobs:
         with:
           package-dir: packages/dart/rust
           crate-name: tree-sitter-language-pack-dart
-      - uses: actions/upload-artifact@v8
+      - uses: actions/upload-artifact@v7.0.1
         with:
           name: dart-package
           path: packages/dart
           retention-days: 14
-
-  publish-pub:
-    name: Publish Dart package to pub.dev
-    needs: [prepare, check-registries, build-dart-package]
-    if: ${{ needs.prepare.outputs.release_dart == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    timeout-minutes: 15
-    steps:
-      - uses: actions/download-artifact@v8.0.1
-        with:
-          name: dart-package
-          path: packages/dart
-      - uses: kreuzberg-dev/actions/publish-pub@v1
-        with:
-          package-dir: packages/dart
-          dry-run: ${{ needs.prepare.outputs.dry_run }}
 
   # ─── Swift (Swift Package Index via tag) ──────────────────────────
   build-swift-artifactbundle:
@@ -2498,7 +2513,7 @@ jobs:
         with:
           crate-name: tree-sitter-language-pack-swift
           artifact-name: TreeSitterLanguagePackSwift
-      - uses: actions/upload-artifact@v8
+      - uses: actions/upload-artifact@v7.0.1
         with:
           name: swift-artifactbundle
           path: ${{ steps.bundle.outputs.bundle-zip }}
@@ -2521,7 +2536,7 @@ jobs:
         with:
           package-dir: packages/swift
           crate-name: tree-sitter-language-pack-swift
-      - uses: actions/upload-artifact@v8
+      - uses: actions/upload-artifact@v7.0.1
         with:
           name: swift-package
           path: packages/swift
@@ -2614,11 +2629,10 @@ jobs:
       - uses: kreuzberg-dev/actions/setup-android-ndk@v1
       - uses: kreuzberg-dev/actions/build-android-natives@v1
         with:
-          crate-name: ts-pack-core-jni
+          crate-name: tree-sitter-language-pack-jni
           lib-name: ts_pack_jni
-          abi: ${{ matrix.abi }}
-          target: ${{ matrix.target }}
-      - uses: actions/upload-artifact@v8
+          abis: ${{ matrix.abi }}
+      - uses: actions/upload-artifact@v7.0.1
         with:
           name: kotlin-android-${{ matrix.abi }}
           path: dist/android-natives/${{ matrix.abi }}/

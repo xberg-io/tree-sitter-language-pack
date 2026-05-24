@@ -16,6 +16,21 @@
     clippy::inherent_to_string
 )]
 
+/// Process-wide tokio runtime shared across every swift-bridge async wrapper.
+///
+/// alef-emitted; see shims.rs for the rationale (orphaned reqwest connection
+/// pools when each call creates and drops its own current-thread runtime).
+fn __alef_tokio_runtime() -> &'static ::tokio::runtime::Runtime {
+    use std::sync::OnceLock;
+    static RT: OnceLock<::tokio::runtime::Runtime> = OnceLock::new();
+    RT.get_or_init(|| {
+        ::tokio::runtime::Builder::new_multi_thread()
+            .enable_all()
+            .build()
+            .expect("build process-wide alef tokio runtime")
+    })
+}
+
 #[swift_bridge::bridge]
 mod ffi {
     extern "Rust" {
@@ -29,11 +44,17 @@ mod ffi {
             end_line: usize,
             end_column: usize,
         ) -> Span;
+        #[swift_bridge(swift_name = "startByte")]
         fn start_byte(&self) -> usize;
+        #[swift_bridge(swift_name = "endByte")]
         fn end_byte(&self) -> usize;
+        #[swift_bridge(swift_name = "startLine")]
         fn start_line(&self) -> usize;
+        #[swift_bridge(swift_name = "startColumn")]
         fn start_column(&self) -> usize;
+        #[swift_bridge(swift_name = "endLine")]
         fn end_line(&self) -> usize;
+        #[swift_bridge(swift_name = "endColumn")]
         fn end_column(&self) -> usize;
     }
 
@@ -77,13 +98,21 @@ mod ffi {
             error_count: usize,
             max_depth: usize,
         ) -> FileMetrics;
+        #[swift_bridge(swift_name = "totalLines")]
         fn total_lines(&self) -> usize;
+        #[swift_bridge(swift_name = "codeLines")]
         fn code_lines(&self) -> usize;
+        #[swift_bridge(swift_name = "commentLines")]
         fn comment_lines(&self) -> usize;
+        #[swift_bridge(swift_name = "blankLines")]
         fn blank_lines(&self) -> usize;
+        #[swift_bridge(swift_name = "totalBytes")]
         fn total_bytes(&self) -> usize;
+        #[swift_bridge(swift_name = "nodeCount")]
         fn node_count(&self) -> usize;
+        #[swift_bridge(swift_name = "errorCount")]
         fn error_count(&self) -> usize;
+        #[swift_bridge(swift_name = "maxDepth")]
         fn max_depth(&self) -> usize;
     }
 
@@ -107,8 +136,10 @@ mod ffi {
         fn span(&self) -> Span;
         fn children(&self) -> Vec<StructureItem>;
         fn decorators(&self) -> Vec<String>;
+        #[swift_bridge(swift_name = "docComment")]
         fn doc_comment(&self) -> Option<String>;
         fn signature(&self) -> Option<String>;
+        #[swift_bridge(swift_name = "bodySpan")]
         fn body_span(&self) -> Option<Span>;
     }
 
@@ -119,6 +150,7 @@ mod ffi {
         fn text(&self) -> String;
         fn kind(&self) -> String;
         fn span(&self) -> Span;
+        #[swift_bridge(swift_name = "associatedNode")]
         fn associated_node(&self) -> Option<String>;
     }
 
@@ -135,7 +167,9 @@ mod ffi {
         fn text(&self) -> String;
         fn format(&self) -> String;
         fn span(&self) -> Span;
+        #[swift_bridge(swift_name = "associatedItem")]
         fn associated_item(&self) -> Option<String>;
+        #[swift_bridge(swift_name = "parsedSections")]
         fn parsed_sections(&self) -> Vec<DocSection>;
     }
 
@@ -155,6 +189,7 @@ mod ffi {
         fn source(&self) -> String;
         fn items(&self) -> Vec<String>;
         fn alias(&self) -> Option<String>;
+        #[swift_bridge(swift_name = "isWildcard")]
         fn is_wildcard(&self) -> bool;
         fn span(&self) -> Span;
     }
@@ -181,6 +216,7 @@ mod ffi {
         fn name(&self) -> String;
         fn kind(&self) -> String;
         fn span(&self) -> Span;
+        #[swift_bridge(swift_name = "typeAnnotation")]
         fn type_annotation(&self) -> Option<String>;
         fn doc(&self) -> Option<String>;
     }
@@ -206,9 +242,13 @@ mod ffi {
             metadata: ChunkContext,
         ) -> CodeChunk;
         fn content(&self) -> String;
+        #[swift_bridge(swift_name = "startByte")]
         fn start_byte(&self) -> usize;
+        #[swift_bridge(swift_name = "endByte")]
         fn end_byte(&self) -> usize;
+        #[swift_bridge(swift_name = "startLine")]
         fn start_line(&self) -> usize;
+        #[swift_bridge(swift_name = "endLine")]
         fn end_line(&self) -> usize;
         fn metadata(&self) -> ChunkContext;
     }
@@ -228,13 +268,19 @@ mod ffi {
             has_error_nodes: bool,
         ) -> ChunkContext;
         fn language(&self) -> String;
+        #[swift_bridge(swift_name = "chunkIndex")]
         fn chunk_index(&self) -> usize;
+        #[swift_bridge(swift_name = "totalChunks")]
         fn total_chunks(&self) -> usize;
+        #[swift_bridge(swift_name = "nodeTypes")]
         fn node_types(&self) -> Vec<String>;
+        #[swift_bridge(swift_name = "contextPath")]
         fn context_path(&self) -> Vec<String>;
+        #[swift_bridge(swift_name = "symbolsDefined")]
         fn symbols_defined(&self) -> Vec<String>;
         fn comments(&self) -> Vec<CommentInfo>;
         fn docstrings(&self) -> Vec<DocstringInfo>;
+        #[swift_bridge(swift_name = "hasErrorNodes")]
         fn has_error_nodes(&self) -> bool;
     }
 
@@ -242,6 +288,7 @@ mod ffi {
         type PackConfig;
         #[swift_bridge(init)]
         fn new(cache_dir: Option<String>, languages: Option<Vec<String>>, groups: Option<Vec<String>>) -> PackConfig;
+        #[swift_bridge(swift_name = "cacheDir")]
         fn cache_dir(&self) -> Option<String>;
         fn languages(&self) -> Option<Vec<String>>;
         fn groups(&self) -> Option<Vec<String>>;
@@ -298,6 +345,8 @@ mod ffi {
         fn node_clone(client: &Node) -> Node;
         #[swift_bridge(swift_name = "nodeKind")]
         fn node_kind(client: &Node) -> String;
+        #[swift_bridge(swift_name = "nodeKindId")]
+        fn node_kind_id(client: &Node) -> u16;
         #[swift_bridge(swift_name = "nodeStartByte")]
         fn node_start_byte(client: &Node) -> usize;
         #[swift_bridge(swift_name = "nodeEndByte")]
@@ -375,6 +424,7 @@ mod ffi {
         fn docstrings(&self) -> bool;
         fn symbols(&self) -> bool;
         fn diagnostics(&self) -> bool;
+        #[swift_bridge(swift_name = "chunkMaxSize")]
         fn chunk_max_size(&self) -> Option<usize>;
     }
 
@@ -477,6 +527,8 @@ mod ffi {
         fn download(names: Vec<String>) -> Result<usize, String>;
         #[swift_bridge(swift_name = "downloadAll")]
         fn download_all() -> Result<usize, String>;
+        #[swift_bridge(swift_name = "downloadGroup")]
+        fn download_group(name: String) -> Result<usize, String>;
         #[swift_bridge(swift_name = "manifestLanguages")]
         fn manifest_languages() -> Result<Vec<String>, String>;
         #[swift_bridge(swift_name = "downloadedLanguages")]
@@ -491,10 +543,56 @@ mod ffi {
 
         #[swift_bridge(swift_name = "packConfigFromJson")]
         fn pack_config_from_json(json: String) -> Result<PackConfig, String>;
-        #[swift_bridge(swift_name = "pointFromJson")]
-        fn point_from_json(json: String) -> Result<Point, String>;
         #[swift_bridge(swift_name = "processConfigFromJson")]
         fn process_config_from_json(json: String) -> Result<ProcessConfig, String>;
+    }
+    extern "Rust" {
+
+        #[swift_bridge(swift_name = "spanFromJson")]
+        fn span_from_json(json: String) -> Result<Span, String>;
+        #[swift_bridge(swift_name = "processResultFromJson")]
+        fn process_result_from_json(json: String) -> Result<ProcessResult, String>;
+        #[swift_bridge(swift_name = "fileMetricsFromJson")]
+        fn file_metrics_from_json(json: String) -> Result<FileMetrics, String>;
+        #[swift_bridge(swift_name = "structureItemFromJson")]
+        fn structure_item_from_json(json: String) -> Result<StructureItem, String>;
+        #[swift_bridge(swift_name = "commentInfoFromJson")]
+        fn comment_info_from_json(json: String) -> Result<CommentInfo, String>;
+        #[swift_bridge(swift_name = "docstringInfoFromJson")]
+        fn docstring_info_from_json(json: String) -> Result<DocstringInfo, String>;
+        #[swift_bridge(swift_name = "docSectionFromJson")]
+        fn doc_section_from_json(json: String) -> Result<DocSection, String>;
+        #[swift_bridge(swift_name = "importInfoFromJson")]
+        fn import_info_from_json(json: String) -> Result<ImportInfo, String>;
+        #[swift_bridge(swift_name = "exportInfoFromJson")]
+        fn export_info_from_json(json: String) -> Result<ExportInfo, String>;
+        #[swift_bridge(swift_name = "symbolInfoFromJson")]
+        fn symbol_info_from_json(json: String) -> Result<SymbolInfo, String>;
+        #[swift_bridge(swift_name = "diagnosticFromJson")]
+        fn diagnostic_from_json(json: String) -> Result<Diagnostic, String>;
+        #[swift_bridge(swift_name = "codeChunkFromJson")]
+        fn code_chunk_from_json(json: String) -> Result<CodeChunk, String>;
+        #[swift_bridge(swift_name = "chunkContextFromJson")]
+        fn chunk_context_from_json(json: String) -> Result<ChunkContext, String>;
+        #[swift_bridge(swift_name = "pointFromJson")]
+        fn point_from_json(json: String) -> Result<Point, String>;
+        #[swift_bridge(swift_name = "byteRangeFromJson")]
+        fn byte_range_from_json(json: String) -> Result<ByteRange, String>;
+    }
+    extern "Rust" {
+
+        #[swift_bridge(swift_name = "structureKindFromJson")]
+        fn structure_kind_from_json(json: String) -> Result<StructureKind, String>;
+        #[swift_bridge(swift_name = "commentKindFromJson")]
+        fn comment_kind_from_json(json: String) -> Result<CommentKind, String>;
+        #[swift_bridge(swift_name = "docstringFormatFromJson")]
+        fn docstring_format_from_json(json: String) -> Result<DocstringFormat, String>;
+        #[swift_bridge(swift_name = "exportKindFromJson")]
+        fn export_kind_from_json(json: String) -> Result<ExportKind, String>;
+        #[swift_bridge(swift_name = "symbolKindFromJson")]
+        fn symbol_kind_from_json(json: String) -> Result<SymbolKind, String>;
+        #[swift_bridge(swift_name = "diagnosticSeverityFromJson")]
+        fn diagnostic_severity_from_json(json: String) -> Result<DiagnosticSeverity, String>;
     }
 }
 
@@ -570,8 +668,14 @@ impl ProcessResult {
         chunks: Vec<CodeChunk>,
     ) -> ProcessResult {
         let mut __target: tree_sitter_language_pack::ProcessResult = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&language) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&language)
+                .unwrap_or(::serde_json::Value::String(language.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.language = t;
             }
         }
@@ -715,17 +819,23 @@ impl StructureItem {
         let mut __target: tree_sitter_language_pack::StructureItem = ::std::default::Default::default();
         // alef: kind (StructureKind) is an enum; reverse From not generated — left at default
         if let Some(s) = name {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.name = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.name = Some(t);
             }
         }
         if let Some(s) = visibility {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.visibility = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.visibility = Some(t);
             }
         }
         __target.span = span.0;
@@ -736,17 +846,23 @@ impl StructureItem {
             }
         }
         if let Some(s) = doc_comment {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.doc_comment = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.doc_comment = Some(t);
             }
         }
         if let Some(s) = signature {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.signature = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.signature = Some(t);
             }
         }
         if let Some(w) = body_span {
@@ -790,18 +906,27 @@ pub struct CommentInfo(pub tree_sitter_language_pack::CommentInfo);
 impl CommentInfo {
     pub fn new(text: String, kind: CommentKind, span: Span, associated_node: Option<String>) -> CommentInfo {
         let mut __target: tree_sitter_language_pack::CommentInfo = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&text) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&text)
+                .unwrap_or(::serde_json::Value::String(text.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.text = t;
             }
         }
         // alef: kind (CommentKind) is an enum; reverse From not generated — left at default
         __target.span = span.0;
         if let Some(s) = associated_node {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.associated_node = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.associated_node = Some(t);
             }
         }
         CommentInfo(__target)
@@ -830,18 +955,27 @@ impl DocstringInfo {
         parsed_sections: Vec<DocSection>,
     ) -> DocstringInfo {
         let mut __target: tree_sitter_language_pack::DocstringInfo = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&text) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&text)
+                .unwrap_or(::serde_json::Value::String(text.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.text = t;
             }
         }
         // alef: format (DocstringFormat) is an enum; reverse From not generated — left at default
         __target.span = span.0;
         if let Some(s) = associated_item {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.associated_item = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.associated_item = Some(t);
             }
         }
         __target.parsed_sections = parsed_sections.into_iter().map(|w| w.0).collect();
@@ -872,20 +1006,35 @@ pub struct DocSection(pub tree_sitter_language_pack::DocSection);
 impl DocSection {
     pub fn new(kind: String, name: Option<String>, description: String) -> DocSection {
         let mut __target: tree_sitter_language_pack::DocSection = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&kind) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&kind)
+                .unwrap_or(::serde_json::Value::String(kind.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.kind = t;
             }
         }
         if let Some(s) = name {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.name = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.name = Some(t);
             }
         }
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&description) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&description)
+                .unwrap_or(::serde_json::Value::String(description.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.description = t;
             }
         }
@@ -906,8 +1055,14 @@ pub struct ImportInfo(pub tree_sitter_language_pack::ImportInfo);
 impl ImportInfo {
     pub fn new(source: String, items: Vec<String>, alias: Option<String>, is_wildcard: bool, span: Span) -> ImportInfo {
         let mut __target: tree_sitter_language_pack::ImportInfo = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&source) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&source)
+                .unwrap_or(::serde_json::Value::String(source.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.source = t;
             }
         }
@@ -917,10 +1072,13 @@ impl ImportInfo {
             }
         }
         if let Some(s) = alias {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.alias = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.alias = Some(t);
             }
         }
         __target.is_wildcard = is_wildcard;
@@ -954,8 +1112,14 @@ pub struct ExportInfo(pub tree_sitter_language_pack::ExportInfo);
 impl ExportInfo {
     pub fn new(name: String, kind: ExportKind, span: Span) -> ExportInfo {
         let mut __target: tree_sitter_language_pack::ExportInfo = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&name) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&name)
+                .unwrap_or(::serde_json::Value::String(name.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.name = t;
             }
         }
@@ -984,25 +1148,37 @@ impl SymbolInfo {
         doc: Option<String>,
     ) -> SymbolInfo {
         let mut __target: tree_sitter_language_pack::SymbolInfo = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&name) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&name)
+                .unwrap_or(::serde_json::Value::String(name.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.name = t;
             }
         }
         // alef: kind (SymbolKind) is an enum; reverse From not generated — left at default
         __target.span = span.0;
         if let Some(s) = type_annotation {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.type_annotation = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.type_annotation = Some(t);
             }
         }
         if let Some(s) = doc {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.doc = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.doc = Some(t);
             }
         }
         SymbolInfo(__target)
@@ -1028,8 +1204,14 @@ pub struct Diagnostic(pub tree_sitter_language_pack::Diagnostic);
 impl Diagnostic {
     pub fn new(message: String, severity: DiagnosticSeverity, span: Span) -> Diagnostic {
         let mut __target: tree_sitter_language_pack::Diagnostic = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&message) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&message)
+                .unwrap_or(::serde_json::Value::String(message.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.message = t;
             }
         }
@@ -1059,8 +1241,14 @@ impl CodeChunk {
         metadata: ChunkContext,
     ) -> CodeChunk {
         let mut __target: tree_sitter_language_pack::CodeChunk = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&content) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&content)
+                .unwrap_or(::serde_json::Value::String(content.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.content = t;
             }
         }
@@ -1117,8 +1305,14 @@ impl ChunkContext {
         has_error_nodes: bool,
     ) -> ChunkContext {
         let mut __target: tree_sitter_language_pack::ChunkContext = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&language) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&language)
+                .unwrap_or(::serde_json::Value::String(language.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.language = t;
             }
         }
@@ -1200,10 +1394,13 @@ impl PackConfig {
     pub fn new(cache_dir: Option<String>, languages: Option<Vec<String>>, groups: Option<Vec<String>>) -> PackConfig {
         let mut __target: tree_sitter_language_pack::PackConfig = ::std::default::Default::default();
         if let Some(s) = cache_dir {
-            if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&s) {
-                if let Ok(t) = ::serde_json::from_value(v) {
-                    __target.cache_dir = Some(t);
-                }
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&s).unwrap_or(::serde_json::Value::String(s));
+            if let Ok(t) = ::serde_json::from_value(__v) {
+                __target.cache_dir = Some(t);
             }
         }
         if let Ok(__v) = ::serde_json::to_value(languages) {
@@ -1307,6 +1504,9 @@ pub fn node_clone(client: &Node) -> Node {
 pub fn node_kind(client: &Node) -> String {
     client.0.kind().to_string()
 }
+pub fn node_kind_id(client: &Node) -> u16 {
+    client.0.kind_id()
+}
 pub fn node_start_byte(client: &Node) -> usize {
     client.0.start_byte()
 }
@@ -1394,8 +1594,14 @@ impl ProcessConfig {
         chunk_max_size: Option<usize>,
     ) -> ProcessConfig {
         let mut __target: tree_sitter_language_pack::ProcessConfig = ::std::default::Default::default();
-        if let Ok(v) = ::serde_json::from_str::<::serde_json::Value>(&language) {
-            if let Ok(t) = ::serde_json::from_value(v) {
+        {
+            // Try JSON parse first (handles enum/object values); on parse failure
+            // treat the raw input as a JSON string scalar so plain `String` /
+            // string-like enum fields don't end up empty for inputs that aren't
+            // valid JSON tokens (e.g. `tts-1`).
+            let __v = ::serde_json::from_str::<::serde_json::Value>(&language)
+                .unwrap_or(::serde_json::Value::String(language.clone()));
+            if let Ok(t) = ::serde_json::from_value(__v) {
                 __target.language = t;
             }
         }
@@ -1514,8 +1720,7 @@ pub enum StructureKind {
     Trait,
     Impl,
     Namespace,
-    /// Data variants not directly bridgeable — represented as Unknown.
-    Unknown,
+    Other,
 }
 
 impl From<tree_sitter_language_pack::StructureKind> for StructureKind {
@@ -1531,7 +1736,7 @@ impl From<tree_sitter_language_pack::StructureKind> for StructureKind {
             tree_sitter_language_pack::StructureKind::Trait => Self::Trait,
             tree_sitter_language_pack::StructureKind::Impl => Self::Impl,
             tree_sitter_language_pack::StructureKind::Namespace => Self::Namespace,
-            _ => Self::Unknown,
+            tree_sitter_language_pack::StructureKind::Other(..) => Self::Other,
         }
     }
 }
@@ -1549,7 +1754,7 @@ impl StructureKind {
             Self::Trait => "Trait".to_string(),
             Self::Impl => "Impl".to_string(),
             Self::Namespace => "Namespace".to_string(),
-            Self::Unknown => "unknown".to_string(),
+            Self::Other => "Other".to_string(),
         }
     }
 }
@@ -1586,8 +1791,7 @@ pub enum DocstringFormat {
     Rustdoc,
     GoDoc,
     JavaDoc,
-    /// Data variants not directly bridgeable — represented as Unknown.
-    Unknown,
+    Other,
 }
 
 impl From<tree_sitter_language_pack::DocstringFormat> for DocstringFormat {
@@ -1598,7 +1802,7 @@ impl From<tree_sitter_language_pack::DocstringFormat> for DocstringFormat {
             tree_sitter_language_pack::DocstringFormat::Rustdoc => Self::Rustdoc,
             tree_sitter_language_pack::DocstringFormat::GoDoc => Self::GoDoc,
             tree_sitter_language_pack::DocstringFormat::JavaDoc => Self::JavaDoc,
-            _ => Self::Unknown,
+            tree_sitter_language_pack::DocstringFormat::Other(..) => Self::Other,
         }
     }
 }
@@ -1611,7 +1815,7 @@ impl DocstringFormat {
             Self::Rustdoc => "Rustdoc".to_string(),
             Self::GoDoc => "GoDoc".to_string(),
             Self::JavaDoc => "JavaDoc".to_string(),
-            Self::Unknown => "unknown".to_string(),
+            Self::Other => "Other".to_string(),
         }
     }
 }
@@ -1651,8 +1855,7 @@ pub enum SymbolKind {
     Interface,
     Enum,
     Module,
-    /// Data variants not directly bridgeable — represented as Unknown.
-    Unknown,
+    Other,
 }
 
 impl From<tree_sitter_language_pack::SymbolKind> for SymbolKind {
@@ -1666,7 +1869,7 @@ impl From<tree_sitter_language_pack::SymbolKind> for SymbolKind {
             tree_sitter_language_pack::SymbolKind::Interface => Self::Interface,
             tree_sitter_language_pack::SymbolKind::Enum => Self::Enum,
             tree_sitter_language_pack::SymbolKind::Module => Self::Module,
-            _ => Self::Unknown,
+            tree_sitter_language_pack::SymbolKind::Other(..) => Self::Other,
         }
     }
 }
@@ -1682,7 +1885,7 @@ impl SymbolKind {
             Self::Interface => "Interface".to_string(),
             Self::Enum => "Enum".to_string(),
             Self::Module => "Module".to_string(),
-            Self::Unknown => "unknown".to_string(),
+            Self::Other => "Other".to_string(),
         }
     }
 }
@@ -1792,6 +1995,10 @@ pub fn download_all() -> Result<usize, String> {
     tree_sitter_language_pack::download_all().map_err(|e| e.to_string())
 }
 
+pub fn download_group(name: String) -> Result<usize, String> {
+    tree_sitter_language_pack::download_group(&name).map_err(|e| e.to_string())
+}
+
 pub fn manifest_languages() -> Result<Vec<String>, String> {
     tree_sitter_language_pack::manifest_languages()
         .map_err(|e| e.to_string())
@@ -1820,15 +2027,113 @@ pub fn pack_config_from_json(json: String) -> Result<PackConfig, String> {
         .map(PackConfig)
         .map_err(|e| e.to_string())
 }
-
+pub fn process_config_from_json(json: String) -> Result<ProcessConfig, String> {
+    serde_json::from_str::<tree_sitter_language_pack::ProcessConfig>(&json)
+        .map(ProcessConfig)
+        .map_err(|e| e.to_string())
+}
+pub fn span_from_json(json: String) -> Result<Span, String> {
+    serde_json::from_str::<tree_sitter_language_pack::Span>(&json)
+        .map(Span)
+        .map_err(|e| e.to_string())
+}
+pub fn process_result_from_json(json: String) -> Result<ProcessResult, String> {
+    serde_json::from_str::<tree_sitter_language_pack::ProcessResult>(&json)
+        .map(ProcessResult)
+        .map_err(|e| e.to_string())
+}
+pub fn file_metrics_from_json(json: String) -> Result<FileMetrics, String> {
+    serde_json::from_str::<tree_sitter_language_pack::FileMetrics>(&json)
+        .map(FileMetrics)
+        .map_err(|e| e.to_string())
+}
+pub fn structure_item_from_json(json: String) -> Result<StructureItem, String> {
+    serde_json::from_str::<tree_sitter_language_pack::StructureItem>(&json)
+        .map(StructureItem)
+        .map_err(|e| e.to_string())
+}
+pub fn comment_info_from_json(json: String) -> Result<CommentInfo, String> {
+    serde_json::from_str::<tree_sitter_language_pack::CommentInfo>(&json)
+        .map(CommentInfo)
+        .map_err(|e| e.to_string())
+}
+pub fn docstring_info_from_json(json: String) -> Result<DocstringInfo, String> {
+    serde_json::from_str::<tree_sitter_language_pack::DocstringInfo>(&json)
+        .map(DocstringInfo)
+        .map_err(|e| e.to_string())
+}
+pub fn doc_section_from_json(json: String) -> Result<DocSection, String> {
+    serde_json::from_str::<tree_sitter_language_pack::DocSection>(&json)
+        .map(DocSection)
+        .map_err(|e| e.to_string())
+}
+pub fn import_info_from_json(json: String) -> Result<ImportInfo, String> {
+    serde_json::from_str::<tree_sitter_language_pack::ImportInfo>(&json)
+        .map(ImportInfo)
+        .map_err(|e| e.to_string())
+}
+pub fn export_info_from_json(json: String) -> Result<ExportInfo, String> {
+    serde_json::from_str::<tree_sitter_language_pack::ExportInfo>(&json)
+        .map(ExportInfo)
+        .map_err(|e| e.to_string())
+}
+pub fn symbol_info_from_json(json: String) -> Result<SymbolInfo, String> {
+    serde_json::from_str::<tree_sitter_language_pack::SymbolInfo>(&json)
+        .map(SymbolInfo)
+        .map_err(|e| e.to_string())
+}
+pub fn diagnostic_from_json(json: String) -> Result<Diagnostic, String> {
+    serde_json::from_str::<tree_sitter_language_pack::Diagnostic>(&json)
+        .map(Diagnostic)
+        .map_err(|e| e.to_string())
+}
+pub fn code_chunk_from_json(json: String) -> Result<CodeChunk, String> {
+    serde_json::from_str::<tree_sitter_language_pack::CodeChunk>(&json)
+        .map(CodeChunk)
+        .map_err(|e| e.to_string())
+}
+pub fn chunk_context_from_json(json: String) -> Result<ChunkContext, String> {
+    serde_json::from_str::<tree_sitter_language_pack::ChunkContext>(&json)
+        .map(ChunkContext)
+        .map_err(|e| e.to_string())
+}
 pub fn point_from_json(json: String) -> Result<Point, String> {
     serde_json::from_str::<tree_sitter_language_pack::Point>(&json)
         .map(Point)
         .map_err(|e| e.to_string())
 }
-
-pub fn process_config_from_json(json: String) -> Result<ProcessConfig, String> {
-    serde_json::from_str::<tree_sitter_language_pack::ProcessConfig>(&json)
-        .map(ProcessConfig)
+pub fn byte_range_from_json(json: String) -> Result<ByteRange, String> {
+    serde_json::from_str::<tree_sitter_language_pack::ByteRange>(&json)
+        .map(ByteRange)
+        .map_err(|e| e.to_string())
+}
+pub fn structure_kind_from_json(json: String) -> Result<StructureKind, String> {
+    serde_json::from_str::<tree_sitter_language_pack::StructureKind>(&json)
+        .map(StructureKind::from)
+        .map_err(|e| e.to_string())
+}
+pub fn comment_kind_from_json(json: String) -> Result<CommentKind, String> {
+    serde_json::from_str::<tree_sitter_language_pack::CommentKind>(&json)
+        .map(CommentKind::from)
+        .map_err(|e| e.to_string())
+}
+pub fn docstring_format_from_json(json: String) -> Result<DocstringFormat, String> {
+    serde_json::from_str::<tree_sitter_language_pack::DocstringFormat>(&json)
+        .map(DocstringFormat::from)
+        .map_err(|e| e.to_string())
+}
+pub fn export_kind_from_json(json: String) -> Result<ExportKind, String> {
+    serde_json::from_str::<tree_sitter_language_pack::ExportKind>(&json)
+        .map(ExportKind::from)
+        .map_err(|e| e.to_string())
+}
+pub fn symbol_kind_from_json(json: String) -> Result<SymbolKind, String> {
+    serde_json::from_str::<tree_sitter_language_pack::SymbolKind>(&json)
+        .map(SymbolKind::from)
+        .map_err(|e| e.to_string())
+}
+pub fn diagnostic_severity_from_json(json: String) -> Result<DiagnosticSeverity, String> {
+    serde_json::from_str::<tree_sitter_language_pack::DiagnosticSeverity>(&json)
+        .map(DiagnosticSeverity::from)
         .map_err(|e| e.to_string())
 }

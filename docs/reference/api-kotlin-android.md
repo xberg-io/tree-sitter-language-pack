@@ -2,7 +2,7 @@
 title: "Kotlin (Android) API Reference"
 ---
 
-## Kotlin (Android) API Reference <span class="version-badge">v1.8.1</span>
+## Kotlin (Android) API Reference <span class="version-badge">v1.9.0-rc.4</span>
 
 ### Functions
 
@@ -20,9 +20,9 @@ fun detectLanguageFromExtension(ext: String): String?
 
 **Parameters:**
 
-| Name  | Type     | Required | Description |
-| ----- | -------- | -------- | ----------- |
-| `ext` | `String` | Yes      | The ext     |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `ext` | `String` | Yes | The ext |
 
 **Returns:** `String?`
 
@@ -43,9 +43,9 @@ fun detectLanguageFromPath(path: String): String?
 
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `path` | `String` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `String` | Yes | Path to the file |
 
 **Returns:** `String?`
 
@@ -78,9 +78,9 @@ fun detectLanguageFromContent(content: String): String?
 
 **Parameters:**
 
-| Name      | Type     | Required | Description            |
-| --------- | -------- | -------- | ---------------------- |
-| `content` | `String` | Yes      | The content to process |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `content` | `String` | Yes | The content to process |
 
 **Returns:** `String?`
 
@@ -101,9 +101,9 @@ fun getHighlightsQuery(language: String): String?
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `String` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `String` | Yes | The language |
 
 **Returns:** `String?`
 
@@ -124,9 +124,9 @@ fun getInjectionsQuery(language: String): String?
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `String` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `String` | Yes | The language |
 
 **Returns:** `String?`
 
@@ -147,9 +147,9 @@ fun getLocalsQuery(language: String): String?
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `language` | `String` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `String` | Yes | The language |
 
 **Returns:** `String?`
 
@@ -177,9 +177,9 @@ fun getLanguage(name: String): Language
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `String` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
 
 **Returns:** `Language`
 **Errors:** Throws `Error`.
@@ -207,9 +207,9 @@ fun getParser(name: String): Parser
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `String` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
 
 **Returns:** `Parser`
 **Errors:** Throws `Error`.
@@ -230,9 +230,9 @@ fun detectLanguage(path: String): String?
 
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `path` | `String` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `String` | Yes | Path to the file |
 
 **Returns:** `String?`
 
@@ -270,9 +270,9 @@ fun hasLanguage(name: String): Boolean
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `name` | `String` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
 
 **Returns:** `Boolean`
 
@@ -316,10 +316,10 @@ fun process(source: String, config: ProcessConfig): ProcessResult
 
 **Parameters:**
 
-| Name     | Type            | Required | Description               |
-| -------- | --------------- | -------- | ------------------------- |
-| `source` | `String`        | Yes      | The source                |
-| `config` | `ProcessConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
 **Errors:** Throws `Error`.
@@ -347,9 +347,9 @@ fun init(config: PackConfig)
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `Unit`
 **Errors:** Throws `Error`.
@@ -378,9 +378,9 @@ fun configure(config: PackConfig)
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `Unit`
 **Errors:** Throws `Error`.
@@ -408,9 +408,9 @@ fun download(names: List<String>): Long
 
 **Parameters:**
 
-| Name    | Type           | Required | Description |
-| ------- | -------------- | -------- | ----------- |
-| `names` | `List<String>` | Yes      | The names   |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `names` | `List<String>` | Yes | The names |
 
 **Returns:** `Long`
 **Errors:** Throws `Error`.
@@ -445,9 +445,43 @@ fun downloadAll(): Long
 
 ---
 
+#### downloadGroup()
+
+Download every language in a named group (e.g. `"web"`, `"data"`).
+
+Groups are defined in the remote manifest and let you ensure a curated
+set of related grammars in one call instead of listing each name to
+`download`. Already-cached languages are skipped.
+
+Returns the total number of languages now available (statically compiled
+plus downloaded and cached).
+
+**Errors:**
+
+Returns an error if the manifest cannot be fetched, the group is unknown,
+or any constituent language fails to download.
+
+**Signature:**
+
+```kotlin
+@Throws(Error::class)
+fun downloadGroup(name: String): Long
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Long`
+**Errors:** Throws `Error`.
+
+---
+
 #### manifestLanguages()
 
-Return all language names available in the remote manifest (304).
+Return all language names available in the remote manifest (305).
 
 Fetches (and caches) the remote manifest to discover the full list of
 downloadable languages. Use `downloaded_languages` to list what is
@@ -538,10 +572,10 @@ fun cacheDir(): String
 
 A byte range — start (inclusive) to end (exclusive).
 
-| Field   | Type   | Default | Description                  |
-| ------- | ------ | ------- | ---------------------------- |
-| `start` | `Long` | —       | Inclusive start byte offset. |
-| `end`   | `Long` | —       | Exclusive end byte offset.   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `start` | `Long` | — | Inclusive start byte offset. |
+| `end` | `Long` | — | Exclusive end byte offset. |
 
 ---
 
@@ -549,17 +583,17 @@ A byte range — start (inclusive) to end (exclusive).
 
 Metadata for a single chunk of source code.
 
-| Field            | Type                  | Default | Description         |
-| ---------------- | --------------------- | ------- | ------------------- |
-| `language`       | `String`              | —       | Language            |
-| `chunkIndex`     | `Long`                | —       | Chunk index         |
-| `totalChunks`    | `Long`                | —       | Total chunks        |
-| `nodeTypes`      | `List<String>`        | `[]`    | Node types          |
-| `contextPath`    | `List<String>`        | `[]`    | Context path        |
-| `symbolsDefined` | `List<String>`        | `[]`    | Symbols defined     |
-| `comments`       | `List<CommentInfo>`   | `[]`    | Comments            |
-| `docstrings`     | `List<DocstringInfo>` | `[]`    | Docstrings          |
-| `hasErrorNodes`  | `Boolean`             | —       | Whether error nodes |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `String` | — | Language |
+| `chunkIndex` | `Long` | — | Chunk index |
+| `totalChunks` | `Long` | — | Total chunks |
+| `nodeTypes` | `List<String>` | `[]` | Node types |
+| `contextPath` | `List<String>` | `[]` | Context path |
+| `symbolsDefined` | `List<String>` | `[]` | Symbols defined |
+| `comments` | `List<CommentInfo>` | `[]` | Comments |
+| `docstrings` | `List<DocstringInfo>` | `[]` | Docstrings |
+| `hasErrorNodes` | `Boolean` | — | Whether error nodes |
 
 ---
 
@@ -567,14 +601,14 @@ Metadata for a single chunk of source code.
 
 A chunk of source code with rich metadata.
 
-| Field       | Type           | Default | Description                |
-| ----------- | -------------- | ------- | -------------------------- |
-| `content`   | `String`       | —       | The extracted text content |
-| `startByte` | `Long`         | —       | Start byte                 |
-| `endByte`   | `Long`         | —       | End byte                   |
-| `startLine` | `Long`         | —       | Start line                 |
-| `endLine`   | `Long`         | —       | End line                   |
-| `metadata`  | `ChunkContext` | —       | Document metadata          |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `content` | `String` | — | The extracted text content |
+| `startByte` | `Long` | — | Start byte |
+| `endByte` | `Long` | — | End byte |
+| `startLine` | `Long` | — | Start line |
+| `endLine` | `Long` | — | End line |
+| `metadata` | `ChunkContext` | — | Document metadata |
 
 ---
 
@@ -582,12 +616,12 @@ A chunk of source code with rich metadata.
 
 A comment extracted from source code.
 
-| Field            | Type          | Default            | Description         |
-| ---------------- | ------------- | ------------------ | ------------------- |
-| `text`           | `String`      | —                  | Text                |
-| `kind`           | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
-| `span`           | `Span`        | —                  | Span (span)         |
-| `associatedNode` | `String?`     | `null`             | Associated node     |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `String` | — | Text |
+| `kind` | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
+| `span` | `Span` | — | Span (span) |
+| `associatedNode` | `String?` | `null` | Associated node |
 
 ---
 
@@ -595,11 +629,11 @@ A comment extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-| Field      | Type                 | Default                    | Description                    |
-| ---------- | -------------------- | -------------------------- | ------------------------------ |
-| `message`  | `String`             | —                          | Message                        |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | `String` | — | Message |
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity.Error` | Severity (diagnostic severity) |
-| `span`     | `Span`               | —                          | Span (span)                    |
+| `span` | `Span` | — | Span (span) |
 
 ---
 
@@ -607,11 +641,11 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-| Field         | Type      | Default | Description                |
-| ------------- | --------- | ------- | -------------------------- |
-| `kind`        | `String`  | —       | Kind                       |
-| `name`        | `String?` | `null`  | The name                   |
-| `description` | `String`  | —       | Human-readable description |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `String` | — | Kind |
+| `name` | `String?` | `null` | The name |
+| `description` | `String` | — | Human-readable description |
 
 ---
 
@@ -619,13 +653,13 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 A docstring extracted from source code.
 
-| Field            | Type               | Default                             | Description               |
-| ---------------- | ------------------ | ----------------------------------- | ------------------------- |
-| `text`           | `String`           | —                                   | Text                      |
-| `format`         | `DocstringFormat`  | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
-| `span`           | `Span`             | —                                   | Span (span)               |
-| `associatedItem` | `String?`          | `null`                              | Associated item           |
-| `parsedSections` | `List<DocSection>` | `[]`                                | Parsed sections           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `String` | — | Text |
+| `format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
+| `span` | `Span` | — | Span (span) |
+| `associatedItem` | `String?` | `null` | Associated item |
+| `parsedSections` | `List<DocSection>` | `[]` | Parsed sections |
 
 ---
 
@@ -633,9 +667,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-##### Methods
+### Methods
 
-###### new()
+#### new()
 
 Create a new download manager for the given version.
 
@@ -647,7 +681,7 @@ Create a new download manager for the given version.
 fun new(version: String): DownloadManager
 ```
 
-###### withCacheDir()
+#### withCacheDir()
 
 Create a download manager with a custom cache directory.
 
@@ -658,7 +692,7 @@ Create a download manager with a custom cache directory.
 fun withCacheDir(version: String, cacheDir: Path): DownloadManager
 ```
 
-###### installedLanguages()
+#### installedLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -668,7 +702,7 @@ List languages that are already downloaded and cached.
 fun installedLanguages(): List<String>
 ```
 
-###### downloadAllBestEffort()
+#### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -686,9 +720,16 @@ Returns the number of library files extracted (including those already cached).
 fun downloadAllBestEffort(): Long
 ```
 
-###### cleanCache()
+#### cleanCache()
 
 Remove all cached parser libraries.
+
+Acquires the cross-process lock so `clean_cache` cannot race a concurrent
+downloader (avoids Windows sharing-violation errors against an in-flight
+bundle write). The `.download.lock` file itself is **not** removed — it is
+permanent infrastructure; deleting it could allow a concurrent process that
+already opened the file to continue holding a stale lock handle while a new
+process opens a fresh inode, breaking the mutual-exclusion guarantee.
 
 **Signature:**
 
@@ -703,11 +744,11 @@ fun cleanCache()
 
 An export statement extracted from source code.
 
-| Field  | Type         | Default            | Description        |
-| ------ | ------------ | ------------------ | ------------------ |
-| `name` | `String`     | —                  | The name           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `String` | — | The name |
 | `kind` | `ExportKind` | `ExportKind.Named` | Kind (export kind) |
-| `span` | `Span`       | —                  | Span (span)        |
+| `span` | `Span` | — | Span (span) |
 
 ---
 
@@ -715,16 +756,16 @@ An export statement extracted from source code.
 
 Aggregate metrics for a source file.
 
-| Field          | Type   | Default | Description      |
-| -------------- | ------ | ------- | ---------------- |
-| `totalLines`   | `Long` | —       | Total lines      |
-| `codeLines`    | `Long` | —       | Code lines       |
-| `commentLines` | `Long` | —       | Comment lines    |
-| `blankLines`   | `Long` | —       | Blank lines      |
-| `totalBytes`   | `Long` | —       | Total bytes      |
-| `nodeCount`    | `Long` | —       | Number of nodes  |
-| `errorCount`   | `Long` | —       | Number of errors |
-| `maxDepth`     | `Long` | —       | Maximum depth    |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `totalLines` | `Long` | — | Total lines |
+| `codeLines` | `Long` | — | Code lines |
+| `commentLines` | `Long` | — | Comment lines |
+| `blankLines` | `Long` | — | Blank lines |
+| `totalBytes` | `Long` | — | Total bytes |
+| `nodeCount` | `Long` | — | Number of nodes |
+| `errorCount` | `Long` | — | Number of errors |
+| `maxDepth` | `Long` | — | Maximum depth |
 
 ---
 
@@ -732,13 +773,13 @@ Aggregate metrics for a source file.
 
 An import statement extracted from source code.
 
-| Field        | Type           | Default | Description      |
-| ------------ | -------------- | ------- | ---------------- |
-| `source`     | `String`       | —       | Source           |
-| `items`      | `List<String>` | `[]`    | Items            |
-| `alias`      | `String?`      | `null`  | Alias            |
-| `isWildcard` | `Boolean`      | —       | Whether wildcard |
-| `span`       | `Span`         | —       | Span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `source` | `String` | — | Source |
+| `items` | `List<String>` | `[]` | Items |
+| `alias` | `String?` | `null` | Alias |
+| `isWildcard` | `Boolean` | — | Whether wildcard |
+| `span` | `Span` | — | Span (span) |
 
 ---
 
@@ -755,9 +796,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-##### Methods
+### Methods
 
-###### getLanguage()
+#### getLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -777,7 +818,7 @@ does not match any known grammar.
 fun getLanguage(name: String): Language
 ```
 
-###### availableLanguages()
+#### availableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -790,7 +831,7 @@ Includes statically compiled languages, dynamically loadable languages
 fun availableLanguages(): List<String>
 ```
 
-###### hasLanguage()
+#### hasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -803,7 +844,7 @@ table or from a dynamic library on disk.
 fun hasLanguage(name: String): Boolean
 ```
 
-###### languageCount()
+#### languageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -813,7 +854,7 @@ Return the total number of available languages (including aliases).
 fun languageCount(): Long
 ```
 
-###### process()
+#### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -824,7 +865,7 @@ Parse source code and extract file intelligence based on config in a single pass
 fun process(source: String, config: ProcessConfig): ProcessResult
 ```
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -842,9 +883,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-##### Methods
+### Methods
 
-###### clone()
+#### clone()
 
 **Signature:**
 
@@ -852,7 +893,7 @@ regardless of how the tree is moved or stored at the FFI boundary.
 fun clone(): Node
 ```
 
-###### kind()
+#### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -862,7 +903,21 @@ Return the node's kind name (e.g. `"function_definition"`).
 fun kind(): String
 ```
 
-###### startByte()
+#### kindId()
+
+Return the node's numeric kind ID.
+
+Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+(e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+than comparing the string `kind()` in tight AST loops.
+
+**Signature:**
+
+```kotlin
+fun kindId(): Short
+```
+
+#### startByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -872,7 +927,7 @@ Return the inclusive start byte offset of this node.
 fun startByte(): Long
 ```
 
-###### endByte()
+#### endByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -882,7 +937,7 @@ Return the exclusive end byte offset of this node.
 fun endByte(): Long
 ```
 
-###### byteRange()
+#### byteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -895,7 +950,7 @@ text accessor.
 fun byteRange(): ByteRange
 ```
 
-###### startPosition()
+#### startPosition()
 
 Return the start `Point` (row, column).
 
@@ -905,7 +960,7 @@ Return the start `Point` (row, column).
 fun startPosition(): Point
 ```
 
-###### endPosition()
+#### endPosition()
 
 Return the end `Point` (row, column).
 
@@ -915,7 +970,7 @@ Return the end `Point` (row, column).
 fun endPosition(): Point
 ```
 
-###### isNamed()
+#### isNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -925,7 +980,7 @@ True when this node is named (not punctuation/whitespace).
 fun isNamed(): Boolean
 ```
 
-###### isError()
+#### isError()
 
 True when this is an error node.
 
@@ -935,7 +990,7 @@ True when this is an error node.
 fun isError(): Boolean
 ```
 
-###### isMissing()
+#### isMissing()
 
 True when this is a missing-token node.
 
@@ -945,7 +1000,7 @@ True when this is a missing-token node.
 fun isMissing(): Boolean
 ```
 
-###### isExtra()
+#### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -955,7 +1010,7 @@ True when this is an "extra" node (e.g. a comment).
 fun isExtra(): Boolean
 ```
 
-###### hasError()
+#### hasError()
 
 True when this node or any descendant is an error.
 
@@ -965,7 +1020,7 @@ True when this node or any descendant is an error.
 fun hasError(): Boolean
 ```
 
-###### parent()
+#### parent()
 
 Return this node's parent, if any.
 
@@ -975,7 +1030,7 @@ Return this node's parent, if any.
 fun parent(): Node?
 ```
 
-###### child()
+#### child()
 
 Return the i-th child of this node, if any.
 
@@ -985,7 +1040,7 @@ Return the i-th child of this node, if any.
 fun child(index: Int): Node?
 ```
 
-###### childCount()
+#### childCount()
 
 Total number of children (including unnamed).
 
@@ -995,7 +1050,7 @@ Total number of children (including unnamed).
 fun childCount(): Long
 ```
 
-###### namedChild()
+#### namedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1005,7 +1060,7 @@ Return the i-th named child of this node, if any.
 fun namedChild(index: Int): Node?
 ```
 
-###### namedChildCount()
+#### namedChildCount()
 
 Number of named children of this node.
 
@@ -1015,7 +1070,7 @@ Number of named children of this node.
 fun namedChildCount(): Long
 ```
 
-###### childByFieldName()
+#### childByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1025,7 +1080,7 @@ Look up a child by its grammar-defined field name.
 fun childByFieldName(name: String): Node?
 ```
 
-###### toSexp()
+#### toSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1035,7 +1090,7 @@ Return the S-expression form of this node's subtree.
 fun toSexp(): String
 ```
 
-###### walk()
+#### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1055,11 +1110,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-| Field       | Type            | Default | Description                                                                                      |
-| ----------- | --------------- | ------- | ------------------------------------------------------------------------------------------------ |
-| `cacheDir`  | `Path?`         | `null`  | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `List<String>?` | `[]`    | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`).    |
-| `groups`    | `List<String>?` | `[]`    | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).                      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `cacheDir` | `Path?` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `languages` | `List<String>?` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `List<String>?` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1067,9 +1122,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-##### Methods
+### Methods
 
-###### setLanguage()
+#### setLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1088,7 +1143,7 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 fun setLanguage(name: String)
 ```
 
-###### parse()
+#### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1099,7 +1154,7 @@ or no language is set.
 fun parse(source: String): Tree?
 ```
 
-###### parseBytes()
+#### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1110,7 +1165,7 @@ no language is set.
 fun parseBytes(source: ByteArray): Tree?
 ```
 
-###### reset()
+#### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1121,7 +1176,7 @@ not be incremental.
 fun reset()
 ```
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -1136,21 +1191,10 @@ fun default(): Parser
 
 A source position — row + column, zero-indexed.
 
-| Field    | Type   | Default | Description                                       |
-| -------- | ------ | ------- | ------------------------------------------------- |
-| `row`    | `Long` | —       | Zero-indexed row number.                          |
-| `column` | `Long` | —       | Zero-indexed column number, in UTF-16 code units. |
-
-##### Methods
-
-###### from()
-
-**Signature:**
-
-```kotlin
-@JvmStatic
-fun from(p: Point): Point
-```
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `row` | `Long` | — | Zero-indexed row number. |
+| `column` | `Long` | — | Zero-indexed column number, in UTF-16 code units. |
 
 ---
 
@@ -1160,21 +1204,21 @@ Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
 
-| Field          | Type      | Default | Description                                                         |
-| -------------- | --------- | ------- | ------------------------------------------------------------------- |
-| `language`     | `String`  | —       | Language name (required).                                           |
-| `structure`    | `Boolean` | `true`  | Extract structural items (functions, classes, etc.). Default: true. |
-| `imports`      | `Boolean` | `true`  | Extract import statements. Default: true.                           |
-| `exports`      | `Boolean` | `true`  | Extract export statements. Default: true.                           |
-| `comments`     | `Boolean` | `false` | Extract comments. Default: false.                                   |
-| `docstrings`   | `Boolean` | `false` | Extract docstrings. Default: false.                                 |
-| `symbols`      | `Boolean` | `false` | Extract symbol definitions. Default: false.                         |
-| `diagnostics`  | `Boolean` | `false` | Include parse diagnostics. Default: false.                          |
-| `chunkMaxSize` | `Long?`   | `null`  | Maximum chunk size in bytes. `null` disables chunking.              |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `String` | — | Language name (required). |
+| `structure` | `Boolean` | `true` | Extract structural items (functions, classes, etc.). Default: true. |
+| `imports` | `Boolean` | `true` | Extract import statements. Default: true. |
+| `exports` | `Boolean` | `true` | Extract export statements. Default: true. |
+| `comments` | `Boolean` | `false` | Extract comments. Default: false. |
+| `docstrings` | `Boolean` | `false` | Extract docstrings. Default: false. |
+| `symbols` | `Boolean` | `false` | Extract symbol definitions. Default: false. |
+| `diagnostics` | `Boolean` | `false` | Include parse diagnostics. Default: false. |
+| `chunkMaxSize` | `Long?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 
-##### Methods
+### Methods
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -1183,7 +1227,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 fun default(): ProcessConfig
 ```
 
-###### withChunking()
+#### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1193,7 +1237,7 @@ Enable chunking with the given maximum chunk size in bytes.
 fun withChunking(maxSize: Long): ProcessConfig
 ```
 
-###### all()
+#### all()
 
 Enable all analysis features.
 
@@ -1203,7 +1247,7 @@ Enable all analysis features.
 fun all(): ProcessConfig
 ```
 
-###### minimal()
+#### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1223,18 +1267,18 @@ Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
 
-| Field         | Type                  | Default | Description                        |
-| ------------- | --------------------- | ------- | ---------------------------------- |
-| `language`    | `String`              | —       | Language                           |
-| `metrics`     | `FileMetrics`         | —       | Metrics (file metrics)             |
-| `structure`   | `List<StructureItem>` | `[]`    | Structure                          |
-| `imports`     | `List<ImportInfo>`    | `[]`    | Imports                            |
-| `exports`     | `List<ExportInfo>`    | `[]`    | Exports                            |
-| `comments`    | `List<CommentInfo>`   | `[]`    | Comments                           |
-| `docstrings`  | `List<DocstringInfo>` | `[]`    | Docstrings                         |
-| `symbols`     | `List<SymbolInfo>`    | `[]`    | Symbols                            |
-| `diagnostics` | `List<Diagnostic>`    | `[]`    | Diagnostics                        |
-| `chunks`      | `List<CodeChunk>`     | `[]`    | Text chunks for chunking/embedding |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `String` | — | Language |
+| `metrics` | `FileMetrics` | — | Metrics (file metrics) |
+| `structure` | `List<StructureItem>` | `[]` | Structure |
+| `imports` | `List<ImportInfo>` | `[]` | Imports |
+| `exports` | `List<ExportInfo>` | `[]` | Exports |
+| `comments` | `List<CommentInfo>` | `[]` | Comments |
+| `docstrings` | `List<DocstringInfo>` | `[]` | Docstrings |
+| `symbols` | `List<SymbolInfo>` | `[]` | Symbols |
+| `diagnostics` | `List<Diagnostic>` | `[]` | Diagnostics |
+| `chunks` | `List<CodeChunk>` | `[]` | Text chunks for chunking/embedding |
 
 ---
 
@@ -1245,14 +1289,14 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-| Field         | Type   | Default | Description  |
-| ------------- | ------ | ------- | ------------ |
-| `startByte`   | `Long` | —       | Start byte   |
-| `endByte`     | `Long` | —       | End byte     |
-| `startLine`   | `Long` | —       | Start line   |
-| `startColumn` | `Long` | —       | Start column |
-| `endLine`     | `Long` | —       | End line     |
-| `endColumn`   | `Long` | —       | End column   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `startByte` | `Long` | — | Start byte |
+| `endByte` | `Long` | — | End byte |
+| `startLine` | `Long` | — | Start line |
+| `startColumn` | `Long` | — | Start column |
+| `endLine` | `Long` | — | End line |
+| `endColumn` | `Long` | — | End column |
 
 ---
 
@@ -1260,17 +1304,17 @@ positions (for display and diagnostics).
 
 A structural item (function, class, struct, etc.) in source code.
 
-| Field        | Type                  | Default                  | Description           |
-| ------------ | --------------------- | ------------------------ | --------------------- |
-| `kind`       | `StructureKind`       | `StructureKind.Function` | Kind (structure kind) |
-| `name`       | `String?`             | `null`                   | The name              |
-| `visibility` | `String?`             | `null`                   | Visibility            |
-| `span`       | `Span`                | —                        | Span (span)           |
-| `children`   | `List<StructureItem>` | `[]`                     | Children              |
-| `decorators` | `List<String>`        | `[]`                     | Decorators            |
-| `docComment` | `String?`             | `null`                   | Doc comment           |
-| `signature`  | `String?`             | `null`                   | Signature             |
-| `bodySpan`   | `Span?`               | `null`                   | Body span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `StructureKind` | `StructureKind.Function` | Kind (structure kind) |
+| `name` | `String?` | `null` | The name |
+| `visibility` | `String?` | `null` | Visibility |
+| `span` | `Span` | — | Span (span) |
+| `children` | `List<StructureItem>` | `[]` | Children |
+| `decorators` | `List<String>` | `[]` | Decorators |
+| `docComment` | `String?` | `null` | Doc comment |
+| `signature` | `String?` | `null` | Signature |
+| `bodySpan` | `Span?` | `null` | Body span (span) |
 
 ---
 
@@ -1278,13 +1322,13 @@ A structural item (function, class, struct, etc.) in source code.
 
 A symbol (variable, function, type, etc.) extracted from source code.
 
-| Field            | Type         | Default               | Description        |
-| ---------------- | ------------ | --------------------- | ------------------ |
-| `name`           | `String`     | —                     | The name           |
-| `kind`           | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
-| `span`           | `Span`       | —                     | Span (span)        |
-| `typeAnnotation` | `String?`    | `null`                | Type annotation    |
-| `doc`            | `String?`    | `null`                | Doc                |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `String` | — | The name |
+| `kind` | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
+| `span` | `Span` | — | Span (span) |
+| `typeAnnotation` | `String?` | `null` | Type annotation |
+| `doc` | `String?` | `null` | Doc |
 
 ---
 
@@ -1292,9 +1336,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-##### Methods
+### Methods
 
-###### rootNode()
+#### rootNode()
 
 Return the root `Node` of this tree.
 
@@ -1304,7 +1348,7 @@ Return the root `Node` of this tree.
 fun rootNode(): Node
 ```
 
-###### walk()
+#### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1320,9 +1364,9 @@ fun walk(): TreeCursor
 
 A cursor for traversing a `Tree`.
 
-##### Methods
+### Methods
 
-###### node()
+#### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1332,7 +1376,7 @@ Return the `Node` at the cursor's current position.
 fun node(): Node
 ```
 
-###### gotoFirstChild()
+#### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1343,7 +1387,7 @@ Returns `true` if a child existed.
 fun gotoFirstChild(): Boolean
 ```
 
-###### gotoParent()
+#### gotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1354,7 +1398,7 @@ Returns `true` if a parent existed.
 fun gotoParent(): Boolean
 ```
 
-###### gotoNextSibling()
+#### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1365,7 +1409,7 @@ Returns `true` if a sibling existed.
 fun gotoNextSibling(): Boolean
 ```
 
-###### fieldName()
+#### fieldName()
 
 Return the field name for the current node, if any.
 
@@ -1387,19 +1431,19 @@ Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Function`  | Function                      |
-| `Method`    | Method                        |
-| `Class`     | Class                         |
-| `Struct`    | Struct                        |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Trait`     | Trait                         |
-| `Impl`      | Impl                          |
-| `Namespace` | Namespace                     |
-| `Other`     | Other — Fields: `0`: `String` |
+| Value | Description |
+|-------|-------------|
+| `Function` | Function |
+| `Method` | Method |
+| `Class` | Class |
+| `Struct` | Struct |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Trait` | Trait |
+| `Impl` | Impl |
+| `Namespace` | Namespace |
+| `Other` | Other — Fields: `0`: `String` |
 
 ---
 
@@ -1410,11 +1454,11 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-| Value   | Description |
-| ------- | ----------- |
-| `Line`  | Line        |
-| `Block` | Block       |
-| `Doc`   | Doc         |
+| Value | Description |
+|-------|-------------|
+| `Line` | Line |
+| `Block` | Block |
+| `Doc` | Doc |
 
 ---
 
@@ -1425,14 +1469,14 @@ The format of a docstring extracted from source code.
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 
-| Value               | Description                   |
-| ------------------- | ----------------------------- |
-| `PythonTripleQuote` | Python triple quote           |
-| `JsDoc`             | J s doc                       |
-| `Rustdoc`           | Rustdoc                       |
-| `GoDoc`             | Go doc                        |
-| `JavaDoc`           | Java doc                      |
-| `Other`             | Other — Fields: `0`: `String` |
+| Value | Description |
+|-------|-------------|
+| `PythonTripleQuote` | Python triple quote |
+| `JsDoc` | J s doc |
+| `Rustdoc` | Rustdoc |
+| `GoDoc` | Go doc |
+| `JavaDoc` | Java doc |
+| `Other` | Other — Fields: `0`: `String` |
 
 ---
 
@@ -1442,11 +1486,11 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-| Value      | Description |
-| ---------- | ----------- |
-| `Named`    | Named       |
-| `Default`  | Default     |
-| `ReExport` | Re export   |
+| Value | Description |
+|-------|-------------|
+| `Named` | Named |
+| `Default` | Default |
+| `ReExport` | Re export |
 
 ---
 
@@ -1457,17 +1501,17 @@ The kind of a symbol definition found in source code.
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Variable`  | Variable                      |
-| `Constant`  | Constant                      |
-| `Function`  | Function                      |
-| `Class`     | Class                         |
-| `Type`      | Type                          |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Other`     | Other — Fields: `0`: `String` |
+| Value | Description |
+|-------|-------------|
+| `Variable` | Variable |
+| `Constant` | Constant |
+| `Function` | Function |
+| `Class` | Class |
+| `Type` | Type |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Other` | Other — Fields: `0`: `String` |
 
 ---
 
@@ -1478,11 +1522,11 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-| Value     | Description |
-| --------- | ----------- |
-| `Error`   | Error       |
-| `Warning` | Warning     |
-| `Info`    | Info        |
+| Value | Description |
+|-------|-------------|
+| `Error` | Error |
+| `Warning` | Warning |
+| `Info` | Info |
 
 ---
 
@@ -1496,17 +1540,17 @@ Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
-| Variant               | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `LanguageNotFound`    | Language '{0}' not found                          |
-| `DynamicLoad`         | Dynamic library load error: {0}                   |
+| Variant | Description |
+|---------|-------------|
+| `LanguageNotFound` | Language '{0}' not found |
+| `DynamicLoad` | Dynamic library load error: {0} |
 | `NullLanguagePointer` | Language function returned null pointer for '{0}' |
-| `ParserSetup`         | Failed to set parser language: {0}                |
-| `LockPoisoned`        | Registry lock poisoned: {0}                       |
-| `Config`              | Configuration error: {0}                          |
-| `ParseFailed`         | Parse failed: parsing returned no tree            |
-| `QueryError`          | Query error: {0}                                  |
-| `InvalidRange`        | Invalid byte range: {0}                           |
-| `Io`                  | IO error: {0}                                     |
+| `ParserSetup` | Failed to set parser language: {0} |
+| `LockPoisoned` | Registry lock poisoned: {0} |
+| `Config` | Configuration error: {0} |
+| `ParseFailed` | Parse failed: parsing returned no tree |
+| `QueryError` | Query error: {0} |
+| `InvalidRange` | Invalid byte range: {0} |
+| `Io` | IO error: {0} |
 
 ---

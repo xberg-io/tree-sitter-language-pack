@@ -1,45 +1,74 @@
+import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.3.21"
-    java
+    id("com.android.library") version "8.7.3"
+    kotlin("android") version "2.3.21"
 }
 
 group = "dev.kreuzberg.tslp.android"
 version = "0.1.0"
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+android {
+    namespace = "dev.kreuzberg.tslp.android.e2e"
+    compileSdk = 35
+
+    defaultConfig {
+        minSdk = 21
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    sourceSets {
+        getByName("test") {
+            // Include the AAR-bundled Java facade as test sources
+            java.srcDir("../../packages/kotlin-android/src/main/java")
+            // Include the AAR-bundled Kotlin wrapper as test sources
+            kotlin.srcDir("../../packages/kotlin-android/src/main/kotlin")
+        }
+    }
+
+    testOptions {
+        // Gradle Managed Virtual Devices for on-device instrumented tests.
+        // Run: ./gradlew pixel6api34DebugAndroidTest
+        managedDevices {
+            devices {
+                create<ManagedVirtualDevice>("pixel6api34") {
+                    device = "Pixel 6"
+                    apiLevel = 34
+                    systemImageSource = "aosp"
+                }
+            }
+        }
+    }
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11)
+        jvmTarget = JvmTarget.JVM_17
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
-sourceSets {
-    test {
-        // Include the AAR-bundled Java facade as test sources
-        java.srcDir("../../packages/kotlin-android/src/main/java")
-        // Include the AAR-bundled Kotlin wrapper as test sources
-        kotlin.srcDir("../../packages/kotlin-android/src/main/kotlin")
-    }
-}
+// Repositories declared in settings.gradle.kts via
+// dependencyResolutionManagement (FAIL_ON_PROJECT_REPOS). Re-declaring them
+// here triggers Gradle "repository was added by build file" errors.
 
 dependencies {
-    // JNA for loading libkreuzberg_ffi from java.library.path
+    // JNA for loading the native library from java.library.path
     testImplementation("net.java.dev.jna:jna:5.18.1")
 
     // Jackson for JSON assertion helpers
     testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.18.2")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
     testImplementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.2")
+
+    // jackson-module-kotlin registers constructors/properties for Kotlin data
+    // classes, which have no default constructor and cannot be deserialized by
+    // plain Jackson without this module.
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
 
     // jspecify for null-safety annotations on wrapped types
     testImplementation("org.jspecify:jspecify:1.0.0")
@@ -48,18 +77,18 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 
     // JUnit 5 API and engine
-    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:6.0.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:6.1.0")
 
 
     // Kotlin stdlib test helpers
     testImplementation(kotlin("test"))
 }
 
-tasks.test {
+tasks.withType<Test> {
     useJUnitPlatform()
 
-    // Resolve libkreuzberg_ffi location (e.g., ../../target/release)
+    // Resolve the native library location (e.g., ../../target/release)
     val libPath = System.getProperty("kb.lib.path") ?: "${rootDir}/../../target/release"
     systemProperty("java.library.path", libPath)
     systemProperty("jna.library.path", libPath)

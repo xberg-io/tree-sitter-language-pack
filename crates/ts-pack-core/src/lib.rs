@@ -44,7 +44,8 @@ pub mod error;
 pub(crate) mod extensions;
 pub(crate) mod intel;
 #[cfg(feature = "serde")]
-pub(crate) mod json_utils;
+#[doc(hidden)]
+pub mod json_utils;
 pub mod pack_config;
 pub(crate) mod parse;
 pub mod parsing;
@@ -72,7 +73,7 @@ pub use intel::types::{
     DocstringInfo, ExportInfo, ExportKind, FileMetrics, ImportInfo, ProcessResult, Span, StructureItem, StructureKind,
     SymbolInfo, SymbolKind,
 };
-pub use pack_config::PackConfig;
+pub use pack_config::{PackConfig, TlsRootsMode};
 pub use parsing::{ByteRange, Node, Parser, Point, Tree, TreeCursor};
 pub use process_config::ProcessConfig;
 pub use queries::{get_highlights_query, get_injections_query, get_locals_query};
@@ -459,6 +460,40 @@ pub fn download_all() -> Result<usize, Error> {
     let cache_dir = effective_cache_dir()?;
     let dm = DownloadManager::with_cache_dir(env!("CARGO_PKG_VERSION"), cache_dir);
     dm.download_all_best_effort()?;
+    Ok(REGISTRY.language_count())
+}
+
+/// Download every language in a named group (e.g. `"web"`, `"data"`).
+///
+/// Groups are defined in the remote manifest and let you ensure a curated
+/// set of related grammars in one call instead of listing each name to
+/// [`download`]. Already-cached languages are skipped.
+///
+/// Returns the total number of languages now available (statically compiled
+/// plus downloaded and cached).
+///
+/// # Errors
+///
+/// Returns an error if the manifest cannot be fetched, the group is unknown,
+/// or any constituent language fails to download.
+///
+/// # Example
+///
+/// ```no_run
+/// use tree_sitter_language_pack::download_group;
+///
+/// let count = download_group("web").unwrap();
+/// println!("{} languages available", count);
+/// ```
+#[cfg(feature = "download")]
+pub fn download_group(name: &str) -> Result<usize, Error> {
+    let _cache_guard = DOWNLOAD_CACHE_LOCK
+        .lock()
+        .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+    ensure_cache_registered()?;
+    let cache_dir = effective_cache_dir()?;
+    let dm = DownloadManager::with_cache_dir(env!("CARGO_PKG_VERSION"), cache_dir);
+    dm.ensure_group(name)?;
     Ok(REGISTRY.language_count())
 }
 

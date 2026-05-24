@@ -12,7 +12,7 @@
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>6.0.3</junit.version>
+        <junit.version>6.1.0</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
             <artifactId>tree-sitter-language-pack</artifactId>
-            <version>1.8.1</version>
+            <version>1.9.0-rc.4</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

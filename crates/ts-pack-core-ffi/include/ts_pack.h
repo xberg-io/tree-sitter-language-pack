@@ -1178,12 +1178,6 @@ uintptr_t ts_pack_point_row(const TS_PACKPoint *ptr);
 uintptr_t ts_pack_point_column(const TS_PACKPoint *ptr);
 
 /**
- * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
- * freed with the appropriate free function.
- */
-TS_PACKPoint *ts_pack_point_from(const TS_PACKPoint *p);
-
-/**
  * Create a `ByteRange` from a JSON string. Returns null on failure.
  * # Safety
  * JSON string must be valid UTF-8 and null-terminated.
@@ -1313,6 +1307,17 @@ TS_PACKNode *ts_pack_node_clone(const TS_PACKNode *this_);
  * freed with the appropriate free function.
  */
 char *ts_pack_node_kind(const TS_PACKNode *this_);
+
+/**
+ * Return the node's numeric kind ID.
+ *
+ * Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+ * (e.g. `"function_definition" â 42`). Comparing `kind_id()` is cheaper
+ * than comparing the string `kind()` (Self::kind) in tight AST loops.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ */
+uint16_t ts_pack_node_kind_id(const TS_PACKNode *this_);
 
 /**
  * Return the inclusive start byte offset of this node.
@@ -1515,6 +1520,13 @@ char *ts_pack_process_config_to_json(const TS_PACKProcessConfig *ptr);
 void ts_pack_process_config_free(TS_PACKProcessConfig *ptr);
 
 /**
+ * Get the `language` field from a `ProcessConfig`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+char *ts_pack_process_config_language(const TS_PACKProcessConfig *ptr);
+
+/**
  * Get the `structure` field from a `ProcessConfig`.
  * # Safety
  * Pointer must be a valid handle returned by this library.
@@ -1707,6 +1719,13 @@ uintptr_t ts_pack_download_manager_download_all_best_effort(const TS_PACKDownloa
 
 /**
  * Remove all cached parser libraries.
+ *
+ * Acquires the cross-process lock so `clean_cache` cannot race a concurrent
+ * downloader (avoids Windows sharing-violation errors against an in-flight
+ * bundle write). The `.download.lock` file itself is **not** removed â it is
+ * permanent infrastructure; deleting it could allow a concurrent process that
+ * already opened the file to continue holding a stale lock handle while a new
+ * process opens a fresh inode, breaking the mutual-exclusion guarantee.
  * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
  * freed with the appropriate free function.
  */
@@ -2352,6 +2371,28 @@ uintptr_t ts_pack_download(const char *names);
  * \endcode
  */
 uintptr_t ts_pack_download_all(void);
+
+/**
+ * Download every language in a named group (e.g. `"web"`, `"data"`).
+ *
+ * Groups are defined in the remote manifest and let you ensure a curated
+ * set of related grammars in one call instead of listing each name to
+ * [`download`]. Already-cached languages are skipped.
+ *
+ * Returns the total number of languages now available (statically compiled
+ * plus downloaded and cached).
+ * \note Returns an error if the manifest cannot be fetched, the group is unknown,
+ * or any constituent language fails to download.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ * \code
+ * use tree_sitter_language_pack::download_group;
+ *
+ * let count = download_group("web").unwrap();
+ * println!("{} languages available", count);
+ * \endcode
+ */
+uintptr_t ts_pack_download_group(const char *name);
 
 /**
  * Return all language names available in the remote manifest (305).

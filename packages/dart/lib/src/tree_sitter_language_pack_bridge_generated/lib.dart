@@ -8,6 +8,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'lib.freezed.dart';
 
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `Error`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`
 
 /// Detect language name from a file extension (without leading dot).
@@ -29,6 +30,7 @@ Future<String?> detectLanguageFromPath({required String path}) =>
 /// interpreter name is extracted and mapped to a language name.
 ///
 /// Handles common patterns:
+///
 /// - `#!/usr/bin/env python3` → `"python"`
 /// - `#!/bin/bash` → `"bash"`
 /// - `#!/usr/bin/env node` → `"javascript"`
@@ -180,6 +182,22 @@ Future<PlatformInt64> download({required List<String> names}) =>
 /// Returns an error if the manifest cannot be fetched or the bundle download fails.
 Future<PlatformInt64> downloadAll() => RustLib.instance.api.crateDownloadAll();
 
+/// Download every language in a named group (e.g. `"web"`, `"data"`).
+///
+/// Groups are defined in the remote manifest and let you ensure a curated
+/// set of related grammars in one call instead of listing each name to
+/// `download`. Already-cached languages are skipped.
+///
+/// Returns the total number of languages now available (statically compiled
+/// plus downloaded and cached).
+///
+/// **Errors:**
+///
+/// Returns an error if the manifest cannot be fetched, the group is unknown,
+/// or any constituent language fails to download.
+Future<PlatformInt64> downloadGroup({required String name}) =>
+    RustLib.instance.api.crateDownloadGroup(name: name);
+
 /// Return all language names available in the remote manifest (305).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of
@@ -325,6 +343,8 @@ abstract class Node implements RustOpaqueInterface {
   Future<bool> isNamed();
 
   Future<String> kind();
+
+  Future<PlatformInt64> kindId();
 
   Future<Node?> namedChild({required PlatformInt64 index});
 

@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.16.23"
+alef_version = "0.19.2"
 languages = [
   "python",
   "node",
@@ -44,6 +44,20 @@ extra_paths = [
   "packages/ruby/ext/ts_pack_core_rb/native/Cargo.toml",
   "pyproject.toml",
 ]
+
+[workspace.citation]
+title = "tree-sitter-language-pack"
+abstract = "Tree-sitter grammars and code-intelligence primitives."
+repository-code = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+url = "https://kreuzberg.dev"
+license = "MIT"
+date-released = "2026-05-17"
+
+[[workspace.citation.authors]]
+family-names = "Hirschfeld"
+given-names = "Na'aman"
+email = "naaman@kreuzberg.dev"
+orcid = "https://orcid.org/0009-0000-2247-5072"
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/node/package.json"
@@ -106,6 +120,7 @@ features = ["serde", "config", "download"]
 [crates.python]
 module_name = "_native"
 pip_name = "tree-sitter-language-pack"
+pip_dependencies = ["tree-sitter>=0.23"]
 release_gil = true
 
 [crates.python.stubs]
@@ -119,6 +134,7 @@ Language = "tree_sitter.Language"
 
 [crates.node]
 package_name = "@kreuzberg/tree-sitter-language-pack"
+crate_dir = "crates/ts-pack-core-node"
 
 [crates.node.capsule_types.Language]
 type = "Language"
@@ -140,8 +156,60 @@ cargo_crate_name = "ts-pack-core-php"
 app_name = "tree_sitter_language_pack"
 
 [crates.wasm]
-env_shims = ["iswspace", "iswalnum", "towupper", "iswalpha"]
+crate_dir = "crates/ts-pack-core-wasm"
+# C-stdlib symbols imported by tree-sitter external scanners under wasm32.
+# `wasm-objdump -j Import` on the bundle shows these 10 are pulled in by the
+# curated grammar set; alef emits Rust shims for each.
+env_shims = [
+  "iswspace",
+  "iswalnum",
+  "iswalpha",
+  "iswlower",
+  "iswupper",
+  "iswxdigit",
+  "towupper",
+  "towlower",
+  "memchr",
+  "strcmp",
+]
 features = ["serde", "config", "dynamic-loading"]
+# Curated grammar subset that's statically compiled into the wasm32 binary.
+# Mirrors the TSLP_LANGUAGES list used by the publish-wasm CI job so that
+# alef's `[crates.e2e.wasm]` auto-skip path correctly elides fixtures for
+# grammars that aren't present in the wasm bundle.
+languages = [
+  "python",
+  "javascript",
+  "typescript",
+  "tsx",
+  "rust",
+  "go",
+  "java",
+  "c",
+  "cpp",
+  "csharp",
+  "ruby",
+  "php",
+  "html",
+  "css",
+  "json",
+  "yaml",
+  "toml",
+  "markdown",
+  "bash",
+  "sql",
+  "lua",
+  "scala",
+  "kotlin",
+  "swift",
+  "dockerfile",
+  "vue",
+  "svelte",
+  "elixir",
+  "erlang",
+  "haskell",
+  "zig",
+]
 
 [crates.ffi]
 prefix = "ts_pack"
@@ -170,6 +238,11 @@ style = "frb"
 # on Android (max JDK 17), which is why Android needs its own JNI-based
 # package with bundled .so files.
 package = "dev.kreuzberg.tslp.android"
+# JNI shim depends on serde-derived (de)serialization of DTOs (`ProcessConfig`,
+# `ProcessResult`, `Point`, `ByteRange`, ...). The umbrella crate gates those
+# derives behind the `serde` feature; enable it here so the scaffold-emitted
+# `<crate>-jni/Cargo.toml` lists `features = ["serde"]` on the umbrella dep.
+features = ["serde"]
 
 [crates.swift]
 module_name = "TreeSitterLanguagePack"
@@ -177,6 +250,33 @@ package_name = "TreeSitterLanguagePack"
 
 [crates.zig]
 module_name = "tree_sitter_language_pack"
+# Curated set mirroring the TSLP_LANGUAGES value used by the
+# `[crates.test.zig].before` step. Zig can technically load any grammar via
+# the ts_pack_core_ffi runtime auto-download path (same as Go/C#/Java), but
+# we restrict the zig e2e suite to the statically-compiled set so it runs
+# offline and is not subject to the download-cache race that hits when
+# `zig build test` runs eight test binaries in parallel against a shared
+# `~/.cache/tree-sitter-language-pack/` directory.
+languages = [
+  "python",
+  "rust",
+  "javascript",
+  "typescript",
+  "go",
+  "html",
+  "css",
+  "json",
+  "bash",
+  "c",
+  "cpp",
+  "java",
+  "ruby",
+  "swift",
+  "kotlin",
+  "mojo",
+  "nim",
+  "norg",
+]
 
 [crates.output]
 python = "crates/ts-pack-core-py/src/"
@@ -245,6 +345,7 @@ functions = [
   "configure",
   "download",
   "download_all",
+  "download_group",
   "manifest_languages",
   "downloaded_languages",
   "clean_cache",
@@ -253,19 +354,23 @@ functions = [
 
 [crates.lint.python]
 precondition = "command -v ruff >/dev/null 2>&1"
-before = "uv sync --no-install-project"
-format = "uv run --no-sync ruff check --fix --select I packages/python scripts && uv run --no-sync ruff format packages/python scripts"
+before = "uv sync --no-install-project --no-install-workspace"
+# Apply ALL auto-fixable ruff rules (not just isort) so the alef-generated
+# output stays clean under the prek `ruff (legacy alias)` hook, which runs
+# `ruff check --fix` (full ruleset). Without this, alef only fixed isort
+# and downstream prek runs kept finding rule violations to autofix.
+format = "uv run --no-sync ruff check --fix packages/python scripts && uv run --no-sync ruff format packages/python scripts"
 check = "uv run --no-sync ruff check packages/python scripts && uv run --no-sync ruff format --check packages/python scripts"
 
 [crates.lint.node]
 precondition = "command -v pnpm >/dev/null 2>&1"
-format = "pnpm dlx oxfmt packages/typescript"
-check = "pnpm dlx oxlint packages/typescript"
+format = "pnpm dlx oxfmt crates/ts-pack-core-node"
+check = "pnpm dlx oxlint crates/ts-pack-core-node"
 
 [crates.lint.wasm]
 precondition = "command -v pnpm >/dev/null 2>&1"
-format = "pnpm dlx oxfmt packages/wasm"
-check = "pnpm dlx oxlint packages/wasm"
+format = "pnpm dlx oxfmt crates/ts-pack-core-wasm/pkg"
+check = "pnpm dlx oxlint crates/ts-pack-core-wasm/pkg"
 
 [crates.lint.php]
 precondition = "command -v php >/dev/null 2>&1"
@@ -280,12 +385,18 @@ format = "cd packages/ruby && bundle exec rubocop -a ."
 [crates.lint.go]
 precondition = "command -v golangci-lint >/dev/null 2>&1"
 before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
-format = "cd packages/go && gofmt -w ./..."
+format = "cd packages/go && gofmt -w ."
 check = "cd packages/go && golangci-lint run ./..."
 
 [crates.lint.elixir]
 precondition = "command -v mix >/dev/null 2>&1"
 before = "cd packages/elixir && mix deps.get"
+# `mix format` enforces line length (default 98) and idiomatic indentation
+# rules that alef's emit-time formatting cannot fully match (e.g. long
+# string keyword args get hoisted onto a continuation line). Running it
+# during alef's fmt pass keeps generated `.ex` files idempotent under the
+# prek `mix-format` hook.
+format = "cd packages/elixir && mix format"
 check = "cd packages/elixir && mix credo"
 
 [crates.lint.java]
@@ -325,7 +436,7 @@ e2e = "cd e2e/python && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg uv ru
 
 [crates.test.node]
 precondition = "command -v node >/dev/null 2>&1 && command -v pnpm >/dev/null 2>&1 && command -v napi >/dev/null 2>&1"
-before = "cd crates/ts-pack-core-node && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg napi build --release"
+before = "cd crates/ts-pack-core-node && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg napi build --platform --release"
 command = "cd crates/ts-pack-core-node && node -e \"const m = require('./'); console.log('OK:', m.availableLanguages().length)\""
 e2e = "cd e2e/node && pnpm install && node ./node_modules/vitest/vitest.mjs run --fileParallelism=false"
 
@@ -346,7 +457,7 @@ e2e = "cd e2e/php && php run_tests.php"
 
 [crates.test.java]
 precondition = "command -v mvn >/dev/null 2>&1"
-before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi && mvn package -f packages/java/pom.xml -DskipTests -B -q"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,bash,mojo,nim,norg cargo build --release -p ts-pack-core-ffi && mvn package -f packages/java/pom.xml -DskipTests -B -q"
 command = "cd packages/java && mvn test"
 e2e = "cd e2e/java && mvn test -B"
 
@@ -362,7 +473,11 @@ e2e = "cd e2e/elixir && TREE_SITTER_LANGUAGE_PACK_BUILD=1 mix test"
 
 [crates.test.wasm]
 precondition = "command -v pnpm >/dev/null 2>&1 && command -v wasm-pack >/dev/null 2>&1"
-before = "wasm-pack build crates/ts-pack-core-wasm --target nodejs --release --out-dir pkg/nodejs"
+# Mirror the publish-wasm CI environment: curated grammar subset + reduced
+# LLVM passes so the wasm32 cross-compile completes in reasonable time.
+# Without TSLP_LANGUAGES, all 305 grammars compile statically — abl/parser.c
+# alone is 97MB and hangs clang at -O2 for tens of minutes.
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig CARGO_PROFILE_RELEASE_LTO=false CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16 wasm-pack build crates/ts-pack-core-wasm --target nodejs --release --out-dir pkg/nodejs"
 e2e = "cd e2e/wasm && pnpm install && pnpm test"
 
 [crates.test.rust]
@@ -371,7 +486,8 @@ e2e = "cd e2e/rust && cargo test -- --test-threads=1"
 
 [crates.test.c]
 precondition = "command -v make >/dev/null 2>&1"
-e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release ./test_runner"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
+e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release ./run_tests"
 
 [crates.test.kotlin_android]
 # Android-only AAR — no JVM JAR to run `gradle test` against. E2E excluded
@@ -383,7 +499,7 @@ before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --relea
 [crates.test.swift]
 precondition = "command -v swift >/dev/null 2>&1"
 before = [
-  "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-swift",
+  "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-swift",
   "bash scripts/setup-swift-bridge.sh",
 ]
 command = "cd packages/swift && swift test"
@@ -391,19 +507,35 @@ e2e = "cd packages/swift && swift test"
 
 [crates.test.dart]
 precondition = "command -v dart >/dev/null 2>&1"
-before = "{ command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0; } && cd packages/dart && dart pub get && cd rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml && cd ../../.. && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-dart"
+before = "{ command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0; } && cd packages/dart && dart pub get && cd rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml && cd ../../.. && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart"
 command = "cd packages/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
 e2e = "cd e2e/dart && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart pub get && DYLD_FALLBACK_LIBRARY_PATH=$PWD/../../target/release LD_LIBRARY_PATH=$PWD/../../target/release FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR=$PWD/../../target/release dart test"
 
 [crates.test.zig]
 precondition = "command -v zig >/dev/null 2>&1"
 before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
-command = "cd packages/zig && zig build test"
-e2e = "cd e2e/zig && zig build test"
+command = "cd packages/zig && zig build test -Dffi_path=../../target/release"
+e2e = "cd e2e/zig && zig build test -Dffi_path=../../target/release"
 
 [crates.setup.node]
 precondition = "command -v pnpm >/dev/null 2>&1"
-install = "cd packages/typescript && pnpm install"
+install = "cd crates/ts-pack-core-node && pnpm install"
+
+[crates.setup.wasm]
+precondition = "command -v pnpm >/dev/null 2>&1"
+install = "cd crates/ts-pack-core-wasm && pnpm install"
+
+# Override alef's default Java setup, which resolves `output_dir` to
+# `packages/java/src/main/java/` (the codegen target) and runs
+# `mvn -f .../src/main/java//pom.xml dependency:resolve`. The Maven
+# project root is `packages/java/` — alef <=0.19.1 conflates the two
+# and the wrong `-f` path lets Maven walk the empty src tree until the
+# 600s timeout. Pin the correct path here until the alef-side fix
+# (`package_dir(Java)` exclusion in resolved/lookups.rs) ships.
+[crates.setup.java]
+precondition = "command -v mvn >/dev/null 2>&1"
+install = "mvn -f packages/java/pom.xml dependency:resolve -q"
+timeout_seconds = 600
 
 [crates.publish]
 core_crate = "crates/ts-pack-core"
@@ -423,6 +555,48 @@ cmake_config = true
 fixtures = "fixtures"
 output = "e2e"
 fields_array = ["chunks", "imports", "structure"]
+
+# `ProcessResult.metrics` is a nested `FileMetrics` struct. Listing
+# `result_fields` enables alef's namespace-aware field navigator so dotted
+# paths like `metrics.total_lines` are correctly walked into the nested
+# struct accessor rather than collapsed to a non-existent flat accessor on
+# `ProcessResult`. The C e2e backend additionally needs `fields_c_types` to
+# know:
+#   - the intermediate type (`process_result.metrics → FileMetrics`) so it
+#     can call `ts_pack_file_metrics_*` accessors, not `ts_pack_metrics_*`
+#   - the leaf C type (`file_metrics.<field> → uintptr_t`) so it emits
+#     `uintptr_t lines = ...(metrics_handle);` instead of `char* lines = ...`.
+result_fields = [
+  "language",
+  "metrics",
+  "structure",
+  "imports",
+  "exports",
+  "comments",
+  "docstrings",
+  "symbols",
+  "diagnostics",
+  "chunks",
+]
+
+[crates.e2e.fields_c_types]
+"process_result.metrics" = "FileMetrics"
+"file_metrics.total_lines" = "uintptr_t"
+"file_metrics.code_lines" = "uintptr_t"
+"file_metrics.comment_lines" = "uintptr_t"
+"file_metrics.blank_lines" = "uintptr_t"
+"file_metrics.total_bytes" = "uintptr_t"
+"file_metrics.node_count" = "uintptr_t"
+"file_metrics.error_count" = "uintptr_t"
+"file_metrics.max_depth" = "uintptr_t"
+
+# `e2e/node/tests/capsule_passthrough.test.ts` imports the upstream
+# `tree-sitter` npm package to verify FFI capsule type-tag passthrough between
+# our `Language` object and tree-sitter's native module. Without this entry
+# `alef e2e generate` strips the devDependency from `e2e/node/package.json` on
+# every regen. Lands via the alef 0.17.13+ `harness_extras` knob.
+[crates.e2e.harness_extras.node]
+dev_dependencies = { "tree-sitter" = "^0.25.0" }
 
 [crates.e2e.call]
 function = "process"
@@ -474,6 +648,12 @@ options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.swift]
 options_type = "ProcessConfig"
+# swift-bridge opaque struct elements expose differently-named accessors than
+# the generic `as_str()` fallback. Each entry maps a fixture field name to
+# the actual Swift method that returns the comparable string.
+#   - `structure` items expose `kind()` (StructureKind name).
+#   - `imports` items expose `source()` (the imported module path).
+result_field_accessor = { "structure" = "kind", "imports" = "source" }
 
 [crates.e2e.call.overrides.zig]
 options_type = "ProcessConfig"
@@ -487,6 +667,9 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "ext", field = "extension", type = "string" }]
 
+[crates.e2e.calls.detect_extension.overrides.go]
+result_is_pointer = true
+
 [crates.e2e.calls.detect_extension.overrides.c]
 function = "ts_pack_detect_language_from_extension"
 raw_c_result_type = "char*"
@@ -498,6 +681,9 @@ result_var = "result"
 result_is_simple = true
 result_is_option = true
 args = [{ name = "path", field = "path", type = "string" }]
+
+[crates.e2e.calls.detect_path.overrides.go]
+result_is_pointer = true
 
 [crates.e2e.calls.detect_path.overrides.c]
 function = "ts_pack_detect_language_from_path"
@@ -511,6 +697,9 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "content", field = "content", type = "string" }]
 
+[crates.e2e.calls.detect_content.overrides.go]
+result_is_pointer = true
+
 [crates.e2e.calls.detect_content.overrides.c]
 function = "ts_pack_detect_language_from_content"
 raw_c_result_type = "char*"
@@ -521,6 +710,10 @@ module = "tree_sitter_language_pack"
 result_var = "result"
 result_is_simple = true
 args = [{ name = "name", field = "language", type = "string" }]
+
+[crates.e2e.calls.has_language.overrides.go]
+returns_result = false
+result_is_pointer = false
 
 [crates.e2e.calls.has_language.overrides.c]
 function = "ts_pack_has_language"
@@ -534,6 +727,14 @@ result_is_simple = true
 result_is_array = true
 args = []
 
+[crates.e2e.calls.list_languages.overrides.go]
+result_is_pointer = false
+
+[crates.e2e.calls.list_languages.overrides.swift]
+# Swift exposes `availableLanguages() -> [String]`; native array elements
+# already have no `asStr()` accessor.
+result_element_is_string = true
+
 [crates.e2e.calls.list_languages.overrides.c]
 function = "ts_pack_available_languages"
 raw_c_result_type = "char*"
@@ -545,6 +746,9 @@ result_var = "result"
 result_is_simple = true
 result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
+
+[crates.e2e.calls.highlights.overrides.go]
+result_is_pointer = true
 
 [crates.e2e.calls.highlights.overrides.c]
 function = "ts_pack_get_highlights_query"
@@ -558,6 +762,9 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
 
+[crates.e2e.calls.injections.overrides.go]
+result_is_pointer = true
+
 [crates.e2e.calls.injections.overrides.c]
 function = "ts_pack_get_injections_query"
 raw_c_result_type = "char*"
@@ -570,6 +777,9 @@ result_is_simple = true
 result_is_option = true
 args = [{ name = "language", field = "language", type = "string" }]
 
+[crates.e2e.calls.locals.overrides.go]
+result_is_pointer = true
+
 [crates.e2e.calls.locals.overrides.c]
 function = "ts_pack_get_locals_query"
 raw_c_result_type = "char*"
@@ -580,6 +790,10 @@ module = "tree_sitter_language_pack"
 result_var = "result"
 result_is_simple = true
 args = []
+
+[crates.e2e.calls.language_count.overrides.go]
+returns_result = false
+result_is_pointer = false
 
 [crates.e2e.calls.language_count.overrides.c]
 function = "ts_pack_language_count"
@@ -633,6 +847,9 @@ options_type = "PackConfig"
 [crates.e2e.calls.init_pack.overrides.swift]
 options_type = "PackConfig"
 
+[crates.e2e.calls.init_pack.overrides.dart]
+options_type = "PackConfig"
+
 [crates.e2e.calls.configure_pack]
 function = "configure"
 module = "tree_sitter_language_pack"
@@ -657,6 +874,9 @@ path_fields = ["cache_dir"]
 [crates.e2e.calls.configure_pack.overrides.swift]
 options_type = "PackConfig"
 
+[crates.e2e.calls.configure_pack.overrides.dart]
+options_type = "PackConfig"
+
 [crates.e2e.calls.download_languages]
 function = "download"
 module = "tree_sitter_language_pack"
@@ -664,6 +884,10 @@ result_var = "result"
 returns_result = true
 result_is_simple = true
 args = [{ name = "names", field = "languages", type = "json_object", element_type = "String" }]
+
+[crates.e2e.calls.download_languages.overrides.go]
+function = "Download"
+result_is_pointer = false
 
 [crates.e2e.calls.download_languages.overrides.c]
 function = "ts_pack_download"
@@ -678,6 +902,15 @@ result_is_simple = true
 result_is_array = true
 args = []
 
+[crates.e2e.calls.manifest_languages.overrides.go]
+result_is_pointer = false
+
+[crates.e2e.calls.manifest_languages.overrides.swift]
+# Swift binding exposes `manifestLanguages() -> [String]` (native Swift array,
+# not opaque `RustVec<RustString>`); iterating elements yields plain Swift
+# `String` which has no `asStr()` method.
+result_element_is_string = true
+
 [crates.e2e.calls.manifest_languages.overrides.c]
 function = "ts_pack_manifest_languages"
 raw_c_result_type = "char*"
@@ -689,6 +922,12 @@ result_var = "result"
 result_is_simple = true
 result_is_array = true
 args = []
+
+[crates.e2e.calls.downloaded_languages.overrides.go]
+result_is_pointer = false
+
+[crates.e2e.calls.downloaded_languages.overrides.swift]
+result_element_is_string = true
 
 [crates.e2e.calls.downloaded_languages.overrides.c]
 function = "ts_pack_downloaded_languages"
@@ -713,6 +952,9 @@ result_var = "result"
 returns_result = true
 result_is_simple = true
 args = []
+
+[crates.e2e.calls.cache_dir.overrides.go]
+result_is_pointer = false
 
 [crates.e2e.calls.cache_dir.overrides.c]
 function = "ts_pack_cache_dir"
@@ -795,7 +1037,7 @@ name = "Rust"
 package_name = "tree-sitter-language-pack"
 badge_url = "https://img.shields.io/crates/v/tree-sitter-language-pack?label=Rust&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem."
 package_manager = ["cargo"]
 
 [crates.readme.languages.python]
@@ -804,17 +1046,17 @@ name = "Python"
 package_name = "tree-sitter-language-pack"
 badge_url = "https://img.shields.io/pypi/v/tree-sitter-language-pack?label=Python&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with on-demand parser download and caching."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with on-demand parser download and caching."
 package_manager = ["pip"]
 
 [crates.readme.languages.typescript]
 template = "language_package.md"
-output_path = "packages/typescript/README.md"
+output_path = "crates/ts-pack-core-node/README.md"
 name = "TypeScript / Node.js"
 package_name = "@kreuzberg/tree-sitter-language-pack"
 badge_url = "https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with TypeScript types."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with TypeScript types."
 package_manager = ["npm", "pnpm", "yarn"]
 
 [crates.readme.languages.go]
@@ -823,7 +1065,7 @@ name = "Go"
 package_name = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
 badge_url = "https://img.shields.io/github/v/tag/kreuzberg-dev/tree-sitter-language-pack?label=Go&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with idiomatic Go bindings via cgo."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with idiomatic Go bindings via cgo."
 package_manager = ["go"]
 
 [crates.readme.languages.java]
@@ -832,7 +1074,7 @@ name = "Java"
 package_name = "dev.kreuzberg:tree-sitter-language-pack"
 badge_url = "https://img.shields.io/maven-central/v/dev.kreuzberg/tree-sitter-language-pack?label=Java&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with Java bindings via Panama FFM."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with Java bindings via Panama FFM."
 package_manager = ["maven", "gradle"]
 
 [crates.readme.languages.php]
@@ -841,7 +1083,7 @@ name = "PHP"
 package_name = "kreuzberg/tree-sitter-language-pack"
 badge_url = "https://img.shields.io/packagist/v/kreuzberg/tree-sitter-language-pack?label=PHP&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with PHP bindings via ext-php-rs."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with PHP bindings via ext-php-rs."
 package_manager = ["composer"]
 
 [crates.readme.languages.ruby]
@@ -850,7 +1092,7 @@ name = "Ruby"
 package_name = "tree_sitter_language_pack"
 badge_url = "https://img.shields.io/gem/v/tree_sitter_language_pack?label=Ruby&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with Ruby bindings via Magnus."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with Ruby bindings via Magnus."
 package_manager = ["gem", "bundler"]
 
 [crates.readme.languages.csharp]
@@ -859,7 +1101,7 @@ name = "C#"
 package_name = "TreeSitterLanguagePack"
 badge_url = "https://img.shields.io/nuget/v/TreeSitterLanguagePack?label=C%23&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with C# bindings via P/Invoke."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with C# bindings via P/Invoke."
 package_manager = ["dotnet"]
 
 [crates.readme.languages.elixir]
@@ -868,12 +1110,12 @@ name = "Elixir"
 package_name = "tree_sitter_language_pack"
 badge_url = "https://img.shields.io/hexpm/v/tree_sitter_language_pack?label=Elixir&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 306 programming languages with Elixir bindings via Rustler NIF."
+description = "Pre-compiled tree-sitter grammars for 305 programming languages with Elixir bindings via Rustler NIF."
 package_manager = ["hex", "mix"]
 
 [crates.readme.languages.wasm]
 template = "language_package.md"
-output_path = "crates/tree-sitter-language-pack-wasm/README.md"
+output_path = "crates/ts-pack-core-wasm/README.md"
 name = "WebAssembly"
 package_name = "@kreuzberg/tree-sitter-language-pack-wasm"
 badge_url = "https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack-wasm?label=WASM&color=007ec6"
@@ -883,7 +1125,7 @@ package_manager = ["npm", "pnpm", "yarn"]
 
 [crates.readme.languages.ffi]
 template = "language_package.md"
-output_path = "crates/tree-sitter-language-pack-ffi/README.md"
+output_path = "crates/ts-pack-core-ffi/README.md"
 name = "FFI (C/C++)"
 package_name = "tree-sitter-language-pack-ffi"
 badge_url = "https://img.shields.io/badge/C-FFI-007ec6"
@@ -899,7 +1141,7 @@ package_manager = ["pub"]
 package_name = "tree_sitter_language_pack"
 install_command = "dart pub add tree_sitter_language_pack"
 description = """
-Dart / Flutter bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Dart / Flutter bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 Built with flutter_rust_bridge for isolate-safe Future APIs and Flutter-native type mapping.
 """
 
@@ -913,7 +1155,7 @@ install_command = """
 implementation("dev.kreuzberg.tslp:tslp-android:{{ version }}")
 """
 description = """
-Android (AAR) bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Android (AAR) bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 JNI-based with bundled per-ABI native libraries and a coroutine-friendly Kotlin facade.
 JVM consumers should use the canonical `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack` Java artifact directly.
 """
@@ -926,7 +1168,7 @@ package_manager = ["spm"]
 package_name = "TreeSitterLanguagePack"
 install_command = '.package(url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack-swift", from: "{{ version }}")'
 description = """
-Swift bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Swift bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/await.
 """
 
@@ -938,6 +1180,6 @@ package_manager = ["zig"]
 package_name = "tree_sitter_language_pack"
 install_command = "zig fetch --save <url>"
 description = """
-Zig bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
+Zig bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
 Direct C FFI via @cImport, idiomatic error sets, optional types, and slice-based memory.
 """

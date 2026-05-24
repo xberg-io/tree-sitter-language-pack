@@ -50,7 +50,7 @@ jobs:
           enable-cache: true
 
       - name: Generate supported languages table
-        run: uv run python scripts/generate_grammar_table.py
+        run: uv run --no-sync python scripts/generate_grammar_table.py
 
       - uses: kreuzberg-dev/actions/build-docs@v1
         with:
@@ -58,7 +58,7 @@ jobs:
           strict: "true"
           python-version: "3.13"
 
-      - uses: actions/upload-pages-artifact@v5.0.0
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
@@ -70,4 +70,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v5.0.0
+        uses: actions/deploy-pages@v5

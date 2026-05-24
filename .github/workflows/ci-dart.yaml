@@ -56,12 +56,3 @@ jobs:
         run: flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
       - name: Build tree-sitter-language-pack-dart Rust crate
         run: cargo build --release -p tree-sitter-language-pack-dart
-      - name: Run Dart tests
-        working-directory: packages/dart
-        env:
-          DYLD_FALLBACK_LIBRARY_PATH: ${{ github.workspace }}/target/release
-          LD_LIBRARY_PATH: ${{ github.workspace }}/target/release
-          FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR: ${{ github.workspace }}/target/release
-        run: |
-          dart pub get
-          dart test

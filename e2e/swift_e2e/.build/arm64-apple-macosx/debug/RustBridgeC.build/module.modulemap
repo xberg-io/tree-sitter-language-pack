@@ -1,4 +1,0 @@
-module RustBridgeC {
-    umbrella header "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/packages/swift/Sources/RustBridgeC/RustBridgeC.h"
-    export *
-}

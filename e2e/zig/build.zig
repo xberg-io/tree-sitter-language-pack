@@ -4,7 +4,7 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
     const test_step = b.step("test", "Run tests");
-    const ffi_path = b.option([]const u8, "ffi_path", "Path to directory containing libts_pack_core_ffi") orelse "../../target/debug";
+    const ffi_path = b.option([]const u8, "ffi_path", "Path to directory containing libts_pack_core_ffi") orelse "../../target/release";
     const ffi_include = b.option([]const u8, "ffi_include_path", "Path to directory containing FFI header") orelse "../../crates/ts-pack-core-ffi/include";
 
     const tree_sitter_language_pack_module = b.addModule("tree_sitter_language_pack", .{

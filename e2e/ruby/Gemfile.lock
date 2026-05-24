@@ -1,8 +1,9 @@
 PATH
   remote: ../../packages/ruby
   specs:
-    tree_sitter_language_pack (1.8.1)
+    tree_sitter_language_pack (1.9.0.pre.rc.1)
       rb_sys (~> 0.9)
+      sorbet-runtime (~> 0.5)
 
 GEM
   remote: https://rubygems.org/
@@ -63,6 +64,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (~> 1.81)
     ruby-progressbar (1.13.0)
+    sorbet-runtime (0.6.13228)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
@@ -106,7 +108,8 @@ CHECKSUMS
   rubocop-ast (1.49.1)
   rubocop-rspec (3.9.0)
   ruby-progressbar (1.13.0)
-  tree_sitter_language_pack (1.8.1)
+  sorbet-runtime (0.6.13228)
+  tree_sitter_language_pack (1.9.0.pre.rc.1)
   unicode-display_width (3.2.0)
   unicode-emoji (4.2.0)
   uri (1.1.1)

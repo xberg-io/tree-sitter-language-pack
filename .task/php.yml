@@ -1,19 +1,11 @@
 version: "3"
 
 tasks:
-  vendor:
-    desc: Vendor ts-pack-core into PHP package
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-    cmds:
-      - python3 scripts/ci/php/vendor-core.py
-
   build:
     desc: Build PHP extension (requires php-config)
     env:
       PROJECT_ROOT: "{{.PROJECT_ROOT}}"
     cmds:
-      - task: vendor
       - cargo build --release --manifest-path crates/ts-pack-core-php/Cargo.toml
 
   build:dev:
@@ -21,7 +13,6 @@ tasks:
     env:
       PROJECT_ROOT: "{{.PROJECT_ROOT}}"
     cmds:
-      - task: vendor
       - cargo build --manifest-path crates/ts-pack-core-php/Cargo.toml
 
   test:

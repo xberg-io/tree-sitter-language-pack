@@ -2,7 +2,7 @@ import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.library") version "8.7.3"
+    id("com.android.library") version "8.13.0"
     kotlin("android") version "2.3.21"
 }
 
@@ -20,10 +20,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     sourceSets {
@@ -50,10 +46,15 @@ android {
     }
 }
 
-repositories {
-    mavenCentral()
-    google()
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
 }
+
+// Repositories declared in settings.gradle.kts via
+// dependencyResolutionManagement (FAIL_ON_PROJECT_REPOS). Re-declaring them
+// here triggers Gradle "repository was added by build file" errors.
 
 dependencies {
     // JNA for loading the native library from java.library.path
@@ -76,8 +77,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 
     // JUnit 5 API and engine
-    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:6.0.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:6.1.0")
 
 
     // Kotlin stdlib test helpers

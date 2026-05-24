@@ -86,7 +86,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install Python dependencies
-        run: uv sync --no-install-project
+        run: uv sync --no-install-project --no-install-workspace
 
       - name: Cache parsers
         uses: actions/cache@v5.0.5
@@ -158,12 +158,10 @@ jobs:
               - 'fixtures/**'
             node:
               - 'crates/ts-pack-core-node/**'
-              - 'packages/typescript/**'
               - 'e2e/node/**'
               - 'fixtures/**'
             wasm:
               - 'crates/ts-pack-core-wasm/**'
-              - 'packages/wasm/**'
               - 'e2e/wasm/**'
               - 'fixtures/**'
             go:
@@ -298,7 +296,12 @@ jobs:
         run: pip install maturin
 
       - name: Build wheel
-        run: maturin build --release --manifest-path crates/ts-pack-core-py/Cargo.toml --out dist
+        # Run from packages/python so maturin picks up pyproject.toml's
+        # [tool.maturin] config (manifest-path, features, python-packages).
+        # Mirrors publish.yaml — without this the wheel ships only the .so
+        # and is not importable.
+        working-directory: packages/python
+        run: maturin build --release --out ../../dist
 
       - name: Upload wheel
         uses: actions/upload-artifact@v7.0.1
@@ -464,14 +467,9 @@ jobs:
           name: node-${{ matrix.platform }}
           path: crates/ts-pack-core-node/
 
-      - name: Smoke test native module
-        shell: bash
-        working-directory: crates/ts-pack-core-node
-        run: node -e "const m = require('./'); console.log('Languages:', m.availableLanguages().length)"
-
       - name: Run E2E tests
         shell: bash
-        working-directory: e2e/typescript
+        working-directory: e2e/node
         run: npx vitest run
 
   # ---------------------------------------------------------------------------
@@ -489,7 +487,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
+      TSLP_LINK_MODE: static
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -524,9 +524,9 @@ jobs:
         shell: bash
         run: |
           for FILE in \
-            crates/ts-pack-core-wasm/pkg/ts_pack_wasm.js \
-            crates/ts-pack-core-wasm/pkg/ts_pack_wasm.d.ts \
-            crates/ts-pack-core-wasm/pkg/ts_pack_wasm_bg.wasm; do
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.js \
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.d.ts \
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm_bg.wasm; do
             if [ ! -f "$FILE" ]; then
               echo "ERROR: Expected file missing: $FILE"
               exit 1
@@ -547,7 +547,7 @@ jobs:
 
       - name: Build WASM (Node.js target)
         working-directory: crates/ts-pack-core-wasm
-        run: wasm-pack build --target nodejs --release
+        run: wasm-pack build --target nodejs --release --out-dir pkg/nodejs
         env:
           PROJECT_ROOT: ${{ github.workspace }}
 
@@ -556,10 +556,10 @@ jobs:
         with:
           name: wasm-node-pkg
           path: |
-            crates/ts-pack-core-wasm/pkg/*.wasm
-            crates/ts-pack-core-wasm/pkg/*.js
-            crates/ts-pack-core-wasm/pkg/*.ts
-            crates/ts-pack-core-wasm/pkg/package.json
+            crates/ts-pack-core-wasm/pkg/nodejs/*.wasm
+            crates/ts-pack-core-wasm/pkg/nodejs/*.js
+            crates/ts-pack-core-wasm/pkg/nodejs/*.ts
+            crates/ts-pack-core-wasm/pkg/nodejs/package.json
           retention-days: 7
 
   # ---------------------------------------------------------------------------
@@ -584,7 +584,7 @@ jobs:
         uses: actions/download-artifact@v8.0.1
         with:
           name: wasm-node-pkg
-          path: crates/ts-pack-core-wasm/pkg/
+          path: crates/ts-pack-core-wasm/pkg/nodejs/
 
       - name: Setup Node.js
         uses: actions/setup-node@v6.4.0
@@ -832,16 +832,33 @@ jobs:
       - name: Set library paths for .NET
         shell: bash
         run: |
-          echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
-          echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release" >> "$GITHUB_ENV"
+          {
+            echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}"
+            echo "DYLD_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_LIBRARY_PATH:-}"
+            echo "DYLD_FALLBACK_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_FALLBACK_LIBRARY_PATH:-}"
+            echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release"
+          } >> "$GITHUB_ENV"
+
+      - name: Stage native library into runtimes/
+        shell: bash
+        run: |
+          case "${{ matrix.os }}" in
+            macos-latest) RID=osx-arm64 ;;
+            ubuntu-latest) RID=linux-x64 ;;
+            *) echo "Unknown OS"; exit 1 ;;
+          esac
+          dest=packages/csharp/TreeSitterLanguagePack/runtimes/$RID/native
+          mkdir -p "$dest"
+          cp target/release/libts_pack_core_ffi.* "$dest/" 2>/dev/null || true
+          ls -la "$dest"
 
       - name: Build C# bindings
         working-directory: packages/csharp
-        run: dotnet build TreeSitterLanguagePack.csproj -c Release
+        run: dotnet build TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release
 
       - name: Run C# unit tests
         working-directory: packages/csharp
-        run: dotnet test TreeSitterLanguagePack.csproj -c Release --no-build
+        run: dotnet test TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release --no-build
 
       - name: Run C# E2E tests
         working-directory: e2e/csharp
@@ -886,7 +903,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.307.0
+        uses: ruby/setup-ruby@v1.310.0
         with:
           ruby-version: "3.4"
 
@@ -986,9 +1003,9 @@ jobs:
       - name: Create PHP extension ini
         if: matrix.os == 'ubuntu-latest'
         run: |
-          EXT_FILE="${{ github.workspace }}/target/release/libts_pack_php.so"
+          EXT_FILE="${{ github.workspace }}/target/release/libts_pack_core_php.so"
           if [ ! -f "$EXT_FILE" ]; then
-            EXT_FILE=$(find ${{ github.workspace }}/target/release -name "*ts_pack_php*" | head -1)
+            EXT_FILE=$(find ${{ github.workspace }}/target/release -name "*ts_pack_core_php*" | head -1)
           fi
           if [ -z "$EXT_FILE" ]; then
             echo "ERROR: PHP extension not found"
@@ -1025,7 +1042,7 @@ jobs:
     timeout-minutes: 30
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,bash"
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -1044,7 +1061,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Elixir
-        uses: erlef/setup-elixir@v1.24.0
+        uses: erlef/setup-elixir@v1.24
         with:
           elixir-version: "1.17"
           otp-version: "27.2"
@@ -1072,21 +1089,12 @@ jobs:
           sed -i 's/args ++ \["--cfg", "build_#{System.system_time(:millisecond)}"\]/args ++ ["--", "--cfg", "build_#{System.system_time(:millisecond)}"]/' deps/rustler/lib/rustler/compiler.ex
           mix deps.compile rustler --force
 
-      - name: Build NIF library
-        working-directory: packages/elixir
-        run: cargo build --release
-
-      - name: Stage NIF for Elixir
-        run: |
-          mkdir -p packages/elixir/priv/native
-          cp packages/elixir/target/release/libts_pack_elixir.so packages/elixir/priv/native/ts_pack_elixir.so
-          cp packages/elixir/target/release/libts_pack_elixir.so packages/elixir/priv/native/ts-pack-elixir.so
-
       - name: Compile Elixir (warnings as errors)
         working-directory: packages/elixir
         env:
           MIX_ENV: test
           TSLP_BUILD: "1"
+          TREE_SITTER_LANGUAGE_PACK_BUILD: "1"
         run: mix compile --warnings-as-errors
 
       - name: Run Elixir tests
@@ -1094,8 +1102,15 @@ jobs:
         env:
           TSLP_BUILD: "1"
 
+      - name: Install alef
+        uses: kreuzberg-dev/actions/install-alef@v1
+
       - name: Generate Elixir E2E tests
         run: task elixir:e2e:generate
+
+      - name: Install Elixir E2E dependencies
+        working-directory: e2e/elixir
+        run: mix deps.get
 
       - name: Run Elixir E2E tests
         run: task elixir:e2e:test
@@ -1141,6 +1156,9 @@ jobs:
 
       - name: Install Task
         uses: kreuzberg-dev/actions/install-task@v1
+
+      - name: Install alef
+        uses: kreuzberg-dev/actions/install-alef@v1
 
       - name: Generate C E2E tests
         run: task c:e2e:generate

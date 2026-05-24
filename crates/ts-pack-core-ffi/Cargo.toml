@@ -1,6 +1,6 @@
 [package]
 name = "ts-pack-core-ffi"
-version = "1.8.1"
+version = "1.9.0-rc.4"
 edition = "2021"
 license = "MIT"
 description = "Pre-compiled tree-sitter grammars for 305 programming languages"
@@ -9,8 +9,16 @@ keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 categories = ["text-processing"]
 repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 
+# `serde_json` and `tokio` are emitted unconditionally above so the manifest
+# is stable across regens (and so the C FFI codegen can pull them in when an
+# async / Result-typed function appears in the API surface), but for umbrella
+# crates with no async fns and no JSON-marshalled return types they are
+# genuinely unused. The conditional `async-trait` / `futures-util` deps are
+# similarly flagged when the umbrella has trait-bridge / streaming adapters
+# configured but no actual async-trait / async-stream callsite in the
+# generated FFI shim.
 [package.metadata.cargo-machete]
-ignored = ["tokio"]
+ignored = ["serde_json", "tokio"]
 
 [lib]
 crate-type = ["cdylib", "staticlib"]
@@ -21,14 +29,14 @@ default = []
 [dependencies]
 serde_json = "1"
 tokio = { version = "1", features = ["full"] }
-tree-sitter-language-pack = { path = "../ts-pack-core", features = ["download", "serde", "config"] }
+tree-sitter-language-pack = { path = "../ts-pack-core", version = "1.9.0-rc.4", features = [
+    "serde",
+    "config",
+    "download",
+] }
 
 [build-dependencies]
 cbindgen = "0.29"
 
-[lints.clippy]
-all = { level = "deny", priority = -1 }
-duplicated_attributes = "allow"
-
-[lints.rust]
-unsafe_code = "allow"
+[dev-dependencies]
+tempfile = "3"

@@ -1,19 +1,11 @@
 {
   "name": "@kreuzberg/tree-sitter-language-pack",
-  "version": "1.8.1",
-  "description": "Tree-sitter language pack - pre-compiled parsers for 305 languages (Node.js NAPI bindings)",
-  "keywords": [
-    "kreuzberg",
-    "language-pack",
-    "napi",
-    "parser",
-    "syntax",
-    "tree-sitter"
-  ],
+  "version": "1.9.0-rc.4",
+  "description": "Pre-compiled tree-sitter grammars for 305 programming languages",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+    "url": "git+https://github.com/kreuzberg-dev/tree-sitter-language-pack.git"
   },
   "files": [
     "index.js",
@@ -22,38 +14,26 @@
   ],
   "main": "index.js",
   "types": "index.d.ts",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
   "scripts": {
-    "artifacts": "napi artifacts",
     "build": "napi build --platform --release",
+    "artifacts": "napi artifacts",
     "prepublishOnly": "napi prepublish -t npm --skip-optional-publish"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.6.2",
-    "tree-sitter": "^0.25.0"
-  },
-  "peerDependencies": {
-    "tree-sitter": "^0.25.0"
-  },
-  "peerDependenciesMeta": {
-    "tree-sitter": {
-      "optional": true
-    }
+    "@napi-rs/cli": "^3.6.2"
   },
   "napi": {
     "binaryName": "ts-pack-core-node",
     "targets": [
-      "aarch64-apple-darwin",
       "x86_64-unknown-linux-gnu",
       "aarch64-unknown-linux-gnu",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
       "x86_64-pc-windows-msvc",
       "aarch64-pc-windows-msvc"
     ]
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   }
 }

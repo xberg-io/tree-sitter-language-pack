@@ -1,25 +1,22 @@
 default_install_hook_types:
   - pre-commit
   - commit-msg
-default_stages: [pre-commit]
-exclude: ^e2e/|^test_apps/|vendor/|node_modules/|target/|parsers/|crates/.*/deps/|crates/.*/tmp/|_build/
-
+default_stages:
+  - pre-commit
+exclude: ^e2e/|^test_apps/|vendor/|node_modules/|target/|parsers/|crates/.*/deps/|crates/.*/tmp/|_build/|^docs/assets/
 repos:
-  # AI Rules
   - repo: https://github.com/Goldziher/ai-rulez
-    rev: v4.1.6
+    rev: v4.2.1
     hooks:
       - id: ai-rulez-generate
-
-  # Commit message linting
   - repo: https://github.com/Goldziher/gitfluff
     rev: v0.8.0
     hooks:
       - id: gitfluff-lint
-        args: ["--write"]
-        stages: [commit-msg]
-
-  # General file checks
+        args:
+          - --write
+        stages:
+          - commit-msg
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -27,63 +24,58 @@ repos:
       - id: end-of-file-fixer
       - id: check-merge-conflict
       - id: check-added-large-files
-        args: ["--maxkb=500"]
+        args:
+          - --maxkb=500
         exclude: Cargo.lock
       - id: detect-private-key
       - id: check-json
       - id: check-yaml
-        args: ["--allow-multiple-documents", "--unsafe"]
+        args:
+          - --allow-multiple-documents
+          - --unsafe
       - id: check-toml
       - id: check-case-conflict
-
-  # TOML formatting
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: "v2.21.2"
+    rev: v2.21.2
     hooks:
       - id: pyproject-fmt
-
-  # Markdown: linting
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.13
+    rev: v0.15.14
     hooks:
       - id: ruff
-        args: [--fix]
+        args:
+          - --fix
       - id: ruff-format
-
-  # Node/TS/WASM: oxlint
   - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
-    rev: v1.1.2
+    rev: v1.1.18
     hooks:
       - id: cargo-sort
-        args: [-w]
+        args:
+          - -w
         exclude: ^(e2e/rust/|test_apps/rust/|crates/ts-pack-core-wasm/)Cargo\.toml$
       - id: cargo-fmt
-        args: ["--all"]
+        args:
+          - --all
       - id: cargo-check
-        args: ["--workspace", "--all-features", "--all-targets"]
+        args:
+          - --workspace
+          - --all-features
+          - --all-targets
       - id: cargo-clippy
         args:
-          [
-            "--fix",
-            "--allow-dirty",
-            "--allow-staged",
-            "--workspace",
-            "--all-features",
-            "--all-targets",
-            "--",
-            "-D",
-            "warnings",
-          ]
+          - --fix
+          - --allow-dirty
+          - --allow-staged
+          - --workspace
+          - --all-features
+          - --all-targets
+          - --
+          - -D
+          - warnings
       - id: cargo-machete
       - id: cargo-deny
-        args: ["check"]
-      # rustdoc-lint: deferred. Strict missing-docs enforcement surfaces
-      # ~146 pre-existing gaps in ts-pack-core public surface. Tracked as
-      # a separate rustdoc-fill pass; re-enable once gaps are filled.
-      # - id: rustdoc-lint
-      #   files: ^crates/ts-pack-core/src/.*\.rs$
-      #   exclude: /tests/
-      #   args: ["-p", "tree-sitter-language-pack"]
+        args:
+          - check
       - id: pydocstyle
         files: ^packages/python/.*\.py$
         exclude: ^packages/python/(tests/|.*_native\.py$)
@@ -97,21 +89,33 @@ repos:
         files: ^packages/dart/lib/.*\.dart$
         exclude: ^packages/dart/lib/src/rust/
       - id: shfmt
-        args: ["-w", "-i", "2"]
+        args:
+          - -w
+          - -i
+          - "2"
       - id: shellcheck
       - id: clang-format
-        args: ["--style=file", "-i"]
+        args:
+          - --style=file
+          - -i
         files: (^crates/tree-sitter-language-pack-ffi/|^crates/ts-pack-core-ffi/)
         exclude: ^crates/ts-pack-core-ffi/include/ts_pack\.h$
       - id: clang-tidy
         files: (^crates/tree-sitter-language-pack-ffi/|^crates/ts-pack-core-ffi/)
         exclude: ^crates/ts-pack-core-ffi/include/ts_pack\.h$
       - id: checkstyle
-        args: ["-c", "packages/java/checkstyle.xml", "-p", "packages/java/checkstyle.properties"]
+        args:
+          - -c
+          - packages/java/checkstyle.xml
+          - -p
+          - packages/java/checkstyle.properties
         exclude: ^(e2e/|test_apps/|packages/java/src/|packages/java/dev/)
       - id: mypy
-        exclude: "^(e2e/|fixtures/bench/|scripts/clone_vendors\\.py$)"
-        args: [--strict, --explicit-package-bases, scripts]
+        exclude: ^(e2e/|fixtures/bench/|scripts/clone_vendors\.py$)
+        args:
+          - --strict
+          - --explicit-package-bases
+          - scripts
         env:
           MYPYPATH: packages/python
       - id: go-fmt
@@ -139,11 +143,16 @@ repos:
       - id: php-cs-fixer
         files: ^packages/php/.*\.php$
         exclude: ^packages/php/stubs/
-        args: [fix, --config=packages/php/php-cs-fixer.php]
+        args:
+          - fix
+          - --config=packages/php/php-cs-fixer.php
       - id: phpstan
         files: ^packages/php/.*\.php$
         exclude: ^packages/php/(php-cs-fixer\.php|stubs/)
-        args: [analyse, --no-progress, --configuration=packages/php/phpstan.neon]
+        args:
+          - analyse
+          - --no-progress
+          - --configuration=packages/php/phpstan.neon
       - id: mix-format
         files: ^packages/elixir/
       - id: mix-credo
@@ -153,38 +162,42 @@ repos:
       - id: textlint
         files: ^docs/.*\.md$
         exclude: ^docs/(CHANGELOG|snippets/|reference/|api-|migration/)
-        args: ["--fix", "--config", ".textlintrc.json"]
-
+        args:
+          - --fix
+          - --config
+          - .textlintrc.json
       - id: oxlint
       - id: oxfmt
-      # cppcheck: swift-bridge's generated RustBridgeC.h carries dozens of
-      # "struct member never used" warnings against private __private__/
-      # __swift_bridge__ types. Header is third-party-generated; auditing
-      # would require patching swift-bridge upstream.
-      # - id: cppcheck
       - id: rumdl-fmt
       - id: cpd
-        # Alef's java codegen emits ~200-token try-with-resources cleanup blocks
-        # on DownloadManager / LanguageRegistry. Refactoring the codegen to share
-        # a helper is tracked separately; raise the threshold above the duplicate
-        # size to avoid blocking unrelated commits.
-        args: ["--minimum-tokens=250"]
-  # Alef: polyglot binding generation and version sync
-  - repo: https://github.com/kreuzberg-dev/alef
-    rev: v0.16.21
-    hooks:
-      - id: alef-verify
-      - id: alef-sync-versions
-
-  # GitHub Actions: linting
+        args:
+          - --minimum-tokens=250
+      - id: ktfmt
+      - id: detekt
+      - id: ktlint
+      - id: cppcheck
+        # RustBridgeC.h is swift-bridge-generated glue; its boilerplate structs
+        # (RustStr, FfiSlice, OptionU8, …) trip cppcheck's unusedStructMember
+        # style check because the header is analysed in isolation.
+        exclude: ^packages/swift/Sources/RustBridgeC/
+      - id: hadolint
+      - id: dart-format
+      - id: dart-analyze
+      - id: swift-format
+      - id: swiftlint
+      - id: zig-fmt
+      - id: zig-build-check
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.12
     hooks:
       - id: actionlint
-
-  # Spelling: fast Rust-based spell checker
+  - repo: https://github.com/Goldziher/gh-actions-updater
+    rev: v0.1.3
+    hooks:
+      - id: gh-actions-updater
   - repo: https://github.com/crate-ci/typos
-    rev: v1.46.1
+    rev: v1.46.3
     hooks:
       - id: typos
-        args: [--force-exclude]
+        args:
+          - --force-exclude

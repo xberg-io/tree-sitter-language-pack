@@ -464,6 +464,10 @@ impl Node {
         self.inner.kind()
     }
     #[frb]
+    pub fn kind_id(&self) -> i64 {
+        (|v| v as i64)(self.inner.kind_id())
+    }
+    #[frb]
     pub fn start_byte(&self) -> i64 {
         (|v| v as i64)(self.inner.start_byte())
     }
@@ -693,6 +697,25 @@ pub enum DiagnosticSeverity {
     Info,
 }
 
+/// Errors that can occur when using the tree-sitter language pack.
+///
+/// Covers language lookup failures, parse errors, query errors, and I/O issues.
+/// Feature-gated variants are included when `config`, `download`, or related
+/// features are enabled.
+#[frb(mirror(Error))]
+pub enum Error {
+    LanguageNotFound { field0: String },
+    DynamicLoad { field0: String },
+    NullLanguagePointer { field0: String },
+    ParserSetup { field0: String },
+    LockPoisoned { field0: String },
+    Config { field0: String },
+    ParseFailed,
+    QueryError { field0: String },
+    InvalidRange { field0: String },
+    Io { field0: String },
+}
+
 // From<SourceT> conversions for bridge return types.
 
 impl From<tree_sitter_language_pack::Span> for Span {
@@ -893,7 +916,7 @@ impl From<tree_sitter_language_pack::ByteRange> for ByteRange {
 impl From<tree_sitter_language_pack::ProcessConfig> for ProcessConfig {
     fn from(v: tree_sitter_language_pack::ProcessConfig) -> Self {
         ProcessConfig {
-            language: v.language.into_owned(),
+            language: v.language.into(),
             structure: v.structure as _,
             imports: v.imports as _,
             exports: v.exports as _,
@@ -1017,7 +1040,7 @@ impl From<ProcessConfig> for tree_sitter_language_pack::ProcessConfig {
 ///
 /// Returns `null` for unrecognized extensions. The match is case-insensitive.
 pub fn detect_language_from_extension(ext: String) -> Option<String> {
-    tree_sitter_language_pack::detect_language_from_extension(&ext).map(|v| format!("{:?}", v))
+    tree_sitter_language_pack::detect_language_from_extension(&ext).map(|v| v.to_string())
 }
 
 /// Detect language name from a file path.
@@ -1025,7 +1048,7 @@ pub fn detect_language_from_extension(ext: String) -> Option<String> {
 /// Extracts the file extension and looks it up. Returns `null` if the
 /// path has no extension or the extension is not recognized.
 pub fn detect_language_from_path(path: String) -> Option<String> {
-    tree_sitter_language_pack::detect_language_from_path(&path).map(|v| format!("{:?}", v))
+    tree_sitter_language_pack::detect_language_from_path(&path).map(|v| v.to_string())
 }
 
 /// Detect language name from file content using the shebang line (`#!`).
@@ -1034,6 +1057,7 @@ pub fn detect_language_from_path(path: String) -> Option<String> {
 /// interpreter name is extracted and mapped to a language name.
 ///
 /// Handles common patterns:
+///
 /// - `#!/usr/bin/env python3` → `"python"`
 /// - `#!/bin/bash` → `"bash"`
 /// - `#!/usr/bin/env node` → `"javascript"`
@@ -1044,7 +1068,7 @@ pub fn detect_language_from_path(path: String) -> Option<String> {
 /// Returns `null` when content does not start with `#!`, the shebang is
 /// malformed, or the interpreter is not recognised.
 pub fn detect_language_from_content(content: String) -> Option<String> {
-    tree_sitter_language_pack::detect_language_from_content(&content).map(|v| format!("{:?}", v))
+    tree_sitter_language_pack::detect_language_from_content(&content).map(|v| v.to_string())
 }
 
 /// Get the highlights query for a language, if bundled.
@@ -1052,7 +1076,7 @@ pub fn detect_language_from_content(content: String) -> Option<String> {
 /// Returns the contents of `highlights.scm` as a static string, or `null`
 /// if no highlights query is bundled for this language.
 pub fn get_highlights_query(language: String) -> Option<String> {
-    tree_sitter_language_pack::get_highlights_query(&language).map(|v| format!("{:?}", v))
+    tree_sitter_language_pack::get_highlights_query(&language).map(|v| v.to_string())
 }
 
 /// Get the injections query for a language, if bundled.
@@ -1060,7 +1084,7 @@ pub fn get_highlights_query(language: String) -> Option<String> {
 /// Returns the contents of `injections.scm` as a static string, or `null`
 /// if no injections query is bundled for this language.
 pub fn get_injections_query(language: String) -> Option<String> {
-    tree_sitter_language_pack::get_injections_query(&language).map(|v| format!("{:?}", v))
+    tree_sitter_language_pack::get_injections_query(&language).map(|v| v.to_string())
 }
 
 /// Get the locals query for a language, if bundled.
@@ -1068,7 +1092,7 @@ pub fn get_injections_query(language: String) -> Option<String> {
 /// Returns the contents of `locals.scm` as a static string, or `null`
 /// if no locals query is bundled for this language.
 pub fn get_locals_query(language: String) -> Option<String> {
-    tree_sitter_language_pack::get_locals_query(&language).map(|v| format!("{:?}", v))
+    tree_sitter_language_pack::get_locals_query(&language).map(|v| v.to_string())
 }
 
 /// Get a tree-sitter `Language` by name using the global registry.
@@ -1106,7 +1130,7 @@ pub fn get_parser(name: String) -> Result<Parser, String> {
 ///
 /// This compatibility alias matches the pre-Alef Python binding API.
 pub fn detect_language(path: String) -> Option<String> {
-    tree_sitter_language_pack::detect_language(&path).map(|v| format!("{:?}", v))
+    tree_sitter_language_pack::detect_language(&path).map(|v| v.to_string())
 }
 
 /// List all available language names (sorted, deduplicated, includes aliases).
@@ -1212,6 +1236,25 @@ pub fn download(names: Vec<String>) -> Result<i64, String> {
 /// Returns an error if the manifest cannot be fetched or the bundle download fails.
 pub fn download_all() -> Result<i64, String> {
     tree_sitter_language_pack::download_all()
+        .map(|v| v as i64)
+        .map_err(|e| e.to_string())
+}
+
+/// Download every language in a named group (e.g. `"web"`, `"data"`).
+///
+/// Groups are defined in the remote manifest and let you ensure a curated
+/// set of related grammars in one call instead of listing each name to
+/// `download`. Already-cached languages are skipped.
+///
+/// Returns the total number of languages now available (statically compiled
+/// plus downloaded and cached).
+///
+/// **Errors:**
+///
+/// Returns an error if the manifest cannot be fetched, the group is unknown,
+/// or any constituent language fails to download.
+pub fn download_group(name: String) -> Result<i64, String> {
+    tree_sitter_language_pack::download_group(&name)
         .map(|v| v as i64)
         .map_err(|e| e.to_string())
 }

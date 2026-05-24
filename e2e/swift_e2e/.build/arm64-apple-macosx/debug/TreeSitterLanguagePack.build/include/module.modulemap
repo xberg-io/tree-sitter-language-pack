@@ -1,3 +1,0 @@
-module TreeSitterLanguagePack {
-    header "/Users/naamanhirschfeld/workspace/kreuzberg-dev/tree-sitter-language-pack/e2e/swift_e2e/.build/arm64-apple-macosx/debug/TreeSitterLanguagePack.build/include/TreeSitterLanguagePack-Swift.h"
-}

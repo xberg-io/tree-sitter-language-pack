@@ -87,14 +87,14 @@ Set `chunk_max_size` in `ProcessConfig` to enable chunking:
 
 ## Chunk fields
 
-| Field        | Type      | Description                                    |
-| ------------ | --------- | ---------------------------------------------- |
-| `content`    | str       | Source code text for this chunk                |
-| `start_byte` | int       | Start byte offset in source                    |
-| `end_byte`   | int       | End byte offset in source                      |
-| `start_line` | int       | First line (1-indexed)                         |
-| `end_line`   | int       | Last line (1-indexed)                          |
-| `node_types` | list[str] | Top-level tree-sitter node types in this chunk |
+| Field        | Type        | Description                                    |
+| ------------ | ----------- | ---------------------------------------------- |
+| `content`    | str         | Source code text for this chunk                |
+| `start_byte` | int         | Start byte offset in source                    |
+| `end_byte`   | int         | End byte offset in source                      |
+| `start_line` | int         | First line (1-indexed)                         |
+| `end_line`   | int         | Last line (1-indexed)                          |
+| `node_types` | `list[str]` | Top-level tree-sitter node types in this chunk |
 
 ## How it works
 

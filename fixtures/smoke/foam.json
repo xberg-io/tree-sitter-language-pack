@@ -3,6 +3,10 @@
   "description": "Smoke test: load foam and parse a simple snippet",
   "category": "smoke",
   "tags": ["smoke"],
+  "skip": {
+    "languages": ["php"],
+    "reason": "Foam not included in PHP binding (TSLP_LANGUAGES=mojo,nim,norg)"
+  },
   "input": {
     "source_code": "x",
     "config": {

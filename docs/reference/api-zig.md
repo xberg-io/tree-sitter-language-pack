@@ -2,7 +2,7 @@
 title: "Zig API Reference"
 ---
 
-## Zig API Reference <span class="version-badge">v1.8.1</span>
+## Zig API Reference <span class="version-badge">v1.9.0-rc.4</span>
 
 ### Functions
 
@@ -20,9 +20,9 @@ pub fn detect_language_from_extension(ext: [:0]const u8) ?[:0]const u8
 
 **Parameters:**
 
-| Name  | Type           | Required | Description |
-| ----- | -------------- | -------- | ----------- |
-| `ext` | `[:0]const u8` | Yes      | The ext     |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `ext` | `[:0]const u8` | Yes | The ext |
 
 **Returns:** `?[:0]const u8`
 
@@ -43,9 +43,9 @@ pub fn detect_language_from_path(path: [:0]const u8) ?[:0]const u8
 
 **Parameters:**
 
-| Name   | Type           | Required | Description      |
-| ------ | -------------- | -------- | ---------------- |
-| `path` | `[:0]const u8` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `[:0]const u8` | Yes | Path to the file |
 
 **Returns:** `?[:0]const u8`
 
@@ -78,9 +78,9 @@ pub fn detect_language_from_content(content: [:0]const u8) ?[:0]const u8
 
 **Parameters:**
 
-| Name      | Type           | Required | Description            |
-| --------- | -------------- | -------- | ---------------------- |
-| `content` | `[:0]const u8` | Yes      | The content to process |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `content` | `[:0]const u8` | Yes | The content to process |
 
 **Returns:** `?[:0]const u8`
 
@@ -101,9 +101,9 @@ pub fn get_highlights_query(language: [:0]const u8) ?[:0]const u8
 
 **Parameters:**
 
-| Name       | Type           | Required | Description  |
-| ---------- | -------------- | -------- | ------------ |
-| `language` | `[:0]const u8` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `[:0]const u8` | Yes | The language |
 
 **Returns:** `?[:0]const u8`
 
@@ -124,9 +124,9 @@ pub fn get_injections_query(language: [:0]const u8) ?[:0]const u8
 
 **Parameters:**
 
-| Name       | Type           | Required | Description  |
-| ---------- | -------------- | -------- | ------------ |
-| `language` | `[:0]const u8` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `[:0]const u8` | Yes | The language |
 
 **Returns:** `?[:0]const u8`
 
@@ -147,9 +147,9 @@ pub fn get_locals_query(language: [:0]const u8) ?[:0]const u8
 
 **Parameters:**
 
-| Name       | Type           | Required | Description  |
-| ---------- | -------------- | -------- | ------------ |
-| `language` | `[:0]const u8` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `language` | `[:0]const u8` | Yes | The language |
 
 **Returns:** `?[:0]const u8`
 
@@ -176,9 +176,9 @@ pub fn get_language(name: [:0]const u8) Error!Language
 
 **Parameters:**
 
-| Name   | Type           | Required | Description |
-| ------ | -------------- | -------- | ----------- |
-| `name` | `[:0]const u8` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
 
 **Returns:** `Language`
 **Errors:** Throws `Error`.
@@ -205,9 +205,9 @@ pub fn get_parser(name: [:0]const u8) Error!Parser
 
 **Parameters:**
 
-| Name   | Type           | Required | Description |
-| ------ | -------------- | -------- | ----------- |
-| `name` | `[:0]const u8` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
 
 **Returns:** `Parser`
 **Errors:** Throws `Error`.
@@ -228,9 +228,9 @@ pub fn detect_language(path: [:0]const u8) ?[:0]const u8
 
 **Parameters:**
 
-| Name   | Type           | Required | Description      |
-| ------ | -------------- | -------- | ---------------- |
-| `path` | `[:0]const u8` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `path` | `[:0]const u8` | Yes | Path to the file |
 
 **Returns:** `?[:0]const u8`
 
@@ -268,9 +268,9 @@ pub fn has_language(name: [:0]const u8) bool
 
 **Parameters:**
 
-| Name   | Type           | Required | Description |
-| ------ | -------------- | -------- | ----------- |
-| `name` | `[:0]const u8` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
 
 **Returns:** `bool`
 
@@ -313,10 +313,10 @@ pub fn process(source: [:0]const u8, config: ProcessConfig) Error!ProcessResult
 
 **Parameters:**
 
-| Name     | Type            | Required | Description               |
-| -------- | --------------- | -------- | ------------------------- |
-| `source` | `[:0]const u8`  | Yes      | The source                |
-| `config` | `ProcessConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `[:0]const u8` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
 **Errors:** Throws `Error`.
@@ -343,9 +343,9 @@ pub fn init(config: PackConfig) Error!void
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -373,9 +373,9 @@ pub fn configure(config: PackConfig) Error!void
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -402,9 +402,9 @@ pub fn download(names: []const [:0]const u8) Error!u64
 
 **Parameters:**
 
-| Name    | Type                   | Required | Description |
-| ------- | ---------------------- | -------- | ----------- |
-| `names` | `[]const [:0]const u8` | Yes      | The names   |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `names` | `[]const [:0]const u8` | Yes | The names |
 
 **Returns:** `u64`
 **Errors:** Throws `Error`.
@@ -438,9 +438,42 @@ pub fn download_all() Error!u64
 
 ---
 
+#### downloadGroup()
+
+Download every language in a named group (e.g. `"web"`, `"data"`).
+
+Groups are defined in the remote manifest and let you ensure a curated
+set of related grammars in one call instead of listing each name to
+`download`. Already-cached languages are skipped.
+
+Returns the total number of languages now available (statically compiled
+plus downloaded and cached).
+
+**Errors:**
+
+Returns an error if the manifest cannot be fetched, the group is unknown,
+or any constituent language fails to download.
+
+**Signature:**
+
+```zig
+pub fn download_group(name: [:0]const u8) Error!u64
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
+
+**Returns:** `u64`
+**Errors:** Throws `Error`.
+
+---
+
 #### manifestLanguages()
 
-Return all language names available in the remote manifest (304).
+Return all language names available in the remote manifest (305).
 
 Fetches (and caches) the remote manifest to discover the full list of
 downloadable languages. Use `downloaded_languages` to list what is
@@ -528,10 +561,10 @@ pub fn cache_dir() Error![:0]const u8
 
 A byte range — start (inclusive) to end (exclusive).
 
-| Field   | Type  | Default | Description                  |
-| ------- | ----- | ------- | ---------------------------- |
-| `start` | `u64` | —       | Inclusive start byte offset. |
-| `end`   | `u64` | —       | Exclusive end byte offset.   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `start` | `u64` | — | Inclusive start byte offset. |
+| `end` | `u64` | — | Exclusive end byte offset. |
 
 ---
 
@@ -539,17 +572,17 @@ A byte range — start (inclusive) to end (exclusive).
 
 Metadata for a single chunk of source code.
 
-| Field            | Type                    | Default | Description         |
-| ---------------- | ----------------------- | ------- | ------------------- |
-| `language`       | `[:0]const u8`          | —       | Language            |
-| `chunkIndex`     | `u64`                   | —       | Chunk index         |
-| `totalChunks`    | `u64`                   | —       | Total chunks        |
-| `nodeTypes`      | `[]const [:0]const u8`  | `[]`    | Node types          |
-| `contextPath`    | `[]const [:0]const u8`  | `[]`    | Context path        |
-| `symbolsDefined` | `[]const [:0]const u8`  | `[]`    | Symbols defined     |
-| `comments`       | `[]const CommentInfo`   | `[]`    | Comments            |
-| `docstrings`     | `[]const DocstringInfo` | `[]`    | Docstrings          |
-| `hasErrorNodes`  | `bool`                  | —       | Whether error nodes |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `[:0]const u8` | — | Language |
+| `chunkIndex` | `u64` | — | Chunk index |
+| `totalChunks` | `u64` | — | Total chunks |
+| `nodeTypes` | `[]const [:0]const u8` | `[]` | Node types |
+| `contextPath` | `[]const [:0]const u8` | `[]` | Context path |
+| `symbolsDefined` | `[]const [:0]const u8` | `[]` | Symbols defined |
+| `comments` | `[]const CommentInfo` | `[]` | Comments |
+| `docstrings` | `[]const DocstringInfo` | `[]` | Docstrings |
+| `hasErrorNodes` | `bool` | — | Whether error nodes |
 
 ---
 
@@ -557,14 +590,14 @@ Metadata for a single chunk of source code.
 
 A chunk of source code with rich metadata.
 
-| Field       | Type           | Default | Description                |
-| ----------- | -------------- | ------- | -------------------------- |
-| `content`   | `[:0]const u8` | —       | The extracted text content |
-| `startByte` | `u64`          | —       | Start byte                 |
-| `endByte`   | `u64`          | —       | End byte                   |
-| `startLine` | `u64`          | —       | Start line                 |
-| `endLine`   | `u64`          | —       | End line                   |
-| `metadata`  | `ChunkContext` | —       | Document metadata          |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `content` | `[:0]const u8` | — | The extracted text content |
+| `startByte` | `u64` | — | Start byte |
+| `endByte` | `u64` | — | End byte |
+| `startLine` | `u64` | — | Start line |
+| `endLine` | `u64` | — | End line |
+| `metadata` | `ChunkContext` | — | Document metadata |
 
 ---
 
@@ -572,12 +605,12 @@ A chunk of source code with rich metadata.
 
 A comment extracted from source code.
 
-| Field            | Type            | Default            | Description         |
-| ---------------- | --------------- | ------------------ | ------------------- |
-| `text`           | `[:0]const u8`  | —                  | Text                |
-| `kind`           | `CommentKind`   | `CommentKind.Line` | Kind (comment kind) |
-| `span`           | `Span`          | —                  | Span (span)         |
-| `associatedNode` | `[:0]const u8?` | `null`             | Associated node     |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `[:0]const u8` | — | Text |
+| `kind` | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
+| `span` | `Span` | — | Span (span) |
+| `associatedNode` | `[:0]const u8?` | `null` | Associated node |
 
 ---
 
@@ -585,11 +618,11 @@ A comment extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-| Field      | Type                 | Default                    | Description                    |
-| ---------- | -------------------- | -------------------------- | ------------------------------ |
-| `message`  | `[:0]const u8`       | —                          | Message                        |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | `[:0]const u8` | — | Message |
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity.Error` | Severity (diagnostic severity) |
-| `span`     | `Span`               | —                          | Span (span)                    |
+| `span` | `Span` | — | Span (span) |
 
 ---
 
@@ -597,11 +630,11 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-| Field         | Type            | Default | Description                |
-| ------------- | --------------- | ------- | -------------------------- |
-| `kind`        | `[:0]const u8`  | —       | Kind                       |
-| `name`        | `[:0]const u8?` | `null`  | The name                   |
-| `description` | `[:0]const u8`  | —       | Human-readable description |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `[:0]const u8` | — | Kind |
+| `name` | `[:0]const u8?` | `null` | The name |
+| `description` | `[:0]const u8` | — | Human-readable description |
 
 ---
 
@@ -609,13 +642,13 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 A docstring extracted from source code.
 
-| Field            | Type                 | Default                             | Description               |
-| ---------------- | -------------------- | ----------------------------------- | ------------------------- |
-| `text`           | `[:0]const u8`       | —                                   | Text                      |
-| `format`         | `DocstringFormat`    | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
-| `span`           | `Span`               | —                                   | Span (span)               |
-| `associatedItem` | `[:0]const u8?`      | `null`                              | Associated item           |
-| `parsedSections` | `[]const DocSection` | `[]`                                | Parsed sections           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | `[:0]const u8` | — | Text |
+| `format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
+| `span` | `Span` | — | Span (span) |
+| `associatedItem` | `[:0]const u8?` | `null` | Associated item |
+| `parsedSections` | `[]const DocSection` | `[]` | Parsed sections |
 
 ---
 
@@ -623,9 +656,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-##### Methods
+### Methods
 
-###### new()
+#### new()
 
 Create a new download manager for the given version.
 
@@ -635,7 +668,7 @@ Create a new download manager for the given version.
 pub fn new(version: [:0]const u8) Error!DownloadManager
 ```
 
-###### withCacheDir()
+#### withCacheDir()
 
 Create a download manager with a custom cache directory.
 
@@ -645,7 +678,7 @@ Create a download manager with a custom cache directory.
 pub fn withCacheDir(version: [:0]const u8, cache_dir: [:0]const u8) DownloadManager
 ```
 
-###### installedLanguages()
+#### installedLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -655,7 +688,7 @@ List languages that are already downloaded and cached.
 pub fn installedLanguages(self: *const DownloadManager) []const [:0]const u8
 ```
 
-###### downloadAllBestEffort()
+#### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -672,9 +705,16 @@ Returns the number of library files extracted (including those already cached).
 pub fn downloadAllBestEffort(self: *const DownloadManager) Error!u64
 ```
 
-###### cleanCache()
+#### cleanCache()
 
 Remove all cached parser libraries.
+
+Acquires the cross-process lock so `clean_cache` cannot race a concurrent
+downloader (avoids Windows sharing-violation errors against an in-flight
+bundle write). The `.download.lock` file itself is **not** removed — it is
+permanent infrastructure; deleting it could allow a concurrent process that
+already opened the file to continue holding a stale lock handle while a new
+process opens a fresh inode, breaking the mutual-exclusion guarantee.
 
 **Signature:**
 
@@ -688,11 +728,11 @@ pub fn cleanCache(self: *const DownloadManager) Error!void
 
 An export statement extracted from source code.
 
-| Field  | Type           | Default            | Description        |
-| ------ | -------------- | ------------------ | ------------------ |
-| `name` | `[:0]const u8` | —                  | The name           |
-| `kind` | `ExportKind`   | `ExportKind.Named` | Kind (export kind) |
-| `span` | `Span`         | —                  | Span (span)        |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `[:0]const u8` | — | The name |
+| `kind` | `ExportKind` | `ExportKind.Named` | Kind (export kind) |
+| `span` | `Span` | — | Span (span) |
 
 ---
 
@@ -700,16 +740,16 @@ An export statement extracted from source code.
 
 Aggregate metrics for a source file.
 
-| Field          | Type  | Default | Description      |
-| -------------- | ----- | ------- | ---------------- |
-| `totalLines`   | `u64` | —       | Total lines      |
-| `codeLines`    | `u64` | —       | Code lines       |
-| `commentLines` | `u64` | —       | Comment lines    |
-| `blankLines`   | `u64` | —       | Blank lines      |
-| `totalBytes`   | `u64` | —       | Total bytes      |
-| `nodeCount`    | `u64` | —       | Number of nodes  |
-| `errorCount`   | `u64` | —       | Number of errors |
-| `maxDepth`     | `u64` | —       | Maximum depth    |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `totalLines` | `u64` | — | Total lines |
+| `codeLines` | `u64` | — | Code lines |
+| `commentLines` | `u64` | — | Comment lines |
+| `blankLines` | `u64` | — | Blank lines |
+| `totalBytes` | `u64` | — | Total bytes |
+| `nodeCount` | `u64` | — | Number of nodes |
+| `errorCount` | `u64` | — | Number of errors |
+| `maxDepth` | `u64` | — | Maximum depth |
 
 ---
 
@@ -717,13 +757,13 @@ Aggregate metrics for a source file.
 
 An import statement extracted from source code.
 
-| Field        | Type                   | Default | Description      |
-| ------------ | ---------------------- | ------- | ---------------- |
-| `source`     | `[:0]const u8`         | —       | Source           |
-| `items`      | `[]const [:0]const u8` | `[]`    | Items            |
-| `alias`      | `[:0]const u8?`        | `null`  | Alias            |
-| `isWildcard` | `bool`                 | —       | Whether wildcard |
-| `span`       | `Span`                 | —       | Span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `source` | `[:0]const u8` | — | Source |
+| `items` | `[]const [:0]const u8` | `[]` | Items |
+| `alias` | `[:0]const u8?` | `null` | Alias |
+| `isWildcard` | `bool` | — | Whether wildcard |
+| `span` | `Span` | — | Span (span) |
 
 ---
 
@@ -740,9 +780,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-##### Methods
+### Methods
 
-###### getLanguage()
+#### getLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -761,7 +801,7 @@ does not match any known grammar.
 pub fn getLanguage(self: *const LanguageRegistry, name: [:0]const u8) Error!Language
 ```
 
-###### availableLanguages()
+#### availableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -774,7 +814,7 @@ Includes statically compiled languages, dynamically loadable languages
 pub fn availableLanguages(self: *const LanguageRegistry) []const [:0]const u8
 ```
 
-###### hasLanguage()
+#### hasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -787,7 +827,7 @@ table or from a dynamic library on disk.
 pub fn hasLanguage(self: *const LanguageRegistry, name: [:0]const u8) bool
 ```
 
-###### languageCount()
+#### languageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -797,7 +837,7 @@ Return the total number of available languages (including aliases).
 pub fn languageCount(self: *const LanguageRegistry) u64
 ```
 
-###### process()
+#### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -807,7 +847,7 @@ Parse source code and extract file intelligence based on config in a single pass
 pub fn process(self: *const LanguageRegistry, source: [:0]const u8, config: ProcessConfig) Error!ProcessResult
 ```
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -824,9 +864,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-##### Methods
+### Methods
 
-###### clone()
+#### clone()
 
 **Signature:**
 
@@ -834,7 +874,7 @@ regardless of how the tree is moved or stored at the FFI boundary.
 pub fn clone(self: *const Node) Node
 ```
 
-###### kind()
+#### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -844,7 +884,21 @@ Return the node's kind name (e.g. `"function_definition"`).
 pub fn kind(self: *const Node) [:0]const u8
 ```
 
-###### startByte()
+#### kindId()
+
+Return the node's numeric kind ID.
+
+Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+(e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+than comparing the string `kind()` in tight AST loops.
+
+**Signature:**
+
+```zig
+pub fn kindId(self: *const Node) u16
+```
+
+#### startByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -854,7 +908,7 @@ Return the inclusive start byte offset of this node.
 pub fn startByte(self: *const Node) u64
 ```
 
-###### endByte()
+#### endByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -864,7 +918,7 @@ Return the exclusive end byte offset of this node.
 pub fn endByte(self: *const Node) u64
 ```
 
-###### byteRange()
+#### byteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -877,7 +931,7 @@ text accessor.
 pub fn byteRange(self: *const Node) ByteRange
 ```
 
-###### startPosition()
+#### startPosition()
 
 Return the start `Point` (row, column).
 
@@ -887,7 +941,7 @@ Return the start `Point` (row, column).
 pub fn startPosition(self: *const Node) Point
 ```
 
-###### endPosition()
+#### endPosition()
 
 Return the end `Point` (row, column).
 
@@ -897,7 +951,7 @@ Return the end `Point` (row, column).
 pub fn endPosition(self: *const Node) Point
 ```
 
-###### isNamed()
+#### isNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -907,7 +961,7 @@ True when this node is named (not punctuation/whitespace).
 pub fn isNamed(self: *const Node) bool
 ```
 
-###### isError()
+#### isError()
 
 True when this is an error node.
 
@@ -917,7 +971,7 @@ True when this is an error node.
 pub fn isError(self: *const Node) bool
 ```
 
-###### isMissing()
+#### isMissing()
 
 True when this is a missing-token node.
 
@@ -927,7 +981,7 @@ True when this is a missing-token node.
 pub fn isMissing(self: *const Node) bool
 ```
 
-###### isExtra()
+#### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -937,7 +991,7 @@ True when this is an "extra" node (e.g. a comment).
 pub fn isExtra(self: *const Node) bool
 ```
 
-###### hasError()
+#### hasError()
 
 True when this node or any descendant is an error.
 
@@ -947,7 +1001,7 @@ True when this node or any descendant is an error.
 pub fn hasError(self: *const Node) bool
 ```
 
-###### parent()
+#### parent()
 
 Return this node's parent, if any.
 
@@ -957,7 +1011,7 @@ Return this node's parent, if any.
 pub fn parent(self: *const Node) ?Node
 ```
 
-###### child()
+#### child()
 
 Return the i-th child of this node, if any.
 
@@ -967,7 +1021,7 @@ Return the i-th child of this node, if any.
 pub fn child(self: *const Node, index: u32) ?Node
 ```
 
-###### childCount()
+#### childCount()
 
 Total number of children (including unnamed).
 
@@ -977,7 +1031,7 @@ Total number of children (including unnamed).
 pub fn childCount(self: *const Node) u64
 ```
 
-###### namedChild()
+#### namedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -987,7 +1041,7 @@ Return the i-th named child of this node, if any.
 pub fn namedChild(self: *const Node, index: u32) ?Node
 ```
 
-###### namedChildCount()
+#### namedChildCount()
 
 Number of named children of this node.
 
@@ -997,7 +1051,7 @@ Number of named children of this node.
 pub fn namedChildCount(self: *const Node) u64
 ```
 
-###### childByFieldName()
+#### childByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1007,7 +1061,7 @@ Look up a child by its grammar-defined field name.
 pub fn childByFieldName(self: *const Node, name: [:0]const u8) ?Node
 ```
 
-###### toSexp()
+#### toSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1017,7 +1071,7 @@ Return the S-expression form of this node's subtree.
 pub fn toSexp(self: *const Node) [:0]const u8
 ```
 
-###### walk()
+#### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1037,11 +1091,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-| Field       | Type                    | Default | Description                                                                                      |
-| ----------- | ----------------------- | ------- | ------------------------------------------------------------------------------------------------ |
-| `cacheDir`  | `[:0]const u8?`         | `null`  | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `[]const [:0]const u8?` | `[]`    | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`).    |
-| `groups`    | `[]const [:0]const u8?` | `[]`    | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).                      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `cacheDir` | `[:0]const u8?` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `languages` | `[]const [:0]const u8?` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `[]const [:0]const u8?` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1049,9 +1103,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-##### Methods
+### Methods
 
-###### setLanguage()
+#### setLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1069,7 +1123,7 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 pub fn setLanguage(self: *const Parser, name: [:0]const u8) Error!void
 ```
 
-###### parse()
+#### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1080,7 +1134,7 @@ or no language is set.
 pub fn parse(self: *const Parser, source: [:0]const u8) ?Tree
 ```
 
-###### parseBytes()
+#### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1091,7 +1145,7 @@ no language is set.
 pub fn parseBytes(self: *const Parser, source: []const u8) ?Tree
 ```
 
-###### reset()
+#### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1102,7 +1156,7 @@ not be incremental.
 pub fn reset(self: *const Parser) void
 ```
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -1116,20 +1170,10 @@ pub fn default() Parser
 
 A source position — row + column, zero-indexed.
 
-| Field    | Type  | Default | Description                                       |
-| -------- | ----- | ------- | ------------------------------------------------- |
-| `row`    | `u64` | —       | Zero-indexed row number.                          |
-| `column` | `u64` | —       | Zero-indexed column number, in UTF-16 code units. |
-
-##### Methods
-
-###### from()
-
-**Signature:**
-
-```zig
-pub fn from(p: Point) Point
-```
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `row` | `u64` | — | Zero-indexed row number. |
+| `column` | `u64` | — | Zero-indexed column number, in UTF-16 code units. |
 
 ---
 
@@ -1139,21 +1183,21 @@ Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
 
-| Field          | Type           | Default | Description                                                         |
-| -------------- | -------------- | ------- | ------------------------------------------------------------------- |
-| `language`     | `[:0]const u8` | —       | Language name (required).                                           |
-| `structure`    | `bool`         | `true`  | Extract structural items (functions, classes, etc.). Default: true. |
-| `imports`      | `bool`         | `true`  | Extract import statements. Default: true.                           |
-| `exports`      | `bool`         | `true`  | Extract export statements. Default: true.                           |
-| `comments`     | `bool`         | `false` | Extract comments. Default: false.                                   |
-| `docstrings`   | `bool`         | `false` | Extract docstrings. Default: false.                                 |
-| `symbols`      | `bool`         | `false` | Extract symbol definitions. Default: false.                         |
-| `diagnostics`  | `bool`         | `false` | Include parse diagnostics. Default: false.                          |
-| `chunkMaxSize` | `u64?`         | `null`  | Maximum chunk size in bytes. `null` disables chunking.              |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `[:0]const u8` | — | Language name (required). |
+| `structure` | `bool` | `true` | Extract structural items (functions, classes, etc.). Default: true. |
+| `imports` | `bool` | `true` | Extract import statements. Default: true. |
+| `exports` | `bool` | `true` | Extract export statements. Default: true. |
+| `comments` | `bool` | `false` | Extract comments. Default: false. |
+| `docstrings` | `bool` | `false` | Extract docstrings. Default: false. |
+| `symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
+| `diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
+| `chunkMaxSize` | `u64?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 
-##### Methods
+### Methods
 
-###### default()
+#### default()
 
 **Signature:**
 
@@ -1161,7 +1205,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 pub fn default() ProcessConfig
 ```
 
-###### withChunking()
+#### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1171,7 +1215,7 @@ Enable chunking with the given maximum chunk size in bytes.
 pub fn withChunking(self: *const ProcessConfig, max_size: u64) ProcessConfig
 ```
 
-###### all()
+#### all()
 
 Enable all analysis features.
 
@@ -1181,7 +1225,7 @@ Enable all analysis features.
 pub fn all(self: *const ProcessConfig) ProcessConfig
 ```
 
-###### minimal()
+#### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1201,18 +1245,18 @@ Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
 
-| Field         | Type                    | Default | Description                        |
-| ------------- | ----------------------- | ------- | ---------------------------------- |
-| `language`    | `[:0]const u8`          | —       | Language                           |
-| `metrics`     | `FileMetrics`           | —       | Metrics (file metrics)             |
-| `structure`   | `[]const StructureItem` | `[]`    | Structure                          |
-| `imports`     | `[]const ImportInfo`    | `[]`    | Imports                            |
-| `exports`     | `[]const ExportInfo`    | `[]`    | Exports                            |
-| `comments`    | `[]const CommentInfo`   | `[]`    | Comments                           |
-| `docstrings`  | `[]const DocstringInfo` | `[]`    | Docstrings                         |
-| `symbols`     | `[]const SymbolInfo`    | `[]`    | Symbols                            |
-| `diagnostics` | `[]const Diagnostic`    | `[]`    | Diagnostics                        |
-| `chunks`      | `[]const CodeChunk`     | `[]`    | Text chunks for chunking/embedding |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `language` | `[:0]const u8` | — | Language |
+| `metrics` | `FileMetrics` | — | Metrics (file metrics) |
+| `structure` | `[]const StructureItem` | `[]` | Structure |
+| `imports` | `[]const ImportInfo` | `[]` | Imports |
+| `exports` | `[]const ExportInfo` | `[]` | Exports |
+| `comments` | `[]const CommentInfo` | `[]` | Comments |
+| `docstrings` | `[]const DocstringInfo` | `[]` | Docstrings |
+| `symbols` | `[]const SymbolInfo` | `[]` | Symbols |
+| `diagnostics` | `[]const Diagnostic` | `[]` | Diagnostics |
+| `chunks` | `[]const CodeChunk` | `[]` | Text chunks for chunking/embedding |
 
 ---
 
@@ -1223,14 +1267,14 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-| Field         | Type  | Default | Description  |
-| ------------- | ----- | ------- | ------------ |
-| `startByte`   | `u64` | —       | Start byte   |
-| `endByte`     | `u64` | —       | End byte     |
-| `startLine`   | `u64` | —       | Start line   |
-| `startColumn` | `u64` | —       | Start column |
-| `endLine`     | `u64` | —       | End line     |
-| `endColumn`   | `u64` | —       | End column   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `startByte` | `u64` | — | Start byte |
+| `endByte` | `u64` | — | End byte |
+| `startLine` | `u64` | — | Start line |
+| `startColumn` | `u64` | — | Start column |
+| `endLine` | `u64` | — | End line |
+| `endColumn` | `u64` | — | End column |
 
 ---
 
@@ -1238,17 +1282,17 @@ positions (for display and diagnostics).
 
 A structural item (function, class, struct, etc.) in source code.
 
-| Field        | Type                    | Default                  | Description           |
-| ------------ | ----------------------- | ------------------------ | --------------------- |
-| `kind`       | `StructureKind`         | `StructureKind.Function` | Kind (structure kind) |
-| `name`       | `[:0]const u8?`         | `null`                   | The name              |
-| `visibility` | `[:0]const u8?`         | `null`                   | Visibility            |
-| `span`       | `Span`                  | —                        | Span (span)           |
-| `children`   | `[]const StructureItem` | `[]`                     | Children              |
-| `decorators` | `[]const [:0]const u8`  | `[]`                     | Decorators            |
-| `docComment` | `[:0]const u8?`         | `null`                   | Doc comment           |
-| `signature`  | `[:0]const u8?`         | `null`                   | Signature             |
-| `bodySpan`   | `Span?`                 | `null`                   | Body span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `kind` | `StructureKind` | `StructureKind.Function` | Kind (structure kind) |
+| `name` | `[:0]const u8?` | `null` | The name |
+| `visibility` | `[:0]const u8?` | `null` | Visibility |
+| `span` | `Span` | — | Span (span) |
+| `children` | `[]const StructureItem` | `[]` | Children |
+| `decorators` | `[]const [:0]const u8` | `[]` | Decorators |
+| `docComment` | `[:0]const u8?` | `null` | Doc comment |
+| `signature` | `[:0]const u8?` | `null` | Signature |
+| `bodySpan` | `Span?` | `null` | Body span (span) |
 
 ---
 
@@ -1256,13 +1300,13 @@ A structural item (function, class, struct, etc.) in source code.
 
 A symbol (variable, function, type, etc.) extracted from source code.
 
-| Field            | Type            | Default               | Description        |
-| ---------------- | --------------- | --------------------- | ------------------ |
-| `name`           | `[:0]const u8`  | —                     | The name           |
-| `kind`           | `SymbolKind`    | `SymbolKind.Variable` | Kind (symbol kind) |
-| `span`           | `Span`          | —                     | Span (span)        |
-| `typeAnnotation` | `[:0]const u8?` | `null`                | Type annotation    |
-| `doc`            | `[:0]const u8?` | `null`                | Doc                |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | `[:0]const u8` | — | The name |
+| `kind` | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
+| `span` | `Span` | — | Span (span) |
+| `typeAnnotation` | `[:0]const u8?` | `null` | Type annotation |
+| `doc` | `[:0]const u8?` | `null` | Doc |
 
 ---
 
@@ -1270,9 +1314,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-##### Methods
+### Methods
 
-###### rootNode()
+#### rootNode()
 
 Return the root `Node` of this tree.
 
@@ -1282,7 +1326,7 @@ Return the root `Node` of this tree.
 pub fn rootNode(self: *const Tree) Node
 ```
 
-###### walk()
+#### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1298,9 +1342,9 @@ pub fn walk(self: *const Tree) TreeCursor
 
 A cursor for traversing a `Tree`.
 
-##### Methods
+### Methods
 
-###### node()
+#### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1310,7 +1354,7 @@ Return the `Node` at the cursor's current position.
 pub fn node(self: *const TreeCursor) Node
 ```
 
-###### gotoFirstChild()
+#### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1321,7 +1365,7 @@ Returns `true` if a child existed.
 pub fn gotoFirstChild(self: *const TreeCursor) bool
 ```
 
-###### gotoParent()
+#### gotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1332,7 +1376,7 @@ Returns `true` if a parent existed.
 pub fn gotoParent(self: *const TreeCursor) bool
 ```
 
-###### gotoNextSibling()
+#### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1343,7 +1387,7 @@ Returns `true` if a sibling existed.
 pub fn gotoNextSibling(self: *const TreeCursor) bool
 ```
 
-###### fieldName()
+#### fieldName()
 
 Return the field name for the current node, if any.
 
@@ -1365,19 +1409,19 @@ Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
 
-| Value       | Description                         |
-| ----------- | ----------------------------------- |
-| `Function`  | Function                            |
-| `Method`    | Method                              |
-| `Class`     | Class                               |
-| `Struct`    | Struct                              |
-| `Interface` | Interface                           |
-| `Enum`      | Enum                                |
-| `Module`    | Module                              |
-| `Trait`     | Trait                               |
-| `Impl`      | Impl                                |
-| `Namespace` | Namespace                           |
-| `Other`     | Other — Fields: `0`: `[:0]const u8` |
+| Value | Description |
+|-------|-------------|
+| `Function` | Function |
+| `Method` | Method |
+| `Class` | Class |
+| `Struct` | Struct |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Trait` | Trait |
+| `Impl` | Impl |
+| `Namespace` | Namespace |
+| `Other` | Other — Fields: `0`: `[:0]const u8` |
 
 ---
 
@@ -1388,11 +1432,11 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-| Value   | Description |
-| ------- | ----------- |
-| `Line`  | Line        |
-| `Block` | Block       |
-| `Doc`   | Doc         |
+| Value | Description |
+|-------|-------------|
+| `Line` | Line |
+| `Block` | Block |
+| `Doc` | Doc |
 
 ---
 
@@ -1403,14 +1447,14 @@ The format of a docstring extracted from source code.
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 
-| Value               | Description                         |
-| ------------------- | ----------------------------------- |
-| `PythonTripleQuote` | Python triple quote                 |
-| `JsDoc`             | J s doc                             |
-| `Rustdoc`           | Rustdoc                             |
-| `GoDoc`             | Go doc                              |
-| `JavaDoc`           | Java doc                            |
-| `Other`             | Other — Fields: `0`: `[:0]const u8` |
+| Value | Description |
+|-------|-------------|
+| `PythonTripleQuote` | Python triple quote |
+| `JsDoc` | J s doc |
+| `Rustdoc` | Rustdoc |
+| `GoDoc` | Go doc |
+| `JavaDoc` | Java doc |
+| `Other` | Other — Fields: `0`: `[:0]const u8` |
 
 ---
 
@@ -1420,11 +1464,11 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-| Value      | Description |
-| ---------- | ----------- |
-| `Named`    | Named       |
-| `Default`  | Default     |
-| `ReExport` | Re export   |
+| Value | Description |
+|-------|-------------|
+| `Named` | Named |
+| `Default` | Default |
+| `ReExport` | Re export |
 
 ---
 
@@ -1435,17 +1479,17 @@ The kind of a symbol definition found in source code.
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
 
-| Value       | Description                         |
-| ----------- | ----------------------------------- |
-| `Variable`  | Variable                            |
-| `Constant`  | Constant                            |
-| `Function`  | Function                            |
-| `Class`     | Class                               |
-| `Type`      | Type                                |
-| `Interface` | Interface                           |
-| `Enum`      | Enum                                |
-| `Module`    | Module                              |
-| `Other`     | Other — Fields: `0`: `[:0]const u8` |
+| Value | Description |
+|-------|-------------|
+| `Variable` | Variable |
+| `Constant` | Constant |
+| `Function` | Function |
+| `Class` | Class |
+| `Type` | Type |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Other` | Other — Fields: `0`: `[:0]const u8` |
 
 ---
 
@@ -1456,11 +1500,11 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-| Value     | Description |
-| --------- | ----------- |
-| `Error`   | Error       |
-| `Warning` | Warning     |
-| `Info`    | Info        |
+| Value | Description |
+|-------|-------------|
+| `Error` | Error |
+| `Warning` | Warning |
+| `Info` | Info |
 
 ---
 
@@ -1474,17 +1518,17 @@ Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
-| Variant               | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `LanguageNotFound`    | Language '{0}' not found                          |
-| `DynamicLoad`         | Dynamic library load error: {0}                   |
+| Variant | Description |
+|---------|-------------|
+| `LanguageNotFound` | Language '{0}' not found |
+| `DynamicLoad` | Dynamic library load error: {0} |
 | `NullLanguagePointer` | Language function returned null pointer for '{0}' |
-| `ParserSetup`         | Failed to set parser language: {0}                |
-| `LockPoisoned`        | Registry lock poisoned: {0}                       |
-| `Config`              | Configuration error: {0}                          |
-| `ParseFailed`         | Parse failed: parsing returned no tree            |
-| `QueryError`          | Query error: {0}                                  |
-| `InvalidRange`        | Invalid byte range: {0}                           |
-| `Io`                  | IO error: {0}                                     |
+| `ParserSetup` | Failed to set parser language: {0} |
+| `LockPoisoned` | Registry lock poisoned: {0} |
+| `Config` | Configuration error: {0} |
+| `ParseFailed` | Parse failed: parsing returned no tree |
+| `QueryError` | Query error: {0} |
+| `InvalidRange` | Invalid byte range: {0} |
+| `Io` | IO error: {0} |
 
 ---

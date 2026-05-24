@@ -3,13 +3,17 @@
 const { platform, arch } = process;
 const isWindows = platform === "win32";
 const isMusl = () => {
+  // Prefer the report-header `glibcVersion` string when present — fastest and
+  // unambiguous on Node builds that populate it. On Node 22+, certain CI
+  // environments leave `glibcVersion` undefined even on glibc systems, so the
+  // `=== undefined` branch from older napi-rs templates produces a false
+  // "is musl" positive. Fall through to the filesystem heuristic instead: on
+  // glibc systems `/lib64/ld-musl-x86_64.so.1` does not exist; on musl systems
+  // it always does. statSync errors → not musl.
   if (typeof process.report === "object" && typeof process.report.getReport === "function") {
     const report = process.report.getReport();
     if (report && report.header && typeof report.header.glibcVersion === "string") {
       return false;
-    }
-    if (report && report.header && report.header.glibcVersion === undefined) {
-      return true;
     }
   }
   try {

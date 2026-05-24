@@ -10,17 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **repo**: Add `.gitattributes` marking all alef-generated output directories (`packages/**`, `crates/*-{py,php,ffi,node,wasm}/**`, `e2e/**`) as `linguist-generated=true` so generated files collapse in GitHub PR diffs.
+- **Bump alef to 0.18.0 and regen all bindings, e2e, docs.** Major upstream restructure: workspace renamed `alef-cli` → `alef` (single distributable crate; 28 internal `alef-*` member crates yanked), Node/WASM crate directories renamed (`ts-pack-core-node`, `ts-pack-core-wasm`), and zig/c FFI search paths reorganised. Configuration follow-ups in this repo: `[crates.{node,wasm}.crate_dir]` overrides pin the napi/wasm-pack build to the renamed crate dirs; `napi build --platform --release` produces per-platform `.node` artifacts (fixes "Cannot find module './ts-pack-core-node.darwin-arm64.node'" on Node e2e); zig defaults in `packages/zig/build.zig` switched to `../../target/release` + `../../crates/ts-pack-core-ffi/include`, with `.task/zig.yml` and the `[crates.test.zig]` alef e2e step both passing `-Dffi_path=../../target/release`; C e2e command corrected from `./test_runner` → `./run_tests` and `.task/c.yml` switched from `--lang ffi` → `--lang c`; new `[crates.e2e].result_fields` array + `[crates.e2e.fields_c_types]` map drive alef's namespace-aware field navigation for the C `process_result.metrics → FileMetrics → uintptr_t` accessors. Upstream alef fix in 0.18.0: `namespace_stripped_path` no longer strips path segments when `result_fields` is empty, so legacy bindings (no `result_fields` configured) keep dotted-field paths intact. All 14 language e2e suites pass after regen.
+- **Source-gem publish now uses the shared `rewrite-native-deps@v1` action.** The `publish-rubygems` job's source-gem fallback rewrites the native ext's workspace path-dependency (`packages/ruby/ext/ts_pack_core_rb/native/Cargo.toml` → `crates/ts-pack-core`) to a registry version-dependency so the shipped manifest resolves on user install. Replaced the dead "Set up Python (for vendor script)" + "Vendor core for source gem" steps with `kreuzberg-dev/actions/rewrite-native-deps@v1` (`lang: ruby`) before `gem build`, matching the precompiled `build-ruby-gem` job. (`.github/workflows/publish.yaml`)
 
 ### Removed
 
 - **`wolfram` grammar dropped from the language pack.** `tree-sitter-wolfram` produces glibc heap corruption (`free(): invalid next size`) when parsing trivial input under serial test execution on Linux; macOS allocator silently tolerated the corruption. The entire upstream ecosystem is unmaintained (canonical `bostick/tree-sitter-wolfram` last touched 2021-11-11 with 3 stars; every known fork — `LumaKernel`, `LoganAMorrison`, `JuanG970`, `jakassebaum` — ships the same `LANGUAGE_VERSION 13` parser tables and is inactive). Rather than fork-and-maintain a Wolfram grammar in-house for marginal demand, the entry is removed from `language_definitions.json`, all CI `TSLP_LANGUAGES` lists, the smoke fixture, the e2e harness, the docs, and the README ecosystem listings. **Total supported grammar count drops from 306 to 305**, which matches the long-standing "305 languages" marketing copy (previously off-by-one due to the broken wolfram entry).
+- **Dead workspace-vendor scripts superseded by shared GitHub Actions.** Deleted `scripts/ci/php/vendor-core.py` (rewrote the `exclude`d `crates/ts-pack-php` crate; publish uses the `crates/ts-pack-core-php` crate via `build-php-extension@v1`) and `scripts/ci/ruby/vendor-core.py` (targeted the nonexistent `crates/ts-pack-ruby` crate; no-op). Dropped the now-dangling `vendor` tasks from `.task/php.yml` and `.task/ruby.yml`; the local PHP `build`/`build:dev` tasks now build the `ts-pack-core-php` crate directly, mirroring CI. (`scripts/ci/php/vendor-core.py`, `scripts/ci/ruby/vendor-core.py`, `.task/php.yml`, `.task/ruby.yml`)
 
-### Changed
-
-- Regenerated all alef-managed surfaces (per-binding READMEs, API reference docs, generated bindings, e2e tests) and the script-managed docs/languages.md + `_supported_languages.py` to reflect the 305-grammar count.
-- `scripts/generate_grammar_table.py` default output path corrected from `docs/supported-languages.md` to the canonical nav-referenced `docs/languages.md`; Taskfile `docs:generate:languages` `generates:` field updated to match.
-
-## [1.9.0]
+## 1.9.0-rc.1 - 2026-05-22
 
 ### Added
 
@@ -34,7 +32,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Per-language CI workflows: `ci-zig.yaml`, `ci-swift.yaml`, `ci-dart.yaml`, plus a combined `ci-mobile.yaml` covering Android cross-compile + iOS cargo check.
 - Publish jobs for pub.dev (`publish-pub`), Swift Package Index (`publish-swift`), Zig (`publish-zig` → GitHub Release tarball), and Maven Central kotlin-android (`publish-kotlin-android`).
 
-## [1.8.1] - 2026-05-13
+### Fixed
+
+- **Download cache is now safe under concurrent multi-process access.** `DOWNLOAD_CACHE_LOCK` in `crates/ts-pack-core/src/lib.rs` was a `Mutex<()>` — intra-process only — so multi-worker servers (gunicorn / Puma / Node cluster), fan-out build pipelines (`make -j8`, parallel test runners), and the zig e2e suite (`zig build test` spawns eight test binaries in parallel) all raced on the same `~/.cache/tree-sitter-language-pack/v{version}/` directory. Partial `entry.unpack` writes were observable to other workers' `libloading::open`, producing intermittent `LanguageNotFound` / segfaults on first request for an uncached language; N processes could also each redundantly pull the 50MB platform bundle. Cache writes are now atomic (write to `<dest_dir>/.<name>.tmp.<pid>.<seq>` then `fs::rename` — readers see old, new, or nothing, never partial) and the bundle-fetch / extract / clean critical section is serialized across processes with an exclusive `fd-lock` on `<version_cache_dir>/.download.lock`. Double-checked locking preserves the lock-free hot path: steady-state `is_cached` lookups never pay the OS file-lock cost. New `Error::CacheLock(String)` variant surfaces lock-acquisition failures cleanly. Affects every binding (Python, Node.js, Ruby, PHP, Go, Java, C#, Elixir, WASM, Dart, Swift, Zig, Kotlin-Android) because the fix lives entirely in the shared `ts-pack-core` Rust crate. New `fd-lock = "4"` dependency (gated under the `download` feature). Cross-process safety relies on `flock` semantics, which are unreliable on NFS — users with `XDG_CACHE_HOME` on NFS should use a local-FS cache or serialize at the application layer. (`crates/ts-pack-core/src/{download.rs,error.rs}`, `crates/ts-pack-core/Cargo.toml`, `Cargo.toml`, new `crates/ts-pack-core/tests/concurrent_download.rs`)
+- **Zig e2e auto-omits fixtures outside the static-compiled grammar set (regen on alef `65f1a129`).** Declared `[crates.zig].languages = [<curated 18-grammar list>]` mirroring the `TSLP_LANGUAGES` value in `[crates.test.zig].before`. Alef's new Zig codegen filter consults both `input.language` and `input.config.language` and drops fixtures whose target grammar is not in the list (mirroring the WASM `f9e0ff50` pattern). Eliminates `smoke_bibtex` and every other non-static-set test that previously failed at parser-load time. Also reverts the per-fixture `skip: { languages: ["zig"] }` workaround on `fixtures/smoke/actionscript.json` since the auto-omit subsumes it. (`alef.toml`, `fixtures/smoke/actionscript.json`)
+- **swift e2e: `process` `contains` assertions on `Vec<DTO>` fields aggregate every stringy accessor (regen on alef `857c55d1`).** `testProcessPythonImportsDetail` and `testProcessRustStructureName` previously failed because the codegen relied on `result_field_accessor` naming a single "primary" accessor per array field (`imports → source`, `structure → kind`), which misses values surfaced on sibling fields — `"os"` against `ImportInfo.items`, `"MyConfig"` against `StructureItem.name` rather than `StructureKind`. The regenerated tests now emit a `contains(where: { item in … })` closure that gathers every text-bearing accessor (String, Option<String>, Vec<String>, serde-enum) into a `[String]` and substring-matches the expected value, mirroring python's `_alef_e2e_item_texts`. Swift e2e: 411 tests, 0 failures. (`e2e/swift_e2e/Tests/TreeSitterLanguagePackE2ETests/ProcessTests.swift`)
+- **Maven JAR native layout collapses every classifier under `natives/native/` ([#128](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues/128)).** The re-stage loop in `build-maven-package` walked one `dirname` too far when extracting the classifier from each lib's path, so all six platform libs landed at `natives/native/{lib}` instead of `natives/{classifier}/{lib}`. The Maven Central JAR shipped in v1.8.1 contained only three files (one per `.so`/`.dylib`/`.dll` extension) and `TreeSitterLanguagePack.getParser("…")` failed with `UnsatisfiedLinkError: Expected resource: /natives/windows-x86_64/ts_pack_core_ffi.dll`. Fixed the path-walk depth, and hardened both build-side and deploy-side verification steps to require every `linux-x86_64 / linux-arm64 / macos-arm64 / macos-x86_64 / windows-x86_64 / windows-arm64` classifier directory is present in the staged JAR so the regression cannot ship again. Additionally corrected the Windows-ARM classifier from `windows-aarch64` to `windows-arm64`: the Java loader (`NativeLib.resolveNativesRid`) normalizes every ARM architecture to `arm64` and resolves to `natives/windows-arm64/`, so a JAR staged under `windows-aarch64` would still `UnsatisfiedLinkError` on Windows ARM64 — the publish matrix and both verification steps now use `windows-arm64`, consistent with the `linux-arm64` / `macos-arm64` classifiers and the loader. (`.github/workflows/publish.yaml`)
+- **WASM e2e local-feasibility + auto-skip wiring.** `[crates.test.wasm].before` previously ran `wasm-pack build` with no `TSLP_LANGUAGES` set, which triggered a full 305-grammar static build — the 97MB `abl/parser.c` alone hangs clang at -O2 for tens of minutes. Mirrored the publish-wasm CI environment locally: `TSLP_LINK_MODE=static TSLP_LANGUAGES=<curated 31-grammar list> CARGO_PROFILE_RELEASE_LTO=false CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16`. Also declared `[crates.wasm].languages = [<same list>]` so alef's wasm e2e auto-skip path correctly elides 268 of the 302 smoke tests for grammars not in the bundle (with the matching alef `f23ae5d3` / `f9e0ff50` fixes that teach the wasm filter to look up both `input.language` and `input.config.language`). (`alef.toml`)
+- **Regen on alef HEAD (csharp List<string>, go os import, php deterministic accessor ordering, swift codegen trifecta).** Pulls in upstream alef fixes: `4f6a9056` csharp List<string> emission for `mock_url_list`; `06caa440` go `os` import include guard for `mock_url_list`; `1fde7aae` PHP deterministic accessor extraction order (HashMap→BTreeMap; resolves the recurring `$imports`/`$structure` flip in `e2e/php/tests/ProcessTest.php`); `13717e24` swift e2e — trailing `()` on scalar accessors that bridge through opaque structs, drop spurious `?.map ... ?? []` on non-optional `RustVec` accessors, and camelCase swift-bridge method names (e.g. `asStr()` not `as_str()`); plus the wasm `input.config.language` filter follow-up cited above. (`e2e/php/**`, `e2e/swift_e2e/**`, `e2e/wasm/**`, `e2e/zig/**`)
+- **npm darwin-x64 NAPI binary missing ([#127](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues/127)).** `crates/ts-pack-core-node/package.json#napi.targets` already listed `x86_64-apple-darwin`, but the `build-node-native` matrix in `.github/workflows/publish.yaml` omitted the `macos-15-intel` runner — so v1.8.0 / v1.8.1 npm tarballs shipped without `ts-pack-core-node.darwin-x64.node`, breaking `require('@kreuzberg/tree-sitter-language-pack')` on Intel Macs. Added a `macos-15-intel` / `darwin-x64` / `x86_64-apple-darwin` row to the matrix, mirroring the parity already present in the Python/Ruby/Java/Go publish matrices. The next published version (≥1.8.2) will include the darwin-x64 binary. (`.github/workflows/publish.yaml`)
+- **Regen on alef v0.17.13.** Pulls in four upstream fixes since v0.17.11: `fix(alef-e2e/rust): unwrap Option<scalar> leaf fields in numeric comparison assertions` (the three `greater_than` / `less_than` / `less_than_or_equal` operators no longer fail to compile when the leaf field is `Option<T>`), `fix(alef-e2e/rust): use serde_json::from_str instead of json! macro for fixture json_object args` (sidesteps the macro recursion-limit on fixtures with large JSON payloads), `fix(alef-backend-php): emit Box::default() instead of Box::new(Default::default()) for boxed fallback fields` (resolves `clippy::box-default` -D warnings on the PHP umbrella crate), and `feat(alef-core,alef-e2e/wasm,alef-e2e/typescript): auto-skip wasm fixtures outside the static-compiled language set` (foundational for tslp's curated wasm32 builds; no-op for now since `[crates.wasm].languages` is empty, but unlocks the future curated-build flow). Side effects in this regen: a few Rust e2e fixture bodies re-formatted, `e2e/c/main.c` cosmetic update, and `packages/swift/rust/Cargo.toml` deps re-ordered. (`alef.toml`, `e2e/{c,php,rust}/**`, `packages/swift/rust/Cargo.toml`)
+- **CI E2E (.NET) lib-path block uses grouped redirect.** `shellcheck SC2129` flagged four consecutive `echo … >> "$GITHUB_ENV"` lines in the Set library paths for .NET step; consolidated into a single grouped `{ … } >> "$GITHUB_ENV"` block to keep actionlint clean on the workflow. (`.github/workflows/ci-e2e.yaml`)
+- **Pin alef to v0.17.10.** Bumps `alef_version` in `alef.toml` and the alef pre-commit-hook rev. Lands the Phase-5 leakage-sanitizer chain plus follow-up codegen fixes: v0.17.4 csharp/elixir/kotlin/swift codegen-consumer unblocks; v0.17.5 NAPI/PHP/Java docstring sanitizer wiring; v0.17.7 sanitizer recognises rustdoc test-attribute fences (` ```no_run `, ` ```ignore `, ` ```should_panic `, ` ```compile_fail `, ` ```edition* `) as Rust code (so their bodies are dropped for foreign-language targets); v0.17.8/v0.17.9 csharp U1-bool P/Invoke call-site fix; v0.17.10 Swift free-function forwarder fixes — `Option<String>` returns now use `?.toString()` and host DTO args flow through `.intoRust()` before the bridge call, so `detectLanguageFromExtension/Path/Content`, the `*Query` getters, and `process(_:config:)` compile and execute against the high-level Swift API. Downstream surface: 61 Rust-code-block leaks in `crates/ts-pack-core-node/index.d.ts` and 20+ in `crates/ts-pack-core-php/src/lib.rs` collapse to 0 after this regen.
+- **Rust e2e `chunks` undefined.** `e2e/rust/tests/process_test.rs` four `test_*_chunking_*` cases were emitting `assert!(chunks.len() >= 2 as usize, ...)` where `chunks` was undeclared (E0425). Same class of bug as the PHP `$chunks` fix; alef's Rust e2e codegen unconditionally fired the streaming-virtual-field assertion arm for `chunks`/`imports`/`structure` even for non-streaming fixtures. Fix pulled in via alef `a32ca2a0 fix(rust-gen): bind fields_array accessor before len() assertion in e2e tests` — non-streaming fixtures with a colliding `fields_array` field now emit a leading `let {field} = &{result}.{field};` binding.
+- **`e2e/node` `tree-sitter` dev-dep restored (recurring).** `alef generate` strips `tree-sitter@^0.25.0` from `e2e/node/package.json` on every regen, but `tests/capsule_passthrough.test.ts` imports it to verify FFI capsule type-tag pass-through between our `Language` object and the upstream tree-sitter Node native module. Hand-restored, alongside the corresponding `pnpm-lock.yaml` rows.
+- **Subsequent regen on top of alef Swift API tightening.** Pulls in alef `2eaa260a fix(swift): hide RustVec/RustString/intoRust from public API; convert at forwarder boundaries` plus a handful of smaller adapter fixes (`fix(alef-backend-pyo3)`, `fix(alef-backend-napi,wasm)`, `fix(alef-backend-ffi)` clippy). Public Swift API surface no longer leaks `RustVec`/`RustString`/`intoRust()`; conversion happens at forwarder boundaries inside generated extensions.
+- **CI green-up.** Regenerated `pnpm-lock.yaml` to drop the stale `e2e/node → tree-sitter@^0.25.0` devDependency that broke `pnpm install --frozen-lockfile` in `CI Validate`. Regenerated the `docs/reference/api-*.md` set so committed output matches `alef docs` (compact Markdown tables) and `alef verify` stays green on `main`.
+- **Full alef regen on top of upstream codegen fixes.** Pulls in three alef fixes: `fix(swift): enum intoRust(), Ref→owned init, Vec<RustString> elem type` (Swift CI was failing on `CommentKind.intoRust()`, `RustStringRef.toString()`, `RustVec<String>` not conforming to `Vectorizable`); `fix(php-gen): bind fields_array accessor before count() assertion in e2e tests` (PHP e2e `test_*_chunking_*` cases were referencing undefined `$chunks`); `fix(alef-backend-go): null-check and box Option<String> returns instead of dereferencing` (generated `packages/go/binding.go` was returning `C.GoString(ptr)` where the signature expected `*string`, breaking `golangci-lint` and `govulncheck`). Side-effect: API docstrings now elide Rust-style `[Type]`-link syntax (e.g. PHP `Node.php` doc comments now read `A single syntax node within a 'Tree'` instead of `A single syntax node within a [`Tree`]`).
+- **WASM yuck grammar marked unsupported.** `tree-sitter-yuck` produces `RuntimeError: unreachable` when parsing under wasm32 (same class of bug as zig/ziggy, which already skip on wasm). `fixtures/smoke/yuck.json` now carries `skip: { languages: ["wasm"] }`; `alef e2e generate` removed the corresponding test from `e2e/wasm/tests/smoke.test.ts`. Native bindings remain unaffected.
+- **`package.json` pnpm-field cleanup.** Removed the now-ignored `pnpm.onlyBuiltDependencies` block from the root `package.json`. pnpm 11 reads that setting from `pnpm-workspace.yaml` (which already declares the same allowlist); the duplicate field made pnpm emit a warning on every install.
+- **Downloader now honours the host OS trust store by default ([#125](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues/125)).** Manifest and bundle downloads from `github.com/kreuzberg-dev/tree-sitter-language-pack/releases/...` previously used ureq 3.x's default rustls agent, which trusts only the bundled Mozilla webpki roots and ignores the platform store. On Linux/WSL2 hosts where GitHub HTTPS traffic is presented with a chain rooted in a locally trusted (corp / private) CA — and where `curl`, `pip`, and `git` all succeed against the same URL via the OS trust store — first-use parser downloads failed with `DownloadError: ... io: invalid peer certificate: UnknownIssuer`. The downloader now constructs a configured `ureq::Agent` with `RootCerts::PlatformVerifier` by default (via `rustls-platform-verifier`), matching the behaviour of every other host-trust-aware HTTP client on the system. Set `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS=webpki` to opt back into ureq's bundled Mozilla roots; set `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS=platform` to make the default explicit. Affects every binding (Python, Node.js, Ruby, PHP, Go, Java, C#, Elixir, WASM, Dart, Swift, Zig, Kotlin-Android) because the fix lives entirely in the shared `ts-pack-core` Rust crate. (`crates/ts-pack-core/src/{download.rs,pack_config.rs}`, workspace `Cargo.toml`)
+
+### Removed
+
+- **`wolfram` grammar dropped from the language pack.** `tree-sitter-wolfram` produces glibc heap corruption (`free(): invalid next size`) when parsing trivial input under serial test execution on Linux; macOS allocator silently tolerated the corruption. The entire upstream ecosystem is unmaintained (canonical `bostick/tree-sitter-wolfram` last touched 2021-11-11 with 3 stars; every known fork — `LumaKernel`, `LoganAMorrison`, `JuanG970`, `jakassebaum` — ships the same `LANGUAGE_VERSION 13` parser tables and is inactive). Rather than fork-and-maintain a Wolfram grammar in-house for marginal demand, the entry is removed from `language_definitions.json`, all CI `TSLP_LANGUAGES` lists, the smoke fixture, the e2e harness, the docs, and the README ecosystem listings. **Total supported grammar count drops from 306 to 305**, which matches the long-standing "305 languages" marketing copy (previously off-by-one due to the broken wolfram entry).
+
+### Changed
+
+- **Split pub.dev publish into a dedicated `publish-pubdev.yaml` workflow triggered by `push: tags: v*`.** pub.dev OIDC trusted publishing rejects tokens from `release` events; only `push` and `workflow_dispatch` events are accepted. The new workflow produces an accepted token. One-time setup required: configure pub.dev → tree_sitter_language_pack package → Admin → Automated publishing with workflow path `.github/workflows/publish-pubdev.yaml`. (`.github/workflows/publish-pubdev.yaml`, `.github/workflows/publish.yaml`)
+- Regenerated all alef-managed surfaces (per-binding READMEs, API reference docs, generated bindings, e2e tests) and the script-managed docs/languages.md + `_supported_languages.py` to reflect the 305-grammar count.
+- `scripts/generate_grammar_table.py` default output path corrected from `docs/supported-languages.md` to the canonical nav-referenced `docs/languages.md`; Taskfile `docs:generate:languages` `generates:` field updated to match.
+
+## 1.8.1 - 2026-05-13
 
 ### Added
 
@@ -53,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI pinned to Node 22 LTS across all workflows. `tree-sitter@0.25.0` (the `tree-sitter` npm package) ships a `binding.cc` written against pre-C++20 stdlib (no `std::ranges`, `concept`, `requires`) and fails to compile against Node 24/26's V8 headers. Node 22 is the latest supported runtime until upstream `node-tree-sitter` updates its `cflags_cc` or ships prebuilds.
 - CPD pre-commit hook and `packages/java/pom.xml` `maven-pmd-plugin` minimum-tokens bumped from 100 → 250: alef's java codegen emits ~200-token `try`/`catch` cleanup blocks on `DownloadManager` / `LanguageRegistry`. Refactoring the codegen to share a helper is tracked separately.
 
-## [1.8.0] - 2026-05-09
+## 1.8.0 - 2026-05-09
 
 ### Added
 
@@ -87,7 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHP: document `mlocati/php-extension-installer` prerequisite in install docs and correct minimum PHP version to 8.4+ (#106)
 - Go: regenerate stale `binding.go` with current alef generator
 
-## [1.7.0] - 2026-04-22
+## 1.7.0 - 2026-04-22
 
 ### Added
 
@@ -112,7 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker CI: `uv run` changed to `uv run --no-project` to avoid triggering root pyproject.toml build
 - Ruby CI: removed stale `working-directory` that pointed to wrong path
 
-## [1.6.3] - 2026-04-20
+## 1.6.3 - 2026-04-20
 
 ### Fixed
 
@@ -123,7 +152,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FFI: add extra libs dir from `cache_dir()` to registry on creation (#102)
 - Docs: fix textlint pre-commit hook — add `additional_dependencies` for all textlint plugins (#102)
 
-## [1.6.2] - 2026-04-18
+## 1.6.2 - 2026-04-18
 
 ### Fixed
 
@@ -134,7 +163,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update dependencies across lockfiles
 - Regenerate READMEs for 1.6.1 version bump (#101)
 
-## [1.6.1] - 2026-04-17
+## 1.6.1 - 2026-04-17
 
 ### Fixed
 
@@ -151,7 +180,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update dependencies across Python, Node.js, PHP, and Rust lockfiles
 - Replace feature group docs with `download`/`TSLP_LANGUAGES` documentation in READMEs
 
-## [1.6.0] - 2026-04-14
+## 1.6.0 - 2026-04-14
 
 ### Added
 
@@ -180,7 +209,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All 305 `lang-*` Cargo features and group features (`all`, `web`, `systems`, `scripting`, `data`, `jvm`, `functional`, `wasm`) — language selection is now via `TSLP_LANGUAGES` env var at build time; the `download` feature (default) fetches parsers at runtime
 
-## [1.5.0] - 2026-04-08
+## 1.5.0 - 2026-04-08
 
 ### Added
 
@@ -193,7 +222,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `less` grammar: regenerated parser from ABI 11 to ABI 14 (was incompatible with tree-sitter 0.26)
 - `corn` smoke fixture: replaced invalid `"x"` snippet with valid corn syntax
 
-## [1.4.1] - 2026-03-31
+## 1.4.1 - 2026-03-31
 
 ### Fixed
 
@@ -203,7 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated dependencies across all language ecosystems
 
-## [1.4.0] - 2026-03-29
+## 1.4.0 - 2026-03-29
 
 ### Fixed
 
@@ -215,7 +244,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All language snippet READMEs and documentation corrected
 - Removed automated grammar updates workflow
 
-## [1.3.3] - 2026-03-27
+## 1.3.3 - 2026-03-27
 
 ### Fixed
 
@@ -232,7 +261,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dependency updates across all language ecosystems
 - `rustler_precompiled` updated to 0.9.0 (Elixir)
 
-## [1.3.2] - 2026-03-26
+## 1.3.2 - 2026-03-26
 
 ### Fixed
 
@@ -247,7 +276,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Smoke test fixtures for all `c_symbol` override languages (csharp, vb, embeddedtemplate, nushell)
 - Dynamic-linking CI step in `ci-all-grammars.yaml` to catch `c_symbol` naming mismatches
 
-## [1.3.1] - 2026-03-26
+## 1.3.1 - 2026-03-26
 
 ### Fixed
 
@@ -256,7 +285,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Go E2E generator: use typed `*ProcessResult` struct fields instead of invalid `json.Unmarshal` on non-string return
 - Elixir CI: stage NIF with both hyphenated and underscored filenames to satisfy Rustler force-build check and `load_from` loader
 
-## [1.3.0] - 2026-03-26
+## 1.3.0 - 2026-03-26
 
 ### Added
 
@@ -280,7 +309,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation: stale version numbers, incomplete API references, incorrect function signatures
 - Java version requirement standardized to JDK 25+
 
-## [1.2.1] - 2026-03-25
+## 1.2.1 - 2026-03-25
 
 ### Fixed
 
@@ -308,7 +337,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docs: rewrite all 12 API references to match actual binding source code
 - Docs: add JSON-LD structured data and Open Graph metadata for crawlers
 
-## [1.2.0] - 2026-03-25
+## 1.2.0 - 2026-03-25
 
 ### Added
 
@@ -333,7 +362,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed e2e fixture assertions from `intel_*`/`meta_*` to `process_*`
 - All documentation and package descriptions updated to reflect 248 languages
 
-## [1.1.4] - 2026-03-24
+## 1.1.4 - 2026-03-24
 
 ### Added
 
@@ -347,7 +376,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `prolog` grammar (codeberg foxy, AGPL-3.0 copyleft) with Rukiza/tree-sitter-prolog (ISC)
 - Docs: align mkdocs config with kreuzberg branding; mermaid diagrams now render (fixes [#81](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues/81))
 
-## [1.1.3] - 2026-03-24
+## 1.1.3 - 2026-03-24
 
 ### Fixed
 
@@ -360,14 +389,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI workflow (`ci-all-grammars.yaml`) that tests all 197 grammars end-to-end, preventing regressions like #80
 - `rust:e2e:all-grammars` task for running the full grammar suite locally
 
-## [1.1.2] - 2026-03-23
+## 1.1.2 - 2026-03-23
 
 ### Fixed
 
 - Elixir NIF: fix Rustler crate name mismatch (`ts_pack_elixir` → `ts-pack-elixir`) causing compilation failure
 - Rust crate publish: embed query file contents at build time instead of using `include_str!` with relative paths that break in the cargo package tarball
 
-## [1.1.1] - 2026-03-23
+## 1.1.1 - 2026-03-23
 
 ### Fixed
 
@@ -382,7 +411,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Switch from `std::HashMap`/`HashSet` to `ahash::AHashMap`/`AHashSet` for faster hashing in registry
 
-## [1.1.0] - 2026-03-23
+## 1.1.0 - 2026-03-23
 
 ### Added
 
@@ -413,7 +442,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pre-existing registry test failures from global `RwLock` poisoning — test helpers now use local `LanguageRegistry::new()`
 - Removed ambiguous `.os` (bsl) and `.cls` (apex/LaTeX conflict) extensions
 
-## [1.0.0] - 2026-03-21
+## 1.0.0 - 2026-03-21
 
 ### Changed
 
@@ -435,7 +464,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Pre-1.0 Releases (Python-only)
 
-### [0.12.0]
+### 0.12.0
 
 #### Added
 
@@ -447,7 +476,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Alpine Linux (musl) wheel platform tag support (PEP 656)
 - Wheel file discovery in CI test action
 
-### [0.11.0]
+### 0.11.0
 
 #### Added
 
@@ -457,7 +486,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated all dependencies and relocked
 
-### [0.10.0]
+### 0.10.0
 
 #### Added
 
@@ -469,14 +498,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adopted prek pre-commit workflow
 - CI: cancel superseded workflow runs
 
-### [0.9.1]
+### 0.9.1
 
 #### Added
 
 - WASM (wast & wat) grammar support
 - F# and F# signature grammar support
 
-### [0.9.0]
+### 0.9.0
 
 #### Added
 
@@ -484,13 +513,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - tree-sitter-ini grammar support
 - Swift grammar update (trailing comma support)
 
-### [0.8.0]
+### 0.8.0
 
 #### Fixed
 
 - sdist build issues resolved
 
-### [0.7.4]
+### 0.7.4
 
 #### Added
 
@@ -498,13 +527,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Kotlin grammar support (SAM conversions)
 - Netlinx grammar support
 
-### [0.7.3]
+### 0.7.3
 
 #### Changed
 
 - Swift grammar update (macros + copyable)
 
-### [0.7.2]
+### 0.7.2
 
 #### Added
 
@@ -514,7 +543,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - MSYS2 GCC build issues
 
-### [0.7.1]
+### 0.7.1
 
 #### Added
 
@@ -526,7 +555,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pinned elm and rust grammar versions
 - Pinned tree-sitter-tcl to known-good revision
 
-### [0.6.1]
+### 0.6.1
 
 #### Added
 
@@ -536,19 +565,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Build issue resolved
 
-### [0.6.0]
+### 0.6.0
 
 #### Fixed
 
 - Windows DLL loading compatibility issues
 
-### [0.5.0]
+### 0.5.0
 
 #### Fixed
 
 - Windows compatibility and encoding issues for non-English locales
 
-### [0.4.0]
+### 0.4.0
 
 #### Added
 
@@ -556,32 +585,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Protocol Buffers (proto) grammar support
 - SPARQL grammar support
 
-### [0.3.0]
+### 0.3.0
 
 #### Changed
 
 - Updated generation setup and build matrix
 - Removed magik and swift grammars (temporarily)
 
-### [0.2.0]
+### 0.2.0
 
 #### Changed
 
 - Version bump with dependency updates
 
-### [0.1.2]
+### 0.1.2
 
 #### Fixed
 
 - Added MANIFEST.in for sdist packaging
 
-### [0.1.1]
+### 0.1.1
 
 #### Fixed
 
 - Missing parsers in package data
 
-### [0.1.0]
+### 0.1.0
 
 #### Added
 

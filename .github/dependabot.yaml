@@ -1,71 +1,65 @@
 version: 2
-updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    ignore:
-      # Pin artifact actions to v4 until GitHub Actions runners support v6/v7
-      # v6 and v7 require Actions Runner 2.327.1+ (released Dec 12, 2025)
-      - dependency-name: "actions/upload-artifact"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "actions/download-artifact"
-        update-types: ["version-update:semver-major"]
 
+multi-ecosystem-groups:
+  dependencies:
+    schedule:
+      interval: "weekly"
+
+updates:
   - package-ecosystem: "cargo"
-    # Explicitly list root only — crates/ts-pack-ruby/ext has a standalone workspace
+    # Explicitly list root only — packages/ruby/ext has a standalone workspace
     # with path deps to vendored crates that only exist at build time
     directories:
       - "/"
-    schedule:
-      interval: "weekly"
     ignore:
       - dependency-name: "ts-pack-core"
       - dependency-name: "ts-pack-ffi"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "pip"
     directories:
       - "/"
-      - "/crates/ts-pack-python"
-    schedule:
-      interval: "weekly"
+      - "/packages/python"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "npm"
     directories:
       - "/"
-      - "/crates/ts-pack-node"
-      - "/crates/ts-pack-wasm"
-    schedule:
-      interval: "weekly"
+      - "/crates/ts-pack-core-node"
+      - "/crates/ts-pack-core-wasm"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "bundler"
-    directory: "/crates/ts-pack-ruby"
-    schedule:
-      interval: "weekly"
+    directory: "/packages/ruby"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "composer"
     directories:
       - "/"
       - "/packages/php"
-    schedule:
-      interval: "weekly"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "gomod"
     directory: "/packages/go"
-    schedule:
-      interval: "weekly"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "maven"
-    directory: "/crates/ts-pack-java"
-    schedule:
-      interval: "weekly"
+    directory: "/packages/java"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "nuget"
     directory: "/packages/csharp"
-    schedule:
-      interval: "weekly"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"
 
   - package-ecosystem: "mix"
-    directory: "/crates/ts-pack-elixir"
-    schedule:
-      interval: "weekly"
+    directory: "/packages/elixir"
+    patterns: ["*"]
+    multi-ecosystem-group: "dependencies"

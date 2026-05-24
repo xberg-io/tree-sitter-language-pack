@@ -389,8 +389,23 @@ fn run() -> Result<(), String> {
 }
 
 fn main() {
+    #[cfg(unix)]
+    reset_sigpipe();
     if let Err(e) = run() {
         eprintln!("Error: {e}");
         process::exit(1);
+    }
+}
+
+#[cfg(unix)]
+#[allow(unsafe_code, reason = "restore SIGPIPE default disposition for Unix CLI semantics")]
+fn reset_sigpipe() {
+    // Restore the default SIGPIPE disposition so the kernel terminates the
+    // process when stdout is closed by a consumer like `head` or `grep -m`.
+    // Rust's default is to ignore SIGPIPE and surface broken-pipe writes as
+    // panics, which is wrong for a Unix filter-style CLI.
+    // SAFETY: single-threaded at startup; libc::signal is async-signal-safe.
+    unsafe {
+        libc::signal(libc::SIGPIPE, libc::SIG_DFL);
     }
 }

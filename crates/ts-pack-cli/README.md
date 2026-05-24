@@ -2,6 +2,8 @@
 
 # tree-sitter-language-pack — CLI
 
+[![Bindings](https://img.shields.io/badge/Bindings-alef%20%D7%90-007ec6)](https://github.com/kreuzberg-dev/alef)
+
 <div align="center" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0;">
   <!-- Language Bindings -->  <a href="https://crates.io/crates/tree-sitter-language-pack">
     <img src="https://img.shields.io/crates/v/tree-sitter-language-pack?label=Rust&color=007ec6" alt="Rust">
@@ -23,9 +25,7 @@
     <img src="https://img.shields.io/gem/v/tree_sitter_language_pack?label=Ruby&color=007ec6" alt="Ruby">
   </a>  <a href="https://hex.pm/packages/tree_sitter_language_pack">
     <img src="https://img.shields.io/hexpm/v/tree_sitter_language_pack?label=Elixir&color=007ec6" alt="Elixir">
-  </a>  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/pkgs/container/tree-sitter-language-pack">
-    <img src="https://img.shields.io/badge/Docker-007ec6?logo=docker&logoColor=white" alt="Docker">
-  </a>  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/crates/ts-pack-ffi">
+  </a>  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/crates/ts-pack-core-ffi">
     <img src="https://img.shields.io/badge/C-FFI-007ec6" alt="Ffi">
   </a>
   <!-- Project Info -->
@@ -39,17 +39,19 @@
     <img src="https://img.shields.io/badge/homebrew-ts--pack-007ec6?logo=homebrew" alt="Homebrew">
   </a>
   <a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
-    <img src="https://img.shields.io/badge/docs-kreuzberg.dev-007ec6" alt="Docs">
+    <img src="https://img.shields.io/badge/Docs-tree--sitter--language--pack-007ec6" alt="Docs">
   </a>
 </div>
 
-<div align="center">
-  <img width="3384" height="573" alt="Banner" src="https://github.com/user-attachments/assets/478a83da-237b-446b-b3a8-e564c13e00a8" />
+<div align="center" style="margin: 24px 0 0;">
+  <a href="https://kreuzberg.dev">
+    <img alt="tree-sitter-language-pack" src="https://github.com/user-attachments/assets/478a83da-237b-446b-b3a8-e564c13e00a8" />
+  </a>
 </div>
 
-<div align="center">
+<div align="center" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 28px 0 24px;">
   <a href="https://discord.gg/xt9WY3GnKR">
-    <img height="22" src="https://img.shields.io/badge/Discord-Join%20our%20community-7289da?logo=discord&logoColor=white" alt="Discord">
+    <img height="22" src="https://img.shields.io/badge/Discord-Chat-007ec6?logo=discord&logoColor=white" alt="Join Discord">
   </a>
 </div>
 
@@ -120,7 +122,7 @@ Part of [tree-sitter-language-pack](https://github.com/kreuzberg-dev/tree-sitter
 
 ## Part of Kreuzberg, Inc
 
-- [Kreuzberg](https://docs.kreuzberg.dev) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
+- [Kreuzberg](https://docs.kreuzberg.dev) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
 - [Kreuzberg Cloud](https://docs.kreuzberg.cloud) — managed extraction API with SDKs, dashboards, and observability.
 - [kreuzcrawl](https://docs.kreuzcrawl.kreuzberg.dev) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://docs.html-to-markdown.kreuzberg.dev) — fast, lossless HTML→Markdown engine.

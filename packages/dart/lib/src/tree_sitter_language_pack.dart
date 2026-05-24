@@ -285,8 +285,8 @@ class TreeSitterLanguagePackBridge {
   /// init(&config).unwrap();
   /// ```
   /// throws Error on failure
-  static Future<void> init(PackConfig config) async {
-    return await rust_bridge.init(config: config);
+  static Future<void> init([PackConfig? config]) async {
+    return await rust_bridge.init(config: config ?? PackConfig());
   }
 
   /// Apply download configuration without downloading anything.
@@ -314,8 +314,8 @@ class TreeSitterLanguagePackBridge {
   /// configure(&config).unwrap();
   /// ```
   /// throws Error on failure
-  static Future<void> configure(PackConfig config) async {
-    return await rust_bridge.configure(config: config);
+  static Future<void> configure([PackConfig? config]) async {
+    return await rust_bridge.configure(config: config ?? PackConfig());
   }
 
   /// Download specific languages to the local cache.
@@ -366,6 +366,33 @@ class TreeSitterLanguagePackBridge {
   /// throws Error on failure
   static Future<int> downloadAll() async {
     return await rust_bridge.downloadAll();
+  }
+
+  /// Download every language in a named group (e.g. `"web"`, `"data"`).
+  ///
+  /// Groups are defined in the remote manifest and let you ensure a curated
+  /// set of related grammars in one call instead of listing each name to
+  /// [`download`]. Already-cached languages are skipped.
+  ///
+  /// Returns the total number of languages now available (statically compiled
+  /// plus downloaded and cached).
+  ///
+  /// # Errors
+  ///
+  /// Returns an error if the manifest cannot be fetched, the group is unknown,
+  /// or any constituent language fails to download.
+  ///
+  /// # Example
+  ///
+  /// ```no_run
+  /// use tree_sitter_language_pack::download_group;
+  ///
+  /// let count = download_group("web").unwrap();
+  /// println!("{} languages available", count);
+  /// ```
+  /// throws Error on failure
+  static Future<int> downloadGroup(String name) async {
+    return await rust_bridge.downloadGroup(name: name);
   }
 
   /// Return all language names available in the remote manifest (305).

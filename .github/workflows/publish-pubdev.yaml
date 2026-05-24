@@ -1,0 +1,35 @@
+name: Publish pub.dev
+
+# pub.dev OIDC trusted publishing rejects tokens from `release` events.
+# This workflow fires on tag push instead, which produces an accepted token.
+#
+# One-time setup: on pub.dev → tree_sitter_language_pack package → Admin → Automated publishing,
+# set the workflow path to `.github/workflows/publish-pubdev.yaml`.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  build-and-publish-pub:
+    name: Build and publish Dart package to pub.dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: kreuzberg-dev/actions/setup-rust@v1
+      - uses: kreuzberg-dev/actions/build-dart-package@v1
+        with:
+          package-dir: packages/dart/rust
+          crate-name: tree-sitter-language-pack-dart
+      - uses: kreuzberg-dev/actions/publish-pub@v1
+        with:
+          package-dir: packages/dart

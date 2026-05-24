@@ -2,7 +2,7 @@
 title: "C# API Reference"
 ---
 
-## C# API Reference <span class="version-badge">v1.8.1</span>
+## C# API Reference <span class="version-badge">v1.9.0-rc.4</span>
 
 ### Functions
 
@@ -20,9 +20,9 @@ public static string? DetectLanguageFromExtension(string ext)
 
 **Parameters:**
 
-| Name  | Type     | Required | Description |
-| ----- | -------- | -------- | ----------- |
-| `Ext` | `string` | Yes      | The ext     |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Ext` | `string` | Yes | The ext |
 
 **Returns:** `string?`
 
@@ -43,9 +43,9 @@ public static string? DetectLanguageFromPath(string path)
 
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `Path` | `string` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Path` | `string` | Yes | Path to the file |
 
 **Returns:** `string?`
 
@@ -78,9 +78,9 @@ public static string? DetectLanguageFromContent(string content)
 
 **Parameters:**
 
-| Name      | Type     | Required | Description            |
-| --------- | -------- | -------- | ---------------------- |
-| `Content` | `string` | Yes      | The content to process |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Content` | `string` | Yes | The content to process |
 
 **Returns:** `string?`
 
@@ -101,9 +101,9 @@ public static string? GetHighlightsQuery(string language)
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `Language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Language` | `string` | Yes | The language |
 
 **Returns:** `string?`
 
@@ -124,9 +124,9 @@ public static string? GetInjectionsQuery(string language)
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `Language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Language` | `string` | Yes | The language |
 
 **Returns:** `string?`
 
@@ -147,9 +147,9 @@ public static string? GetLocalsQuery(string language)
 
 **Parameters:**
 
-| Name       | Type     | Required | Description  |
-| ---------- | -------- | -------- | ------------ |
-| `Language` | `string` | Yes      | The language |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Language` | `string` | Yes | The language |
 
 **Returns:** `string?`
 
@@ -176,9 +176,9 @@ public static Language GetLanguage(string name)
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `Name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
 
 **Returns:** `Language`
 **Errors:** Throws `Error`.
@@ -205,9 +205,9 @@ public static Parser GetParser(string name)
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `Name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
 
 **Returns:** `Parser`
 **Errors:** Throws `Error`.
@@ -228,9 +228,9 @@ public static string? DetectLanguage(string path)
 
 **Parameters:**
 
-| Name   | Type     | Required | Description      |
-| ------ | -------- | -------- | ---------------- |
-| `Path` | `string` | Yes      | Path to the file |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Path` | `string` | Yes | Path to the file |
 
 **Returns:** `string?`
 
@@ -268,9 +268,9 @@ public static bool HasLanguage(string name)
 
 **Parameters:**
 
-| Name   | Type     | Required | Description |
-| ------ | -------- | -------- | ----------- |
-| `Name` | `string` | Yes      | The name    |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
 
 **Returns:** `bool`
 
@@ -313,10 +313,10 @@ public static ProcessResult Process(string source, ProcessConfig config)
 
 **Parameters:**
 
-| Name     | Type            | Required | Description               |
-| -------- | --------------- | -------- | ------------------------- |
-| `Source` | `string`        | Yes      | The source                |
-| `Config` | `ProcessConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Source` | `string` | Yes | The source |
+| `Config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
 **Errors:** Throws `Error`.
@@ -343,9 +343,9 @@ public static void Init(PackConfig config)
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `Config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -373,9 +373,9 @@ public static void Configure(PackConfig config)
 
 **Parameters:**
 
-| Name     | Type         | Required | Description               |
-| -------- | ------------ | -------- | ------------------------- |
-| `Config` | `PackConfig` | Yes      | The configuration options |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Config` | `PackConfig` | Yes | The configuration options |
 
 **Returns:** `void`
 **Errors:** Throws `Error`.
@@ -402,9 +402,9 @@ public static nuint Download(List<string> names)
 
 **Parameters:**
 
-| Name    | Type           | Required | Description |
-| ------- | -------------- | -------- | ----------- |
-| `Names` | `List<string>` | Yes      | The names   |
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Names` | `List<string>` | Yes | The names |
 
 **Returns:** `nuint`
 **Errors:** Throws `Error`.
@@ -438,9 +438,42 @@ public static nuint DownloadAll()
 
 ---
 
+#### DownloadGroup()
+
+Download every language in a named group (e.g. `"web"`, `"data"`).
+
+Groups are defined in the remote manifest and let you ensure a curated
+set of related grammars in one call instead of listing each name to
+`download`. Already-cached languages are skipped.
+
+Returns the total number of languages now available (statically compiled
+plus downloaded and cached).
+
+**Errors:**
+
+Returns an error if the manifest cannot be fetched, the group is unknown,
+or any constituent language fails to download.
+
+**Signature:**
+
+```csharp
+public static nuint DownloadGroup(string name)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `nuint`
+**Errors:** Throws `Error`.
+
+---
+
 #### ManifestLanguages()
 
-Return all language names available in the remote manifest (304).
+Return all language names available in the remote manifest (305).
 
 Fetches (and caches) the remote manifest to discover the full list of
 downloadable languages. Use `downloaded_languages` to list what is
@@ -528,10 +561,10 @@ public static string CacheDir()
 
 A byte range — start (inclusive) to end (exclusive).
 
-| Field   | Type    | Default | Description                  |
-| ------- | ------- | ------- | ---------------------------- |
-| `Start` | `nuint` | —       | Inclusive start byte offset. |
-| `End`   | `nuint` | —       | Exclusive end byte offset.   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Start` | `nuint` | — | Inclusive start byte offset. |
+| `End` | `nuint` | — | Exclusive end byte offset. |
 
 ---
 
@@ -539,17 +572,17 @@ A byte range — start (inclusive) to end (exclusive).
 
 Metadata for a single chunk of source code.
 
-| Field            | Type                  | Default                     | Description         |
-| ---------------- | --------------------- | --------------------------- | ------------------- |
-| `Language`       | `string`              | —                           | Language            |
-| `ChunkIndex`     | `nuint`               | —                           | Chunk index         |
-| `TotalChunks`    | `nuint`               | —                           | Total chunks        |
-| `NodeTypes`      | `List<string>`        | `new List<string>()`        | Node types          |
-| `ContextPath`    | `List<string>`        | `new List<string>()`        | Context path        |
-| `SymbolsDefined` | `List<string>`        | `new List<string>()`        | Symbols defined     |
-| `Comments`       | `List<CommentInfo>`   | `new List<CommentInfo>()`   | Comments            |
-| `Docstrings`     | `List<DocstringInfo>` | `new List<DocstringInfo>()` | Docstrings          |
-| `HasErrorNodes`  | `bool`                | —                           | Whether error nodes |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Language` | `string` | — | Language |
+| `ChunkIndex` | `nuint` | — | Chunk index |
+| `TotalChunks` | `nuint` | — | Total chunks |
+| `NodeTypes` | `List<string>` | `new List<string>()` | Node types |
+| `ContextPath` | `List<string>` | `new List<string>()` | Context path |
+| `SymbolsDefined` | `List<string>` | `new List<string>()` | Symbols defined |
+| `Comments` | `List<CommentInfo>` | `new List<CommentInfo>()` | Comments |
+| `Docstrings` | `List<DocstringInfo>` | `new List<DocstringInfo>()` | Docstrings |
+| `HasErrorNodes` | `bool` | — | Whether error nodes |
 
 ---
 
@@ -557,14 +590,14 @@ Metadata for a single chunk of source code.
 
 A chunk of source code with rich metadata.
 
-| Field       | Type           | Default | Description                |
-| ----------- | -------------- | ------- | -------------------------- |
-| `Content`   | `string`       | —       | The extracted text content |
-| `StartByte` | `nuint`        | —       | Start byte                 |
-| `EndByte`   | `nuint`        | —       | End byte                   |
-| `StartLine` | `nuint`        | —       | Start line                 |
-| `EndLine`   | `nuint`        | —       | End line                   |
-| `Metadata`  | `ChunkContext` | —       | Document metadata          |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Content` | `string` | — | The extracted text content |
+| `StartByte` | `nuint` | — | Start byte |
+| `EndByte` | `nuint` | — | End byte |
+| `StartLine` | `nuint` | — | Start line |
+| `EndLine` | `nuint` | — | End line |
+| `Metadata` | `ChunkContext` | — | Document metadata |
 
 ---
 
@@ -572,12 +605,12 @@ A chunk of source code with rich metadata.
 
 A comment extracted from source code.
 
-| Field            | Type          | Default            | Description         |
-| ---------------- | ------------- | ------------------ | ------------------- |
-| `Text`           | `string`      | —                  | Text                |
-| `Kind`           | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
-| `Span`           | `Span`        | —                  | Span (span)         |
-| `AssociatedNode` | `string?`     | `null`             | Associated node     |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Text` | `string` | — | Text |
+| `Kind` | `CommentKind` | `CommentKind.Line` | Kind (comment kind) |
+| `Span` | `Span` | — | Span (span) |
+| `AssociatedNode` | `string?` | `null` | Associated node |
 
 ---
 
@@ -585,11 +618,11 @@ A comment extracted from source code.
 
 A diagnostic (syntax error, missing node, etc.) from parsing.
 
-| Field      | Type                 | Default                    | Description                    |
-| ---------- | -------------------- | -------------------------- | ------------------------------ |
-| `Message`  | `string`             | —                          | Message                        |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Message` | `string` | — | Message |
 | `Severity` | `DiagnosticSeverity` | `DiagnosticSeverity.Error` | Severity (diagnostic severity) |
-| `Span`     | `Span`               | —                          | Span (span)                    |
+| `Span` | `Span` | — | Span (span) |
 
 ---
 
@@ -597,11 +630,11 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 A section within a docstring (e.g., Args, Returns, Raises).
 
-| Field         | Type      | Default | Description                |
-| ------------- | --------- | ------- | -------------------------- |
-| `Kind`        | `string`  | —       | Kind                       |
-| `Name`        | `string?` | `null`  | The name                   |
-| `Description` | `string`  | —       | Human-readable description |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Kind` | `string` | — | Kind |
+| `Name` | `string?` | `null` | The name |
+| `Description` | `string` | — | Human-readable description |
 
 ---
 
@@ -609,13 +642,13 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 A docstring extracted from source code.
 
-| Field            | Type               | Default                             | Description               |
-| ---------------- | ------------------ | ----------------------------------- | ------------------------- |
-| `Text`           | `string`           | —                                   | Text                      |
-| `Format`         | `DocstringFormat`  | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
-| `Span`           | `Span`             | —                                   | Span (span)               |
-| `AssociatedItem` | `string?`          | `null`                              | Associated item           |
-| `ParsedSections` | `List<DocSection>` | `new List<DocSection>()`            | Parsed sections           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Text` | `string` | — | Text |
+| `Format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | Format (docstring format) |
+| `Span` | `Span` | — | Span (span) |
+| `AssociatedItem` | `string?` | `null` | Associated item |
+| `ParsedSections` | `List<DocSection>` | `new List<DocSection>()` | Parsed sections |
 
 ---
 
@@ -623,9 +656,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-##### Methods
+### Methods
 
-###### New()
+#### New()
 
 Create a new download manager for the given version.
 
@@ -635,7 +668,7 @@ Create a new download manager for the given version.
 public DownloadManager New(string version)
 ```
 
-###### WithCacheDir()
+#### WithCacheDir()
 
 Create a download manager with a custom cache directory.
 
@@ -645,7 +678,7 @@ Create a download manager with a custom cache directory.
 public DownloadManager WithCacheDir(string version, string cacheDir)
 ```
 
-###### InstalledLanguages()
+#### InstalledLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -655,7 +688,7 @@ List languages that are already downloaded and cached.
 public List<string> InstalledLanguages()
 ```
 
-###### DownloadAllBestEffort()
+#### DownloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -672,9 +705,16 @@ Returns the number of library files extracted (including those already cached).
 public nuint DownloadAllBestEffort()
 ```
 
-###### CleanCache()
+#### CleanCache()
 
 Remove all cached parser libraries.
+
+Acquires the cross-process lock so `clean_cache` cannot race a concurrent
+downloader (avoids Windows sharing-violation errors against an in-flight
+bundle write). The `.download.lock` file itself is **not** removed — it is
+permanent infrastructure; deleting it could allow a concurrent process that
+already opened the file to continue holding a stale lock handle while a new
+process opens a fresh inode, breaking the mutual-exclusion guarantee.
 
 **Signature:**
 
@@ -688,11 +728,11 @@ public void CleanCache()
 
 An export statement extracted from source code.
 
-| Field  | Type         | Default            | Description        |
-| ------ | ------------ | ------------------ | ------------------ |
-| `Name` | `string`     | —                  | The name           |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Name` | `string` | — | The name |
 | `Kind` | `ExportKind` | `ExportKind.Named` | Kind (export kind) |
-| `Span` | `Span`       | —                  | Span (span)        |
+| `Span` | `Span` | — | Span (span) |
 
 ---
 
@@ -700,16 +740,16 @@ An export statement extracted from source code.
 
 Aggregate metrics for a source file.
 
-| Field          | Type    | Default | Description      |
-| -------------- | ------- | ------- | ---------------- |
-| `TotalLines`   | `nuint` | —       | Total lines      |
-| `CodeLines`    | `nuint` | —       | Code lines       |
-| `CommentLines` | `nuint` | —       | Comment lines    |
-| `BlankLines`   | `nuint` | —       | Blank lines      |
-| `TotalBytes`   | `nuint` | —       | Total bytes      |
-| `NodeCount`    | `nuint` | —       | Number of nodes  |
-| `ErrorCount`   | `nuint` | —       | Number of errors |
-| `MaxDepth`     | `nuint` | —       | Maximum depth    |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `TotalLines` | `nuint` | — | Total lines |
+| `CodeLines` | `nuint` | — | Code lines |
+| `CommentLines` | `nuint` | — | Comment lines |
+| `BlankLines` | `nuint` | — | Blank lines |
+| `TotalBytes` | `nuint` | — | Total bytes |
+| `NodeCount` | `nuint` | — | Number of nodes |
+| `ErrorCount` | `nuint` | — | Number of errors |
+| `MaxDepth` | `nuint` | — | Maximum depth |
 
 ---
 
@@ -717,13 +757,13 @@ Aggregate metrics for a source file.
 
 An import statement extracted from source code.
 
-| Field        | Type           | Default              | Description      |
-| ------------ | -------------- | -------------------- | ---------------- |
-| `Source`     | `string`       | —                    | Source           |
-| `Items`      | `List<string>` | `new List<string>()` | Items            |
-| `Alias`      | `string?`      | `null`               | Alias            |
-| `IsWildcard` | `bool`         | —                    | Whether wildcard |
-| `Span`       | `Span`         | —                    | Span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Source` | `string` | — | Source |
+| `Items` | `List<string>` | `new List<string>()` | Items |
+| `Alias` | `string?` | `null` | Alias |
+| `IsWildcard` | `bool` | — | Whether wildcard |
+| `Span` | `Span` | — | Span (span) |
 
 ---
 
@@ -740,9 +780,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-##### Methods
+### Methods
 
-###### GetLanguage()
+#### GetLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -761,7 +801,7 @@ does not match any known grammar.
 public Language GetLanguage(string name)
 ```
 
-###### AvailableLanguages()
+#### AvailableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -774,7 +814,7 @@ Includes statically compiled languages, dynamically loadable languages
 public List<string> AvailableLanguages()
 ```
 
-###### HasLanguage()
+#### HasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -787,7 +827,7 @@ table or from a dynamic library on disk.
 public bool HasLanguage(string name)
 ```
 
-###### LanguageCount()
+#### LanguageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -797,7 +837,7 @@ Return the total number of available languages (including aliases).
 public nuint LanguageCount()
 ```
 
-###### Process()
+#### Process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -807,7 +847,7 @@ Parse source code and extract file intelligence based on config in a single pass
 public ProcessResult Process(string source, ProcessConfig config)
 ```
 
-###### CreateDefault()
+#### CreateDefault()
 
 **Signature:**
 
@@ -824,9 +864,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-##### Methods
+### Methods
 
-###### Clone()
+#### Clone()
 
 **Signature:**
 
@@ -834,7 +874,7 @@ regardless of how the tree is moved or stored at the FFI boundary.
 public Node Clone()
 ```
 
-###### Kind()
+#### Kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -844,7 +884,21 @@ Return the node's kind name (e.g. `"function_definition"`).
 public string Kind()
 ```
 
-###### StartByte()
+#### KindId()
+
+Return the node's numeric kind ID.
+
+Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+(e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+than comparing the string `kind()` in tight AST loops.
+
+**Signature:**
+
+```csharp
+public ushort KindId()
+```
+
+#### StartByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -854,7 +908,7 @@ Return the inclusive start byte offset of this node.
 public nuint StartByte()
 ```
 
-###### EndByte()
+#### EndByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -864,7 +918,7 @@ Return the exclusive end byte offset of this node.
 public nuint EndByte()
 ```
 
-###### ByteRange()
+#### ByteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -877,7 +931,7 @@ text accessor.
 public ByteRange ByteRange()
 ```
 
-###### StartPosition()
+#### StartPosition()
 
 Return the start `Point` (row, column).
 
@@ -887,7 +941,7 @@ Return the start `Point` (row, column).
 public Point StartPosition()
 ```
 
-###### EndPosition()
+#### EndPosition()
 
 Return the end `Point` (row, column).
 
@@ -897,7 +951,7 @@ Return the end `Point` (row, column).
 public Point EndPosition()
 ```
 
-###### IsNamed()
+#### IsNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -907,7 +961,7 @@ True when this node is named (not punctuation/whitespace).
 public bool IsNamed()
 ```
 
-###### IsError()
+#### IsError()
 
 True when this is an error node.
 
@@ -917,7 +971,7 @@ True when this is an error node.
 public bool IsError()
 ```
 
-###### IsMissing()
+#### IsMissing()
 
 True when this is a missing-token node.
 
@@ -927,7 +981,7 @@ True when this is a missing-token node.
 public bool IsMissing()
 ```
 
-###### IsExtra()
+#### IsExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -937,7 +991,7 @@ True when this is an "extra" node (e.g. a comment).
 public bool IsExtra()
 ```
 
-###### HasError()
+#### HasError()
 
 True when this node or any descendant is an error.
 
@@ -947,7 +1001,7 @@ True when this node or any descendant is an error.
 public bool HasError()
 ```
 
-###### Parent()
+#### Parent()
 
 Return this node's parent, if any.
 
@@ -957,7 +1011,7 @@ Return this node's parent, if any.
 public Node? Parent()
 ```
 
-###### Child()
+#### Child()
 
 Return the i-th child of this node, if any.
 
@@ -967,7 +1021,7 @@ Return the i-th child of this node, if any.
 public Node? Child(uint index)
 ```
 
-###### ChildCount()
+#### ChildCount()
 
 Total number of children (including unnamed).
 
@@ -977,7 +1031,7 @@ Total number of children (including unnamed).
 public nuint ChildCount()
 ```
 
-###### NamedChild()
+#### NamedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -987,7 +1041,7 @@ Return the i-th named child of this node, if any.
 public Node? NamedChild(uint index)
 ```
 
-###### NamedChildCount()
+#### NamedChildCount()
 
 Number of named children of this node.
 
@@ -997,7 +1051,7 @@ Number of named children of this node.
 public nuint NamedChildCount()
 ```
 
-###### ChildByFieldName()
+#### ChildByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1007,7 +1061,7 @@ Look up a child by its grammar-defined field name.
 public Node? ChildByFieldName(string name)
 ```
 
-###### ToSexp()
+#### ToSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1017,7 +1071,7 @@ Return the S-expression form of this node's subtree.
 public string ToSexp()
 ```
 
-###### Walk()
+#### Walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1037,11 +1091,11 @@ Controls cache directory and which languages to pre-download.
 Can be loaded from a TOML file, constructed programmatically,
 or passed as a dict/object from language bindings.
 
-| Field       | Type            | Default              | Description                                                                                      |
-| ----------- | --------------- | -------------------- | ------------------------------------------------------------------------------------------------ |
-| `CacheDir`  | `string?`       | `null`               | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `Languages` | `List<string>?` | `new List<string>()` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`).    |
-| `Groups`    | `List<string>?` | `new List<string>()` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`).                      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `CacheDir` | `string?` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `Languages` | `List<string>?` | `new List<string>()` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `Groups` | `List<string>?` | `new List<string>()` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1049,9 +1103,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-##### Methods
+### Methods
 
-###### SetLanguage()
+#### SetLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1069,7 +1123,7 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 public void SetLanguage(string name)
 ```
 
-###### Parse()
+#### Parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1080,7 +1134,7 @@ or no language is set.
 public Tree? Parse(string source)
 ```
 
-###### ParseBytes()
+#### ParseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1091,7 +1145,7 @@ no language is set.
 public Tree? ParseBytes(byte[] source)
 ```
 
-###### Reset()
+#### Reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1102,7 +1156,7 @@ not be incremental.
 public void Reset()
 ```
 
-###### CreateDefault()
+#### CreateDefault()
 
 **Signature:**
 
@@ -1116,20 +1170,10 @@ public Parser CreateDefault()
 
 A source position — row + column, zero-indexed.
 
-| Field    | Type    | Default | Description                                       |
-| -------- | ------- | ------- | ------------------------------------------------- |
-| `Row`    | `nuint` | —       | Zero-indexed row number.                          |
-| `Column` | `nuint` | —       | Zero-indexed column number, in UTF-16 code units. |
-
-##### Methods
-
-###### From()
-
-**Signature:**
-
-```csharp
-public Point From(Point p)
-```
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Row` | `nuint` | — | Zero-indexed row number. |
+| `Column` | `nuint` | — | Zero-indexed column number, in UTF-16 code units. |
 
 ---
 
@@ -1139,21 +1183,21 @@ Configuration for the `process()` function.
 
 Controls which analysis features are enabled and whether chunking is performed.
 
-| Field          | Type     | Default | Description                                                         |
-| -------------- | -------- | ------- | ------------------------------------------------------------------- |
-| `Language`     | `string` | —       | Language name (required).                                           |
-| `Structure`    | `bool`   | `true`  | Extract structural items (functions, classes, etc.). Default: true. |
-| `Imports`      | `bool`   | `true`  | Extract import statements. Default: true.                           |
-| `Exports`      | `bool`   | `true`  | Extract export statements. Default: true.                           |
-| `Comments`     | `bool`   | `false` | Extract comments. Default: false.                                   |
-| `Docstrings`   | `bool`   | `false` | Extract docstrings. Default: false.                                 |
-| `Symbols`      | `bool`   | `false` | Extract symbol definitions. Default: false.                         |
-| `Diagnostics`  | `bool`   | `false` | Include parse diagnostics. Default: false.                          |
-| `ChunkMaxSize` | `nuint?` | `null`  | Maximum chunk size in bytes. `null` disables chunking.              |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Language` | `string` | — | Language name (required). |
+| `Structure` | `bool` | `true` | Extract structural items (functions, classes, etc.). Default: true. |
+| `Imports` | `bool` | `true` | Extract import statements. Default: true. |
+| `Exports` | `bool` | `true` | Extract export statements. Default: true. |
+| `Comments` | `bool` | `false` | Extract comments. Default: false. |
+| `Docstrings` | `bool` | `false` | Extract docstrings. Default: false. |
+| `Symbols` | `bool` | `false` | Extract symbol definitions. Default: false. |
+| `Diagnostics` | `bool` | `false` | Include parse diagnostics. Default: false. |
+| `ChunkMaxSize` | `nuint?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 
-##### Methods
+### Methods
 
-###### CreateDefault()
+#### CreateDefault()
 
 **Signature:**
 
@@ -1161,7 +1205,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 public ProcessConfig CreateDefault()
 ```
 
-###### WithChunking()
+#### WithChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1171,7 +1215,7 @@ Enable chunking with the given maximum chunk size in bytes.
 public ProcessConfig WithChunking(nuint maxSize)
 ```
 
-###### All()
+#### All()
 
 Enable all analysis features.
 
@@ -1181,7 +1225,7 @@ Enable all analysis features.
 public ProcessConfig All()
 ```
 
-###### Minimal()
+#### Minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1201,18 +1245,18 @@ Contains metrics, structural analysis, imports/exports, comments,
 docstrings, symbols, diagnostics, and optionally chunked code segments.
 Fields are populated based on the `ProcessConfig` flags.
 
-| Field         | Type                  | Default                     | Description                        |
-| ------------- | --------------------- | --------------------------- | ---------------------------------- |
-| `Language`    | `string`              | —                           | Language                           |
-| `Metrics`     | `FileMetrics`         | —                           | Metrics (file metrics)             |
-| `Structure`   | `List<StructureItem>` | `new List<StructureItem>()` | Structure                          |
-| `Imports`     | `List<ImportInfo>`    | `new List<ImportInfo>()`    | Imports                            |
-| `Exports`     | `List<ExportInfo>`    | `new List<ExportInfo>()`    | Exports                            |
-| `Comments`    | `List<CommentInfo>`   | `new List<CommentInfo>()`   | Comments                           |
-| `Docstrings`  | `List<DocstringInfo>` | `new List<DocstringInfo>()` | Docstrings                         |
-| `Symbols`     | `List<SymbolInfo>`    | `new List<SymbolInfo>()`    | Symbols                            |
-| `Diagnostics` | `List<Diagnostic>`    | `new List<Diagnostic>()`    | Diagnostics                        |
-| `Chunks`      | `List<CodeChunk>`     | `new List<CodeChunk>()`     | Text chunks for chunking/embedding |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Language` | `string` | — | Language |
+| `Metrics` | `FileMetrics` | — | Metrics (file metrics) |
+| `Structure` | `List<StructureItem>` | `new List<StructureItem>()` | Structure |
+| `Imports` | `List<ImportInfo>` | `new List<ImportInfo>()` | Imports |
+| `Exports` | `List<ExportInfo>` | `new List<ExportInfo>()` | Exports |
+| `Comments` | `List<CommentInfo>` | `new List<CommentInfo>()` | Comments |
+| `Docstrings` | `List<DocstringInfo>` | `new List<DocstringInfo>()` | Docstrings |
+| `Symbols` | `List<SymbolInfo>` | `new List<SymbolInfo>()` | Symbols |
+| `Diagnostics` | `List<Diagnostic>` | `new List<Diagnostic>()` | Diagnostics |
+| `Chunks` | `List<CodeChunk>` | `new List<CodeChunk>()` | Text chunks for chunking/embedding |
 
 ---
 
@@ -1223,14 +1267,14 @@ Byte and line/column range in source code.
 Represents both byte offsets (for slicing) and human-readable line/column
 positions (for display and diagnostics).
 
-| Field         | Type    | Default | Description  |
-| ------------- | ------- | ------- | ------------ |
-| `StartByte`   | `nuint` | —       | Start byte   |
-| `EndByte`     | `nuint` | —       | End byte     |
-| `StartLine`   | `nuint` | —       | Start line   |
-| `StartColumn` | `nuint` | —       | Start column |
-| `EndLine`     | `nuint` | —       | End line     |
-| `EndColumn`   | `nuint` | —       | End column   |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `StartByte` | `nuint` | — | Start byte |
+| `EndByte` | `nuint` | — | End byte |
+| `StartLine` | `nuint` | — | Start line |
+| `StartColumn` | `nuint` | — | Start column |
+| `EndLine` | `nuint` | — | End line |
+| `EndColumn` | `nuint` | — | End column |
 
 ---
 
@@ -1238,17 +1282,17 @@ positions (for display and diagnostics).
 
 A structural item (function, class, struct, etc.) in source code.
 
-| Field        | Type                  | Default                     | Description           |
-| ------------ | --------------------- | --------------------------- | --------------------- |
-| `Kind`       | `StructureKind`       | `StructureKind.Function`    | Kind (structure kind) |
-| `Name`       | `string?`             | `null`                      | The name              |
-| `Visibility` | `string?`             | `null`                      | Visibility            |
-| `Span`       | `Span`                | —                           | Span (span)           |
-| `Children`   | `List<StructureItem>` | `new List<StructureItem>()` | Children              |
-| `Decorators` | `List<string>`        | `new List<string>()`        | Decorators            |
-| `DocComment` | `string?`             | `null`                      | Doc comment           |
-| `Signature`  | `string?`             | `null`                      | Signature             |
-| `BodySpan`   | `Span?`               | `null`                      | Body span (span)      |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Kind` | `StructureKind` | `StructureKind.Function` | Kind (structure kind) |
+| `Name` | `string?` | `null` | The name |
+| `Visibility` | `string?` | `null` | Visibility |
+| `Span` | `Span` | — | Span (span) |
+| `Children` | `List<StructureItem>` | `new List<StructureItem>()` | Children |
+| `Decorators` | `List<string>` | `new List<string>()` | Decorators |
+| `DocComment` | `string?` | `null` | Doc comment |
+| `Signature` | `string?` | `null` | Signature |
+| `BodySpan` | `Span?` | `null` | Body span (span) |
 
 ---
 
@@ -1256,13 +1300,13 @@ A structural item (function, class, struct, etc.) in source code.
 
 A symbol (variable, function, type, etc.) extracted from source code.
 
-| Field            | Type         | Default               | Description        |
-| ---------------- | ------------ | --------------------- | ------------------ |
-| `Name`           | `string`     | —                     | The name           |
-| `Kind`           | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
-| `Span`           | `Span`       | —                     | Span (span)        |
-| `TypeAnnotation` | `string?`    | `null`                | Type annotation    |
-| `Doc`            | `string?`    | `null`                | Doc                |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `Name` | `string` | — | The name |
+| `Kind` | `SymbolKind` | `SymbolKind.Variable` | Kind (symbol kind) |
+| `Span` | `Span` | — | Span (span) |
+| `TypeAnnotation` | `string?` | `null` | Type annotation |
+| `Doc` | `string?` | `null` | Doc |
 
 ---
 
@@ -1270,9 +1314,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-##### Methods
+### Methods
 
-###### RootNode()
+#### RootNode()
 
 Return the root `Node` of this tree.
 
@@ -1282,7 +1326,7 @@ Return the root `Node` of this tree.
 public Node RootNode()
 ```
 
-###### Walk()
+#### Walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1298,9 +1342,9 @@ public TreeCursor Walk()
 
 A cursor for traversing a `Tree`.
 
-##### Methods
+### Methods
 
-###### Node()
+#### Node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1310,7 +1354,7 @@ Return the `Node` at the cursor's current position.
 public Node Node()
 ```
 
-###### GotoFirstChild()
+#### GotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1321,7 +1365,7 @@ Returns `true` if a child existed.
 public bool GotoFirstChild()
 ```
 
-###### GotoParent()
+#### GotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1332,7 +1376,7 @@ Returns `true` if a parent existed.
 public bool GotoParent()
 ```
 
-###### GotoNextSibling()
+#### GotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1343,7 +1387,7 @@ Returns `true` if a sibling existed.
 public bool GotoNextSibling()
 ```
 
-###### FieldName()
+#### FieldName()
 
 Return the field name for the current node, if any.
 
@@ -1365,19 +1409,19 @@ Categorizes top-level and nested declarations such as functions, classes,
 structs, enums, traits, and more. Use `Other` for
 language-specific constructs that do not fit a standard category.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Function`  | Function                      |
-| `Method`    | Method                        |
-| `Class`     | Class                         |
-| `Struct`    | Struct                        |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Trait`     | Trait                         |
-| `Impl`      | Impl                          |
-| `Namespace` | Namespace                     |
-| `Other`     | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `Function` | Function |
+| `Method` | Method |
+| `Class` | Class |
+| `Struct` | Struct |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Trait` | Trait |
+| `Impl` | Impl |
+| `Namespace` | Namespace |
+| `Other` | Other — Fields: `0`: `string` |
 
 ---
 
@@ -1388,11 +1432,11 @@ The kind of a comment found in source code.
 Distinguishes between single-line comments, block (multi-line) comments,
 and documentation comments.
 
-| Value   | Description |
-| ------- | ----------- |
-| `Line`  | Line        |
-| `Block` | Block       |
-| `Doc`   | Doc         |
+| Value | Description |
+|-------|-------------|
+| `Line` | Line |
+| `Block` | Block |
+| `Doc` | Doc |
 
 ---
 
@@ -1403,14 +1447,14 @@ The format of a docstring extracted from source code.
 Identifies the docstring convention used, which varies by language
 (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 
-| Value               | Description                   |
-| ------------------- | ----------------------------- |
-| `PythonTripleQuote` | Python triple quote           |
-| `JsDoc`             | J s doc                       |
-| `Rustdoc`           | Rustdoc                       |
-| `GoDoc`             | Go doc                        |
-| `JavaDoc`           | Java doc                      |
-| `Other`             | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `PythonTripleQuote` | Python triple quote |
+| `JsDoc` | J s doc |
+| `Rustdoc` | Rustdoc |
+| `GoDoc` | Go doc |
+| `JavaDoc` | Java doc |
+| `Other` | Other — Fields: `0`: `string` |
 
 ---
 
@@ -1420,11 +1464,11 @@ The kind of an export statement found in source code.
 
 Covers named exports, default exports, and re-exports from other modules.
 
-| Value      | Description |
-| ---------- | ----------- |
-| `Named`    | Named       |
-| `Default`  | Default     |
-| `ReExport` | Re export   |
+| Value | Description |
+|-------|-------------|
+| `Named` | Named |
+| `Default` | Default |
+| `ReExport` | Re export |
 
 ---
 
@@ -1435,17 +1479,17 @@ The kind of a symbol definition found in source code.
 Categorizes symbol definitions such as variables, constants, functions,
 classes, types, interfaces, enums, and modules.
 
-| Value       | Description                   |
-| ----------- | ----------------------------- |
-| `Variable`  | Variable                      |
-| `Constant`  | Constant                      |
-| `Function`  | Function                      |
-| `Class`     | Class                         |
-| `Type`      | Type                          |
-| `Interface` | Interface                     |
-| `Enum`      | Enum                          |
-| `Module`    | Module                        |
-| `Other`     | Other — Fields: `0`: `string` |
+| Value | Description |
+|-------|-------------|
+| `Variable` | Variable |
+| `Constant` | Constant |
+| `Function` | Function |
+| `Class` | Class |
+| `Type` | Type |
+| `Interface` | Interface |
+| `Enum` | Enum |
+| `Module` | Module |
+| `Other` | Other — Fields: `0`: `string` |
 
 ---
 
@@ -1456,11 +1500,11 @@ Severity level of a diagnostic produced during parsing.
 Used to classify parse errors, warnings, and informational messages
 found in the syntax tree.
 
-| Value     | Description |
-| --------- | ----------- |
-| `Error`   | Error       |
-| `Warning` | Warning     |
-| `Info`    | Info        |
+| Value | Description |
+|-------|-------------|
+| `Error` | Error |
+| `Warning` | Warning |
+| `Info` | Info |
 
 ---
 
@@ -1474,17 +1518,17 @@ Covers language lookup failures, parse errors, query errors, and I/O issues.
 Feature-gated variants are included when `config`, `download`, or related
 features are enabled.
 
-| Variant               | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `LanguageNotFound`    | Language '{0}' not found                          |
-| `DynamicLoad`         | Dynamic library load error: {0}                   |
+| Variant | Description |
+|---------|-------------|
+| `LanguageNotFound` | Language '{0}' not found |
+| `DynamicLoad` | Dynamic library load error: {0} |
 | `NullLanguagePointer` | Language function returned null pointer for '{0}' |
-| `ParserSetup`         | Failed to set parser language: {0}                |
-| `LockPoisoned`        | Registry lock poisoned: {0}                       |
-| `Config`              | Configuration error: {0}                          |
-| `ParseFailed`         | Parse failed: parsing returned no tree            |
-| `QueryError`          | Query error: {0}                                  |
-| `InvalidRange`        | Invalid byte range: {0}                           |
-| `Io`                  | IO error: {0}                                     |
+| `ParserSetup` | Failed to set parser language: {0} |
+| `LockPoisoned` | Registry lock poisoned: {0} |
+| `Config` | Configuration error: {0} |
+| `ParseFailed` | Parse failed: parsing returned no tree |
+| `QueryError` | Query error: {0} |
+| `InvalidRange` | Invalid byte range: {0} |
+| `Io` | IO error: {0} |
 
 ---

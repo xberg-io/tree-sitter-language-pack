@@ -58,10 +58,12 @@ tasks:
     cmds:
       - echo "Updating Elixir dependencies (within-major)..."
       - cmd: echo "Note - Elixir requires manual mix.exs edits for major version updates"
-      - mix hex.outdated
+      - cmd: mix hex.outdated
+        ignore_error: true
       - mix deps.update --all
       - echo "Checking remaining outdated dependencies..."
-      - mix hex.outdated || true
+      - cmd: mix hex.outdated
+        ignore_error: true
 
   upgrade:
     desc: Upgrade Elixir dependencies to latest versions (cross-major / breaking)
@@ -69,11 +71,13 @@ tasks:
     cmds:
       - echo "Upgrading Elixir dependencies (cross-major)..."
       - cmd: echo "Note - true cross-major requires manual mix.exs edits"
-      - mix hex.outdated
+      - cmd: mix hex.outdated
+        ignore_error: true
       - mix deps.unlock --all
       - mix deps.update --all
       - echo "Checking remaining outdated dependencies..."
-      - mix hex.outdated || true
+      - cmd: mix hex.outdated
+        ignore_error: true
 
   clean:
     desc: Clean Elixir build artifacts
