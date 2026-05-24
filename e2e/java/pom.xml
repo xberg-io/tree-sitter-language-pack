@@ -31,9 +31,9 @@
         <dependency>
             <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
             <artifactId>tree-sitter-language-pack</artifactId>
-            <version>1.9.0-rc.1</version>
+            <version>1.9.0-rc.2</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.9.0-rc.1.jar</systemPath>
+            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.9.0-rc.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

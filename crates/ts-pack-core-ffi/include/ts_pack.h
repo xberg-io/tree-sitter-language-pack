@@ -1520,6 +1520,13 @@ char *ts_pack_process_config_to_json(const TS_PACKProcessConfig *ptr);
 void ts_pack_process_config_free(TS_PACKProcessConfig *ptr);
 
 /**
+ * Get the `language` field from a `ProcessConfig`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+char *ts_pack_process_config_language(const TS_PACKProcessConfig *ptr);
+
+/**
  * Get the `structure` field from a `ProcessConfig`.
  * # Safety
  * Pointer must be a valid handle returned by this library.

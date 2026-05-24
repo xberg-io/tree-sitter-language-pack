@@ -25,20 +25,29 @@ package dev.kreuzberg.tslp.android
 /**
  * The kind of structural item found in source code.
  *
- * Categorizes top-level and nested declarations such as functions, classes,
- * structs, enums, traits, and more. Use `Other` for
- * language-specific constructs that do not fit a standard category.
+ * Categorizes top-level and nested declarations such as functions, classes, structs, enums, traits,
+ * and more. Use `Other` for language-specific constructs that do not fit a standard category.
  */
 sealed class StructureKind {
     object Function : StructureKind()
+
     object Method : StructureKind()
+
     object Class : StructureKind()
+
     object Struct : StructureKind()
+
     object Interface : StructureKind()
+
     object Enum : StructureKind()
+
     object Module : StructureKind()
+
     object Trait : StructureKind()
+
     object Impl : StructureKind()
+
     object Namespace : StructureKind()
+
     data class Other(val value: String) : StructureKind()
 }

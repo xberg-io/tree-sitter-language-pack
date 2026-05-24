@@ -28,28 +28,27 @@ package dev.kreuzberg.tslp.android
  * Covers named exports, default exports, and re-exports from other modules.
  */
 enum class ExportKind {
-    @com.fasterxml.jackson.annotation.JsonProperty("Named")
-    NAMED,
-    @com.fasterxml.jackson.annotation.JsonProperty("Default")
-    DEFAULT,
-    @com.fasterxml.jackson.annotation.JsonProperty("ReExport")
-    RE_EXPORT;
+    @com.fasterxml.jackson.annotation.JsonProperty("Named") NAMED,
+    @com.fasterxml.jackson.annotation.JsonProperty("Default") DEFAULT,
+    @com.fasterxml.jackson.annotation.JsonProperty("ReExport") RE_EXPORT;
 
     @com.fasterxml.jackson.annotation.JsonValue
-    fun toWire(): String = when (this) {
-        NAMED -> "Named"
-        DEFAULT -> "Default"
-        RE_EXPORT -> "ReExport"
-    }
+    fun toWire(): String =
+        when (this) {
+            NAMED -> "Named"
+            DEFAULT -> "Default"
+            RE_EXPORT -> "ReExport"
+        }
 
     companion object {
         @com.fasterxml.jackson.annotation.JsonCreator
         @JvmStatic
-        fun fromWire(value: String): ExportKind = when (value) {
-            "Named" -> NAMED
-            "Default" -> DEFAULT
-            "ReExport" -> RE_EXPORT
-            else -> throw IllegalArgumentException("Unknown ExportKind value: $value")
-        }
+        fun fromWire(value: String): ExportKind =
+            when (value) {
+                "Named" -> NAMED
+                "Default" -> DEFAULT
+                "ReExport" -> RE_EXPORT
+                else -> throw IllegalArgumentException("Unknown ExportKind value: $value")
+            }
     }
 }

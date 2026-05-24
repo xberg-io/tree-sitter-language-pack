@@ -50,14 +50,12 @@ object TreeSitterLanguagePackBridge {
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeHasLanguage(name: String): Boolean
 
-    @Throws(TreeSitterLanguagePackBridgeException::class)
-    external fun nativeLanguageCount(): Long
+    @Throws(TreeSitterLanguagePackBridgeException::class) external fun nativeLanguageCount(): Long
 
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeProcess(source: String, config: String): String
 
-    @Throws(TreeSitterLanguagePackBridgeException::class)
-    external fun nativeInit(config: String)
+    @Throws(TreeSitterLanguagePackBridgeException::class) external fun nativeInit(config: String)
 
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeConfigure(config: String)
@@ -65,8 +63,7 @@ object TreeSitterLanguagePackBridge {
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeDownload(names: String): Long
 
-    @Throws(TreeSitterLanguagePackBridgeException::class)
-    external fun nativeDownloadAll(): Long
+    @Throws(TreeSitterLanguagePackBridgeException::class) external fun nativeDownloadAll(): Long
 
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeDownloadGroup(name: String): Long
@@ -77,11 +74,9 @@ object TreeSitterLanguagePackBridge {
     @Throws(TreeSitterLanguagePackBridgeException::class)
     external fun nativeDownloadedLanguages(): String
 
-    @Throws(TreeSitterLanguagePackBridgeException::class)
-    external fun nativeCleanCache()
+    @Throws(TreeSitterLanguagePackBridgeException::class) external fun nativeCleanCache()
 
-    @Throws(TreeSitterLanguagePackBridgeException::class)
-    external fun nativeCacheDir(): String
+    @Throws(TreeSitterLanguagePackBridgeException::class) external fun nativeCacheDir(): String
 
     // JNI external funs for client instance methods.
     @Throws(TreeSitterLanguagePackBridgeException::class)

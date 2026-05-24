@@ -181,7 +181,51 @@ internal extension CommentInfo {
 }
 
 /// A docstring extracted from source code.
-public typealias DocstringInfo = RustBridge.DocstringInfo
+public struct DocstringInfo: Codable, Sendable, Hashable {
+    public let text: String
+    public let format: DocstringFormat
+    public let span: Span
+    public let associatedItem: String?
+    public let parsedSections: [DocSection]
+    public init(text: String, format: DocstringFormat, span: Span, associatedItem: String? = nil, parsedSections: [DocSection]) {
+        self.text = text
+        self.format = format
+        self.span = span
+        self.associatedItem = associatedItem
+        self.parsedSections = parsedSections
+    }
+    private enum CodingKeys: String, CodingKey {
+        case text = "text"
+        case format = "format"
+        case span = "span"
+        case associatedItem = "associated_item"
+        case parsedSections = "parsed_sections"
+    }
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.text = try container.decodeIfPresent(String.self, forKey: .text) ?? ""
+        self.format = try container.decode(DocstringFormat.self, forKey: .format)
+        self.span = try container.decode(Span.self, forKey: .span)
+        self.associatedItem = try container.decodeIfPresent(String.self, forKey: .associatedItem) ?? nil
+        self.parsedSections = try container.decodeIfPresent([DocSection].self, forKey: .parsedSections) ?? []
+    }
+}
+
+// MARK: - Internal FFI conversions for DocstringInfo
+internal extension DocstringInfo {
+    init(_ rb: RustBridge.DocstringInfoRef) throws {
+        self.text = rb.text().toString()
+        self.format = try DocstringFormat(rb.format())
+        self.span = try Span(rb.span())
+        self.associatedItem = rb.associatedItem()?.toString()
+        self.parsedSections = try rb.parsedSections().map { try DocSection($0) }
+    }
+    func intoRust() throws -> RustBridge.DocstringInfo {
+        let __parsedSections = RustVec<RustBridge.DocSection>()
+        for __elem in self.parsedSections { __parsedSections.push(value: try __elem.intoRust()) }
+        return RustBridge.DocstringInfo(RustString(self.text), try self.format.intoRust(), try self.span.intoRust(), self.associatedItem.map(RustString.init), __parsedSections)
+    }
+}
 
 /// A section within a docstring (e.g., Args, Returns, Raises).
 public struct DocSection: Codable, Sendable, Hashable {
@@ -301,7 +345,49 @@ internal extension ExportInfo {
 }
 
 /// A symbol (variable, function, type, etc.) extracted from source code.
-public typealias SymbolInfo = RustBridge.SymbolInfo
+public struct SymbolInfo: Codable, Sendable, Hashable {
+    public let name: String
+    public let kind: SymbolKind
+    public let span: Span
+    public let typeAnnotation: String?
+    public let doc: String?
+    public init(name: String, kind: SymbolKind, span: Span, typeAnnotation: String? = nil, doc: String? = nil) {
+        self.name = name
+        self.kind = kind
+        self.span = span
+        self.typeAnnotation = typeAnnotation
+        self.doc = doc
+    }
+    private enum CodingKeys: String, CodingKey {
+        case name = "name"
+        case kind = "kind"
+        case span = "span"
+        case typeAnnotation = "type_annotation"
+        case doc = "doc"
+    }
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+        self.kind = try container.decode(SymbolKind.self, forKey: .kind)
+        self.span = try container.decode(Span.self, forKey: .span)
+        self.typeAnnotation = try container.decodeIfPresent(String.self, forKey: .typeAnnotation) ?? nil
+        self.doc = try container.decodeIfPresent(String.self, forKey: .doc) ?? nil
+    }
+}
+
+// MARK: - Internal FFI conversions for SymbolInfo
+internal extension SymbolInfo {
+    init(_ rb: RustBridge.SymbolInfoRef) throws {
+        self.name = rb.name().toString()
+        self.kind = try SymbolKind(rb.kind())
+        self.span = try Span(rb.span())
+        self.typeAnnotation = rb.typeAnnotation()?.toString()
+        self.doc = rb.doc()?.toString()
+    }
+    func intoRust() throws -> RustBridge.SymbolInfo {
+        return RustBridge.SymbolInfo(RustString(self.name), try self.kind.intoRust(), try self.span.intoRust(), self.typeAnnotation.map(RustString.init), self.doc.map(RustString.init))
+    }
+}
 
 /// A diagnostic (syntax error, missing node, etc.) from parsing.
 public struct Diagnostic: Codable, Sendable, Hashable {
@@ -339,10 +425,129 @@ internal extension Diagnostic {
 }
 
 /// A chunk of source code with rich metadata.
-public typealias CodeChunk = RustBridge.CodeChunk
+public struct CodeChunk: Codable, Sendable, Hashable {
+    public let content: String
+    public let startByte: UInt
+    public let endByte: UInt
+    public let startLine: UInt
+    public let endLine: UInt
+    public let metadata: ChunkContext
+    public init(content: String, startByte: UInt, endByte: UInt, startLine: UInt, endLine: UInt, metadata: ChunkContext) {
+        self.content = content
+        self.startByte = startByte
+        self.endByte = endByte
+        self.startLine = startLine
+        self.endLine = endLine
+        self.metadata = metadata
+    }
+    private enum CodingKeys: String, CodingKey {
+        case content = "content"
+        case startByte = "start_byte"
+        case endByte = "end_byte"
+        case startLine = "start_line"
+        case endLine = "end_line"
+        case metadata = "metadata"
+    }
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.content = try container.decodeIfPresent(String.self, forKey: .content) ?? ""
+        self.startByte = try container.decodeIfPresent(UInt.self, forKey: .startByte) ?? 0
+        self.endByte = try container.decodeIfPresent(UInt.self, forKey: .endByte) ?? 0
+        self.startLine = try container.decodeIfPresent(UInt.self, forKey: .startLine) ?? 0
+        self.endLine = try container.decodeIfPresent(UInt.self, forKey: .endLine) ?? 0
+        self.metadata = try container.decode(ChunkContext.self, forKey: .metadata)
+    }
+}
+
+// MARK: - Internal FFI conversions for CodeChunk
+internal extension CodeChunk {
+    init(_ rb: RustBridge.CodeChunkRef) throws {
+        self.content = rb.content().toString()
+        self.startByte = rb.startByte()
+        self.endByte = rb.endByte()
+        self.startLine = rb.startLine()
+        self.endLine = rb.endLine()
+        self.metadata = try ChunkContext(rb.metadata())
+    }
+    func intoRust() throws -> RustBridge.CodeChunk {
+        return RustBridge.CodeChunk(RustString(self.content), self.startByte, self.endByte, self.startLine, self.endLine, try self.metadata.intoRust())
+    }
+}
 
 /// Metadata for a single chunk of source code.
-public typealias ChunkContext = RustBridge.ChunkContext
+public struct ChunkContext: Codable, Sendable, Hashable {
+    public let language: String
+    public let chunkIndex: UInt
+    public let totalChunks: UInt
+    public let nodeTypes: [String]
+    public let contextPath: [String]
+    public let symbolsDefined: [String]
+    public let comments: [CommentInfo]
+    public let docstrings: [DocstringInfo]
+    public let hasErrorNodes: Bool
+    public init(language: String, chunkIndex: UInt, totalChunks: UInt, nodeTypes: [String], contextPath: [String], symbolsDefined: [String], comments: [CommentInfo], docstrings: [DocstringInfo], hasErrorNodes: Bool) {
+        self.language = language
+        self.chunkIndex = chunkIndex
+        self.totalChunks = totalChunks
+        self.nodeTypes = nodeTypes
+        self.contextPath = contextPath
+        self.symbolsDefined = symbolsDefined
+        self.comments = comments
+        self.docstrings = docstrings
+        self.hasErrorNodes = hasErrorNodes
+    }
+    private enum CodingKeys: String, CodingKey {
+        case language = "language"
+        case chunkIndex = "chunk_index"
+        case totalChunks = "total_chunks"
+        case nodeTypes = "node_types"
+        case contextPath = "context_path"
+        case symbolsDefined = "symbols_defined"
+        case comments = "comments"
+        case docstrings = "docstrings"
+        case hasErrorNodes = "has_error_nodes"
+    }
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.language = try container.decodeIfPresent(String.self, forKey: .language) ?? ""
+        self.chunkIndex = try container.decodeIfPresent(UInt.self, forKey: .chunkIndex) ?? 0
+        self.totalChunks = try container.decodeIfPresent(UInt.self, forKey: .totalChunks) ?? 0
+        self.nodeTypes = try container.decodeIfPresent([String].self, forKey: .nodeTypes) ?? []
+        self.contextPath = try container.decodeIfPresent([String].self, forKey: .contextPath) ?? []
+        self.symbolsDefined = try container.decodeIfPresent([String].self, forKey: .symbolsDefined) ?? []
+        self.comments = try container.decodeIfPresent([CommentInfo].self, forKey: .comments) ?? []
+        self.docstrings = try container.decodeIfPresent([DocstringInfo].self, forKey: .docstrings) ?? []
+        self.hasErrorNodes = try container.decodeIfPresent(Bool.self, forKey: .hasErrorNodes) ?? false
+    }
+}
+
+// MARK: - Internal FFI conversions for ChunkContext
+internal extension ChunkContext {
+    init(_ rb: RustBridge.ChunkContextRef) throws {
+        self.language = rb.language().toString()
+        self.chunkIndex = rb.chunkIndex()
+        self.totalChunks = rb.totalChunks()
+        self.nodeTypes = rb.nodeTypes().map { $0.as_str().toString() }
+        self.contextPath = rb.contextPath().map { $0.as_str().toString() }
+        self.symbolsDefined = rb.symbolsDefined().map { $0.as_str().toString() }
+        self.comments = try rb.comments().map { try CommentInfo($0) }
+        self.docstrings = try rb.docstrings().map { try DocstringInfo($0) }
+        self.hasErrorNodes = rb.hasErrorNodes()
+    }
+    func intoRust() throws -> RustBridge.ChunkContext {
+        let __nodeTypes = RustVec<RustString>()
+        for __elem in self.nodeTypes { __nodeTypes.push(value: RustString(__elem)) }
+        let __contextPath = RustVec<RustString>()
+        for __elem in self.contextPath { __contextPath.push(value: RustString(__elem)) }
+        let __symbolsDefined = RustVec<RustString>()
+        for __elem in self.symbolsDefined { __symbolsDefined.push(value: RustString(__elem)) }
+        let __comments = RustVec<RustBridge.CommentInfo>()
+        for __elem in self.comments { __comments.push(value: try __elem.intoRust()) }
+        let __docstrings = RustVec<RustBridge.DocstringInfo>()
+        for __elem in self.docstrings { __docstrings.push(value: try __elem.intoRust()) }
+        return RustBridge.ChunkContext(RustString(self.language), self.chunkIndex, self.totalChunks, __nodeTypes, __contextPath, __symbolsDefined, __comments, __docstrings, self.hasErrorNodes)
+    }
+}
 
 /// Configuration for the tree-sitter language pack.
 ///
@@ -668,7 +873,8 @@ public func commentInfoFromJson(_ json: String) throws -> CommentInfo {
 }
 
 public func docstringInfoFromJson(_ json: String) throws -> DocstringInfo {
-    return try RustBridge.docstringInfoFromJson(json)
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(DocstringInfo.self, from: data)
 }
 
 public func docSectionFromJson(_ json: String) throws -> DocSection {
@@ -687,7 +893,8 @@ public func exportInfoFromJson(_ json: String) throws -> ExportInfo {
 }
 
 public func symbolInfoFromJson(_ json: String) throws -> SymbolInfo {
-    return try RustBridge.symbolInfoFromJson(json)
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(SymbolInfo.self, from: data)
 }
 
 public func diagnosticFromJson(_ json: String) throws -> Diagnostic {
@@ -696,11 +903,13 @@ public func diagnosticFromJson(_ json: String) throws -> Diagnostic {
 }
 
 public func codeChunkFromJson(_ json: String) throws -> CodeChunk {
-    return try RustBridge.codeChunkFromJson(json)
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(CodeChunk.self, from: data)
 }
 
 public func chunkContextFromJson(_ json: String) throws -> ChunkContext {
-    return try RustBridge.chunkContextFromJson(json)
+    let data = json.data(using: .utf8) ?? Data()
+    return try JSONDecoder().decode(ChunkContext.self, from: data)
 }
 
 public func packConfigFromJson(_ json: String) throws -> PackConfig {

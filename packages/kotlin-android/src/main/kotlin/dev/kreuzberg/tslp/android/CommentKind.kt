@@ -25,32 +25,31 @@ package dev.kreuzberg.tslp.android
 /**
  * The kind of a comment found in source code.
  *
- * Distinguishes between single-line comments, block (multi-line) comments,
- * and documentation comments.
+ * Distinguishes between single-line comments, block (multi-line) comments, and documentation
+ * comments.
  */
 enum class CommentKind {
-    @com.fasterxml.jackson.annotation.JsonProperty("Line")
-    LINE,
-    @com.fasterxml.jackson.annotation.JsonProperty("Block")
-    BLOCK,
-    @com.fasterxml.jackson.annotation.JsonProperty("Doc")
-    DOC;
+    @com.fasterxml.jackson.annotation.JsonProperty("Line") LINE,
+    @com.fasterxml.jackson.annotation.JsonProperty("Block") BLOCK,
+    @com.fasterxml.jackson.annotation.JsonProperty("Doc") DOC;
 
     @com.fasterxml.jackson.annotation.JsonValue
-    fun toWire(): String = when (this) {
-        LINE -> "Line"
-        BLOCK -> "Block"
-        DOC -> "Doc"
-    }
+    fun toWire(): String =
+        when (this) {
+            LINE -> "Line"
+            BLOCK -> "Block"
+            DOC -> "Doc"
+        }
 
     companion object {
         @com.fasterxml.jackson.annotation.JsonCreator
         @JvmStatic
-        fun fromWire(value: String): CommentKind = when (value) {
-            "Line" -> LINE
-            "Block" -> BLOCK
-            "Doc" -> DOC
-            else -> throw IllegalArgumentException("Unknown CommentKind value: $value")
-        }
+        fun fromWire(value: String): CommentKind =
+            when (value) {
+                "Line" -> LINE
+                "Block" -> BLOCK
+                "Doc" -> DOC
+                else -> throw IllegalArgumentException("Unknown CommentKind value: $value")
+            }
     }
 }
