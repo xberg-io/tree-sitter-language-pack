@@ -488,8 +488,8 @@ jobs:
   # ─── Build Python sdist ────────────────────────────────────────────
   build-python-sdist:
     name: Build Python sdist
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_python == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_python == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -511,14 +511,16 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      - name: Install maturin
-        run: pip install maturin
+      - name: Setup Python
+        uses: actions/setup-python@v6.2.0
+        with:
+          python-version: "3.13"
 
       - name: Build sdist
-        working-directory: packages/python
-        run: maturin sdist --out ../../dist
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
+        uses: kreuzberg-dev/actions/build-python-sdist@v1
+        with:
+          package-dir: packages/python
+          output-dir: dist
 
       - name: Upload sdist
         uses: actions/upload-artifact@v7.0.1
@@ -530,11 +532,6 @@ jobs:
       # Smoke: install the just-built sdist with parsers/ hidden from the
       # build, so build.rs has to fetch the source bundle. Proves the #122
       # codepath works end-to-end before we cut a release.
-      - name: Setup Python for smoke
-        uses: actions/setup-python@v6.2.0
-        with:
-          python-version: "3.13"
-
       - name: Pack a smoke source bundle
         id: smoke-bundle
         uses: kreuzberg-dev/actions/pack-source-bundle@v1
@@ -661,8 +658,8 @@ jobs:
   # ─── Build Ruby gems ──────────────────────────────────────────────
   build-ruby-gem:
     name: Build Ruby gem (${{ matrix.label }})
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_ruby == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_ruby == 'true' }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     env:
@@ -717,6 +714,11 @@ jobs:
         run: |
           bundle config set --local path vendor/bundle
           bundle check || bundle install
+
+      - name: Rewrite native dependencies
+        uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+        with:
+          lang: ruby
 
       - name: Compile native extension
         working-directory: packages/ruby
@@ -1126,8 +1128,8 @@ jobs:
   # ─── Build Elixir NIFs ────────────────────────────────────────────
   build-elixir-nifs:
     name: Build Elixir NIF (${{ matrix.label }})
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_elixir == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_elixir == 'true' }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     strategy:
@@ -1165,6 +1167,11 @@ jobs:
           components: ""
           use-sccache: "false"
           install-llvm-cov: "false"
+
+      - name: Rewrite native dependencies
+        uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+        with:
+          lang: elixir
 
       - name: Build Elixir NIF
         working-directory: packages/elixir/native/tree_sitter_language_pack_nif
@@ -1343,8 +1350,8 @@ jobs:
   # ─── Build PHP PIE package ──────────────────────────────────────────
   build-php-extension:
     name: Build PHP PIE binary (php${{ matrix.php }} ${{ matrix.platform.label }})
-    needs: [prepare, validate-versions, clone-vendors]
-    if: needs.prepare.outputs.release_php == 'true'
+    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_php == 'true' }}
     runs-on: ${{ matrix.platform.os }}
     timeout-minutes: 60
     permissions:
