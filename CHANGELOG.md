@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **repo**: Add `.gitattributes` marking all alef-generated output directories (`packages/**`, `crates/*-{py,php,ffi,node,wasm}/**`, `e2e/**`) as `linguist-generated=true` so generated files collapse in GitHub PR diffs.
+
 ### Removed
 
 - **`wolfram` grammar dropped from the language pack.** `tree-sitter-wolfram` produces glibc heap corruption (`free(): invalid next size`) when parsing trivial input under serial test execution on Linux; macOS allocator silently tolerated the corruption. The entire upstream ecosystem is unmaintained (canonical `bostick/tree-sitter-wolfram` last touched 2021-11-11 with 3 stars; every known fork — `LumaKernel`, `LoganAMorrison`, `JuanG970`, `jakassebaum` — ships the same `LANGUAGE_VERSION 13` parser tables and is inactive). Rather than fork-and-maintain a Wolfram grammar in-house for marginal demand, the entry is removed from `language_definitions.json`, all CI `TSLP_LANGUAGES` lists, the smoke fixture, the e2e harness, the docs, and the README ecosystem listings. **Total supported grammar count drops from 306 to 305**, which matches the long-standing "305 languages" marketing copy (previously off-by-one due to the broken wolfram entry).
