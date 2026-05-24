@@ -1720,8 +1720,7 @@ pub enum StructureKind {
     Trait,
     Impl,
     Namespace,
-    /// Data variants not directly bridgeable — represented as Unknown.
-    Unknown,
+    Other,
 }
 
 impl From<tree_sitter_language_pack::StructureKind> for StructureKind {
@@ -1737,7 +1736,7 @@ impl From<tree_sitter_language_pack::StructureKind> for StructureKind {
             tree_sitter_language_pack::StructureKind::Trait => Self::Trait,
             tree_sitter_language_pack::StructureKind::Impl => Self::Impl,
             tree_sitter_language_pack::StructureKind::Namespace => Self::Namespace,
-            _ => Self::Unknown,
+            tree_sitter_language_pack::StructureKind::Other(..) => Self::Other,
         }
     }
 }
@@ -1755,7 +1754,7 @@ impl StructureKind {
             Self::Trait => "Trait".to_string(),
             Self::Impl => "Impl".to_string(),
             Self::Namespace => "Namespace".to_string(),
-            Self::Unknown => "unknown".to_string(),
+            Self::Other => "Other".to_string(),
         }
     }
 }
@@ -1792,8 +1791,7 @@ pub enum DocstringFormat {
     Rustdoc,
     GoDoc,
     JavaDoc,
-    /// Data variants not directly bridgeable — represented as Unknown.
-    Unknown,
+    Other,
 }
 
 impl From<tree_sitter_language_pack::DocstringFormat> for DocstringFormat {
@@ -1804,7 +1802,7 @@ impl From<tree_sitter_language_pack::DocstringFormat> for DocstringFormat {
             tree_sitter_language_pack::DocstringFormat::Rustdoc => Self::Rustdoc,
             tree_sitter_language_pack::DocstringFormat::GoDoc => Self::GoDoc,
             tree_sitter_language_pack::DocstringFormat::JavaDoc => Self::JavaDoc,
-            _ => Self::Unknown,
+            tree_sitter_language_pack::DocstringFormat::Other(..) => Self::Other,
         }
     }
 }
@@ -1817,7 +1815,7 @@ impl DocstringFormat {
             Self::Rustdoc => "Rustdoc".to_string(),
             Self::GoDoc => "GoDoc".to_string(),
             Self::JavaDoc => "JavaDoc".to_string(),
-            Self::Unknown => "unknown".to_string(),
+            Self::Other => "Other".to_string(),
         }
     }
 }
@@ -1857,8 +1855,7 @@ pub enum SymbolKind {
     Interface,
     Enum,
     Module,
-    /// Data variants not directly bridgeable — represented as Unknown.
-    Unknown,
+    Other,
 }
 
 impl From<tree_sitter_language_pack::SymbolKind> for SymbolKind {
@@ -1872,7 +1869,7 @@ impl From<tree_sitter_language_pack::SymbolKind> for SymbolKind {
             tree_sitter_language_pack::SymbolKind::Interface => Self::Interface,
             tree_sitter_language_pack::SymbolKind::Enum => Self::Enum,
             tree_sitter_language_pack::SymbolKind::Module => Self::Module,
-            _ => Self::Unknown,
+            tree_sitter_language_pack::SymbolKind::Other(..) => Self::Other,
         }
     }
 }
@@ -1888,7 +1885,7 @@ impl SymbolKind {
             Self::Interface => "Interface".to_string(),
             Self::Enum => "Enum".to_string(),
             Self::Module => "Module".to_string(),
-            Self::Unknown => "unknown".to_string(),
+            Self::Other => "Other".to_string(),
         }
     }
 }

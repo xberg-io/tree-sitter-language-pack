@@ -360,6 +360,7 @@ pub fn detect_language_from_path(path: []const u8) error{OutOfMemory}!?[]u8 {
 /// interpreter name is extracted and mapped to a language name.
 ///
 /// Handles common patterns:
+///
 /// - `#!/usr/bin/env python3` → `"python"`
 /// - `#!/bin/bash` → `"bash"`
 /// - `#!/usr/bin/env node` → `"javascript"`

@@ -56,6 +56,7 @@ object TreeSitterLanguagePack {
      * extracted and mapped to a language name.
      *
      * Handles common patterns:
+     *
      * - `#!/usr/bin/env python3` → `"python"`
      * - `#!/bin/bash` → `"bash"`
      * - `#!/usr/bin/env node` → `"javascript"`
