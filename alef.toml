@@ -486,6 +486,7 @@ e2e = "cd e2e/rust && cargo test -- --test-threads=1"
 
 [crates.test.c]
 precondition = "command -v make >/dev/null 2>&1"
+before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
 e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release ./run_tests"
 
 [crates.test.kotlin_android]
