@@ -192,18 +192,6 @@ jobs:
             "package": "tree_sitter_language_pack"
           },
           {
-            "name": "spi-swift",
-            "registry": "swift",
-            "package": "kreuzberg-dev/tree-sitter-language-pack",
-            "repo": "kreuzberg-dev/tree-sitter-language-pack"
-          },
-          {
-            "name": "zig",
-            "registry": "zig",
-            "package": "tree_sitter_language_pack",
-            "repo": "kreuzberg-dev/tree-sitter-language-pack"
-          },
-          {
             "name": "maven-kotlin-android",
             "registry": "maven",
             "package": "dev.kreuzberg.tslp:tslp-android"
@@ -2482,8 +2470,8 @@ jobs:
   # ─── Swift (Swift Package Index via tag) ──────────────────────────
   build-swift-artifactbundle:
     name: Build Swift artifact bundle
-    needs: [prepare, check-registries]
-    if: ${{ needs.prepare.outputs.release_swift == 'true' && (fromJson(needs.check-registries.outputs.results).spi-swift != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    needs: prepare
+    if: ${{ needs.prepare.outputs.release_swift == 'true' }}
     runs-on: macos-latest
     timeout-minutes: 30
     steps:
@@ -2506,8 +2494,8 @@ jobs:
 
   build-swift-package:
     name: Build Swift package
-    needs: [prepare, check-registries]
-    if: ${{ needs.prepare.outputs.release_swift == 'true' && (fromJson(needs.check-registries.outputs.results).spi-swift != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    needs: prepare
+    if: ${{ needs.prepare.outputs.release_swift == 'true' }}
     runs-on: macos-latest
     timeout-minutes: 30
     steps:
@@ -2526,28 +2514,11 @@ jobs:
           path: packages/swift
           retention-days: 14
 
-  publish-swift:
-    name: Notify Swift Package Index
-    needs: [prepare, check-registries, build-swift-package, build-swift-artifactbundle]
-    if: ${{ needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).spi-swift != 'true' || needs.prepare.outputs.force_republish == 'true') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v6.0.2
-        with:
-          ref: ${{ needs.prepare.outputs.checkout_ref }}
-      - uses: kreuzberg-dev/actions/publish-swift@v1
-        with:
-          working-directory: packages/swift
-          tag: ${{ needs.prepare.outputs.tag }}
-          ping-spi: "true"
-          dry-run: ${{ needs.prepare.outputs.dry_run }}
-
   # ─── Zig (GitHub Release tarball) ─────────────────────────────────
   build-zig-package:
     name: Build Zig package (smoke check)
-    needs: [prepare, check-registries]
-    if: ${{ needs.prepare.outputs.release_zig == 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    needs: prepare
+    if: ${{ needs.prepare.outputs.release_zig == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -2560,27 +2531,6 @@ jobs:
         with:
           ffi-crate: ts-pack-core-ffi
           package-dir: packages/zig
-
-  publish-zig:
-    name: Publish Zig package metadata to GitHub Release
-    needs: [prepare, check-registries, build-zig-package]
-    if: ${{ needs.prepare.outputs.release_zig == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v6.0.2
-        with:
-          ref: ${{ needs.prepare.outputs.checkout_ref }}
-      - uses: kreuzberg-dev/actions/publish-zig@v1
-        with:
-          working-directory: packages/zig
-          tag: ${{ needs.prepare.outputs.tag }}
-          update-release-notes: "true"
-          dry-run: ${{ needs.prepare.outputs.dry_run }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ─── Kotlin-Android (Maven Central via Gradle) ────────────────────
   build-kotlin-android-natives:
