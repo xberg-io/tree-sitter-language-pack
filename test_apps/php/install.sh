@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 # alef-generated installer for registry-mode PHP test_app.
 # Installs the kreuzberg-dev/tree-sitter-language-pack extension via PIE before `composer install` runs.
-# Requires `composer` and `php` on PATH; bootstraps `php/pie` if needed.
+# Requires `php` on PATH; downloads and runs PIE if needed.
+# Version is alef-injected at generate time so the script is self-contained.
 set -euo pipefail
 
-VERSION="${1:?usage: $0 <version>}"
+# Version override: pass as $1 to test an arbitrary tag; defaults to the
+# alef-pinned version from `[crates.e2e.registry.packages.php].version`.
+VERSION="${1:-1.9.0-rc.6}"
 
 # PIE >= 1.3.7 supports the array-form `php-ext.download-url-method`
-# our composer.json emits; 1.4.x is preferred. Install pie globally if
-# we don't already have a recent enough version.
+# our composer.json emits; 1.4.0+ is preferred. Download PIE if we don't
+# already have a recent enough version.
 need_pie_install=true
 if command -v pie >/dev/null 2>&1; then
   current="$(pie --version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo '0.0.0')"
@@ -17,8 +20,17 @@ if command -v pie >/dev/null 2>&1; then
   fi
 fi
 if [[ "$need_pie_install" == "true" ]]; then
-  composer global require php/pie:^1.4
-  PIE="$(composer config -g home)/vendor/bin/pie"
+  # Download PIE PHAR from latest GitHub release if not already installed.
+  pie_dir="${HOME}/.local/bin"
+  mkdir -p "$pie_dir"
+  curl -fL --output "$pie_dir/pie" "https://github.com/php/pie/releases/latest/download/pie.phar" 2>/dev/null || {
+    echo "::error::Failed to download PIE from GitHub; ensure network access or pre-install PIE." >&2
+    exit 1
+  }
+  chmod +x "$pie_dir/pie"
+  PIE="$pie_dir/pie"
+  # Ensure newly downloaded PIE is on PATH for this script.
+  export PATH="$pie_dir:$PATH"
 else
   PIE="pie"
 fi

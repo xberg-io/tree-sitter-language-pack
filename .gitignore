@@ -61,7 +61,11 @@ test_apps/*/_build/
 test_apps/*/deps/
 test_apps/*/obj/
 test_apps/*/bin/
+test_apps/*/.dart_tool/
+test_apps/*/.gradle/
+test_apps/*/.build/
 test_apps/c/build/
+test_documents/file:/
 
 # E2E build artifacts
 e2e/c/build/
