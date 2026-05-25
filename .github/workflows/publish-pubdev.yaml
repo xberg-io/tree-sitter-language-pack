@@ -1,35 +1,41 @@
 name: Publish pub.dev
 
-# pub.dev OIDC trusted publishing rejects tokens from `release` events.
-# This workflow fires on tag push instead, which produces an accepted token.
+# pub.dev OIDC trusted publishing rejects tokens originating from `release`
+# events; only `push` and `workflow_dispatch` are accepted.
+#
+# The main `publish.yaml` workflow cannot directly publish to pub.dev when
+# triggered by the GitHub release event. Instead, it dispatches this workflow
+# with the run_id of the main workflow, and this workflow downloads the
+# `dart-package-assembled` artifact from that run.
 #
 # One-time setup: on pub.dev → tree_sitter_language_pack package → Admin → Automated publishing,
 # set the workflow path to `.github/workflows/publish-pubdev.yaml`.
 
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "GitHub Actions run ID of publish.yaml that produced the dart-package-assembled artifact"
+        required: true
+        type: string
 
 permissions:
   contents: read
   id-token: write
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  actions: read
 
 jobs:
-  build-and-publish-pub:
-    name: Build and publish Dart package to pub.dev
+  publish-pub:
+    name: Publish pub.dev
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v6.0.2
-      - uses: kreuzberg-dev/actions/setup-rust@v1
-      - uses: kreuzberg-dev/actions/build-dart-package@v1
+      - uses: actions/download-artifact@v8.0.1
         with:
-          package-dir: packages/dart/rust
-          crate-name: tree-sitter-language-pack-dart
+          name: dart-package-assembled
+          path: packages/dart
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: kreuzberg-dev/actions/publish-pub@v1
         with:
           package-dir: packages/dart

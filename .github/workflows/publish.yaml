@@ -2495,60 +2495,33 @@ jobs:
           fi
       - uses: actions/upload-artifact@v7.0.1
         with:
-          name: dart-package
+          name: dart-package-assembled
           path: packages/dart
-          retention-days: 14
+          if-no-files-found: error
+          retention-days: 7
 
-  publish-dart:
-    name: Publish Dart package
-    needs: [prepare, validate-versions, check-registries, build-dart-package]
+  trigger-pubdev:
+    name: Trigger pub.dev publish workflow
+    needs: [prepare, check-registries, build-dart-package]
+    # pub.dev OIDC rejects tokens from `release` events. We dispatch a separate
+    # workflow whose `workflow_dispatch` event produces an accepted token.
     if: |
-      always() &&
       needs.prepare.outputs.release_dart == 'true' &&
       needs.build-dart-package.result == 'success' &&
+      !inputs.dry_run &&
       (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true')
     runs-on: ubuntu-latest
-    timeout-minutes: 15
     permissions:
-      contents: read
-      id-token: write
+      actions: write
     steps:
-      - name: Set up Dart SDK
-        uses: dart-lang/setup-dart@v1
-        with:
-          sdk: stable
-
-      - name: Download Dart package artifact
-        uses: actions/download-artifact@v8.0.1
-        with:
-          name: dart-package
-          path: packages/dart
-
-      - name: Re-check pub.dev before publish
-        if: ${{ !inputs.dry_run }}
-        id: recheck
-        uses: kreuzberg-dev/actions/check-registry@v1
-        with:
-          registry: pub
-          package: tree_sitter_language_pack
-          version: ${{ needs.prepare.outputs.version }}
-
-      - name: Dry run summary
-        if: ${{ inputs.dry_run }}
+      - name: Dispatch publish-pubdev workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          {
-            echo "## Pub.dev Dry Run"
-            echo "Package: tree_sitter_language_pack@${{ needs.prepare.outputs.version }}"
-            echo "Would publish to pub.dev with native library bundled"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Publish package to pub.dev
-        if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-        uses: kreuzberg-dev/actions/publish-pub@v1
-        with:
-          package-dir: packages/dart
-          setup-dart: 'false'
-          dry-run: 'false'
+          gh workflow run publish-pubdev.yaml \
+            --ref ${{ github.ref_name }} \
+            -f run_id=${{ github.run_id }}
 
   # ─── Swift (Swift Package Index via tag) ──────────────────────────
   build-swift-artifactbundle:
