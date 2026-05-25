@@ -17,3 +17,4 @@ packages/kotlin-android/** linguist-generated=true
 packages/ruby/** linguist-generated=true
 packages/swift/** linguist-generated=true
 packages/zig/** linguist-generated=true
+test_apps/** linguist-generated=true

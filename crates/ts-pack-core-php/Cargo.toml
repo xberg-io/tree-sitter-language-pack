@@ -8,14 +8,11 @@ readme = false
 keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 categories = ["text-processing"]
 
-# `serde_json` and `tokio` are emitted unconditionally above so the manifest
-# is stable across regens, but for umbrella crates with no async fns and no
-# JSON-marshalled return types they are genuinely unused. The conditional
-# `async-trait` / `futures-util` deps are similarly flagged when the
-# umbrella has trait-bridge / streaming adapters configured but no actual
-# async-trait callsite in the generated PHP shim.
+# `ahash` is conditionally referenced: only when the umbrella crate exposes
+# `AHashMap<Cow<str>, _>` parameters (the conditional `__*_ahash` shim rebuilds).
+# `futures-util` is similarly conditional on streaming adapters being declared.
 [package.metadata.cargo-machete]
-ignored = ["serde_json", "tokio"]
+ignored = ["tokio", "ahash"]
 
 [lib]
 crate-type = ["cdylib"]
