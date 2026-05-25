@@ -526,6 +526,17 @@ install = "cd crates/ts-pack-core-node && pnpm install"
 precondition = "command -v pnpm >/dev/null 2>&1"
 install = "cd crates/ts-pack-core-wasm && pnpm install"
 
+# `bundle install --add-checksums` is the alef default for ruby setup. On
+# CI runners it consistently exceeds alef's 600s default — the checksum
+# resolver fetches sha256 metadata for every transitive gem, and the
+# slowest mirror in the chain (rubygems.org cdn → bundler) caps the wall
+# clock. Raise the timeout to 1500s so the CI Lint & Format job has slack;
+# the command itself is unchanged from alef's default.
+[crates.setup.ruby]
+precondition = "command -v bundle >/dev/null 2>&1"
+install = "cd packages/ruby && bundle install --add-checksums"
+timeout_seconds = 1500
+
 # Override alef's default Java setup, which resolves `output_dir` to
 # `packages/java/src/main/java/` (the codegen target) and runs
 # `mvn -f .../src/main/java//pom.xml dependency:resolve`. The Maven
