@@ -46,12 +46,12 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
       - name: Setup Python
-        uses: actions/setup-python@v6.2.0
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -59,7 +59,7 @@ jobs:
         uses: astral-sh/setup-uv@v8.1.0
 
       - name: Setup Node.js (for tree-sitter-cli)
-        uses: actions/setup-node@v6.4.0
+        uses: actions/setup-node@v6
         with:
           node-version: "22"
 
@@ -73,7 +73,7 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Build Docker image
-        uses: docker/build-push-action@v7.2.0
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: docker/Dockerfile
@@ -123,7 +123,7 @@ jobs:
           file ts-pack
 
       - name: Upload binary artifact
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: ts-pack-linux-x86_64-musl
           path: dist/ts-pack-linux-x86_64-musl.tar.gz
@@ -135,7 +135,7 @@ jobs:
           ls -lh dist/ts-pack-docker-image.tar.gz
 
       - name: Upload Docker image artifact
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: ts-pack-docker-image
           path: dist/ts-pack-docker-image.tar.gz

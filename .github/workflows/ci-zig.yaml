@@ -43,7 +43,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v6
       - uses: kreuzberg-dev/actions/setup-rust@v1
         with:
           cache-key-prefix: ci-zig-${{ matrix.os }}
