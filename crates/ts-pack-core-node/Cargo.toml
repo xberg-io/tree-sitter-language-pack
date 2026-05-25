@@ -1,6 +1,6 @@
 [package]
 name = "ts-pack-core-node"
-version = "1.9.0-rc.6"
+version = "1.9.0-rc.7"
 edition = "2024"
 license = "MIT"
 description = "Pre-compiled tree-sitter grammars for 305 programming languages"
@@ -24,7 +24,7 @@ napi = { version = "3", features = ["async"] }
 napi-derive = "3"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tree-sitter-language-pack = { version = "1.9.0-rc.6", path = "../ts-pack-core", features = [
+tree-sitter-language-pack = { version = "1.9.0-rc.7", path = "../ts-pack-core", features = [
     "serde",
     "config",
     "download",

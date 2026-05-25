@@ -193,9 +193,10 @@ jobs:
           },
           {
             "name": "zig",
-            "registry": "zig",
-            "package": "tree_sitter_language_pack",
-            "repo": "kreuzberg-dev/tree-sitter-language-pack"
+            "registry": "github-release",
+            "package": "tree-sitter-language-pack-zig-v${{ needs.prepare.outputs.version }}.tar.gz",
+            "repo": "kreuzberg-dev/tree-sitter-language-pack",
+            "assets": "tree-sitter-language-pack-zig-v${{ needs.prepare.outputs.version }}.tar.gz"
           },
           {
             "name": "maven-kotlin-android",
@@ -2604,6 +2605,13 @@ jobs:
         with:
           working-directory: packages/zig
           tag: ${{ needs.prepare.outputs.tag }}
+          # Override the auto-detected package-name (`tree_sitter_language_pack`
+          # from build.zig.zon) to match the alef-emitted test_app URL pattern
+          # `{crate-name}-zig-v{version}.tar.gz`. Without this, the asset
+          # uploads as `tree_sitter_language_pack-v{version}.tar.gz` while
+          # test_apps/zig fetches `tree-sitter-language-pack-zig-v{version}.tar.gz`
+          # → 404 + consumer build.zig.zon TODO hash.
+          package-name: tree-sitter-language-pack-zig
           update-release-notes: "true"
           dry-run: ${{ needs.prepare.outputs.dry_run }}
         env:

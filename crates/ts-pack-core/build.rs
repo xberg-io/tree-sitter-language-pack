@@ -740,22 +740,18 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
 /// - If the workspace parsers tree is healthy on disk we skip the download.
 ///   For static builds we probe `parsers_dir/{first_selected}/src/parser.c`;
 ///   for dyn-only builds (no static languages selected) we probe
-///   `parsers_dir/python/queries/highlights.scm`, which is present in every
-///   populated workspace tree from day one. This prevents the all-None queries
-///   bug when consumers use only dynamic features on a published crate where
-///   the workspace `parsers/` dir is absent.
+///   `parsers_dir/python/src/parser.c`, which is present in every populated
+///   workspace tree from day one. This prevents the all-None queries bug when
+///   consumers use only dynamic features on a published crate where the
+///   workspace `parsers/` dir is absent.
 fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path) -> PathBuf {
     // Determine whether the workspace parsers tree is healthy on disk.
     // Prefer the requested-language marker when one is selected; otherwise
-    // probe a deterministic always-present queries file (python is in the
+    // probe a deterministic always-present parser.c (python is in the
     // language pack from day one).
     let workspace_populated = match selected.first() {
         Some(first) => parsers_dir.join(first).join("src/parser.c").exists(),
-        None => parsers_dir
-            .join("python")
-            .join("queries")
-            .join("highlights.scm")
-            .exists(),
+        None => parsers_dir.join("python").join("src/parser.c").exists(),
     };
     if workspace_populated {
         return parsers_dir.to_path_buf();
@@ -769,12 +765,7 @@ fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path
     // Same two-probe strategy for the OUT_DIR cache.
     let cache_populated = match selected.first() {
         Some(first) => cache_dir.join(first).join("src/parser.c").exists(),
-        None => cache_dir
-            .join("parsers")
-            .join("python")
-            .join("queries")
-            .join("highlights.scm")
-            .exists(),
+        None => cache_dir.join("parsers").join("python").join("src/parser.c").exists(),
     };
     if cache_populated {
         let inner = cache_dir.join("parsers");
