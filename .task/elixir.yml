@@ -95,4 +95,6 @@ tasks:
   e2e:test:
     desc: Run Elixir E2E tests
     cmds:
+      - cmd: mix deps.get
+        dir: e2e/elixir
       - alef test --lang elixir --e2e --jobs 1
