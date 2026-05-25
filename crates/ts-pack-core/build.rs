@@ -737,14 +737,27 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
 ///   "missing parser, skipping" warning path remains.
 /// - `TSLP_SOURCE_BUNDLE_URL` overrides the URL (also accepts `file://` for
 ///   local-bundle smoke testing).
-/// - If `parsers_dir/{first_selected}/src/parser.c` exists we assume the
-///   workspace tree is healthy and skip the download.
+/// - If the workspace parsers tree is healthy on disk we skip the download.
+///   For static builds we probe `parsers_dir/{first_selected}/src/parser.c`;
+///   for dyn-only builds (no static languages selected) we probe
+///   `parsers_dir/python/queries/highlights.scm`, which is present in every
+///   populated workspace tree from day one. This prevents the all-None queries
+///   bug when consumers use only dynamic features on a published crate where
+///   the workspace `parsers/` dir is absent.
 fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path) -> PathBuf {
-    if selected.is_empty() {
-        return parsers_dir.to_path_buf();
-    }
-    let first = &selected[0];
-    if parsers_dir.join(first).join("src/parser.c").exists() {
+    // Determine whether the workspace parsers tree is healthy on disk.
+    // Prefer the requested-language marker when one is selected; otherwise
+    // probe a deterministic always-present queries file (python is in the
+    // language pack from day one).
+    let workspace_populated = match selected.first() {
+        Some(first) => parsers_dir.join(first).join("src/parser.c").exists(),
+        None => parsers_dir
+            .join("python")
+            .join("queries")
+            .join("highlights.scm")
+            .exists(),
+    };
+    if workspace_populated {
         return parsers_dir.to_path_buf();
     }
     if env::var("TSLP_OFFLINE").is_ok_and(|v| !v.is_empty() && v != "0") {
@@ -753,8 +766,19 @@ fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path
     }
 
     let cache_dir = out_dir.join("_parsers");
-    if cache_dir.join(first).join("src/parser.c").exists() {
-        return cache_dir;
+    // Same two-probe strategy for the OUT_DIR cache.
+    let cache_populated = match selected.first() {
+        Some(first) => cache_dir.join(first).join("src/parser.c").exists(),
+        None => cache_dir
+            .join("parsers")
+            .join("python")
+            .join("queries")
+            .join("highlights.scm")
+            .exists(),
+    };
+    if cache_populated {
+        let inner = cache_dir.join("parsers");
+        return if inner.is_dir() { inner } else { cache_dir };
     }
 
     let version = env::var("CARGO_PKG_VERSION").unwrap_or_else(|_| "unknown".to_string());
