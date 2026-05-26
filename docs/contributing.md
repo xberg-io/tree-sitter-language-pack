@@ -45,7 +45,7 @@ On Debian/Ubuntu, install Task with `apt install go-task` or download from [task
 task --list          # show all available tasks
 task build           # build Rust core + bindings
 task test            # run all test suites
-task lint            # run all linters (clippy, ruff, biome, rubocop, …)
+task lint            # run all linters (clippy, ruff, oxlint, rubocop, …)
 task format          # auto-format all code
 task generate:e2e    # regenerate e2e test suites from fixtures
 task test:e2e        # run e2e tests

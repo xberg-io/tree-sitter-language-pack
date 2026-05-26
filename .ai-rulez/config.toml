@@ -10,7 +10,6 @@ presets = ['claude', 'copilot', 'cursor', 'antigravity', 'codex']
 builtins = [
   'rust',
   'python',
-  'typescript',
   'go',
   'java',
   'ruby',

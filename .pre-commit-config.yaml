@@ -34,7 +34,9 @@ repos:
   - id: check-case-conflict
   - id: pyproject-fmt
   - id: ruff
+    exclude: ^fixtures/bench/
   - id: ruff-format
+    exclude: ^fixtures/bench/
   - id: cargo-sort
     args:
     - -w
@@ -153,7 +155,9 @@ repos:
     - --config
     - .textlintrc.json
   - id: oxlint
+    exclude: ^fixtures/bench/
   - id: oxfmt
+    exclude: ^fixtures/bench/
   - id: rumdl-fmt
   - id: cpd
     args:
