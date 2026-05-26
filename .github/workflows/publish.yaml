@@ -949,25 +949,30 @@ jobs:
       - name: Setup Rust
         uses: kreuzberg-dev/actions/setup-rust@v1
         with:
+          target: ${{ matrix.target }}
           components: ""
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      - name: Build and package Go FFI library
-        uses: kreuzberg-dev/actions/build-go-ffi@v1
-        with:
-          target: ${{ matrix.target }}
-          crate-name: ts-pack-core-ffi
-          lib-name: ts_pack_core_ffi
-          header-path: crates/ts-pack-core-ffi/include/ts_pack.h
-          output-dir: dist/go-ffi
-          dry-run: ${{ needs.prepare.outputs.dry_run }}
+      - uses: kreuzberg-dev/actions/install-alef@v1
+
+      - name: Build and package Go FFI library with alef
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Build the FFI library for this target
+          cargo build --release --target ${{ matrix.target }} -p ts-pack-core-ffi
+
+          # Package with alef for distribution
+          alef publish build --lang ffi --target ${{ matrix.target }}
+          alef publish package --lang go --target ${{ matrix.target }} -o dist/go-ffi
 
       - name: Upload FFI artifact
         uses: actions/upload-artifact@v7.0.1
         with:
           name: go-ffi-${{ matrix.label }}
           path: dist/go-ffi/
+          if-no-files-found: error
           retention-days: 14
 
   # ─── Build Java native libraries ───────────────────────────────────
@@ -1675,16 +1680,16 @@ jobs:
           path: dist/go
           merge-multiple: true
 
-      - name: Upload to GitHub Release
-        uses: kreuzberg-dev/actions/publish-github-release@v1
+      - uses: kreuzberg-dev/actions/upload-release-assets@v1
         with:
           tag: ${{ needs.prepare.outputs.tag }}
-          title: "Release ${{ needs.prepare.outputs.tag }}"
-          # alef publish package emits tree-sitter-language-pack-ffi-v<ver>-<platform>.tar.gz
-          artifacts: "dist/go/tree-sitter-language-pack-ffi-*.tar.gz"
+          working-directory: dist/go
           dry-run: ${{ needs.prepare.outputs.dry_run }}
+          assets: |
+            **/*.tar.gz
+            **/*.zip
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ─── Upload to GitHub Release: C FFI ───────────────────────────────
   upload-c-ffi-release:
@@ -2452,12 +2457,28 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   # ─── Dart (pub.dev) ───────────────────────────────────────────────
-  build-dart-package:
-    name: Build Dart package
+  build-dart-native:
+    name: Build Dart native library (${{ matrix.label }})
     needs: [prepare, validate-versions, clone-vendors, check-registries]
     if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux-x64
+            target: x86_64-unknown-linux-gnu
+          - os: macos-latest
+            label: macos-arm64
+            target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: macos-x64
+            target: x86_64-apple-darwin
+          - os: windows-latest
+            label: windows-x64
+            target: x86_64-pc-windows-msvc
     steps:
       - uses: actions/checkout@v6.0.2
         with:
@@ -2469,36 +2490,84 @@ jobs:
           name: language-parsers
           path: parsers
       - uses: kreuzberg-dev/actions/setup-rust@v1
+        with:
+          target: ${{ matrix.target }}
       - uses: kreuzberg-dev/actions/build-dart-package@v1
         id: build
         with:
           package-dir: packages/dart/rust
           crate-name: tree-sitter-language-pack-dart
-      - name: Bundle native library into package
+      - name: Stage native library for assembly
+        shell: bash
         run: |
           set -euo pipefail
           lib_path="${{ steps.build.outputs.library-path }}"
-          lib_dir="packages/dart/lib/src/tree_sitter_language_pack_bridge_generated"
+          output_dir="dart-natives/${{ matrix.label }}"
 
           if [[ ! -f "$lib_path" ]]; then
             echo "Error: built library not found at $lib_path"
             exit 1
           fi
 
-          if [[ ! -d "$lib_dir" ]]; then
-            echo "Error: target library directory not found at $lib_dir"
+          mkdir -p "$output_dir"
+          echo "Copying native library from $lib_path to $output_dir/"
+          cp "$lib_path" "$output_dir/"
+
+          if find "$output_dir" -maxdepth 1 -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) -print -quit | grep -q .; then
+            echo "Native library staged successfully"
+          else
+            echo "Error: no native library found after copy"
             exit 1
           fi
+      - uses: actions/upload-artifact@v7.0.1
+        with:
+          name: dart-native-${{ matrix.label }}
+          path: dart-natives/${{ matrix.label }}/
+          if-no-files-found: error
+          retention-days: 7
 
-          echo "Copying native library from $lib_path to $lib_dir/"
-          cp "$lib_path" "$lib_dir/"
+  assemble-dart-package:
+    name: Assemble Dart package with natives
+    needs: [prepare, validate-versions, clone-vendors, check-registries, build-dart-native]
+    if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          fetch-depth: 0
+      - name: Download native libraries for all platforms
+        uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: dart-native-*
+          path: dart-natives
+          merge-multiple: true
+      - name: Stage natives into Dart package
+        shell: bash
+        run: |
+          set -euo pipefail
+          lib_dir="packages/dart/lib/src/native"
 
-          # Verify the library was copied successfully
-          if find "$lib_dir" -maxdepth 1 -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) -print -quit | grep -q .; then
-            echo "Native library bundled successfully"
-          else
-            echo "Warning: no native library found after copy"
+          if [[ ! -d "$lib_dir" ]]; then
+            mkdir -p "$lib_dir"
           fi
+
+          # Copy per-platform natives: linux-x64, macos-arm64, macos-x64, windows-x64
+          for rid in linux-x64 macos-arm64 macos-x64 windows-x64; do
+            rid_dir="$lib_dir/$rid"
+            mkdir -p "$rid_dir"
+
+            if [[ -d "dart-natives/$rid" ]]; then
+              cp dart-natives/$rid/* "$rid_dir/"
+              echo "Staged natives for $rid"
+            else
+              echo "Warning: no native directory found for $rid"
+            fi
+          done
+
+          # List staged structure
+          echo "Native library structure:"
+          find "$lib_dir" -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sort
       - uses: actions/upload-artifact@v7.0.1
         with:
           name: dart-package-assembled
@@ -2508,12 +2577,12 @@ jobs:
 
   trigger-pubdev:
     name: Trigger pub.dev publish workflow
-    needs: [prepare, check-registries, build-dart-package]
+    needs: [prepare, check-registries, assemble-dart-package]
     # pub.dev OIDC rejects tokens from `release` events. We dispatch a separate
     # workflow whose `workflow_dispatch` event produces an accepted token.
     if: |
       needs.prepare.outputs.release_dart == 'true' &&
-      needs.build-dart-package.result == 'success' &&
+      needs.assemble-dart-package.result == 'success' &&
       !inputs.dry_run &&
       (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true')
     runs-on: ubuntu-latest
@@ -2558,6 +2627,12 @@ jobs:
           path: ${{ steps.bundle.outputs.bundle-zip }}
           if-no-files-found: error
           retention-days: 14
+      - uses: actions/upload-artifact@v7.0.1
+        with:
+          name: swift-checksum
+          path: ${{ steps.bundle.outputs.checksum-file }}
+          if-no-files-found: error
+          retention-days: 14
 
   build-swift-package:
     name: Build Swift package
@@ -2586,13 +2661,71 @@ jobs:
           path: packages/swift
           retention-days: 14
 
+  update-swift-package-manifest:
+    name: Update Swift Package.swift manifest with version and checksum
+    needs: [prepare, build-swift-artifactbundle]
+    if: ${{ needs.prepare.outputs.release_swift == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v8.0.1
+        with:
+          name: swift-checksum
+          path: swift-checksums
+
+      - name: Update Package.swift with version and checksum
+        run: |
+          VERSION="${{ needs.prepare.outputs.version }}"
+          CHECKSUM=$(cat swift-checksums/*.checksum | tr -d '[:space:]')
+
+          # Replace placeholders in Package.swift
+          sed -i "s/__ALEF_SWIFT_VERSION__/${VERSION}/g" Package.swift
+          sed -i "s/__ALEF_SWIFT_CHECKSUM__/${CHECKSUM}/g" Package.swift
+
+          echo "Updated Package.swift:"
+          head -40 Package.swift
+
+      - name: Commit and push Package.swift
+        env:
+          GIT_AUTHOR_NAME: "kreuzberg-release-bot"
+          GIT_AUTHOR_EMAIL: "release@kreuzberg.dev"
+          GIT_COMMITTER_NAME: "kreuzberg-release-bot"
+          GIT_COMMITTER_EMAIL: "release@kreuzberg.dev"
+        run: |
+          git add Package.swift
+          git commit -m "chore(swift): update Package.swift with checksum for v${{ needs.prepare.outputs.version }}"
+          git push origin ${{ needs.prepare.outputs.checkout_ref }}
+
   # ─── Zig (GitHub Release tarball) ─────────────────────────────────
   build-zig-package:
-    name: Build Zig package (smoke check)
+    name: Build Zig package (${{ matrix.label }})
     needs: [prepare, validate-versions, clone-vendors, check-registries]
     if: ${{ needs.prepare.outputs.release_zig == 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux-x64
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-24.04-arm
+            label: linux-arm64
+            target: aarch64-unknown-linux-gnu
+          - os: macos-latest
+            label: macos-arm64
+            target: aarch64-apple-darwin
+          - os: macos-15-intel
+            label: macos-x64
+            target: x86_64-apple-darwin
+          - os: windows-latest
+            label: windows-x64
+            target: x86_64-pc-windows-msvc
     steps:
       - uses: actions/checkout@v6.0.2
         with:
@@ -2604,10 +2737,28 @@ jobs:
           name: language-parsers
           path: parsers
       - uses: kreuzberg-dev/actions/setup-rust@v1
-      - uses: kreuzberg-dev/actions/build-zig-package@v1
         with:
-          ffi-crate: ts-pack-core-ffi
-          package-dir: packages/zig
+          target: ${{ matrix.target }}
+      - uses: kreuzberg-dev/actions/install-alef@v1
+      - name: Build and package Zig FFI
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Build the FFI library for this target
+          cargo build --release --target ${{ matrix.target }} -p ts-pack-core-ffi
+
+          # Package with alef for distribution
+          alef publish build --lang ffi --target ${{ matrix.target }}
+          alef publish package --lang zig \
+            --target ${{ matrix.target }} \
+            --use-alef-package \
+            -o dist/zig-ffi
+      - uses: actions/upload-artifact@v7.0.1
+        with:
+          name: zig-ffi-${{ matrix.label }}
+          path: dist/zig-ffi/
+          if-no-files-found: error
+          retention-days: 14
 
   publish-zig:
     name: Publish Zig package metadata to GitHub Release
@@ -2621,19 +2772,20 @@ jobs:
       - uses: actions/checkout@v6.0.2
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
-      - uses: kreuzberg-dev/actions/publish-zig@v1
+      - name: Download Zig FFI tarballs
+        uses: actions/download-artifact@v8.0.1
         with:
-          working-directory: packages/zig
+          pattern: zig-ffi-*
+          path: dist/zig
+          merge-multiple: true
+      - uses: kreuzberg-dev/actions/upload-release-assets@v1
+        with:
           tag: ${{ needs.prepare.outputs.tag }}
-          # Override the auto-detected package-name (`tree_sitter_language_pack`
-          # from build.zig.zon) to match the alef-emitted test_app URL pattern
-          # `{crate-name}-zig-v{version}.tar.gz`. Without this, the asset
-          # uploads as `tree_sitter_language_pack-v{version}.tar.gz` while
-          # test_apps/zig fetches `tree-sitter-language-pack-zig-v{version}.tar.gz`
-          # → 404 + consumer build.zig.zon TODO hash.
-          package-name: tree-sitter-language-pack-zig
-          update-release-notes: "true"
+          working-directory: dist/zig
           dry-run: ${{ needs.prepare.outputs.dry_run }}
+          assets: |
+            **/*.tar.gz
+            **/*.zip
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -3028,6 +3180,7 @@ jobs:
       - upload-c-ffi-release
       - upload-elixir-release
       - upload-php-pie-release
+      - update-swift-package-manifest
       - publish-crates
       - publish-pypi
       - publish-node
