@@ -7,6 +7,8 @@ pub fn build(b: *std.Build) void {
     // Default library/include search paths follow the conventional Cargo workspace
     // layout (`<workspace>/target/{profile}` and the FFI crate's `include/` dir).
     // Override with `-Dffi_path=...` and `-Dffi_include_path=...` if your layout differs.
+    // `alef publish` rewrites this file for the distributed tarball so consumers
+    // link the bundled `lib/` + `include/` shipped alongside the package instead.
     const ffi_path = b.option([]const u8, "ffi_path", "Path to directory containing libts_pack_core_ffi.{dylib,so,dll,a}") orelse "../../target/release";
     const ffi_include = b.option([]const u8, "ffi_include_path", "Path to directory containing the FFI C header") orelse "../../crates/tree-sitter-language-pack-ffi/include";
 

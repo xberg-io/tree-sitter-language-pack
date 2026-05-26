@@ -20,78 +20,11 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
   RustLib._();
 
-  /// Resolve the prebuilt native library from environment variable,
-  /// package-relative location, or defer to flutter_rust_bridge's default loader.
-  /// Returns `null` to defer to flutter_rust_bridge's default loader.
-  ///
-  /// Checks in order:
-  /// 1. FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR environment variable
-  /// 2. Package-installed location with RID subdirectory (lib/src/native/<rid>/)
-  /// 3. Package-installed legacy location (lib/src/tree_sitter_language_pack_bridge_generated/)
-  /// 4. Returns null (flutter_rust_bridge falls back to its default loader)
+  /// Resolve the prebuilt native library from this package's own installed
+  /// location so the load works from any working directory and under hardened
+  /// runtimes. Returns `null` to defer to flutter_rust_bridge's default loader.
   static Future<ExternalLibrary?> _alefResolveExternalLibrary() async {
     try {
-      const candidates = <String>[
-        'libtree_sitter_language_pack.dylib',
-        'libtree_sitter_language_pack.so',
-        'tree_sitter_language_pack.dll',
-      ];
-
-      final envDir =
-          Platform.environment['FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR'];
-      if (envDir != null && envDir.isNotEmpty) {
-        final libDir = Directory(envDir);
-        if (libDir.existsSync()) {
-          for (final candidate in candidates) {
-            final libPath = '$envDir/$candidate';
-            if (File(libPath).existsSync()) {
-              return ExternalLibrary.open(libPath);
-            }
-          }
-        }
-      }
-
-      String? computeRid() {
-        final os = Platform.operatingSystem;
-        final version = Platform.version;
-        final arch = version.contains('x86_64')
-            ? 'x64'
-            : version.contains('aarch64') || version.contains('arm64')
-            ? 'arm64'
-            : version.contains('armv7')
-            ? 'arm'
-            : null;
-        if (arch == null) return null;
-        switch (os) {
-          case 'linux':
-            return 'linux-$arch';
-          case 'macos':
-            return 'macos-$arch';
-          case 'windows':
-            return 'windows-$arch';
-          default:
-            return null;
-        }
-      }
-
-      final rid = computeRid();
-      if (rid != null) {
-        final packageRoot = await Isolate.resolvePackageUri(
-          Uri.parse(
-            'package:tree_sitter_language_pack/tree_sitter_language_pack.dart',
-          ),
-        );
-        if (packageRoot != null) {
-          final ridDir = packageRoot.resolve('src/native/$rid/');
-          for (final candidate in candidates) {
-            final libPath = ridDir.resolve(candidate).toFilePath();
-            if (File(libPath).existsSync()) {
-              return ExternalLibrary.open(libPath);
-            }
-          }
-        }
-      }
-
       final packageRoot = await Isolate.resolvePackageUri(
         Uri.parse(
           'package:tree_sitter_language_pack/tree_sitter_language_pack.dart',
@@ -101,6 +34,11 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
         final libDir = packageRoot.resolve(
           'src/tree_sitter_language_pack_bridge_generated/',
         );
+        const candidates = <String>[
+          'libtree_sitter_language_pack.dylib',
+          'libtree_sitter_language_pack.so',
+          'tree_sitter_language_pack.dll',
+        ];
         for (final candidate in candidates) {
           final libPath = libDir.resolve(candidate).toFilePath();
           if (File(libPath).existsSync()) {

@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.metadata["keywords"] = %w[tree-sitter parser syntax language-pack].join(",")
   spec.metadata["rubygems_mfa_required"] = "true"
 
-  spec.files         = Dir.glob(%w[lib/**/* ext/**/* sig/**/* Steepfile])
+  spec.files         = Dir.glob(%w[lib/**/* ext/**/* sig/**/* Steepfile]).reject { |f| f.include?("/native/target/") || f.include?("/native/tmp/") }
   spec.require_paths = ["lib"]
   spec.extensions    = ["ext/ts_pack_core_rb/extconf.rb"]
 

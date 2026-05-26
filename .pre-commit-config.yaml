@@ -47,7 +47,7 @@ repos:
           - --fix
       - id: ruff-format
   - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
-    rev: v1.1.18
+    rev: v1.1.19
     hooks:
       - id: cargo-sort
         args:

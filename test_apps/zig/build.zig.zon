@@ -5,8 +5,8 @@
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
         .tree_sitter_language_pack = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.9/tree-sitter-language-pack-zig-v1.9.0-rc.9.tar.gz",
-            // alef: hash not pinned — run `zig fetch --save https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.9/tree-sitter-language-pack-zig-v1.9.0-rc.9.tar.gz` once to populate,
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.10/tree-sitter-language-pack-zig-v1.9.0-rc.10.tar.gz",
+            // alef: hash not pinned — run `zig fetch --save https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.10/tree-sitter-language-pack-zig-v1.9.0-rc.10.tar.gz` once to populate,
             //       then set `hash` under [crates.e2e.registry.packages.zig] in alef.toml.
             .hash = "TODO",
         },
