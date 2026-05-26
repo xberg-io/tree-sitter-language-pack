@@ -1,17 +1,17 @@
 {
-  "id": "smoke_meson",
-  "description": "Smoke test: load meson and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "project('hello', 'c')",
-    "config": {
-      "language": "meson"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_meson",
+	"description": "Smoke test: load meson and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "project('hello', 'c')",
+		"config": {
+			"language": "meson"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

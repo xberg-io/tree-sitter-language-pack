@@ -1,17 +1,17 @@
 {
-  "id": "smoke_asciidoc",
-  "description": "Smoke test: load asciidoc and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "= Title\n\nParagraph.",
-    "config": {
-      "language": "asciidoc"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_asciidoc",
+	"description": "Smoke test: load asciidoc and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "= Title\n\nParagraph.",
+		"config": {
+			"language": "asciidoc"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

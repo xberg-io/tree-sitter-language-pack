@@ -7,29 +7,29 @@ version: "3"
 # tests parsers against local tree-sitter grammars only — pure CPU, no I/O.
 
 tasks:
-  generate:all:
-    desc: Generate all E2E tests from fixtures across all supported languages
-    cmds:
-      - alef e2e generate
+    generate:all:
+        desc: Generate all E2E tests from fixtures across all supported languages
+        cmds:
+            - alef e2e generate
 
-  test:all:
-    desc: Run all E2E tests across all supported languages
-    cmds:
-      - alef test --e2e --jobs 1
+    test:all:
+        desc: Run all E2E tests across all supported languages
+        cmds:
+            - alef test --e2e --jobs 1
 
-  test:quick:
-    desc: Quick E2E test (Rust only — fastest feedback)
-    cmds:
-      - alef test --lang rust --e2e --jobs 1
+    test:quick:
+        desc: Quick E2E test (Rust only — fastest feedback)
+        cmds:
+            - alef test --lang rust --e2e --jobs 1
 
-  verify:all:
-    desc: Full E2E pipeline — generate, lint, and test all suites
-    cmds:
-      - task _e2e_wf:generate:all
-      - task _e2e_wf:lint:all
-      - task _e2e_wf:test:all
+    verify:all:
+        desc: Full E2E pipeline — generate, lint, and test all suites
+        cmds:
+            - task _e2e_wf:generate:all
+            - task _e2e_wf:lint:all
+            - task _e2e_wf:test:all
 
-  lint:all:
-    desc: Lint all generated E2E test code
-    cmds:
-      - task rust:e2e:format
+    lint:all:
+        desc: Lint all generated E2E test code
+        cmds:
+            - task rust:e2e:format

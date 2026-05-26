@@ -1,17 +1,17 @@
 {
-  "id": "smoke_vb",
-  "description": "Smoke test: load vb and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "Module Main\nEnd Module",
-    "config": {
-      "language": "vb"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_vb",
+	"description": "Smoke test: load vb and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "Module Main\nEnd Module",
+		"config": {
+			"language": "vb"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

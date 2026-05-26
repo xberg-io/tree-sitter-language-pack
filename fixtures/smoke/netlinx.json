@@ -1,17 +1,17 @@
 {
-  "id": "smoke_netlinx",
-  "description": "Smoke test: load netlinx and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "PROGRAM_NAME='hello'",
-    "config": {
-      "language": "netlinx"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_netlinx",
+	"description": "Smoke test: load netlinx and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "PROGRAM_NAME='hello'",
+		"config": {
+			"language": "netlinx"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

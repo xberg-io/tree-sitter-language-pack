@@ -1,17 +1,17 @@
 {
-  "id": "smoke_todotxt",
-  "description": "Smoke test: load todotxt and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "x",
-    "config": {
-      "language": "todotxt"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_todotxt",
+	"description": "Smoke test: load todotxt and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "todotxt"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

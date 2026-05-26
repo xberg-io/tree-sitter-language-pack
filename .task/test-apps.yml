@@ -1,143 +1,143 @@
 version: "3"
 
 tasks:
-  smoke:
-    desc: Run all test_app smoke tests
-    cmds:
-      - task: smoke:rust
-      - task: smoke:python
-      - task: smoke:node
-      - task: smoke:wasm
-      - task: smoke:ruby
-      - task: smoke:go
-      - task: smoke:java
-      - task: smoke:elixir
-      - task: smoke:php
-      - task: smoke:csharp
-      - task: smoke:c
-      - task: smoke:homebrew
+    smoke:
+        desc: Run all test_app smoke tests
+        cmds:
+            - task: smoke:rust
+            - task: smoke:python
+            - task: smoke:node
+            - task: smoke:wasm
+            - task: smoke:ruby
+            - task: smoke:go
+            - task: smoke:java
+            - task: smoke:elixir
+            - task: smoke:php
+            - task: smoke:csharp
+            - task: smoke:c
+            - task: smoke:homebrew
 
-  smoke:rust:
-    desc: Run Rust test_app smoke test
-    dir: test_apps/rust
-    cmds:
-      - cargo run
+    smoke:rust:
+        desc: Run Rust test_app smoke test
+        dir: test_apps/rust
+        cmds:
+            - cargo run
 
-  smoke:python:
-    desc: Run Python test_app smoke test
-    dir: test_apps/python
-    cmds:
-      - uv sync
-      - uv run pytest smoke_test.py -v
+    smoke:python:
+        desc: Run Python test_app smoke test
+        dir: test_apps/python
+        cmds:
+            - uv sync
+            - uv run pytest smoke_test.py -v
 
-  smoke:node:
-    desc: Run Node.js test_app smoke test
-    dir: test_apps/node
-    cmds:
-      - pnpm install
-      - pnpm run test:smoke
+    smoke:node:
+        desc: Run Node.js test_app smoke test
+        dir: test_apps/node
+        cmds:
+            - pnpm install
+            - pnpm run test:smoke
 
-  smoke:wasm:
-    desc: Run WASM test_app smoke test
-    dir: test_apps/wasm
-    cmds:
-      - pnpm install
-      - pnpm run test:smoke
+    smoke:wasm:
+        desc: Run WASM test_app smoke test
+        dir: test_apps/wasm
+        cmds:
+            - pnpm install
+            - pnpm run test:smoke
 
-  smoke:ruby:
-    desc: Run Ruby test_app smoke test
-    dir: test_apps/ruby
-    cmds:
-      - bundle install
-      - bundle exec rspec smoke_test.rb
+    smoke:ruby:
+        desc: Run Ruby test_app smoke test
+        dir: test_apps/ruby
+        cmds:
+            - bundle install
+            - bundle exec rspec smoke_test.rb
 
-  smoke:go:
-    desc: Run Go test_app smoke test
-    dir: test_apps/go
-    cmds:
-      - go test -tags tspack_dev -v -run "TestBasicFixtures|TestParseValidation|TestErrorHandling|TestDownloadAPI"
+    smoke:go:
+        desc: Run Go test_app smoke test
+        dir: test_apps/go
+        cmds:
+            - go test -tags tspack_dev -v -run "TestBasicFixtures|TestParseValidation|TestErrorHandling|TestDownloadAPI"
 
-  smoke:java:
-    desc: Run Java test_app smoke test
-    env:
-      TSPACK_LIB_PATH: "{{.PROJECT_ROOT}}/target/release/libts_pack_ffi.dylib"
-    cmds:
-      - mvn -f {{.PROJECT_ROOT}}/crates/ts-pack-java/pom.xml install -DskipTests -q
-      - cmd: mvn -f {{.PROJECT_ROOT}}/test_apps/java/pom.xml test -Dtest=SmokeTest
+    smoke:java:
+        desc: Run Java test_app smoke test
+        env:
+            TSPACK_LIB_PATH: "{{.PROJECT_ROOT}}/target/release/libts_pack_ffi.dylib"
+        cmds:
+            - mvn -f {{.PROJECT_ROOT}}/crates/ts-pack-java/pom.xml install -DskipTests -q
+            - cmd: mvn -f {{.PROJECT_ROOT}}/test_apps/java/pom.xml test -Dtest=SmokeTest
 
-  smoke:elixir:
-    desc: Run Elixir test_app smoke test
-    dir: test_apps/elixir
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-      TSLP_BUILD: "1"
-      TSLP_LANGUAGES: "python,javascript,rust,go"
-    cmds:
-      - mix deps.get
-      - mix test
+    smoke:elixir:
+        desc: Run Elixir test_app smoke test
+        dir: test_apps/elixir
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_BUILD: "1"
+            TSLP_LANGUAGES: "python,javascript,rust,go"
+        cmds:
+            - mix deps.get
+            - mix test
 
-  smoke:php:
-    desc: Run PHP test_app smoke test
-    dir: test_apps/php
-    cmds:
-      - composer install
-      - php -d "extension={{.PROJECT_ROOT}}/target/release/libts_pack_php.dylib" vendor/bin/phpunit SmokeTest.php
+    smoke:php:
+        desc: Run PHP test_app smoke test
+        dir: test_apps/php
+        cmds:
+            - composer install
+            - php -d "extension={{.PROJECT_ROOT}}/target/release/libts_pack_php.dylib" vendor/bin/phpunit SmokeTest.php
 
-  smoke:csharp:
-    desc: Run C# test_app smoke test
-    dir: test_apps/csharp
-    env:
-      TSPACK_FFI_DIR: "{{.PROJECT_ROOT}}/target/release"
-    cmds:
-      - dotnet restore
-      - dotnet test
+    smoke:csharp:
+        desc: Run C# test_app smoke test
+        dir: test_apps/csharp
+        env:
+            TSPACK_FFI_DIR: "{{.PROJECT_ROOT}}/target/release"
+        cmds:
+            - dotnet restore
+            - dotnet test
 
-  smoke:c:
-    desc: Run C test_app smoke test
-    dir: test_apps/c
-    cmds:
-      - cmake -B build -DCMAKE_PREFIX_PATH=${TS_PACK_FFI_PREFIX:-/usr/local}
-      - cmake --build build
-      - ./build/smoke_test
+    smoke:c:
+        desc: Run C test_app smoke test
+        dir: test_apps/c
+        cmds:
+            - cmake -B build -DCMAKE_PREFIX_PATH=${TS_PACK_FFI_PREFIX:-/usr/local}
+            - cmake --build build
+            - ./build/smoke_test
 
-  smoke:homebrew:
-    desc: Run Homebrew CLI smoke test
-    dir: test_apps/homebrew
-    cmds:
-      - bash run_tests.sh
+    smoke:homebrew:
+        desc: Run Homebrew CLI smoke test
+        dir: test_apps/homebrew
+        cmds:
+            - bash run_tests.sh
 
-  comprehensive:
-    desc: Run all test_app comprehensive tests
-    cmds:
-      - task: comprehensive:python
-      - task: comprehensive:node
-      - task: comprehensive:ruby
-      - task: comprehensive:go
+    comprehensive:
+        desc: Run all test_app comprehensive tests
+        cmds:
+            - task: comprehensive:python
+            - task: comprehensive:node
+            - task: comprehensive:ruby
+            - task: comprehensive:go
 
-  comprehensive:python:
-    desc: Run Python test_app comprehensive tests
-    dir: test_apps/python
-    cmds:
-      - uv sync
-      - uv run pytest comprehensive_test.py -v
+    comprehensive:python:
+        desc: Run Python test_app comprehensive tests
+        dir: test_apps/python
+        cmds:
+            - uv sync
+            - uv run pytest comprehensive_test.py -v
 
-  comprehensive:node:
-    desc: Run Node.js test_app comprehensive tests
-    dir: test_apps/node
-    cmds:
-      - pnpm install
-      - pnpm run test:comprehensive
+    comprehensive:node:
+        desc: Run Node.js test_app comprehensive tests
+        dir: test_apps/node
+        cmds:
+            - pnpm install
+            - pnpm run test:comprehensive
 
-  comprehensive:ruby:
-    desc: Run Ruby test_app comprehensive tests
-    dir: test_apps/ruby
-    cmds:
-      - bundle install
-      - bundle exec rspec comprehensive_test.rb
+    comprehensive:ruby:
+        desc: Run Ruby test_app comprehensive tests
+        dir: test_apps/ruby
+        cmds:
+            - bundle install
+            - bundle exec rspec comprehensive_test.rb
 
-  comprehensive:go:
-    desc: Run Go test_app comprehensive tests
-    dir: test_apps/go
-    cmds:
-      - go test -tags tspack_dev -v -run TestProcessFixtures
-      - go test -tags tspack_dev -v -run TestChunkingFixtures
+    comprehensive:go:
+        desc: Run Go test_app comprehensive tests
+        dir: test_apps/go
+        cmds:
+            - go test -tags tspack_dev -v -run TestProcessFixtures
+            - go test -tags tspack_dev -v -run TestChunkingFixtures

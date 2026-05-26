@@ -1,17 +1,17 @@
 {
-  "id": "smoke_jq",
-  "description": "Smoke test: load jq and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": ".[] | select(.key)",
-    "config": {
-      "language": "jq"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_jq",
+	"description": "Smoke test: load jq and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": ".[] | select(.key)",
+		"config": {
+			"language": "jq"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

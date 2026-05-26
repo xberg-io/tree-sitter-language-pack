@@ -1,17 +1,17 @@
 {
-  "id": "smoke_git_config",
-  "description": "Smoke test: load git_config and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "x",
-    "config": {
-      "language": "git_config"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_git_config",
+	"description": "Smoke test: load git_config and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "git_config"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

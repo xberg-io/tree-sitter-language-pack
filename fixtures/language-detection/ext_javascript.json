@@ -1,16 +1,16 @@
 {
-  "id": "detect_ext_javascript",
-  "description": "detect_language_from_extension recognizes .js as javascript",
-  "category": "language-detection",
-  "tags": ["language-detection", "extension"],
-  "call": "detect_extension",
-  "input": {
-    "extension": "js"
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "value": "javascript"
-    }
-  ]
+	"id": "detect_ext_javascript",
+	"description": "detect_language_from_extension recognizes .js as javascript",
+	"category": "language-detection",
+	"tags": ["language-detection", "extension"],
+	"call": "detect_extension",
+	"input": {
+		"extension": "js"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "javascript"
+		}
+	]
 }

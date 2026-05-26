@@ -1,17 +1,17 @@
 {
-  "id": "smoke_phpdoc",
-  "description": "Smoke test: load phpdoc and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "x",
-    "config": {
-      "language": "phpdoc"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_phpdoc",
+	"description": "Smoke test: load phpdoc and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "phpdoc"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

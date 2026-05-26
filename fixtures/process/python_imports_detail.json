@@ -1,29 +1,29 @@
 {
-  "id": "process_python_imports_detail",
-  "description": "Python with multiple imports, verify imports contain specific source",
-  "category": "process",
-  "tags": ["metadata"],
-  "input": {
-    "source_code": "import os\nimport sys\nfrom pathlib import Path\n\ndef main():\n    pass\n",
-    "config": {
-      "language": "python"
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "python"
-    },
-    {
-      "type": "count_min",
-      "field": "imports",
-      "value": 2
-    },
-    {
-      "type": "contains",
-      "field": "imports",
-      "value": "os"
-    }
-  ]
+	"id": "process_python_imports_detail",
+	"description": "Python with multiple imports, verify imports contain specific source",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "import os\nimport sys\nfrom pathlib import Path\n\ndef main():\n    pass\n",
+		"config": {
+			"language": "python"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "count_min",
+			"field": "imports",
+			"value": 2
+		},
+		{
+			"type": "contains",
+			"field": "imports",
+			"value": "os"
+		}
+	]
 }

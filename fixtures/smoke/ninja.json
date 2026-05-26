@@ -1,17 +1,17 @@
 {
-  "id": "smoke_ninja",
-  "description": "Smoke test: load ninja and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "rule cc\n  command = cc $in -o $out",
-    "config": {
-      "language": "ninja"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_ninja",
+	"description": "Smoke test: load ninja and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "rule cc\n  command = cc $in -o $out",
+		"config": {
+			"language": "ninja"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

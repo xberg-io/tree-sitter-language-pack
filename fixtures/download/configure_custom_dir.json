@@ -1,21 +1,21 @@
 {
-  "id": "download_configure_custom_dir",
-  "description": "Configure language pack with a custom cache directory",
-  "category": "download",
-  "tags": ["download"],
-  "call": "configure_pack",
-  "skip": {
-    "languages": ["c", "wasm"],
-    "reason": "Download feature requires network access and global cache configuration is covered by Rust unit tests"
-  },
-  "input": {
-    "config": {
-      "cache_dir": "/tmp/tslp_test_cache"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "download_configure_custom_dir",
+	"description": "Configure language pack with a custom cache directory",
+	"category": "download",
+	"tags": ["download"],
+	"call": "configure_pack",
+	"skip": {
+		"languages": ["c", "wasm"],
+		"reason": "Download feature requires network access and global cache configuration is covered by Rust unit tests"
+	},
+	"input": {
+		"config": {
+			"cache_dir": "/tmp/tslp_test_cache"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

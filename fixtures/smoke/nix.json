@@ -1,17 +1,17 @@
 {
-  "id": "smoke_nix",
-  "description": "Smoke test: load nix and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "{ pkgs ? import <nixpkgs> {} }: pkgs.hello",
-    "config": {
-      "language": "nix"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_nix",
+	"description": "Smoke test: load nix and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "{ pkgs ? import <nixpkgs> {} }: pkgs.hello",
+		"config": {
+			"language": "nix"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -4,15 +4,15 @@ title: "feat: "
 labels: ["enhancement"]
 projects: ["kreuzberg-dev/1"]
 body:
-  - type: textarea
-    id: what
-    attributes:
-      label: What is the proposed feature?
-    validations:
-      required: true
-  - type: textarea
-    id: why
-    attributes:
-      label: Why would this be a good addition?
-    validations:
-      required: true
+    - type: textarea
+      id: what
+      attributes:
+          label: What is the proposed feature?
+      validations:
+          required: true
+    - type: textarea
+      id: why
+      attributes:
+          label: Why would this be a good addition?
+      validations:
+          required: true

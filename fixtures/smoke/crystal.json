@@ -1,17 +1,17 @@
 {
-  "id": "smoke_crystal",
-  "description": "Smoke test: load crystal and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "x",
-    "config": {
-      "language": "crystal"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_crystal",
+	"description": "Smoke test: load crystal and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "crystal"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

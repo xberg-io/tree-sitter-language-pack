@@ -1,17 +1,17 @@
 {
-  "id": "smoke_wast",
-  "description": "Smoke test: load wast and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "(module)",
-    "config": {
-      "language": "wast"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_wast",
+	"description": "Smoke test: load wast and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(module)",
+		"config": {
+			"language": "wast"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

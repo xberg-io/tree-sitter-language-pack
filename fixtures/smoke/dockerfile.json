@@ -1,17 +1,17 @@
 {
-  "id": "smoke_dockerfile",
-  "description": "Smoke test: load dockerfile and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "FROM alpine",
-    "config": {
-      "language": "dockerfile"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_dockerfile",
+	"description": "Smoke test: load dockerfile and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "FROM alpine",
+		"config": {
+			"language": "dockerfile"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

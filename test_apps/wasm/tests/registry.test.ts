@@ -6,78 +6,78 @@
 
 import { describe, expect, it } from "vitest";
 import {
-  process,
-  getLanguage,
-  getParser,
-  hasLanguage,
-  languageCount,
-  availableLanguages,
+	process,
+	getLanguage,
+	getParser,
+	hasLanguage,
+	languageCount,
+	availableLanguages,
 } from "@kreuzberg/tree-sitter-language-pack-wasm";
 function _alefE2eText(value: unknown): string {
-  return value == null ? "" : String(value);
+	return value == null ? "" : String(value);
 }
 
 function _alefE2eItemTexts(item: unknown): string[] {
-  if (item == null || typeof item !== "object") {
-    return [_alefE2eText(item)];
-  }
-  const record = item as Record<string, unknown>;
-  const itemsText = Array.isArray(record.items) ? record.items.map(_alefE2eText).join(" ") : "";
-  return [
-    _alefE2eText(item),
-    _alefE2eText(record.kind),
-    _alefE2eText(record.name),
-    _alefE2eText(record.source),
-    _alefE2eText(record.alias),
-    _alefE2eText(record.text),
-    _alefE2eText(record.signature),
-    itemsText,
-  ];
+	if (item == null || typeof item !== "object") {
+		return [_alefE2eText(item)];
+	}
+	const record = item as Record<string, unknown>;
+	const itemsText = Array.isArray(record.items) ? record.items.map(_alefE2eText).join(" ") : "";
+	return [
+		_alefE2eText(item),
+		_alefE2eText(record.kind),
+		_alefE2eText(record.name),
+		_alefE2eText(record.source),
+		_alefE2eText(record.alias),
+		_alefE2eText(record.text),
+		_alefE2eText(record.signature),
+		itemsText,
+	];
 }
 
 function _alefE2eFormatMetadataDisplay(fm: unknown): string {
-  if (fm == null) return "";
-  if (typeof fm !== "object") return String(fm);
-  const record = fm as Record<string, unknown>;
-  const formatType = record.format_type;
+	if (fm == null) return "";
+	if (typeof fm !== "object") return String(fm);
+	const record = fm as Record<string, unknown>;
+	const formatType = record.format_type;
 
-  // FormatMetadata is a tagged union: { format_type: 'image', image: { format: 'PNG', ... }, ... }
-  // Extract the display string based on the variant type
-  if (formatType === "image" && typeof record.image === "object") {
-    const imageData = record.image as Record<string, unknown>;
-    if (typeof imageData.format === "string") return imageData.format;
-  }
+	// FormatMetadata is a tagged union: { format_type: 'image', image: { format: 'PNG', ... }, ... }
+	// Extract the display string based on the variant type
+	if (formatType === "image" && typeof record.image === "object") {
+		const imageData = record.image as Record<string, unknown>;
+		if (typeof imageData.format === "string") return imageData.format;
+	}
 
-  // Fallback: return format_type variant name
-  if (typeof record.format_type === "string") return record.format_type;
-  return "";
+	// Fallback: return format_type variant name
+	if (typeof record.format_type === "string") return record.format_type;
+	return "";
 }
 
 describe("registry", () => {
-  it("get_language_python: get_language('python') returns a valid Language object", () => {
-    getLanguage("python");
-  }, 30000);
-  it("get_parser_python: get_parser('python') returns a valid Parser object", () => {
-    getParser("python");
-  }, 30000);
-  it("registry_has_language_true: has_language('python') should return true", () => {
-    const result = hasLanguage("python");
-    expect(result).toBe(true);
-  }, 30000);
-  it("registry_language_count: language_count returns the number of languages available in the current build/cache", () => {
-    const result = languageCount();
-    expect(Number(result)).toBeGreaterThanOrEqual(1);
-  }, 30000);
-  it("registry_list_languages: available_languages should return a non-empty list", () => {
-    const result = availableLanguages();
-    {
-      const _v = result;
-      if (typeof _v === "string" || Array.isArray(_v)) {
-        expect(_v.length).toBeGreaterThan(0);
-      } else {
-        expect(_v).toBeDefined();
-        expect(_v).not.toBeNull();
-      }
-    }
-  }, 30000);
+	it("get_language_python: get_language('python') returns a valid Language object", () => {
+		getLanguage("python");
+	}, 30000);
+	it("get_parser_python: get_parser('python') returns a valid Parser object", () => {
+		getParser("python");
+	}, 30000);
+	it("registry_has_language_true: has_language('python') should return true", () => {
+		const result = hasLanguage("python");
+		expect(result).toBe(true);
+	}, 30000);
+	it("registry_language_count: language_count returns the number of languages available in the current build/cache", () => {
+		const result = languageCount();
+		expect(Number(result)).toBeGreaterThanOrEqual(1);
+	}, 30000);
+	it("registry_list_languages: available_languages should return a non-empty list", () => {
+		const result = availableLanguages();
+		{
+			const _v = result;
+			if (typeof _v === "string" || Array.isArray(_v)) {
+				expect(_v.length).toBeGreaterThan(0);
+			} else {
+				expect(_v).toBeDefined();
+				expect(_v).not.toBeNull();
+			}
+		}
+	}, 30000);
 });

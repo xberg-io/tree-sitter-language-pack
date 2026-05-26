@@ -1,17 +1,17 @@
 {
-  "id": "smoke_fortran",
-  "description": "Smoke test: load fortran and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "program main\nend program main",
-    "config": {
-      "language": "fortran"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_fortran",
+	"description": "Smoke test: load fortran and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "program main\nend program main",
+		"config": {
+			"language": "fortran"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

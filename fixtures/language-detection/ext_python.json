@@ -1,16 +1,16 @@
 {
-  "id": "detect_ext_python",
-  "description": "detect_language_from_extension recognizes .py as python",
-  "category": "language-detection",
-  "tags": ["language-detection", "extension"],
-  "call": "detect_extension",
-  "input": {
-    "extension": "py"
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "value": "python"
-    }
-  ]
+	"id": "detect_ext_python",
+	"description": "detect_language_from_extension recognizes .py as python",
+	"category": "language-detection",
+	"tags": ["language-detection", "extension"],
+	"call": "detect_extension",
+	"input": {
+		"extension": "py"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "python"
+		}
+	]
 }

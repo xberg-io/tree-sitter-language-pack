@@ -1,17 +1,17 @@
 {
-  "id": "smoke_llvm",
-  "description": "Smoke test: load llvm and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "define i32 @main() { ret i32 0 }",
-    "config": {
-      "language": "llvm"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_llvm",
+	"description": "Smoke test: load llvm and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "define i32 @main() { ret i32 0 }",
+		"config": {
+			"language": "llvm"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

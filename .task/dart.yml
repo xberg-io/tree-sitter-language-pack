@@ -1,118 +1,118 @@
 version: "3"
 
 tasks:
-  install:
-    desc: Install Dart dependencies
-    dir: packages/dart
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    cmds:
-      - dart pub get
+    install:
+        desc: Install Dart dependencies
+        dir: packages/dart
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        cmds:
+            - dart pub get
 
-  setup:
-    desc: Setup Dart environment + flutter_rust_bridge_codegen
-    cmds:
-      - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
-      - task: install
+    setup:
+        desc: Setup Dart environment + flutter_rust_bridge_codegen
+        cmds:
+            - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
+            - task: install
 
-  build:
-    desc: Build Dart package against flutter_rust_bridge Rust crate
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    cmds:
-      - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
-      - cd packages/dart && dart pub get
-      - cd packages/dart/rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart
-      - cd packages/dart && dart pub get
+    build:
+        desc: Build Dart package against flutter_rust_bridge Rust crate
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        cmds:
+            - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
+            - cd packages/dart && dart pub get
+            - cd packages/dart/rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
+            - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart
+            - cd packages/dart && dart pub get
 
-  build:dev:
-    desc: Build Dart package in debug mode
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    cmds:
-      - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
-      - cd packages/dart && dart pub get
-      - cd packages/dart/rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build -p tree-sitter-language-pack-dart
-      - cd packages/dart && dart pub get
+    build:dev:
+        desc: Build Dart package in debug mode
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        cmds:
+            - command -v flutter_rust_bridge_codegen >/dev/null 2>&1 || cargo install flutter_rust_bridge_codegen --version 2.12.0
+            - cd packages/dart && dart pub get
+            - cd packages/dart/rust && flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
+            - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build -p tree-sitter-language-pack-dart
+            - cd packages/dart && dart pub get
 
-  build:release:
-    desc: Build Dart package in release mode (alias for build)
-    cmds:
-      - task: build
+    build:release:
+        desc: Build Dart package in release mode (alias for build)
+        cmds:
+            - task: build
 
-  test:
-    desc: Run Dart tests
-    dir: packages/dart
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    env:
-      DYLD_FALLBACK_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
-      LD_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
-      FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR: "{{.ROOT_DIR}}/target/release"
-    cmds:
-      - dart pub get
-      - dart test
+    test:
+        desc: Run Dart tests
+        dir: packages/dart
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        env:
+            DYLD_FALLBACK_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
+            LD_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
+            FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR: "{{.ROOT_DIR}}/target/release"
+        cmds:
+            - dart pub get
+            - dart test
 
-  lint:
-    desc: Format Dart code
-    dir: packages/dart
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    cmds:
-      - dart format .
+    lint:
+        desc: Format Dart code
+        dir: packages/dart
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        cmds:
+            - dart format .
 
-  lint:check:
-    desc: Check Dart code formatting
-    dir: packages/dart
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    cmds:
-      - dart format . --set-exit-if-changed
+    lint:check:
+        desc: Check Dart code formatting
+        dir: packages/dart
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        cmds:
+            - dart format . --set-exit-if-changed
 
-  format:
-    desc: Format Dart code (alias for lint)
-    cmds:
-      - task: lint
+    format:
+        desc: Format Dart code (alias for lint)
+        cmds:
+            - task: lint
 
-  format:check:
-    desc: Check Dart formatting (alias for lint:check)
-    cmds:
-      - task: lint:check
+    format:check:
+        desc: Check Dart formatting (alias for lint:check)
+        cmds:
+            - task: lint:check
 
-  clean:
-    desc: Clean Dart build artifacts
-    dir: packages/dart
-    cmds:
-      - rm -rf .dart_tool build pubspec.lock
+    clean:
+        desc: Clean Dart build artifacts
+        dir: packages/dart
+        cmds:
+            - rm -rf .dart_tool build pubspec.lock
 
-  update:
-    desc: Update Dart dependencies within current major versions (non-breaking)
-    dir: packages/dart
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    cmds:
-      - echo "Updating Dart dependencies (within-major)..."
-      - dart pub upgrade
+    update:
+        desc: Update Dart dependencies within current major versions (non-breaking)
+        dir: packages/dart
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        cmds:
+            - echo "Updating Dart dependencies (within-major)..."
+            - dart pub upgrade
 
-  upgrade:
-    desc: Upgrade Dart dependencies to latest versions (cross-major / breaking)
-    dir: packages/dart
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    cmds:
-      - echo "Upgrading Dart dependencies (cross-major)..."
-      - dart pub upgrade --major-versions
+    upgrade:
+        desc: Upgrade Dart dependencies to latest versions (cross-major / breaking)
+        dir: packages/dart
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        cmds:
+            - echo "Upgrading Dart dependencies (cross-major)..."
+            - dart pub upgrade --major-versions
 
-  e2e:test:
-    desc: Run Dart e2e tests
-    preconditions:
-      - sh: command -v dart >/dev/null 2>&1
-    env:
-      DYLD_FALLBACK_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
-      LD_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
-      FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR: "{{.ROOT_DIR}}/target/release"
-    cmds:
-      - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart
-      - cd e2e/dart && dart pub get && dart test
+    e2e:test:
+        desc: Run Dart e2e tests
+        preconditions:
+            - sh: command -v dart >/dev/null 2>&1
+        env:
+            DYLD_FALLBACK_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
+            LD_LIBRARY_PATH: "{{.ROOT_DIR}}/target/release"
+            FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR: "{{.ROOT_DIR}}/target/release"
+        cmds:
+            - TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-dart
+            - cd e2e/dart && dart pub get && dart test

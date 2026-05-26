@@ -1,145 +1,145 @@
 name: CI Rust
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "crates/ts-pack-cli/**"
-      - "e2e/rust/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
-      - "rust-toolchain.toml"
-      - ".cargo/config.toml"
-      - "sources/**"
-      - "scripts/clone_vendors.py"
-      - ".github/workflows/ci-rust.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "crates/ts-pack-cli/**"
-      - "e2e/rust/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
-      - "rust-toolchain.toml"
-      - ".cargo/config.toml"
-      - "sources/**"
-      - "scripts/clone_vendors.py"
-      - ".github/workflows/ci-rust.yaml"
-  workflow_run:
-    workflows: ["Publish Release"]
-    types: [completed]
-  workflow_dispatch:
+    push:
+        branches: [main]
+        paths:
+            - "crates/ts-pack-core/**"
+            - "crates/ts-pack-cli/**"
+            - "e2e/rust/**"
+            - "Cargo.toml"
+            - "Cargo.lock"
+            - "rust-toolchain.toml"
+            - ".cargo/config.toml"
+            - "sources/**"
+            - "scripts/clone_vendors.py"
+            - ".github/workflows/ci-rust.yaml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "crates/ts-pack-core/**"
+            - "crates/ts-pack-cli/**"
+            - "e2e/rust/**"
+            - "Cargo.toml"
+            - "Cargo.lock"
+            - "rust-toolchain.toml"
+            - ".cargo/config.toml"
+            - "sources/**"
+            - "scripts/clone_vendors.py"
+            - ".github/workflows/ci-rust.yaml"
+    workflow_run:
+        workflows: ["Publish Release"]
+        types: [completed]
+    workflow_dispatch:
 
 concurrency:
-  group: ci-rust-${{ github.ref }}
-  cancel-in-progress: true
+    group: ci-rust-${{ github.ref }}
+    cancel-in-progress: true
 
 permissions:
-  contents: read
+    contents: read
 
 env:
-  CARGO_TERM_COLOR: always
-  CARGO_INCREMENTAL: 0
-  CARGO_PROFILE_DEV_DEBUG: 0
-  RUST_BACKTRACE: short
-  BUILD_PROFILE: ci
+    CARGO_TERM_COLOR: always
+    CARGO_INCREMENTAL: 0
+    CARGO_PROFILE_DEV_DEBUG: 0
+    RUST_BACKTRACE: short
+    BUILD_PROFILE: ci
 
 jobs:
-  # ---------------------------------------------------------------------------
-  # 1. clone-vendors — fetch vendor grammar sources for static linking
-  # ---------------------------------------------------------------------------
-  clone-vendors:
-    name: Clone vendors
-    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6.0.2
+    # ---------------------------------------------------------------------------
+    # 1. clone-vendors — fetch vendor grammar sources for static linking
+    # ---------------------------------------------------------------------------
+    clone-vendors:
+        name: Clone vendors
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6.0.2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6.4.0
-        with:
-          node-version: "22"
+            - name: Setup Node.js
+              uses: actions/setup-node@v6.4.0
+              with:
+                  node-version: "22"
 
-      - name: Install tree-sitter CLI
-        run: npm install -g tree-sitter-cli
+            - name: Install tree-sitter CLI
+              run: npm install -g tree-sitter-cli
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v8.1.0
-        with:
-          enable-cache: true
+            - name: Install uv
+              uses: astral-sh/setup-uv@v8.1.0
+              with:
+                  enable-cache: true
 
-      - name: Setup Python
-        uses: actions/setup-python@v6.2.0
-        with:
-          python-version: "3.14"
+            - name: Setup Python
+              uses: actions/setup-python@v6.2.0
+              with:
+                  python-version: "3.14"
 
-      - name: Install Python dependencies
-        run: uv sync --no-install-project --no-install-workspace
+            - name: Install Python dependencies
+              run: uv sync --no-install-project --no-install-workspace
 
-      - name: Cache parsers
-        uses: actions/cache@v5.0.5
-        with:
-          path: parsers
-          key: parsers-${{ hashFiles('sources/language_definitions.json') }}
-          restore-keys: |
-            parsers-
+            - name: Cache parsers
+              uses: actions/cache@v5.0.5
+              with:
+                  path: parsers
+                  key: parsers-${{ hashFiles('sources/language_definitions.json') }}
+                  restore-keys: |
+                      parsers-
 
-      - name: Clone vendors
-        run: |
-          mkdir -p parsers
-          uv run --script scripts/clone_vendors.py
+            - name: Clone vendors
+              run: |
+                  mkdir -p parsers
+                  uv run --script scripts/clone_vendors.py
 
-      - name: Upload parsers
-        uses: actions/upload-artifact@v7.0.1
-        with:
-          name: language-parsers
-          path: parsers
-          retention-days: 1
+            - name: Upload parsers
+              uses: actions/upload-artifact@v7.0.1
+              with:
+                  name: language-parsers
+                  path: parsers
+                  retention-days: 1
 
-  # ---------------------------------------------------------------------------
-  # 2. rust-tests — Core Rust unit + e2e tests
-  # ---------------------------------------------------------------------------
-  rust-tests:
-    name: Rust Tests
-    if: |
-      github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
-      github.actor != 'dependabot[bot]'
-    needs: [clone-vendors]
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    env:
-      PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "all"
-      TSLP_LINK_MODE: static
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6.0.2
+    # ---------------------------------------------------------------------------
+    # 2. rust-tests — Core Rust unit + e2e tests
+    # ---------------------------------------------------------------------------
+    rust-tests:
+        name: Rust Tests
+        if: |
+            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.actor != 'dependabot[bot]'
+        needs: [clone-vendors]
+        runs-on: ubuntu-latest
+        timeout-minutes: 60
+        env:
+            PROJECT_ROOT: ${{ github.workspace }}
+            TSLP_LANGUAGES: "all"
+            TSLP_LINK_MODE: static
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6.0.2
 
-      - name: Download parsers
-        uses: actions/download-artifact@v8.0.1
-        with:
-          name: language-parsers
-          path: parsers
+            - name: Download parsers
+              uses: actions/download-artifact@v8.0.1
+              with:
+                  name: language-parsers
+                  path: parsers
 
-      - name: Setup Rust
-        uses: kreuzberg-dev/actions/setup-rust@v1
-        with:
-          components: "rustfmt"
-          use-sccache: "false"
-          install-llvm-cov: "false"
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: "rustfmt"
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
 
-      - name: Install Task
-        uses: kreuzberg-dev/actions/install-task@v1
+            - name: Install Task
+              uses: kreuzberg-dev/actions/install-task@v1
 
-      - name: Install alef
-        uses: kreuzberg-dev/actions/install-alef@v1
+            - name: Install alef
+              uses: kreuzberg-dev/actions/install-alef@v1
 
-      - name: Run workspace tests
-        run: cargo test --workspace --exclude ts-pack-core-wasm
+            - name: Run workspace tests
+              run: cargo test --workspace --exclude ts-pack-core-wasm
 
-      - name: Run Rust E2E tests
-        run: task rust:e2e:test
+            - name: Run Rust E2E tests
+              run: task rust:e2e:test

@@ -1,17 +1,17 @@
 {
-  "id": "smoke_rego",
-  "description": "Smoke test: load rego and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "package main\ndefault allow = false",
-    "config": {
-      "language": "rego"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_rego",
+	"description": "Smoke test: load rego and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "package main\ndefault allow = false",
+		"config": {
+			"language": "rego"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

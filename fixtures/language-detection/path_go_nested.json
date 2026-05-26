@@ -1,16 +1,16 @@
 {
-  "id": "detect_path_go_nested",
-  "description": "detect_language_from_path extracts extension from nested path lib/server.go",
-  "category": "language-detection",
-  "tags": ["language-detection", "path"],
-  "call": "detect_path",
-  "input": {
-    "path": "lib/server.go"
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "value": "go"
-    }
-  ]
+	"id": "detect_path_go_nested",
+	"description": "detect_language_from_path extracts extension from nested path lib/server.go",
+	"category": "language-detection",
+	"tags": ["language-detection", "path"],
+	"call": "detect_path",
+	"input": {
+		"path": "lib/server.go"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "go"
+		}
+	]
 }

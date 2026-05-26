@@ -1,16 +1,16 @@
 {
-  "id": "detect_path_rust_src",
-  "description": "detect_language_from_path extracts extension from nested path src/main.rs",
-  "category": "language-detection",
-  "tags": ["language-detection", "path"],
-  "call": "detect_path",
-  "input": {
-    "path": "src/main.rs"
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "value": "rust"
-    }
-  ]
+	"id": "detect_path_rust_src",
+	"description": "detect_language_from_path extracts extension from nested path src/main.rs",
+	"category": "language-detection",
+	"tags": ["language-detection", "path"],
+	"call": "detect_path",
+	"input": {
+		"path": "src/main.rs"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "rust"
+		}
+	]
 }

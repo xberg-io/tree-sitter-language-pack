@@ -1,65 +1,65 @@
 version: 2
 
 multi-ecosystem-groups:
-  dependencies:
-    schedule:
-      interval: "weekly"
+    dependencies:
+        schedule:
+            interval: "weekly"
 
 updates:
-  - package-ecosystem: "cargo"
-    # Explicitly list root only — packages/ruby/ext has a standalone workspace
-    # with path deps to vendored crates that only exist at build time
-    directories:
-      - "/"
-    ignore:
-      - dependency-name: "ts-pack-core"
-      - dependency-name: "ts-pack-ffi"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "cargo"
+      # Explicitly list root only — packages/ruby/ext has a standalone workspace
+      # with path deps to vendored crates that only exist at build time
+      directories:
+          - "/"
+      ignore:
+          - dependency-name: "ts-pack-core"
+          - dependency-name: "ts-pack-ffi"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "pip"
-    directories:
-      - "/"
-      - "/packages/python"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "pip"
+      directories:
+          - "/"
+          - "/packages/python"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "npm"
-    directories:
-      - "/"
-      - "/crates/ts-pack-core-node"
-      - "/crates/ts-pack-core-wasm"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "npm"
+      directories:
+          - "/"
+          - "/crates/ts-pack-core-node"
+          - "/crates/ts-pack-core-wasm"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "bundler"
-    directory: "/packages/ruby"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "bundler"
+      directory: "/packages/ruby"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "composer"
-    directories:
-      - "/"
-      - "/packages/php"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "composer"
+      directories:
+          - "/"
+          - "/packages/php"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "gomod"
-    directory: "/packages/go"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "gomod"
+      directory: "/packages/go"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "maven"
-    directory: "/packages/java"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "maven"
+      directory: "/packages/java"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "nuget"
-    directory: "/packages/csharp"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "nuget"
+      directory: "/packages/csharp"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"
 
-  - package-ecosystem: "mix"
-    directory: "/packages/elixir"
-    patterns: ["*"]
-    multi-ecosystem-group: "dependencies"
+    - package-ecosystem: "mix"
+      directory: "/packages/elixir"
+      patterns: ["*"]
+      multi-ecosystem-group: "dependencies"

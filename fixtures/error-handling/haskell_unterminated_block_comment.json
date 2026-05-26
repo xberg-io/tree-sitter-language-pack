@@ -1,17 +1,17 @@
 {
-  "id": "error_handling_haskell_unterminated_block_comment",
-  "description": "Regression: unterminated nested Haskell block comment must not crash the process. On gcc/aarch64 at -O2 with a pre-0.26.4 vendored array.h and without -fno-strict-aliasing, this input triggers heap corruption (malloc: mismatching next->prev_size) via a strict-aliasing miscompilation in the scanner's array_push hot loop.",
-  "category": "error-handling",
-  "tags": ["error-handling", "regression", "aarch64"],
-  "input": {
-    "source_code": "{-aaaaaaaaaaaaaa aaaa}\n    {-aaa (aaaaaaaaaa [aaaaaaaaaaaaa aaa",
-    "config": {
-      "language": "haskell"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "error_handling_haskell_unterminated_block_comment",
+	"description": "Regression: unterminated nested Haskell block comment must not crash the process. On gcc/aarch64 at -O2 with a pre-0.26.4 vendored array.h and without -fno-strict-aliasing, this input triggers heap corruption (malloc: mismatching next->prev_size) via a strict-aliasing miscompilation in the scanner's array_push hot loop.",
+	"category": "error-handling",
+	"tags": ["error-handling", "regression", "aarch64"],
+	"input": {
+		"source_code": "{-aaaaaaaaaaaaaa aaaa}\n    {-aaa (aaaaaaaaaa [aaaaaaaaaaaaa aaa",
+		"config": {
+			"language": "haskell"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

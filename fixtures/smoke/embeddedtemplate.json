@@ -1,17 +1,17 @@
 {
-  "id": "smoke_embeddedtemplate",
-  "description": "Smoke test: load embeddedtemplate and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "<%= value %>",
-    "config": {
-      "language": "embeddedtemplate"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_embeddedtemplate",
+	"description": "Smoke test: load embeddedtemplate and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<%= value %>",
+		"config": {
+			"language": "embeddedtemplate"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

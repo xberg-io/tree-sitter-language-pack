@@ -1,17 +1,17 @@
 {
-  "id": "smoke_thrift",
-  "description": "Smoke test: load thrift and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "service HelloService {}",
-    "config": {
-      "language": "thrift"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_thrift",
+	"description": "Smoke test: load thrift and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "service HelloService {}",
+		"config": {
+			"language": "thrift"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

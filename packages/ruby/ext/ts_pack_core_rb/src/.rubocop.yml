@@ -1,60 +1,60 @@
 plugins:
-  - rubocop-performance
-  - rubocop-rspec
+    - rubocop-performance
+    - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 3.2
-  NewCops: enable
-  SuggestExtensions: false
-  Exclude:
-    - "vendor/**/*"
-    - "tmp/**/*"
-    - "lib/**/*.bundle"
-    - "lib/**/*.rb"
-    - "ext/**/*"
+    TargetRubyVersion: 3.2
+    NewCops: enable
+    SuggestExtensions: false
+    Exclude:
+        - "vendor/**/*"
+        - "tmp/**/*"
+        - "lib/**/*.bundle"
+        - "lib/**/*.rb"
+        - "ext/**/*"
 
 Style/FrozenStringLiteralComment:
-  Enabled: true
-  EnforcedStyle: always
+    Enabled: true
+    EnforcedStyle: always
 
 Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
+    Enabled: true
+    EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+    Enabled: true
+    EnforcedStyle: double_quotes
 
 Style/Documentation:
-  Enabled: false
+    Enabled: false
 
 Layout/LineLength:
-  Max: 120
-  AllowedPatterns:
-    - '\A\s*#'
-  Exclude:
-    - "spec/**/*"
+    Max: 120
+    AllowedPatterns:
+        - '\A\s*#'
+    Exclude:
+        - "spec/**/*"
 
 Metrics/MethodLength:
-  Max: 20
-  Exclude:
-    - "spec/**/*"
+    Max: 20
+    Exclude:
+        - "spec/**/*"
 
 Metrics/BlockLength:
-  Enabled: true
-  Max: 350
-  CountComments: false
+    Enabled: true
+    Max: 350
+    CountComments: false
 
 Metrics/AbcSize:
-  Max: 20
-  Exclude:
-    - "spec/**/*"
+    Max: 20
+    Exclude:
+        - "spec/**/*"
 
 RSpec/ExampleLength:
-  Max: 50
+    Max: 50
 
 RSpec/MultipleExpectations:
-  Max: 25
+    Max: 25
 
 RSpec/NestedGroups:
-  Max: 6
+    Max: 6

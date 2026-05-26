@@ -1,25 +1,25 @@
 {
-  "id": "process_python_comments",
-  "description": "Python with comments, verify comment count",
-  "category": "process",
-  "tags": ["metadata"],
-  "input": {
-    "source_code": "# This is a comment\n# Another comment\ndef hello():\n    # inline comment\n    pass\n",
-    "config": {
-      "language": "python",
-      "comments": true
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "python"
-    },
-    {
-      "type": "count_min",
-      "field": "comments",
-      "value": 1
-    }
-  ]
+	"id": "process_python_comments",
+	"description": "Python with comments, verify comment count",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "# This is a comment\n# Another comment\ndef hello():\n    # inline comment\n    pass\n",
+		"config": {
+			"language": "python",
+			"comments": true
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "count_min",
+			"field": "comments",
+			"value": 1
+		}
+	]
 }

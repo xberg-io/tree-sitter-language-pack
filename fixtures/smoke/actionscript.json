@@ -1,17 +1,17 @@
 {
-  "id": "smoke_actionscript",
-  "description": "Smoke test: load actionscript and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "var x:int = 1;",
-    "config": {
-      "language": "actionscript"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_actionscript",
+	"description": "Smoke test: load actionscript and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "var x:int = 1;",
+		"config": {
+			"language": "actionscript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,15 +1,15 @@
 {
-  "id": "locals_query_cue",
-  "description": "get_locals_query returns non-empty for cue",
-  "category": "query",
-  "tags": ["query", "locals"],
-  "call": "locals",
-  "input": {
-    "language": "cue"
-  },
-  "assertions": [
-    {
-      "type": "not_empty"
-    }
-  ]
+	"id": "locals_query_cue",
+	"description": "get_locals_query returns non-empty for cue",
+	"category": "query",
+	"tags": ["query", "locals"],
+	"call": "locals",
+	"input": {
+		"language": "cue"
+	},
+	"assertions": [
+		{
+			"type": "not_empty"
+		}
+	]
 }

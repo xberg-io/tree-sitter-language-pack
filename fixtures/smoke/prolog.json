@@ -1,17 +1,17 @@
 {
-  "id": "smoke_prolog",
-  "description": "Smoke test: load prolog and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "hello :- write('hello'), nl.",
-    "config": {
-      "language": "prolog"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_prolog",
+	"description": "Smoke test: load prolog and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "hello :- write('hello'), nl.",
+		"config": {
+			"language": "prolog"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

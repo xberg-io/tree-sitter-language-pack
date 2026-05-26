@@ -1,4 +1,4 @@
 packages: []
 allowBuilds:
-  esbuild: true
-  tree-sitter: true
+    esbuild: true
+    tree-sitter: true

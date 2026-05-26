@@ -1,56 +1,56 @@
 version: "3"
 
 tasks:
-  build:
-    desc: Build documentation
-    cmds:
-      - uv run --no-sync --group doc zensical build --clean
+    build:
+        desc: Build documentation
+        cmds:
+            - uv run --no-sync --group doc zensical build --clean
 
-  build:strict:
-    desc: Build documentation in strict mode (CI-equivalent)
-    cmds:
-      - uv run --no-sync --group doc zensical build --strict --clean
+    build:strict:
+        desc: Build documentation in strict mode (CI-equivalent)
+        cmds:
+            - uv run --no-sync --group doc zensical build --strict --clean
 
-  serve:
-    desc: Serve documentation locally with live reload
-    cmds:
-      - uv run --no-sync --group doc zensical serve
+    serve:
+        desc: Serve documentation locally with live reload
+        cmds:
+            - uv run --no-sync --group doc zensical serve
 
-  lint:links:
-    desc: Check links with lychee
-    cmds:
-      - lychee --offline --root-dir "$PWD/docs" --exclude-path "docs/overrides" docs/ README.md
+    lint:links:
+        desc: Check links with lychee
+        cmds:
+            - lychee --offline --root-dir "$PWD/docs" --exclude-path "docs/overrides" docs/ README.md
 
-  lint:prose:
-    desc: Lint prose with textlint
-    cmds:
-      - npx textlint 'docs/**/*.md'
+    lint:prose:
+        desc: Lint prose with textlint
+        cmds:
+            - npx textlint 'docs/**/*.md'
 
-  # Snippet roots scanned by validate. Reference docs (docs/reference/api-*.md)
-  # are alef-generated signature declarations that aren't standalone-runnable;
-  # they are excluded from validation but discoverable via `snippets:list`.
-  snippets:list:
-    desc: List all documentation snippets discovered by alef-snippets
-    cmds:
-      - alef-snippets list --snippets docs/snippets
+    # Snippet roots scanned by validate. Reference docs (docs/reference/api-*.md)
+    # are alef-generated signature declarations that aren't standalone-runnable;
+    # they are excluded from validation but discoverable via `snippets:list`.
+    snippets:list:
+        desc: List all documentation snippets discovered by alef-snippets
+        cmds:
+            - alef-snippets list --snippets docs/snippets
 
-  snippets:gaps:
-    desc: Report snippet coverage gaps (missing variants, unreferenced files, etc.)
-    cmds:
-      - alef-snippets gaps --snippets docs/snippets --docs docs --required-languages rust,python,typescript,go,ruby,php,java,csharp,elixir,cli,swift,dart,kotlin-android,zig,wasm
+    snippets:gaps:
+        desc: Report snippet coverage gaps (missing variants, unreferenced files, etc.)
+        cmds:
+            - alef-snippets gaps --snippets docs/snippets --docs docs --required-languages rust,python,typescript,go,ruby,php,java,csharp,elixir,cli,swift,dart,kotlin-android,zig,wasm
 
-  snippets:audit:
-    desc: Run structural audit (frontmatter, fences, includes)
-    cmds:
-      - alef-snippets audit --snippets docs/snippets --docs docs
+    snippets:audit:
+        desc: Run structural audit (frontmatter, fences, includes)
+        cmds:
+            - alef-snippets audit --snippets docs/snippets --docs docs
 
-  snippets:validate:
-    desc: Validate all documentation snippets compile / parse cleanly
-    cmds:
-      - alef-snippets validate --snippets docs/snippets docs/getting-started docs/guides docs/concepts README.md
+    snippets:validate:
+        desc: Validate all documentation snippets compile / parse cleanly
+        cmds:
+            - alef-snippets validate --snippets docs/snippets docs/getting-started docs/guides docs/concepts README.md
 
-  snippets:check:
-    desc: Run snippet QA — gaps + validate (audit is informational; run separately)
-    cmds:
-      - alef-snippets gaps --snippets docs/snippets --docs docs --required-languages rust,python,typescript,go,ruby,php,java,csharp,elixir,cli,swift,dart,kotlin-android,zig,wasm
-      - alef-snippets validate --snippets docs/snippets docs/getting-started docs/guides docs/concepts README.md
+    snippets:check:
+        desc: Run snippet QA — gaps + validate (audit is informational; run separately)
+        cmds:
+            - alef-snippets gaps --snippets docs/snippets --docs docs --required-languages rust,python,typescript,go,ruby,php,java,csharp,elixir,cli,swift,dart,kotlin-android,zig,wasm
+            - alef-snippets validate --snippets docs/snippets docs/getting-started docs/guides docs/concepts README.md

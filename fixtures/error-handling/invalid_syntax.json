@@ -1,21 +1,21 @@
 {
-  "id": "error_handling_invalid_syntax",
-  "description": "Parsing invalid syntax should produce a tree with error nodes.",
-  "category": "error-handling",
-  "tags": ["error-handling"],
-  "skip": {
-    "languages": ["wasm"],
-    "reason": "WASM: tree-sitter error recovery causes unreachable panic"
-  },
-  "input": {
-    "source_code": "function function function @@@ %%%",
-    "config": {
-      "language": "javascript"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "error_handling_invalid_syntax",
+	"description": "Parsing invalid syntax should produce a tree with error nodes.",
+	"category": "error-handling",
+	"tags": ["error-handling"],
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "WASM: tree-sitter error recovery causes unreachable panic"
+	},
+	"input": {
+		"source_code": "function function function @@@ %%%",
+		"config": {
+			"language": "javascript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

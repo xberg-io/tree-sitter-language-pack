@@ -7,963 +7,963 @@
 import { describe, expect, it } from "vitest";
 import { process } from "@kreuzberg/tree-sitter-language-pack";
 function _alefE2eText(value: unknown): string {
-  return value == null ? "" : String(value);
+	return value == null ? "" : String(value);
 }
 
 function _alefE2eItemTexts(item: unknown): string[] {
-  if (item == null || typeof item !== "object") {
-    return [_alefE2eText(item)];
-  }
-  const record = item as Record<string, unknown>;
-  const itemsText = Array.isArray(record.items) ? record.items.map(_alefE2eText).join(" ") : "";
-  return [
-    _alefE2eText(item),
-    _alefE2eText(record.kind),
-    _alefE2eText(record.name),
-    _alefE2eText(record.source),
-    _alefE2eText(record.alias),
-    _alefE2eText(record.text),
-    _alefE2eText(record.signature),
-    itemsText,
-  ];
+	if (item == null || typeof item !== "object") {
+		return [_alefE2eText(item)];
+	}
+	const record = item as Record<string, unknown>;
+	const itemsText = Array.isArray(record.items) ? record.items.map(_alefE2eText).join(" ") : "";
+	return [
+		_alefE2eText(item),
+		_alefE2eText(record.kind),
+		_alefE2eText(record.name),
+		_alefE2eText(record.source),
+		_alefE2eText(record.alias),
+		_alefE2eText(record.text),
+		_alefE2eText(record.signature),
+		itemsText,
+	];
 }
 
 function _alefE2eFormatMetadataDisplay(fm: unknown): string {
-  if (fm == null) return "";
-  if (typeof fm !== "object") return String(fm);
-  const record = fm as Record<string, unknown>;
-  const formatType = record.format_type;
+	if (fm == null) return "";
+	if (typeof fm !== "object") return String(fm);
+	const record = fm as Record<string, unknown>;
+	const formatType = record.format_type;
 
-  // FormatMetadata is a tagged union: { format_type: 'image', image: { format: 'PNG', ... }, ... }
-  // Extract the display string based on the variant type
-  if (formatType === "image" && typeof record.image === "object") {
-    const imageData = record.image as Record<string, unknown>;
-    if (typeof imageData.format === "string") return imageData.format;
-  }
+	// FormatMetadata is a tagged union: { format_type: 'image', image: { format: 'PNG', ... }, ... }
+	// Extract the display string based on the variant type
+	if (formatType === "image" && typeof record.image === "object") {
+		const imageData = record.image as Record<string, unknown>;
+		if (typeof imageData.format === "string") return imageData.format;
+	}
 
-  // Fallback: return format_type variant name
-  if (typeof record.format_type === "string") return record.format_type;
-  return "";
+	// Fallback: return format_type variant name
+	if (typeof record.format_type === "string") return record.format_type;
+	return "";
 }
 
 describe("smoke", () => {
-  it("smoke_abl: Smoke test: load abl and parse a simple snippet", () => {
-    process("x", { language: "abl" });
-  }, 30000);
-  it("smoke_actionscript: Smoke test: load actionscript and parse a simple snippet", () => {
-    process("var x:int = 1;", { language: "actionscript" });
-  }, 30000);
-  it("smoke_ada: Smoke test: load ada and parse a simple snippet", () => {
-    process("procedure Main is begin null; end Main;", { language: "ada" });
-  }, 30000);
-  it("smoke_agda: Smoke test: load agda and parse a simple snippet", () => {
-    process("module Main where", { language: "agda" });
-  }, 30000);
-  it("smoke_al: Smoke test: load al and parse a simple snippet", () => {
-    process("x", { language: "al" });
-  }, 30000);
-  it("smoke_angular: Smoke test: load angular and parse a simple snippet", () => {
-    process("x", { language: "angular" });
-  }, 30000);
-  it("smoke_apex: Smoke test: load apex and parse a simple snippet", () => {
-    process("public class Main {}", { language: "apex" });
-  }, 30000);
-  it("smoke_arduino: Smoke test: load arduino and parse a simple snippet", () => {
-    process("void setup() {}", { language: "arduino" });
-  }, 30000);
-  it("smoke_asciidoc: Smoke test: load asciidoc and parse a simple snippet", () => {
-    process("= Title\n\nParagraph.", { language: "asciidoc" });
-  }, 30000);
-  it("smoke_asm: Smoke test: load asm and parse a simple snippet", () => {
-    process("mov eax, 1", { language: "asm" });
-  }, 30000);
-  it("smoke_astro: Smoke test: load astro and parse a simple snippet", () => {
-    process("---\n---\n<p>hello</p>", { language: "astro" });
-  }, 30000);
-  it("smoke_awk: Smoke test: load awk and parse a simple snippet", () => {
-    process('BEGIN { print "hello" }', { language: "awk" });
-  }, 30000);
-  it("smoke_bash: Smoke test: load bash and parse a simple snippet", () => {
-    process("echo hello", { language: "bash" });
-  }, 30000);
-  it("smoke_bass: Smoke test: load bass and parse a simple snippet", () => {
-    process("x", { language: "bass" });
-  }, 30000);
-  it("smoke_batch: Smoke test: load batch and parse a simple snippet", () => {
-    process("@echo off\necho hello", { language: "batch" });
-  }, 30000);
-  it("smoke_beancount: Smoke test: load beancount and parse a simple snippet", () => {
-    process("2024-01-01 open Assets:Bank USD", { language: "beancount" });
-  }, 30000);
-  it("smoke_bibtex: Smoke test: load bibtex and parse a simple snippet", () => {
-    process("@article{key, title={A}}", { language: "bibtex" });
-  }, 30000);
-  it("smoke_bicep: Smoke test: load bicep and parse a simple snippet", () => {
-    process("param name string", { language: "bicep" });
-  }, 30000);
-  it("smoke_bitbake: Smoke test: load bitbake and parse a simple snippet", () => {
-    process('DESCRIPTION = "hello"', { language: "bitbake" });
-  }, 30000);
-  it("smoke_blade: Smoke test: load blade and parse a simple snippet", () => {
-    process("x", { language: "blade" });
-  }, 30000);
-  it("smoke_brightscript: Smoke test: load brightscript and parse a simple snippet", () => {
-    process("x", { language: "brightscript" });
-  }, 30000);
-  it("smoke_bsl: Smoke test: load bsl and parse a simple snippet", () => {
-    process("Procedure Main() EndProcedure", { language: "bsl" });
-  }, 30000);
-  it("smoke_c: Smoke test: load c and parse a simple snippet", () => {
-    process("int main() { return 0; }", { language: "c" });
-  }, 30000);
-  it("smoke_c3: Smoke test: load c3 and parse a simple snippet", () => {
-    process("x", { language: "c3" });
-  }, 30000);
-  it("smoke_caddy: Smoke test: load caddy and parse a simple snippet", () => {
-    process(':8080 {\n\trespond "Hello"\n}', { language: "caddy" });
-  }, 30000);
-  it("smoke_cairo: Smoke test: load cairo and parse a simple snippet", () => {
-    process("fn main() {}", { language: "cairo" });
-  }, 30000);
-  it("smoke_capnp: Smoke test: load capnp and parse a simple snippet", () => {
-    process("@0xabcdef1234567890;", { language: "capnp" });
-  }, 30000);
-  it("smoke_cedar: Smoke test: load cedar and parse a simple snippet", () => {
-    process("permit(principal, action, resource);", { language: "cedar" });
-  }, 30000);
-  it("smoke_cedarschema: Smoke test: load cedarschema and parse a simple snippet", () => {
-    process("entity User;", { language: "cedarschema" });
-  }, 30000);
-  it("smoke_cel: Smoke test: load cel and parse a simple snippet", () => {
-    process("x", { language: "cel" });
-  }, 30000);
-  it("smoke_cfml: Smoke test: load cfml and parse a simple snippet", () => {
-    process("x", { language: "cfml" });
-  }, 30000);
-  it("smoke_chatito: Smoke test: load chatito and parse a simple snippet", () => {
-    process("%[greeting]\n    hello", { language: "chatito" });
-  }, 30000);
-  it("smoke_chuck: Smoke test: load chuck and parse a simple snippet", () => {
-    process("x", { language: "chuck" });
-  }, 30000);
-  it("smoke_circom: Smoke test: load circom and parse a simple snippet", () => {
-    process("x", { language: "circom" });
-  }, 30000);
-  it("smoke_clarity: Smoke test: load clarity and parse a simple snippet", () => {
-    process("(define-public (hello) (ok true))", { language: "clarity" });
-  }, 30000);
-  it("smoke_clojure: Smoke test: load clojure and parse a simple snippet", () => {
-    process("(def x 1)", { language: "clojure" });
-  }, 30000);
-  it("smoke_cmake: Smoke test: load cmake and parse a simple snippet", () => {
-    process("cmake_minimum_required(VERSION 3.0)", { language: "cmake" });
-  }, 30000);
-  it("smoke_cobol: Smoke test: load cobol and parse a simple snippet", () => {
-    process("       IDENTIFICATION DIVISION.\n       PROGRAM-ID. HELLO.", { language: "cobol" });
-  }, 30000);
-  it("smoke_comment: Smoke test: load comment and parse a simple snippet", () => {
-    process("TODO: fix this", { language: "comment" });
-  }, 30000);
-  it("smoke_commonlisp: Smoke test: load commonlisp and parse a simple snippet", () => {
-    process('(defun hello () (print "hello"))', { language: "commonlisp" });
-  }, 30000);
-  it("smoke_cooklang: Smoke test: load cooklang and parse a simple snippet", () => {
-    process("x", { language: "cooklang" });
-  }, 30000);
-  it("smoke_corn: Smoke test: load corn and parse a simple snippet", () => {
-    process('{ key = "value" }', { language: "corn" });
-  }, 30000);
-  it("smoke_cpon: Smoke test: load cpon and parse a simple snippet", () => {
-    process('{"key": 1}', { language: "cpon" });
-  }, 30000);
-  it("smoke_cpp: Smoke test: load cpp and parse a simple snippet", () => {
-    process("int main() { return 0; }", { language: "cpp" });
-  }, 30000);
-  it("smoke_crystal: Smoke test: load crystal and parse a simple snippet", () => {
-    process("x", { language: "crystal" });
-  }, 30000);
-  it("smoke_csharp: Smoke test: load csharp and parse a simple snippet", () => {
-    process("class Main {}", { language: "csharp" });
-  }, 30000);
-  it("smoke_css: Smoke test: load css and parse a simple snippet", () => {
-    process("body { color: red; }", { language: "css" });
-  }, 30000);
-  it("smoke_cst: Smoke test: load cst and parse a simple snippet", () => {
-    process("x", { language: "cst" });
-  }, 30000);
-  it("smoke_csv: Smoke test: load csv and parse a simple snippet", () => {
-    process("a,b,c\n1,2,3", { language: "csv" });
-  }, 30000);
-  it("smoke_cuda: Smoke test: load cuda and parse a simple snippet", () => {
-    process("__global__ void kernel() {}", { language: "cuda" });
-  }, 30000);
-  it("smoke_cue: Smoke test: load cue and parse a simple snippet", () => {
-    process("x", { language: "cue" });
-  }, 30000);
-  it("smoke_cylc: Smoke test: load cylc and parse a simple snippet", () => {
-    process("x", { language: "cylc" });
-  }, 30000);
-  it("smoke_d: Smoke test: load d and parse a simple snippet", () => {
-    process("void main() {}", { language: "d" });
-  }, 30000);
-  it("smoke_dart: Smoke test: load dart and parse a simple snippet", () => {
-    process("void main() {}", { language: "dart" });
-  }, 30000);
-  it("smoke_desktop: Smoke test: load desktop and parse a simple snippet", () => {
-    process("x", { language: "desktop" });
-  }, 30000);
-  it("smoke_devicetree: Smoke test: load devicetree and parse a simple snippet", () => {
-    process("/dts-v1/;\n/ { };", { language: "devicetree" });
-  }, 30000);
-  it("smoke_dhall: Smoke test: load dhall and parse a simple snippet", () => {
-    process("x", { language: "dhall" });
-  }, 30000);
-  it("smoke_diff: Smoke test: load diff and parse a simple snippet", () => {
-    process("--- a/file\n+++ b/file\n@@ -1 +1 @@\n-old\n+new", { language: "diff" });
-  }, 30000);
-  it("smoke_djot: Smoke test: load djot and parse a simple snippet", () => {
-    process("x", { language: "djot" });
-  }, 30000);
-  it("smoke_dockerfile: Smoke test: load dockerfile and parse a simple snippet", () => {
-    process("FROM alpine", { language: "dockerfile" });
-  }, 30000);
-  it("smoke_dot: Smoke test: load dot and parse a simple snippet", () => {
-    process("digraph G { A -> B; }", { language: "dot" });
-  }, 30000);
-  it("smoke_doxygen: Smoke test: load doxygen and parse a simple snippet", () => {
-    process("/** @brief A function */", { language: "doxygen" });
-  }, 30000);
-  it("smoke_dtd: Smoke test: load dtd and parse a simple snippet", () => {
-    process("<!ELEMENT note (body)>", { language: "dtd" });
-  }, 30000);
-  it("smoke_earthfile: Smoke test: load earthfile and parse a simple snippet", () => {
-    process("x", { language: "earthfile" });
-  }, 30000);
-  it("smoke_ebnf: Smoke test: load ebnf and parse a simple snippet", () => {
-    process("x", { language: "ebnf" });
-  }, 30000);
-  it("smoke_editorconfig: Smoke test: load editorconfig and parse a simple snippet", () => {
-    process("x", { language: "editorconfig" });
-  }, 30000);
-  it("smoke_eds: Smoke test: load eds and parse a simple snippet", () => {
-    process("x", { language: "eds" });
-  }, 30000);
-  it("smoke_eex: Smoke test: load eex and parse a simple snippet", () => {
-    process("x", { language: "eex" });
-  }, 30000);
-  it("smoke_elisp: Smoke test: load elisp and parse a simple snippet", () => {
-    process('(defun hello () (message "hello"))', { language: "elisp" });
-  }, 30000);
-  it("smoke_elixir: Smoke test: load elixir and parse a simple snippet", () => {
-    process('IO.puts("hello")', { language: "elixir" });
-  }, 30000);
-  it("smoke_elm: Smoke test: load elm and parse a simple snippet", () => {
-    process("module Main exposing (..)", { language: "elm" });
-  }, 30000);
-  it("smoke_elsa: Smoke test: load elsa and parse a simple snippet", () => {
-    process("x", { language: "elsa" });
-  }, 30000);
-  it("smoke_elvish: Smoke test: load elvish and parse a simple snippet", () => {
-    process("x", { language: "elvish" });
-  }, 30000);
-  it("smoke_embeddedtemplate: Smoke test: load embeddedtemplate and parse a simple snippet", () => {
-    process("<%= value %>", { language: "embeddedtemplate" });
-  }, 30000);
-  it("smoke_enforce: Smoke test: load enforce and parse a simple snippet", () => {
-    process("x", { language: "enforce" });
-  }, 30000);
-  it("smoke_erlang: Smoke test: load erlang and parse a simple snippet", () => {
-    process("main() -> ok.", { language: "erlang" });
-  }, 30000);
-  it("smoke_facility: Smoke test: load facility and parse a simple snippet", () => {
-    process("x", { language: "facility" });
-  }, 30000);
-  it("smoke_faust: Smoke test: load faust and parse a simple snippet", () => {
-    process("x", { language: "faust" });
-  }, 30000);
-  it("smoke_fennel: Smoke test: load fennel and parse a simple snippet", () => {
-    process("(fn hello [] (print :hello))", { language: "fennel" });
-  }, 30000);
-  it("smoke_fidl: Smoke test: load fidl and parse a simple snippet", () => {
-    process("x", { language: "fidl" });
-  }, 30000);
-  it("smoke_firrtl: Smoke test: load firrtl and parse a simple snippet", () => {
-    process("circuit Main :", { language: "firrtl" });
-  }, 30000);
-  it("smoke_fish: Smoke test: load fish and parse a simple snippet", () => {
-    process("echo hello", { language: "fish" });
-  }, 30000);
-  it("smoke_foam: Smoke test: load foam and parse a simple snippet", () => {
-    process("x", { language: "foam" });
-  }, 30000);
-  it("smoke_forth: Smoke test: load forth and parse a simple snippet", () => {
-    process("x", { language: "forth" });
-  }, 30000);
-  it("smoke_fortran: Smoke test: load fortran and parse a simple snippet", () => {
-    process("program main\nend program main", { language: "fortran" });
-  }, 30000);
-  it("smoke_fsharp: Smoke test: load fsharp and parse a simple snippet", () => {
-    process("let x = 1", { language: "fsharp" });
-  }, 30000);
-  it("smoke_fsharp_signature: Smoke test: load fsharp_signature and parse a simple snippet", () => {
-    process("val x: int", { language: "fsharp_signature" });
-  }, 30000);
-  it("smoke_func: Smoke test: load func and parse a simple snippet", () => {
-    process("() recv_internal() {}", { language: "func" });
-  }, 30000);
-  it("smoke_gap: Smoke test: load gap and parse a simple snippet", () => {
-    process("x", { language: "gap" });
-  }, 30000);
-  it("smoke_gdscript: Smoke test: load gdscript and parse a simple snippet", () => {
-    process("extends Node\nfunc _ready():\n\tpass", { language: "gdscript" });
-  }, 30000);
-  it("smoke_gdshader: Smoke test: load gdshader and parse a simple snippet", () => {
-    process("x", { language: "gdshader" });
-  }, 30000);
-  it("smoke_git_config: Smoke test: load git_config and parse a simple snippet", () => {
-    process("x", { language: "git_config" });
-  }, 30000);
-  it("smoke_git_rebase: Smoke test: load git_rebase and parse a simple snippet", () => {
-    process("x", { language: "git_rebase" });
-  }, 30000);
-  it("smoke_gitattributes: Smoke test: load gitattributes and parse a simple snippet", () => {
-    process("*.txt text", { language: "gitattributes" });
-  }, 30000);
-  it("smoke_gitcommit: Smoke test: load gitcommit and parse a simple snippet", () => {
-    process("feat: add feature\n\nBody text", { language: "gitcommit" });
-  }, 30000);
-  it("smoke_gitignore: Smoke test: load gitignore and parse a simple snippet", () => {
-    process("*.o\n*.log", { language: "gitignore" });
-  }, 30000);
-  it("smoke_gleam: Smoke test: load gleam and parse a simple snippet", () => {
-    process("pub fn main() { }", { language: "gleam" });
-  }, 30000);
-  it("smoke_glimmer: Smoke test: load glimmer and parse a simple snippet", () => {
-    process("x", { language: "glimmer" });
-  }, 30000);
-  it("smoke_glsl: Smoke test: load glsl and parse a simple snippet", () => {
-    process("void main() { gl_Position = vec4(0.0); }", { language: "glsl" });
-  }, 30000);
-  it("smoke_gn: Smoke test: load gn and parse a simple snippet", () => {
-    process('group("hello") {}', { language: "gn" });
-  }, 30000);
-  it("smoke_gnuplot: Smoke test: load gnuplot and parse a simple snippet", () => {
-    process("x", { language: "gnuplot" });
-  }, 30000);
-  it("smoke_go: Smoke test: load go and parse a simple snippet", () => {
-    process("package main", { language: "go" });
-  }, 30000);
-  it("smoke_godot_resource: Smoke test: load godot_resource and parse a simple snippet", () => {
-    process("x", { language: "godot_resource" });
-  }, 30000);
-  it("smoke_gomod: Smoke test: load gomod and parse a simple snippet", () => {
-    process("module example.com/hello\n\ngo 1.21", { language: "gomod" });
-  }, 30000);
-  it("smoke_gosum: Smoke test: load gosum and parse a simple snippet", () => {
-    process("example.com/pkg v1.0.0 h1:abc=", { language: "gosum" });
-  }, 30000);
-  it("smoke_gotmpl: Smoke test: load gotmpl and parse a simple snippet", () => {
-    process("x", { language: "gotmpl" });
-  }, 30000);
-  it("smoke_gowork: Smoke test: load gowork and parse a simple snippet", () => {
-    process("x", { language: "gowork" });
-  }, 30000);
-  it("smoke_gpg: Smoke test: load gpg and parse a simple snippet", () => {
-    process("x", { language: "gpg" });
-  }, 30000);
-  it("smoke_graphql: Smoke test: load graphql and parse a simple snippet", () => {
-    process("type Query { hello: String }", { language: "graphql" });
-  }, 30000);
-  it("smoke_gren: Smoke test: load gren and parse a simple snippet", () => {
-    process("module Main exposing (..)", { language: "gren" });
-  }, 30000);
-  it("smoke_groovy: Smoke test: load groovy and parse a simple snippet", () => {
-    process("def x = 1", { language: "groovy" });
-  }, 30000);
-  it("smoke_gstlaunch: Smoke test: load gstlaunch and parse a simple snippet", () => {
-    process("fakesrc ! fakesink", { language: "gstlaunch" });
-  }, 30000);
-  it("smoke_hack: Smoke test: load hack and parse a simple snippet", () => {
-    process("<?hh\nfunction main(): void {}", { language: "hack" });
-  }, 30000);
-  it("smoke_hare: Smoke test: load hare and parse a simple snippet", () => {
-    process("export fn main() void = void;", { language: "hare" });
-  }, 30000);
-  it("smoke_haskell: Smoke test: load haskell and parse a simple snippet", () => {
-    process('main = putStrLn "hello"', { language: "haskell" });
-  }, 30000);
-  it("smoke_haxe: Smoke test: load haxe and parse a simple snippet", () => {
-    process("class Main { static function main() {} }", { language: "haxe" });
-  }, 30000);
-  it("smoke_hcl: Smoke test: load hcl and parse a simple snippet", () => {
-    process('variable "name" { type = string }', { language: "hcl" });
-  }, 30000);
-  it("smoke_heex: Smoke test: load heex and parse a simple snippet", () => {
-    process("<%= @greeting %>", { language: "heex" });
-  }, 30000);
-  it("smoke_hjson: Smoke test: load hjson and parse a simple snippet", () => {
-    process("x", { language: "hjson" });
-  }, 30000);
-  it("smoke_hlsl: Smoke test: load hlsl and parse a simple snippet", () => {
-    process("float4 main() : SV_Target { return 0; }", { language: "hlsl" });
-  }, 30000);
-  it("smoke_hocon: Smoke test: load hocon and parse a simple snippet", () => {
-    process("x", { language: "hocon" });
-  }, 30000);
-  it("smoke_hoon: Smoke test: load hoon and parse a simple snippet", () => {
-    process("x", { language: "hoon" });
-  }, 30000);
-  it("smoke_html: Smoke test: load html and parse a simple snippet", () => {
-    process("<p>hello</p>", { language: "html" });
-  }, 30000);
-  it("smoke_htmldjango: Smoke test: load htmldjango and parse a simple snippet", () => {
-    process("x", { language: "htmldjango" });
-  }, 30000);
-  it("smoke_http: Smoke test: load http and parse a simple snippet", () => {
-    process("x", { language: "http" });
-  }, 30000);
-  it("smoke_hurl: Smoke test: load hurl and parse a simple snippet", () => {
-    process("x", { language: "hurl" });
-  }, 30000);
-  it("smoke_hyprlang: Smoke test: load hyprlang and parse a simple snippet", () => {
-    process("general { border_size = 1 }", { language: "hyprlang" });
-  }, 30000);
-  it("smoke_idris: Smoke test: load idris and parse a simple snippet", () => {
-    process("module Main", { language: "idris" });
-  }, 30000);
-  it("smoke_ini: Smoke test: load ini and parse a simple snippet", () => {
-    process("[section]\nkey = value", { language: "ini" });
-  }, 30000);
-  it("smoke_ispc: Smoke test: load ispc and parse a simple snippet", () => {
-    process("export void main() {}", { language: "ispc" });
-  }, 30000);
-  it("smoke_jai: Smoke test: load jai and parse a simple snippet", () => {
-    process("x", { language: "jai" });
-  }, 30000);
-  it("smoke_janet: Smoke test: load janet and parse a simple snippet", () => {
-    process('(print "hello")', { language: "janet" });
-  }, 30000);
-  it("smoke_java: Smoke test: load java and parse a simple snippet", () => {
-    process("class Main {}", { language: "java" });
-  }, 30000);
-  it("smoke_javadoc: Smoke test: load javadoc and parse a simple snippet", () => {
-    process("x", { language: "javadoc" });
-  }, 30000);
-  it("smoke_javascript: Smoke test: load javascript and parse a simple snippet", () => {
-    process("console.log('hello');", { language: "javascript" });
-  }, 30000);
-  it("smoke_jinja2: Smoke test: load jinja2 and parse a simple snippet", () => {
-    process("{{ variable }}", { language: "jinja2" });
-  }, 30000);
-  it("smoke_jq: Smoke test: load jq and parse a simple snippet", () => {
-    process(".[] | select(.key)", { language: "jq" });
-  }, 30000);
-  it("smoke_jsdoc: Smoke test: load jsdoc and parse a simple snippet", () => {
-    process("/** @param {string} name */", { language: "jsdoc" });
-  }, 30000);
-  it("smoke_json: Smoke test: load json and parse a simple snippet", () => {
-    process('{"key": "value"}', { language: "json" });
-  }, 30000);
-  it("smoke_json5: Smoke test: load json5 and parse a simple snippet", () => {
-    process("x", { language: "json5" });
-  }, 30000);
-  it("smoke_jsonnet: Smoke test: load jsonnet and parse a simple snippet", () => {
-    process("{ key: 'value' }", { language: "jsonnet" });
-  }, 30000);
-  it("smoke_julia: Smoke test: load julia and parse a simple snippet", () => {
-    process("function main() end", { language: "julia" });
-  }, 30000);
-  it("smoke_just: Smoke test: load just and parse a simple snippet", () => {
-    process("x", { language: "just" });
-  }, 30000);
-  it("smoke_kcl: Smoke test: load kcl and parse a simple snippet", () => {
-    process("x", { language: "kcl" });
-  }, 30000);
-  it("smoke_kconfig: Smoke test: load kconfig and parse a simple snippet", () => {
-    process('config FOO\n\tbool "Enable foo"', { language: "kconfig" });
-  }, 30000);
-  it("smoke_kdl: Smoke test: load kdl and parse a simple snippet", () => {
-    process('node "value"', { language: "kdl" });
-  }, 30000);
-  it("smoke_kotlin: Smoke test: load kotlin and parse a simple snippet", () => {
-    process("fun main() {}", { language: "kotlin" });
-  }, 30000);
-  it("smoke_latex: Smoke test: load latex and parse a simple snippet", () => {
-    process("\\documentclass{article}\n\\begin{document}\nHello\n\\end{document}", {
-      language: "latex",
-    });
-  }, 30000);
-  it("smoke_lean: Smoke test: load lean and parse a simple snippet", () => {
-    process("def main : IO Unit := pure ()", { language: "lean" });
-  }, 30000);
-  it("smoke_ledger: Smoke test: load ledger and parse a simple snippet", () => {
-    process("x", { language: "ledger" });
-  }, 30000);
-  it("smoke_less: Smoke test: load less and parse a simple snippet", () => {
-    process("x", { language: "less" });
-  }, 30000);
-  it("smoke_linkerscript: Smoke test: load linkerscript and parse a simple snippet", () => {
-    process("SECTIONS { .text : { *(.text) } }", { language: "linkerscript" });
-  }, 30000);
-  it("smoke_liquid: Smoke test: load liquid and parse a simple snippet", () => {
-    process("x", { language: "liquid" });
-  }, 30000);
-  it("smoke_llvm: Smoke test: load llvm and parse a simple snippet", () => {
-    process("define i32 @main() { ret i32 0 }", { language: "llvm" });
-  }, 30000);
-  it("smoke_lua: Smoke test: load lua and parse a simple snippet", () => {
-    process("print('hello')", { language: "lua" });
-  }, 30000);
-  it("smoke_luadoc: Smoke test: load luadoc and parse a simple snippet", () => {
-    process("---@param name string", { language: "luadoc" });
-  }, 30000);
-  it("smoke_luap: Smoke test: load luap and parse a simple snippet", () => {
-    process("[a-z]+", { language: "luap" });
-  }, 30000);
-  it("smoke_luau: Smoke test: load luau and parse a simple snippet", () => {
-    process("local x: number = 1", { language: "luau" });
-  }, 30000);
-  it("smoke_magik: Smoke test: load magik and parse a simple snippet", () => {
-    process("_method object.hello\n_endmethod", { language: "magik" });
-  }, 30000);
-  it("smoke_make: Smoke test: load make and parse a simple snippet", () => {
-    process("all:\n\techo hello", { language: "make" });
-  }, 30000);
-  it("smoke_markdown: Smoke test: load markdown and parse a simple snippet", () => {
-    process("# Hello\n\nWorld", { language: "markdown" });
-  }, 30000);
-  it("smoke_markdown_inline: Smoke test: load markdown_inline and parse a simple snippet", () => {
-    process("**bold** and *italic*", { language: "markdown_inline" });
-  }, 30000);
-  it("smoke_matlab: Smoke test: load matlab and parse a simple snippet", () => {
-    process("function y = hello(x)\ny = x;\nend", { language: "matlab" });
-  }, 30000);
-  it("smoke_mermaid: Smoke test: load mermaid and parse a simple snippet", () => {
-    process("graph TD\nA --> B", { language: "mermaid" });
-  }, 30000);
-  it("smoke_meson: Smoke test: load meson and parse a simple snippet", () => {
-    process("project('hello', 'c')", { language: "meson" });
-  }, 30000);
-  it("smoke_mlir: Smoke test: load mlir and parse a simple snippet", () => {
-    process("x", { language: "mlir" });
-  }, 30000);
-  it("smoke_mojo: Smoke test: load mojo and parse a simple snippet", () => {
-    process("x", { language: "mojo" });
-  }, 30000);
-  it("smoke_move: Smoke test: load move and parse a simple snippet", () => {
-    process("x", { language: "move" });
-  }, 30000);
-  it("smoke_nasm: Smoke test: load nasm and parse a simple snippet", () => {
-    process("x", { language: "nasm" });
-  }, 30000);
-  it("smoke_netlinx: Smoke test: load netlinx and parse a simple snippet", () => {
-    process("PROGRAM_NAME='hello'", { language: "netlinx" });
-  }, 30000);
-  it("smoke_nginx: Smoke test: load nginx and parse a simple snippet", () => {
-    process("x", { language: "nginx" });
-  }, 30000);
-  it("smoke_nickel: Smoke test: load nickel and parse a simple snippet", () => {
-    process("x", { language: "nickel" });
-  }, 30000);
-  it("smoke_nim: Smoke test: load nim and parse a simple snippet", () => {
-    process('echo "hello"', { language: "nim" });
-  }, 30000);
-  it("smoke_ninja: Smoke test: load ninja and parse a simple snippet", () => {
-    process("rule cc\n  command = cc $in -o $out", { language: "ninja" });
-  }, 30000);
-  it("smoke_nix: Smoke test: load nix and parse a simple snippet", () => {
-    process("{ pkgs ? import <nixpkgs> {} }: pkgs.hello", { language: "nix" });
-  }, 30000);
-  it("smoke_norg: Smoke test: load norg and parse a simple snippet", () => {
-    process("x", { language: "norg" });
-  }, 30000);
-  it("smoke_norg_meta: Smoke test: load norg_meta and parse a simple snippet", () => {
-    process("x", { language: "norg_meta" });
-  }, 30000);
-  it("smoke_nqc: Smoke test: load nqc and parse a simple snippet", () => {
-    process("task main() {}", { language: "nqc" });
-  }, 30000);
-  it("smoke_nushell: Smoke test: load nushell and parse a simple snippet", () => {
-    process("x", { language: "nushell" });
-  }, 30000);
-  it("smoke_objc: Smoke test: load objc and parse a simple snippet", () => {
-    process("@interface Main @end", { language: "objc" });
-  }, 30000);
-  it("smoke_ocaml: Smoke test: load ocaml and parse a simple snippet", () => {
-    process('let () = print_endline "hello"', { language: "ocaml" });
-  }, 30000);
-  it("smoke_ocaml_interface: Smoke test: load ocaml_interface and parse a simple snippet", () => {
-    process("val x : int", { language: "ocaml_interface" });
-  }, 30000);
-  it("smoke_ocamllex: Smoke test: load ocamllex and parse a simple snippet", () => {
-    process("x", { language: "ocamllex" });
-  }, 30000);
-  it("smoke_odin: Smoke test: load odin and parse a simple snippet", () => {
-    process("package main", { language: "odin" });
-  }, 30000);
-  it("smoke_openscad: Smoke test: load openscad and parse a simple snippet", () => {
-    process("x", { language: "openscad" });
-  }, 30000);
-  it("smoke_org: Smoke test: load org and parse a simple snippet", () => {
-    process("* Hello\nWorld", { language: "org" });
-  }, 30000);
-  it("smoke_pascal: Smoke test: load pascal and parse a simple snippet", () => {
-    process("program Hello; begin end.", { language: "pascal" });
-  }, 30000);
-  it("smoke_pem: Smoke test: load pem and parse a simple snippet", () => {
-    process("-----BEGIN CERTIFICATE-----\ndata\n-----END CERTIFICATE-----", { language: "pem" });
-  }, 30000);
-  it("smoke_perl: Smoke test: load perl and parse a simple snippet", () => {
-    process("print 'hello';", { language: "perl" });
-  }, 30000);
-  it("smoke_pgn: Smoke test: load pgn and parse a simple snippet", () => {
-    process("1. e4 e5 *", { language: "pgn" });
-  }, 30000);
-  it("smoke_php: Smoke test: load php and parse a simple snippet", () => {
-    process("<?php echo 'hello'; ?>", { language: "php" });
-  }, 30000);
-  it("smoke_phpdoc: Smoke test: load phpdoc and parse a simple snippet", () => {
-    process("x", { language: "phpdoc" });
-  }, 30000);
-  it("smoke_pkl: Smoke test: load pkl and parse a simple snippet", () => {
-    process('name = "hello"', { language: "pkl" });
-  }, 30000);
-  it("smoke_po: Smoke test: load po and parse a simple snippet", () => {
-    process('msgid "hello"\nmsgstr "world"', { language: "po" });
-  }, 30000);
-  it("smoke_poe_filter: Smoke test: load poe_filter and parse a simple snippet", () => {
-    process("x", { language: "poe_filter" });
-  }, 30000);
-  it("smoke_pony: Smoke test: load pony and parse a simple snippet", () => {
-    process("actor Main\n  new create(env: Env) => None", { language: "pony" });
-  }, 30000);
-  it("smoke_postscript: Smoke test: load postscript and parse a simple snippet", () => {
-    process("/hello { (Hello) show } def", { language: "postscript" });
-  }, 30000);
-  it("smoke_powershell: Smoke test: load powershell and parse a simple snippet", () => {
-    process("Write-Host 'hello'", { language: "powershell" });
-  }, 30000);
-  it("smoke_printf: Smoke test: load printf and parse a simple snippet", () => {
-    process("%d %s", { language: "printf" });
-  }, 30000);
-  it("smoke_prisma: Smoke test: load prisma and parse a simple snippet", () => {
-    process("model User { id Int @id }", { language: "prisma" });
-  }, 30000);
-  it("smoke_prolog: Smoke test: load prolog and parse a simple snippet", () => {
-    process("hello :- write('hello'), nl.", { language: "prolog" });
-  }, 30000);
-  it("smoke_promql: Smoke test: load promql and parse a simple snippet", () => {
-    process("x", { language: "promql" });
-  }, 30000);
-  it("smoke_properties: Smoke test: load properties and parse a simple snippet", () => {
-    process("key=value", { language: "properties" });
-  }, 30000);
-  it("smoke_proto: Smoke test: load proto and parse a simple snippet", () => {
-    process('syntax = "proto3";', { language: "proto" });
-  }, 30000);
-  it("smoke_prql: Smoke test: load prql and parse a simple snippet", () => {
-    process("x", { language: "prql" });
-  }, 30000);
-  it("smoke_psv: Smoke test: load psv and parse a simple snippet", () => {
-    process("a|b|c\n1|2|3", { language: "psv" });
-  }, 30000);
-  it("smoke_pug: Smoke test: load pug and parse a simple snippet", () => {
-    process("x", { language: "pug" });
-  }, 30000);
-  it("smoke_puppet: Smoke test: load puppet and parse a simple snippet", () => {
-    process("notify { 'hello': }", { language: "puppet" });
-  }, 30000);
-  it("smoke_purescript: Smoke test: load purescript and parse a simple snippet", () => {
-    process("module Main where", { language: "purescript" });
-  }, 30000);
-  it("smoke_pymanifest: Smoke test: load pymanifest and parse a simple snippet", () => {
-    process("include *.txt", { language: "pymanifest" });
-  }, 30000);
-  it("smoke_python: Smoke test: load python and parse a simple snippet", () => {
-    process("print('hello')", { language: "python" });
-  }, 30000);
-  it("smoke_ql: Smoke test: load ql and parse a simple snippet", () => {
-    process("x", { language: "ql" });
-  }, 30000);
-  it("smoke_qmldir: Smoke test: load qmldir and parse a simple snippet", () => {
-    process("module Example", { language: "qmldir" });
-  }, 30000);
-  it("smoke_qmljs: Smoke test: load qmljs and parse a simple snippet", () => {
-    process("import QtQuick 2.0\nItem {}", { language: "qmljs" });
-  }, 30000);
-  it("smoke_query: Smoke test: load query and parse a simple snippet", () => {
-    process("(identifier) @name", { language: "query" });
-  }, 30000);
-  it("smoke_r: Smoke test: load r and parse a simple snippet", () => {
-    process("print('hello')", { language: "r" });
-  }, 30000);
-  it("smoke_racket: Smoke test: load racket and parse a simple snippet", () => {
-    process("#lang racket\n(define x 1)", { language: "racket" });
-  }, 30000);
-  it("smoke_rasi: Smoke test: load rasi and parse a simple snippet", () => {
-    process("x", { language: "rasi" });
-  }, 30000);
-  it("smoke_razor: Smoke test: load razor and parse a simple snippet", () => {
-    process("x", { language: "razor" });
-  }, 30000);
-  it("smoke_rbs: Smoke test: load rbs and parse a simple snippet", () => {
-    process("x", { language: "rbs" });
-  }, 30000);
-  it("smoke_re2c: Smoke test: load re2c and parse a simple snippet", () => {
-    process("/*!re2c\n  [a-z]+ { return; }\n*/", { language: "re2c" });
-  }, 30000);
-  it("smoke_readline: Smoke test: load readline and parse a simple snippet", () => {
-    process("set editing-mode vi", { language: "readline" });
-  }, 30000);
-  it("smoke_regex: Smoke test: load regex and parse a simple snippet", () => {
-    process("x", { language: "regex" });
-  }, 30000);
-  it("smoke_rego: Smoke test: load rego and parse a simple snippet", () => {
-    process("package main\ndefault allow = false", { language: "rego" });
-  }, 30000);
-  it("smoke_requirements: Smoke test: load requirements and parse a simple snippet", () => {
-    process("flask>=2.0", { language: "requirements" });
-  }, 30000);
-  it("smoke_rescript: Smoke test: load rescript and parse a simple snippet", () => {
-    process("let x = 1", { language: "rescript" });
-  }, 30000);
-  it("smoke_robot: Smoke test: load robot and parse a simple snippet", () => {
-    process("x", { language: "robot" });
-  }, 30000);
-  it("smoke_roc: Smoke test: load roc and parse a simple snippet", () => {
-    process("x", { language: "roc" });
-  }, 30000);
-  it("smoke_ron: Smoke test: load ron and parse a simple snippet", () => {
-    process('(key: "value")', { language: "ron" });
-  }, 30000);
-  it("smoke_rst: Smoke test: load rst and parse a simple snippet", () => {
-    process("Hello\n=====\n\nWorld", { language: "rst" });
-  }, 30000);
-  it("smoke_rtf: Smoke test: load rtf and parse a simple snippet", () => {
-    process("{\\rtf1 hello}", { language: "rtf" });
-  }, 30000);
-  it("smoke_ruby: Smoke test: load ruby and parse a simple snippet", () => {
-    process("puts 'hello'", { language: "ruby" });
-  }, 30000);
-  it("smoke_rust: Smoke test: load rust and parse a simple snippet", () => {
-    process("fn main() {}", { language: "rust" });
-  }, 30000);
-  it("smoke_scala: Smoke test: load scala and parse a simple snippet", () => {
-    process("object Main", { language: "scala" });
-  }, 30000);
-  it("smoke_scheme: Smoke test: load scheme and parse a simple snippet", () => {
-    process("(define x 1)", { language: "scheme" });
-  }, 30000);
-  it("smoke_scss: Smoke test: load scss and parse a simple snippet", () => {
-    process("$color: red;\nbody { color: $color; }", { language: "scss" });
-  }, 30000);
-  it("smoke_slang: Smoke test: load slang and parse a simple snippet", () => {
-    process("x", { language: "slang" });
-  }, 30000);
-  it("smoke_smali: Smoke test: load smali and parse a simple snippet", () => {
-    process(".class public LMain;\n.super Ljava/lang/Object;", { language: "smali" });
-  }, 30000);
-  it("smoke_smalltalk: Smoke test: load smalltalk and parse a simple snippet", () => {
-    process("x", { language: "smalltalk" });
-  }, 30000);
-  it("smoke_smithy: Smoke test: load smithy and parse a simple snippet", () => {
-    process("namespace example\nstring MyString", { language: "smithy" });
-  }, 30000);
-  it("smoke_sml: Smoke test: load sml and parse a simple snippet", () => {
-    process("x", { language: "sml" });
-  }, 30000);
-  it("smoke_snakemake: Smoke test: load snakemake and parse a simple snippet", () => {
-    process("x", { language: "snakemake" });
-  }, 30000);
-  it("smoke_solidity: Smoke test: load solidity and parse a simple snippet", () => {
-    process("pragma solidity ^0.8.0;\ncontract Main {}", { language: "solidity" });
-  }, 30000);
-  it("smoke_souffle: Smoke test: load souffle and parse a simple snippet", () => {
-    process("x", { language: "souffle" });
-  }, 30000);
-  it("smoke_sourcepawn: Smoke test: load sourcepawn and parse a simple snippet", () => {
-    process("x", { language: "sourcepawn" });
-  }, 30000);
-  it("smoke_sparql: Smoke test: load sparql and parse a simple snippet", () => {
-    process("SELECT ?s WHERE { ?s ?p ?o }", { language: "sparql" });
-  }, 30000);
-  it("smoke_sql: Smoke test: load sql and parse a simple snippet", () => {
-    process("SELECT 1;", { language: "sql" });
-  }, 30000);
-  it("smoke_sql_bigquery: Smoke test: load sql_bigquery and parse a simple snippet", () => {
-    process("x", { language: "sql_bigquery" });
-  }, 30000);
-  it("smoke_squirrel: Smoke test: load squirrel and parse a simple snippet", () => {
-    process("function main() {}", { language: "squirrel" });
-  }, 30000);
-  it("smoke_ssh_config: Smoke test: load ssh_config and parse a simple snippet", () => {
-    process("Host example\n  HostName example.com", { language: "ssh_config" });
-  }, 30000);
-  it("smoke_stan: Smoke test: load stan and parse a simple snippet", () => {
-    process("x", { language: "stan" });
-  }, 30000);
-  it("smoke_starlark: Smoke test: load starlark and parse a simple snippet", () => {
-    process("def hello(): pass", { language: "starlark" });
-  }, 30000);
-  it("smoke_superhtml: Smoke test: load superhtml and parse a simple snippet", () => {
-    process("x", { language: "superhtml" });
-  }, 30000);
-  it("smoke_svelte: Smoke test: load svelte and parse a simple snippet", () => {
-    process("<script>let x = 1;</script>", { language: "svelte" });
-  }, 30000);
-  it("smoke_sway: Smoke test: load sway and parse a simple snippet", () => {
-    process("x", { language: "sway" });
-  }, 30000);
-  it("smoke_swift: Smoke test: load swift and parse a simple snippet", () => {
-    process('print("hello")', { language: "swift" });
-  }, 30000);
-  it("smoke_systemverilog: Smoke test: load systemverilog and parse a simple snippet", () => {
-    process("x", { language: "systemverilog" });
-  }, 30000);
-  it("smoke_tablegen: Smoke test: load tablegen and parse a simple snippet", () => {
-    process("def Hello : Base {}", { language: "tablegen" });
-  }, 30000);
-  it("smoke_tact: Smoke test: load tact and parse a simple snippet", () => {
-    process("x", { language: "tact" });
-  }, 30000);
-  it("smoke_tcl: Smoke test: load tcl and parse a simple snippet", () => {
-    process("puts hello", { language: "tcl" });
-  }, 30000);
-  it("smoke_teal: Smoke test: load teal and parse a simple snippet", () => {
-    process("x", { language: "teal" });
-  }, 30000);
-  it("smoke_templ: Smoke test: load templ and parse a simple snippet", () => {
-    process("x", { language: "templ" });
-  }, 30000);
-  it("smoke_tera: Smoke test: load tera and parse a simple snippet", () => {
-    process("x", { language: "tera" });
-  }, 30000);
-  it("smoke_terraform: Smoke test: load terraform and parse a simple snippet", () => {
-    process('resource "null_resource" "main" {}', { language: "terraform" });
-  }, 30000);
-  it("smoke_test: Smoke test: load test and parse a simple snippet", () => {
-    process("===========\nTest\n===========\n---\n(node)", { language: "test" });
-  }, 30000);
-  it("smoke_textproto: Smoke test: load textproto and parse a simple snippet", () => {
-    process('key: "value"', { language: "textproto" });
-  }, 30000);
-  it("smoke_thrift: Smoke test: load thrift and parse a simple snippet", () => {
-    process("service HelloService {}", { language: "thrift" });
-  }, 30000);
-  it("smoke_tlaplus: Smoke test: load tlaplus and parse a simple snippet", () => {
-    process("---- MODULE Main ----\n====", { language: "tlaplus" });
-  }, 30000);
-  it("smoke_tmux: Smoke test: load tmux and parse a simple snippet", () => {
-    process("x", { language: "tmux" });
-  }, 30000);
-  it("smoke_todotxt: Smoke test: load todotxt and parse a simple snippet", () => {
-    process("x", { language: "todotxt" });
-  }, 30000);
-  it("smoke_toml: Smoke test: load toml and parse a simple snippet", () => {
-    process('key = "value"', { language: "toml" });
-  }, 30000);
-  it("smoke_tsv: Smoke test: load tsv and parse a simple snippet", () => {
-    process("a\tb\tc\n1\t2\t3", { language: "tsv" });
-  }, 30000);
-  it("smoke_tsx: Smoke test: load tsx and parse a simple snippet", () => {
-    process("const App = () => <div />;", { language: "tsx" });
-  }, 30000);
-  it("smoke_turtle: Smoke test: load turtle and parse a simple snippet", () => {
-    process("x", { language: "turtle" });
-  }, 30000);
-  it("smoke_twig: Smoke test: load twig and parse a simple snippet", () => {
-    process("{{ variable }}", { language: "twig" });
-  }, 30000);
-  it("smoke_typescript: Smoke test: load typescript and parse a simple snippet", () => {
-    process("const x: number = 42;", { language: "typescript" });
-  }, 30000);
-  it("smoke_typespec: Smoke test: load typespec and parse a simple snippet", () => {
-    process("x", { language: "typespec" });
-  }, 30000);
-  it("smoke_typoscript: Smoke test: load typoscript and parse a simple snippet", () => {
-    process("x", { language: "typoscript" });
-  }, 30000);
-  it("smoke_typst: Smoke test: load typst and parse a simple snippet", () => {
-    process("#let x = 1", { language: "typst" });
-  }, 30000);
-  it("smoke_udev: Smoke test: load udev and parse a simple snippet", () => {
-    process('ACTION=="add", KERNEL=="sd*"', { language: "udev" });
-  }, 30000);
-  it("smoke_ungrammar: Smoke test: load ungrammar and parse a simple snippet", () => {
-    process("Root = Item*\nItem = 'token'", { language: "ungrammar" });
-  }, 30000);
-  it("smoke_uxntal: Smoke test: load uxntal and parse a simple snippet", () => {
-    process("|0100 LIT 01", { language: "uxntal" });
-  }, 30000);
-  it("smoke_v: Smoke test: load v and parse a simple snippet", () => {
-    process("fn main() {}", { language: "v" });
-  }, 30000);
-  it("smoke_vb: Smoke test: load vb and parse a simple snippet", () => {
-    process("Module Main\nEnd Module", { language: "vb" });
-  }, 30000);
-  it("smoke_verilog: Smoke test: load verilog and parse a simple snippet", () => {
-    process("module main; endmodule", { language: "verilog" });
-  }, 30000);
-  it("smoke_vhdl: Smoke test: load vhdl and parse a simple snippet", () => {
-    process("entity main is end main;", { language: "vhdl" });
-  }, 30000);
-  it("smoke_vhs: Smoke test: load vhs and parse a simple snippet", () => {
-    process("x", { language: "vhs" });
-  }, 30000);
-  it("smoke_vim: Smoke test: load vim and parse a simple snippet", () => {
-    process("echo 'hello'", { language: "vim" });
-  }, 30000);
-  it("smoke_vimdoc: Smoke test: load vimdoc and parse a simple snippet", () => {
-    process("x", { language: "vimdoc" });
-  }, 30000);
-  it("smoke_vrl: Smoke test: load vrl and parse a simple snippet", () => {
-    process("x", { language: "vrl" });
-  }, 30000);
-  it("smoke_vue: Smoke test: load vue and parse a simple snippet", () => {
-    process("<template><div>hello</div></template>", { language: "vue" });
-  }, 30000);
-  it("smoke_wast: Smoke test: load wast and parse a simple snippet", () => {
-    process("(module)", { language: "wast" });
-  }, 30000);
-  it("smoke_wat: Smoke test: load wat and parse a simple snippet", () => {
-    process("(module)", { language: "wat" });
-  }, 30000);
-  it("smoke_wgsl: Smoke test: load wgsl and parse a simple snippet", () => {
-    process("@vertex fn main() -> @builtin(position) vec4f { return vec4f(); }", {
-      language: "wgsl",
-    });
-  }, 30000);
-  it("smoke_wgsl_bevy: Smoke test: load wgsl_bevy and parse a simple snippet", () => {
-    process("x", { language: "wgsl_bevy" });
-  }, 30000);
-  it("smoke_wit: Smoke test: load wit and parse a simple snippet", () => {
-    process("package example:pkg;", { language: "wit" });
-  }, 30000);
-  it("smoke_x86asm: Smoke test: load x86asm and parse a simple snippet", () => {
-    process("x", { language: "x86asm" });
-  }, 30000);
-  it("smoke_xcompose: Smoke test: load xcompose and parse a simple snippet", () => {
-    process('<Multi_key> <a> : "a"', { language: "xcompose" });
-  }, 30000);
-  it("smoke_xml: Smoke test: load xml and parse a simple snippet", () => {
-    process('<?xml version="1.0"?>\n<root>hello</root>', { language: "xml" });
-  }, 30000);
-  it("smoke_yaml: Smoke test: load yaml and parse a simple snippet", () => {
-    process("key: value", { language: "yaml" });
-  }, 30000);
-  it("smoke_yuck: Smoke test: load yuck and parse a simple snippet", () => {
-    process('(defwidget main [] (label :text "hi"))', { language: "yuck" });
-  }, 30000);
-  it("smoke_zig: Smoke test: load zig and parse a simple snippet", () => {
-    process("pub fn main() void {}", { language: "zig" });
-  }, 30000);
-  it("smoke_ziggy: Smoke test: load ziggy and parse a simple snippet", () => {
-    process("x", { language: "ziggy" });
-  }, 30000);
-  it("smoke_ziggy_schema: Smoke test: load ziggy_schema and parse a simple snippet", () => {
-    process("x", { language: "ziggy_schema" });
-  }, 30000);
-  it("smoke_zsh: Smoke test: load zsh and parse a simple snippet", () => {
-    process("echo hello", { language: "zsh" });
-  }, 30000);
+	it("smoke_abl: Smoke test: load abl and parse a simple snippet", () => {
+		process("x", { language: "abl" });
+	}, 30000);
+	it("smoke_actionscript: Smoke test: load actionscript and parse a simple snippet", () => {
+		process("var x:int = 1;", { language: "actionscript" });
+	}, 30000);
+	it("smoke_ada: Smoke test: load ada and parse a simple snippet", () => {
+		process("procedure Main is begin null; end Main;", { language: "ada" });
+	}, 30000);
+	it("smoke_agda: Smoke test: load agda and parse a simple snippet", () => {
+		process("module Main where", { language: "agda" });
+	}, 30000);
+	it("smoke_al: Smoke test: load al and parse a simple snippet", () => {
+		process("x", { language: "al" });
+	}, 30000);
+	it("smoke_angular: Smoke test: load angular and parse a simple snippet", () => {
+		process("x", { language: "angular" });
+	}, 30000);
+	it("smoke_apex: Smoke test: load apex and parse a simple snippet", () => {
+		process("public class Main {}", { language: "apex" });
+	}, 30000);
+	it("smoke_arduino: Smoke test: load arduino and parse a simple snippet", () => {
+		process("void setup() {}", { language: "arduino" });
+	}, 30000);
+	it("smoke_asciidoc: Smoke test: load asciidoc and parse a simple snippet", () => {
+		process("= Title\n\nParagraph.", { language: "asciidoc" });
+	}, 30000);
+	it("smoke_asm: Smoke test: load asm and parse a simple snippet", () => {
+		process("mov eax, 1", { language: "asm" });
+	}, 30000);
+	it("smoke_astro: Smoke test: load astro and parse a simple snippet", () => {
+		process("---\n---\n<p>hello</p>", { language: "astro" });
+	}, 30000);
+	it("smoke_awk: Smoke test: load awk and parse a simple snippet", () => {
+		process('BEGIN { print "hello" }', { language: "awk" });
+	}, 30000);
+	it("smoke_bash: Smoke test: load bash and parse a simple snippet", () => {
+		process("echo hello", { language: "bash" });
+	}, 30000);
+	it("smoke_bass: Smoke test: load bass and parse a simple snippet", () => {
+		process("x", { language: "bass" });
+	}, 30000);
+	it("smoke_batch: Smoke test: load batch and parse a simple snippet", () => {
+		process("@echo off\necho hello", { language: "batch" });
+	}, 30000);
+	it("smoke_beancount: Smoke test: load beancount and parse a simple snippet", () => {
+		process("2024-01-01 open Assets:Bank USD", { language: "beancount" });
+	}, 30000);
+	it("smoke_bibtex: Smoke test: load bibtex and parse a simple snippet", () => {
+		process("@article{key, title={A}}", { language: "bibtex" });
+	}, 30000);
+	it("smoke_bicep: Smoke test: load bicep and parse a simple snippet", () => {
+		process("param name string", { language: "bicep" });
+	}, 30000);
+	it("smoke_bitbake: Smoke test: load bitbake and parse a simple snippet", () => {
+		process('DESCRIPTION = "hello"', { language: "bitbake" });
+	}, 30000);
+	it("smoke_blade: Smoke test: load blade and parse a simple snippet", () => {
+		process("x", { language: "blade" });
+	}, 30000);
+	it("smoke_brightscript: Smoke test: load brightscript and parse a simple snippet", () => {
+		process("x", { language: "brightscript" });
+	}, 30000);
+	it("smoke_bsl: Smoke test: load bsl and parse a simple snippet", () => {
+		process("Procedure Main() EndProcedure", { language: "bsl" });
+	}, 30000);
+	it("smoke_c: Smoke test: load c and parse a simple snippet", () => {
+		process("int main() { return 0; }", { language: "c" });
+	}, 30000);
+	it("smoke_c3: Smoke test: load c3 and parse a simple snippet", () => {
+		process("x", { language: "c3" });
+	}, 30000);
+	it("smoke_caddy: Smoke test: load caddy and parse a simple snippet", () => {
+		process(':8080 {\n\trespond "Hello"\n}', { language: "caddy" });
+	}, 30000);
+	it("smoke_cairo: Smoke test: load cairo and parse a simple snippet", () => {
+		process("fn main() {}", { language: "cairo" });
+	}, 30000);
+	it("smoke_capnp: Smoke test: load capnp and parse a simple snippet", () => {
+		process("@0xabcdef1234567890;", { language: "capnp" });
+	}, 30000);
+	it("smoke_cedar: Smoke test: load cedar and parse a simple snippet", () => {
+		process("permit(principal, action, resource);", { language: "cedar" });
+	}, 30000);
+	it("smoke_cedarschema: Smoke test: load cedarschema and parse a simple snippet", () => {
+		process("entity User;", { language: "cedarschema" });
+	}, 30000);
+	it("smoke_cel: Smoke test: load cel and parse a simple snippet", () => {
+		process("x", { language: "cel" });
+	}, 30000);
+	it("smoke_cfml: Smoke test: load cfml and parse a simple snippet", () => {
+		process("x", { language: "cfml" });
+	}, 30000);
+	it("smoke_chatito: Smoke test: load chatito and parse a simple snippet", () => {
+		process("%[greeting]\n    hello", { language: "chatito" });
+	}, 30000);
+	it("smoke_chuck: Smoke test: load chuck and parse a simple snippet", () => {
+		process("x", { language: "chuck" });
+	}, 30000);
+	it("smoke_circom: Smoke test: load circom and parse a simple snippet", () => {
+		process("x", { language: "circom" });
+	}, 30000);
+	it("smoke_clarity: Smoke test: load clarity and parse a simple snippet", () => {
+		process("(define-public (hello) (ok true))", { language: "clarity" });
+	}, 30000);
+	it("smoke_clojure: Smoke test: load clojure and parse a simple snippet", () => {
+		process("(def x 1)", { language: "clojure" });
+	}, 30000);
+	it("smoke_cmake: Smoke test: load cmake and parse a simple snippet", () => {
+		process("cmake_minimum_required(VERSION 3.0)", { language: "cmake" });
+	}, 30000);
+	it("smoke_cobol: Smoke test: load cobol and parse a simple snippet", () => {
+		process("       IDENTIFICATION DIVISION.\n       PROGRAM-ID. HELLO.", { language: "cobol" });
+	}, 30000);
+	it("smoke_comment: Smoke test: load comment and parse a simple snippet", () => {
+		process("TODO: fix this", { language: "comment" });
+	}, 30000);
+	it("smoke_commonlisp: Smoke test: load commonlisp and parse a simple snippet", () => {
+		process('(defun hello () (print "hello"))', { language: "commonlisp" });
+	}, 30000);
+	it("smoke_cooklang: Smoke test: load cooklang and parse a simple snippet", () => {
+		process("x", { language: "cooklang" });
+	}, 30000);
+	it("smoke_corn: Smoke test: load corn and parse a simple snippet", () => {
+		process('{ key = "value" }', { language: "corn" });
+	}, 30000);
+	it("smoke_cpon: Smoke test: load cpon and parse a simple snippet", () => {
+		process('{"key": 1}', { language: "cpon" });
+	}, 30000);
+	it("smoke_cpp: Smoke test: load cpp and parse a simple snippet", () => {
+		process("int main() { return 0; }", { language: "cpp" });
+	}, 30000);
+	it("smoke_crystal: Smoke test: load crystal and parse a simple snippet", () => {
+		process("x", { language: "crystal" });
+	}, 30000);
+	it("smoke_csharp: Smoke test: load csharp and parse a simple snippet", () => {
+		process("class Main {}", { language: "csharp" });
+	}, 30000);
+	it("smoke_css: Smoke test: load css and parse a simple snippet", () => {
+		process("body { color: red; }", { language: "css" });
+	}, 30000);
+	it("smoke_cst: Smoke test: load cst and parse a simple snippet", () => {
+		process("x", { language: "cst" });
+	}, 30000);
+	it("smoke_csv: Smoke test: load csv and parse a simple snippet", () => {
+		process("a,b,c\n1,2,3", { language: "csv" });
+	}, 30000);
+	it("smoke_cuda: Smoke test: load cuda and parse a simple snippet", () => {
+		process("__global__ void kernel() {}", { language: "cuda" });
+	}, 30000);
+	it("smoke_cue: Smoke test: load cue and parse a simple snippet", () => {
+		process("x", { language: "cue" });
+	}, 30000);
+	it("smoke_cylc: Smoke test: load cylc and parse a simple snippet", () => {
+		process("x", { language: "cylc" });
+	}, 30000);
+	it("smoke_d: Smoke test: load d and parse a simple snippet", () => {
+		process("void main() {}", { language: "d" });
+	}, 30000);
+	it("smoke_dart: Smoke test: load dart and parse a simple snippet", () => {
+		process("void main() {}", { language: "dart" });
+	}, 30000);
+	it("smoke_desktop: Smoke test: load desktop and parse a simple snippet", () => {
+		process("x", { language: "desktop" });
+	}, 30000);
+	it("smoke_devicetree: Smoke test: load devicetree and parse a simple snippet", () => {
+		process("/dts-v1/;\n/ { };", { language: "devicetree" });
+	}, 30000);
+	it("smoke_dhall: Smoke test: load dhall and parse a simple snippet", () => {
+		process("x", { language: "dhall" });
+	}, 30000);
+	it("smoke_diff: Smoke test: load diff and parse a simple snippet", () => {
+		process("--- a/file\n+++ b/file\n@@ -1 +1 @@\n-old\n+new", { language: "diff" });
+	}, 30000);
+	it("smoke_djot: Smoke test: load djot and parse a simple snippet", () => {
+		process("x", { language: "djot" });
+	}, 30000);
+	it("smoke_dockerfile: Smoke test: load dockerfile and parse a simple snippet", () => {
+		process("FROM alpine", { language: "dockerfile" });
+	}, 30000);
+	it("smoke_dot: Smoke test: load dot and parse a simple snippet", () => {
+		process("digraph G { A -> B; }", { language: "dot" });
+	}, 30000);
+	it("smoke_doxygen: Smoke test: load doxygen and parse a simple snippet", () => {
+		process("/** @brief A function */", { language: "doxygen" });
+	}, 30000);
+	it("smoke_dtd: Smoke test: load dtd and parse a simple snippet", () => {
+		process("<!ELEMENT note (body)>", { language: "dtd" });
+	}, 30000);
+	it("smoke_earthfile: Smoke test: load earthfile and parse a simple snippet", () => {
+		process("x", { language: "earthfile" });
+	}, 30000);
+	it("smoke_ebnf: Smoke test: load ebnf and parse a simple snippet", () => {
+		process("x", { language: "ebnf" });
+	}, 30000);
+	it("smoke_editorconfig: Smoke test: load editorconfig and parse a simple snippet", () => {
+		process("x", { language: "editorconfig" });
+	}, 30000);
+	it("smoke_eds: Smoke test: load eds and parse a simple snippet", () => {
+		process("x", { language: "eds" });
+	}, 30000);
+	it("smoke_eex: Smoke test: load eex and parse a simple snippet", () => {
+		process("x", { language: "eex" });
+	}, 30000);
+	it("smoke_elisp: Smoke test: load elisp and parse a simple snippet", () => {
+		process('(defun hello () (message "hello"))', { language: "elisp" });
+	}, 30000);
+	it("smoke_elixir: Smoke test: load elixir and parse a simple snippet", () => {
+		process('IO.puts("hello")', { language: "elixir" });
+	}, 30000);
+	it("smoke_elm: Smoke test: load elm and parse a simple snippet", () => {
+		process("module Main exposing (..)", { language: "elm" });
+	}, 30000);
+	it("smoke_elsa: Smoke test: load elsa and parse a simple snippet", () => {
+		process("x", { language: "elsa" });
+	}, 30000);
+	it("smoke_elvish: Smoke test: load elvish and parse a simple snippet", () => {
+		process("x", { language: "elvish" });
+	}, 30000);
+	it("smoke_embeddedtemplate: Smoke test: load embeddedtemplate and parse a simple snippet", () => {
+		process("<%= value %>", { language: "embeddedtemplate" });
+	}, 30000);
+	it("smoke_enforce: Smoke test: load enforce and parse a simple snippet", () => {
+		process("x", { language: "enforce" });
+	}, 30000);
+	it("smoke_erlang: Smoke test: load erlang and parse a simple snippet", () => {
+		process("main() -> ok.", { language: "erlang" });
+	}, 30000);
+	it("smoke_facility: Smoke test: load facility and parse a simple snippet", () => {
+		process("x", { language: "facility" });
+	}, 30000);
+	it("smoke_faust: Smoke test: load faust and parse a simple snippet", () => {
+		process("x", { language: "faust" });
+	}, 30000);
+	it("smoke_fennel: Smoke test: load fennel and parse a simple snippet", () => {
+		process("(fn hello [] (print :hello))", { language: "fennel" });
+	}, 30000);
+	it("smoke_fidl: Smoke test: load fidl and parse a simple snippet", () => {
+		process("x", { language: "fidl" });
+	}, 30000);
+	it("smoke_firrtl: Smoke test: load firrtl and parse a simple snippet", () => {
+		process("circuit Main :", { language: "firrtl" });
+	}, 30000);
+	it("smoke_fish: Smoke test: load fish and parse a simple snippet", () => {
+		process("echo hello", { language: "fish" });
+	}, 30000);
+	it("smoke_foam: Smoke test: load foam and parse a simple snippet", () => {
+		process("x", { language: "foam" });
+	}, 30000);
+	it("smoke_forth: Smoke test: load forth and parse a simple snippet", () => {
+		process("x", { language: "forth" });
+	}, 30000);
+	it("smoke_fortran: Smoke test: load fortran and parse a simple snippet", () => {
+		process("program main\nend program main", { language: "fortran" });
+	}, 30000);
+	it("smoke_fsharp: Smoke test: load fsharp and parse a simple snippet", () => {
+		process("let x = 1", { language: "fsharp" });
+	}, 30000);
+	it("smoke_fsharp_signature: Smoke test: load fsharp_signature and parse a simple snippet", () => {
+		process("val x: int", { language: "fsharp_signature" });
+	}, 30000);
+	it("smoke_func: Smoke test: load func and parse a simple snippet", () => {
+		process("() recv_internal() {}", { language: "func" });
+	}, 30000);
+	it("smoke_gap: Smoke test: load gap and parse a simple snippet", () => {
+		process("x", { language: "gap" });
+	}, 30000);
+	it("smoke_gdscript: Smoke test: load gdscript and parse a simple snippet", () => {
+		process("extends Node\nfunc _ready():\n\tpass", { language: "gdscript" });
+	}, 30000);
+	it("smoke_gdshader: Smoke test: load gdshader and parse a simple snippet", () => {
+		process("x", { language: "gdshader" });
+	}, 30000);
+	it("smoke_git_config: Smoke test: load git_config and parse a simple snippet", () => {
+		process("x", { language: "git_config" });
+	}, 30000);
+	it("smoke_git_rebase: Smoke test: load git_rebase and parse a simple snippet", () => {
+		process("x", { language: "git_rebase" });
+	}, 30000);
+	it("smoke_gitattributes: Smoke test: load gitattributes and parse a simple snippet", () => {
+		process("*.txt text", { language: "gitattributes" });
+	}, 30000);
+	it("smoke_gitcommit: Smoke test: load gitcommit and parse a simple snippet", () => {
+		process("feat: add feature\n\nBody text", { language: "gitcommit" });
+	}, 30000);
+	it("smoke_gitignore: Smoke test: load gitignore and parse a simple snippet", () => {
+		process("*.o\n*.log", { language: "gitignore" });
+	}, 30000);
+	it("smoke_gleam: Smoke test: load gleam and parse a simple snippet", () => {
+		process("pub fn main() { }", { language: "gleam" });
+	}, 30000);
+	it("smoke_glimmer: Smoke test: load glimmer and parse a simple snippet", () => {
+		process("x", { language: "glimmer" });
+	}, 30000);
+	it("smoke_glsl: Smoke test: load glsl and parse a simple snippet", () => {
+		process("void main() { gl_Position = vec4(0.0); }", { language: "glsl" });
+	}, 30000);
+	it("smoke_gn: Smoke test: load gn and parse a simple snippet", () => {
+		process('group("hello") {}', { language: "gn" });
+	}, 30000);
+	it("smoke_gnuplot: Smoke test: load gnuplot and parse a simple snippet", () => {
+		process("x", { language: "gnuplot" });
+	}, 30000);
+	it("smoke_go: Smoke test: load go and parse a simple snippet", () => {
+		process("package main", { language: "go" });
+	}, 30000);
+	it("smoke_godot_resource: Smoke test: load godot_resource and parse a simple snippet", () => {
+		process("x", { language: "godot_resource" });
+	}, 30000);
+	it("smoke_gomod: Smoke test: load gomod and parse a simple snippet", () => {
+		process("module example.com/hello\n\ngo 1.21", { language: "gomod" });
+	}, 30000);
+	it("smoke_gosum: Smoke test: load gosum and parse a simple snippet", () => {
+		process("example.com/pkg v1.0.0 h1:abc=", { language: "gosum" });
+	}, 30000);
+	it("smoke_gotmpl: Smoke test: load gotmpl and parse a simple snippet", () => {
+		process("x", { language: "gotmpl" });
+	}, 30000);
+	it("smoke_gowork: Smoke test: load gowork and parse a simple snippet", () => {
+		process("x", { language: "gowork" });
+	}, 30000);
+	it("smoke_gpg: Smoke test: load gpg and parse a simple snippet", () => {
+		process("x", { language: "gpg" });
+	}, 30000);
+	it("smoke_graphql: Smoke test: load graphql and parse a simple snippet", () => {
+		process("type Query { hello: String }", { language: "graphql" });
+	}, 30000);
+	it("smoke_gren: Smoke test: load gren and parse a simple snippet", () => {
+		process("module Main exposing (..)", { language: "gren" });
+	}, 30000);
+	it("smoke_groovy: Smoke test: load groovy and parse a simple snippet", () => {
+		process("def x = 1", { language: "groovy" });
+	}, 30000);
+	it("smoke_gstlaunch: Smoke test: load gstlaunch and parse a simple snippet", () => {
+		process("fakesrc ! fakesink", { language: "gstlaunch" });
+	}, 30000);
+	it("smoke_hack: Smoke test: load hack and parse a simple snippet", () => {
+		process("<?hh\nfunction main(): void {}", { language: "hack" });
+	}, 30000);
+	it("smoke_hare: Smoke test: load hare and parse a simple snippet", () => {
+		process("export fn main() void = void;", { language: "hare" });
+	}, 30000);
+	it("smoke_haskell: Smoke test: load haskell and parse a simple snippet", () => {
+		process('main = putStrLn "hello"', { language: "haskell" });
+	}, 30000);
+	it("smoke_haxe: Smoke test: load haxe and parse a simple snippet", () => {
+		process("class Main { static function main() {} }", { language: "haxe" });
+	}, 30000);
+	it("smoke_hcl: Smoke test: load hcl and parse a simple snippet", () => {
+		process('variable "name" { type = string }', { language: "hcl" });
+	}, 30000);
+	it("smoke_heex: Smoke test: load heex and parse a simple snippet", () => {
+		process("<%= @greeting %>", { language: "heex" });
+	}, 30000);
+	it("smoke_hjson: Smoke test: load hjson and parse a simple snippet", () => {
+		process("x", { language: "hjson" });
+	}, 30000);
+	it("smoke_hlsl: Smoke test: load hlsl and parse a simple snippet", () => {
+		process("float4 main() : SV_Target { return 0; }", { language: "hlsl" });
+	}, 30000);
+	it("smoke_hocon: Smoke test: load hocon and parse a simple snippet", () => {
+		process("x", { language: "hocon" });
+	}, 30000);
+	it("smoke_hoon: Smoke test: load hoon and parse a simple snippet", () => {
+		process("x", { language: "hoon" });
+	}, 30000);
+	it("smoke_html: Smoke test: load html and parse a simple snippet", () => {
+		process("<p>hello</p>", { language: "html" });
+	}, 30000);
+	it("smoke_htmldjango: Smoke test: load htmldjango and parse a simple snippet", () => {
+		process("x", { language: "htmldjango" });
+	}, 30000);
+	it("smoke_http: Smoke test: load http and parse a simple snippet", () => {
+		process("x", { language: "http" });
+	}, 30000);
+	it("smoke_hurl: Smoke test: load hurl and parse a simple snippet", () => {
+		process("x", { language: "hurl" });
+	}, 30000);
+	it("smoke_hyprlang: Smoke test: load hyprlang and parse a simple snippet", () => {
+		process("general { border_size = 1 }", { language: "hyprlang" });
+	}, 30000);
+	it("smoke_idris: Smoke test: load idris and parse a simple snippet", () => {
+		process("module Main", { language: "idris" });
+	}, 30000);
+	it("smoke_ini: Smoke test: load ini and parse a simple snippet", () => {
+		process("[section]\nkey = value", { language: "ini" });
+	}, 30000);
+	it("smoke_ispc: Smoke test: load ispc and parse a simple snippet", () => {
+		process("export void main() {}", { language: "ispc" });
+	}, 30000);
+	it("smoke_jai: Smoke test: load jai and parse a simple snippet", () => {
+		process("x", { language: "jai" });
+	}, 30000);
+	it("smoke_janet: Smoke test: load janet and parse a simple snippet", () => {
+		process('(print "hello")', { language: "janet" });
+	}, 30000);
+	it("smoke_java: Smoke test: load java and parse a simple snippet", () => {
+		process("class Main {}", { language: "java" });
+	}, 30000);
+	it("smoke_javadoc: Smoke test: load javadoc and parse a simple snippet", () => {
+		process("x", { language: "javadoc" });
+	}, 30000);
+	it("smoke_javascript: Smoke test: load javascript and parse a simple snippet", () => {
+		process("console.log('hello');", { language: "javascript" });
+	}, 30000);
+	it("smoke_jinja2: Smoke test: load jinja2 and parse a simple snippet", () => {
+		process("{{ variable }}", { language: "jinja2" });
+	}, 30000);
+	it("smoke_jq: Smoke test: load jq and parse a simple snippet", () => {
+		process(".[] | select(.key)", { language: "jq" });
+	}, 30000);
+	it("smoke_jsdoc: Smoke test: load jsdoc and parse a simple snippet", () => {
+		process("/** @param {string} name */", { language: "jsdoc" });
+	}, 30000);
+	it("smoke_json: Smoke test: load json and parse a simple snippet", () => {
+		process('{"key": "value"}', { language: "json" });
+	}, 30000);
+	it("smoke_json5: Smoke test: load json5 and parse a simple snippet", () => {
+		process("x", { language: "json5" });
+	}, 30000);
+	it("smoke_jsonnet: Smoke test: load jsonnet and parse a simple snippet", () => {
+		process("{ key: 'value' }", { language: "jsonnet" });
+	}, 30000);
+	it("smoke_julia: Smoke test: load julia and parse a simple snippet", () => {
+		process("function main() end", { language: "julia" });
+	}, 30000);
+	it("smoke_just: Smoke test: load just and parse a simple snippet", () => {
+		process("x", { language: "just" });
+	}, 30000);
+	it("smoke_kcl: Smoke test: load kcl and parse a simple snippet", () => {
+		process("x", { language: "kcl" });
+	}, 30000);
+	it("smoke_kconfig: Smoke test: load kconfig and parse a simple snippet", () => {
+		process('config FOO\n\tbool "Enable foo"', { language: "kconfig" });
+	}, 30000);
+	it("smoke_kdl: Smoke test: load kdl and parse a simple snippet", () => {
+		process('node "value"', { language: "kdl" });
+	}, 30000);
+	it("smoke_kotlin: Smoke test: load kotlin and parse a simple snippet", () => {
+		process("fun main() {}", { language: "kotlin" });
+	}, 30000);
+	it("smoke_latex: Smoke test: load latex and parse a simple snippet", () => {
+		process("\\documentclass{article}\n\\begin{document}\nHello\n\\end{document}", {
+			language: "latex",
+		});
+	}, 30000);
+	it("smoke_lean: Smoke test: load lean and parse a simple snippet", () => {
+		process("def main : IO Unit := pure ()", { language: "lean" });
+	}, 30000);
+	it("smoke_ledger: Smoke test: load ledger and parse a simple snippet", () => {
+		process("x", { language: "ledger" });
+	}, 30000);
+	it("smoke_less: Smoke test: load less and parse a simple snippet", () => {
+		process("x", { language: "less" });
+	}, 30000);
+	it("smoke_linkerscript: Smoke test: load linkerscript and parse a simple snippet", () => {
+		process("SECTIONS { .text : { *(.text) } }", { language: "linkerscript" });
+	}, 30000);
+	it("smoke_liquid: Smoke test: load liquid and parse a simple snippet", () => {
+		process("x", { language: "liquid" });
+	}, 30000);
+	it("smoke_llvm: Smoke test: load llvm and parse a simple snippet", () => {
+		process("define i32 @main() { ret i32 0 }", { language: "llvm" });
+	}, 30000);
+	it("smoke_lua: Smoke test: load lua and parse a simple snippet", () => {
+		process("print('hello')", { language: "lua" });
+	}, 30000);
+	it("smoke_luadoc: Smoke test: load luadoc and parse a simple snippet", () => {
+		process("---@param name string", { language: "luadoc" });
+	}, 30000);
+	it("smoke_luap: Smoke test: load luap and parse a simple snippet", () => {
+		process("[a-z]+", { language: "luap" });
+	}, 30000);
+	it("smoke_luau: Smoke test: load luau and parse a simple snippet", () => {
+		process("local x: number = 1", { language: "luau" });
+	}, 30000);
+	it("smoke_magik: Smoke test: load magik and parse a simple snippet", () => {
+		process("_method object.hello\n_endmethod", { language: "magik" });
+	}, 30000);
+	it("smoke_make: Smoke test: load make and parse a simple snippet", () => {
+		process("all:\n\techo hello", { language: "make" });
+	}, 30000);
+	it("smoke_markdown: Smoke test: load markdown and parse a simple snippet", () => {
+		process("# Hello\n\nWorld", { language: "markdown" });
+	}, 30000);
+	it("smoke_markdown_inline: Smoke test: load markdown_inline and parse a simple snippet", () => {
+		process("**bold** and *italic*", { language: "markdown_inline" });
+	}, 30000);
+	it("smoke_matlab: Smoke test: load matlab and parse a simple snippet", () => {
+		process("function y = hello(x)\ny = x;\nend", { language: "matlab" });
+	}, 30000);
+	it("smoke_mermaid: Smoke test: load mermaid and parse a simple snippet", () => {
+		process("graph TD\nA --> B", { language: "mermaid" });
+	}, 30000);
+	it("smoke_meson: Smoke test: load meson and parse a simple snippet", () => {
+		process("project('hello', 'c')", { language: "meson" });
+	}, 30000);
+	it("smoke_mlir: Smoke test: load mlir and parse a simple snippet", () => {
+		process("x", { language: "mlir" });
+	}, 30000);
+	it("smoke_mojo: Smoke test: load mojo and parse a simple snippet", () => {
+		process("x", { language: "mojo" });
+	}, 30000);
+	it("smoke_move: Smoke test: load move and parse a simple snippet", () => {
+		process("x", { language: "move" });
+	}, 30000);
+	it("smoke_nasm: Smoke test: load nasm and parse a simple snippet", () => {
+		process("x", { language: "nasm" });
+	}, 30000);
+	it("smoke_netlinx: Smoke test: load netlinx and parse a simple snippet", () => {
+		process("PROGRAM_NAME='hello'", { language: "netlinx" });
+	}, 30000);
+	it("smoke_nginx: Smoke test: load nginx and parse a simple snippet", () => {
+		process("x", { language: "nginx" });
+	}, 30000);
+	it("smoke_nickel: Smoke test: load nickel and parse a simple snippet", () => {
+		process("x", { language: "nickel" });
+	}, 30000);
+	it("smoke_nim: Smoke test: load nim and parse a simple snippet", () => {
+		process('echo "hello"', { language: "nim" });
+	}, 30000);
+	it("smoke_ninja: Smoke test: load ninja and parse a simple snippet", () => {
+		process("rule cc\n  command = cc $in -o $out", { language: "ninja" });
+	}, 30000);
+	it("smoke_nix: Smoke test: load nix and parse a simple snippet", () => {
+		process("{ pkgs ? import <nixpkgs> {} }: pkgs.hello", { language: "nix" });
+	}, 30000);
+	it("smoke_norg: Smoke test: load norg and parse a simple snippet", () => {
+		process("x", { language: "norg" });
+	}, 30000);
+	it("smoke_norg_meta: Smoke test: load norg_meta and parse a simple snippet", () => {
+		process("x", { language: "norg_meta" });
+	}, 30000);
+	it("smoke_nqc: Smoke test: load nqc and parse a simple snippet", () => {
+		process("task main() {}", { language: "nqc" });
+	}, 30000);
+	it("smoke_nushell: Smoke test: load nushell and parse a simple snippet", () => {
+		process("x", { language: "nushell" });
+	}, 30000);
+	it("smoke_objc: Smoke test: load objc and parse a simple snippet", () => {
+		process("@interface Main @end", { language: "objc" });
+	}, 30000);
+	it("smoke_ocaml: Smoke test: load ocaml and parse a simple snippet", () => {
+		process('let () = print_endline "hello"', { language: "ocaml" });
+	}, 30000);
+	it("smoke_ocaml_interface: Smoke test: load ocaml_interface and parse a simple snippet", () => {
+		process("val x : int", { language: "ocaml_interface" });
+	}, 30000);
+	it("smoke_ocamllex: Smoke test: load ocamllex and parse a simple snippet", () => {
+		process("x", { language: "ocamllex" });
+	}, 30000);
+	it("smoke_odin: Smoke test: load odin and parse a simple snippet", () => {
+		process("package main", { language: "odin" });
+	}, 30000);
+	it("smoke_openscad: Smoke test: load openscad and parse a simple snippet", () => {
+		process("x", { language: "openscad" });
+	}, 30000);
+	it("smoke_org: Smoke test: load org and parse a simple snippet", () => {
+		process("* Hello\nWorld", { language: "org" });
+	}, 30000);
+	it("smoke_pascal: Smoke test: load pascal and parse a simple snippet", () => {
+		process("program Hello; begin end.", { language: "pascal" });
+	}, 30000);
+	it("smoke_pem: Smoke test: load pem and parse a simple snippet", () => {
+		process("-----BEGIN CERTIFICATE-----\ndata\n-----END CERTIFICATE-----", { language: "pem" });
+	}, 30000);
+	it("smoke_perl: Smoke test: load perl and parse a simple snippet", () => {
+		process("print 'hello';", { language: "perl" });
+	}, 30000);
+	it("smoke_pgn: Smoke test: load pgn and parse a simple snippet", () => {
+		process("1. e4 e5 *", { language: "pgn" });
+	}, 30000);
+	it("smoke_php: Smoke test: load php and parse a simple snippet", () => {
+		process("<?php echo 'hello'; ?>", { language: "php" });
+	}, 30000);
+	it("smoke_phpdoc: Smoke test: load phpdoc and parse a simple snippet", () => {
+		process("x", { language: "phpdoc" });
+	}, 30000);
+	it("smoke_pkl: Smoke test: load pkl and parse a simple snippet", () => {
+		process('name = "hello"', { language: "pkl" });
+	}, 30000);
+	it("smoke_po: Smoke test: load po and parse a simple snippet", () => {
+		process('msgid "hello"\nmsgstr "world"', { language: "po" });
+	}, 30000);
+	it("smoke_poe_filter: Smoke test: load poe_filter and parse a simple snippet", () => {
+		process("x", { language: "poe_filter" });
+	}, 30000);
+	it("smoke_pony: Smoke test: load pony and parse a simple snippet", () => {
+		process("actor Main\n  new create(env: Env) => None", { language: "pony" });
+	}, 30000);
+	it("smoke_postscript: Smoke test: load postscript and parse a simple snippet", () => {
+		process("/hello { (Hello) show } def", { language: "postscript" });
+	}, 30000);
+	it("smoke_powershell: Smoke test: load powershell and parse a simple snippet", () => {
+		process("Write-Host 'hello'", { language: "powershell" });
+	}, 30000);
+	it("smoke_printf: Smoke test: load printf and parse a simple snippet", () => {
+		process("%d %s", { language: "printf" });
+	}, 30000);
+	it("smoke_prisma: Smoke test: load prisma and parse a simple snippet", () => {
+		process("model User { id Int @id }", { language: "prisma" });
+	}, 30000);
+	it("smoke_prolog: Smoke test: load prolog and parse a simple snippet", () => {
+		process("hello :- write('hello'), nl.", { language: "prolog" });
+	}, 30000);
+	it("smoke_promql: Smoke test: load promql and parse a simple snippet", () => {
+		process("x", { language: "promql" });
+	}, 30000);
+	it("smoke_properties: Smoke test: load properties and parse a simple snippet", () => {
+		process("key=value", { language: "properties" });
+	}, 30000);
+	it("smoke_proto: Smoke test: load proto and parse a simple snippet", () => {
+		process('syntax = "proto3";', { language: "proto" });
+	}, 30000);
+	it("smoke_prql: Smoke test: load prql and parse a simple snippet", () => {
+		process("x", { language: "prql" });
+	}, 30000);
+	it("smoke_psv: Smoke test: load psv and parse a simple snippet", () => {
+		process("a|b|c\n1|2|3", { language: "psv" });
+	}, 30000);
+	it("smoke_pug: Smoke test: load pug and parse a simple snippet", () => {
+		process("x", { language: "pug" });
+	}, 30000);
+	it("smoke_puppet: Smoke test: load puppet and parse a simple snippet", () => {
+		process("notify { 'hello': }", { language: "puppet" });
+	}, 30000);
+	it("smoke_purescript: Smoke test: load purescript and parse a simple snippet", () => {
+		process("module Main where", { language: "purescript" });
+	}, 30000);
+	it("smoke_pymanifest: Smoke test: load pymanifest and parse a simple snippet", () => {
+		process("include *.txt", { language: "pymanifest" });
+	}, 30000);
+	it("smoke_python: Smoke test: load python and parse a simple snippet", () => {
+		process("print('hello')", { language: "python" });
+	}, 30000);
+	it("smoke_ql: Smoke test: load ql and parse a simple snippet", () => {
+		process("x", { language: "ql" });
+	}, 30000);
+	it("smoke_qmldir: Smoke test: load qmldir and parse a simple snippet", () => {
+		process("module Example", { language: "qmldir" });
+	}, 30000);
+	it("smoke_qmljs: Smoke test: load qmljs and parse a simple snippet", () => {
+		process("import QtQuick 2.0\nItem {}", { language: "qmljs" });
+	}, 30000);
+	it("smoke_query: Smoke test: load query and parse a simple snippet", () => {
+		process("(identifier) @name", { language: "query" });
+	}, 30000);
+	it("smoke_r: Smoke test: load r and parse a simple snippet", () => {
+		process("print('hello')", { language: "r" });
+	}, 30000);
+	it("smoke_racket: Smoke test: load racket and parse a simple snippet", () => {
+		process("#lang racket\n(define x 1)", { language: "racket" });
+	}, 30000);
+	it("smoke_rasi: Smoke test: load rasi and parse a simple snippet", () => {
+		process("x", { language: "rasi" });
+	}, 30000);
+	it("smoke_razor: Smoke test: load razor and parse a simple snippet", () => {
+		process("x", { language: "razor" });
+	}, 30000);
+	it("smoke_rbs: Smoke test: load rbs and parse a simple snippet", () => {
+		process("x", { language: "rbs" });
+	}, 30000);
+	it("smoke_re2c: Smoke test: load re2c and parse a simple snippet", () => {
+		process("/*!re2c\n  [a-z]+ { return; }\n*/", { language: "re2c" });
+	}, 30000);
+	it("smoke_readline: Smoke test: load readline and parse a simple snippet", () => {
+		process("set editing-mode vi", { language: "readline" });
+	}, 30000);
+	it("smoke_regex: Smoke test: load regex and parse a simple snippet", () => {
+		process("x", { language: "regex" });
+	}, 30000);
+	it("smoke_rego: Smoke test: load rego and parse a simple snippet", () => {
+		process("package main\ndefault allow = false", { language: "rego" });
+	}, 30000);
+	it("smoke_requirements: Smoke test: load requirements and parse a simple snippet", () => {
+		process("flask>=2.0", { language: "requirements" });
+	}, 30000);
+	it("smoke_rescript: Smoke test: load rescript and parse a simple snippet", () => {
+		process("let x = 1", { language: "rescript" });
+	}, 30000);
+	it("smoke_robot: Smoke test: load robot and parse a simple snippet", () => {
+		process("x", { language: "robot" });
+	}, 30000);
+	it("smoke_roc: Smoke test: load roc and parse a simple snippet", () => {
+		process("x", { language: "roc" });
+	}, 30000);
+	it("smoke_ron: Smoke test: load ron and parse a simple snippet", () => {
+		process('(key: "value")', { language: "ron" });
+	}, 30000);
+	it("smoke_rst: Smoke test: load rst and parse a simple snippet", () => {
+		process("Hello\n=====\n\nWorld", { language: "rst" });
+	}, 30000);
+	it("smoke_rtf: Smoke test: load rtf and parse a simple snippet", () => {
+		process("{\\rtf1 hello}", { language: "rtf" });
+	}, 30000);
+	it("smoke_ruby: Smoke test: load ruby and parse a simple snippet", () => {
+		process("puts 'hello'", { language: "ruby" });
+	}, 30000);
+	it("smoke_rust: Smoke test: load rust and parse a simple snippet", () => {
+		process("fn main() {}", { language: "rust" });
+	}, 30000);
+	it("smoke_scala: Smoke test: load scala and parse a simple snippet", () => {
+		process("object Main", { language: "scala" });
+	}, 30000);
+	it("smoke_scheme: Smoke test: load scheme and parse a simple snippet", () => {
+		process("(define x 1)", { language: "scheme" });
+	}, 30000);
+	it("smoke_scss: Smoke test: load scss and parse a simple snippet", () => {
+		process("$color: red;\nbody { color: $color; }", { language: "scss" });
+	}, 30000);
+	it("smoke_slang: Smoke test: load slang and parse a simple snippet", () => {
+		process("x", { language: "slang" });
+	}, 30000);
+	it("smoke_smali: Smoke test: load smali and parse a simple snippet", () => {
+		process(".class public LMain;\n.super Ljava/lang/Object;", { language: "smali" });
+	}, 30000);
+	it("smoke_smalltalk: Smoke test: load smalltalk and parse a simple snippet", () => {
+		process("x", { language: "smalltalk" });
+	}, 30000);
+	it("smoke_smithy: Smoke test: load smithy and parse a simple snippet", () => {
+		process("namespace example\nstring MyString", { language: "smithy" });
+	}, 30000);
+	it("smoke_sml: Smoke test: load sml and parse a simple snippet", () => {
+		process("x", { language: "sml" });
+	}, 30000);
+	it("smoke_snakemake: Smoke test: load snakemake and parse a simple snippet", () => {
+		process("x", { language: "snakemake" });
+	}, 30000);
+	it("smoke_solidity: Smoke test: load solidity and parse a simple snippet", () => {
+		process("pragma solidity ^0.8.0;\ncontract Main {}", { language: "solidity" });
+	}, 30000);
+	it("smoke_souffle: Smoke test: load souffle and parse a simple snippet", () => {
+		process("x", { language: "souffle" });
+	}, 30000);
+	it("smoke_sourcepawn: Smoke test: load sourcepawn and parse a simple snippet", () => {
+		process("x", { language: "sourcepawn" });
+	}, 30000);
+	it("smoke_sparql: Smoke test: load sparql and parse a simple snippet", () => {
+		process("SELECT ?s WHERE { ?s ?p ?o }", { language: "sparql" });
+	}, 30000);
+	it("smoke_sql: Smoke test: load sql and parse a simple snippet", () => {
+		process("SELECT 1;", { language: "sql" });
+	}, 30000);
+	it("smoke_sql_bigquery: Smoke test: load sql_bigquery and parse a simple snippet", () => {
+		process("x", { language: "sql_bigquery" });
+	}, 30000);
+	it("smoke_squirrel: Smoke test: load squirrel and parse a simple snippet", () => {
+		process("function main() {}", { language: "squirrel" });
+	}, 30000);
+	it("smoke_ssh_config: Smoke test: load ssh_config and parse a simple snippet", () => {
+		process("Host example\n  HostName example.com", { language: "ssh_config" });
+	}, 30000);
+	it("smoke_stan: Smoke test: load stan and parse a simple snippet", () => {
+		process("x", { language: "stan" });
+	}, 30000);
+	it("smoke_starlark: Smoke test: load starlark and parse a simple snippet", () => {
+		process("def hello(): pass", { language: "starlark" });
+	}, 30000);
+	it("smoke_superhtml: Smoke test: load superhtml and parse a simple snippet", () => {
+		process("x", { language: "superhtml" });
+	}, 30000);
+	it("smoke_svelte: Smoke test: load svelte and parse a simple snippet", () => {
+		process("<script>let x = 1;</script>", { language: "svelte" });
+	}, 30000);
+	it("smoke_sway: Smoke test: load sway and parse a simple snippet", () => {
+		process("x", { language: "sway" });
+	}, 30000);
+	it("smoke_swift: Smoke test: load swift and parse a simple snippet", () => {
+		process('print("hello")', { language: "swift" });
+	}, 30000);
+	it("smoke_systemverilog: Smoke test: load systemverilog and parse a simple snippet", () => {
+		process("x", { language: "systemverilog" });
+	}, 30000);
+	it("smoke_tablegen: Smoke test: load tablegen and parse a simple snippet", () => {
+		process("def Hello : Base {}", { language: "tablegen" });
+	}, 30000);
+	it("smoke_tact: Smoke test: load tact and parse a simple snippet", () => {
+		process("x", { language: "tact" });
+	}, 30000);
+	it("smoke_tcl: Smoke test: load tcl and parse a simple snippet", () => {
+		process("puts hello", { language: "tcl" });
+	}, 30000);
+	it("smoke_teal: Smoke test: load teal and parse a simple snippet", () => {
+		process("x", { language: "teal" });
+	}, 30000);
+	it("smoke_templ: Smoke test: load templ and parse a simple snippet", () => {
+		process("x", { language: "templ" });
+	}, 30000);
+	it("smoke_tera: Smoke test: load tera and parse a simple snippet", () => {
+		process("x", { language: "tera" });
+	}, 30000);
+	it("smoke_terraform: Smoke test: load terraform and parse a simple snippet", () => {
+		process('resource "null_resource" "main" {}', { language: "terraform" });
+	}, 30000);
+	it("smoke_test: Smoke test: load test and parse a simple snippet", () => {
+		process("===========\nTest\n===========\n---\n(node)", { language: "test" });
+	}, 30000);
+	it("smoke_textproto: Smoke test: load textproto and parse a simple snippet", () => {
+		process('key: "value"', { language: "textproto" });
+	}, 30000);
+	it("smoke_thrift: Smoke test: load thrift and parse a simple snippet", () => {
+		process("service HelloService {}", { language: "thrift" });
+	}, 30000);
+	it("smoke_tlaplus: Smoke test: load tlaplus and parse a simple snippet", () => {
+		process("---- MODULE Main ----\n====", { language: "tlaplus" });
+	}, 30000);
+	it("smoke_tmux: Smoke test: load tmux and parse a simple snippet", () => {
+		process("x", { language: "tmux" });
+	}, 30000);
+	it("smoke_todotxt: Smoke test: load todotxt and parse a simple snippet", () => {
+		process("x", { language: "todotxt" });
+	}, 30000);
+	it("smoke_toml: Smoke test: load toml and parse a simple snippet", () => {
+		process('key = "value"', { language: "toml" });
+	}, 30000);
+	it("smoke_tsv: Smoke test: load tsv and parse a simple snippet", () => {
+		process("a\tb\tc\n1\t2\t3", { language: "tsv" });
+	}, 30000);
+	it("smoke_tsx: Smoke test: load tsx and parse a simple snippet", () => {
+		process("const App = () => <div />;", { language: "tsx" });
+	}, 30000);
+	it("smoke_turtle: Smoke test: load turtle and parse a simple snippet", () => {
+		process("x", { language: "turtle" });
+	}, 30000);
+	it("smoke_twig: Smoke test: load twig and parse a simple snippet", () => {
+		process("{{ variable }}", { language: "twig" });
+	}, 30000);
+	it("smoke_typescript: Smoke test: load typescript and parse a simple snippet", () => {
+		process("const x: number = 42;", { language: "typescript" });
+	}, 30000);
+	it("smoke_typespec: Smoke test: load typespec and parse a simple snippet", () => {
+		process("x", { language: "typespec" });
+	}, 30000);
+	it("smoke_typoscript: Smoke test: load typoscript and parse a simple snippet", () => {
+		process("x", { language: "typoscript" });
+	}, 30000);
+	it("smoke_typst: Smoke test: load typst and parse a simple snippet", () => {
+		process("#let x = 1", { language: "typst" });
+	}, 30000);
+	it("smoke_udev: Smoke test: load udev and parse a simple snippet", () => {
+		process('ACTION=="add", KERNEL=="sd*"', { language: "udev" });
+	}, 30000);
+	it("smoke_ungrammar: Smoke test: load ungrammar and parse a simple snippet", () => {
+		process("Root = Item*\nItem = 'token'", { language: "ungrammar" });
+	}, 30000);
+	it("smoke_uxntal: Smoke test: load uxntal and parse a simple snippet", () => {
+		process("|0100 LIT 01", { language: "uxntal" });
+	}, 30000);
+	it("smoke_v: Smoke test: load v and parse a simple snippet", () => {
+		process("fn main() {}", { language: "v" });
+	}, 30000);
+	it("smoke_vb: Smoke test: load vb and parse a simple snippet", () => {
+		process("Module Main\nEnd Module", { language: "vb" });
+	}, 30000);
+	it("smoke_verilog: Smoke test: load verilog and parse a simple snippet", () => {
+		process("module main; endmodule", { language: "verilog" });
+	}, 30000);
+	it("smoke_vhdl: Smoke test: load vhdl and parse a simple snippet", () => {
+		process("entity main is end main;", { language: "vhdl" });
+	}, 30000);
+	it("smoke_vhs: Smoke test: load vhs and parse a simple snippet", () => {
+		process("x", { language: "vhs" });
+	}, 30000);
+	it("smoke_vim: Smoke test: load vim and parse a simple snippet", () => {
+		process("echo 'hello'", { language: "vim" });
+	}, 30000);
+	it("smoke_vimdoc: Smoke test: load vimdoc and parse a simple snippet", () => {
+		process("x", { language: "vimdoc" });
+	}, 30000);
+	it("smoke_vrl: Smoke test: load vrl and parse a simple snippet", () => {
+		process("x", { language: "vrl" });
+	}, 30000);
+	it("smoke_vue: Smoke test: load vue and parse a simple snippet", () => {
+		process("<template><div>hello</div></template>", { language: "vue" });
+	}, 30000);
+	it("smoke_wast: Smoke test: load wast and parse a simple snippet", () => {
+		process("(module)", { language: "wast" });
+	}, 30000);
+	it("smoke_wat: Smoke test: load wat and parse a simple snippet", () => {
+		process("(module)", { language: "wat" });
+	}, 30000);
+	it("smoke_wgsl: Smoke test: load wgsl and parse a simple snippet", () => {
+		process("@vertex fn main() -> @builtin(position) vec4f { return vec4f(); }", {
+			language: "wgsl",
+		});
+	}, 30000);
+	it("smoke_wgsl_bevy: Smoke test: load wgsl_bevy and parse a simple snippet", () => {
+		process("x", { language: "wgsl_bevy" });
+	}, 30000);
+	it("smoke_wit: Smoke test: load wit and parse a simple snippet", () => {
+		process("package example:pkg;", { language: "wit" });
+	}, 30000);
+	it("smoke_x86asm: Smoke test: load x86asm and parse a simple snippet", () => {
+		process("x", { language: "x86asm" });
+	}, 30000);
+	it("smoke_xcompose: Smoke test: load xcompose and parse a simple snippet", () => {
+		process('<Multi_key> <a> : "a"', { language: "xcompose" });
+	}, 30000);
+	it("smoke_xml: Smoke test: load xml and parse a simple snippet", () => {
+		process('<?xml version="1.0"?>\n<root>hello</root>', { language: "xml" });
+	}, 30000);
+	it("smoke_yaml: Smoke test: load yaml and parse a simple snippet", () => {
+		process("key: value", { language: "yaml" });
+	}, 30000);
+	it("smoke_yuck: Smoke test: load yuck and parse a simple snippet", () => {
+		process('(defwidget main [] (label :text "hi"))', { language: "yuck" });
+	}, 30000);
+	it("smoke_zig: Smoke test: load zig and parse a simple snippet", () => {
+		process("pub fn main() void {}", { language: "zig" });
+	}, 30000);
+	it("smoke_ziggy: Smoke test: load ziggy and parse a simple snippet", () => {
+		process("x", { language: "ziggy" });
+	}, 30000);
+	it("smoke_ziggy_schema: Smoke test: load ziggy_schema and parse a simple snippet", () => {
+		process("x", { language: "ziggy_schema" });
+	}, 30000);
+	it("smoke_zsh: Smoke test: load zsh and parse a simple snippet", () => {
+		process("echo hello", { language: "zsh" });
+	}, 30000);
 });

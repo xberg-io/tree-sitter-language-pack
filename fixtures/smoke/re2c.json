@@ -1,17 +1,17 @@
 {
-  "id": "smoke_re2c",
-  "description": "Smoke test: load re2c and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "/*!re2c\n  [a-z]+ { return; }\n*/",
-    "config": {
-      "language": "re2c"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_re2c",
+	"description": "Smoke test: load re2c and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "/*!re2c\n  [a-z]+ { return; }\n*/",
+		"config": {
+			"language": "re2c"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,17 +1,17 @@
 {
-  "id": "smoke_rescript",
-  "description": "Smoke test: load rescript and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "let x = 1",
-    "config": {
-      "language": "rescript"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_rescript",
+	"description": "Smoke test: load rescript and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "let x = 1",
+		"config": {
+			"language": "rescript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

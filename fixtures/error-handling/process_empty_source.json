@@ -1,26 +1,26 @@
 {
-  "id": "error_process_empty_source",
-  "description": "Process empty source code succeeds with zero metrics",
-  "category": "error-handling",
-  "tags": ["error-handling", "process"],
-  "skip": {
-    "languages": ["wasm"],
-    "reason": "WASM: panic during empty input processing"
-  },
-  "input": {
-    "source_code": "",
-    "config": {
-      "language": "python"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    },
-    {
-      "type": "equals",
-      "field": "metrics.total_lines",
-      "value": 0
-    }
-  ]
+	"id": "error_process_empty_source",
+	"description": "Process empty source code succeeds with zero metrics",
+	"category": "error-handling",
+	"tags": ["error-handling", "process"],
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "WASM: panic during empty input processing"
+	},
+	"input": {
+		"source_code": "",
+		"config": {
+			"language": "python"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		},
+		{
+			"type": "equals",
+			"field": "metrics.total_lines",
+			"value": 0
+		}
+	]
 }

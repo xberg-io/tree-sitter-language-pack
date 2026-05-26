@@ -1,21 +1,21 @@
 {
-  "id": "smoke_ada",
-  "description": "Smoke test: load ada and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "skip": {
-    "languages": ["php"],
-    "reason": "Ada not included in PHP binding (TSLP_LANGUAGES=mojo,nim,norg)"
-  },
-  "input": {
-    "source_code": "procedure Main is begin null; end Main;",
-    "config": {
-      "language": "ada"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_ada",
+	"description": "Smoke test: load ada and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"skip": {
+		"languages": ["php"],
+		"reason": "Ada not included in PHP binding (TSLP_LANGUAGES=mojo,nim,norg)"
+	},
+	"input": {
+		"source_code": "procedure Main is begin null; end Main;",
+		"config": {
+			"language": "ada"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

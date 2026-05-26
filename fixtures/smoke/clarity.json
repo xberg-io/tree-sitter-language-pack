@@ -1,17 +1,17 @@
 {
-  "id": "smoke_clarity",
-  "description": "Smoke test: load clarity and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "(define-public (hello) (ok true))",
-    "config": {
-      "language": "clarity"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_clarity",
+	"description": "Smoke test: load clarity and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(define-public (hello) (ok true))",
+		"config": {
+			"language": "clarity"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

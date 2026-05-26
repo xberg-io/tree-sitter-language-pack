@@ -1,39 +1,39 @@
 {
-  "id": "rust_function_process_detail",
-  "description": "Intel: extract structure from Rust function definition",
-  "category": "process",
-  "tags": ["metadata"],
-  "input": {
-    "source_code": "fn add(a: i32, b: i32) -> i32 {\n    a + b\n}\n",
-    "config": {
-      "language": "rust"
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "rust"
-    },
-    {
-      "type": "count_min",
-      "field": "structure",
-      "value": 1
-    },
-    {
-      "type": "contains",
-      "field": "structure",
-      "value": "Function"
-    },
-    {
-      "type": "greater_than_or_equal",
-      "field": "metrics.total_lines",
-      "value": 3
-    },
-    {
-      "type": "equals",
-      "field": "metrics.error_count",
-      "value": 0
-    }
-  ]
+	"id": "rust_function_process_detail",
+	"description": "Intel: extract structure from Rust function definition",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "fn add(a: i32, b: i32) -> i32 {\n    a + b\n}\n",
+		"config": {
+			"language": "rust"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "rust"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 1
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Function"
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 3
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		}
+	]
 }

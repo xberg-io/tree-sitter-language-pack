@@ -1,17 +1,17 @@
 {
-  "id": "smoke_markdown_inline",
-  "description": "Smoke test: load markdown_inline and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "**bold** and *italic*",
-    "config": {
-      "language": "markdown_inline"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_markdown_inline",
+	"description": "Smoke test: load markdown_inline and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "**bold** and *italic*",
+		"config": {
+			"language": "markdown_inline"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

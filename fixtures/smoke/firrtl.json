@@ -1,17 +1,17 @@
 {
-  "id": "smoke_firrtl",
-  "description": "Smoke test: load firrtl and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "circuit Main :",
-    "config": {
-      "language": "firrtl"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_firrtl",
+	"description": "Smoke test: load firrtl and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "circuit Main :",
+		"config": {
+			"language": "firrtl"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

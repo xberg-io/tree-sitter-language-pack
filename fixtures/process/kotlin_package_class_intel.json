@@ -1,39 +1,39 @@
 {
-  "id": "kotlin_package_class_process",
-  "description": "Intel: Kotlin package header emitted as Module and class name resolved via type_identifier fallback (#111, #112)",
-  "category": "process",
-  "tags": ["intel", "kotlin", "fqn"],
-  "input": {
-    "source_code": "package foo.bar\n\nclass Widget {\n    fun greet(): String = \"hi\"\n}\n",
-    "config": {
-      "language": "kotlin"
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "kotlin"
-    },
-    {
-      "type": "count_min",
-      "field": "structure",
-      "value": 2
-    },
-    {
-      "type": "contains",
-      "field": "structure",
-      "value": "Module"
-    },
-    {
-      "type": "contains",
-      "field": "structure",
-      "value": "Class"
-    },
-    {
-      "type": "equals",
-      "field": "metrics.error_count",
-      "value": 0
-    }
-  ]
+	"id": "kotlin_package_class_process",
+	"description": "Intel: Kotlin package header emitted as Module and class name resolved via type_identifier fallback (#111, #112)",
+	"category": "process",
+	"tags": ["intel", "kotlin", "fqn"],
+	"input": {
+		"source_code": "package foo.bar\n\nclass Widget {\n    fun greet(): String = \"hi\"\n}\n",
+		"config": {
+			"language": "kotlin"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "kotlin"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 2
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Module"
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Class"
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		}
+	]
 }

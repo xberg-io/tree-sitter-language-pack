@@ -1,17 +1,17 @@
 {
-  "id": "smoke_ungrammar",
-  "description": "Smoke test: load ungrammar and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "Root = Item*\nItem = 'token'",
-    "config": {
-      "language": "ungrammar"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_ungrammar",
+	"description": "Smoke test: load ungrammar and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "Root = Item*\nItem = 'token'",
+		"config": {
+			"language": "ungrammar"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,17 +1,17 @@
 {
-  "id": "smoke_cairo",
-  "description": "Smoke test: load cairo and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "fn main() {}",
-    "config": {
-      "language": "cairo"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_cairo",
+	"description": "Smoke test: load cairo and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "fn main() {}",
+		"config": {
+			"language": "cairo"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,98 +1,98 @@
 version: "3"
 
 tasks:
-  deps:
-    desc: Install Ruby dependencies
-    dir: packages/ruby
-    cmds:
-      - bundle install
+    deps:
+        desc: Install Ruby dependencies
+        dir: packages/ruby
+        cmds:
+            - bundle install
 
-  update:
-    desc: Update Ruby dependencies within current major versions (non-breaking)
-    dir: packages/ruby
-    cmds:
-      - echo "Updating Ruby dependencies (within-major)..."
-      - bundle update --conservative
-      - echo "Checking for remaining outdated dependencies..."
-      - bundle outdated || true
+    update:
+        desc: Update Ruby dependencies within current major versions (non-breaking)
+        dir: packages/ruby
+        cmds:
+            - echo "Updating Ruby dependencies (within-major)..."
+            - bundle update --conservative
+            - echo "Checking for remaining outdated dependencies..."
+            - bundle outdated || true
 
-  upgrade:
-    desc: Upgrade Ruby dependencies to latest versions allowed by Gemfile (cross-major)
-    dir: packages/ruby
-    cmds:
-      - echo "Upgrading Ruby dependencies (cross-major within Gemfile ranges)..."
-      - cmd: echo "Note - true cross-major requires manual Gemfile edits"
-      - bundle update --all --conservative=false
-      - echo "Checking for remaining outdated dependencies..."
-      - bundle outdated || true
+    upgrade:
+        desc: Upgrade Ruby dependencies to latest versions allowed by Gemfile (cross-major)
+        dir: packages/ruby
+        cmds:
+            - echo "Upgrading Ruby dependencies (cross-major within Gemfile ranges)..."
+            - cmd: echo "Note - true cross-major requires manual Gemfile edits"
+            - bundle update --all --conservative=false
+            - echo "Checking for remaining outdated dependencies..."
+            - bundle outdated || true
 
-  build:
-    desc: Build Ruby native extension (requires Ruby 3.2-3.4)
-    dir: packages/ruby
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-      CARGO_TARGET_DIR: "{{.PROJECT_ROOT}}/crates/ts-pack-ruby/target"
-    cmds:
-      - bundle exec rake compile
+    build:
+        desc: Build Ruby native extension (requires Ruby 3.2-3.4)
+        dir: packages/ruby
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            CARGO_TARGET_DIR: "{{.PROJECT_ROOT}}/crates/ts-pack-ruby/target"
+        cmds:
+            - bundle exec rake compile
 
-  test:
-    desc: Run Ruby tests
-    dir: packages/ruby
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-    cmds:
-      - bundle exec rspec
+    test:
+        desc: Run Ruby tests
+        dir: packages/ruby
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - bundle exec rspec
 
-  format:
-    desc: Format Ruby code
-    dir: packages/ruby
-    cmds:
-      - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop -a'
+    format:
+        desc: Format Ruby code
+        dir: packages/ruby
+        cmds:
+            - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop -a'
 
-  format:check:
-    desc: Check Ruby formatting (CI)
-    dir: packages/ruby
-    cmds:
-      - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop --format simple'
+    format:check:
+        desc: Check Ruby formatting (CI)
+        dir: packages/ruby
+        cmds:
+            - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop --format simple'
 
-  lint:
-    desc: Lint Ruby code
-    dir: packages/ruby
-    cmds:
-      - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop'
+    lint:
+        desc: Lint Ruby code
+        dir: packages/ruby
+        cmds:
+            - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop'
 
-  lint:check:
-    desc: Check Ruby linting without modifications (CI)
-    dir: packages/ruby
-    cmds:
-      - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop --format simple'
+    lint:check:
+        desc: Check Ruby linting without modifications (CI)
+        dir: packages/ruby
+        cmds:
+            - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rubocop --format simple'
 
-  typecheck:
-    desc: Run Steep type checking
-    dir: packages/ruby
-    cmds:
-      - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec steep check'
+    typecheck:
+        desc: Run Steep type checking
+        dir: packages/ruby
+        cmds:
+            - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec steep check'
 
-  rbs-validate:
-    desc: Validate RBS type signatures
-    dir: packages/ruby
-    cmds:
-      - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rbs validate'
+    rbs-validate:
+        desc: Validate RBS type signatures
+        dir: packages/ruby
+        cmds:
+            - '{{ if .RBENV_ROOT }}eval "$(rbenv init - bash)" && {{ end }}bundle exec rbs validate'
 
-  clean:
-    desc: Clean Ruby build artifacts
-    dir: packages/ruby
-    cmds:
-      - rm -rf tmp lib/tree_sitter_language_pack/ts_pack_ruby.* vendor/ts-pack-core vendor/Cargo.toml
+    clean:
+        desc: Clean Ruby build artifacts
+        dir: packages/ruby
+        cmds:
+            - rm -rf tmp lib/tree_sitter_language_pack/ts_pack_ruby.* vendor/ts-pack-core vendor/Cargo.toml
 
-  e2e:generate:
-    desc: Generate Ruby E2E tests from fixtures
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-    cmds:
-      - alef e2e generate --lang ruby
+    e2e:generate:
+        desc: Generate Ruby E2E tests from fixtures
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - alef e2e generate --lang ruby
 
-  e2e:test:
-    desc: Run Ruby E2E tests
-    cmds:
-      - alef test --lang ruby --e2e --jobs 1
+    e2e:test:
+        desc: Run Ruby E2E tests
+        cmds:
+            - alef test --lang ruby --e2e --jobs 1

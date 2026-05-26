@@ -1,42 +1,42 @@
 {
-  "name": "kreuzberg-dev/tree-sitter-language-pack",
-  "description": "Pre-compiled tree-sitter grammars for 305 programming languages",
-  "license": "MIT",
-  "type": "php-ext",
-  "require": {
-    "php": ">=8.2"
-  },
-  "require-dev": {
-    "phpstan/phpstan": "^2.1",
-    "friendsofphp/php-cs-fixer": "^3.95",
-    "phpunit/phpunit": "^13.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "Tree\\Sitter\\Language\\Pack\\": "crates/ts-pack-core-php/src//src/"
-    }
-  },
-  "scripts": {
-    "phpstan": "php -d detect_unicode=0 vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=512M",
-    "format": "php vendor/bin/php-cs-fixer fix --quiet",
-    "format:check": "php vendor/bin/php-cs-fixer fix --dry-run --quiet",
-    "test": "php vendor/bin/phpunit",
-    "lint": "@phpstan",
-    "lint:fix": "php vendor/bin/php-cs-fixer fix --quiet && php -d detect_unicode=0 vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=512M"
-  },
-  "php-ext": {
-    "extension-name": "tree_sitter_language_pack",
-    "support-zts": true,
-    "support-nts": true,
-    "download-url-method": [
-      "pre-packaged-binary",
-      "composer-default"
-    ]
-  },
-  "keywords": [
-    "tree-sitter",
-    "parser",
-    "syntax",
-    "language-pack"
-  ]
+	"name": "kreuzberg-dev/tree-sitter-language-pack",
+	"description": "Pre-compiled tree-sitter grammars for 305 programming languages",
+	"license": "MIT",
+	"type": "php-ext",
+	"require": {
+		"php": ">=8.2"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^2.1",
+		"friendsofphp/php-cs-fixer": "^3.95",
+		"phpunit/phpunit": "^13.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"Tree\\Sitter\\Language\\Pack\\": "crates/ts-pack-core-php/src//src/"
+		}
+	},
+	"scripts": {
+		"phpstan": "php -d detect_unicode=0 vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=512M",
+		"format": "php vendor/bin/php-cs-fixer fix --quiet",
+		"format:check": "php vendor/bin/php-cs-fixer fix --dry-run --quiet",
+		"test": "php vendor/bin/phpunit",
+		"lint": "@phpstan",
+		"lint:fix": "php vendor/bin/php-cs-fixer fix --quiet && php -d detect_unicode=0 vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=512M"
+	},
+	"php-ext": {
+		"extension-name": "tree_sitter_language_pack",
+		"support-zts": true,
+		"support-nts": true,
+		"download-url-method": [
+			"pre-packaged-binary",
+			"composer-default"
+		]
+	},
+	"keywords": [
+		"tree-sitter",
+		"parser",
+		"syntax",
+		"language-pack"
+	]
 }

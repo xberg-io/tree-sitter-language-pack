@@ -1,28 +1,28 @@
 {
-  "id": "download_manifest_languages",
-  "description": "List manifest languages and verify the full downloadable catalog",
-  "category": "download",
-  "tags": ["download"],
-  "call": "manifest_languages",
-  "skip": {
-    "languages": ["wasm", "rust"],
-    "reason": "Download feature requires network access (wasm: static build; rust: pre-release CI when v{version} release artifacts not yet published)"
-  },
-  "input": {},
-  "assertions": [
-    {
-      "type": "not_error"
-    },
-    {
-      "type": "not_empty"
-    },
-    {
-      "type": "count_min",
-      "value": 300
-    },
-    {
-      "type": "contains",
-      "value": "python"
-    }
-  ]
+	"id": "download_manifest_languages",
+	"description": "List manifest languages and verify the full downloadable catalog",
+	"category": "download",
+	"tags": ["download"],
+	"call": "manifest_languages",
+	"skip": {
+		"languages": ["wasm", "rust"],
+		"reason": "Download feature requires network access (wasm: static build; rust: pre-release CI when v{version} release artifacts not yet published)"
+	},
+	"input": {},
+	"assertions": [
+		{
+			"type": "not_error"
+		},
+		{
+			"type": "not_empty"
+		},
+		{
+			"type": "count_min",
+			"value": 300
+		},
+		{
+			"type": "contains",
+			"value": "python"
+		}
+	]
 }

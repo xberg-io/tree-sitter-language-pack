@@ -1,17 +1,17 @@
 {
-  "id": "error_empty_language_name",
-  "description": "Parsing with empty language name should error",
-  "category": "error-handling",
-  "tags": ["error-handling"],
-  "input": {
-    "source_code": "hello",
-    "config": {
-      "language": ""
-    }
-  },
-  "assertions": [
-    {
-      "type": "error"
-    }
-  ]
+	"id": "error_empty_language_name",
+	"description": "Parsing with empty language name should error",
+	"category": "error-handling",
+	"tags": ["error-handling"],
+	"input": {
+		"source_code": "hello",
+		"config": {
+			"language": ""
+		}
+	},
+	"assertions": [
+		{
+			"type": "error"
+		}
+	]
 }

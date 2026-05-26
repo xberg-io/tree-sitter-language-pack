@@ -1,114 +1,114 @@
 name: CI Mobile
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "crates/ts-pack-core-ffi/**"
-      - "crates/tree-sitter-language-pack-jni/**"
-      - "packages/dart/**"
-      - "packages/swift/**"
-      - "packages/kotlin-android/**"
-      - ".github/workflows/ci-mobile.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "crates/ts-pack-core-ffi/**"
-      - "crates/tree-sitter-language-pack-jni/**"
-      - "packages/dart/**"
-      - "packages/swift/**"
-      - "packages/kotlin-android/**"
-      - ".github/workflows/ci-mobile.yaml"
-  workflow_dispatch:
+    push:
+        branches: [main]
+        paths:
+            - "crates/ts-pack-core/**"
+            - "crates/ts-pack-core-ffi/**"
+            - "crates/tree-sitter-language-pack-jni/**"
+            - "packages/dart/**"
+            - "packages/swift/**"
+            - "packages/kotlin-android/**"
+            - ".github/workflows/ci-mobile.yaml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "crates/ts-pack-core/**"
+            - "crates/ts-pack-core-ffi/**"
+            - "crates/tree-sitter-language-pack-jni/**"
+            - "packages/dart/**"
+            - "packages/swift/**"
+            - "packages/kotlin-android/**"
+            - ".github/workflows/ci-mobile.yaml"
+    workflow_dispatch:
 
 concurrency:
-  group: ci-mobile-${{ github.ref }}
-  cancel-in-progress: true
+    group: ci-mobile-${{ github.ref }}
+    cancel-in-progress: true
 
 env:
-  CARGO_TERM_COLOR: always
-  CARGO_INCREMENTAL: 0
-  CARGO_PROFILE_DEV_DEBUG: 0
-  RUST_BACKTRACE: short
+    CARGO_TERM_COLOR: always
+    CARGO_INCREMENTAL: 0
+    CARGO_PROFILE_DEV_DEBUG: 0
+    RUST_BACKTRACE: short
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  android-dart-check:
-    name: Android dart cargo check (${{ matrix.abi }})
-    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        abi: [arm64-v8a, x86_64]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: kreuzberg-dev/actions/setup-rust@v1
-        with:
-          cache-key-prefix: ci-mobile-android-${{ matrix.abi }}
-      - uses: kreuzberg-dev/actions/setup-android-ndk@v1
-      - name: cargo ndk check tree-sitter-language-pack-dart
-        run: cargo ndk --target ${{ matrix.abi }} --platform 21 -- check -p tree-sitter-language-pack-dart
-      - name: cargo ndk check ts-pack-core-ffi
-        run: cargo ndk --target ${{ matrix.abi }} --platform 21 -- check -p ts-pack-core-ffi
+    android-dart-check:
+        name: Android dart cargo check (${{ matrix.abi }})
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        strategy:
+            fail-fast: false
+            matrix:
+                abi: [arm64-v8a, x86_64]
+        steps:
+            - uses: actions/checkout@v6
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  cache-key-prefix: ci-mobile-android-${{ matrix.abi }}
+            - uses: kreuzberg-dev/actions/setup-android-ndk@v1
+            - name: cargo ndk check tree-sitter-language-pack-dart
+              run: cargo ndk --target ${{ matrix.abi }} --platform 21 -- check -p tree-sitter-language-pack-dart
+            - name: cargo ndk check ts-pack-core-ffi
+              run: cargo ndk --target ${{ matrix.abi }} --platform 21 -- check -p ts-pack-core-ffi
 
-  kotlin-android-check:
-    name: kotlin-android AAR check (${{ matrix.abi }})
-    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - abi: arm64-v8a
-            target: aarch64-linux-android
-          - abi: x86_64
-            target: x86_64-linux-android
-    steps:
-      - uses: actions/checkout@v6
-      - uses: kreuzberg-dev/actions/setup-rust@v1
-        with:
-          target: ${{ matrix.target }}
-          cache-key-prefix: ci-mobile-kotlin-android-${{ matrix.abi }}
-      - uses: kreuzberg-dev/actions/setup-android-ndk@v1
-      - uses: kreuzberg-dev/actions/build-android-natives@v1
-        with:
-          crate-name: tree-sitter-language-pack-jni
-          lib-name: ts_pack_jni
-          abis: ${{ matrix.abi }}
-      - name: Stage native into AAR jniLibs
-        run: |
-          mkdir -p "packages/kotlin-android/src/main/jniLibs/${{ matrix.abi }}"
-          cp -v "dist/android-natives/${{ matrix.abi }}/libts_pack_jni.so" \
-                "packages/kotlin-android/src/main/jniLibs/${{ matrix.abi }}/"
-        shell: bash
-      - uses: kreuzberg-dev/actions/setup-gradle@v1
-      - name: Assemble AAR
-        working-directory: packages/kotlin-android
-        run: gradle assembleDebug --no-daemon
+    kotlin-android-check:
+        name: kotlin-android AAR check (${{ matrix.abi }})
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        runs-on: ubuntu-latest
+        timeout-minutes: 45
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - abi: arm64-v8a
+                      target: aarch64-linux-android
+                    - abi: x86_64
+                      target: x86_64-linux-android
+        steps:
+            - uses: actions/checkout@v6
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+                  cache-key-prefix: ci-mobile-kotlin-android-${{ matrix.abi }}
+            - uses: kreuzberg-dev/actions/setup-android-ndk@v1
+            - uses: kreuzberg-dev/actions/build-android-natives@v1
+              with:
+                  crate-name: tree-sitter-language-pack-jni
+                  lib-name: ts_pack_jni
+                  abis: ${{ matrix.abi }}
+            - name: Stage native into AAR jniLibs
+              run: |
+                  mkdir -p "packages/kotlin-android/src/main/jniLibs/${{ matrix.abi }}"
+                  cp -v "dist/android-natives/${{ matrix.abi }}/libts_pack_jni.so" \
+                        "packages/kotlin-android/src/main/jniLibs/${{ matrix.abi }}/"
+              shell: bash
+            - uses: kreuzberg-dev/actions/setup-gradle@v1
+            - name: Assemble AAR
+              working-directory: packages/kotlin-android
+              run: gradle assembleDebug --no-daemon
 
-  ios-check:
-    name: iOS cargo check (${{ matrix.target }})
-    if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-    runs-on: macos-latest
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [aarch64-apple-ios, aarch64-apple-ios-sim]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: kreuzberg-dev/actions/setup-rust@v1
-        with:
-          target: ${{ matrix.target }}
-          cache-key-prefix: ci-mobile-ios-${{ matrix.target }}
-      - name: cargo check tree-sitter-language-pack-dart
-        run: cargo check -p tree-sitter-language-pack-dart --target ${{ matrix.target }}
-      - name: cargo check tree-sitter-language-pack-swift
-        run: cargo check -p tree-sitter-language-pack-swift --target ${{ matrix.target }}
+    ios-check:
+        name: iOS cargo check (${{ matrix.target }})
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        runs-on: macos-latest
+        timeout-minutes: 30
+        strategy:
+            fail-fast: false
+            matrix:
+                target: [aarch64-apple-ios, aarch64-apple-ios-sim]
+        steps:
+            - uses: actions/checkout@v6
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+                  cache-key-prefix: ci-mobile-ios-${{ matrix.target }}
+            - name: cargo check tree-sitter-language-pack-dart
+              run: cargo check -p tree-sitter-language-pack-dart --target ${{ matrix.target }}
+            - name: cargo check tree-sitter-language-pack-swift
+              run: cargo check -p tree-sitter-language-pack-swift --target ${{ matrix.target }}

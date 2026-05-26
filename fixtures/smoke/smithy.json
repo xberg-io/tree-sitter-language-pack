@@ -1,17 +1,17 @@
 {
-  "id": "smoke_smithy",
-  "description": "Smoke test: load smithy and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "namespace example\nstring MyString",
-    "config": {
-      "language": "smithy"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_smithy",
+	"description": "Smoke test: load smithy and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "namespace example\nstring MyString",
+		"config": {
+			"language": "smithy"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

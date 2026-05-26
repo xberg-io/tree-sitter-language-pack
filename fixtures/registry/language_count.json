@@ -1,14 +1,14 @@
 {
-  "id": "registry_language_count",
-  "description": "language_count returns the number of languages available in the current build/cache",
-  "category": "registry",
-  "tags": ["registry"],
-  "call": "language_count",
-  "input": {},
-  "assertions": [
-    {
-      "type": "greater_than_or_equal",
-      "value": 1
-    }
-  ]
+	"id": "registry_language_count",
+	"description": "language_count returns the number of languages available in the current build/cache",
+	"category": "registry",
+	"tags": ["registry"],
+	"call": "language_count",
+	"input": {},
+	"assertions": [
+		{
+			"type": "greater_than_or_equal",
+			"value": 1
+		}
+	]
 }

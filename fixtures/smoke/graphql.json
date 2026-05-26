@@ -1,17 +1,17 @@
 {
-  "id": "smoke_graphql",
-  "description": "Smoke test: load graphql and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "type Query { hello: String }",
-    "config": {
-      "language": "graphql"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_graphql",
+	"description": "Smoke test: load graphql and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "type Query { hello: String }",
+		"config": {
+			"language": "graphql"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

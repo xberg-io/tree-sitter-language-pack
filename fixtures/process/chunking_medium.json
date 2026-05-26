@@ -1,35 +1,35 @@
 {
-  "id": "python_chunking_medium",
-  "description": "Intel: Python code with medium chunk size",
-  "category": "process",
-  "tags": ["intel", "chunking"],
-  "input": {
-    "source_code": "def first():\n    x = 1\n    return x\n\ndef second():\n    y = 2\n    return y\n\ndef third():\n    z = 3\n    return z\n",
-    "config": {
-      "language": "python",
-      "chunk_max_size": 50
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "python"
-    },
-    {
-      "type": "count_min",
-      "field": "structure",
-      "value": 3
-    },
-    {
-      "type": "equals",
-      "field": "metrics.error_count",
-      "value": 0
-    },
-    {
-      "type": "count_min",
-      "field": "chunks",
-      "value": 2
-    }
-  ]
+	"id": "python_chunking_medium",
+	"description": "Intel: Python code with medium chunk size",
+	"category": "process",
+	"tags": ["intel", "chunking"],
+	"input": {
+		"source_code": "def first():\n    x = 1\n    return x\n\ndef second():\n    y = 2\n    return y\n\ndef third():\n    z = 3\n    return z\n",
+		"config": {
+			"language": "python",
+			"chunk_max_size": 50
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 3
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		},
+		{
+			"type": "count_min",
+			"field": "chunks",
+			"value": 2
+		}
+	]
 }

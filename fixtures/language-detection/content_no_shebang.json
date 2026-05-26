@@ -1,15 +1,15 @@
 {
-  "id": "detect_content_no_shebang",
-  "description": "detect_language_from_content returns None when no shebang present",
-  "category": "language-detection",
-  "tags": ["language-detection", "content"],
-  "call": "detect_content",
-  "input": {
-    "content": "no shebang here"
-  },
-  "assertions": [
-    {
-      "type": "is_empty"
-    }
-  ]
+	"id": "detect_content_no_shebang",
+	"description": "detect_language_from_content returns None when no shebang present",
+	"category": "language-detection",
+	"tags": ["language-detection", "content"],
+	"call": "detect_content",
+	"input": {
+		"content": "no shebang here"
+	},
+	"assertions": [
+		{
+			"type": "is_empty"
+		}
+	]
 }

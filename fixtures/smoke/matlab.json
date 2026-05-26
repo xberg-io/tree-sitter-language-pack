@@ -1,17 +1,17 @@
 {
-  "id": "smoke_matlab",
-  "description": "Smoke test: load matlab and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "function y = hello(x)\ny = x;\nend",
-    "config": {
-      "language": "matlab"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_matlab",
+	"description": "Smoke test: load matlab and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "function y = hello(x)\ny = x;\nend",
+		"config": {
+			"language": "matlab"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

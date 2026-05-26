@@ -1,116 +1,116 @@
 version: "3"
 
 vars:
-  FFI_LIB_PATH: '{{.PROJECT_ROOT}}/target/release/libts_pack_core_ffi.{{if eq OS "darwin"}}dylib{{else if eq OS "windows"}}dll{{else}}so{{end}}'
-  DOTNET_VERSION: "9.0"
-  CS_PROJ: "TreeSitterLanguagePack/TreeSitterLanguagePack.csproj"
+    FFI_LIB_PATH: '{{.PROJECT_ROOT}}/target/release/libts_pack_core_ffi.{{if eq OS "darwin"}}dylib{{else if eq OS "windows"}}dll{{else}}so{{end}}'
+    DOTNET_VERSION: "9.0"
+    CS_PROJ: "TreeSitterLanguagePack/TreeSitterLanguagePack.csproj"
 
 tasks:
-  build:ffi:
-    desc: Build FFI shared library for C#
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-      TSLP_LINK_MODE: static
-      TSLP_LANGUAGES: "{{.FFI_TEST_LANGUAGES}}"
-    cmds:
-      - cargo build -p ts-pack-core-ffi --release
+    build:ffi:
+        desc: Build FFI shared library for C#
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LINK_MODE: static
+            TSLP_LANGUAGES: "{{.FFI_TEST_LANGUAGES}}"
+        cmds:
+            - cargo build -p ts-pack-core-ffi --release
 
-  build:
-    desc: Build FFI library and C# package
-    deps: [build:ffi]
-    dir: packages/csharp
-    cmds:
-      - dotnet build {{.CS_PROJ}} -c Release
+    build:
+        desc: Build FFI library and C# package
+        deps: [build:ffi]
+        dir: packages/csharp
+        cmds:
+            - dotnet build {{.CS_PROJ}} -c Release
 
-  build:ci:
-    desc: Build C# package (CI, FFI already built)
-    dir: packages/csharp
-    cmds:
-      - dotnet build {{.CS_PROJ}} -c Release
+    build:ci:
+        desc: Build C# package (CI, FFI already built)
+        dir: packages/csharp
+        cmds:
+            - dotnet build {{.CS_PROJ}} -c Release
 
-  test:
-    desc: Run C# tests (requires FFI built first)
-    deps: [build:ffi]
-    dir: packages/csharp
-    env:
-      TSPACK_FFI_DIR: "{{.FFI_LIB_PATH}}"
-      LD_LIBRARY_PATH: "{{.PROJECT_ROOT}}/target/release:${LD_LIBRARY_PATH:-}"
-      DYLD_LIBRARY_PATH: "{{.PROJECT_ROOT}}/target/release:${DYLD_LIBRARY_PATH:-}"
-    cmds:
-      - dotnet test {{.CS_PROJ}} -c Release --no-build
+    test:
+        desc: Run C# tests (requires FFI built first)
+        deps: [build:ffi]
+        dir: packages/csharp
+        env:
+            TSPACK_FFI_DIR: "{{.FFI_LIB_PATH}}"
+            LD_LIBRARY_PATH: "{{.PROJECT_ROOT}}/target/release:${LD_LIBRARY_PATH:-}"
+            DYLD_LIBRARY_PATH: "{{.PROJECT_ROOT}}/target/release:${DYLD_LIBRARY_PATH:-}"
+        cmds:
+            - dotnet test {{.CS_PROJ}} -c Release --no-build
 
-  test:ci:
-    desc: Run C# tests (CI, FFI already available)
-    dir: packages/csharp
-    cmds:
-      - dotnet test {{.CS_PROJ}} -c Release
+    test:ci:
+        desc: Run C# tests (CI, FFI already available)
+        dir: packages/csharp
+        cmds:
+            - dotnet test {{.CS_PROJ}} -c Release
 
-  package:
-    desc: Create NuGet package
-    deps: [build]
-    dir: packages/csharp
-    cmds:
-      - dotnet pack {{.CS_PROJ}} -c Release
+    package:
+        desc: Create NuGet package
+        deps: [build]
+        dir: packages/csharp
+        cmds:
+            - dotnet pack {{.CS_PROJ}} -c Release
 
-  lint:
-    desc: Lint C# code
-    dir: packages/csharp
-    cmds:
-      - dotnet build {{.CS_PROJ}} -c Release -warnaserror
+    lint:
+        desc: Lint C# code
+        dir: packages/csharp
+        cmds:
+            - dotnet build {{.CS_PROJ}} -c Release -warnaserror
 
-  format:
-    desc: Format C# code
-    dir: packages/csharp
-    cmds:
-      - dotnet format {{.CS_PROJ}}
+    format:
+        desc: Format C# code
+        dir: packages/csharp
+        cmds:
+            - dotnet format {{.CS_PROJ}}
 
-  format:check:
-    desc: Check C# formatting (CI)
-    dir: packages/csharp
-    cmds:
-      - dotnet format {{.CS_PROJ}} --verify-no-changes
+    format:check:
+        desc: Check C# formatting (CI)
+        dir: packages/csharp
+        cmds:
+            - dotnet format {{.CS_PROJ}} --verify-no-changes
 
-  lint:check:
-    desc: Check C# linting without modifications (CI)
-    dir: packages/csharp
-    cmds:
-      - dotnet build {{.CS_PROJ}} -c Release -warnaserror
+    lint:check:
+        desc: Check C# linting without modifications (CI)
+        dir: packages/csharp
+        cmds:
+            - dotnet build {{.CS_PROJ}} -c Release -warnaserror
 
-  update:
-    desc: Update C# dependencies within current major versions (non-breaking)
-    dir: packages/csharp
-    cmds:
-      - echo "Updating C# dependencies (within-major)..."
-      - dotnet tool install --global dotnet-outdated-tool || dotnet tool update --global dotnet-outdated-tool
-      - dotnet outdated {{.CS_PROJ}} --upgrade --version-lock Major
-      - echo "Checking remaining outdated packages..."
-      - dotnet list {{.CS_PROJ}} package --outdated || true
+    update:
+        desc: Update C# dependencies within current major versions (non-breaking)
+        dir: packages/csharp
+        cmds:
+            - echo "Updating C# dependencies (within-major)..."
+            - dotnet tool install --global dotnet-outdated-tool || dotnet tool update --global dotnet-outdated-tool
+            - dotnet outdated {{.CS_PROJ}} --upgrade --version-lock Major
+            - echo "Checking remaining outdated packages..."
+            - dotnet list {{.CS_PROJ}} package --outdated || true
 
-  upgrade:
-    desc: Upgrade C# dependencies to latest versions (cross-major / breaking)
-    dir: packages/csharp
-    cmds:
-      - echo "Upgrading C# dependencies (cross-major)..."
-      - dotnet tool install --global dotnet-outdated-tool || dotnet tool update --global dotnet-outdated-tool
-      - dotnet outdated {{.CS_PROJ}} --upgrade
-      - echo "Checking remaining outdated packages..."
-      - dotnet list {{.CS_PROJ}} package --outdated || true
+    upgrade:
+        desc: Upgrade C# dependencies to latest versions (cross-major / breaking)
+        dir: packages/csharp
+        cmds:
+            - echo "Upgrading C# dependencies (cross-major)..."
+            - dotnet tool install --global dotnet-outdated-tool || dotnet tool update --global dotnet-outdated-tool
+            - dotnet outdated {{.CS_PROJ}} --upgrade
+            - echo "Checking remaining outdated packages..."
+            - dotnet list {{.CS_PROJ}} package --outdated || true
 
-  clean:
-    desc: Clean C# build artifacts
-    dir: packages/csharp
-    cmds:
-      - dotnet clean {{.CS_PROJ}} -c Release
-      - dotnet clean {{.CS_PROJ}} -c Debug
+    clean:
+        desc: Clean C# build artifacts
+        dir: packages/csharp
+        cmds:
+            - dotnet clean {{.CS_PROJ}} -c Release
+            - dotnet clean {{.CS_PROJ}} -c Debug
 
-  e2e:generate:
-    desc: Generate C# E2E tests from fixtures
-    env:
-      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-    cmds:
-      - alef e2e generate --lang csharp
+    e2e:generate:
+        desc: Generate C# E2E tests from fixtures
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - alef e2e generate --lang csharp
 
-  e2e:test:
-    desc: Run C# E2E tests
-    cmds:
-      - alef test --lang csharp --e2e --jobs 1
+    e2e:test:
+        desc: Run C# E2E tests
+        cmds:
+            - alef test --lang csharp --e2e --jobs 1

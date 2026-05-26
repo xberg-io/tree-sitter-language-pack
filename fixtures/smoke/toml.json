@@ -1,17 +1,17 @@
 {
-  "id": "smoke_toml",
-  "description": "Smoke test: load toml and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "key = \"value\"",
-    "config": {
-      "language": "toml"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_toml",
+	"description": "Smoke test: load toml and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "key = \"value\"",
+		"config": {
+			"language": "toml"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

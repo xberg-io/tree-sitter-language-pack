@@ -1,17 +1,17 @@
 {
-  "id": "smoke_astro",
-  "description": "Smoke test: load astro and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "---\n---\n<p>hello</p>",
-    "config": {
-      "language": "astro"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_astro",
+	"description": "Smoke test: load astro and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "---\n---\n<p>hello</p>",
+		"config": {
+			"language": "astro"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,17 +1,17 @@
 {
-  "id": "smoke_heex",
-  "description": "Smoke test: load heex and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "<%= @greeting %>",
-    "config": {
-      "language": "heex"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_heex",
+	"description": "Smoke test: load heex and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<%= @greeting %>",
+		"config": {
+			"language": "heex"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

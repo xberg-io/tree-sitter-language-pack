@@ -1,17 +1,17 @@
 {
-  "id": "smoke_v",
-  "description": "Smoke test: load v and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "fn main() {}",
-    "config": {
-      "language": "v"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_v",
+	"description": "Smoke test: load v and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "fn main() {}",
+		"config": {
+			"language": "v"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

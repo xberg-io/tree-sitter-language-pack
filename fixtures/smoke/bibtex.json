@@ -1,17 +1,17 @@
 {
-  "id": "smoke_bibtex",
-  "description": "Smoke test: load bibtex and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "@article{key, title={A}}",
-    "config": {
-      "language": "bibtex"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_bibtex",
+	"description": "Smoke test: load bibtex and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "@article{key, title={A}}",
+		"config": {
+			"language": "bibtex"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,17 +1,17 @@
 {
-  "id": "smoke_gn",
-  "description": "Smoke test: load gn and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "group(\"hello\") {}",
-    "config": {
-      "language": "gn"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_gn",
+	"description": "Smoke test: load gn and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "group(\"hello\") {}",
+		"config": {
+			"language": "gn"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

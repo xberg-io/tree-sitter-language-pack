@@ -1,17 +1,17 @@
 {
-  "id": "smoke_nqc",
-  "description": "Smoke test: load nqc and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "task main() {}",
-    "config": {
-      "language": "nqc"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_nqc",
+	"description": "Smoke test: load nqc and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "task main() {}",
+		"config": {
+			"language": "nqc"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

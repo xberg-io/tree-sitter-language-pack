@@ -1,17 +1,17 @@
 {
-  "id": "smoke_diff",
-  "description": "Smoke test: load diff and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "--- a/file\n+++ b/file\n@@ -1 +1 @@\n-old\n+new",
-    "config": {
-      "language": "diff"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_diff",
+	"description": "Smoke test: load diff and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "--- a/file\n+++ b/file\n@@ -1 +1 @@\n-old\n+new",
+		"config": {
+			"language": "diff"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

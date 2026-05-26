@@ -1,39 +1,39 @@
 {
-  "id": "c_function_process",
-  "description": "Intel: C function with include",
-  "category": "process",
-  "tags": ["intel"],
-  "input": {
-    "source_code": "#include <stdio.h>\n\nint main() {\n    printf(\"hello\");\n    return 0;\n}\n",
-    "config": {
-      "language": "c"
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "c"
-    },
-    {
-      "type": "count_min",
-      "field": "structure",
-      "value": 1
-    },
-    {
-      "type": "contains",
-      "field": "structure",
-      "value": "Function"
-    },
-    {
-      "type": "greater_than_or_equal",
-      "field": "metrics.total_lines",
-      "value": 6
-    },
-    {
-      "type": "equals",
-      "field": "metrics.error_count",
-      "value": 0
-    }
-  ]
+	"id": "c_function_process",
+	"description": "Intel: C function with include",
+	"category": "process",
+	"tags": ["intel"],
+	"input": {
+		"source_code": "#include <stdio.h>\n\nint main() {\n    printf(\"hello\");\n    return 0;\n}\n",
+		"config": {
+			"language": "c"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "c"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 1
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Function"
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 6
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		}
+	]
 }

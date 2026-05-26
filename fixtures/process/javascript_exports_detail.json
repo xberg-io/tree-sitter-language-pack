@@ -1,24 +1,24 @@
 {
-  "id": "process_javascript_exports_detail",
-  "description": "JavaScript with exports, verify export count",
-  "category": "process",
-  "tags": ["metadata"],
-  "input": {
-    "source_code": "export function greet(name) {\n  return `Hello ${name}`;\n}\n\nexport const VERSION = '1.0';\n",
-    "config": {
-      "language": "javascript"
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "javascript"
-    },
-    {
-      "type": "count_min",
-      "field": "exports",
-      "value": 1
-    }
-  ]
+	"id": "process_javascript_exports_detail",
+	"description": "JavaScript with exports, verify export count",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "export function greet(name) {\n  return `Hello ${name}`;\n}\n\nexport const VERSION = '1.0';\n",
+		"config": {
+			"language": "javascript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "javascript"
+		},
+		{
+			"type": "count_min",
+			"field": "exports",
+			"value": 1
+		}
+	]
 }

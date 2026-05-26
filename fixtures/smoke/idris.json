@@ -1,17 +1,17 @@
 {
-  "id": "smoke_idris",
-  "description": "Smoke test: load idris and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "module Main",
-    "config": {
-      "language": "idris"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_idris",
+	"description": "Smoke test: load idris and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "module Main",
+		"config": {
+			"language": "idris"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

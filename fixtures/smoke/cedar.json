@@ -1,17 +1,17 @@
 {
-  "id": "smoke_cedar",
-  "description": "Smoke test: load cedar and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "permit(principal, action, resource);",
-    "config": {
-      "language": "cedar"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_cedar",
+	"description": "Smoke test: load cedar and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "permit(principal, action, resource);",
+		"config": {
+			"language": "cedar"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

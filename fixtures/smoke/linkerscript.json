@@ -1,17 +1,17 @@
 {
-  "id": "smoke_linkerscript",
-  "description": "Smoke test: load linkerscript and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "SECTIONS { .text : { *(.text) } }",
-    "config": {
-      "language": "linkerscript"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_linkerscript",
+	"description": "Smoke test: load linkerscript and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "SECTIONS { .text : { *(.text) } }",
+		"config": {
+			"language": "linkerscript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

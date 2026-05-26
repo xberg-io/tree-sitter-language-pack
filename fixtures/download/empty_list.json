@@ -1,23 +1,23 @@
 {
-  "id": "download_empty_list",
-  "description": "download([]) is a no-op that returns count 0",
-  "category": "download",
-  "tags": ["download"],
-  "call": "download_languages",
-  "skip": {
-    "languages": ["wasm"],
-    "reason": "Download feature requires network access and is not available in static builds"
-  },
-  "input": {
-    "languages": []
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    },
-    {
-      "type": "equals",
-      "value": 0
-    }
-  ]
+	"id": "download_empty_list",
+	"description": "download([]) is a no-op that returns count 0",
+	"category": "download",
+	"tags": ["download"],
+	"call": "download_languages",
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Download feature requires network access and is not available in static builds"
+	},
+	"input": {
+		"languages": []
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		},
+		{
+			"type": "equals",
+			"value": 0
+		}
+	]
 }

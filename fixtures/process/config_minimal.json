@@ -1,24 +1,24 @@
 {
-  "id": "config_minimal_python",
-  "description": "Intel: process with minimal config - only metrics",
-  "category": "process",
-  "tags": ["intel", "config"],
-  "input": {
-    "source_code": "def hello():\n    pass\n",
-    "config": {
-      "language": "python"
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "python"
-    },
-    {
-      "type": "greater_than_or_equal",
-      "field": "metrics.total_lines",
-      "value": 2
-    }
-  ]
+	"id": "config_minimal_python",
+	"description": "Intel: process with minimal config - only metrics",
+	"category": "process",
+	"tags": ["intel", "config"],
+	"input": {
+		"source_code": "def hello():\n    pass\n",
+		"config": {
+			"language": "python"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 2
+		}
+	]
 }

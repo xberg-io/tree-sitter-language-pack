@@ -1,17 +1,17 @@
 {
-  "id": "smoke_ocaml_interface",
-  "description": "Smoke test: load ocaml_interface and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "val x : int",
-    "config": {
-      "language": "ocaml_interface"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_ocaml_interface",
+	"description": "Smoke test: load ocaml_interface and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "val x : int",
+		"config": {
+			"language": "ocaml_interface"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

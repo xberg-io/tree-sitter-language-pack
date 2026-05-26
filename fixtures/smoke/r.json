@@ -1,17 +1,17 @@
 {
-  "id": "smoke_r",
-  "description": "Smoke test: load r and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "print('hello')",
-    "config": {
-      "language": "r"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_r",
+	"description": "Smoke test: load r and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "print('hello')",
+		"config": {
+			"language": "r"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

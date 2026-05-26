@@ -1,17 +1,17 @@
 {
-  "id": "smoke_scss",
-  "description": "Smoke test: load scss and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "$color: red;\nbody { color: $color; }",
-    "config": {
-      "language": "scss"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_scss",
+	"description": "Smoke test: load scss and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "$color: red;\nbody { color: $color; }",
+		"config": {
+			"language": "scss"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

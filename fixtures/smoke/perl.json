@@ -1,17 +1,17 @@
 {
-  "id": "smoke_perl",
-  "description": "Smoke test: load perl and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "print 'hello';",
-    "config": {
-      "language": "perl"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_perl",
+	"description": "Smoke test: load perl and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "print 'hello';",
+		"config": {
+			"language": "perl"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,17 +1,17 @@
 {
-  "id": "smoke_tcl",
-  "description": "Smoke test: load tcl and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "puts hello",
-    "config": {
-      "language": "tcl"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_tcl",
+	"description": "Smoke test: load tcl and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "puts hello",
+		"config": {
+			"language": "tcl"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

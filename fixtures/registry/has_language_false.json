@@ -1,15 +1,15 @@
 {
-  "id": "registry_has_language_false",
-  "description": "has_language('nonexistent') should return false",
-  "category": "registry",
-  "tags": ["registry"],
-  "call": "has_language",
-  "input": {
-    "language": "nonexistent"
-  },
-  "assertions": [
-    {
-      "type": "is_false"
-    }
-  ]
+	"id": "registry_has_language_false",
+	"description": "has_language('nonexistent') should return false",
+	"category": "registry",
+	"tags": ["registry"],
+	"call": "has_language",
+	"input": {
+		"language": "nonexistent"
+	},
+	"assertions": [
+		{
+			"type": "is_false"
+		}
+	]
 }

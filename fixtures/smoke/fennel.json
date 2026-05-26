@@ -1,17 +1,17 @@
 {
-  "id": "smoke_fennel",
-  "description": "Smoke test: load fennel and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "(fn hello [] (print :hello))",
-    "config": {
-      "language": "fennel"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_fennel",
+	"description": "Smoke test: load fennel and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(fn hello [] (print :hello))",
+		"config": {
+			"language": "fennel"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

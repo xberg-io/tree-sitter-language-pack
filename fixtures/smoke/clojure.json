@@ -1,17 +1,17 @@
 {
-  "id": "smoke_clojure",
-  "description": "Smoke test: load clojure and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "(def x 1)",
-    "config": {
-      "language": "clojure"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_clojure",
+	"description": "Smoke test: load clojure and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(def x 1)",
+		"config": {
+			"language": "clojure"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,17 +1,17 @@
 {
-  "id": "smoke_racket",
-  "description": "Smoke test: load racket and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "#lang racket\n(define x 1)",
-    "config": {
-      "language": "racket"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_racket",
+	"description": "Smoke test: load racket and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "#lang racket\n(define x 1)",
+		"config": {
+			"language": "racket"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,16 +1,16 @@
 {
-  "id": "detect_content_python_shebang",
-  "description": "detect_language_from_content recognizes #!/usr/bin/env python3 shebang",
-  "category": "language-detection",
-  "tags": ["language-detection", "content", "shebang"],
-  "call": "detect_content",
-  "input": {
-    "content": "#!/usr/bin/env python3\npass"
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "value": "python"
-    }
-  ]
+	"id": "detect_content_python_shebang",
+	"description": "detect_language_from_content recognizes #!/usr/bin/env python3 shebang",
+	"category": "language-detection",
+	"tags": ["language-detection", "content", "shebang"],
+	"call": "detect_content",
+	"input": {
+		"content": "#!/usr/bin/env python3\npass"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "python"
+		}
+	]
 }

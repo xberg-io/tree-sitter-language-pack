@@ -1,19 +1,19 @@
 {
-  "id": "registry_get_parser_alias",
-  "description": "get_parser('shell') resolves the alias and returns a Parser",
-  "category": "registry",
-  "tags": ["registry"],
-  "skip": {
-    "languages": ["bash"],
-    "reason": "Test requires 'bash' language to be available"
-  },
-  "call": "get_parser",
-  "input": {
-    "language": "shell"
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "registry_get_parser_alias",
+	"description": "get_parser('shell') resolves the alias and returns a Parser",
+	"category": "registry",
+	"tags": ["registry"],
+	"skip": {
+		"languages": ["bash"],
+		"reason": "Test requires 'bash' language to be available"
+	},
+	"call": "get_parser",
+	"input": {
+		"language": "shell"
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

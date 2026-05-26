@@ -1,17 +1,17 @@
 {
-  "id": "smoke_julia",
-  "description": "Smoke test: load julia and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "function main() end",
-    "config": {
-      "language": "julia"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_julia",
+	"description": "Smoke test: load julia and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "function main() end",
+		"config": {
+			"language": "julia"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

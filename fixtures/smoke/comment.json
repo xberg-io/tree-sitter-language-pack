@@ -1,17 +1,17 @@
 {
-  "id": "smoke_comment",
-  "description": "Smoke test: load comment and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "TODO: fix this",
-    "config": {
-      "language": "comment"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_comment",
+	"description": "Smoke test: load comment and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "TODO: fix this",
+		"config": {
+			"language": "comment"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

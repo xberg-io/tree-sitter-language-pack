@@ -1,44 +1,44 @@
 {
-  "id": "javascript_multi_import_process",
-  "description": "Intel: detect multiple imports and function in JavaScript",
-  "category": "process",
-  "tags": ["intel", "imports"],
-  "input": {
-    "source_code": "import fs from 'fs';\nimport path from 'path';\n\nfunction process(input) {\n    return input.trim();\n}\n",
-    "config": {
-      "language": "javascript"
-    }
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "field": "language",
-      "value": "javascript"
-    },
-    {
-      "type": "count_min",
-      "field": "structure",
-      "value": 1
-    },
-    {
-      "type": "contains",
-      "field": "structure",
-      "value": "Function"
-    },
-    {
-      "type": "count_min",
-      "field": "imports",
-      "value": 2
-    },
-    {
-      "type": "greater_than_or_equal",
-      "field": "metrics.total_lines",
-      "value": 6
-    },
-    {
-      "type": "equals",
-      "field": "metrics.error_count",
-      "value": 0
-    }
-  ]
+	"id": "javascript_multi_import_process",
+	"description": "Intel: detect multiple imports and function in JavaScript",
+	"category": "process",
+	"tags": ["intel", "imports"],
+	"input": {
+		"source_code": "import fs from 'fs';\nimport path from 'path';\n\nfunction process(input) {\n    return input.trim();\n}\n",
+		"config": {
+			"language": "javascript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "javascript"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 1
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Function"
+		},
+		{
+			"type": "count_min",
+			"field": "imports",
+			"value": 2
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 6
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		}
+	]
 }

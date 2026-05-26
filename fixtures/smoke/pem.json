@@ -1,17 +1,17 @@
 {
-  "id": "smoke_pem",
-  "description": "Smoke test: load pem and parse a simple snippet",
-  "category": "smoke",
-  "tags": ["smoke"],
-  "input": {
-    "source_code": "-----BEGIN CERTIFICATE-----\ndata\n-----END CERTIFICATE-----",
-    "config": {
-      "language": "pem"
-    }
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "smoke_pem",
+	"description": "Smoke test: load pem and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "-----BEGIN CERTIFICATE-----\ndata\n-----END CERTIFICATE-----",
+		"config": {
+			"language": "pem"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }

@@ -1,16 +1,16 @@
 {
-  "id": "detect_ext_rust",
-  "description": "detect_language_from_extension recognizes .rs as rust",
-  "category": "language-detection",
-  "tags": ["language-detection", "extension"],
-  "call": "detect_extension",
-  "input": {
-    "extension": "rs"
-  },
-  "assertions": [
-    {
-      "type": "equals",
-      "value": "rust"
-    }
-  ]
+	"id": "detect_ext_rust",
+	"description": "detect_language_from_extension recognizes .rs as rust",
+	"category": "language-detection",
+	"tags": ["language-detection", "extension"],
+	"call": "detect_extension",
+	"input": {
+		"extension": "rs"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "rust"
+		}
+	]
 }

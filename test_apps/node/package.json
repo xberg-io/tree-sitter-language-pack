@@ -1,14 +1,14 @@
 {
-  "name": "@kreuzberg/tree-sitter-language-pack-e2e-typescript",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "test": "vitest run"
-  },
-  "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack": "1.9.0-rc.11",
-    "tree-sitter": "^0.25.0",
-    "vitest": "^4.1.5"
-  }
+	"name": "@kreuzberg/tree-sitter-language-pack-e2e-typescript",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"test": "vitest run"
+	},
+	"devDependencies": {
+		"@kreuzberg/tree-sitter-language-pack": "1.9.0-rc.11",
+		"tree-sitter": "^0.25.0",
+		"vitest": "^4.1.5"
+	}
 }

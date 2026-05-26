@@ -1,15 +1,15 @@
 {
-  "id": "get_language_python",
-  "description": "get_language('python') returns a valid Language object",
-  "category": "registry",
-  "tags": ["registry", "get_language"],
-  "call": "get_language",
-  "input": {
-    "language": "python"
-  },
-  "assertions": [
-    {
-      "type": "not_error"
-    }
-  ]
+	"id": "get_language_python",
+	"description": "get_language('python') returns a valid Language object",
+	"category": "registry",
+	"tags": ["registry", "get_language"],
+	"call": "get_language",
+	"input": {
+		"language": "python"
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
 }
