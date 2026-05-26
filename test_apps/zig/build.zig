@@ -4,18 +4,11 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
     const test_step = b.step("test", "Run tests");
-    const ffi_path = b.option([]const u8, "ffi_path", "Path to directory containing libts_pack_core_ffi") orelse "../../target/release";
-    const ffi_include = b.option([]const u8, "ffi_include_path", "Path to directory containing FFI header") orelse "../../crates/ts-pack-core-ffi/include";
 
-    const tree_sitter_language_pack_module = b.addModule("tree_sitter_language_pack", .{
-        .root_source_file = b.path("../../packages/zig/src/tree_sitter_language_pack.zig"),
+    const tree_sitter_language_pack_module = b.dependency("tree_sitter_language_pack", .{
         .target = target,
         .optimize = optimize,
-        .link_libc = true,
-    });
-    tree_sitter_language_pack_module.addLibraryPath(.{ .cwd_relative = ffi_path });
-    tree_sitter_language_pack_module.addIncludePath(.{ .cwd_relative = ffi_include });
-    tree_sitter_language_pack_module.linkSystemLibrary("ts_pack_core_ffi", .{});
+    }).module("tree_sitter_language_pack");
 
     const download_module = b.createModule(.{
         .root_source_file = b.path("src/download_test.zig"),

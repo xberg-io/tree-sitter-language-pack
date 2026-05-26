@@ -489,6 +489,16 @@ impl LanguageRegistry {
             }
         }
 
+        // With the `download` feature, any language present in the language pack's
+        // definition table can be fetched on demand. Report it as available even if
+        // it hasn't been downloaded yet — `get_language` triggers the fetch.
+        #[cfg(feature = "download")]
+        {
+            if KNOWN_LANGUAGES.contains(&name) {
+                return true;
+            }
+        }
+
         false
     }
 

@@ -126,6 +126,9 @@ obj/
 *.nupkg
 
 e2e/zig/.zig-cache/
+test_apps/zig/.zig-cache/
+test_apps/zig/zig-pkg/
+test_apps/swift_e2e/Package.resolved
 packages/swift/Sources/RustBridge/SwiftBridgeCore.swift
 packages/swift/Sources/RustBridge/tree-sitter-language-pack-swift.swift
 e2e/dart/.dart_tool/

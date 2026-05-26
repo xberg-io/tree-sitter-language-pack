@@ -7,7 +7,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack-wasm": "1.9.0-rc.7",
+    "@kreuzberg/tree-sitter-language-pack-wasm": "1.9.0-rc.8",
     "rollup": "^4.53.3",
     "vitest": "^4.1.5"
   }

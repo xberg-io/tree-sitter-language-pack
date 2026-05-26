@@ -517,6 +517,18 @@ fn generate_registry(
         }
     }
     writeln!(f, "];").unwrap();
+    writeln!(f).unwrap();
+
+    // Every language in language_definitions.json — the canonical list of languages
+    // the language pack knows about, independent of which are statically compiled or
+    // pre-built as dynamic libs. Consumed by `has_language`/`available_languages`
+    // when the `download` feature is enabled so callers can probe a language before
+    // triggering an on-demand download.
+    writeln!(f, "#[allow(unused)]\npub(crate) static KNOWN_LANGUAGES: &[&str] = &[").unwrap();
+    for (name, _) in definitions.iter() {
+        writeln!(f, "    \"{name}\",").unwrap();
+    }
+    writeln!(f, "];").unwrap();
 }
 
 /// Emit rerun-if-changed for specific source files in a parser directory.

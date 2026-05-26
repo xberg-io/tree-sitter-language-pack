@@ -2454,7 +2454,7 @@ jobs:
   # ─── Dart (pub.dev) ───────────────────────────────────────────────
   build-dart-package:
     name: Build Dart package
-    needs: [prepare, check-registries]
+    needs: [prepare, validate-versions, clone-vendors, check-registries]
     if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -2463,6 +2463,11 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
+      - name: Download parsers
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: language-parsers
+          path: parsers
       - uses: kreuzberg-dev/actions/setup-rust@v1
       - uses: kreuzberg-dev/actions/build-dart-package@v1
         id: build
@@ -2527,7 +2532,7 @@ jobs:
   # ─── Swift (Swift Package Index via tag) ──────────────────────────
   build-swift-artifactbundle:
     name: Build Swift artifact bundle
-    needs: prepare
+    needs: [prepare, validate-versions, clone-vendors]
     if: ${{ needs.prepare.outputs.release_swift == 'true' }}
     runs-on: macos-latest
     timeout-minutes: 30
@@ -2536,6 +2541,11 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
+      - name: Download parsers
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: language-parsers
+          path: parsers
       - uses: kreuzberg-dev/actions/setup-rust@v1
       - uses: kreuzberg-dev/actions/build-swift-artifactbundle@v1
         id: bundle
@@ -2551,7 +2561,7 @@ jobs:
 
   build-swift-package:
     name: Build Swift package
-    needs: prepare
+    needs: [prepare, validate-versions, clone-vendors]
     if: ${{ needs.prepare.outputs.release_swift == 'true' }}
     runs-on: macos-latest
     timeout-minutes: 30
@@ -2560,6 +2570,11 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
+      - name: Download parsers
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: language-parsers
+          path: parsers
       - uses: kreuzberg-dev/actions/setup-rust@v1
       - uses: kreuzberg-dev/actions/build-swift-package@v1
         with:
@@ -2574,7 +2589,7 @@ jobs:
   # ─── Zig (GitHub Release tarball) ─────────────────────────────────
   build-zig-package:
     name: Build Zig package (smoke check)
-    needs: [prepare, check-registries]
+    needs: [prepare, validate-versions, clone-vendors, check-registries]
     if: ${{ needs.prepare.outputs.release_zig == 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -2583,6 +2598,11 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
+      - name: Download parsers
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: language-parsers
+          path: parsers
       - uses: kreuzberg-dev/actions/setup-rust@v1
       - uses: kreuzberg-dev/actions/build-zig-package@v1
         with:
