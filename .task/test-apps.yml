@@ -1,143 +1,115 @@
 version: "3"
 
+# Test apps are driven by alef (`alef test-apps run`). The per-language
+# commands live in alef.toml under `[crates.e2e.registry]`, so a single
+# alef invocation exercises every published binding consistently. Homebrew
+# is run separately because alef does not yet manage the brew tap.
+
 tasks:
-    smoke:
-        desc: Run all test_app smoke tests
+    all:
+        desc: Run every test_app (alef-driven, all languages, plus homebrew)
         cmds:
-            - task: smoke:rust
-            - task: smoke:python
-            - task: smoke:node
-            - task: smoke:wasm
-            - task: smoke:ruby
-            - task: smoke:go
-            - task: smoke:java
-            - task: smoke:elixir
-            - task: smoke:php
-            - task: smoke:csharp
-            - task: smoke:c
-            - task: smoke:homebrew
+            - task: alef
+            - task: homebrew
 
-    smoke:rust:
-        desc: Run Rust test_app smoke test
-        dir: test_apps/rust
+    alef:
+        desc: Run all alef-driven test_apps sequentially
         cmds:
-            - cargo run
+            - alef test-apps run -j 1
 
-    smoke:python:
-        desc: Run Python test_app smoke test
-        dir: test_apps/python
+    alef:parallel:
+        desc: Run all alef-driven test_apps in parallel (faster, noisier)
         cmds:
-            - uv sync
-            - uv run pytest smoke_test.py -v
+            - alef test-apps run
 
-    smoke:node:
-        desc: Run Node.js test_app smoke test
-        dir: test_apps/node
+    rust:
+        desc: Run Rust test_app via alef
         cmds:
-            - pnpm install
-            - pnpm run test:smoke
+            - alef test-apps run --lang rust
 
-    smoke:wasm:
-        desc: Run WASM test_app smoke test
-        dir: test_apps/wasm
+    python:
+        desc: Run Python test_app via alef
         cmds:
-            - pnpm install
-            - pnpm run test:smoke
+            - alef test-apps run --lang python
 
-    smoke:ruby:
-        desc: Run Ruby test_app smoke test
-        dir: test_apps/ruby
+    node:
+        desc: Run Node.js test_app via alef
         cmds:
-            - bundle install
-            - bundle exec rspec smoke_test.rb
+            - alef test-apps run --lang node
 
-    smoke:go:
-        desc: Run Go test_app smoke test
-        dir: test_apps/go
+    wasm:
+        desc: Run WASM test_app via alef
         cmds:
-            - go test -tags tspack_dev -v -run "TestBasicFixtures|TestParseValidation|TestErrorHandling|TestDownloadAPI"
+            - alef test-apps run --lang wasm
 
-    smoke:java:
-        desc: Run Java test_app smoke test
-        env:
-            TSPACK_LIB_PATH: "{{.PROJECT_ROOT}}/target/release/libts_pack_ffi.dylib"
+    ruby:
+        desc: Run Ruby test_app via alef
         cmds:
-            - mvn -f {{.PROJECT_ROOT}}/crates/ts-pack-java/pom.xml install -DskipTests -q
-            - cmd: mvn -f {{.PROJECT_ROOT}}/test_apps/java/pom.xml test -Dtest=SmokeTest
+            - alef test-apps run --lang ruby
 
-    smoke:elixir:
-        desc: Run Elixir test_app smoke test
-        dir: test_apps/elixir
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-            TSLP_BUILD: "1"
-            TSLP_LANGUAGES: "python,javascript,rust,go"
+    go:
+        desc: Run Go test_app via alef
         cmds:
-            - mix deps.get
-            - mix test
+            - alef test-apps run --lang go
 
-    smoke:php:
-        desc: Run PHP test_app smoke test
-        dir: test_apps/php
+    java:
+        desc: Run Java test_app via alef
         cmds:
-            - composer install
-            - php -d "extension={{.PROJECT_ROOT}}/target/release/libts_pack_php.dylib" vendor/bin/phpunit SmokeTest.php
+            - alef test-apps run --lang java
 
-    smoke:csharp:
-        desc: Run C# test_app smoke test
-        dir: test_apps/csharp
-        env:
-            TSPACK_FFI_DIR: "{{.PROJECT_ROOT}}/target/release"
+    elixir:
+        desc: Run Elixir test_app via alef
         cmds:
-            - dotnet restore
-            - dotnet test
+            - alef test-apps run --lang elixir
 
-    smoke:c:
-        desc: Run C test_app smoke test
-        dir: test_apps/c
+    php:
+        desc: Run PHP test_app via alef
         cmds:
-            - cmake -B build -DCMAKE_PREFIX_PATH=${TS_PACK_FFI_PREFIX:-/usr/local}
-            - cmake --build build
-            - ./build/smoke_test
+            - alef test-apps run --lang php
 
-    smoke:homebrew:
-        desc: Run Homebrew CLI smoke test
+    csharp:
+        desc: Run C# test_app via alef
+        cmds:
+            - alef test-apps run --lang csharp
+
+    c:
+        desc: Run C test_app via alef
+        cmds:
+            - alef test-apps run --lang c
+
+    dart:
+        desc: Run Dart test_app via alef
+        cmds:
+            - alef test-apps run --lang dart
+
+    kotlin_android:
+        desc: Run Kotlin Android test_app via alef
+        cmds:
+            - alef test-apps run --lang kotlin_android
+
+    swift:
+        desc: Run Swift test_app via alef
+        cmds:
+            - alef test-apps run --lang swift
+
+    zig:
+        desc: Run Zig test_app via alef
+        cmds:
+            - alef test-apps run --lang zig
+
+    homebrew:
+        desc: Run Homebrew CLI + FFI smoke test (not yet alef-managed)
         dir: test_apps/homebrew
         cmds:
             - bash run_tests.sh
 
+    # Legacy aliases — kept so existing invocations don't break.
+    smoke:
+        desc: Alias for test-apps:all (alef-driven full run + homebrew)
+        cmds:
+            - task: all
+
     comprehensive:
-        desc: Run all test_app comprehensive tests
+        desc: Alias for test-apps:all (alef-driven full run + homebrew)
         cmds:
-            - task: comprehensive:python
-            - task: comprehensive:node
-            - task: comprehensive:ruby
-            - task: comprehensive:go
-
-    comprehensive:python:
-        desc: Run Python test_app comprehensive tests
-        dir: test_apps/python
-        cmds:
-            - uv sync
-            - uv run pytest comprehensive_test.py -v
-
-    comprehensive:node:
-        desc: Run Node.js test_app comprehensive tests
-        dir: test_apps/node
-        cmds:
-            - pnpm install
-            - pnpm run test:comprehensive
-
-    comprehensive:ruby:
-        desc: Run Ruby test_app comprehensive tests
-        dir: test_apps/ruby
-        cmds:
-            - bundle install
-            - bundle exec rspec comprehensive_test.rb
-
-    comprehensive:go:
-        desc: Run Go test_app comprehensive tests
-        dir: test_apps/go
-        cmds:
-            - go test -tags tspack_dev -v -run TestProcessFixtures
-            - go test -tags tspack_dev -v -run TestChunkingFixtures
+            - task: all
