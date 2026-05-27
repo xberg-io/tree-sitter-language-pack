@@ -2595,7 +2595,7 @@ jobs:
                   GH_REPO: ${{ github.repository }}
               run: |
                   gh workflow run publish-pubdev.yaml \
-                    --ref ${{ github.ref_name }} \
+                    --ref ${{ needs.prepare.outputs.tag }} \
                     -f run_id=${{ github.run_id }}
 
     # ─── Swift (Swift Package Index via tag) ──────────────────────────
@@ -2702,7 +2702,25 @@ jobs:
               run: |
                   git add Package.swift
                   git commit -m "chore(swift): update Package.swift with checksum for v${{ needs.prepare.outputs.version }}"
-                  git push origin ${{ needs.prepare.outputs.checkout_ref }}
+                  git tag -f "${{ needs.prepare.outputs.tag }}"
+                  git push origin -f "refs/tags/${{ needs.prepare.outputs.tag }}"
+
+            - name: Download Swift artifact bundle
+              uses: actions/download-artifact@v8.0.1
+              with:
+                  name: swift-artifactbundle
+                  path: dist/swift
+
+            - name: Upload Swift artifact bundle to GitHub Release
+              uses: kreuzberg-dev/actions/upload-release-assets@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  working-directory: dist/swift
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+                  assets: |
+                      *.artifactbundle.zip
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # ─── Zig (GitHub Release tarball) ─────────────────────────────────
     build-zig-package:
