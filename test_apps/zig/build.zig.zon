@@ -5,9 +5,14 @@
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
         .tree_sitter_language_pack = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.11/tree-sitter-language-pack-zig-v1.9.0-rc.11.tar.gz",
-            // alef: hash not pinned — run `zig fetch --save https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.11/tree-sitter-language-pack-zig-v1.9.0-rc.11.tar.gz` once to populate,
-            //       then set `hash` under [crates.e2e.registry.packages.zig] in alef.toml.
+            // Zig tarballs are published per-platform. Select the URL matching your platform:
+            // - Linux x86_64:   tree-sitter-language-pack-zig-v{VERSION}-linux-x86_64.tar.gz
+            // - Linux ARM64:    tree-sitter-language-pack-zig-v{VERSION}-linux-aarch64.tar.gz
+            // - macOS ARM64:    tree-sitter-language-pack-zig-v{VERSION}-macos-arm64.tar.gz
+            // - macOS x86_64:   tree-sitter-language-pack-zig-v{VERSION}-macos-x86_64.tar.gz
+            // - Windows x86_64: tree-sitter-language-pack-zig-v{VERSION}-windows-x86_64.tar.gz
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12-linux-x86_64.tar.gz",
+            // Run `zig fetch --save <url>` to populate the hash, then copy it below.
             .hash = "TODO",
         },
     },

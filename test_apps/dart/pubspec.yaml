@@ -3,11 +3,11 @@ version: 0.1.0
 publish_to: none
 
 environment:
-    sdk: ">=3.11.0 <4.0.0"
+  sdk: ">=3.11.0 <4.0.0"
 
 dependencies:
-    tree_sitter_language_pack: ^1.9.0-rc.11
+  tree_sitter_language_pack: ^1.9.0-rc.11
 
 dev_dependencies:
-    test: ^1.25.0
-    http: ^1.2.0
+  test: ^1.25.0
+  http: ^1.2.0
