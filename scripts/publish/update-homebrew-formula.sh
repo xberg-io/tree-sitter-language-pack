@@ -61,7 +61,7 @@ write_cli_formula() {
 # frozen_string_literal: true
 
 class TsPack < Formula
-  desc "Tree-sitter language pack CLI - download and manage 305 parser grammars"
+  desc "Tree-sitter language pack CLI - download and manage 306 parser grammars"
   homepage "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
   version "${version}"
   url "https://github.com/kreuzberg-dev/tree-sitter-language-pack/archive/v#{version}.tar.gz"

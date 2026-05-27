@@ -94,7 +94,7 @@
 	</a>
 </div>
 
-Pre-compiled tree-sitter grammars for 305 programming languages with on-demand parser download and caching.
+Pre-compiled tree-sitter grammars for 306 programming languages with on-demand parser download and caching.
 
 ## What This Package Provides
 

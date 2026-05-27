@@ -1673,5 +1673,4 @@
 		"extensions": ["zsh"],
 		"repo": "https://github.com/georgeharker/tree-sitter-zsh",
 		"rev": "7a593401efb5418ffdedbe3c0e4c61c6d240166d"
-	}
-}
+	}}

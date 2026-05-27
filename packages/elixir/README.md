@@ -94,7 +94,7 @@
 	</a>
 </div>
 
-Pre-compiled tree-sitter grammars for 305 programming languages with Elixir bindings via Rustler NIF.
+Pre-compiled tree-sitter grammars for 306 programming languages with Elixir bindings via Rustler NIF.
 
 ## What This Package Provides
 
