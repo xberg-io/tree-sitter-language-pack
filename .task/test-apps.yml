@@ -82,7 +82,7 @@ tasks:
         cmds:
             - alef test-apps run --lang dart
 
-    kotlin_android:
+    kotlin-android:
         desc: Run Kotlin Android test_app via alef
         cmds:
             - alef test-apps run --lang kotlin_android

@@ -88,17 +88,33 @@ tasks:
             - uv run --no-sync scripts/clone_vendors.py
 
     build:
-        desc: Build all crates (dynamic mode, all languages)
+        desc: Build Rust core crates only
         cmds:
-            - task: rust:build
+            - task: build:core
 
     build:dev:
         desc: Build in dev mode with a few languages for fast iteration
         cmds:
             - task: rust:build:dev
 
+    build:core:
+        desc: Build Rust core crates only
+        cmds:
+            - task: rust:build
+
+    build:all:
+        desc: Build Rust core crates and all language bindings
+        cmds:
+            - task: build:core
+            - task: build:bindings
+
     build:release:
-        desc: Build in release mode (optimized)
+        desc: Build Rust core crates in release mode
+        cmds:
+            - task: rust:build:release
+
+    build:ci:
+        desc: Build Rust core crates in CI mode
         cmds:
             - task: rust:build:release
 
@@ -108,14 +124,35 @@ tasks:
             - task: alef:build
 
     test:
-        desc: Run all tests
+        desc: Run Rust core tests only
         cmds:
             - task: rust:test
+
+    test:all:
+        desc: Run all test suites across all languages
+        cmds:
+            - task: test
+            - alef test
+
+    test:bindings:
+        desc: Run binding test suites only
+        cmds:
+            - alef test
+
+    test:ci:
+        desc: Run test suites in CI mode
+        cmds:
+            - task: test:all
 
     lint:
         desc: Run all linters and formatters via prek (pre-commit framework)
         cmds:
             - prek run --all-files
+
+    lint:check:
+        desc: Run check-only linting
+        cmds:
+            - task: rust:lint:check
 
     lint:licenses:
         desc: Verify all grammar repositories use permissive licenses (no GPL/AGPL/copyleft)
@@ -123,15 +160,20 @@ tasks:
             - uv run --no-sync python scripts/lint_grammar_licenses.py --update-cache
 
     check:
-        desc: Run all checks (lint + test)
+        desc: Run check-only validation
         cmds:
-            - task: lint
-            - task: test
+            - task: format:check
+            - task: lint:check
 
     format:
-        desc: Format all code
+        desc: Format Rust core code
         cmds:
-            - alef fmt
+            - task: rust:format
+
+    format:check:
+        desc: Check Rust core formatting
+        cmds:
+            - task: rust:format:check
 
     clean:
         desc: Clean all build artifacts
@@ -271,6 +313,11 @@ tasks:
         cmds:
             - alef build
 
+    alef:format:
+        desc: Format Alef-managed language bindings
+        cmds:
+            - alef fmt
+
     alef:sync:
         desc: Sync version from Cargo.toml to all manifests
         cmds:
@@ -282,56 +329,41 @@ tasks:
             - alef docs
 
     # E2E aggregator tasks (canonical kreuzberg-dev surface).
-    e2e:generate:all:
+    e2e:generate:
         desc: Generate E2E tests for all languages from fixtures
         cmds:
-            - task: _e2e_wf:generate:all
+            - task: _e2e_wf:generate
 
-    e2e:test:all:
-        desc: Run e2e tests across all bindings (FFI built first)
+    e2e:build:
+        desc: Build all language bindings for E2E tests
         cmds:
-            - task: _e2e_wf:test:all
-
-    e2e:test:quick:
-        desc: Quick e2e (Rust only — fastest feedback)
-        cmds:
-            - task: _e2e_wf:test:quick
-
-    e2e:verify:all:
-        desc: Full e2e pipeline — generate, lint, test all suites
-        cmds:
-            - task: _e2e_wf:verify:all
-
-    e2e:lint:all:
-        desc: Lint all generated E2E test code
-        cmds:
-            - task: _e2e_wf:lint:all
-
-    # Backward-compat aliases (legacy task names).
-    test:e2e:
-        desc: "Alias for e2e:test:all"
-        cmds:
-            - task: e2e:test:all
-
-    e2e:generate:
-        desc: "Alias for e2e:generate:all"
-        cmds:
-            - task: e2e:generate:all
+            - task: alef:build
 
     e2e:test:
-        desc: "Alias for e2e:test:all"
+        desc: Run e2e tests across all bindings (FFI built first)
         cmds:
-            - task: e2e:test:all
+            - task: _e2e_wf:test
 
-    e2e:generate:rust:
-        desc: "Alias for rust:e2e:generate"
+    e2e:all:
+        desc: Build all bindings and run all e2e tests
         cmds:
-            - task: rust:e2e:generate
+            - task: e2e:build
+            - task: e2e:test
 
-    e2e:test:rust:
-        desc: "Alias for rust:e2e:test"
+    e2e:quick:
+        desc: Quick e2e (Rust only — fastest feedback)
         cmds:
-            - task: rust:e2e:test
+            - task: _e2e_wf:quick
+
+    e2e:verify:
+        desc: Full e2e pipeline — generate, lint, test all suites
+        cmds:
+            - task: _e2e_wf:verify
+
+    e2e:lint:
+        desc: Lint all generated E2E test code
+        cmds:
+            - task: _e2e_wf:lint
 
     # Documentation generation
     docs:generate:languages:
@@ -349,7 +381,7 @@ tasks:
             - alef docs
 
     # README generation (via alef)
-    generate-readme:
+    readme:generate:
         desc: Generate all package READMEs
         cmds:
             - alef readme
