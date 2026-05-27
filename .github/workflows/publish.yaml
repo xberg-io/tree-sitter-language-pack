@@ -634,7 +634,7 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v6.4.0
               with:
-                  node-version: "22"
+                  node-version: "25"
                   registry-url: "https://registry.npmjs.org"
 
             - name: Install NAPI-RS CLI
@@ -1883,7 +1883,7 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v6.4.0
               with:
-                  node-version: "22"
+                  node-version: "25"
                   registry-url: "https://registry.npmjs.org"
 
             - name: Install NAPI-RS CLI
@@ -1978,7 +1978,7 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v6.4.0
               with:
-                  node-version: "22"
+                  node-version: "25"
                   registry-url: "https://registry.npmjs.org"
 
             - name: Download WASM package
@@ -2399,7 +2399,7 @@ jobs:
               uses: kreuzberg-dev/actions/publish-packagist@v1
               with:
                   packagist-username: Goldziher
-                  package-name: kreuzberg/tree-sitter-language-pack
+                  package-name: kreuzberg-dev/tree-sitter-language-pack
                   version: ${{ needs.prepare.outputs.version }}
                   repository-url: https://github.com/kreuzberg-dev/tree-sitter-language-pack
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
