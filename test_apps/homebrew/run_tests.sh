@@ -2,11 +2,12 @@
 # Tests the Homebrew CLI formula and FFI formula.
 set -euo pipefail
 
-VERSION="1.9.0"
+VERSION="${TSLP_BREW_VERSION:-1.9.0-rc.11}"
 TAP="${TSLP_BREW_TAP:-kreuzberg-dev/homebrew-tap}"
 CLI_FORMULA="${TSLP_BREW_CLI_FORMULA:-ts-pack}"
 FFI_FORMULA="${TSLP_BREW_LIB_FORMULA:-libts-pack}"
 FFI_FORMULA_QUALIFIED="$TAP/$FFI_FORMULA"
+CLI_FORMULA_QUALIFIED="$TAP/$CLI_FORMULA"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -29,8 +30,11 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
   exit 0
 fi
 
-# Install formulae.
+# Install formulae. `brew bundle install` does not upgrade already-installed
+# formulae, so force an upgrade afterward to ensure the test exercises the
+# pinned $VERSION rather than a cached older bottle.
 brew bundle install --file="$SCRIPT_DIR/Brewfile"
+brew upgrade --force "$CLI_FORMULA_QUALIFIED" "$FFI_FORMULA_QUALIFIED" 2>/dev/null || true
 
 # Test: CLI version output contains VERSION.
 cli_version=$("$CLI_FORMULA" --version 2>&1 || true)
