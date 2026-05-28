@@ -533,6 +533,11 @@
 		"repo": "https://github.com/shunsambongi/tree-sitter-gitignore",
 		"rev": "f4685bf11ac466dd278449bcfe5fd014e94aa504"
 	},
+	"gherkin": {
+		"extensions": ["feature"],
+		"repo": "https://github.com/SamyAB/tree-sitter-gherkin",
+		"rev": "43873ee8de16476635b48d52c46f5b6407cb5c09"
+	},
 	"gleam": {
 		"extensions": ["gleam"],
 		"repo": "https://github.com/gleam-lang/tree-sitter-gleam",

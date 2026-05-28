@@ -94,7 +94,7 @@
 	</a>
 </div>
 
-Zig bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
+Zig bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
 Direct C FFI via @cImport, idiomatic error sets, optional types, and slice-based memory.
 
 ## What This Package Provides

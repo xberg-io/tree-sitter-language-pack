@@ -4,7 +4,7 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Core library for tree-sitter language pack - provides compiled parsers for 305 languages"
+description = "Core library for tree-sitter language pack - provides compiled parsers for 306 languages"
 
 [features]
 default = ["dynamic-loading", "download"]

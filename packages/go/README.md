@@ -94,7 +94,7 @@
 	</a>
 </div>
 
-Pre-compiled tree-sitter grammars for 305 programming languages with idiomatic Go bindings via cgo.
+Pre-compiled tree-sitter grammars for 306 programming languages with idiomatic Go bindings via cgo.
 
 ## What This Package Provides
 

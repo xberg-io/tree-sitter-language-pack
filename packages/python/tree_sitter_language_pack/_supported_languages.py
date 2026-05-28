@@ -94,6 +94,7 @@ SupportedLanguage = Literal[
     "gap",
     "gdscript",
     "gdshader",
+    "gherkin",
     "git_config",
     "git_rebase",
     "gitattributes",

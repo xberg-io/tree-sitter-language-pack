@@ -1,6 +1,6 @@
 # Supported Languages
 
-Tree-sitter-language-pack supports **305** languages.
+Tree-sitter-language-pack supports **306** languages.
 
 | Language         | Extensions                            | Repository                                                                                                        |
 | ---------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -95,6 +95,7 @@ Tree-sitter-language-pack supports **305** languages.
 | Gap              | `.g`, `.gi`                           | [gap-system/tree-sitter-gap](https://github.com/gap-system/tree-sitter-gap)                                       |
 | Gdscript         | `.gd`                                 | [PrestonKnopp/tree-sitter-gdscript](https://github.com/PrestonKnopp/tree-sitter-gdscript)                         |
 | Gdshader         | `.gdshader`                           | [airblast-dev/tree-sitter-gdshader](https://github.com/airblast-dev/tree-sitter-gdshader)                         |
+| Gherkin          | `.feature`                            | [SamyAB/tree-sitter-gherkin](https://github.com/SamyAB/tree-sitter-gherkin)                                       |
 | Git Config       | —                                     | [the-mikedavis/tree-sitter-git-config](https://github.com/the-mikedavis/tree-sitter-git-config)                   |
 | Git Rebase       | —                                     | [the-mikedavis/tree-sitter-git-rebase](https://github.com/the-mikedavis/tree-sitter-git-rebase)                   |
 | gitattributes    | `.gitattributes`                      | [ObserverOfTime/tree-sitter-gitattributes](https://github.com/ObserverOfTime/tree-sitter-gitattributes)           |

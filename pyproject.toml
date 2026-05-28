@@ -5,7 +5,7 @@ requires = [ "hatchling" ]
 [project]
 name = "tree-sitter-language-pack"
 version = "1.9.0rc12"
-description = "Comprehensive collection of 305 tree-sitter language parsers with polyglot bindings"
+description = "Comprehensive collection of 306 tree-sitter language parsers with polyglot bindings"
 readme = "README.md"
 keywords = [
   "ast",

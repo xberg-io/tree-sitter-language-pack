@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`gherkin` grammar.** Pre-compiled `tree-sitter-gherkin` parser for `.feature` files. Source: `SamyAB/tree-sitter-gherkin` pinned at `43873ee8de16476635b48d52c46f5b6407cb5c09`.
+
 ### Changed
 
 - **repo**: Add `.gitattributes` marking all alef-generated output directories (`packages/**`, `crates/*-{py,php,ffi,node,wasm}/**`, `e2e/**`) as `linguist-generated=true` so generated files collapse in GitHub PR diffs.

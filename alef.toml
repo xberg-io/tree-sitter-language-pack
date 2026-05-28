@@ -479,7 +479,7 @@ e2e = "cd e2e/elixir && TREE_SITTER_LANGUAGE_PACK_BUILD=1 mix test"
 precondition = "command -v pnpm >/dev/null 2>&1 && command -v wasm-pack >/dev/null 2>&1"
 # Mirror the publish-wasm CI environment: curated grammar subset + reduced
 # LLVM passes so the wasm32 cross-compile completes in reasonable time.
-# Without TSLP_LANGUAGES, all 305 grammars compile statically — abl/parser.c
+# Without TSLP_LANGUAGES, all 306 grammars compile statically — abl/parser.c
 # alone is 97MB and hangs clang at -O2 for tens of minutes.
 before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig CARGO_PROFILE_RELEASE_LTO=false CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16 wasm-pack build crates/ts-pack-core-wasm --target nodejs --release --out-dir pkg/nodejs"
 e2e = "cd e2e/wasm && pnpm install && pnpm test"
@@ -1032,7 +1032,7 @@ name = "tree-sitter-language-pack-ffi"
 name = "@kreuzberg/tree-sitter-language-pack-wasm"
 
 [crates.scaffold]
-description = "Pre-compiled tree-sitter grammars for 305 programming languages"
+description = "Pre-compiled tree-sitter grammars for 306 programming languages"
 license = "MIT"
 repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 authors = ["Kreuzberg Team"]
@@ -1053,7 +1053,7 @@ name = "Rust"
 package_name = "tree-sitter-language-pack"
 badge_url = "https://img.shields.io/crates/v/tree-sitter-language-pack?label=Rust&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem."
 package_manager = ["cargo"]
 
 [crates.readme.languages.python]
@@ -1062,7 +1062,7 @@ name = "Python"
 package_name = "tree-sitter-language-pack"
 badge_url = "https://img.shields.io/pypi/v/tree-sitter-language-pack?label=Python&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with on-demand parser download and caching."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with on-demand parser download and caching."
 package_manager = ["pip"]
 
 [crates.readme.languages.typescript]
@@ -1072,7 +1072,7 @@ name = "TypeScript / Node.js"
 package_name = "@kreuzberg/tree-sitter-language-pack"
 badge_url = "https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with TypeScript types."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with TypeScript types."
 package_manager = ["npm", "pnpm", "yarn"]
 
 [crates.readme.languages.go]
@@ -1081,7 +1081,7 @@ name = "Go"
 package_name = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
 badge_url = "https://img.shields.io/github/v/tag/kreuzberg-dev/tree-sitter-language-pack?label=Go&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with idiomatic Go bindings via cgo."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with idiomatic Go bindings via cgo."
 package_manager = ["go"]
 
 [crates.readme.languages.java]
@@ -1090,7 +1090,7 @@ name = "Java"
 package_name = "dev.kreuzberg:tree-sitter-language-pack"
 badge_url = "https://img.shields.io/maven-central/v/dev.kreuzberg/tree-sitter-language-pack?label=Java&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with Java bindings via Panama FFM."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with Java bindings via Panama FFM."
 package_manager = ["maven", "gradle"]
 
 [crates.readme.languages.php]
@@ -1099,7 +1099,7 @@ name = "PHP"
 package_name = "kreuzberg-dev/tree-sitter-language-pack"
 badge_url = "https://img.shields.io/packagist/v/kreuzberg-dev/tree-sitter-language-pack?label=PHP&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with PHP bindings via ext-php-rs."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with PHP bindings via ext-php-rs."
 package_manager = ["composer"]
 
 [crates.readme.languages.ruby]
@@ -1108,7 +1108,7 @@ name = "Ruby"
 package_name = "tree_sitter_language_pack"
 badge_url = "https://img.shields.io/gem/v/tree_sitter_language_pack?label=Ruby&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with Ruby bindings via Magnus."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with Ruby bindings via Magnus."
 package_manager = ["gem", "bundler"]
 
 [crates.readme.languages.csharp]
@@ -1117,7 +1117,7 @@ name = "C#"
 package_name = "TreeSitterLanguagePack"
 badge_url = "https://img.shields.io/nuget/v/TreeSitterLanguagePack?label=C%23&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with C# bindings via P/Invoke."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with C# bindings via P/Invoke."
 package_manager = ["dotnet"]
 
 [crates.readme.languages.elixir]
@@ -1126,7 +1126,7 @@ name = "Elixir"
 package_name = "tree_sitter_language_pack"
 badge_url = "https://img.shields.io/hexpm/v/tree_sitter_language_pack?label=Elixir&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-description = "Pre-compiled tree-sitter grammars for 305 programming languages with Elixir bindings via Rustler NIF."
+description = "Pre-compiled tree-sitter grammars for 306 programming languages with Elixir bindings via Rustler NIF."
 package_manager = ["hex", "mix"]
 
 [crates.readme.languages.wasm]
@@ -1157,7 +1157,7 @@ package_manager = ["pub"]
 package_name = "tree_sitter_language_pack"
 install_command = "dart pub add tree_sitter_language_pack"
 description = """
-Dart / Flutter bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
+Dart / Flutter bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
 Built with flutter_rust_bridge for isolate-safe Future APIs and Flutter-native type mapping.
 """
 
@@ -1171,7 +1171,7 @@ install_command = """
 implementation("dev.kreuzberg.tslp:tslp-android:{{ version }}")
 """
 description = """
-Android (AAR) bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
+Android (AAR) bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
 JNI-based with bundled per-ABI native libraries and a coroutine-friendly Kotlin facade.
 JVM consumers should use the canonical `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack` Java artifact directly.
 """
@@ -1184,7 +1184,7 @@ package_manager = ["spm"]
 package_name = "TreeSitterLanguagePack"
 install_command = '.package(url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack-swift", from: "{{ version }}")'
 description = """
-Swift bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
+Swift bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
 Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/await.
 """
 
@@ -1196,6 +1196,6 @@ package_manager = ["zig"]
 package_name = "tree_sitter_language_pack"
 install_command = "zig fetch --save <url>"
 description = """
-Zig bindings for **tree-sitter-language-pack** — 305 pre-compiled tree-sitter grammars.
+Zig bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
 Direct C FFI via @cImport, idiomatic error sets, optional types, and slice-based memory.
 """
