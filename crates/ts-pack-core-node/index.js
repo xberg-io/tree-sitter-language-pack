@@ -50,17 +50,17 @@ const tryLoadBinding = () => {
 		],
 		[
 			"linux",
-			"arm64",
-			"gnu",
-			"./ts-pack-core-node.linux-arm64-gnu.node",
-			"@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu",
-		],
-		[
-			"linux",
 			"x64",
 			"musl",
 			"./ts-pack-core-node.linux-x64-musl.node",
 			"@kreuzberg/tree-sitter-language-pack-linux-x64-musl",
+		],
+		[
+			"linux",
+			"arm64",
+			"gnu",
+			"./ts-pack-core-node.linux-arm64-gnu.node",
+			"@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu",
 		],
 		[
 			"linux",

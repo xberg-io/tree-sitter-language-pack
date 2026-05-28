@@ -5,7 +5,7 @@
 # Issues & docs: https://github.com/sample_crate-dev/alef
 """Public API for the conversion library.
 
-Version: 1.9.0-rc.14
+Version: 1.9.0-rc.15
 """
 
 from ._native import (
@@ -153,4 +153,4 @@ __all__ = [
     "process",
 ]
 
-__version__ = "1.9.0-rc.14"
+__version__ = "1.9.0-rc.15"

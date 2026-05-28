@@ -7,7 +7,7 @@
 set -euo pipefail
 
 REPO_URL="https://github.com/kreuzberg-dev/tree-sitter-language-pack"
-VERSION="1.9.0-rc.14"
+VERSION="1.9.0-rc.15"
 FFI_PKG_NAME="ts_pack_core_ffi"
 FFI_DIR="ffi"
 
