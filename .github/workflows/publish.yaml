@@ -2620,7 +2620,7 @@ jobs:
               id: bundle
               with:
                   crate-name: tree-sitter-language-pack-swift
-                  artifact-name: TreeSitterLanguagePackSwift
+                  artifact-name: TreeSitterLanguagePack-rs
             - uses: actions/upload-artifact@v7.0.1
               with:
                   name: swift-artifactbundle
