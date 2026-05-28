@@ -1,0 +1,21 @@
+{
+  "formulas": [
+    {
+      "name": "ts-pack",
+      "template": "scripts/publish/ts-pack.rb.tmpl",
+      "assets": {
+        "source_sha": "tree-sitter-language-pack-src-v${version}.tar.gz"
+      }
+    },
+    {
+      "name": "libts-pack",
+      "template": "scripts/publish/libts-pack.rb.tmpl",
+      "assets": {
+        "ffi_macos_arm_sha": "tree-sitter-language-pack-ffi-v${version}-aarch64-apple-darwin.tar.gz",
+        "ffi_macos_intel_sha": "tree-sitter-language-pack-ffi-v${version}-x86_64-apple-darwin.tar.gz",
+        "ffi_linux_arm_sha": "tree-sitter-language-pack-ffi-v${version}-aarch64-unknown-linux-gnu.tar.gz",
+        "ffi_linux_intel_sha": "tree-sitter-language-pack-ffi-v${version}-x86_64-unknown-linux-gnu.tar.gz"
+      }
+    }
+  ]
+}
