@@ -13,7 +13,7 @@ defmodule TreeSitterLanguagePack.MixProject do
           targets: ~w(aarch64-apple-darwin aarch64-unknown-linux-gnu x86_64-unknown-linux-gnu x86_64-pc-windows-gnu)
         ]
       ],
-      description: "Pre-compiled tree-sitter grammars for 305 programming languages",
+      description: "Pre-compiled tree-sitter grammars for 306 programming languages",
       package: package(),
       deps: deps()
     ]

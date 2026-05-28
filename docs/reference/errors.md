@@ -26,5 +26,8 @@ features are enabled.
 | `QueryError` | Query error: {0} | Query error errors |
 | `InvalidRange` | Invalid byte range: {0} | Invalid range errors |
 | `Io` | IO error: {0} | Io errors |
+| `Download` | Download error: {0} | Download errors |
+| `ChecksumMismatch` | Checksum mismatch for '{file}': expected {expected}, got {actual} | Checksum mismatch errors |
+| `CacheLock` | Download cache lock error: {0} | Cache lock errors |
 
 ---

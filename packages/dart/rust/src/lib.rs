@@ -704,16 +704,45 @@ pub enum DiagnosticSeverity {
 /// features are enabled.
 #[frb(mirror(Error))]
 pub enum Error {
-    LanguageNotFound { field0: String },
-    DynamicLoad { field0: String },
-    NullLanguagePointer { field0: String },
-    ParserSetup { field0: String },
-    LockPoisoned { field0: String },
-    Config { field0: String },
+    LanguageNotFound {
+        field0: String,
+    },
+    DynamicLoad {
+        field0: String,
+    },
+    NullLanguagePointer {
+        field0: String,
+    },
+    ParserSetup {
+        field0: String,
+    },
+    LockPoisoned {
+        field0: String,
+    },
+    Config {
+        field0: String,
+    },
     ParseFailed,
-    QueryError { field0: String },
-    InvalidRange { field0: String },
-    Io { field0: String },
+    QueryError {
+        field0: String,
+    },
+    InvalidRange {
+        field0: String,
+    },
+    Io {
+        field0: String,
+    },
+    Download {
+        field0: String,
+    },
+    ChecksumMismatch {
+        file: String,
+        expected: String,
+        actual: String,
+    },
+    CacheLock {
+        field0: String,
+    },
 }
 
 // From<SourceT> conversions for bridge return types.
@@ -1259,7 +1288,7 @@ pub fn download_group(name: String) -> Result<i64, String> {
         .map_err(|e| e.to_string())
 }
 
-/// Return all language names available in the remote manifest (305).
+/// Return all language names available in the remote manifest (306).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of
 /// downloadable languages. Use `downloaded_languages` to list what is

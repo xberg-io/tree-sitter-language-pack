@@ -842,6 +842,9 @@ public enum TreeSitterLanguagePackError: Swift.Error {
     case queryError(message: String, field0: String)
     case invalidRange(message: String, field0: String)
     case io(message: String, field0: String)
+    case download(message: String, field0: String)
+    case checksumMismatch(message: String, file: String, expected: String, actual: String)
+    case cacheLock(message: String, field0: String)
 }
 
 // MARK: - From-JSON Helpers
@@ -1361,7 +1364,7 @@ public func downloadGroup(name: String) throws -> UInt {
     return try RustBridge.downloadGroup(name)
 }
 
-/// Return all language names available in the remote manifest (305).
+/// Return all language names available in the remote manifest (306).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of
 /// downloadable languages. Use [`downloaded_languages`] to list what is

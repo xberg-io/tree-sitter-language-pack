@@ -49,4 +49,11 @@ sealed class Error(message: String) : Exception(message) {
     data class InvalidRange(val field0: String) : Error("Invalid byte range: $field0")
 
     data class Io(val field0: String) : Error("IO error: $field0")
+
+    data class Download(val field0: String) : Error("Download error: $field0")
+
+    data class ChecksumMismatch(val file: String, val expected: String, val actual: String) :
+        Error("Checksum mismatch for '{file}': expected {expected}, got {actual}")
+
+    data class CacheLock(val field0: String) : Error("Download cache lock error: $field0")
 }

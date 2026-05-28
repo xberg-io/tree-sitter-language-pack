@@ -1,11 +1,19 @@
 const std = @import("std");
+const builtin = @import("builtin");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
     const test_step = b.step("test", "Run tests");
 
-    const tree_sitter_language_pack_module = b.dependency("tree_sitter_language_pack", .{
+    // Select the platform-specific dependency based on build host.
+    const pkg_name = if (builtin.target.os.tag == .linux) (
+        if (builtin.target.cpu.arch == .x86_64) "tree_sitter_language_pack_linux_x86_64" else "tree_sitter_language_pack_linux_aarch64")
+    else if (builtin.target.os.tag == .macos) (
+        if (builtin.target.cpu.arch == .x86_64) "tree_sitter_language_pack_macos_amd64" else "tree_sitter_language_pack_macos_arm64")
+    else if (builtin.target.os.tag == .windows) "tree_sitter_language_pack_windows_x64" else @compileError("unsupported platform for this Zig package");
+
+    const tree_sitter_language_pack_module = b.dependency(pkg_name, .{
         .target = target,
         .optimize = optimize,
     }).module("tree_sitter_language_pack");

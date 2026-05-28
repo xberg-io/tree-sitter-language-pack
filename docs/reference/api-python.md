@@ -1537,5 +1537,8 @@ features are enabled.
 | `QueryError(Error)` | Query error: {0} |
 | `InvalidRange(Error)` | Invalid byte range: {0} |
 | `Io(Error)` | IO error: {0} |
+| `Download(Error)` | Download error: {0} |
+| `ChecksumMismatch(Error)` | Checksum mismatch for '{file}': expected {expected}, got {actual} |
+| `CacheLock(Error)` | Download cache lock error: {0} |
 
 ---

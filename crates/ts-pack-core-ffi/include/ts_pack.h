@@ -2395,7 +2395,7 @@ uintptr_t ts_pack_download_all(void);
 uintptr_t ts_pack_download_group(const char *name);
 
 /**
- * Return all language names available in the remote manifest (305).
+ * Return all language names available in the remote manifest (306).
  *
  * Fetches (and caches) the remote manifest to discover the full list of
  * downloadable languages. Use [`downloaded_languages`] to list what is

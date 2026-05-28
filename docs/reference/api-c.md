@@ -1530,5 +1530,8 @@ features are enabled.
 | `TS_PACK_QUERY_ERROR` | Query error: {0} |
 | `TS_PACK_INVALID_RANGE` | Invalid byte range: {0} |
 | `TS_PACK_IO` | IO error: {0} |
+| `TS_PACK_DOWNLOAD` | Download error: {0} |
+| `TS_PACK_CHECKSUM_MISMATCH` | Checksum mismatch for '{file}': expected {expected}, got {actual} |
+| `TS_PACK_CACHE_LOCK` | Download cache lock error: {0} |
 
 ---

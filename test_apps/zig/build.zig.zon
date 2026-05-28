@@ -4,10 +4,24 @@
     .fingerprint = 0xf16334c0592376fc,
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
-        .tree_sitter_language_pack = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12.tar.gz",
-            // alef: hash not pinned — run `zig fetch --save https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12.tar.gz` once to populate,
-            //       then set `hash` under [crates.e2e.registry.packages.zig] in alef.toml.
+        .tree_sitter_language_pack_linux_x86_64 = .{
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12-linux-x86_64.tar.gz",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.12-jCz0Y935RAAEyssqhQNpcTpzLnCNEE9VyygiYBkqUpVA",
+        },
+        .tree_sitter_language_pack_linux_aarch64 = .{
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12-linux-aarch64.tar.gz",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.12-jCz0Yw0iPgCwy_-Od3R3XW3KFEeZaO0kKsINxmlp2SFM",
+        },
+        .tree_sitter_language_pack_macos_amd64 = .{
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12-macos-amd64.tar.gz",
+            .hash = "TODO",
+        },
+        .tree_sitter_language_pack_macos_arm64 = .{
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12-macos-arm64.tar.gz",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.12-jCz0Y20DOQBMK9n_8ZNJGOlD_vQf01xsCFcNxciJ7wJG",
+        },
+        .tree_sitter_language_pack_windows_x64 = .{
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.12/tree-sitter-language-pack-zig-v1.9.0-rc.12-windows-x64.tar.gz",
             .hash = "TODO",
         },
     },

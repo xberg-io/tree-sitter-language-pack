@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "test": "NODE_OPTIONS=--max-old-space-size=4096 vitest run"
   },
   "devDependencies": {
     "@kreuzberg/tree-sitter-language-pack-wasm": "file:../../crates/ts-pack-core-wasm/pkg/nodejs",

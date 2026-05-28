@@ -76,7 +76,7 @@ mavenPublishing {
 
     pom {
         name.set("tree-sitter-language-pack-android")
-        description.set("Pre-compiled tree-sitter grammars for 305 programming languages")
+        description.set("Pre-compiled tree-sitter grammars for 306 programming languages")
         url.set("https://github.com/kreuzberg-dev/tree-sitter-language-pack")
         licenses {
             license {

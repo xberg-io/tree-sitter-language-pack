@@ -1552,5 +1552,8 @@ features are enabled.
 | `query_error` | Query error: {0} |
 | `invalid_range` | Invalid byte range: {0} |
 | `io` | IO error: {0} |
+| `download` | Download error: {0} |
+| `checksum_mismatch` | Checksum mismatch for '{file}': expected {expected}, got {actual} |
+| `cache_lock` | Download cache lock error: {0} |
 
 ---
