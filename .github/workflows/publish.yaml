@@ -3029,11 +3029,12 @@ jobs:
     # ─── Update Homebrew formula source URLs + SHAs ────────────────────
     publish-homebrew-formula:
         name: Update Homebrew formula
-        needs: [prepare, check-registries, upload-c-ffi-release]
+        needs: [prepare, check-registries, upload-cli-release, upload-c-ffi-release]
         if: |
             always() &&
             needs.prepare.outputs.release_homebrew == 'true' &&
             needs.prepare.outputs.dry_run != 'true' &&
+            needs.upload-cli-release.result == 'success' &&
             needs.upload-c-ffi-release.result == 'success' &&
             (fromJson(needs.check-registries.outputs.results).homebrew != 'true' || needs.prepare.outputs.force_republish == 'true')
         runs-on: ubuntu-latest
@@ -3052,34 +3053,6 @@ jobs:
                   repository: kreuzberg-dev/homebrew-tap
                   token: ${{ secrets.HOMEBREW_TOKEN }}
                   path: homebrew-tap
-
-            # The ts-pack CLI formula is build-from-source (`cargo install`).
-            # GitHub's auto-generated /archive/<tag>.tar.gz is not byte-stable
-            # across cache regenerations — same tag, same URL, different SHA at
-            # different times. We upload our own deterministic tarball so the
-            # formula's url + sha256 stay consistent across the formula-update
-            # job and the bottle-build jobs that download from it later.
-            - name: Build deterministic source tarball
-              env:
-                  TAG: ${{ needs.prepare.outputs.tag }}
-                  VERSION: ${{ needs.prepare.outputs.version }}
-              run: |
-                  archive="tree-sitter-language-pack-src-v${VERSION}.tar.gz"
-                  # actions/checkout placed HEAD at TAG; use HEAD so this works
-                  # regardless of whether the tag ref was fetched separately.
-                  git archive --format=tar --prefix="tree-sitter-language-pack-${VERSION}/" HEAD \
-                    | gzip -n > "${archive}"
-                  shasum -a 256 "${archive}"
-
-            - name: Upload source tarball to GitHub Release
-              uses: kreuzberg-dev/actions/publish-github-release@v1
-              with:
-                  tag: ${{ needs.prepare.outputs.tag }}
-                  title: "Release ${{ needs.prepare.outputs.tag }}"
-                  artifacts: "tree-sitter-language-pack-src-v${{ needs.prepare.outputs.version }}.tar.gz"
-                  dry-run: ${{ needs.prepare.outputs.dry_run }}
-              env:
-                  GH_TOKEN: ${{ github.token }}
 
             - name: Render formulas from templates
               uses: kreuzberg-dev/actions/publish-homebrew-source-formulas@v1
