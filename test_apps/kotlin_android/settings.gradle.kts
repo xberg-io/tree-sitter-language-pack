@@ -16,4 +16,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "tree-sitter-language-pack-e2e"
+rootProject.name = "tree-sitter-language-pack-android-e2e"

@@ -3,9 +3,11 @@
     .version = "0.1.0",
     .fingerprint = 0xf16334c0592376fc,
     .minimum_zig_version = "0.16.0",
-    .dependencies = .{{
-            .path = "../../packages/zig"
-        }},
+    .dependencies = .{
+        .tree_sitter_language_pack = .{
+            .path = "../../packages/zig",
+        },
+    },
     .paths = .{
         "build.zig",
         "build.zig.zon",

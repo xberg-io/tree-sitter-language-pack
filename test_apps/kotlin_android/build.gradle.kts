@@ -41,7 +41,7 @@ kotlin {
 
 dependencies {
     // Published Android AAR from Maven Central (verifies artifact resolution)
-    implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.12")
+    implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.14")
     // Jackson for JSON assertion helpers
     testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.18.2")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
@@ -69,4 +69,8 @@ dependencies {
     // JNA for loading the native library from java.library.path
     testImplementation("net.java.dev.jna:jna:5.18.1")
 
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

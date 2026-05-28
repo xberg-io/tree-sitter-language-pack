@@ -7,7 +7,7 @@
     "test": "NODE_OPTIONS=--max-old-space-size=4096 vitest run"
   },
   "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack-wasm": "1.9.0-rc.13",
+    "@kreuzberg/tree-sitter-language-pack-wasm": "1.9.0-rc.14",
     "rollup": "^4.53.3",
     "vitest": "^4.1.5"
   }

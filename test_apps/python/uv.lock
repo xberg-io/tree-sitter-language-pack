@@ -211,19 +211,19 @@ wheels = [
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.9.0rc11"
+version = "1.9.0rc12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "tree-sitter" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/83/30/5b3910cacbdd13676c361ca13fe4aaf4b78d4b03fc7df78b4e36ea65059f/tree_sitter_language_pack-1.9.0rc11.tar.gz", hash = "sha256:b6fed5f8c37436f0d7d97f87a6458fd9b5f86a82bef81116a7c489d127f4971f", size = 72409, upload-time = "2026-05-26T16:16:22.955Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e8/11/c474a84f941089c221992958a73d4ffac27fec882c65ef73b1293128f036/tree_sitter_language_pack-1.9.0rc12.tar.gz", hash = "sha256:76fab3a5bc8e7a338aa897090899cabe56df6a1f0bebde48b6840430c3f3267c", size = 72570, upload-time = "2026-05-27T09:11:49.401Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/53/5f/424bb91528f35a3cd46e88d02e3ca66911124d5cd94f94bed586d54c7712/tree_sitter_language_pack-1.9.0rc11-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:a116a344a69ee07e16dcc9d5ff8e6b8155dc6b65985d98a177c208bd35277631", size = 1985862, upload-time = "2026-05-26T16:16:17.003Z" },
-    { url = "https://files.pythonhosted.org/packages/cb/c3/c96e403dbbdf2f6787f0fa62f79c25aaddc67fea116d773516c9c932f481/tree_sitter_language_pack-1.9.0rc11-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:d76fffe9d476df2bbebcaa7d29ba55b87330dd23379fa865ee260513193abef1", size = 1855007, upload-time = "2026-05-26T16:16:18.245Z" },
-    { url = "https://files.pythonhosted.org/packages/28/b6/31b43471fe3bab55e50a2951f3ff2f0c2e0d1748b3a577da07c20deaccdb/tree_sitter_language_pack-1.9.0rc11-cp310-abi3-manylinux_2_34_aarch64.whl", hash = "sha256:56f62b72781aa409298a267da6284cbcdd44ed974bccffcdf0a12619114ba7fc", size = 2029494, upload-time = "2026-05-26T16:16:21.946Z" },
-    { url = "https://files.pythonhosted.org/packages/f1/09/fe5cd10bc792d54ff892c41ec068a1e5cb46f2d852fde2a48c3276813ad3/tree_sitter_language_pack-1.9.0rc11-cp310-abi3-manylinux_2_34_x86_64.whl", hash = "sha256:3d85ad710561a800a5baee3b3ec538d500091531b735611da5ee7a3aba166e5f", size = 2134322, upload-time = "2026-05-26T16:16:19.397Z" },
-    { url = "https://files.pythonhosted.org/packages/7c/84/e0d3411e00cd52b2a0b12a0f1136006abfbb492aacba0e7e18e20cdbf6ac/tree_sitter_language_pack-1.9.0rc11-cp310-abi3-win_amd64.whl", hash = "sha256:60b8659904ddebb20e07bab33645285e9cdfae6bc90c24f7fd6ba5d2bdc5c1e6", size = 1893969, upload-time = "2026-05-26T16:16:20.553Z" },
-    { url = "https://files.pythonhosted.org/packages/3a/00/4411b50ff6fbb8ca9b1f9ac198bf223a9e263769cce25080f9497a969287/tree_sitter_language_pack-1.9.0rc11-cp310-abi3-win_arm64.whl", hash = "sha256:f00b7cee6ca7124f083f8f603c086caca84ec7355f5f474bfe7fca7437977e8f", size = 1813015, upload-time = "2026-05-26T16:16:15.594Z" },
+    { url = "https://files.pythonhosted.org/packages/d7/e6/5c8a1566150ac24679da2012ab700ae0ab8a71b6e9afa4429b0d8ea2a0d7/tree_sitter_language_pack-1.9.0rc12-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:7655270bc3396faf24f5ea1968ee5fca8510f5e77ff9b4fa9a18a8923b714ce8", size = 1985855, upload-time = "2026-05-27T09:11:51.998Z" },
+    { url = "https://files.pythonhosted.org/packages/3f/fa/b185d82f3dc211327094723c6bbaf0e08d6cd97d78522495a7a3ead8e484/tree_sitter_language_pack-1.9.0rc12-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:215a46e2650e4c691efe8cfbfd65e6a714a1b02a728a8fe91413cd7e403fcf91", size = 1855240, upload-time = "2026-05-27T09:11:48.082Z" },
+    { url = "https://files.pythonhosted.org/packages/af/83/9d9e3b85e022c5069a9caa4d90d30e62974dc05ab923f814ba4155b5f222/tree_sitter_language_pack-1.9.0rc12-cp310-abi3-manylinux_2_34_aarch64.whl", hash = "sha256:e2be8187b58787d2e505587f404f249ee2df180c0c975567a4e4800cdca74f57", size = 2029532, upload-time = "2026-05-27T09:11:55.109Z" },
+    { url = "https://files.pythonhosted.org/packages/51/59/f149e4fe55f7e328b16fad12f1cfb493cf7611365ef819a10f42a47dffc9/tree_sitter_language_pack-1.9.0rc12-cp310-abi3-manylinux_2_34_x86_64.whl", hash = "sha256:dbe6191f3988b3364a8c6e339743bca2b3c560727bcbcec9b52e59be7b2eb837", size = 2134114, upload-time = "2026-05-27T09:11:50.408Z" },
+    { url = "https://files.pythonhosted.org/packages/d4/d2/405064a08ac6845fd63bae928b8471ffc860eff288a4010fee6004a31e58/tree_sitter_language_pack-1.9.0rc12-cp310-abi3-win_amd64.whl", hash = "sha256:1889e9e20593e75be3e3e7cbdc351983dc0bbe5571b9160c7e9212407f9354ff", size = 1893978, upload-time = "2026-05-27T09:11:56.375Z" },
+    { url = "https://files.pythonhosted.org/packages/15/99/adf12e68216d79fa5b988ca4e124920a68a0bbc0056f04f79a09d389075d/tree_sitter_language_pack-1.9.0rc12-cp310-abi3-win_arm64.whl", hash = "sha256:09f4361cc2e31de9aa5a4f8af917dd12e23aa23c7cca83535d235fafbcfc8870", size = 1813091, upload-time = "2026-05-27T09:11:53.541Z" },
 ]
 
 [[package]]
@@ -242,7 +242,7 @@ requires-dist = [
     { name = "pytest", specifier = ">=7.4" },
     { name = "pytest-asyncio", specifier = ">=0.23" },
     { name = "pytest-timeout", specifier = ">=2.1" },
-    { name = "tree-sitter-language-pack", specifier = "==1.9.0rc11" },
+    { name = "tree-sitter-language-pack", specifier = "==1.9.0rc12" },
 ]
 
 [[package]]
