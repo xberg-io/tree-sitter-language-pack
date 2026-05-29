@@ -34,6 +34,12 @@ repos:
           - id: check-case-conflict
           - id: pyproject-fmt
             additional_dependencies: ["pyproject-fmt==2.5.0"]
+            # alef sync-versions emits packages/python/pyproject.toml with a
+            # specific classifier list, lint.per-file-ignores ordering, and
+            # tool.mypy overrides block. pyproject-fmt re-orders + collapses
+            # entries, which then trips the `git diff --exit-code` check in CI
+            # after alef sync-versions re-emits.
+            exclude: ^packages/python/pyproject\.toml$
           - id: ruff
             exclude: ^fixtures/bench/
           - id: ruff-format
@@ -179,6 +185,10 @@ repos:
           - id: dart-format
           - id: dart-analyze
           - id: swift-format
+            # alef sync-versions emits Package.swift with a single-line URL;
+            # swift-format wraps to next-line, breaking the `git diff --exit-code`
+            # check in CI after alef sync-versions re-emits.
+            exclude: ^Package\.swift$
           - id: swiftlint
           - id: zig-fmt
           - id: zig-build-check
