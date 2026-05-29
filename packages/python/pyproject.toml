@@ -17,6 +17,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
   "tree-sitter>=0.23",
@@ -65,7 +66,6 @@ lint.ignore = [
   "TD",
   "TRY",
 ]
-lint.per-file-ignores."tests/**" = [ "ANN", "D103", "PLR2004", "S101" ]
 lint.per-file-ignores."tree_sitter_language_pack/__init__.py" = [ "I001" ]
 # The alef Python codegen still emits cosmetic warnings on the wrapper
 # modules: api.py keeps the legacy `from typing import AsyncIterator` and a
@@ -75,6 +75,7 @@ lint.per-file-ignores."tree_sitter_language_pack/__init__.py" = [ "I001" ]
 # the codegen is updated to emit ruff-clean output.
 lint.per-file-ignores."tree_sitter_language_pack/api.py" = [ "F401", "I001", "UP035" ]
 lint.per-file-ignores."tree_sitter_language_pack/options.py" = [ "F401", "RUF100" ]
+lint.per-file-ignores."tests/**" = [ "ANN", "D103", "PLR2004", "S101" ]
 lint.mccabe.max-complexity = 15
 lint.pydocstyle.convention = "google"
 lint.pylint.max-args = 10
@@ -95,10 +96,5 @@ overrides = [
   # sees only the static-type discrepancy. Disable the four error codes the
   # discrepancy raises until the codegen emits matching `_to_rust_*` calls and
   # casts the return values.
-  { module = "tree_sitter_language_pack.api", disable_error_code = [
-    "call-arg",
-    "arg-type",
-    "return-value",
-    "attr-defined",
-  ] },
+  { module = "tree_sitter_language_pack.api", disable_error_code = [ "call-arg", "arg-type", "return-value", "attr-defined" ] },
 ]
