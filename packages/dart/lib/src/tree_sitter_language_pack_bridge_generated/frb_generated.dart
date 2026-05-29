@@ -71,9 +71,13 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   }
 
   static List<String> _alefHostLibNames() {
-    if (Platform.isMacOS) return const ['libtree_sitter_language_pack.dylib'];
-    if (Platform.isWindows) return const ['tree_sitter_language_pack.dll'];
-    return const ['libtree_sitter_language_pack.so'];
+    // The Dart-binding Rust crate is `{stem}-dart` (per the cargo manifest
+    // template), which produces a cdylib named `lib{stem}_dart.{ext}` on Unix
+    // and `{stem}_dart.dll` on Windows.
+    if (Platform.isMacOS)
+      return const ['libtree_sitter_language_pack_dart.dylib'];
+    if (Platform.isWindows) return const ['tree_sitter_language_pack_dart.dll'];
+    return const ['libtree_sitter_language_pack_dart.so'];
   }
 
   /// Initialize flutter_rust_bridge

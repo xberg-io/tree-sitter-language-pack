@@ -6,23 +6,23 @@
     .dependencies = .{
         .tree_sitter_language_pack_linux_x86_64 = .{
             .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.15/tree-sitter-language-pack-zig-v1.9.0-rc.15-linux-x86_64.tar.gz",
-            .hash = "TODO",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.15-jCz0Y2D6RADhuOFd9p0KKpL6ipu1GS-afMww1ImHIlKo",
         },
         .tree_sitter_language_pack_linux_aarch64 = .{
             .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.15/tree-sitter-language-pack-zig-v1.9.0-rc.15-linux-aarch64.tar.gz",
-            .hash = "TODO",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.15-jCz0Y0AiPgDPgWn4ngeo-ee94sPorTRWyP1evr84uzsA",
         },
         .tree_sitter_language_pack_macos_x86_64 = .{
             .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.15/tree-sitter-language-pack-zig-v1.9.0-rc.15-macos-x86_64.tar.gz",
-            .hash = "TODO",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.15-jCz0Y0wXPgCzIVNo07eIaByVHG35e1sYZkbHYneaZH3o",
         },
         .tree_sitter_language_pack_macos_arm64 = .{
             .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.15/tree-sitter-language-pack-zig-v1.9.0-rc.15-macos-arm64.tar.gz",
-            .hash = "TODO",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.15-jCz0Y6ADOQBM8h4ktWj9zEZQA98FYdPR5xPeAukn5nhi",
         },
         .tree_sitter_language_pack_windows_x86_64 = .{
             .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.15/tree-sitter-language-pack-zig-v1.9.0-rc.15-windows-x86_64.tar.gz",
-            .hash = "TODO",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.15-jCz0Y-5ZPgC6V72WNo150rAISb1vnk2BLDTq_GE6iVcp",
         },
 
     },
