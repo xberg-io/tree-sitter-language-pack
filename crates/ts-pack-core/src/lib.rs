@@ -202,6 +202,32 @@ pub fn available_languages() -> Vec<String> {
     REGISTRY.available_languages()
 }
 
+/// Check whether a parser is statically compiled into this build.
+///
+/// Returns `true` only when the grammar was compiled in at build time.
+/// This is independent of the extension-to-language name mapping:
+/// [`detect_language_from_extension`] consults the static ext table for all
+/// 306 grammars regardless of which parsers are compiled in.
+///
+/// Use this to distinguish "we know the language name" from "we can actually
+/// parse files in that language right now". Callers that want only names that
+/// are parseable can chain the two checks:
+///
+/// ```no_run
+/// use tree_sitter_language_pack::{detect_language_from_extension, has_parser};
+///
+/// if let Some(lang) = detect_language_from_extension("feature") {
+///     if has_parser(lang) {
+///         // load the parser and parse
+///     } else {
+///         // we know it's gherkin but no parser is compiled in
+///     }
+/// }
+/// ```
+pub fn has_parser(name: &str) -> bool {
+    REGISTRY.has_parser(name)
+}
+
 /// Check if a language is available by name or alias.
 ///
 /// Returns `true` if the language can be loaded (statically compiled,

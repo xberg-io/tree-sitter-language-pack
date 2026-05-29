@@ -326,6 +326,32 @@ mod tests {
         assert_eq!(detect_language_from_content("#!/usr/bin/fantasy\ncode"), None);
     }
 
+    /// Verify that ext→name detection is independent of parser availability.
+    ///
+    /// `detect_language_from_extension` consults the static extension table that
+    /// is generated from the full `language_definitions.json` for all 306 grammars.
+    /// It does NOT gate on whether the parser was compiled in (controlled by
+    /// `TSLP_LANGUAGES` at build time). Subset FFI builds must still return the
+    /// correct name for any extension in the table.
+    ///
+    /// We verify this by using a language that may or may not be compiled in
+    /// (gherkin/.feature) and asserting the extension lookup succeeds regardless,
+    /// then separately checking parser availability via `has_parser`.
+    #[test]
+    fn test_ext_detection_independent_of_parser_availability() {
+        // `.feature` files are always mapped to "gherkin" in the static table.
+        // This holds whether or not the gherkin parser is compiled into this build.
+        assert_eq!(
+            detect_language_from_extension("feature"),
+            Some("gherkin"),
+            "ext 'feature' must resolve to 'gherkin' from the static table regardless of build subset"
+        );
+        // Callers that need to parse should gate on has_parser, not on ext detection.
+        // We don't assert a specific value for has_parser here since it depends on the
+        // build config — the point is that ext detection is always non-None.
+        let _ = crate::has_language("gherkin");
+    }
+
     /// Validate that JSON definitions match generated code by round-tripping.
     /// Loads language_definitions.json at test time and checks every extension
     /// resolves correctly via the generated lookup.

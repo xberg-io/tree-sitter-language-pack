@@ -461,6 +461,31 @@ impl LanguageRegistry {
         langs
     }
 
+    /// Check whether a parser is statically compiled into this build.
+    ///
+    /// Returns `true` only when the grammar was compiled in at build time
+    /// (i.e. it appears in the `STATIC_LANGUAGES` table). This is independent
+    /// of the extension-to-language mapping: [`crate::detect_language_from_extension`]
+    /// consults the static ext table for all 306 grammars regardless of which
+    /// parsers are compiled in.
+    ///
+    /// Use this when you need to distinguish "we know the language name" from
+    /// "we can actually parse files in that language right now".
+    ///
+    /// ```no_run
+    /// use tree_sitter_language_pack::{detect_language_from_extension, LanguageRegistry};
+    ///
+    /// let registry = LanguageRegistry::new();
+    /// // Extension detection uses the static table — independent of compiled parsers.
+    /// let lang = detect_language_from_extension("feature"); // always returns Some("gherkin")
+    /// // Parser availability depends on which grammars were compiled in.
+    /// let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
+    /// ```
+    pub fn has_parser(&self, name: &str) -> bool {
+        let name = resolve_alias(name);
+        self.static_lookup.contains_key(name)
+    }
+
     /// Check whether a language is available by name or alias.
     ///
     /// Returns `true` if the language can be loaded, either from the static
