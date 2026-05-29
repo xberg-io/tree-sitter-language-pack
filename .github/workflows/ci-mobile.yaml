@@ -32,6 +32,11 @@ env:
     CARGO_INCREMENTAL: 0
     CARGO_PROFILE_DEV_DEBUG: 0
     RUST_BACKTRACE: short
+    # build.rs downloads parser-sources from the current rc tag URL, which
+    # 404s pre-publish (this workflow runs on the same commit as the tag, before
+    # publish.yaml uploads the asset). Skip the download for the per-target
+    # cargo check / cargo ndk steps — they only type-check.
+    TSLP_OFFLINE: "1"
 
 permissions:
     contents: read

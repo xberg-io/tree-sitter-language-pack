@@ -26,6 +26,11 @@ env:
     RUST_BACKTRACE: short
     TSLP_LINK_MODE: static
     TSLP_LANGUAGES: mojo,nim,norg
+    # build.rs downloads parser-sources from the current rc tag URL, which
+    # 404s pre-publish (this workflow runs on the same commit as the tag, before
+    # publish.yaml uploads the asset). Skip the download — cargo check just
+    # type-checks; the static-link parser tables come from TSLP_LANGUAGES.
+    TSLP_OFFLINE: "1"
 
 permissions:
     contents: read
