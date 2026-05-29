@@ -1005,64 +1005,64 @@ output = "test_apps"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "1.9.0rc15"
+version = "1.9.0rc16"
 
 [crates.e2e.registry.packages.node]
 name = "@kreuzberg/tree-sitter-language-pack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.go]
 module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
-version = "v1.9.0-rc.15"
+version = "v1.9.0-rc.16"
 
 [crates.e2e.registry.packages.java]
 group_id = "dev.kreuzberg.treesitterlanguagepack"
 artifact_id = "tree-sitter-language-pack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "1.9.0.pre.rc.15"
+version = "1.9.0.pre.rc.16"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.wasm]
 name = "@kreuzberg/tree-sitter-language-pack-wasm"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.php]
 name = "kreuzberg-dev/tree-sitter-language-pack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "dev.kreuzberg:tree-sitter-language-pack-android"
-version = "1.9.0-rc.15"
+version = "1.9.0-rc.16"
 
 [crates.scaffold]
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"

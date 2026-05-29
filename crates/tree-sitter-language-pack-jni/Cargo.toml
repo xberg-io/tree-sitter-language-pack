@@ -24,4 +24,4 @@ futures-util = "0.3"
 jni = "0.22"
 serde_json = "1"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync"] }
-tree-sitter-language-pack = { version = "1.9.0-rc.15", path = "../ts-pack-core", features = ["serde"] }
+tree-sitter-language-pack = { version = "1.9.0-rc.16", path = "../ts-pack-core", features = ["serde"] }
