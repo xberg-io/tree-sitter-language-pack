@@ -782,6 +782,19 @@ global instance via the module-level convenience functions
 
 ### Methods
 
+#### New()
+
+Create a new registry populated with all statically compiled languages.
+
+When the `dynamic-loading` feature is enabled, the registry also knows
+about dynamically loadable grammars and will load them on demand.
+
+**Signature:**
+
+```go
+func (o *LanguageRegistry) New() LanguageRegistry
+```
+
 #### GetLanguage()
 
 Get a tree-sitter `Language` by name.
@@ -1133,6 +1146,18 @@ or passed as a dict/object from language bindings.
 A tree-sitter parser configured for one language at a time.
 
 ### Methods
+
+#### New()
+
+Construct a new parser with no language set.
+
+Call `Parser.set_language` before parsing.
+
+**Signature:**
+
+```go
+func (o *Parser) New() Parser
+```
 
 #### SetLanguage()
 
