@@ -2,6 +2,6 @@
 
 All notable changes to this package will be documented in this file.
 
-## 1.9.0-rc.17
+## 1.9.0-rc.18
 
 - Initial release.

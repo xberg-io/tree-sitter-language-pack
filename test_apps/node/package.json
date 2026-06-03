@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack": "^1.9.0-rc.17",
+    "@kreuzberg/tree-sitter-language-pack": "^1.9.0-rc.18",
     "@types/node": "^22.10.2",
     "tree-sitter": "^0.25.0",
     "vitest": "^4.1.5"

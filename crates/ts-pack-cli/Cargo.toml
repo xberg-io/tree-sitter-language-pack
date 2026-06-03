@@ -14,7 +14,7 @@ path = "src/main.rs"
 clap = { workspace = true, features = ["derive"] }
 clap_complete = { workspace = true }
 serde_json = { workspace = true }
-tree-sitter-language-pack = { path = "../ts-pack-core", version = "1.9.0-rc.17", features = [
+tree-sitter-language-pack = { path = "../ts-pack-core", version = "1.9.0-rc.18", features = [
     "download",
     "config",
     "serde",
