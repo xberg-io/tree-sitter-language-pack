@@ -13,7 +13,7 @@ let package = Package(
     targets: [
         .testTarget(
             name: "TreeSitterLanguagePackE2ETests",
-            dependencies: [.product(name: "TreeSitterLanguagePack", package: "swift")]
+            dependencies: [.product(name: "TreeSitterLanguagePack", package: "tree-sitter-language-pack")]
         ),
     ]
 )

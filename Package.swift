@@ -1,11 +1,4 @@
 // swift-tools-version: 6.0
-// Root-level Package.swift — alef-generated for published distributions.
-//
-// This manifest uses `.binaryTarget` for pre-built XCFramework/artifact bundles.
-// External consumers depend on this via `.package(url: "...", from: "...")`.
-//
-// For in-tree development, see `packages/swift/Package.swift` and
-// `packages/swift/README.md` for the source-based workflow.
 import PackageDescription
 
 let package = Package(
@@ -18,13 +11,25 @@ let package = Package(
     .library(name: "TreeSitterLanguagePack", targets: ["TreeSitterLanguagePack"])
   ],
   targets: [
-    // RustBridge: pre-built binary target containing the compiled Rust library
-    // for macOS (arm64, x86_64), iOS (device, simulator), and Linux (arm64, x86_64).
-    // The binary includes C headers for swift-bridge interop.
-    .binaryTarget(
+    .target(
+      name: "RustBridgeC",
+      path: "packages/swift/Sources/RustBridgeC",
+      publicHeadersPath: "."
+    ),
+    .target(
       name: "RustBridge",
-      url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v__ALEF_SWIFT_VERSION__/TreeSitterLanguagePack-rs.artifactbundle.zip",
-      checksum: "__ALEF_SWIFT_CHECKSUM__"
+      dependencies: ["RustBridgeC"],
+      path: "packages/swift/Sources/RustBridge",
+      linkerSettings: [
+        .unsafeFlags([
+          "-Ltarget/release",
+          "-Ltarget/debug",
+        ]),
+        .linkedLibrary("tree_sitter_language_pack_swift"),
+        .linkedFramework("Security", .when(platforms: [.macOS, .iOS])),
+        .linkedFramework("CoreFoundation", .when(platforms: [.macOS, .iOS])),
+        .linkedFramework("SystemConfiguration", .when(platforms: [.macOS])),
+      ]
     ),
     .target(
       name: "TreeSitterLanguagePack",

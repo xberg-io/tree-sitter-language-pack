@@ -751,9 +751,6 @@ pub enum Error {
     InvalidRange {
         field0: String,
     },
-    Io {
-        field0: String,
-    },
     Download {
         field0: String,
     },

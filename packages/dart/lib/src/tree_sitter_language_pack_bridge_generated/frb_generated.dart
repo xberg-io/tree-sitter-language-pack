@@ -3569,16 +3569,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 8:
         return Error_InvalidRange(field0: dco_decode_String(raw[1]));
       case 9:
-        return Error_Io(field0: dco_decode_String(raw[1]));
-      case 10:
         return Error_Download(field0: dco_decode_String(raw[1]));
-      case 11:
+      case 10:
         return Error_ChecksumMismatch(
           file: dco_decode_String(raw[1]),
           expected: dco_decode_String(raw[2]),
           actual: dco_decode_String(raw[3]),
         );
-      case 12:
+      case 11:
         return Error_CacheLock(field0: dco_decode_String(raw[1]));
       default:
         throw Exception("unreachable");
@@ -4455,11 +4453,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         return Error_InvalidRange(field0: var_field0);
       case 9:
         var var_field0 = sse_decode_String(deserializer);
-        return Error_Io(field0: var_field0);
-      case 10:
-        var var_field0 = sse_decode_String(deserializer);
         return Error_Download(field0: var_field0);
-      case 11:
+      case 10:
         var var_file = sse_decode_String(deserializer);
         var var_expected = sse_decode_String(deserializer);
         var var_actual = sse_decode_String(deserializer);
@@ -4468,7 +4463,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           expected: var_expected,
           actual: var_actual,
         );
-      case 12:
+      case 11:
         var var_field0 = sse_decode_String(deserializer);
         return Error_CacheLock(field0: var_field0);
       default:
@@ -5452,23 +5447,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case Error_InvalidRange(field0: final field0):
         sse_encode_i_32(8, serializer);
         sse_encode_String(field0, serializer);
-      case Error_Io(field0: final field0):
-        sse_encode_i_32(9, serializer);
-        sse_encode_String(field0, serializer);
       case Error_Download(field0: final field0):
-        sse_encode_i_32(10, serializer);
+        sse_encode_i_32(9, serializer);
         sse_encode_String(field0, serializer);
       case Error_ChecksumMismatch(
         file: final file,
         expected: final expected,
         actual: final actual,
       ):
-        sse_encode_i_32(11, serializer);
+        sse_encode_i_32(10, serializer);
         sse_encode_String(file, serializer);
         sse_encode_String(expected, serializer);
         sse_encode_String(actual, serializer);
       case Error_CacheLock(field0: final field0):
-        sse_encode_i_32(12, serializer);
+        sse_encode_i_32(11, serializer);
         sse_encode_String(field0, serializer);
     }
   }

@@ -6,7 +6,7 @@
     .dependencies = .{
         .tree_sitter_language_pack = .{
             .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.17/tree-sitter-language-pack-zig-v1.9.0-rc.17.tar.gz",
-            .hash = "TODO",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.17-STALE_TODO_REGENERATE",
         },
     },
     .paths = .{

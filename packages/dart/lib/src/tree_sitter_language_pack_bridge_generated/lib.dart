@@ -677,7 +677,6 @@ sealed class Error with _$Error {
   const factory Error.queryError({required String field0}) = Error_QueryError;
   const factory Error.invalidRange({required String field0}) =
       Error_InvalidRange;
-  const factory Error.io({required String field0}) = Error_Io;
   const factory Error.download({required String field0}) = Error_Download;
   const factory Error.checksumMismatch({
     required String file,

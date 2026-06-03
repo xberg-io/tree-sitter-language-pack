@@ -841,7 +841,6 @@ public enum TreeSitterLanguagePackError: Swift.Error {
     case parseFailed
     case queryError(message: String, field0: String)
     case invalidRange(message: String, field0: String)
-    case io(message: String, field0: String)
     case download(message: String, field0: String)
     case checksumMismatch(message: String, file: String, expected: String, actual: String)
     case cacheLock(message: String, field0: String)

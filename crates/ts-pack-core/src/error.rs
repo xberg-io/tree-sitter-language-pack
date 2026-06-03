@@ -34,14 +34,15 @@ pub enum Error {
     #[error("Invalid byte range: {0}")]
     InvalidRange(String),
 
+    #[cfg(not(alef))]
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 
-    #[cfg(any(feature = "config", feature = "download"))]
+    #[cfg(all(not(alef), any(feature = "config", feature = "download")))]
     #[error("JSON parse error: {0}")]
     Json(#[from] serde_json::Error),
 
-    #[cfg(feature = "config")]
+    #[cfg(all(not(alef), feature = "config"))]
     #[error("TOML parse error: {0}")]
     Toml(#[from] toml::de::Error),
 

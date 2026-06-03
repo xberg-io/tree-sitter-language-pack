@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     tree_sitter_language_pack (1.9.0.pre.rc.17)
-      rb_sys (~> 0.9)
+      rb_sys (>= 0.9)
       sorbet-runtime (~> 0.5)
 
 GEM
@@ -155,7 +155,7 @@ PLATFORMS
 
 DEPENDENCIES
   rake-compiler (~> 1.2)
-  rb_sys (~> 0.9)
+  rb_sys (>= 0.9)
   rspec (~> 3.0)
   rubocop (~> 1.0)
   rubocop-performance (~> 1.0)

@@ -45,7 +45,6 @@ pub const Error = error{
     ParseFailed,
     QueryError,
     InvalidRange,
-    Io,
     Download,
     ChecksumMismatch,
     CacheLock,

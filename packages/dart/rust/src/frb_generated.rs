@@ -3074,9 +3074,6 @@ const _: fn() = || {
         crate::Error::InvalidRange { field0 } => {
             let _: String = field0;
         }
-        crate::Error::Io { field0 } => {
-            let _: String = field0;
-        }
         crate::Error::Download { field0 } => {
             let _: String = field0;
         }
@@ -3589,13 +3586,9 @@ impl SseDecode for crate::Error {
             }
             9 => {
                 let mut var_field0 = <String>::sse_decode(deserializer);
-                return crate::Error::Io { field0: var_field0 };
-            }
-            10 => {
-                let mut var_field0 = <String>::sse_decode(deserializer);
                 return crate::Error::Download { field0: var_field0 };
             }
-            11 => {
+            10 => {
                 let mut var_file = <String>::sse_decode(deserializer);
                 let mut var_expected = <String>::sse_decode(deserializer);
                 let mut var_actual = <String>::sse_decode(deserializer);
@@ -3605,7 +3598,7 @@ impl SseDecode for crate::Error {
                     actual: var_actual,
                 };
             }
-            12 => {
+            11 => {
                 let mut var_field0 = <String>::sse_decode(deserializer);
                 return crate::Error::CacheLock { field0: var_field0 };
             }
@@ -4561,16 +4554,15 @@ impl flutter_rust_bridge::IntoDart for FrbWrapper<crate::Error> {
             crate::Error::ParseFailed => [6.into_dart()].into_dart(),
             crate::Error::QueryError { field0 } => [7.into_dart(), field0.into_into_dart().into_dart()].into_dart(),
             crate::Error::InvalidRange { field0 } => [8.into_dart(), field0.into_into_dart().into_dart()].into_dart(),
-            crate::Error::Io { field0 } => [9.into_dart(), field0.into_into_dart().into_dart()].into_dart(),
-            crate::Error::Download { field0 } => [10.into_dart(), field0.into_into_dart().into_dart()].into_dart(),
+            crate::Error::Download { field0 } => [9.into_dart(), field0.into_into_dart().into_dart()].into_dart(),
             crate::Error::ChecksumMismatch { file, expected, actual } => [
-                11.into_dart(),
+                10.into_dart(),
                 file.into_into_dart().into_dart(),
                 expected.into_into_dart().into_dart(),
                 actual.into_into_dart().into_dart(),
             ]
             .into_dart(),
-            crate::Error::CacheLock { field0 } => [12.into_dart(), field0.into_into_dart().into_dart()].into_dart(),
+            crate::Error::CacheLock { field0 } => [11.into_dart(), field0.into_into_dart().into_dart()].into_dart(),
             _ => {
                 unimplemented!("");
             }
@@ -5177,22 +5169,18 @@ impl SseEncode for crate::Error {
                 <i32>::sse_encode(8, serializer);
                 <String>::sse_encode(field0, serializer);
             }
-            crate::Error::Io { field0 } => {
+            crate::Error::Download { field0 } => {
                 <i32>::sse_encode(9, serializer);
                 <String>::sse_encode(field0, serializer);
             }
-            crate::Error::Download { field0 } => {
-                <i32>::sse_encode(10, serializer);
-                <String>::sse_encode(field0, serializer);
-            }
             crate::Error::ChecksumMismatch { file, expected, actual } => {
-                <i32>::sse_encode(11, serializer);
+                <i32>::sse_encode(10, serializer);
                 <String>::sse_encode(file, serializer);
                 <String>::sse_encode(expected, serializer);
                 <String>::sse_encode(actual, serializer);
             }
             crate::Error::CacheLock { field0 } => {
-                <i32>::sse_encode(12, serializer);
+                <i32>::sse_encode(11, serializer);
                 <String>::sse_encode(field0, serializer);
             }
             _ => {

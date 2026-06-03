@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.22.0"
+alef_version = "0.22.5"
 languages = [
   "python",
   "node",
@@ -451,6 +451,7 @@ command = "cd packages/go && go test -tags tspack_dev -v ./..."
 e2e = "cd e2e/go && go test ./... -count=1"
 
 [crates.test.ruby]
+precondition = "command -v ruby >/dev/null 2>&1 && command -v bundle >/dev/null 2>&1"
 before = "cd packages/ruby && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg bundle exec rake compile"
 e2e = "cd e2e/ruby && bundle exec rspec spec/"
 
@@ -1002,6 +1003,7 @@ wasm = "pnpm dlx oxfmt {dir}"
 
 [crates.e2e.registry]
 output = "test_apps"
+github_repo = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
@@ -1051,6 +1053,7 @@ version = "1.9.0-rc.17"
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
 version = "1.9.0-rc.17"
+hash = "tree_sitter_language_pack-1.9.0-rc.17-STALE_TODO_REGENERATE"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"

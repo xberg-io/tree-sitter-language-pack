@@ -465,7 +465,7 @@ extension ErrorPatterns on Error {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Error_LanguageNotFound value)?  languageNotFound,TResult Function( Error_DynamicLoad value)?  dynamicLoad,TResult Function( Error_NullLanguagePointer value)?  nullLanguagePointer,TResult Function( Error_ParserSetup value)?  parserSetup,TResult Function( Error_LockPoisoned value)?  lockPoisoned,TResult Function( Error_Config value)?  config,TResult Function( Error_ParseFailed value)?  parseFailed,TResult Function( Error_QueryError value)?  queryError,TResult Function( Error_InvalidRange value)?  invalidRange,TResult Function( Error_Io value)?  io,TResult Function( Error_Download value)?  download,TResult Function( Error_ChecksumMismatch value)?  checksumMismatch,TResult Function( Error_CacheLock value)?  cacheLock,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Error_LanguageNotFound value)?  languageNotFound,TResult Function( Error_DynamicLoad value)?  dynamicLoad,TResult Function( Error_NullLanguagePointer value)?  nullLanguagePointer,TResult Function( Error_ParserSetup value)?  parserSetup,TResult Function( Error_LockPoisoned value)?  lockPoisoned,TResult Function( Error_Config value)?  config,TResult Function( Error_ParseFailed value)?  parseFailed,TResult Function( Error_QueryError value)?  queryError,TResult Function( Error_InvalidRange value)?  invalidRange,TResult Function( Error_Download value)?  download,TResult Function( Error_ChecksumMismatch value)?  checksumMismatch,TResult Function( Error_CacheLock value)?  cacheLock,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Error_LanguageNotFound() when languageNotFound != null:
@@ -477,8 +477,7 @@ return lockPoisoned(_that);case Error_Config() when config != null:
 return config(_that);case Error_ParseFailed() when parseFailed != null:
 return parseFailed(_that);case Error_QueryError() when queryError != null:
 return queryError(_that);case Error_InvalidRange() when invalidRange != null:
-return invalidRange(_that);case Error_Io() when io != null:
-return io(_that);case Error_Download() when download != null:
+return invalidRange(_that);case Error_Download() when download != null:
 return download(_that);case Error_ChecksumMismatch() when checksumMismatch != null:
 return checksumMismatch(_that);case Error_CacheLock() when cacheLock != null:
 return cacheLock(_that);case _:
@@ -499,7 +498,7 @@ return cacheLock(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Error_LanguageNotFound value)  languageNotFound,required TResult Function( Error_DynamicLoad value)  dynamicLoad,required TResult Function( Error_NullLanguagePointer value)  nullLanguagePointer,required TResult Function( Error_ParserSetup value)  parserSetup,required TResult Function( Error_LockPoisoned value)  lockPoisoned,required TResult Function( Error_Config value)  config,required TResult Function( Error_ParseFailed value)  parseFailed,required TResult Function( Error_QueryError value)  queryError,required TResult Function( Error_InvalidRange value)  invalidRange,required TResult Function( Error_Io value)  io,required TResult Function( Error_Download value)  download,required TResult Function( Error_ChecksumMismatch value)  checksumMismatch,required TResult Function( Error_CacheLock value)  cacheLock,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Error_LanguageNotFound value)  languageNotFound,required TResult Function( Error_DynamicLoad value)  dynamicLoad,required TResult Function( Error_NullLanguagePointer value)  nullLanguagePointer,required TResult Function( Error_ParserSetup value)  parserSetup,required TResult Function( Error_LockPoisoned value)  lockPoisoned,required TResult Function( Error_Config value)  config,required TResult Function( Error_ParseFailed value)  parseFailed,required TResult Function( Error_QueryError value)  queryError,required TResult Function( Error_InvalidRange value)  invalidRange,required TResult Function( Error_Download value)  download,required TResult Function( Error_ChecksumMismatch value)  checksumMismatch,required TResult Function( Error_CacheLock value)  cacheLock,}){
 final _that = this;
 switch (_that) {
 case Error_LanguageNotFound():
@@ -511,8 +510,7 @@ return lockPoisoned(_that);case Error_Config():
 return config(_that);case Error_ParseFailed():
 return parseFailed(_that);case Error_QueryError():
 return queryError(_that);case Error_InvalidRange():
-return invalidRange(_that);case Error_Io():
-return io(_that);case Error_Download():
+return invalidRange(_that);case Error_Download():
 return download(_that);case Error_ChecksumMismatch():
 return checksumMismatch(_that);case Error_CacheLock():
 return cacheLock(_that);}
@@ -529,7 +527,7 @@ return cacheLock(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Error_LanguageNotFound value)?  languageNotFound,TResult? Function( Error_DynamicLoad value)?  dynamicLoad,TResult? Function( Error_NullLanguagePointer value)?  nullLanguagePointer,TResult? Function( Error_ParserSetup value)?  parserSetup,TResult? Function( Error_LockPoisoned value)?  lockPoisoned,TResult? Function( Error_Config value)?  config,TResult? Function( Error_ParseFailed value)?  parseFailed,TResult? Function( Error_QueryError value)?  queryError,TResult? Function( Error_InvalidRange value)?  invalidRange,TResult? Function( Error_Io value)?  io,TResult? Function( Error_Download value)?  download,TResult? Function( Error_ChecksumMismatch value)?  checksumMismatch,TResult? Function( Error_CacheLock value)?  cacheLock,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Error_LanguageNotFound value)?  languageNotFound,TResult? Function( Error_DynamicLoad value)?  dynamicLoad,TResult? Function( Error_NullLanguagePointer value)?  nullLanguagePointer,TResult? Function( Error_ParserSetup value)?  parserSetup,TResult? Function( Error_LockPoisoned value)?  lockPoisoned,TResult? Function( Error_Config value)?  config,TResult? Function( Error_ParseFailed value)?  parseFailed,TResult? Function( Error_QueryError value)?  queryError,TResult? Function( Error_InvalidRange value)?  invalidRange,TResult? Function( Error_Download value)?  download,TResult? Function( Error_ChecksumMismatch value)?  checksumMismatch,TResult? Function( Error_CacheLock value)?  cacheLock,}){
 final _that = this;
 switch (_that) {
 case Error_LanguageNotFound() when languageNotFound != null:
@@ -541,8 +539,7 @@ return lockPoisoned(_that);case Error_Config() when config != null:
 return config(_that);case Error_ParseFailed() when parseFailed != null:
 return parseFailed(_that);case Error_QueryError() when queryError != null:
 return queryError(_that);case Error_InvalidRange() when invalidRange != null:
-return invalidRange(_that);case Error_Io() when io != null:
-return io(_that);case Error_Download() when download != null:
+return invalidRange(_that);case Error_Download() when download != null:
 return download(_that);case Error_ChecksumMismatch() when checksumMismatch != null:
 return checksumMismatch(_that);case Error_CacheLock() when cacheLock != null:
 return cacheLock(_that);case _:
@@ -562,7 +559,7 @@ return cacheLock(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String field0)?  languageNotFound,TResult Function( String field0)?  dynamicLoad,TResult Function( String field0)?  nullLanguagePointer,TResult Function( String field0)?  parserSetup,TResult Function( String field0)?  lockPoisoned,TResult Function( String field0)?  config,TResult Function()?  parseFailed,TResult Function( String field0)?  queryError,TResult Function( String field0)?  invalidRange,TResult Function( String field0)?  io,TResult Function( String field0)?  download,TResult Function( String file,  String expected,  String actual)?  checksumMismatch,TResult Function( String field0)?  cacheLock,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String field0)?  languageNotFound,TResult Function( String field0)?  dynamicLoad,TResult Function( String field0)?  nullLanguagePointer,TResult Function( String field0)?  parserSetup,TResult Function( String field0)?  lockPoisoned,TResult Function( String field0)?  config,TResult Function()?  parseFailed,TResult Function( String field0)?  queryError,TResult Function( String field0)?  invalidRange,TResult Function( String field0)?  download,TResult Function( String file,  String expected,  String actual)?  checksumMismatch,TResult Function( String field0)?  cacheLock,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Error_LanguageNotFound() when languageNotFound != null:
 return languageNotFound(_that.field0);case Error_DynamicLoad() when dynamicLoad != null:
@@ -573,8 +570,7 @@ return lockPoisoned(_that.field0);case Error_Config() when config != null:
 return config(_that.field0);case Error_ParseFailed() when parseFailed != null:
 return parseFailed();case Error_QueryError() when queryError != null:
 return queryError(_that.field0);case Error_InvalidRange() when invalidRange != null:
-return invalidRange(_that.field0);case Error_Io() when io != null:
-return io(_that.field0);case Error_Download() when download != null:
+return invalidRange(_that.field0);case Error_Download() when download != null:
 return download(_that.field0);case Error_ChecksumMismatch() when checksumMismatch != null:
 return checksumMismatch(_that.file,_that.expected,_that.actual);case Error_CacheLock() when cacheLock != null:
 return cacheLock(_that.field0);case _:
@@ -595,7 +591,7 @@ return cacheLock(_that.field0);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String field0)  languageNotFound,required TResult Function( String field0)  dynamicLoad,required TResult Function( String field0)  nullLanguagePointer,required TResult Function( String field0)  parserSetup,required TResult Function( String field0)  lockPoisoned,required TResult Function( String field0)  config,required TResult Function()  parseFailed,required TResult Function( String field0)  queryError,required TResult Function( String field0)  invalidRange,required TResult Function( String field0)  io,required TResult Function( String field0)  download,required TResult Function( String file,  String expected,  String actual)  checksumMismatch,required TResult Function( String field0)  cacheLock,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String field0)  languageNotFound,required TResult Function( String field0)  dynamicLoad,required TResult Function( String field0)  nullLanguagePointer,required TResult Function( String field0)  parserSetup,required TResult Function( String field0)  lockPoisoned,required TResult Function( String field0)  config,required TResult Function()  parseFailed,required TResult Function( String field0)  queryError,required TResult Function( String field0)  invalidRange,required TResult Function( String field0)  download,required TResult Function( String file,  String expected,  String actual)  checksumMismatch,required TResult Function( String field0)  cacheLock,}) {final _that = this;
 switch (_that) {
 case Error_LanguageNotFound():
 return languageNotFound(_that.field0);case Error_DynamicLoad():
@@ -606,8 +602,7 @@ return lockPoisoned(_that.field0);case Error_Config():
 return config(_that.field0);case Error_ParseFailed():
 return parseFailed();case Error_QueryError():
 return queryError(_that.field0);case Error_InvalidRange():
-return invalidRange(_that.field0);case Error_Io():
-return io(_that.field0);case Error_Download():
+return invalidRange(_that.field0);case Error_Download():
 return download(_that.field0);case Error_ChecksumMismatch():
 return checksumMismatch(_that.file,_that.expected,_that.actual);case Error_CacheLock():
 return cacheLock(_that.field0);}
@@ -624,7 +619,7 @@ return cacheLock(_that.field0);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String field0)?  languageNotFound,TResult? Function( String field0)?  dynamicLoad,TResult? Function( String field0)?  nullLanguagePointer,TResult? Function( String field0)?  parserSetup,TResult? Function( String field0)?  lockPoisoned,TResult? Function( String field0)?  config,TResult? Function()?  parseFailed,TResult? Function( String field0)?  queryError,TResult? Function( String field0)?  invalidRange,TResult? Function( String field0)?  io,TResult? Function( String field0)?  download,TResult? Function( String file,  String expected,  String actual)?  checksumMismatch,TResult? Function( String field0)?  cacheLock,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String field0)?  languageNotFound,TResult? Function( String field0)?  dynamicLoad,TResult? Function( String field0)?  nullLanguagePointer,TResult? Function( String field0)?  parserSetup,TResult? Function( String field0)?  lockPoisoned,TResult? Function( String field0)?  config,TResult? Function()?  parseFailed,TResult? Function( String field0)?  queryError,TResult? Function( String field0)?  invalidRange,TResult? Function( String field0)?  download,TResult? Function( String file,  String expected,  String actual)?  checksumMismatch,TResult? Function( String field0)?  cacheLock,}) {final _that = this;
 switch (_that) {
 case Error_LanguageNotFound() when languageNotFound != null:
 return languageNotFound(_that.field0);case Error_DynamicLoad() when dynamicLoad != null:
@@ -635,8 +630,7 @@ return lockPoisoned(_that.field0);case Error_Config() when config != null:
 return config(_that.field0);case Error_ParseFailed() when parseFailed != null:
 return parseFailed();case Error_QueryError() when queryError != null:
 return queryError(_that.field0);case Error_InvalidRange() when invalidRange != null:
-return invalidRange(_that.field0);case Error_Io() when io != null:
-return io(_that.field0);case Error_Download() when download != null:
+return invalidRange(_that.field0);case Error_Download() when download != null:
 return download(_that.field0);case Error_ChecksumMismatch() when checksumMismatch != null:
 return checksumMismatch(_that.file,_that.expected,_that.actual);case Error_CacheLock() when cacheLock != null:
 return cacheLock(_that.field0);case _:
@@ -1199,72 +1193,6 @@ class _$Error_InvalidRangeCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
   return _then(Error_InvalidRange(
-field0: null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-
-}
-
-/// @nodoc
-
-
-class Error_Io extends Error {
-  const Error_Io({required this.field0}): super._();
-
-
- final  String field0;
-
-/// Create a copy of Error
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$Error_IoCopyWith<Error_Io> get copyWith => _$Error_IoCopyWithImpl<Error_Io>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Error_Io&&(identical(other.field0, field0) || other.field0 == field0));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,field0);
-
-@override
-String toString() {
-  return 'Error.io(field0: $field0)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $Error_IoCopyWith<$Res> implements $ErrorCopyWith<$Res> {
-  factory $Error_IoCopyWith(Error_Io value, $Res Function(Error_Io) _then) = _$Error_IoCopyWithImpl;
-@useResult
-$Res call({
- String field0
-});
-
-
-
-
-}
-/// @nodoc
-class _$Error_IoCopyWithImpl<$Res>
-    implements $Error_IoCopyWith<$Res> {
-  _$Error_IoCopyWithImpl(this._self, this._then);
-
-  final Error_Io _self;
-  final $Res Function(Error_Io) _then;
-
-/// Create a copy of Error
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
-  return _then(Error_Io(
 field0: null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
 as String,
   ));
