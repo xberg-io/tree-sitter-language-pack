@@ -326,8 +326,7 @@ pub const DiagnosticSeverity = enum {
 ///
 /// Returns `null` for unrecognized extensions. The match is case-insensitive.
 pub fn detect_language_from_extension(ext: []const u8) error{OutOfMemory}!?[]u8 {
-    const ext_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{ext}, 0);
+    const ext_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{ext}, 0);
     defer std.heap.c_allocator.free(ext_z);
     const _result = c.ts_pack_detect_language_from_extension(ext_z);
     const _result_len = c.ts_pack_detect_language_from_extension_len(ext_z);
@@ -345,8 +344,7 @@ pub fn detect_language_from_extension(ext: []const u8) error{OutOfMemory}!?[]u8 
 /// Extracts the file extension and looks it up. Returns `null` if the
 /// path has no extension or the extension is not recognized.
 pub fn detect_language_from_path(path: []const u8) error{OutOfMemory}!?[]u8 {
-    const path_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{path}, 0);
+    const path_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{path}, 0);
     defer std.heap.c_allocator.free(path_z);
     const _result = c.ts_pack_detect_language_from_path(path_z);
     const _result_len = c.ts_pack_detect_language_from_path_len(path_z);
@@ -376,8 +374,7 @@ pub fn detect_language_from_path(path: []const u8) error{OutOfMemory}!?[]u8 {
 /// Returns `null` when content does not start with `#!`, the shebang is
 /// malformed, or the interpreter is not recognised.
 pub fn detect_language_from_content(content: []const u8) error{OutOfMemory}!?[]u8 {
-    const content_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{content}, 0);
+    const content_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{content}, 0);
     defer std.heap.c_allocator.free(content_z);
     const _result = c.ts_pack_detect_language_from_content(content_z);
     const _result_len = c.ts_pack_detect_language_from_content_len(content_z);
@@ -395,8 +392,7 @@ pub fn detect_language_from_content(content: []const u8) error{OutOfMemory}!?[]u
 /// Returns the contents of `highlights.scm` as a static string, or `null`
 /// if no highlights query is bundled for this language.
 pub fn get_highlights_query(language: []const u8) error{OutOfMemory}!?[]u8 {
-    const language_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{language}, 0);
+    const language_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{language}, 0);
     defer std.heap.c_allocator.free(language_z);
     const _result = c.ts_pack_get_highlights_query(language_z);
     const _result_len = c.ts_pack_get_highlights_query_len(language_z);
@@ -414,8 +410,7 @@ pub fn get_highlights_query(language: []const u8) error{OutOfMemory}!?[]u8 {
 /// Returns the contents of `injections.scm` as a static string, or `null`
 /// if no injections query is bundled for this language.
 pub fn get_injections_query(language: []const u8) error{OutOfMemory}!?[]u8 {
-    const language_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{language}, 0);
+    const language_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{language}, 0);
     defer std.heap.c_allocator.free(language_z);
     const _result = c.ts_pack_get_injections_query(language_z);
     const _result_len = c.ts_pack_get_injections_query_len(language_z);
@@ -433,8 +428,7 @@ pub fn get_injections_query(language: []const u8) error{OutOfMemory}!?[]u8 {
 /// Returns the contents of `locals.scm` as a static string, or `null`
 /// if no locals query is bundled for this language.
 pub fn get_locals_query(language: []const u8) error{OutOfMemory}!?[]u8 {
-    const language_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{language}, 0);
+    const language_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{language}, 0);
     defer std.heap.c_allocator.free(language_z);
     const _result = c.ts_pack_get_locals_query(language_z);
     const _result_len = c.ts_pack_get_locals_query_len(language_z);
@@ -458,8 +452,7 @@ pub fn get_locals_query(language: []const u8) error{OutOfMemory}!?[]u8 {
 /// Returns `Error.LanguageNotFound` if the language is not recognized,
 /// or `Error.Download` if auto-download fails.
 pub fn get_language(name: []const u8) Error!Language {
-    const name_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{name}, 0);
+    const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_get_language(name_z);
     if (c.ts_pack_last_error_code() != 0) {
@@ -478,8 +471,7 @@ pub fn get_language(name: []const u8) Error!Language {
 /// Returns `Error.LanguageNotFound` if the language is not recognized, or
 /// `Error.ParserSetup` if the language cannot be applied to the parser.
 pub fn get_parser(name: []const u8) Error!Parser {
-    const name_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{name}, 0);
+    const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_get_parser(name_z);
     if (c.ts_pack_last_error_code() != 0) {
@@ -492,8 +484,7 @@ pub fn get_parser(name: []const u8) Error!Parser {
 ///
 /// This compatibility alias matches the pre-Alef Python binding API.
 pub fn detect_language(path: []const u8) error{OutOfMemory}!?[]u8 {
-    const path_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{path}, 0);
+    const path_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{path}, 0);
     defer std.heap.c_allocator.free(path_z);
     const _result = c.ts_pack_detect_language(path_z);
     const _result_len = c.ts_pack_detect_language_len(path_z);
@@ -526,8 +517,7 @@ pub fn available_languages() error{OutOfMemory}![]u8 {
 /// Returns `true` if the language can be loaded (statically compiled,
 /// dynamically available, or a known alias for one of these).
 pub fn has_language(name: []const u8) error{OutOfMemory}!bool {
-    const name_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{name}, 0);
+    const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_has_language(name_z);
     return _result != 0;
@@ -552,11 +542,9 @@ pub fn language_count() u64 {
 ///
 /// Returns an error if the language is not found or parsing fails.
 pub fn process(source: []const u8, config: []const u8) Error![]u8 {
-    const source_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{source}, 0);
+    const source_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{source}, 0);
     defer std.heap.c_allocator.free(source_z);
-    const config_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{config}, 0);
+    const config_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{config}, 0);
     defer std.heap.c_allocator.free(config_z);
     const config_handle = c.ts_pack_process_config_from_json(config_z);
     if (config_handle == null) return _first_error(Error);
@@ -572,8 +560,7 @@ pub fn process(source: []const u8, config: []const u8) Error![]u8 {
         const slice = std.mem.sliceTo(_json_ptr, 0);
         const owned = try std.heap.c_allocator.dupe(u8, slice);
         break :blk owned;
-    }
-;
+    };
 }
 
 /// Initialize the language pack with the given configuration.
@@ -586,8 +573,7 @@ pub fn process(source: []const u8, config: []const u8) Error![]u8 {
 ///
 /// Returns an error if configuration cannot be applied or if downloads fail.
 pub fn init(config: []const u8) Error!void {
-    const config_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{config}, 0);
+    const config_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{config}, 0);
     defer std.heap.c_allocator.free(config_z);
     const config_handle = c.ts_pack_pack_config_from_json(config_z);
     if (config_handle == null) return _first_error(Error);
@@ -610,8 +596,7 @@ pub fn init(config: []const u8) Error!void {
 ///
 /// Returns an error if the lock cannot be acquired.
 pub fn configure(config: []const u8) Error!void {
-    const config_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{config}, 0);
+    const config_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{config}, 0);
     defer std.heap.c_allocator.free(config_z);
     const config_handle = c.ts_pack_pack_config_from_json(config_z);
     if (config_handle == null) return _first_error(Error);
@@ -634,8 +619,7 @@ pub fn configure(config: []const u8) Error!void {
 /// the download fails.
 pub fn download(names: []const u8) Error!u64 {
     // Vec/Map parameters are passed as JSON strings across the FFI boundary.
-    const names_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{names}, 0);
+    const names_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{names}, 0);
     defer std.heap.c_allocator.free(names_z);
     const _result = c.ts_pack_download(names_z);
     if (c.ts_pack_last_error_code() != 0) {
@@ -679,8 +663,7 @@ pub fn download_all() Error!u64 {
 /// Returns an error if the manifest cannot be fetched, the group is unknown,
 /// or any constituent language fails to download.
 pub fn download_group(name: []const u8) Error!u64 {
-    const name_z = try std.fmt.allocPrintSentinel(
-        std.heap.c_allocator, "{s}", .{name}, 0);
+    const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_download_group(name_z);
     if (c.ts_pack_last_error_code() != 0) {
@@ -795,7 +778,7 @@ pub const Parser = struct {
     ///
     /// Returns `Error.LanguageNotFound` if the language is not recognized,
     /// or `Error.ParserSetup` if the language ABI is incompatible.
-    pub fn set_language(self: *Parser, name: []const u8) (Error||error{OutOfMemory})!void {
+    pub fn set_language(self: *Parser, name: []const u8) (Error || error{OutOfMemory})!void {
         const name_z = try std.heap.c_allocator.dupeZ(u8, name);
         defer std.heap.c_allocator.free(name_z);
         _ = c.ts_pack_parser_set_language(@as(*c.TS_PACKParser, @ptrCast(self._handle)), name_z);
@@ -1110,7 +1093,7 @@ pub const LanguageRegistry = struct {
     ///
     /// Returns `Error.LanguageNotFound` if the name (after alias resolution)
     /// does not match any known grammar.
-    pub fn get_language(self: *LanguageRegistry, name: []const u8) (Error||error{OutOfMemory})!Language {
+    pub fn get_language(self: *LanguageRegistry, name: []const u8) (Error || error{OutOfMemory})!Language {
         const name_z = try std.heap.c_allocator.dupeZ(u8, name);
         defer std.heap.c_allocator.free(name_z);
         const _result = c.ts_pack_language_registry_get_language(@as(*c.TS_PACKLanguageRegistry, @ptrCast(self._handle)), name_z);
@@ -1179,7 +1162,7 @@ pub const LanguageRegistry = struct {
     }
 
     /// Parse source code and extract file intelligence based on config in a single pass.
-    pub fn process(self: *LanguageRegistry, source: []const u8, config: []const u8) (Error||error{OutOfMemory})![]u8 {
+    pub fn process(self: *LanguageRegistry, source: []const u8, config: []const u8) (Error || error{OutOfMemory})![]u8 {
         const source_z = try std.heap.c_allocator.dupeZ(u8, source);
         defer std.heap.c_allocator.free(source_z);
         const config_z = try std.heap.c_allocator.dupeZ(u8, config);
@@ -1239,7 +1222,7 @@ pub const DownloadManager = struct {
     /// are silently ignored rather than returning an error.
     ///
     /// Returns the number of library files extracted (including those already cached).
-    pub fn download_all_best_effort(self: *DownloadManager) (Error||error{OutOfMemory})!u64 {
+    pub fn download_all_best_effort(self: *DownloadManager) (Error || error{OutOfMemory})!u64 {
         const _result = c.ts_pack_download_manager_download_all_best_effort(@as(*c.TS_PACKDownloadManager, @ptrCast(self._handle)));
         if (c.ts_pack_last_error_code() != 0) {
             return _first_error(Error);
@@ -1255,7 +1238,7 @@ pub const DownloadManager = struct {
     /// permanent infrastructure; deleting it could allow a concurrent process that
     /// already opened the file to continue holding a stale lock handle while a new
     /// process opens a fresh inode, breaking the mutual-exclusion guarantee.
-    pub fn clean_cache(self: *DownloadManager) (Error||error{OutOfMemory})!void {
+    pub fn clean_cache(self: *DownloadManager) (Error || error{OutOfMemory})!void {
         _ = c.ts_pack_download_manager_clean_cache(@as(*c.TS_PACKDownloadManager, @ptrCast(self._handle)));
         if (c.ts_pack_last_error_code() != 0) {
             return _first_error(Error);

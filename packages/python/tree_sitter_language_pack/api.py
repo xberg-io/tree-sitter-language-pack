@@ -16,11 +16,16 @@ from tree_sitter import Language
 
 _E = TypeVar("_E")
 
+
 def _pascal_to_snake(value: str) -> str:
     """Convert PascalCase/camelCase to snake_case (AtxClosed -> atx_closed)."""
     out_chars: list[str] = []
     for index, ch in enumerate(value):
-        if ch.isupper() and index > 0 and (value[index - 1].islower() or (index + 1 < len(value) and value[index + 1].islower())):
+        if (
+            ch.isupper()
+            and index > 0
+            and (value[index - 1].islower() or (index + 1 < len(value) and value[index + 1].islower()))
+        ):
             out_chars.append("_")
         out_chars.append(ch.lower())
     return "".join(out_chars)
@@ -60,7 +65,7 @@ def _to_rust_process_config(value: ProcessConfig | dict[str, Any] | str | None) 
         value = ProcessConfig(**value)
     if value is None:
         return None
-    value = cast(ProcessConfig, value)
+    value = cast("ProcessConfig", value)
     return _rust.ProcessConfig(
         language=value.language,
         structure=value.structure,
@@ -82,7 +87,7 @@ def _to_rust_pack_config(value: PackConfig | dict[str, Any] | str | None) -> _ru
         value = PackConfig(**value)
     if value is None:
         return None
-    value = cast(PackConfig, value)
+    value = cast("PackConfig", value)
     return _rust.PackConfig(
         cache_dir=value.cache_dir,
         languages=value.languages,

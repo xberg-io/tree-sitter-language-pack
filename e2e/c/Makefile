@@ -43,8 +43,13 @@ all: $(TARGET)
 $(TARGET): $(SRCS) $(if $(and $(HEADER_PATH),$(LIB_PATH)),,$(FFI_DIR)/include/ts_pack.h)
 	$(CC) $(CFLAGS) -o $@ $(SRCS) $(LDFLAGS)
 
+.PHONY: all clean test smoke
+
 test: $(TARGET)
 	./$(TARGET)
+
+smoke: $(TARGET)
+	./$(TARGET) --smoke
 
 clean:
 	rm -f $(TARGET)

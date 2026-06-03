@@ -26,28 +26,35 @@ package dev.kreuzberg.tslp.android
 /**
  * Errors that can occur when using the tree-sitter language pack.
  *
- * Covers language lookup failures, parse errors, query errors, and I/O issues.
- * Feature-gated variants are included when `config`, `download`, or related
- * features are enabled.
+ * Covers language lookup failures, parse errors, query errors, and I/O issues. Feature-gated
+ * variants are included when `config`, `download`, or related features are enabled.
  */
 sealed class Error(message: String) : Exception(message) {
     data class LanguageNotFound(val field0: String) : Error("Language '$field0' not found")
+
     data class DynamicLoad(val field0: String) : Error("Dynamic library load error: $field0")
-    data class NullLanguagePointer(
-        val field0: String,
-    ) : Error("Language function returned null pointer for '$field0'")
+
+    data class NullLanguagePointer(val field0: String) :
+        Error("Language function returned null pointer for '$field0'")
+
     data class ParserSetup(val field0: String) : Error("Failed to set parser language: $field0")
+
     data class LockPoisoned(val field0: String) : Error("Registry lock poisoned: $field0")
+
     data class Config(val field0: String) : Error("Configuration error: $field0")
+
     object ParseFailed : Error("Parse failed: parsing returned no tree")
+
     data class QueryError(val field0: String) : Error("Query error: $field0")
+
     data class InvalidRange(val field0: String) : Error("Invalid byte range: $field0")
+
     data class Io(val field0: String) : Error("IO error: $field0")
+
     data class Download(val field0: String) : Error("Download error: $field0")
-    data class ChecksumMismatch(
-        val file: String,
-        val expected: String,
-        val actual: String,
-    ) : Error("Checksum mismatch for '{file}': expected {expected}, got {actual}")
+
+    data class ChecksumMismatch(val file: String, val expected: String, val actual: String) :
+        Error("Checksum mismatch for '{file}': expected {expected}, got {actual}")
+
     data class CacheLock(val field0: String) : Error("Download cache lock error: $field0")
 }

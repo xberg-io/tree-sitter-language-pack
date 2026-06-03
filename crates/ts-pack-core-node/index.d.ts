@@ -218,41 +218,41 @@ export declare function init(config?: PackConfig | undefined | null): void;
 
 /** A byte range — start (inclusive) to end (exclusive). */
 export interface ByteRange {
-  /** Inclusive start byte offset. */
-  readonly start: number
-  /** Exclusive end byte offset. */
-  readonly end: number
+	/** Inclusive start byte offset. */
+	readonly start: number;
+	/** Exclusive end byte offset. */
+	readonly end: number;
 }
 
 /** Metadata for a single chunk of source code. */
 export interface ChunkContext {
-  readonly language?: string
-  readonly chunkIndex?: number
-  readonly totalChunks?: number
-  readonly nodeTypes?: Array<string>
-  readonly contextPath?: Array<string>
-  readonly symbolsDefined?: Array<string>
-  readonly comments?: Array<CommentInfo>
-  readonly docstrings?: Array<DocstringInfo>
-  readonly hasErrorNodes?: boolean
+	readonly language?: string;
+	readonly chunkIndex?: number;
+	readonly totalChunks?: number;
+	readonly nodeTypes?: Array<string>;
+	readonly contextPath?: Array<string>;
+	readonly symbolsDefined?: Array<string>;
+	readonly comments?: Array<CommentInfo>;
+	readonly docstrings?: Array<DocstringInfo>;
+	readonly hasErrorNodes?: boolean;
 }
 
 /** A chunk of source code with rich metadata. */
 export interface CodeChunk {
-  readonly content?: string
-  readonly startByte?: number
-  readonly endByte?: number
-  readonly startLine?: number
-  readonly endLine?: number
-  readonly metadata?: ChunkContext
+	readonly content?: string;
+	readonly startByte?: number;
+	readonly endByte?: number;
+	readonly startLine?: number;
+	readonly endLine?: number;
+	readonly metadata?: ChunkContext;
 }
 
 /** A comment extracted from source code. */
 export interface CommentInfo {
-  readonly text?: string
-  readonly kind?: CommentKind
-  readonly span?: Span
-  readonly associatedNode?: string
+	readonly text?: string;
+	readonly kind?: CommentKind;
+	readonly span?: Span;
+	readonly associatedNode?: string;
 }
 
 /**
@@ -262,16 +262,16 @@ export interface CommentInfo {
  * and documentation comments.
  */
 export declare enum CommentKind {
-  Line = "Line",
-  Block = "Block",
-  Doc = "Doc",
+	Line = "Line",
+	Block = "Block",
+	Doc = "Doc",
 }
 
 /** A diagnostic (syntax error, missing node, etc.) from parsing. */
 export interface Diagnostic {
-  readonly message?: string
-  readonly severity?: DiagnosticSeverity
-  readonly span?: Span
+	readonly message?: string;
+	readonly severity?: DiagnosticSeverity;
+	readonly span?: Span;
 }
 
 /**
@@ -281,16 +281,16 @@ export interface Diagnostic {
  * found in the syntax tree.
  */
 export declare enum DiagnosticSeverity {
-  Error = "Error",
-  Warning = "Warning",
-  Info = "Info",
+	Error = "Error",
+	Warning = "Warning",
+	Info = "Info",
 }
 
 /** A section within a docstring (e.g., Args, Returns, Raises). */
 export interface DocSection {
-  readonly kind?: string
-  readonly name?: string
-  readonly description?: string
+	readonly kind?: string;
+	readonly name?: string;
+	readonly description?: string;
 }
 
 /**
@@ -300,58 +300,58 @@ export interface DocSection {
  * (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
  */
 export declare enum DocstringFormat {
-  PythonTripleQuote = "PythonTripleQuote",
-  JSDoc = "JSDoc",
-  Rustdoc = "Rustdoc",
-  GoDoc = "GoDoc",
-  JavaDoc = "JavaDoc",
-  Other = "Other",
+	PythonTripleQuote = "PythonTripleQuote",
+	JSDoc = "JSDoc",
+	Rustdoc = "Rustdoc",
+	GoDoc = "GoDoc",
+	JavaDoc = "JavaDoc",
+	Other = "Other",
 }
 
 /** A docstring extracted from source code. */
 export interface DocstringInfo {
-  readonly text?: string
-  readonly format?: DocstringFormat
-  readonly span?: Span
-  readonly associatedItem?: string
-  readonly parsedSections?: Array<DocSection>
+	readonly text?: string;
+	readonly format?: DocstringFormat;
+	readonly span?: Span;
+	readonly associatedItem?: string;
+	readonly parsedSections?: Array<DocSection>;
 }
 
 /** Manages downloading and caching of pre-built parser shared libraries. */
 export declare class DownloadManager {
-  /** Create a new download manager for the given version. */
-  static new(version: string): DownloadManager
-  /** List languages that are already downloaded and cached. */
-  installedLanguages(): Array<string>
-  /**
-   * Download the platform bundle and extract every library file it contains.
-   *
-   * Unlike [`ensure_languages`], this does not check the manifest language list
-   * against archive contents — it simply extracts all `.so`/`.dylib`/`.dll` files
-   * from the bundle. Languages in the manifest that are missing from the archive
-   * are silently ignored rather than returning an error.
-   *
-   * Returns the number of library files extracted (including those already cached).
-   */
-  downloadAllBestEffort(): number
-  /**
-   * Remove all cached parser libraries.
-   *
-   * Acquires the cross-process lock so `clean_cache` cannot race a concurrent
-   * downloader (avoids Windows sharing-violation errors against an in-flight
-   * bundle write). The `.download.lock` file itself is **not** removed — it is
-   * permanent infrastructure; deleting it could allow a concurrent process that
-   * already opened the file to continue holding a stale lock handle while a new
-   * process opens a fresh inode, breaking the mutual-exclusion guarantee.
-   */
-  cleanCache(): void
+	/** Create a new download manager for the given version. */
+	static new(version: string): DownloadManager;
+	/** List languages that are already downloaded and cached. */
+	installedLanguages(): Array<string>;
+	/**
+	 * Download the platform bundle and extract every library file it contains.
+	 *
+	 * Unlike [`ensure_languages`], this does not check the manifest language list
+	 * against archive contents — it simply extracts all `.so`/`.dylib`/`.dll` files
+	 * from the bundle. Languages in the manifest that are missing from the archive
+	 * are silently ignored rather than returning an error.
+	 *
+	 * Returns the number of library files extracted (including those already cached).
+	 */
+	downloadAllBestEffort(): number;
+	/**
+	 * Remove all cached parser libraries.
+	 *
+	 * Acquires the cross-process lock so `clean_cache` cannot race a concurrent
+	 * downloader (avoids Windows sharing-violation errors against an in-flight
+	 * bundle write). The `.download.lock` file itself is **not** removed — it is
+	 * permanent infrastructure; deleting it could allow a concurrent process that
+	 * already opened the file to continue holding a stale lock handle while a new
+	 * process opens a fresh inode, breaking the mutual-exclusion guarantee.
+	 */
+	cleanCache(): void;
 }
 
 /** An export statement extracted from source code. */
 export interface ExportInfo {
-  readonly name?: string
-  readonly kind?: ExportKind
-  readonly span?: Span
+	readonly name?: string;
+	readonly kind?: ExportKind;
+	readonly span?: Span;
 }
 
 /**
@@ -360,30 +360,30 @@ export interface ExportInfo {
  * Covers named exports, default exports, and re-exports from other modules.
  */
 export declare enum ExportKind {
-  Named = "Named",
-  Default = "Default",
-  ReExport = "ReExport",
+	Named = "Named",
+	Default = "Default",
+	ReExport = "ReExport",
 }
 
 /** Aggregate metrics for a source file. */
 export interface FileMetrics {
-  readonly totalLines?: number
-  readonly codeLines?: number
-  readonly commentLines?: number
-  readonly blankLines?: number
-  readonly totalBytes?: number
-  readonly nodeCount?: number
-  readonly errorCount?: number
-  readonly maxDepth?: number
+	readonly totalLines?: number;
+	readonly codeLines?: number;
+	readonly commentLines?: number;
+	readonly blankLines?: number;
+	readonly totalBytes?: number;
+	readonly nodeCount?: number;
+	readonly errorCount?: number;
+	readonly maxDepth?: number;
 }
 
 /** An import statement extracted from source code. */
 export interface ImportInfo {
-  readonly source?: string
-  readonly items?: Array<string>
-  readonly alias?: string
-  readonly isWildcard?: boolean
-  readonly span?: Span
+	readonly source?: string;
+	readonly items?: Array<string>;
+	readonly alias?: string;
+	readonly isWildcard?: boolean;
+	readonly span?: Span;
 }
 
 /**
@@ -395,65 +395,65 @@ export interface ImportInfo {
  * (`get_language`, `available_languages`, etc.).
  */
 export declare class LanguageRegistry {
-  /**
-   * Create a new registry populated with all statically compiled languages.
-   *
-   * When the `dynamic-loading` feature is enabled, the registry also knows
-   * about dynamically loadable grammars and will load them on demand.
-   */
-  static new(): LanguageRegistry
-  /**
-   * Get a tree-sitter [`Language`] by name.
-   *
-   * Resolves aliases (e.g., `"shell"` -> `"bash"`, `"makefile"` -> `"make"`),
-   * then looks up the language in the static table. When the `dynamic-loading`
-   * feature is enabled, falls back to loading a shared library on demand.
-   * @throws Returns [`Error::LanguageNotFound`] if the name (after alias resolution)
-   * does not match any known grammar.
-   */
-  getLanguage(name: string): Language
-  /**
-   * List all available language names, sorted and deduplicated.
-   *
-   * Includes statically compiled languages, dynamically loadable languages
-   * (if the `dynamic-loading` feature is enabled), and all configured aliases.
-   */
-  availableLanguages(): Array<string>
-  /**
-   * Check whether a parser is statically compiled into this build.
-   *
-   * Returns `true` only when the grammar was compiled in at build time
-   * (i.e. it appears in the `STATIC_LANGUAGES` table). This is independent
-   * of the extension-to-language mapping: `detect_language_from_extension`
-   * consults the static ext table for all 306 grammars regardless of which
-   * parsers are compiled in.
-   *
-   * Use this when you need to distinguish "we know the language name" from
-   * "we can actually parse files in that language right now".
-   *
-   * ```no_run
-   * use tree_sitter_language_pack::{detect_language_from_extension, LanguageRegistry};
-   *
-   * let registry = LanguageRegistry::new();
-   * // Extension detection uses the static table — independent of compiled parsers.
-   * let lang = detect_language_from_extension("feature"); // always returns Some("gherkin")
-   * // Parser availability depends on which grammars were compiled in.
-   * let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
-   * ```
-   */
-  hasParser(name: string): boolean
-  /**
-   * Check whether a language is available by name or alias.
-   *
-   * Returns `true` if the language can be loaded, either from the static
-   * table or from a dynamic library on disk.
-   */
-  hasLanguage(name: string): boolean
-  /** Return the total number of available languages (including aliases). */
-  languageCount(): number
-  /** Parse source code and extract file intelligence based on config in a single pass. */
-  process(source: string, config?: ProcessConfig | undefined | null): ProcessResult
-  static default(): LanguageRegistry
+	/**
+	 * Create a new registry populated with all statically compiled languages.
+	 *
+	 * When the `dynamic-loading` feature is enabled, the registry also knows
+	 * about dynamically loadable grammars and will load them on demand.
+	 */
+	static new(): LanguageRegistry;
+	/**
+	 * Get a tree-sitter [`Language`] by name.
+	 *
+	 * Resolves aliases (e.g., `"shell"` -> `"bash"`, `"makefile"` -> `"make"`),
+	 * then looks up the language in the static table. When the `dynamic-loading`
+	 * feature is enabled, falls back to loading a shared library on demand.
+	 * @throws Returns [`Error::LanguageNotFound`] if the name (after alias resolution)
+	 * does not match any known grammar.
+	 */
+	getLanguage(name: string): Language;
+	/**
+	 * List all available language names, sorted and deduplicated.
+	 *
+	 * Includes statically compiled languages, dynamically loadable languages
+	 * (if the `dynamic-loading` feature is enabled), and all configured aliases.
+	 */
+	availableLanguages(): Array<string>;
+	/**
+	 * Check whether a parser is statically compiled into this build.
+	 *
+	 * Returns `true` only when the grammar was compiled in at build time
+	 * (i.e. it appears in the `STATIC_LANGUAGES` table). This is independent
+	 * of the extension-to-language mapping: `detect_language_from_extension`
+	 * consults the static ext table for all 306 grammars regardless of which
+	 * parsers are compiled in.
+	 *
+	 * Use this when you need to distinguish "we know the language name" from
+	 * "we can actually parse files in that language right now".
+	 *
+	 * ```no_run
+	 * use tree_sitter_language_pack::{detect_language_from_extension, LanguageRegistry};
+	 *
+	 * let registry = LanguageRegistry::new();
+	 * // Extension detection uses the static table — independent of compiled parsers.
+	 * let lang = detect_language_from_extension("feature"); // always returns Some("gherkin")
+	 * // Parser availability depends on which grammars were compiled in.
+	 * let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
+	 * ```
+	 */
+	hasParser(name: string): boolean;
+	/**
+	 * Check whether a language is available by name or alias.
+	 *
+	 * Returns `true` if the language can be loaded, either from the static
+	 * table or from a dynamic library on disk.
+	 */
+	hasLanguage(name: string): boolean;
+	/** Return the total number of available languages (including aliases). */
+	languageCount(): number;
+	/** Parse source code and extract file intelligence based on config in a single pass. */
+	process(source: string, config?: ProcessConfig | undefined | null): ProcessResult;
+	static default(): LanguageRegistry;
 }
 
 /**
@@ -463,58 +463,58 @@ export declare class LanguageRegistry {
  * regardless of how the tree is moved or stored at the FFI boundary.
  */
 export declare class Node {
-  clone(): Node
-  /** Return the node's kind name (e.g. `"function_definition"`). */
-  kind(): string
-  /**
-   * Return the node's numeric kind ID.
-   *
-   * Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
-   * (e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
-   * than comparing the string [`kind()`](Self::kind) in tight AST loops.
-   */
-  kindId(): number
-  /** Return the inclusive start byte offset of this node. */
-  startByte(): number
-  /** Return the exclusive end byte offset of this node. */
-  endByte(): number
-  /**
-   * Return the node's byte range as a [`ByteRange`].
-   *
-   * Callers should slice their own source bytes — this is a zero-copy
-   * text accessor.
-   */
-  byteRange(): ByteRange
-  /** Return the start [`Point`] (row, column). */
-  startPosition(): Point
-  /** Return the end [`Point`] (row, column). */
-  endPosition(): Point
-  /** True when this node is named (not punctuation/whitespace). */
-  isNamed(): boolean
-  /** True when this is an error node. */
-  isError(): boolean
-  /** True when this is a missing-token node. */
-  isMissing(): boolean
-  /** True when this is an "extra" node (e.g. a comment). */
-  isExtra(): boolean
-  /** True when this node or any descendant is an error. */
-  hasError(): boolean
-  /** Return this node's parent, if any. */
-  parent(): Node | null
-  /** Return the i-th child of this node, if any. */
-  child(index: number): Node | null
-  /** Total number of children (including unnamed). */
-  childCount(): number
-  /** Return the i-th named child of this node, if any. */
-  namedChild(index: number): Node | null
-  /** Number of named children of this node. */
-  namedChildCount(): number
-  /** Look up a child by its grammar-defined field name. */
-  childByFieldName(name: string): Node | null
-  /** Return the S-expression form of this node's subtree. */
-  toSexp(): string
-  /** Return a [`TreeCursor`] positioned at this node. */
-  walk(): TreeCursor
+	clone(): Node;
+	/** Return the node's kind name (e.g. `"function_definition"`). */
+	kind(): string;
+	/**
+	 * Return the node's numeric kind ID.
+	 *
+	 * Tree-sitter assigns a stable `u16` ID to every node kind in a grammar
+	 * (e.g. `"function_definition" → 42`). Comparing `kind_id()` is cheaper
+	 * than comparing the string [`kind()`](Self::kind) in tight AST loops.
+	 */
+	kindId(): number;
+	/** Return the inclusive start byte offset of this node. */
+	startByte(): number;
+	/** Return the exclusive end byte offset of this node. */
+	endByte(): number;
+	/**
+	 * Return the node's byte range as a [`ByteRange`].
+	 *
+	 * Callers should slice their own source bytes — this is a zero-copy
+	 * text accessor.
+	 */
+	byteRange(): ByteRange;
+	/** Return the start [`Point`] (row, column). */
+	startPosition(): Point;
+	/** Return the end [`Point`] (row, column). */
+	endPosition(): Point;
+	/** True when this node is named (not punctuation/whitespace). */
+	isNamed(): boolean;
+	/** True when this is an error node. */
+	isError(): boolean;
+	/** True when this is a missing-token node. */
+	isMissing(): boolean;
+	/** True when this is an "extra" node (e.g. a comment). */
+	isExtra(): boolean;
+	/** True when this node or any descendant is an error. */
+	hasError(): boolean;
+	/** Return this node's parent, if any. */
+	parent(): Node | null;
+	/** Return the i-th child of this node, if any. */
+	child(index: number): Node | null;
+	/** Total number of children (including unnamed). */
+	childCount(): number;
+	/** Return the i-th named child of this node, if any. */
+	namedChild(index: number): Node | null;
+	/** Number of named children of this node. */
+	namedChildCount(): number;
+	/** Look up a child by its grammar-defined field name. */
+	childByFieldName(name: string): Node | null;
+	/** Return the S-expression form of this node's subtree. */
+	toSexp(): string;
+	/** Return a [`TreeCursor`] positioned at this node. */
+	walk(): TreeCursor;
 }
 
 /**
@@ -525,63 +525,63 @@ export declare class Node {
  * or passed as a dict/object from language bindings.
  */
 export interface PackConfig {
-  /**
-   * Override default cache directory.
-   *
-   * Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
-   */
-  readonly cacheDir?: string
-  /**
-   * Languages to pre-download on init.
-   *
-   * Each entry is a language name (e.g. `"python"`, `"rust"`).
-   */
-  readonly languages?: Array<string>
-  /** Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). */
-  readonly groups?: Array<string>
+	/**
+	 * Override default cache directory.
+	 *
+	 * Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/`
+	 */
+	readonly cacheDir?: string;
+	/**
+	 * Languages to pre-download on init.
+	 *
+	 * Each entry is a language name (e.g. `"python"`, `"rust"`).
+	 */
+	readonly languages?: Array<string>;
+	/** Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). */
+	readonly groups?: Array<string>;
 }
 
 /** A tree-sitter parser configured for one language at a time. */
 export declare class Parser {
-  /**
-   * Construct a new parser with no language set.
-   *
-   * Call [`Parser::set_language`] before parsing.
-   */
-  static new(): Parser
-  /**
-   * Configure the parser to use the language identified by name (e.g. `"python"`).
-   *
-   * Resolves the language through the global registry — auto-downloading
-   * if necessary, when the `download` feature is enabled.
-   * @throws Returns [`Error::LanguageNotFound`] if the language is not recognized,
-   * or [`Error::ParserSetup`] if the language ABI is incompatible.
-   */
-  setLanguage(name: string): void
-  /**
-   * Parse a UTF-8 source string. Returns `None` if parsing was cancelled
-   * or no language is set.
-   */
-  parse(source: string): Tree | null
-  /**
-   * Parse a raw byte slice. Returns `None` if parsing was cancelled or
-   * no language is set.
-   */
-  parseBytes(source: Uint8Array): Tree | null
-  /**
-   * Reset internal state. The next call to [`parse`](Self::parse) will
-   * not be incremental.
-   */
-  reset(): void
-  static default(): Parser
+	/**
+	 * Construct a new parser with no language set.
+	 *
+	 * Call [`Parser::set_language`] before parsing.
+	 */
+	static new(): Parser;
+	/**
+	 * Configure the parser to use the language identified by name (e.g. `"python"`).
+	 *
+	 * Resolves the language through the global registry — auto-downloading
+	 * if necessary, when the `download` feature is enabled.
+	 * @throws Returns [`Error::LanguageNotFound`] if the language is not recognized,
+	 * or [`Error::ParserSetup`] if the language ABI is incompatible.
+	 */
+	setLanguage(name: string): void;
+	/**
+	 * Parse a UTF-8 source string. Returns `None` if parsing was cancelled
+	 * or no language is set.
+	 */
+	parse(source: string): Tree | null;
+	/**
+	 * Parse a raw byte slice. Returns `None` if parsing was cancelled or
+	 * no language is set.
+	 */
+	parseBytes(source: Uint8Array): Tree | null;
+	/**
+	 * Reset internal state. The next call to [`parse`](Self::parse) will
+	 * not be incremental.
+	 */
+	reset(): void;
+	static default(): Parser;
 }
 
 /** A source position — row + column, zero-indexed. */
 export interface Point {
-  /** Zero-indexed row number. */
-  readonly row: number
-  /** Zero-indexed column number, in UTF-16 code units. */
-  readonly column: number
+	/** Zero-indexed row number. */
+	readonly row: number;
+	/** Zero-indexed column number, in UTF-16 code units. */
+	readonly column: number;
 }
 
 /**
@@ -590,24 +590,24 @@ export interface Point {
  * Controls which analysis features are enabled and whether chunking is performed.
  */
 export interface ProcessConfig {
-  /** Language name (required). */
-  readonly language?: string
-  /** Extract structural items (functions, classes, etc.). Default: true. */
-  readonly structure?: boolean
-  /** Extract import statements. Default: true. */
-  readonly imports?: boolean
-  /** Extract export statements. Default: true. */
-  readonly exports?: boolean
-  /** Extract comments. Default: false. */
-  readonly comments?: boolean
-  /** Extract docstrings. Default: false. */
-  readonly docstrings?: boolean
-  /** Extract symbol definitions. Default: false. */
-  readonly symbols?: boolean
-  /** Include parse diagnostics. Default: false. */
-  readonly diagnostics?: boolean
-  /** Maximum chunk size in bytes. `None` disables chunking. */
-  readonly chunkMaxSize?: number
+	/** Language name (required). */
+	readonly language?: string;
+	/** Extract structural items (functions, classes, etc.). Default: true. */
+	readonly structure?: boolean;
+	/** Extract import statements. Default: true. */
+	readonly imports?: boolean;
+	/** Extract export statements. Default: true. */
+	readonly exports?: boolean;
+	/** Extract comments. Default: false. */
+	readonly comments?: boolean;
+	/** Extract docstrings. Default: false. */
+	readonly docstrings?: boolean;
+	/** Extract symbol definitions. Default: false. */
+	readonly symbols?: boolean;
+	/** Include parse diagnostics. Default: false. */
+	readonly diagnostics?: boolean;
+	/** Maximum chunk size in bytes. `None` disables chunking. */
+	readonly chunkMaxSize?: number;
 }
 
 /**
@@ -631,16 +631,16 @@ export interface ProcessConfig {
  * - `chunks` - Chunked code segments (when `config.chunk_max_size` is set)
  */
 export interface ProcessResult {
-  readonly language?: string
-  readonly metrics?: FileMetrics
-  readonly structure?: Array<StructureItem>
-  readonly imports?: Array<ImportInfo>
-  readonly exports?: Array<ExportInfo>
-  readonly comments?: Array<CommentInfo>
-  readonly docstrings?: Array<DocstringInfo>
-  readonly symbols?: Array<SymbolInfo>
-  readonly diagnostics?: Array<Diagnostic>
-  readonly chunks?: Array<CodeChunk>
+	readonly language?: string;
+	readonly metrics?: FileMetrics;
+	readonly structure?: Array<StructureItem>;
+	readonly imports?: Array<ImportInfo>;
+	readonly exports?: Array<ExportInfo>;
+	readonly comments?: Array<CommentInfo>;
+	readonly docstrings?: Array<DocstringInfo>;
+	readonly symbols?: Array<SymbolInfo>;
+	readonly diagnostics?: Array<Diagnostic>;
+	readonly chunks?: Array<CodeChunk>;
 }
 
 /**
@@ -650,25 +650,25 @@ export interface ProcessResult {
  * positions (for display and diagnostics).
  */
 export interface Span {
-  readonly startByte?: number
-  readonly endByte?: number
-  readonly startLine?: number
-  readonly startColumn?: number
-  readonly endLine?: number
-  readonly endColumn?: number
+	readonly startByte?: number;
+	readonly endByte?: number;
+	readonly startLine?: number;
+	readonly startColumn?: number;
+	readonly endLine?: number;
+	readonly endColumn?: number;
 }
 
 /** A structural item (function, class, struct, etc.) in source code. */
 export interface StructureItem {
-  readonly kind?: StructureKind
-  readonly name?: string
-  readonly visibility?: string
-  readonly span?: Span
-  readonly children?: Array<StructureItem>
-  readonly decorators?: Array<string>
-  readonly docComment?: string
-  readonly signature?: string
-  readonly bodySpan?: Span
+	readonly kind?: StructureKind;
+	readonly name?: string;
+	readonly visibility?: string;
+	readonly span?: Span;
+	readonly children?: Array<StructureItem>;
+	readonly decorators?: Array<string>;
+	readonly docComment?: string;
+	readonly signature?: string;
+	readonly bodySpan?: Span;
 }
 
 /**
@@ -679,26 +679,26 @@ export interface StructureItem {
  * language-specific constructs that do not fit a standard category.
  */
 export declare enum StructureKind {
-  Function = "Function",
-  Method = "Method",
-  Class = "Class",
-  Struct = "Struct",
-  Interface = "Interface",
-  Enum = "Enum",
-  Module = "Module",
-  Trait = "Trait",
-  Impl = "Impl",
-  Namespace = "Namespace",
-  Other = "Other",
+	Function = "Function",
+	Method = "Method",
+	Class = "Class",
+	Struct = "Struct",
+	Interface = "Interface",
+	Enum = "Enum",
+	Module = "Module",
+	Trait = "Trait",
+	Impl = "Impl",
+	Namespace = "Namespace",
+	Other = "Other",
 }
 
 /** A symbol (variable, function, type, etc.) extracted from source code. */
 export interface SymbolInfo {
-  readonly name?: string
-  readonly kind?: SymbolKind
-  readonly span?: Span
-  readonly typeAnnotation?: string
-  readonly doc?: string
+	readonly name?: string;
+	readonly kind?: SymbolKind;
+	readonly span?: Span;
+	readonly typeAnnotation?: string;
+	readonly doc?: string;
 }
 
 /**
@@ -708,46 +708,46 @@ export interface SymbolInfo {
  * classes, types, interfaces, enums, and modules.
  */
 export declare enum SymbolKind {
-  Variable = "Variable",
-  Constant = "Constant",
-  Function = "Function",
-  Class = "Class",
-  Type = "Type",
-  Interface = "Interface",
-  Enum = "Enum",
-  Module = "Module",
-  Other = "Other",
+	Variable = "Variable",
+	Constant = "Constant",
+	Function = "Function",
+	Class = "Class",
+	Type = "Type",
+	Interface = "Interface",
+	Enum = "Enum",
+	Module = "Module",
+	Other = "Other",
 }
 
 /** A parsed syntax tree. Cheap to clone (refcount bump). */
 export declare class Tree {
-  /** Return the root [`Node`] of this tree. */
-  rootNode(): Node
-  /** Return a [`TreeCursor`] positioned at the root. */
-  walk(): TreeCursor
+	/** Return the root [`Node`] of this tree. */
+	rootNode(): Node;
+	/** Return a [`TreeCursor`] positioned at the root. */
+	walk(): TreeCursor;
 }
 
 /** A cursor for traversing a [`Tree`]. */
 export declare class TreeCursor {
-  /** Return the [`Node`] at the cursor's current position. */
-  node(): Node
-  /**
-   * Move the cursor to the first child of the current node.
-   * Returns `true` if a child existed.
-   */
-  gotoFirstChild(): boolean
-  /**
-   * Move the cursor to the parent of the current node.
-   * Returns `true` if a parent existed.
-   */
-  gotoParent(): boolean
-  /**
-   * Move the cursor to the next sibling of the current node.
-   * Returns `true` if a sibling existed.
-   */
-  gotoNextSibling(): boolean
-  /** Return the field name for the current node, if any. */
-  fieldName(): string | null
+	/** Return the [`Node`] at the cursor's current position. */
+	node(): Node;
+	/**
+	 * Move the cursor to the first child of the current node.
+	 * Returns `true` if a child existed.
+	 */
+	gotoFirstChild(): boolean;
+	/**
+	 * Move the cursor to the parent of the current node.
+	 * Returns `true` if a parent existed.
+	 */
+	gotoParent(): boolean;
+	/**
+	 * Move the cursor to the next sibling of the current node.
+	 * Returns `true` if a sibling existed.
+	 */
+	gotoNextSibling(): boolean;
+	/** Return the field name for the current node, if any. */
+	fieldName(): string | null;
 }
 
 /**

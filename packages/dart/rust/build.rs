@@ -208,12 +208,12 @@ fn fix_handler_executor_calls() {
     // Collapse `return await` + `await handler(` → `return await handler(`.
     fixed = fixed.replace("await await handler", "await handler");
 
-    if fixed != source {
-        if let Err(err) = std::fs::write(path, &fixed) {
-            println!(
-                "cargo:warning=failed to fix handler executor calls in {}: {err}",
-                FRB_GENERATED_DART
-            );
-        }
+    if fixed != source
+        && let Err(err) = std::fs::write(path, &fixed)
+    {
+        println!(
+            "cargo:warning=failed to fix handler executor calls in {}: {err}",
+            FRB_GENERATED_DART
+        );
     }
 }
