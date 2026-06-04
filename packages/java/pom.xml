@@ -28,7 +28,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/kreuzberg-dev/tree-sitter-language-pack.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/kreuzberg-dev/tree-sitter-language-pack.git</developerConnection>
+        <developerConnection>scm:git:ssh://github.com:kreuzberg-dev/tree-sitter-language-pack.git</developerConnection>
         <url>https://github.com/kreuzberg-dev/tree-sitter-language-pack</url>
     </scm>
 
