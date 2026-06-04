@@ -23,8 +23,8 @@ let package = Package(
     // The binary includes C headers for swift-bridge interop.
     .binaryTarget(
       name: "RustBridge",
-      url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v__ALEF_SWIFT_VERSION__/TreeSitterLanguagePack-rs.artifactbundle.zip",
-      checksum: "__ALEF_SWIFT_CHECKSUM__"
+      url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.19/TreeSitterLanguagePack-rs.artifactbundle.zip",
+      checksum: "87ed644b2f426fdeddf73cf7dcf1de4355562664e1de5cebd771c776807b62d5"
     ),
     .target(
       name: "TreeSitterLanguagePack",
