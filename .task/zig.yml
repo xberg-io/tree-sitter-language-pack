@@ -88,13 +88,19 @@ tasks:
             - zig build --fetch
 
     upgrade:
-        desc: Upgrade Zig dependencies (no native cross-major flow — manual edits required)
+        desc: Refresh build.zig.zon hashes by re-fetching every declared URL
         dir: packages/zig
         preconditions:
             - sh: command -v zig >/dev/null 2>&1
         cmds:
-            - cmd: echo "Note - Zig has no native cross-major upgrade flow; edit build.zig.zon hashes/URLs manually"
-            - zig build --fetch
+            - |
+                set -e
+                URLs="$(grep "\.url" build.zig.zon | cut -d '=' -f 2 | cut -d '#' -f 1 | tr -d '"' | tr -d ',')"
+                for URL in $URLs; do
+                    echo "Updating module $URL"
+                    zig fetch --save "$URL"
+                    echo
+                done
 
     e2e:test:
         desc: Run Zig e2e tests against the Rust FFI shared library

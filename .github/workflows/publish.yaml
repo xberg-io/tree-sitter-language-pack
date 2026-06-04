@@ -72,7 +72,7 @@ jobs:
             release_kotlin_android: ${{ steps.meta.outputs.release_kotlin }}
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
 
             - name: Prepare release metadata
               id: meta
@@ -117,7 +117,7 @@ jobs:
         timeout-minutes: 5
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -213,23 +213,23 @@ jobs:
         timeout-minutes: 15
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup Node
-              uses: actions/setup-node@v6.4.0
+              uses: actions/setup-node@v6
 
             - name: Install tree-sitter CLI
               run: npm install -g tree-sitter-cli
 
             - name: Install uv
-              uses: astral-sh/setup-uv@v8.1.0
+              uses: astral-sh/setup-uv@v8
               with:
                   enable-cache: true
 
             - name: Set up Python
-              uses: actions/setup-python@v6.2.0
+              uses: actions/setup-python@v6
               with:
                   python-version: "3.14"
 
@@ -237,7 +237,7 @@ jobs:
               run: uv sync --no-install-project --no-install-workspace
 
             - name: Cache parsers
-              uses: actions/cache@v5.0.5
+              uses: actions/cache@v5
               with:
                   path: parsers
                   key: parsers-${{ hashFiles('sources/language_definitions.json') }}
@@ -250,7 +250,7 @@ jobs:
                   uv run --script scripts/clone_vendors.py
 
             - name: Upload parsers
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: language-parsers
                   path: parsers
@@ -266,12 +266,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -329,12 +329,12 @@ jobs:
                       label: windows-aarch64
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -367,7 +367,7 @@ jobs:
                   fi
 
             - name: Setup Python
-              uses: actions/setup-python@v6.2.0
+              uses: actions/setup-python@v6
               with:
                   python-version: "3.12"
 
@@ -405,7 +405,7 @@ jobs:
                   cd staging && tar -cf - . | zstd -19 -o "../parsers-${{ matrix.label }}.tar.zst"
 
             - name: Upload parser binaries
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: parsers-${{ matrix.label }}
                   path: parsers-${{ matrix.label }}.tar.zst
@@ -436,12 +436,12 @@ jobs:
                       label: windows-aarch64
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -476,7 +476,7 @@ jobs:
                   PROJECT_ROOT: ${{ github.workspace }}
 
             - name: Upload wheel
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: python-wheel-${{ matrix.label }}
                   path: dist/*.whl
@@ -491,12 +491,12 @@ jobs:
         timeout-minutes: 30
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -509,7 +509,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Setup Python
-              uses: actions/setup-python@v6.2.0
+              uses: actions/setup-python@v6
               with:
                   python-version: "3.13"
 
@@ -521,7 +521,7 @@ jobs:
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
 
             - name: Upload sdist
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: python-sdist
                   path: dist/*.tar.gz
@@ -610,12 +610,12 @@ jobs:
                       napi_target: aarch64-pc-windows-msvc
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -632,7 +632,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Setup Node.js
-              uses: actions/setup-node@v6.4.0
+              uses: actions/setup-node@v6
               with:
                   node-version: "22"
                   registry-url: "https://registry.npmjs.org"
@@ -647,7 +647,7 @@ jobs:
                   PROJECT_ROOT: ${{ github.workspace }}
 
             - name: Upload native module
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: node-native-${{ matrix.label }}
                   path: crates/ts-pack-core-node/*.node
@@ -680,12 +680,12 @@ jobs:
                       ruby_platform: x86_64-darwin
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -698,7 +698,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Setup Ruby
-              uses: ruby/setup-ruby@v1.310.0
+              uses: ruby/setup-ruby@v1
               with:
                   ruby-version: "3.4"
                   bundler: none
@@ -764,7 +764,7 @@ jobs:
                   done
 
             - name: Upload gem artifacts
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: rubygems-${{ matrix.label }}
                   path: packages/ruby/*.gem
@@ -780,12 +780,12 @@ jobs:
         timeout-minutes: 120
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -899,7 +899,7 @@ jobs:
                   "
 
             - name: Upload WASM package
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: wasm-pkg
                   path: crates/ts-pack-core-wasm/pkg/
@@ -936,12 +936,12 @@ jobs:
                       target: aarch64-pc-windows-msvc
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -968,7 +968,7 @@ jobs:
                   alef publish package --lang go --target ${{ matrix.target }} -o dist/go-ffi
 
             - name: Upload FFI artifact
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: go-ffi-${{ matrix.label }}
                   path: dist/go-ffi/
@@ -1012,12 +1012,12 @@ jobs:
                       platform: windows-arm64
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -1040,7 +1040,7 @@ jobs:
                   output-dir: dist/java-ffi
 
             - name: Upload native artifact
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: java-natives-${{ matrix.label }}
                   path: dist/java-ffi
@@ -1055,12 +1055,12 @@ jobs:
         timeout-minutes: 30
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup Java
-              uses: actions/setup-java@v5.2.0
+              uses: actions/setup-java@v5
               with:
                   distribution: "temurin"
                   java-version: "25"
@@ -1070,7 +1070,7 @@ jobs:
               uses: kreuzberg-dev/actions/setup-maven@v1
 
             - name: Download Java native artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: java-natives-*
                   path: artifacts/java-natives
@@ -1124,7 +1124,7 @@ jobs:
                   fi
 
             - name: Upload JAR artifact
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: maven-packages
                   path: packages/java/target/*.jar
@@ -1155,12 +1155,12 @@ jobs:
                       target: x86_64-apple-darwin
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -1278,7 +1278,7 @@ jobs:
                   echo "Created: dist/elixir/${ARTIFACT_HYPHEN}.tar.gz"
 
             - name: Upload NIF artifacts
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: elixir-${{ matrix.label }}
                   path: dist/elixir/*.tar.gz
@@ -1316,12 +1316,12 @@ jobs:
                       target: aarch64-pc-windows-msvc
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -1346,7 +1346,7 @@ jobs:
                   PROJECT_ROOT: ${{ github.workspace }}
 
             - name: Upload C FFI artifact
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: c-ffi-${{ matrix.label }}
                   path: dist/c-ffi/
@@ -1389,13 +1389,13 @@ jobs:
                           label: windows-x86_64
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -1449,7 +1449,7 @@ jobs:
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
 
             - name: Upload PHP PIE package artifact
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: php-package-${{ matrix.platform.label }}-php${{ matrix.php }}
                   path: |
@@ -1496,12 +1496,12 @@ jobs:
                       rid: win-arm64
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -1524,7 +1524,7 @@ jobs:
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
 
             - name: Upload native artifact
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: csharp-natives-${{ matrix.label }}
                   path: dist/csharp-ffi
@@ -1539,17 +1539,17 @@ jobs:
         timeout-minutes: 30
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup .NET
-              uses: actions/setup-dotnet@v5.2.0
+              uses: actions/setup-dotnet@v5
               with:
                   dotnet-version: "10.0"
 
             - name: Download C# native artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: csharp-natives-*
                   path: artifacts/csharp-natives
@@ -1573,7 +1573,7 @@ jobs:
               run: dotnet pack TreeSitterLanguagePack.csproj -c Release
 
             - name: Upload NuGet package
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: nuget-packages
                   path: packages/csharp/TreeSitterLanguagePack/bin/Release/*.nupkg
@@ -1593,12 +1593,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parser binary artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: parsers-*
                   path: dist/parsers
@@ -1669,12 +1669,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download Go FFI artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: go-ffi-*
                   path: dist/go
@@ -1706,12 +1706,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download C FFI artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: c-ffi-*
                   path: dist/c-ffi
@@ -1743,12 +1743,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download Elixir NIF artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: elixir-*
                   path: dist/elixir
@@ -1786,12 +1786,12 @@ jobs:
             id-token: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -1827,14 +1827,14 @@ jobs:
             id-token: write
         steps:
             - name: Download all wheels
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   path: dist
                   pattern: python-wheel-*
                   merge-multiple: true
 
             - name: Download sdist
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: python-sdist
                   path: dist
@@ -1876,12 +1876,12 @@ jobs:
             id-token: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup Node.js
-              uses: actions/setup-node@v6.4.0
+              uses: actions/setup-node@v6
               with:
                   node-version: "22"
                   registry-url: "https://registry.npmjs.org"
@@ -1890,7 +1890,7 @@ jobs:
               run: npm install -g @napi-rs/cli
 
             - name: Download all native modules
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   path: crates/ts-pack-core-node/artifacts
                   pattern: node-native-*
@@ -1971,18 +1971,18 @@ jobs:
             id-token: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup Node.js
-              uses: actions/setup-node@v6.4.0
+              uses: actions/setup-node@v6
               with:
                   node-version: "22"
                   registry-url: "https://registry.npmjs.org"
 
             - name: Download WASM package
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: wasm-pkg
                   path: crates/ts-pack-core-wasm/pkg
@@ -2041,19 +2041,19 @@ jobs:
             id-token: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup Ruby
-              uses: ruby/setup-ruby@v1.310.0
+              uses: ruby/setup-ruby@v1
               with:
                   ruby-version: "3.4"
                   bundler: none
                   bundler-cache: false
 
             - name: Download Ruby gem artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: rubygems-*
                   path: dist
@@ -2102,7 +2102,7 @@ jobs:
 
             - name: Configure trusted publishing credentials
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: rubygems/configure-rubygems-credentials@v2.0.0
+              uses: rubygems/configure-rubygems-credentials@v2
 
             - name: Publish gems to RubyGems
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
@@ -2126,7 +2126,7 @@ jobs:
             contents: read
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -2141,7 +2141,7 @@ jobs:
 
             - name: Setup Java
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: actions/setup-java@v5.2.0
+              uses: actions/setup-java@v5
               with:
                   distribution: temurin
                   java-version: "25"
@@ -2164,7 +2164,7 @@ jobs:
             # uploaded to Maven Central contains only .class files (no .so/.dll/.dylib).
             - name: Download Java native artifacts (re-stage for deploy rebuild)
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: java-natives-*
                   path: artifacts/java-natives
@@ -2241,13 +2241,13 @@ jobs:
             id-token: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
 
             - name: Setup Elixir
-              uses: erlef/setup-elixir@v1.24
+              uses: erlef/setup-elixir@v1
               with:
                   elixir-version: "1.17"
                   otp-version: "27.2"
@@ -2347,12 +2347,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download PHP package artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: php-package-*
                   path: dist/php-package
@@ -2386,7 +2386,7 @@ jobs:
             id-token: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -2421,17 +2421,17 @@ jobs:
             contents: read
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup .NET
-              uses: actions/setup-dotnet@v5.2.0
+              uses: actions/setup-dotnet@v5
               with:
                   dotnet-version: "10.0"
 
             - name: Download NuGet package
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: nuget-packages
                   path: dist/nuget
@@ -2480,12 +2480,12 @@ jobs:
                       label: windows-x64
                       target: x86_64-pc-windows-msvc
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -2519,7 +2519,7 @@ jobs:
                     echo "Error: no native library found after copy"
                     exit 1
                   fi
-            - uses: actions/upload-artifact@v7.0.1
+            - uses: actions/upload-artifact@v7
               with:
                   name: dart-native-${{ matrix.label }}
                   path: dart-natives/${{ matrix.label }}/
@@ -2532,12 +2532,12 @@ jobs:
         if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
             - name: Download native libraries for all platforms
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: dart-native-*
                   path: dart-natives
@@ -2568,7 +2568,7 @@ jobs:
                   # List staged structure
                   echo "Native library structure:"
                   find "$lib_dir" -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sort
-            - uses: actions/upload-artifact@v7.0.1
+            - uses: actions/upload-artifact@v7
               with:
                   name: dart-package-assembled
                   path: packages/dart
@@ -2606,12 +2606,12 @@ jobs:
         runs-on: macos-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -2621,13 +2621,13 @@ jobs:
               with:
                   crate-name: tree-sitter-language-pack-swift
                   artifact-name: TreeSitterLanguagePack-rs
-            - uses: actions/upload-artifact@v7.0.1
+            - uses: actions/upload-artifact@v7
               with:
                   name: swift-artifactbundle
                   path: ${{ steps.bundle.outputs.bundle-zip }}
                   if-no-files-found: error
                   retention-days: 14
-            - uses: actions/upload-artifact@v7.0.1
+            - uses: actions/upload-artifact@v7
               with:
                   name: swift-checksum
                   path: ${{ steps.bundle.outputs.checksum-file }}
@@ -2641,12 +2641,12 @@ jobs:
         runs-on: macos-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -2655,7 +2655,7 @@ jobs:
               with:
                   package-dir: packages/swift
                   crate-name: tree-sitter-language-pack-swift
-            - uses: actions/upload-artifact@v7.0.1
+            - uses: actions/upload-artifact@v7
               with:
                   name: swift-package
                   path: packages/swift
@@ -2669,14 +2669,14 @@ jobs:
         permissions:
             contents: write
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
                   token: ${{ github.token }}
                   persist-credentials: true
 
-            - uses: actions/download-artifact@v8.0.1
+            - uses: actions/download-artifact@v8
               with:
                   name: swift-checksum
                   path: swift-checksums
@@ -2706,7 +2706,7 @@ jobs:
                   git push origin -f "refs/tags/${{ needs.prepare.outputs.tag }}"
 
             - name: Download Swift artifact bundle
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: swift-artifactbundle
                   path: dist/swift
@@ -2749,12 +2749,12 @@ jobs:
                       label: windows-x64
                       target: x86_64-pc-windows-msvc
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -2774,7 +2774,7 @@ jobs:
                   alef publish package --lang zig \
                     --target ${{ matrix.target }} \
                     -o dist/zig-ffi
-            - uses: actions/upload-artifact@v7.0.1
+            - uses: actions/upload-artifact@v7
               with:
                   name: zig-ffi-${{ matrix.label }}
                   path: dist/zig-ffi/
@@ -2790,11 +2790,11 @@ jobs:
             contents: write
         timeout-minutes: 15
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
             - name: Download Zig FFI tarballs
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: zig-ffi-*
                   path: dist/zig
@@ -2830,12 +2830,12 @@ jobs:
                     - abi: x86
                       target: i686-linux-android
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   submodules: recursive
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -2849,7 +2849,7 @@ jobs:
                   crate-name: tree-sitter-language-pack-jni
                   lib-name: ts_pack_jni
                   abis: ${{ matrix.abi }}
-            - uses: actions/upload-artifact@v7.0.1
+            - uses: actions/upload-artifact@v7
               with:
                   name: kotlin-android-${{ matrix.abi }}
                   path: dist/android-natives/${{ matrix.abi }}/
@@ -2862,10 +2862,10 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v6.0.2
+            - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
-            - uses: actions/download-artifact@v8.0.1
+            - uses: actions/download-artifact@v8
               with:
                   pattern: kotlin-android-*
                   path: kotlin-android-natives
@@ -2928,12 +2928,12 @@ jobs:
                       artifact: ts-pack-windows-aarch64
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download parsers
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   name: language-parsers
                   path: parsers
@@ -2947,7 +2947,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Setup Python
-              uses: actions/setup-python@v6.2.0
+              uses: actions/setup-python@v6
               with:
                   python-version: "3.12"
 
@@ -2982,7 +2982,7 @@ jobs:
                   cd staging && 7z a "../${{ matrix.artifact }}.zip" ts-pack.exe
 
             - name: Upload CLI binary
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: ${{ matrix.artifact }}
                   path: |
@@ -3003,12 +3003,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Download CLI artifacts
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   pattern: ts-pack-*
                   path: dist/cli
@@ -3043,12 +3043,12 @@ jobs:
             contents: write
         steps:
             - name: Checkout source repo
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Checkout homebrew-tap
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   repository: kreuzberg-dev/homebrew-tap
                   token: ${{ secrets.HOMEBREW_TOKEN }}
@@ -3109,7 +3109,7 @@ jobs:
                       install_brew: true
         steps:
             - name: Checkout source repo
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -3131,7 +3131,7 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Upload bottle JSON manifests
-              uses: actions/upload-artifact@v7.0.1
+              uses: actions/upload-artifact@v7
               with:
                   name: homebrew-bottle-json-${{ matrix.bottle_tag }}
                   path: ${{ github.workspace }}/bottle-json/*.json
@@ -3152,19 +3152,19 @@ jobs:
             contents: write
         steps:
             - name: Checkout source repo
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Checkout homebrew-tap
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   repository: kreuzberg-dev/homebrew-tap
                   token: ${{ secrets.HOMEBREW_TOKEN }}
                   path: homebrew-tap
 
             - name: Download all bottle JSON manifests
-              uses: actions/download-artifact@v8.0.1
+              uses: actions/download-artifact@v8
               with:
                   path: ${{ github.workspace }}/bottle-json
                   pattern: homebrew-bottle-json-*
@@ -3230,7 +3230,7 @@ jobs:
             contents: write
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
                   fetch-depth: 0

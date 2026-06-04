@@ -45,7 +45,7 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - uses: astral-sh/setup-uv@v8.2.0
+            - uses: astral-sh/setup-uv@v8
               with:
                   enable-cache: true
 
