@@ -7,7 +7,7 @@ buildscript { dependencies { classpath("com.vanniktech:gradle-maven-publish-plug
 
 plugins {
     id("com.android.library") version "8.13.0"
-    kotlin("android") version "2.1.20"
+    kotlin("android") version "2.2.0"
     id("com.vanniktech.maven.publish") version "0.36.0"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
     id("com.github.ben-manes.versions") version "0.52.0"
