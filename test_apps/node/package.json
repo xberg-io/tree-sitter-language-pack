@@ -5,6 +5,9 @@
     "tree-sitter": "^0.25.0",
     "vitest": "^4.1.5"
   },
+  "engines": {
+    "node": ">=22 <26"
+  },
   "name": "@kreuzberg/tree-sitter-language-pack-e2e-typescript",
   "private": true,
   "scripts": {
