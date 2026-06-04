@@ -5,8 +5,8 @@
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
         .tree_sitter_language_pack = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.18/tree-sitter-language-pack-zig-v1.9.0-rc.18.tar.gz",
-            .hash = "tree_sitter_language_pack-1.9.0-rc.18-STALE_TODO_REGENERATE",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.19/tree-sitter-language-pack-zig-v1.9.0-rc.19.tar.gz",
+            .hash = "tree_sitter_language_pack-1.9.0-rc.19-STALE_TODO_REGENERATE",
         },
     },
     .paths = .{

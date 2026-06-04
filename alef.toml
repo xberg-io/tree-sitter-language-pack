@@ -622,6 +622,20 @@ streaming = false
 # assertion guard introduced in alef 0.22.33+; enable the chunks recipe so
 # fixtures using `field: chunks` continue to generate.
 assertion_recipes = ["chunks"]
+# Known top-level fields on tslp's ProcessResult — declaring them keeps the
+# assertion-recipe gate from demanding a streaming/chunks recipe for plain
+# field-name assertions (e.g. `count_min field=chunks`).
+result_fields = [
+  "chunks",
+  "comments",
+  "diagnostics",
+  "exports",
+  "imports",
+  "language",
+  "metrics",
+  "structure",
+  "symbols",
+]
 args = [
   { name = "source", field = "source_code", type = "string" },
   { name = "config", field = "config", type = "json_object" },
@@ -1011,65 +1025,65 @@ github_repo = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "1.9.0rc18"
+version = "1.9.0rc19"
 
 [crates.e2e.registry.packages.node]
 name = "@kreuzberg/tree-sitter-language-pack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.go]
 module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
-version = "v1.9.0-rc.18"
+version = "v1.9.0-rc.19"
 
 [crates.e2e.registry.packages.java]
 group_id = "dev.kreuzberg.treesitterlanguagepack"
 artifact_id = "tree-sitter-language-pack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "1.9.0.pre.rc.18"
+version = "1.9.0.pre.rc.19"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.wasm]
 name = "@kreuzberg/tree-sitter-language-pack-wasm"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.php]
 name = "kreuzberg-dev/tree-sitter-language-pack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.18"
-hash = "tree_sitter_language_pack-1.9.0-rc.18-STALE_TODO_REGENERATE"
+version = "1.9.0-rc.19"
+hash = "tree_sitter_language_pack-1.9.0-rc.19-STALE_TODO_REGENERATE"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "dev.kreuzberg:tree-sitter-language-pack-android"
-version = "1.9.0-rc.18"
+version = "1.9.0-rc.19"
 
 [crates.scaffold]
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"
