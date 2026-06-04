@@ -705,8 +705,6 @@ internal extension ProcessConfig {
     }
 }
 
-public typealias Language = RustBridge.Language
-
 /// The kind of structural item found in source code.
 ///
 /// Categorizes top-level and nested declarations such as functions, classes,
@@ -1536,5 +1534,3 @@ extension RustBridge.ProcessConfig: @unchecked Sendable {}
 extension RustBridge.LanguageRegistry: @unchecked Sendable {}
 // swift-bridge opaque type used across Task.detached boundaries — Rust type is Send + Sync.
 extension RustBridge.DownloadManager: @unchecked Sendable {}
-// swift-bridge opaque type used across Task.detached boundaries — Rust type is Send + Sync.
-extension RustBridge.Language: @unchecked Sendable {}

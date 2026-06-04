@@ -16,20 +16,16 @@
       "default": "./index.js"
     }
   },
-  "files": [
-    "index.js",
-    "index.d.ts",
-    "*.node"
-  ],
+  "files": ["index.js", "index.d.ts", "*.node"],
   "optionalDependencies": {
-    "@kreuzberg/tree-sitter-language-pack-darwin-arm64": "1.9.0-rc.18",
-    "@kreuzberg/tree-sitter-language-pack-darwin-x64": "1.9.0-rc.18",
-    "@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu": "1.9.0-rc.18",
-    "@kreuzberg/tree-sitter-language-pack-linux-arm64-musl": "1.9.0-rc.18",
     "@kreuzberg/tree-sitter-language-pack-linux-x64-gnu": "1.9.0-rc.18",
+    "@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu": "1.9.0-rc.18",
     "@kreuzberg/tree-sitter-language-pack-linux-x64-musl": "1.9.0-rc.18",
-    "@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc": "1.9.0-rc.18",
-    "@kreuzberg/tree-sitter-language-pack-win32-x64-msvc": "1.9.0-rc.18"
+    "@kreuzberg/tree-sitter-language-pack-linux-arm64-musl": "1.9.0-rc.18",
+    "@kreuzberg/tree-sitter-language-pack-darwin-x64": "1.9.0-rc.18",
+    "@kreuzberg/tree-sitter-language-pack-darwin-arm64": "1.9.0-rc.18",
+    "@kreuzberg/tree-sitter-language-pack-win32-x64-msvc": "1.9.0-rc.18",
+    "@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc": "1.9.0-rc.18"
   },
   "napi": {
     "packageName": "@kreuzberg/tree-sitter-language-pack",
@@ -50,13 +46,7 @@
     "artifacts": "napi artifacts",
     "prepublishOnly": "napi prepublish -t npm --skip-optional-publish"
   },
-  "engines": {
-    "node": ">= 18"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "devDependencies": {
-    "@napi-rs/cli": "^3.7.0"
-  }
+  "engines": { "node": ">= 18" },
+  "publishConfig": { "access": "public" },
+  "devDependencies": { "@napi-rs/cli": "^3.6.2" }
 }

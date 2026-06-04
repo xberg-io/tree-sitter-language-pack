@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.22.28"
+alef_version = "0.23.0"
 languages = [
   "python",
   "node",
@@ -618,6 +618,10 @@ module = "tree_sitter_language_pack"
 result_var = "result"
 returns_result = true
 streaming = false
+# `chunks` field assertions in process fixtures hit the new domain-shaped
+# assertion guard introduced in alef 0.22.33+; enable the chunks recipe so
+# fixtures using `field: chunks` continue to generate.
+assertion_recipes = ["chunks"]
 args = [
   { name = "source", field = "source_code", type = "string" },
   { name = "config", field = "config", type = "json_object" },

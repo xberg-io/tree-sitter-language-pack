@@ -59,6 +59,10 @@ RbSys::ExtensionTask.new("ts-pack-core-rb", GEMSPEC) do |ext|
   ext.platform = "ruby"
   ext.cross_compile = true
   ext.cross_platform = CROSS_PLATFORMS
+  # Pin cross_compile_versions to Ruby 3.1+ stable releases, skipping Ruby 4.0.2
+  # which has a broken mingw sysroot in rb-sys-dock 0.9.127 (sys/select.h missing).
+  # This overrides the container's RUBY_CC_VERSION env var at rake task definition time.
+  ext.cross_compile_versions = %w[3.4.9 3.3.11 3.2.11 3.1.7]
 end
 
 RSpec::Core::RakeTask.new(:spec)

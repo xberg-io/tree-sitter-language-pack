@@ -28,7 +28,7 @@
     "extension-name": "tree_sitter_language_pack",
     "support-zts": true,
     "support-nts": true,
-    "download-url-method": ["pre-packaged-binary", "composer-default"]
+    "download-url-method": "pre-packaged-binary"
   },
   "keywords": ["language-pack", "parser", "syntax", "tree-sitter"]
 }
