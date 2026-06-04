@@ -50,7 +50,7 @@ jobs:
             - uses: kreuzberg-dev/actions/setup-rust@v1
               with:
                   cache-key-prefix: ci-dart-${{ matrix.os }}
-            - uses: dart-lang/setup-dart@v1
+            - uses: dart-lang/setup-dart@v1.7.2
             - name: Install flutter_rust_bridge_codegen
               run: cargo install flutter_rust_bridge_codegen --version 2.12.0 --locked
             - name: Resolve Dart deps

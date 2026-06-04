@@ -224,7 +224,7 @@ jobs:
               run: npm install -g tree-sitter-cli
 
             - name: Install uv
-              uses: astral-sh/setup-uv@v8
+              uses: astral-sh/setup-uv@v8.2.0
               with:
                   enable-cache: true
 
@@ -698,7 +698,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Setup Ruby
-              uses: ruby/setup-ruby@v1
+              uses: ruby/setup-ruby@v1.310.0
               with:
                   ruby-version: "3.4"
                   bundler: none
@@ -2046,7 +2046,7 @@ jobs:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Setup Ruby
-              uses: ruby/setup-ruby@v1
+              uses: ruby/setup-ruby@v1.310.0
               with:
                   ruby-version: "3.4"
                   bundler: none
@@ -2102,7 +2102,7 @@ jobs:
 
             - name: Configure trusted publishing credentials
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: rubygems/configure-rubygems-credentials@v2
+              uses: rubygems/configure-rubygems-credentials@v2.0.0
 
             - name: Publish gems to RubyGems
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
@@ -2247,7 +2247,7 @@ jobs:
                   fetch-depth: 0
 
             - name: Setup Elixir
-              uses: erlef/setup-elixir@v1
+              uses: erlef/setup-elixir@v1.24.0
               with:
                   elixir-version: "1.17"
                   otp-version: "27.2"
