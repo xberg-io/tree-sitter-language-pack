@@ -218,7 +218,7 @@ tasks:
             - echo "Refreshing pre-commit hooks..."
             - prek autoupdate
             - echo "Updating GitHub Actions pins..."
-            - uvx --from gh-actions-updater gau --update --recursive .github
+            - uvx --from gh-actions-updater gau --update --recursive --pin-style major --missing-ref fallback .github
             - echo "Within-major update complete (non-breaking changes only)"
 
     upgrade:
@@ -258,7 +258,7 @@ tasks:
             - echo "Refreshing pre-commit hooks..."
             - prek autoupdate
             - echo "Updating GitHub Actions pins..."
-            - uvx --from gh-actions-updater gau --update --recursive .github
+            - uvx --from gh-actions-updater gau --update --recursive --pin-style major --missing-ref fallback .github
             - echo "Cross-major upgrade complete (breaking bumps applied)"
 
     update:grammars:
