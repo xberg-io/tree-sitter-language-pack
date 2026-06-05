@@ -967,6 +967,24 @@ jobs:
                   alef publish build --lang ffi --target ${{ matrix.target }}
                   alef publish package --lang go --target ${{ matrix.target }} -o dist/go-ffi
 
+            - name: Fix macOS dylib install_name (Go FFI)
+              if: runner.os == 'macOS'
+              shell: bash
+              run: |
+                  echo "=== Fixing macOS dylib install_name in Go FFI package ==="
+                  find dist/go-ffi -name "*.dylib" -type f | while read -r dylib; do
+                    echo "Processing: $dylib"
+                    # Get the dylib filename
+                    dylib_name=$(basename "$dylib")
+                    echo "  Current install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                    # Rewrite to @rpath
+                    install_name_tool -id "@rpath/$dylib_name" "$dylib"
+                    echo "  New install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                  done
+                  echo "=== Go FFI dylib install_name fixes complete ==="
+
             - name: Upload FFI artifact
               uses: actions/upload-artifact@v7
               with:
@@ -1344,6 +1362,24 @@ jobs:
                   alef publish package --lang ffi --target ${{ matrix.target }} -o dist/c-ffi
               env:
                   PROJECT_ROOT: ${{ github.workspace }}
+
+            - name: Fix macOS dylib install_name (C FFI)
+              if: runner.os == 'macOS'
+              shell: bash
+              run: |
+                  echo "=== Fixing macOS dylib install_name in C FFI package ==="
+                  find dist/c-ffi -name "*.dylib" -type f | while read -r dylib; do
+                    echo "Processing: $dylib"
+                    # Get the dylib filename
+                    dylib_name=$(basename "$dylib")
+                    echo "  Current install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                    # Rewrite to @rpath
+                    install_name_tool -id "@rpath/$dylib_name" "$dylib"
+                    echo "  New install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                  done
+                  echo "=== C FFI dylib install_name fixes complete ==="
 
             - name: Upload C FFI artifact
               uses: actions/upload-artifact@v7
