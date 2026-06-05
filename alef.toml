@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.23.8"
+alef_version = "0.23.12"
 languages = [
   "python",
   "node",
@@ -915,7 +915,7 @@ module = "tree_sitter_language_pack"
 result_var = "result"
 returns_result = true
 result_is_simple = true
-args = [{ name = "names", field = "languages", type = "json_object", element_type = "String" }]
+args = [{ name = "names", field = "languages", type = "json_object", element_type = "String", vec_inner_is_ref = true }]
 
 [crates.e2e.calls.download_languages.overrides.go]
 function = "Download"
