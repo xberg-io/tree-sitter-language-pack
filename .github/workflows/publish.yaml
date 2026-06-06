@@ -3257,6 +3257,129 @@ jobs:
                   git commit -m "tree-sitter-language-pack ${{ needs.prepare.outputs.version }}: add bottle DSL"
                   git push origin HEAD
 
+    # ─── Stage Go FFI libraries into packages/go/.lib/ ────────────────────
+    stage-go-ffi-libraries:
+        name: Stage Go FFI libraries for Go module distribution
+        needs: [prepare, build-go-ffi]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_go == 'true' &&
+            needs.build-go-ffi.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+
+            - name: Configure git
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+            - name: Download Go FFI artifacts (all platforms)
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: go-ffi-*
+                  path: tmp/go-ffi-all
+                  merge-multiple: true
+
+            - name: Stage libraries into packages/go/.lib/
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  cd packages/go
+
+                  # Map platform labels to .lib directory names
+                  declare -A PLATFORM_MAP=(
+                    [linux-x86_64]="linux-amd64"
+                    [linux-aarch64]="linux-arm64"
+                    [macos-arm64]="macos-arm64"
+                    [macos-x86_64]="macos-amd64"
+                    [windows-x86_64]="windows-amd64"
+                    [windows-aarch64]="windows-arm64"
+                  )
+
+                  # Process each platform artifact
+                  for src_dir in ../../../tmp/go-ffi-all/*/; do
+                    platform=$(basename "$src_dir")
+                    # Remove trailing slash
+                    platform="${platform%/}"
+
+                    # Map to .lib directory name
+                    libdir="${PLATFORM_MAP[$platform]:-$platform}"
+
+                    echo "Processing platform: $platform → .lib/$libdir"
+
+                    # Create target directory
+                    mkdir -p ".lib/$libdir"
+
+                    # Find and copy the FFI library
+                    # alef produces tree-sitter-language-pack-ffi-v<ver>-<target>/ directories
+                    for ffi_dir in "$src_dir"/tree-sitter-language-pack-ffi-v*/; do
+                      if [[ ! -d "$ffi_dir" ]]; then
+                        echo "  WARNING: No alef-generated directory found in $src_dir"
+                        ls -la "$src_dir" || true
+                        continue
+                      fi
+
+                      # Look for the static library or dylib/so
+                      if [[ -f "$ffi_dir/libts_pack_core_ffi.a" ]]; then
+                        cp "$ffi_dir/libts_pack_core_ffi.a" ".lib/$libdir/"
+                        echo "  Copied libts_pack_core_ffi.a"
+                      elif [[ -f "$ffi_dir/libts_pack_core_ffi.so" ]]; then
+                        cp "$ffi_dir/libts_pack_core_ffi.so" ".lib/$libdir/"
+                        echo "  Copied libts_pack_core_ffi.so"
+                      elif [[ -f "$ffi_dir/libts_pack_core_ffi.dylib" ]]; then
+                        cp "$ffi_dir/libts_pack_core_ffi.dylib" ".lib/$libdir/"
+                        echo "  Copied libts_pack_core_ffi.dylib"
+                      elif [[ -f "$ffi_dir/ts_pack_core_ffi.dll" ]]; then
+                        cp "$ffi_dir/ts_pack_core_ffi.dll" ".lib/$libdir/"
+                        echo "  Copied ts_pack_core_ffi.dll"
+                      elif [[ -f "$ffi_dir/ts_pack_core_ffi.lib" ]]; then
+                        cp "$ffi_dir/ts_pack_core_ffi.lib" ".lib/$libdir/"
+                        echo "  Copied ts_pack_core_ffi.lib"
+                      else
+                        echo "  WARNING: No FFI library found in $ffi_dir"
+                        ls -la "$ffi_dir" || true
+                      fi
+                    done
+                  done
+
+                  # Verify libraries were staged
+                  echo ""
+                  echo "=== Staged libraries ==="
+                  find .lib -type f ! -name ".gitkeep" | sort
+                  lib_count=$(find .lib -type f ! -name ".gitkeep" -print | wc -l)
+                  if [[ "$lib_count" -eq 0 ]]; then
+                    echo "ERROR: No libraries staged" >&2
+                    exit 1
+                  fi
+                  echo "Staged $lib_count libraries"
+
+            - name: Commit staged libraries
+              if: ${{ needs.prepare.outputs.dry_run != 'true' }}
+              run: |
+                  cd packages/go
+
+                  # Stage only the new/modified library files, not .gitkeep
+                  find .lib -type f ! -name ".gitkeep" -print0 | xargs -0 git add
+
+                  # Check if there are changes to commit
+                  if git diff --cached --quiet; then
+                    echo "No changes to commit"
+                  else
+                    git commit --no-verify -m "chore(go): stage pre-built FFI libraries for ${{ needs.prepare.outputs.version }}"
+                    echo "Libraries committed successfully"
+                  fi
+
+                  # Log the commit
+                  git log --oneline -1
+
     # ─── Release finalize ──────────────────────────────────────────────
     release-finalize:
         name: Finalize release
@@ -3270,6 +3393,7 @@ jobs:
             - upload-elixir-release
             - upload-php-pie-release
             - update-swift-package-manifest
+            - stage-go-ffi-libraries
             - publish-crates
             - publish-pypi
             - publish-node
