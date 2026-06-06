@@ -3295,61 +3295,60 @@ jobs:
                   set -euo pipefail
                   cd packages/go
 
-                  # Map cargo target triples to .lib directory names.
-                  declare -A TARGET_MAP=(
-                    [x86_64-unknown-linux-gnu]="linux-amd64"
-                    [aarch64-unknown-linux-gnu]="linux-arm64"
-                    [aarch64-apple-darwin]="macos-arm64"
-                    [x86_64-apple-darwin]="macos-amd64"
-                    [x86_64-pc-windows-msvc]="windows-amd64"
-                    [aarch64-pc-windows-msvc]="windows-arm64"
+                  # Map alef-emitted platform labels to .lib directory names.
+                  declare -A PLATFORM_MAP=(
+                    [linux-x86_64]="linux-amd64"
+                    [linux-aarch64]="linux-arm64"
+                    [macos-arm64]="macos-arm64"
+                    [macos-x86_64]="macos-amd64"
+                    [windows-x86_64]="windows-amd64"
+                    [windows-aarch64]="windows-arm64"
                   )
 
                   shopt -s nullglob
 
                   # The download step uses merge-multiple: true, so all per-platform
-                  # artifacts land flat under tmp/go-ffi-all/ as alef-emitted
-                  # `tree-sitter-language-pack-ffi-v<ver>-<target>/` directories.
-                  for ffi_dir in ../../../tmp/go-ffi-all/tree-sitter-language-pack-ffi-v*/; do
-                    ffi_name="$(basename "${ffi_dir%/}")"
+                  # artifacts land flat under tmp/go-ffi-all/ as a set of
+                  # `tree-sitter-language-pack-go-v<ver>-<platform>.tar.gz` tarballs
+                  # (alef emits the packaged tarball, not the extracted dir).
+                  staging="$(mktemp -d)"
+                  trap 'rm -rf "${staging}"' EXIT
 
-                    # Match a known cargo target triple as suffix of the dir name —
+                  for tarball in ../../../tmp/go-ffi-all/tree-sitter-language-pack-go-v*.tar.gz; do
+                    tarball_name="$(basename "${tarball}" .tar.gz)"
+
+                    # Match a known platform label as suffix of the tarball name —
                     # the version itself contains dashes so plain split won't work.
-                    target=""
-                    for known in "${!TARGET_MAP[@]}"; do
-                      if [[ "$ffi_name" == *"-${known}" ]]; then
-                        target="$known"
+                    platform=""
+                    for known in "${!PLATFORM_MAP[@]}"; do
+                      if [[ "$tarball_name" == *"-${known}" ]]; then
+                        platform="$known"
                         break
                       fi
                     done
-                    if [[ -z "$target" ]]; then
-                      echo "  WARNING: Could not infer target from $ffi_name; skipping"
+                    if [[ -z "$platform" ]]; then
+                      echo "  WARNING: Could not infer platform from $tarball_name; skipping"
                       continue
                     fi
 
-                    libdir="${TARGET_MAP[$target]}"
-                    echo "Processing $ffi_name → .lib/$libdir"
+                    libdir="${PLATFORM_MAP[$platform]}"
+                    echo "Processing $tarball_name → .lib/$libdir"
                     mkdir -p ".lib/$libdir"
 
-                    if [[ -f "$ffi_dir/libts_pack_core_ffi.a" ]]; then
-                      cp "$ffi_dir/libts_pack_core_ffi.a" ".lib/$libdir/"
-                      echo "  Copied libts_pack_core_ffi.a"
-                    elif [[ -f "$ffi_dir/libts_pack_core_ffi.so" ]]; then
-                      cp "$ffi_dir/libts_pack_core_ffi.so" ".lib/$libdir/"
-                      echo "  Copied libts_pack_core_ffi.so"
-                    elif [[ -f "$ffi_dir/libts_pack_core_ffi.dylib" ]]; then
-                      cp "$ffi_dir/libts_pack_core_ffi.dylib" ".lib/$libdir/"
-                      echo "  Copied libts_pack_core_ffi.dylib"
-                    elif [[ -f "$ffi_dir/ts_pack_core_ffi.dll" ]]; then
-                      cp "$ffi_dir/ts_pack_core_ffi.dll" ".lib/$libdir/"
-                      echo "  Copied ts_pack_core_ffi.dll"
-                    elif [[ -f "$ffi_dir/ts_pack_core_ffi.lib" ]]; then
-                      cp "$ffi_dir/ts_pack_core_ffi.lib" ".lib/$libdir/"
-                      echo "  Copied ts_pack_core_ffi.lib"
-                    else
-                      echo "  WARNING: No FFI library found in $ffi_dir"
-                      ls -la "$ffi_dir" || true
+                    # Extract into a fresh staging dir and walk the lib/ subdir.
+                    extract_dir="${staging}/${tarball_name}"
+                    mkdir -p "${extract_dir}"
+                    tar -xzf "${tarball}" -C "${extract_dir}"
+
+                    src_lib="${extract_dir}/${tarball_name}/lib"
+                    if [[ ! -d "${src_lib}" ]]; then
+                      echo "  WARNING: ${src_lib} not found in tarball"
+                      tar -tzf "${tarball}" | head -20
+                      continue
                     fi
+
+                    cp "${src_lib}"/* ".lib/$libdir/"
+                    echo "  Copied: $(ls "${src_lib}" | tr '\n' ' ')"
                   done
 
                   # Verify libraries were staged
