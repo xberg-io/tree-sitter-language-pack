@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'tree_sitter_language_pack', '~> 1.9.0.pre.rc.21'
+gem 'tree_sitter_language_pack', '~> 1.9.0.pre.rc.22'
 gem 'rspec', '~> 3.13'
 gem 'rubocop', '~> 1.86'
 gem 'rubocop-rspec', '~> 3.9'

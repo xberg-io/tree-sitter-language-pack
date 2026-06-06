@@ -5,23 +5,23 @@
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
         .tree_sitter_language_pack_linux_aarch64 = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.21/tree-sitter-language-pack-zig-v1.9.0-rc.21-linux-aarch64.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.22/tree-sitter-language-pack-zig-v1.9.0-rc.22-linux-aarch64.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_linux_x86_64 = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.21/tree-sitter-language-pack-zig-v1.9.0-rc.21-linux-x86_64.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.22/tree-sitter-language-pack-zig-v1.9.0-rc.22-linux-x86_64.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_macos_arm64 = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.21/tree-sitter-language-pack-zig-v1.9.0-rc.21-macos-arm64.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.22/tree-sitter-language-pack-zig-v1.9.0-rc.22-macos-arm64.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_macos_x86_64 = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.21/tree-sitter-language-pack-zig-v1.9.0-rc.21-macos-x86_64.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.22/tree-sitter-language-pack-zig-v1.9.0-rc.22-macos-x86_64.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_windows_x86_64 = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.21/tree-sitter-language-pack-zig-v1.9.0-rc.21-windows-x86_64.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.22/tree-sitter-language-pack-zig-v1.9.0-rc.22-windows-x86_64.tar.gz",
             .lazy = true,
         },
     },

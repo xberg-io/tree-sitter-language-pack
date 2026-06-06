@@ -52,6 +52,7 @@ internal extension Span {
         self.endLine = rb.endLine()
         self.endColumn = rb.endColumn()
     }
+
     func intoRust() throws -> RustBridge.Span {
         return RustBridge.Span(self.startByte, self.endByte, self.startLine, self.startColumn, self.endLine, self.endColumn)
     }
@@ -132,6 +133,7 @@ internal extension FileMetrics {
         self.errorCount = rb.errorCount()
         self.maxDepth = rb.maxDepth()
     }
+
     func intoRust() throws -> RustBridge.FileMetrics {
         return RustBridge.FileMetrics(self.totalLines, self.codeLines, self.commentLines, self.blankLines, self.totalBytes, self.nodeCount, self.errorCount, self.maxDepth)
     }
@@ -175,6 +177,7 @@ internal extension CommentInfo {
         self.span = try Span(rb.span())
         self.associatedNode = rb.associatedNode()?.toString()
     }
+
     func intoRust() throws -> RustBridge.CommentInfo {
         return RustBridge.CommentInfo(RustString(self.text), try self.kind.intoRust(), try self.span.intoRust(), self.associatedNode.map(RustString.init))
     }
@@ -220,6 +223,7 @@ internal extension DocstringInfo {
         self.associatedItem = rb.associatedItem()?.toString()
         self.parsedSections = try rb.parsedSections().map { try DocSection($0) }
     }
+
     func intoRust() throws -> RustBridge.DocstringInfo {
         let __parsedSections = RustVec<RustBridge.DocSection>()
         for __elem in self.parsedSections { __parsedSections.push(value: try __elem.intoRust()) }
@@ -257,6 +261,7 @@ internal extension DocSection {
         self.name = rb.name()?.toString()
         self.description = rb.description().toString()
     }
+
     func intoRust() throws -> RustBridge.DocSection {
         return RustBridge.DocSection(RustString(self.kind), self.name.map(RustString.init), RustString(self.description))
     }
@@ -302,6 +307,7 @@ internal extension ImportInfo {
         self.isWildcard = rb.isWildcard()
         self.span = try Span(rb.span())
     }
+
     func intoRust() throws -> RustBridge.ImportInfo {
         let __items = RustVec<RustString>()
         for __elem in self.items { __items.push(value: RustString(__elem)) }
@@ -339,6 +345,7 @@ internal extension ExportInfo {
         self.kind = ExportKind(rawValue: rb.kind().toString()) ?? { fatalError("Unknown ExportKind: \(rb.kind().toString())") }()
         self.span = try Span(rb.span())
     }
+
     func intoRust() throws -> RustBridge.ExportInfo {
         return RustBridge.ExportInfo(RustString(self.name), try self.kind.intoRust(), try self.span.intoRust())
     }
@@ -384,6 +391,7 @@ internal extension SymbolInfo {
         self.typeAnnotation = rb.typeAnnotation()?.toString()
         self.doc = rb.doc()?.toString()
     }
+
     func intoRust() throws -> RustBridge.SymbolInfo {
         return RustBridge.SymbolInfo(RustString(self.name), try self.kind.intoRust(), try self.span.intoRust(), self.typeAnnotation.map(RustString.init), self.doc.map(RustString.init))
     }
@@ -419,6 +427,7 @@ internal extension Diagnostic {
         self.severity = DiagnosticSeverity(rawValue: rb.severity().toString()) ?? { fatalError("Unknown DiagnosticSeverity: \(rb.severity().toString())") }()
         self.span = try Span(rb.span())
     }
+
     func intoRust() throws -> RustBridge.Diagnostic {
         return RustBridge.Diagnostic(RustString(self.message), try self.severity.intoRust(), try self.span.intoRust())
     }
@@ -469,6 +478,7 @@ internal extension CodeChunk {
         self.endLine = rb.endLine()
         self.metadata = try ChunkContext(rb.metadata())
     }
+
     func intoRust() throws -> RustBridge.CodeChunk {
         return RustBridge.CodeChunk(RustString(self.content), self.startByte, self.endByte, self.startLine, self.endLine, try self.metadata.intoRust())
     }
@@ -534,6 +544,7 @@ internal extension ChunkContext {
         self.docstrings = try rb.docstrings().map { try DocstringInfo($0) }
         self.hasErrorNodes = rb.hasErrorNodes()
     }
+
     func intoRust() throws -> RustBridge.ChunkContext {
         let __nodeTypes = RustVec<RustString>()
         for __elem in self.nodeTypes { __nodeTypes.push(value: RustString(__elem)) }
@@ -586,6 +597,7 @@ internal extension Point {
         self.row = rb.row()
         self.column = rb.column()
     }
+
     func intoRust() throws -> RustBridge.Point {
         return RustBridge.Point(self.row, self.column)
     }
@@ -609,6 +621,7 @@ internal extension ByteRange {
         self.start = rb.start()
         self.end = rb.end()
     }
+
     func intoRust() throws -> RustBridge.ByteRange {
         return RustBridge.ByteRange(self.start, self.end)
     }
@@ -700,6 +713,7 @@ internal extension ProcessConfig {
         self.diagnostics = rb.diagnostics()
         self.chunkMaxSize = rb.chunkMaxSize()
     }
+
     func intoRust() throws -> RustBridge.ProcessConfig {
         return RustBridge.ProcessConfig(RustString(self.language), self.structure, self.imports, self.exports, self.comments, self.docstrings, self.symbols, self.diagnostics, self.chunkMaxSize)
     }
@@ -875,19 +889,19 @@ private func _loadBytesFromPathOrUtf8(_ pathOrContent: String) throws -> [UInt8]
     return [UInt8](pathOrContent.utf8)
 }
 
-public func process(_ source: String, _ configprocessConfigJson: String) throws -> ProcessResult {
-    let configprocessConfig = try processConfigFromJson(configprocessConfigJson)
-    return try process(source: source, config: configprocessConfig)
+public func process(_ source: String, _ configJson: String) throws -> ProcessResult {
+    let config = try processConfigFromJson(configJson)
+    return try process(source: source, config: config)
 }
 
-public func init_(_ configpackConfigJson: String) throws -> Void {
-    let configpackConfig = try packConfigFromJson(configpackConfigJson)
-    return try init_(config: configpackConfig)
+public func init_(_ configJson: String) throws -> Void {
+    let config = try packConfigFromJson(configJson)
+    return try init_(config: config)
 }
 
-public func configure(_ configpackConfigJson: String) throws -> Void {
-    let configpackConfig = try packConfigFromJson(configpackConfigJson)
-    return try configure(config: configpackConfig)
+public func configure(_ configJson: String) throws -> Void {
+    let config = try packConfigFromJson(configJson)
+    return try configure(config: config)
 }
 
 // MARK: - From-JSON Helpers
@@ -1028,7 +1042,6 @@ public func detectLanguageFromExtension(ext: String) -> String? {
     let _rb_data = _rb_json.data(using: .utf8) ?? Data()
     return (try? JSONDecoder().decode(String?.self, from: _rb_data)) ?? nil
 }
-
 /// Detect language name from a file path.
 ///
 /// Extracts the file extension and looks it up. Returns `None` if the
@@ -1045,7 +1058,6 @@ public func detectLanguageFromPath(path: String) -> String? {
     let _rb_data = _rb_json.data(using: .utf8) ?? Data()
     return (try? JSONDecoder().decode(String?.self, from: _rb_data)) ?? nil
 }
-
 /// Detect language name from file content using the shebang line (`#!`).
 ///
 /// Inspects only the first line of `content`. If it begins with `#!`, the
@@ -1073,7 +1085,6 @@ public func detectLanguageFromContent(content: String) -> String? {
     let _rb_data = _rb_json.data(using: .utf8) ?? Data()
     return (try? JSONDecoder().decode(String?.self, from: _rb_data)) ?? nil
 }
-
 /// Get the highlights query for a language, if bundled.
 ///
 /// Returns the contents of `highlights.scm` as a static string, or `None`
@@ -1095,7 +1106,6 @@ public func getHighlightsQuery(language: String) -> String? {
     let _rb_data = _rb_json.data(using: .utf8) ?? Data()
     return (try? JSONDecoder().decode(String?.self, from: _rb_data)) ?? nil
 }
-
 /// Get the injections query for a language, if bundled.
 ///
 /// Returns the contents of `injections.scm` as a static string, or `None`
@@ -1116,7 +1126,6 @@ public func getInjectionsQuery(language: String) -> String? {
     let _rb_data = _rb_json.data(using: .utf8) ?? Data()
     return (try? JSONDecoder().decode(String?.self, from: _rb_data)) ?? nil
 }
-
 /// Get the locals query for a language, if bundled.
 ///
 /// Returns the contents of `locals.scm` as a static string, or `None`
@@ -1137,7 +1146,6 @@ public func getLocalsQuery(language: String) -> String? {
     let _rb_data = _rb_json.data(using: .utf8) ?? Data()
     return (try? JSONDecoder().decode(String?.self, from: _rb_data)) ?? nil
 }
-
 /// Get a tree-sitter [`Language`] by name using the global registry.
 ///
 /// Resolves language aliases (e.g., `"shell"` maps to `"bash"`).
@@ -1164,7 +1172,6 @@ public func getLocalsQuery(language: String) -> String? {
 public func getLanguage(name: String) throws -> Language {
     return try RustBridge.getLanguage(name)
 }
-
 /// Get a [`Parser`] pre-configured for the given language.
 ///
 /// This is a convenience function that calls [`get_language`] and configures
@@ -1188,7 +1195,6 @@ public func getLanguage(name: String) throws -> Language {
 public func getParser(name: String) throws -> Parser {
     return try RustBridge.getParser(name)
 }
-
 /// Detect language name from a file path or extension.
 ///
 /// This compatibility alias matches the pre-Alef Python binding API.
@@ -1197,7 +1203,6 @@ public func detectLanguage(path: String) -> String? {
     let _rb_data = _rb_json.data(using: .utf8) ?? Data()
     return (try? JSONDecoder().decode(String?.self, from: _rb_data)) ?? nil
 }
-
 /// List all available language names (sorted, deduplicated, includes aliases).
 ///
 /// Returns names of both statically compiled and dynamically loadable languages,
@@ -1216,7 +1221,6 @@ public func detectLanguage(path: String) -> String? {
 public func availableLanguages() -> [String] {
     return RustBridge.availableLanguages().map { $0.as_str().toString() }
 }
-
 /// Check if a language is available by name or alias.
 ///
 /// Returns `true` if the language can be loaded (statically compiled,
@@ -1234,7 +1238,6 @@ public func availableLanguages() -> [String] {
 public func hasLanguage(name: String) -> Bool {
     return RustBridge.hasLanguage(name)
 }
-
 /// Return the number of available languages.
 ///
 /// Includes statically compiled languages, dynamically loadable languages,
@@ -1251,7 +1254,6 @@ public func hasLanguage(name: String) -> Bool {
 public func languageCount() -> UInt {
     return RustBridge.languageCount()
 }
-
 /// Process source code and extract file intelligence using the global registry.
 ///
 /// Parses the source with tree-sitter and extracts metrics, structure, imports,
@@ -1274,10 +1276,9 @@ public func languageCount() -> UInt {
 /// println!("Structures: {}", result.structure.len());
 /// ```
 public func process(source: String, config: ProcessConfig) throws -> ProcessResult {
-    let _rb_config = try config.intoRust()
+        let _rb_config = try config.intoRust()
     return try RustBridge.process(source, _rb_config)
 }
-
 /// Initialize the language pack with the given configuration.
 ///
 /// Applies any custom cache directory, then downloads all languages and groups
@@ -1303,7 +1304,6 @@ public func process(source: String, config: ProcessConfig) throws -> ProcessResu
 public func init_(config: PackConfig) throws {
     return try RustBridge.init_(config)
 }
-
 /// Apply download configuration without downloading anything.
 ///
 /// Use this to set a custom cache directory before the first call to
@@ -1331,7 +1331,6 @@ public func init_(config: PackConfig) throws {
 public func configure(config: PackConfig) throws {
     return try RustBridge.configure(config)
 }
-
 /// Download specific languages to the local cache.
 ///
 /// Returns the number of requested languages available after the call. Already
@@ -1351,10 +1350,9 @@ public func configure(config: PackConfig) throws {
 /// println!("Ensured {} languages", count);
 /// ```
 public func download(names: [String]) throws -> UInt {
-    let _rb_names: RustVec<RustString> = { let v = RustVec<RustString>(); for s in names { v.push(value: RustString(s)) }; return v }()
+        let _rb_names: RustVec<RustString> = { let v = RustVec<RustString>(); for s in names { v.push(value: RustString(s)) }; return v }()
     return try RustBridge.download(_rb_names)
 }
-
 /// Download all available languages from the remote manifest.
 ///
 /// Downloads the platform bundle and extracts every library it contains.
@@ -1380,7 +1378,6 @@ public func download(names: [String]) throws -> UInt {
 public func downloadAll() throws -> UInt {
     return try RustBridge.downloadAll()
 }
-
 /// Download every language in a named group (e.g. `"web"`, `"data"`).
 ///
 /// Groups are defined in the remote manifest and let you ensure a curated
@@ -1406,7 +1403,6 @@ public func downloadAll() throws -> UInt {
 public func downloadGroup(name: String) throws -> UInt {
     return try RustBridge.downloadGroup(name)
 }
-
 /// Return all language names available in the remote manifest (306).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of
@@ -1428,7 +1424,6 @@ public func downloadGroup(name: String) throws -> UInt {
 public func manifestLanguages() throws -> [String] {
     return try RustBridge.manifestLanguages().map { $0.as_str().toString() }
 }
-
 /// Return languages that are already downloaded and cached locally.
 ///
 /// Does not perform any network requests. Returns an empty list if the
@@ -1445,7 +1440,6 @@ public func manifestLanguages() throws -> [String] {
 public func downloadedLanguages() -> [String] {
     return RustBridge.downloadedLanguages().map { $0.as_str().toString() }
 }
-
 /// Delete all cached parser shared libraries.
 ///
 /// Resets the cache registration so the next call to [`get_language`] or
@@ -1466,7 +1460,6 @@ public func downloadedLanguages() -> [String] {
 public func cleanCache() throws {
     return try RustBridge.cleanCache()
 }
-
 /// Return the effective cache directory path.
 ///
 /// This is either the custom path set via [`configure`] / [`init`] or the
@@ -1487,7 +1480,6 @@ public func cleanCache() throws {
 public func cacheDir() throws -> String {
     return try RustBridge.cacheDir().toString()
 }
-
 // swift-bridge opaque type used across Task.detached boundaries — Rust type is Send + Sync.
 extension RustBridge.Span: @unchecked Sendable {}
 // swift-bridge opaque type used across Task.detached boundaries — Rust type is Send + Sync.
