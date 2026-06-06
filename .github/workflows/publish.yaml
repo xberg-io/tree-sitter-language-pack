@@ -3295,60 +3295,61 @@ jobs:
                   set -euo pipefail
                   cd packages/go
 
-                  # Map platform labels to .lib directory names
-                  declare -A PLATFORM_MAP=(
-                    [linux-x86_64]="linux-amd64"
-                    [linux-aarch64]="linux-arm64"
-                    [macos-arm64]="macos-arm64"
-                    [macos-x86_64]="macos-amd64"
-                    [windows-x86_64]="windows-amd64"
-                    [windows-aarch64]="windows-arm64"
+                  # Map cargo target triples to .lib directory names.
+                  declare -A TARGET_MAP=(
+                    [x86_64-unknown-linux-gnu]="linux-amd64"
+                    [aarch64-unknown-linux-gnu]="linux-arm64"
+                    [aarch64-apple-darwin]="macos-arm64"
+                    [x86_64-apple-darwin]="macos-amd64"
+                    [x86_64-pc-windows-msvc]="windows-amd64"
+                    [aarch64-pc-windows-msvc]="windows-arm64"
                   )
 
-                  # Process each platform artifact
-                  for src_dir in ../../../tmp/go-ffi-all/*/; do
-                    platform=$(basename "$src_dir")
-                    # Remove trailing slash
-                    platform="${platform%/}"
+                  shopt -s nullglob
 
-                    # Map to .lib directory name
-                    libdir="${PLATFORM_MAP[$platform]:-$platform}"
+                  # The download step uses merge-multiple: true, so all per-platform
+                  # artifacts land flat under tmp/go-ffi-all/ as alef-emitted
+                  # `tree-sitter-language-pack-ffi-v<ver>-<target>/` directories.
+                  for ffi_dir in ../../../tmp/go-ffi-all/tree-sitter-language-pack-ffi-v*/; do
+                    ffi_name="$(basename "${ffi_dir%/}")"
 
-                    echo "Processing platform: $platform → .lib/$libdir"
-
-                    # Create target directory
-                    mkdir -p ".lib/$libdir"
-
-                    # Find and copy the FFI library
-                    # alef produces tree-sitter-language-pack-ffi-v<ver>-<target>/ directories
-                    for ffi_dir in "$src_dir"/tree-sitter-language-pack-ffi-v*/; do
-                      if [[ ! -d "$ffi_dir" ]]; then
-                        echo "  WARNING: No alef-generated directory found in $src_dir"
-                        ls -la "$src_dir" || true
-                        continue
-                      fi
-
-                      # Look for the static library or dylib/so
-                      if [[ -f "$ffi_dir/libts_pack_core_ffi.a" ]]; then
-                        cp "$ffi_dir/libts_pack_core_ffi.a" ".lib/$libdir/"
-                        echo "  Copied libts_pack_core_ffi.a"
-                      elif [[ -f "$ffi_dir/libts_pack_core_ffi.so" ]]; then
-                        cp "$ffi_dir/libts_pack_core_ffi.so" ".lib/$libdir/"
-                        echo "  Copied libts_pack_core_ffi.so"
-                      elif [[ -f "$ffi_dir/libts_pack_core_ffi.dylib" ]]; then
-                        cp "$ffi_dir/libts_pack_core_ffi.dylib" ".lib/$libdir/"
-                        echo "  Copied libts_pack_core_ffi.dylib"
-                      elif [[ -f "$ffi_dir/ts_pack_core_ffi.dll" ]]; then
-                        cp "$ffi_dir/ts_pack_core_ffi.dll" ".lib/$libdir/"
-                        echo "  Copied ts_pack_core_ffi.dll"
-                      elif [[ -f "$ffi_dir/ts_pack_core_ffi.lib" ]]; then
-                        cp "$ffi_dir/ts_pack_core_ffi.lib" ".lib/$libdir/"
-                        echo "  Copied ts_pack_core_ffi.lib"
-                      else
-                        echo "  WARNING: No FFI library found in $ffi_dir"
-                        ls -la "$ffi_dir" || true
+                    # Match a known cargo target triple as suffix of the dir name —
+                    # the version itself contains dashes so plain split won't work.
+                    target=""
+                    for known in "${!TARGET_MAP[@]}"; do
+                      if [[ "$ffi_name" == *"-${known}" ]]; then
+                        target="$known"
+                        break
                       fi
                     done
+                    if [[ -z "$target" ]]; then
+                      echo "  WARNING: Could not infer target from $ffi_name; skipping"
+                      continue
+                    fi
+
+                    libdir="${TARGET_MAP[$target]}"
+                    echo "Processing $ffi_name → .lib/$libdir"
+                    mkdir -p ".lib/$libdir"
+
+                    if [[ -f "$ffi_dir/libts_pack_core_ffi.a" ]]; then
+                      cp "$ffi_dir/libts_pack_core_ffi.a" ".lib/$libdir/"
+                      echo "  Copied libts_pack_core_ffi.a"
+                    elif [[ -f "$ffi_dir/libts_pack_core_ffi.so" ]]; then
+                      cp "$ffi_dir/libts_pack_core_ffi.so" ".lib/$libdir/"
+                      echo "  Copied libts_pack_core_ffi.so"
+                    elif [[ -f "$ffi_dir/libts_pack_core_ffi.dylib" ]]; then
+                      cp "$ffi_dir/libts_pack_core_ffi.dylib" ".lib/$libdir/"
+                      echo "  Copied libts_pack_core_ffi.dylib"
+                    elif [[ -f "$ffi_dir/ts_pack_core_ffi.dll" ]]; then
+                      cp "$ffi_dir/ts_pack_core_ffi.dll" ".lib/$libdir/"
+                      echo "  Copied ts_pack_core_ffi.dll"
+                    elif [[ -f "$ffi_dir/ts_pack_core_ffi.lib" ]]; then
+                      cp "$ffi_dir/ts_pack_core_ffi.lib" ".lib/$libdir/"
+                      echo "  Copied ts_pack_core_ffi.lib"
+                    else
+                      echo "  WARNING: No FFI library found in $ffi_dir"
+                      ls -la "$ffi_dir" || true
+                    fi
                   done
 
                   # Verify libraries were staged
