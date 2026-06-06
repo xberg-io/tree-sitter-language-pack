@@ -78,7 +78,7 @@ dependencies {
 }
 
 tasks.register("verifyAarPublished") {
-    description = "Verify the published Android AAR contains jniLibs and classes.jar"
+    description = "Verify the published Android AAR contains jni and classes.jar"
     doLast {
         val aarCoord = "dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.22"
         val (groupId, artifactId, version) = run {
@@ -109,23 +109,23 @@ tasks.register("verifyAarPublished") {
         println("Verifying AAR contents...")
         ZipFile(aarFile).use { zip ->
             val entries = zip.entries().toList()
-            val hasJniLibs = entries.any { it.name.startsWith("jniLibs/") }
+            val hasJni = entries.any { it.name.startsWith("jni/") }
             val hasClasses = entries.any { it.name == "classes.jar" }
 
-            if (!hasJniLibs) {
-                throw GradleException("AAR missing jniLibs directory")
+            if (!hasJni) {
+                throw GradleException("AAR missing jni directory")
             }
             if (!hasClasses) {
                 throw GradleException("AAR missing classes.jar")
             }
 
             val abiDirs = entries
-                .filter { it.name.startsWith("jniLibs/") }
-                .map { it.name.substringAfter("jniLibs/").substringBefore("/") }
+                .filter { it.name.startsWith("jni/") }
+                .map { it.name.substringAfter("jni/").substringBefore("/") }
                 .filter { it.isNotEmpty() }
                 .distinct()
 
-            println("  + jniLibs: YES")
+            println("  + jni: YES")
             println("  + classes.jar: YES")
             println("  + Android ABIs: " + abiDirs.sorted().joinToString(", "))
             println("\nAAR verification PASSED!")

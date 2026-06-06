@@ -3,7 +3,6 @@
 
 import Foundation
 import RustBridge
-
 /// Byte and line/column range in source code.
 ///
 /// Represents both byte offsets (for slicing) and human-readable line/column
@@ -893,17 +892,14 @@ public func process(_ source: String, _ configJson: String) throws -> ProcessRes
     let config = try processConfigFromJson(configJson)
     return try process(source: source, config: config)
 }
-
 public func init_(_ configJson: String) throws -> Void {
     let config = try packConfigFromJson(configJson)
     return try init_(config: config)
 }
-
 public func configure(_ configJson: String) throws -> Void {
     let config = try packConfigFromJson(configJson)
     return try configure(config: config)
 }
-
 // MARK: - From-JSON Helpers
 // Public helpers that decode JSON into first-class Swift types.
 // First-class struct types (Codable) use JSONDecoder directly.
@@ -913,114 +909,91 @@ public func spanFromJson(_ json: String) throws -> Span {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(Span.self, from: data)
 }
-
 public func processResultFromJson(_ json: String) throws -> ProcessResult {
     return try RustBridge.processResultFromJson(json)
 }
-
 public func fileMetricsFromJson(_ json: String) throws -> FileMetrics {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(FileMetrics.self, from: data)
 }
-
 public func structureItemFromJson(_ json: String) throws -> StructureItem {
     return try RustBridge.structureItemFromJson(json)
 }
-
 public func commentInfoFromJson(_ json: String) throws -> CommentInfo {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(CommentInfo.self, from: data)
 }
-
 public func docstringInfoFromJson(_ json: String) throws -> DocstringInfo {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(DocstringInfo.self, from: data)
 }
-
 public func docSectionFromJson(_ json: String) throws -> DocSection {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(DocSection.self, from: data)
 }
-
 public func importInfoFromJson(_ json: String) throws -> ImportInfo {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(ImportInfo.self, from: data)
 }
-
 public func exportInfoFromJson(_ json: String) throws -> ExportInfo {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(ExportInfo.self, from: data)
 }
-
 public func symbolInfoFromJson(_ json: String) throws -> SymbolInfo {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(SymbolInfo.self, from: data)
 }
-
 public func diagnosticFromJson(_ json: String) throws -> Diagnostic {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(Diagnostic.self, from: data)
 }
-
 public func codeChunkFromJson(_ json: String) throws -> CodeChunk {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(CodeChunk.self, from: data)
 }
-
 public func chunkContextFromJson(_ json: String) throws -> ChunkContext {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(ChunkContext.self, from: data)
 }
-
 public func packConfigFromJson(_ json: String) throws -> PackConfig {
     return try RustBridge.packConfigFromJson(json)
 }
-
 public func pointFromJson(_ json: String) throws -> Point {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(Point.self, from: data)
 }
-
 public func byteRangeFromJson(_ json: String) throws -> ByteRange {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(ByteRange.self, from: data)
 }
-
 public func processConfigFromJson(_ json: String) throws -> ProcessConfig {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(ProcessConfig.self, from: data)
 }
-
 public func structureKindFromJson(_ json: String) throws -> StructureKind {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(StructureKind.self, from: data)
 }
-
 public func commentKindFromJson(_ json: String) throws -> CommentKind {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(CommentKind.self, from: data)
 }
-
 public func docstringFormatFromJson(_ json: String) throws -> DocstringFormat {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(DocstringFormat.self, from: data)
 }
-
 public func exportKindFromJson(_ json: String) throws -> ExportKind {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(ExportKind.self, from: data)
 }
-
 public func symbolKindFromJson(_ json: String) throws -> SymbolKind {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(SymbolKind.self, from: data)
 }
-
 public func diagnosticSeverityFromJson(_ json: String) throws -> DiagnosticSeverity {
     let data = json.data(using: .utf8) ?? Data()
     return try JSONDecoder().decode(DiagnosticSeverity.self, from: data)
 }
-
 // MARK: - Free-function Forwarders
 // Re-export every public free function on the source Rust crate as a
 // top-level `public func` on the host module so consumers do not need to

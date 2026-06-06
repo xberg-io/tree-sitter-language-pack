@@ -640,147 +640,118 @@ mod ffi {
 pub fn __alef_phantom_vec_span() -> Vec<Span> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_process_result() -> Vec<ProcessResult> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_file_metrics() -> Vec<FileMetrics> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_structure_item() -> Vec<StructureItem> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_comment_info() -> Vec<CommentInfo> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_docstring_info() -> Vec<DocstringInfo> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_doc_section() -> Vec<DocSection> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_import_info() -> Vec<ImportInfo> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_export_info() -> Vec<ExportInfo> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_symbol_info() -> Vec<SymbolInfo> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_diagnostic() -> Vec<Diagnostic> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_code_chunk() -> Vec<CodeChunk> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_chunk_context() -> Vec<ChunkContext> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_pack_config() -> Vec<PackConfig> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_point() -> Vec<Point> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_byte_range() -> Vec<ByteRange> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_parser() -> Vec<Parser> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_tree() -> Vec<Tree> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_node() -> Vec<Node> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_tree_cursor() -> Vec<TreeCursor> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_process_config() -> Vec<ProcessConfig> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_language_registry() -> Vec<LanguageRegistry> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_download_manager() -> Vec<DownloadManager> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_language() -> Vec<Language> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_structure_kind() -> Vec<StructureKind> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_comment_kind() -> Vec<CommentKind> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_docstring_format() -> Vec<DocstringFormat> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_export_kind() -> Vec<ExportKind> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_symbol_kind() -> Vec<SymbolKind> {
     Vec::new()
 }
-
 #[doc(hidden)]
 pub fn __alef_phantom_vec_diagnostic_severity() -> Vec<DiagnosticSeverity> {
     Vec::new()
@@ -1667,15 +1638,12 @@ pub struct Parser(pub tree_sitter_language_pack::Parser);
 pub fn parser_set_language(client: &mut Parser, name: String) -> Result<(), String> {
     client.0.set_language(&name).map_err(|e| e.to_string())
 }
-
 pub fn parser_parse(client: &mut Parser, source: String) -> Option<Tree> {
     (client.0.parse(&source)).map(Tree)
 }
-
 pub fn parser_parse_bytes(client: &mut Parser, source: Vec<u8>) -> Option<Tree> {
     (client.0.parse_bytes(&source)).map(Tree)
 }
-
 pub fn parser_reset(client: &mut Parser) {
     client.0.reset()
 }
@@ -1685,7 +1653,6 @@ pub struct Tree(pub tree_sitter_language_pack::Tree);
 pub fn tree_root_node(client: &Tree) -> Node {
     Node(client.0.root_node())
 }
-
 pub fn tree_walk(client: &Tree) -> TreeCursor {
     TreeCursor(client.0.walk())
 }
@@ -1695,83 +1662,63 @@ pub struct Node(pub tree_sitter_language_pack::Node);
 pub fn node_clone(client: &Node) -> Node {
     Node(client.0.clone())
 }
-
 pub fn node_kind(client: &Node) -> String {
     client.0.kind().to_string()
 }
-
 pub fn node_kind_id(client: &Node) -> u16 {
     client.0.kind_id()
 }
-
 pub fn node_start_byte(client: &Node) -> usize {
     client.0.start_byte()
 }
-
 pub fn node_end_byte(client: &Node) -> usize {
     client.0.end_byte()
 }
-
 pub fn node_byte_range(client: &Node) -> ByteRange {
     ByteRange(client.0.byte_range())
 }
-
 pub fn node_start_position(client: &Node) -> Point {
     Point(client.0.start_position())
 }
-
 pub fn node_end_position(client: &Node) -> Point {
     Point(client.0.end_position())
 }
-
 pub fn node_is_named(client: &Node) -> bool {
     client.0.is_named()
 }
-
 pub fn node_is_error(client: &Node) -> bool {
     client.0.is_error()
 }
-
 pub fn node_is_missing(client: &Node) -> bool {
     client.0.is_missing()
 }
-
 pub fn node_is_extra(client: &Node) -> bool {
     client.0.is_extra()
 }
-
 pub fn node_has_error(client: &Node) -> bool {
     client.0.has_error()
 }
-
 pub fn node_parent(client: &Node) -> Option<Node> {
     (client.0.parent()).map(Node)
 }
-
 pub fn node_child(client: &Node, index: u32) -> Option<Node> {
     (client.0.child(index)).map(Node)
 }
-
 pub fn node_child_count(client: &Node) -> usize {
     client.0.child_count()
 }
-
 pub fn node_named_child(client: &Node, index: u32) -> Option<Node> {
     (client.0.named_child(index)).map(Node)
 }
-
 pub fn node_named_child_count(client: &Node) -> usize {
     client.0.named_child_count()
 }
-
 pub fn node_child_by_field_name(client: &Node, name: String) -> Option<Node> {
     (client.0.child_by_field_name(&name)).map(Node)
 }
-
 pub fn node_to_sexp(client: &Node) -> String {
     client.0.to_sexp().to_string()
 }
-
 pub fn node_walk(client: &Node) -> TreeCursor {
     TreeCursor(client.0.walk())
 }
@@ -1781,19 +1728,15 @@ pub struct TreeCursor(pub tree_sitter_language_pack::TreeCursor);
 pub fn tree_cursor_node(client: &TreeCursor) -> Node {
     Node(client.0.node())
 }
-
 pub fn tree_cursor_goto_first_child(client: &mut TreeCursor) -> bool {
     client.0.goto_first_child()
 }
-
 pub fn tree_cursor_goto_parent(client: &mut TreeCursor) -> bool {
     client.0.goto_parent()
 }
-
 pub fn tree_cursor_goto_next_sibling(client: &mut TreeCursor) -> bool {
     client.0.goto_next_sibling()
 }
-
 pub fn tree_cursor_field_name(client: &TreeCursor) -> String {
     serde_json::to_string(&(client.0.field_name())).expect("serializable return")
 }
@@ -1892,23 +1835,18 @@ pub struct LanguageRegistry(pub tree_sitter_language_pack::LanguageRegistry);
 pub fn language_registry_get_language(client: &LanguageRegistry, name: String) -> Result<Language, String> {
     client.0.get_language(&name).map_err(|e| e.to_string()).map(Language)
 }
-
 pub fn language_registry_available_languages(client: &LanguageRegistry) -> Vec<String> {
     client.0.available_languages()
 }
-
 pub fn language_registry_has_parser(client: &LanguageRegistry, name: String) -> bool {
     client.0.has_parser(&name)
 }
-
 pub fn language_registry_has_language(client: &LanguageRegistry, name: String) -> bool {
     client.0.has_language(&name)
 }
-
 pub fn language_registry_language_count(client: &LanguageRegistry) -> usize {
     client.0.language_count()
 }
-
 pub fn language_registry_process(
     client: &LanguageRegistry,
     source: String,
@@ -1926,11 +1864,9 @@ pub struct DownloadManager(pub tree_sitter_language_pack::DownloadManager);
 pub fn download_manager_installed_languages(client: &DownloadManager) -> Vec<String> {
     client.0.installed_languages()
 }
-
 pub fn download_manager_download_all_best_effort(client: &DownloadManager) -> Result<usize, String> {
     client.0.download_all_best_effort().map_err(|e| e.to_string())
 }
-
 pub fn download_manager_clean_cache(client: &DownloadManager) -> Result<(), String> {
     client.0.clean_cache().map_err(|e| e.to_string())
 }

@@ -17,14 +17,10 @@ import com.fasterxml.jackson.core.type.TypeReference
 @Suppress("TooManyFunctions")
 class Parser internal constructor(internal val handle: Long) : AutoCloseable {
     companion object {
-        private val MAPPER =
-            com.fasterxml.jackson.databind
-                .ObjectMapper()
-                .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(
-                    com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE
-                )
+        private val MAPPER = com.fasterxml.jackson.databind.ObjectMapper()
+            .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+            .findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
     }
 
     // Configure the parser to use the language identified by name (e.g. `"python"`).
@@ -36,21 +32,14 @@ class Parser internal constructor(internal val handle: Long) : AutoCloseable {
     //
     // Returns [`Error::LanguageNotFound`] if the language is not recognized,
     // or [`Error::ParserSetup`] if the language ABI is incompatible.
-    fun setLanguage(name: String) {
-        TreeSitterLanguagePackBridge.nativeParserSetLanguage(
-            handle,
-            MAPPER.writeValueAsString(name),
-        )
+    fun setLanguage(name: String): Unit {
+        TreeSitterLanguagePackBridge.nativeParserSetLanguage(handle, MAPPER.writeValueAsString(name))
     }
 
     // Parse a UTF-8 source string. Returns `None` if parsing was cancelled
     // or no language is set.
     fun parse(source: String): Tree? {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeParserParse(
-                handle,
-                MAPPER.writeValueAsString(source),
-            )
+        val responseJson = TreeSitterLanguagePackBridge.nativeParserParse(handle, MAPPER.writeValueAsString(source))
         return MAPPER.readValue(responseJson, Tree::class.java)
     }
 
@@ -63,26 +52,19 @@ class Parser internal constructor(internal val handle: Long) : AutoCloseable {
 
     // Reset internal state. The next call to [`parse`](Self::parse) will
     // not be incremental.
-    fun reset() {
+    fun reset(): Unit {
         TreeSitterLanguagePackBridge.nativeParserReset(handle)
     }
 
-    override fun close() {
-        TreeSitterLanguagePackBridge.nativeFreeParser(handle)
-    }
+    override fun close() { TreeSitterLanguagePackBridge.nativeFreeParser(handle) }
 }
-
 @Suppress("TooManyFunctions")
 class Tree internal constructor(internal val handle: Long) : AutoCloseable {
     companion object {
-        private val MAPPER =
-            com.fasterxml.jackson.databind
-                .ObjectMapper()
-                .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(
-                    com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE
-                )
+        private val MAPPER = com.fasterxml.jackson.databind.ObjectMapper()
+            .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+            .findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
     }
 
     // Return the root [`Node`] of this tree.
@@ -97,22 +79,15 @@ class Tree internal constructor(internal val handle: Long) : AutoCloseable {
         return MAPPER.readValue(responseJson, TreeCursor::class.java)
     }
 
-    override fun close() {
-        TreeSitterLanguagePackBridge.nativeFreeTree(handle)
-    }
+    override fun close() { TreeSitterLanguagePackBridge.nativeFreeTree(handle) }
 }
-
 @Suppress("TooManyFunctions")
 class Node internal constructor(internal val handle: Long) : AutoCloseable {
     companion object {
-        private val MAPPER =
-            com.fasterxml.jackson.databind
-                .ObjectMapper()
-                .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(
-                    com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE
-                )
+        private val MAPPER = com.fasterxml.jackson.databind.ObjectMapper()
+            .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+            .findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
     }
 
     fun clone(): Node {
@@ -198,8 +173,7 @@ class Node internal constructor(internal val handle: Long) : AutoCloseable {
 
     // Return the i-th child of this node, if any.
     fun child(index: Int): Node? {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeNodeChild(handle, MAPPER.writeValueAsString(index))
+        val responseJson = TreeSitterLanguagePackBridge.nativeNodeChild(handle, MAPPER.writeValueAsString(index))
         return MAPPER.readValue(responseJson, Node::class.java)
     }
 
@@ -210,11 +184,7 @@ class Node internal constructor(internal val handle: Long) : AutoCloseable {
 
     // Return the i-th named child of this node, if any.
     fun namedChild(index: Int): Node? {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeNodeNamedChild(
-                handle,
-                MAPPER.writeValueAsString(index),
-            )
+        val responseJson = TreeSitterLanguagePackBridge.nativeNodeNamedChild(handle, MAPPER.writeValueAsString(index))
         return MAPPER.readValue(responseJson, Node::class.java)
     }
 
@@ -225,11 +195,7 @@ class Node internal constructor(internal val handle: Long) : AutoCloseable {
 
     // Look up a child by its grammar-defined field name.
     fun childByFieldName(name: String): Node? {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeNodeChildByFieldName(
-                handle,
-                MAPPER.writeValueAsString(name),
-            )
+        val responseJson = TreeSitterLanguagePackBridge.nativeNodeChildByFieldName(handle, MAPPER.writeValueAsString(name))
         return MAPPER.readValue(responseJson, Node::class.java)
     }
 
@@ -244,22 +210,15 @@ class Node internal constructor(internal val handle: Long) : AutoCloseable {
         return MAPPER.readValue(responseJson, TreeCursor::class.java)
     }
 
-    override fun close() {
-        TreeSitterLanguagePackBridge.nativeFreeNode(handle)
-    }
+    override fun close() { TreeSitterLanguagePackBridge.nativeFreeNode(handle) }
 }
-
 @Suppress("TooManyFunctions")
 class TreeCursor internal constructor(internal val handle: Long) : AutoCloseable {
     companion object {
-        private val MAPPER =
-            com.fasterxml.jackson.databind
-                .ObjectMapper()
-                .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(
-                    com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE
-                )
+        private val MAPPER = com.fasterxml.jackson.databind.ObjectMapper()
+            .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+            .findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
     }
 
     // Return the [`Node`] at the cursor's current position.
@@ -291,22 +250,15 @@ class TreeCursor internal constructor(internal val handle: Long) : AutoCloseable
         return TreeSitterLanguagePackBridge.nativeTreeCursorFieldName(handle)
     }
 
-    override fun close() {
-        TreeSitterLanguagePackBridge.nativeFreeTreeCursor(handle)
-    }
+    override fun close() { TreeSitterLanguagePackBridge.nativeFreeTreeCursor(handle) }
 }
-
 @Suppress("TooManyFunctions")
 class LanguageRegistry internal constructor(internal val handle: Long) : AutoCloseable {
     companion object {
-        private val MAPPER =
-            com.fasterxml.jackson.databind
-                .ObjectMapper()
-                .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(
-                    com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE
-                )
+        private val MAPPER = com.fasterxml.jackson.databind.ObjectMapper()
+            .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+            .findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
     }
 
     // Get a tree-sitter [`Language`] by name.
@@ -320,11 +272,7 @@ class LanguageRegistry internal constructor(internal val handle: Long) : AutoClo
     // Returns [`Error::LanguageNotFound`] if the name (after alias resolution)
     // does not match any known grammar.
     fun getLanguage(name: String): Language {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeLanguageRegistryGetLanguage(
-                handle,
-                MAPPER.writeValueAsString(name),
-            )
+        val responseJson = TreeSitterLanguagePackBridge.nativeLanguageRegistryGetLanguage(handle, MAPPER.writeValueAsString(name))
         return MAPPER.readValue(responseJson, Language::class.java)
     }
 
@@ -333,8 +281,7 @@ class LanguageRegistry internal constructor(internal val handle: Long) : AutoClo
     // Includes statically compiled languages, dynamically loadable languages
     // (if the `dynamic-loading` feature is enabled), and all configured aliases.
     fun availableLanguages(): List<String> {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeLanguageRegistryAvailableLanguages(handle)
+        val responseJson = TreeSitterLanguagePackBridge.nativeLanguageRegistryAvailableLanguages(handle)
         return MAPPER.readValue(responseJson, object : TypeReference<List<String>>() {})
     }
 
@@ -359,10 +306,7 @@ class LanguageRegistry internal constructor(internal val handle: Long) : AutoClo
     // let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
     // ```
     fun hasParser(name: String): Boolean {
-        return TreeSitterLanguagePackBridge.nativeLanguageRegistryHasParser(
-            handle,
-            MAPPER.writeValueAsString(name),
-        )
+        return TreeSitterLanguagePackBridge.nativeLanguageRegistryHasParser(handle, MAPPER.writeValueAsString(name))
     }
 
     // Check whether a language is available by name or alias.
@@ -370,10 +314,7 @@ class LanguageRegistry internal constructor(internal val handle: Long) : AutoClo
     // Returns `true` if the language can be loaded, either from the static
     // table or from a dynamic library on disk.
     fun hasLanguage(name: String): Boolean {
-        return TreeSitterLanguagePackBridge.nativeLanguageRegistryHasLanguage(
-            handle,
-            MAPPER.writeValueAsString(name),
-        )
+        return TreeSitterLanguagePackBridge.nativeLanguageRegistryHasLanguage(handle, MAPPER.writeValueAsString(name))
     }
 
     // Return the total number of available languages (including aliases).
@@ -383,36 +324,24 @@ class LanguageRegistry internal constructor(internal val handle: Long) : AutoClo
 
     // Parse source code and extract file intelligence based on config in a single pass.
     fun process(source: String, config: ProcessConfig): ProcessResult {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeLanguageRegistryProcess(
-                handle,
-                MAPPER.writeValueAsString(mapOf("source" to source, "config" to config)),
-            )
+        val responseJson = TreeSitterLanguagePackBridge.nativeLanguageRegistryProcess(handle, MAPPER.writeValueAsString(mapOf("source" to source, "config" to config)))
         return MAPPER.readValue(responseJson, ProcessResult::class.java)
     }
 
-    override fun close() {
-        TreeSitterLanguagePackBridge.nativeFreeLanguageRegistry(handle)
-    }
+    override fun close() { TreeSitterLanguagePackBridge.nativeFreeLanguageRegistry(handle) }
 }
-
 @Suppress("TooManyFunctions")
 class DownloadManager internal constructor(internal val handle: Long) : AutoCloseable {
     companion object {
-        private val MAPPER =
-            com.fasterxml.jackson.databind
-                .ObjectMapper()
-                .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
-                .findAndRegisterModules()
-                .setPropertyNamingStrategy(
-                    com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE
-                )
+        private val MAPPER = com.fasterxml.jackson.databind.ObjectMapper()
+            .registerModule(com.fasterxml.jackson.datatype.jdk8.Jdk8Module())
+            .findAndRegisterModules()
+            .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE)
     }
 
     // List languages that are already downloaded and cached.
     fun installedLanguages(): List<String> {
-        val responseJson =
-            TreeSitterLanguagePackBridge.nativeDownloadManagerInstalledLanguages(handle)
+        val responseJson = TreeSitterLanguagePackBridge.nativeDownloadManagerInstalledLanguages(handle)
         return MAPPER.readValue(responseJson, object : TypeReference<List<String>>() {})
     }
 
@@ -436,11 +365,9 @@ class DownloadManager internal constructor(internal val handle: Long) : AutoClos
     // permanent infrastructure; deleting it could allow a concurrent process that
     // already opened the file to continue holding a stale lock handle while a new
     // process opens a fresh inode, breaking the mutual-exclusion guarantee.
-    fun cleanCache() {
+    fun cleanCache(): Unit {
         TreeSitterLanguagePackBridge.nativeDownloadManagerCleanCache(handle)
     }
 
-    override fun close() {
-        TreeSitterLanguagePackBridge.nativeFreeDownloadManager(handle)
-    }
+    override fun close() { TreeSitterLanguagePackBridge.nativeFreeDownloadManager(handle) }
 }

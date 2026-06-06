@@ -27,7 +27,6 @@ use core_crate::*;
 use tree_sitter_language_pack as core_crate; // bring trait methods into scope
 
 const ERROR_CLASS: &str = "dev/kreuzberg/tslp/android/TreeSitterLanguagePackBridgeException";
-
 fn runtime() -> &'static Runtime {
     static RT: OnceLock<Runtime> = OnceLock::new();
     RT.get_or_init(|| Runtime::new().expect("create tokio runtime"))
@@ -92,7 +91,6 @@ where
         }
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDetectLanguageFromExtension(
     mut env: EnvUnowned,
@@ -119,7 +117,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDetectLanguageFromPath(
     mut env: EnvUnowned,
@@ -146,7 +143,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDetectLanguageFromContent(
     mut env: EnvUnowned,
@@ -173,7 +169,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetHighlightsQuery(
     mut env: EnvUnowned,
@@ -200,7 +195,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetInjectionsQuery(
     mut env: EnvUnowned,
@@ -227,7 +221,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetLocalsQuery(
     mut env: EnvUnowned,
@@ -254,7 +247,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetLanguage(
     mut env: EnvUnowned,
@@ -280,7 +272,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => Box::into_raw(Box::new(v)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetParser(
     mut env: EnvUnowned,
@@ -306,7 +297,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => Box::into_raw(Box::new(v)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDetectLanguage(
     mut env: EnvUnowned,
@@ -333,7 +323,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeAvailableLanguages(
     mut env: EnvUnowned,
@@ -352,7 +341,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeHasLanguage(
     mut env: EnvUnowned,
@@ -372,7 +360,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = core_crate::has_language(&name);
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeLanguageCount(
     mut env: EnvUnowned,
@@ -384,7 +371,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = core_crate::language_count();
     v as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeProcess(
     mut env: EnvUnowned,
@@ -434,7 +420,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeInit(
     mut env: EnvUnowned,
@@ -467,7 +452,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => {}
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeConfigure(
     mut env: EnvUnowned,
@@ -500,7 +484,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => {}
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDownload(
     mut env: EnvUnowned,
@@ -534,7 +517,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => v as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDownloadAll(
     mut env: EnvUnowned,
@@ -552,7 +534,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => v as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDownloadGroup(
     mut env: EnvUnowned,
@@ -578,7 +559,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => v as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeManifestLanguages(
     mut env: EnvUnowned,
@@ -605,7 +585,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDownloadedLanguages(
     mut env: EnvUnowned,
@@ -624,7 +603,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeCleanCache(
     mut env: EnvUnowned,
@@ -642,7 +620,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => {}
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeCacheDir(
     mut env: EnvUnowned,
@@ -669,7 +646,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeParserSetLanguage(
     mut env: EnvUnowned,
@@ -704,7 +680,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => {}
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeParserParse(
     mut env: EnvUnowned,
@@ -736,7 +711,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Some(inner) => Box::into_raw(Box::new(inner)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeParserParseBytes(
     mut env: EnvUnowned,
@@ -765,7 +739,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Some(inner) => Box::into_raw(Box::new(inner)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeParserReset(
     mut env: EnvUnowned,
@@ -781,7 +754,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let client: &mut core_crate::Parser = unsafe { &mut *(handle as *mut core_crate::Parser) };
     let v = client.reset();
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeParser(
     _env: EnvUnowned,
@@ -797,7 +769,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         let _ = Box::from_raw(handle as *mut core_crate::Parser);
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeTreeRootNode(
     mut env: EnvUnowned,
@@ -814,7 +785,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.root_node();
     Box::into_raw(Box::new(v)) as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeTreeWalk(
     mut env: EnvUnowned,
@@ -831,7 +801,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.walk();
     Box::into_raw(Box::new(v)) as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeTree(
     _env: EnvUnowned,
@@ -847,7 +816,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         let _ = Box::from_raw(handle as *mut core_crate::Tree);
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeClone(
     mut env: EnvUnowned,
@@ -864,7 +832,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.clone();
     Box::into_raw(Box::new(v)) as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeKind(
     mut env: EnvUnowned,
@@ -888,7 +855,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeKindId(
     mut env: EnvUnowned,
@@ -905,7 +871,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.kind_id();
     v as jni::sys::jshort
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeStartByte(
     mut env: EnvUnowned,
@@ -922,7 +887,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.start_byte();
     v as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeEndByte(
     mut env: EnvUnowned,
@@ -939,7 +903,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.end_byte();
     v as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeByteRange(
     mut env: EnvUnowned,
@@ -963,7 +926,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeStartPosition(
     mut env: EnvUnowned,
@@ -987,7 +949,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeEndPosition(
     mut env: EnvUnowned,
@@ -1011,7 +972,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeIsNamed(
     mut env: EnvUnowned,
@@ -1028,7 +988,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.is_named();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeIsError(
     mut env: EnvUnowned,
@@ -1045,7 +1004,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.is_error();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeIsMissing(
     mut env: EnvUnowned,
@@ -1062,7 +1020,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.is_missing();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeIsExtra(
     mut env: EnvUnowned,
@@ -1079,7 +1036,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.is_extra();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeHasError(
     mut env: EnvUnowned,
@@ -1096,7 +1052,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.has_error();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeParent(
     mut env: EnvUnowned,
@@ -1116,7 +1071,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Some(inner) => Box::into_raw(Box::new(inner)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeChild(
     mut env: EnvUnowned,
@@ -1151,7 +1105,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Some(inner) => Box::into_raw(Box::new(inner)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeChildCount(
     mut env: EnvUnowned,
@@ -1168,7 +1121,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.child_count();
     v as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeNamedChild(
     mut env: EnvUnowned,
@@ -1203,7 +1155,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Some(inner) => Box::into_raw(Box::new(inner)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeNamedChildCount(
     mut env: EnvUnowned,
@@ -1220,7 +1171,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.named_child_count();
     v as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeChildByFieldName(
     mut env: EnvUnowned,
@@ -1252,7 +1202,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Some(inner) => Box::into_raw(Box::new(inner)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeToSexp(
     mut env: EnvUnowned,
@@ -1276,7 +1225,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeWalk(
     mut env: EnvUnowned,
@@ -1293,7 +1241,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.walk();
     Box::into_raw(Box::new(v)) as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeNode(
     _env: EnvUnowned,
@@ -1309,7 +1256,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         let _ = Box::from_raw(handle as *mut core_crate::Node);
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeTreeCursorNode(
     mut env: EnvUnowned,
@@ -1326,7 +1272,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.node();
     Box::into_raw(Box::new(v)) as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeTreeCursorGotoFirstChild(
     mut env: EnvUnowned,
@@ -1343,7 +1288,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.goto_first_child();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeTreeCursorGotoParent(
     mut env: EnvUnowned,
@@ -1360,7 +1304,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.goto_parent();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeTreeCursorGotoNextSibling(
     mut env: EnvUnowned,
@@ -1377,7 +1320,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.goto_next_sibling();
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeTreeCursorFieldName(
     mut env: EnvUnowned,
@@ -1401,7 +1343,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeTreeCursor(
     _env: EnvUnowned,
@@ -1417,7 +1358,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         let _ = Box::from_raw(handle as *mut core_crate::TreeCursor);
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeLanguageRegistryGetLanguage(
     mut env: EnvUnowned,
@@ -1452,7 +1392,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => Box::into_raw(Box::new(v)) as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeLanguageRegistryAvailableLanguages(
     mut env: EnvUnowned,
@@ -1476,7 +1415,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeLanguageRegistryHasParser(
     mut env: EnvUnowned,
@@ -1505,7 +1443,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.has_parser(&name);
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeLanguageRegistryHasLanguage(
     mut env: EnvUnowned,
@@ -1534,7 +1471,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.has_language(&name);
     v
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeLanguageRegistryLanguageCount(
     mut env: EnvUnowned,
@@ -1551,7 +1487,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     let v = client.language_count();
     v as jlong
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeLanguageRegistryProcess(
     mut env: EnvUnowned,
@@ -1618,7 +1553,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeLanguageRegistry(
     _env: EnvUnowned,
@@ -1634,7 +1568,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         let _ = Box::from_raw(handle as *mut core_crate::LanguageRegistry);
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDownloadManagerInstalledLanguages(
     mut env: EnvUnowned,
@@ -1658,7 +1591,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     };
     string_to_jstring(env, &s)
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDownloadManagerDownloadAllBestEffort(
     mut env: EnvUnowned,
@@ -1681,7 +1613,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => v as jlong,
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDownloadManagerCleanCache(
     mut env: EnvUnowned,
@@ -1704,7 +1635,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         Ok(v) => {}
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeDownloadManager(
     _env: EnvUnowned,
@@ -1720,7 +1650,6 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         let _ = Box::from_raw(handle as *mut core_crate::DownloadManager);
     }
 }
-
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeLanguage(
     _env: EnvUnowned,
