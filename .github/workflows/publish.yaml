@@ -2662,7 +2662,7 @@ jobs:
               with:
                   crate-name: tree-sitter-language-pack-swift
                   artifact-name: TreeSitterLanguagePack-rs
-                  binary-target-name: RustBridge
+                  binary-target-name: RustBridgeBinary
             - uses: actions/upload-artifact@v7
               with:
                   name: swift-artifactbundle
