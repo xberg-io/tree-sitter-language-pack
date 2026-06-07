@@ -726,10 +726,10 @@ internal extension ProcessConfig {
 public enum StructureKind: Codable, Sendable, Hashable {
     case function
     case method
-    case `class`
-    case `struct`
+    case class_
+    case struct_
     case interface
-    case `enum`
+    case enum_
     case module
     case trait
     case impl
@@ -786,7 +786,7 @@ extension DocstringFormat {
 /// Covers named exports, default exports, and re-exports from other modules.
 public enum ExportKind: String, Codable, Sendable, Hashable {
     case named = "Named"
-    case `default` = "Default"
+    case default_ = "Default"
     case reExport = "ReExport"
 }
 extension ExportKind {
@@ -805,10 +805,10 @@ public enum SymbolKind: Codable, Sendable, Hashable {
     case variable
     case constant
     case function
-    case `class`
+    case class_
     case type
     case interface
-    case `enum`
+    case enum_
     case module
     case other(field0: String)
 }
@@ -1217,7 +1217,7 @@ public func availableLanguages() -> [String] {
 /// assert!(has_language("shell")); // alias for "bash"
 /// assert!(!has_language("nonexistent_language"));
 /// ```
-public func hasLanguage(name: String) -> Bool {
+public func hasLanguage(name: String) -> Int {
         let _rb_name = RustString(name)
     return RustBridge.hasLanguage(_rb_name)
 }
@@ -1234,7 +1234,7 @@ public func hasLanguage(name: String) -> Bool {
 /// let count = language_count();
 /// println!("{} languages available", count);
 /// ```
-public func languageCount() -> UInt {
+public func languageCount() -> Int {
     return RustBridge.languageCount()
 }
 /// Process source code and extract file intelligence using the global registry.
@@ -1333,7 +1333,7 @@ public func configure(config: PackConfig) throws {
 /// let count = download(&["python", "rust", "typescript"]).unwrap();
 /// println!("Ensured {} languages", count);
 /// ```
-public func download(names: [String]) throws -> UInt {
+public func download(names: [String]) throws -> Int {
         let _rb_names: RustVec<RustString> = { let v = RustVec<RustString>(); for s in names { v.push(value: RustString(s)) }; return v }()
     return try RustBridge.download(_rb_names)
 }
@@ -1359,7 +1359,7 @@ public func download(names: [String]) throws -> UInt {
 /// let count = download_all().unwrap();
 /// println!("{} languages available", count);
 /// ```
-public func downloadAll() throws -> UInt {
+public func downloadAll() throws -> Int {
     return try RustBridge.downloadAll()
 }
 /// Download every language in a named group (e.g. `"web"`, `"data"`).
@@ -1384,7 +1384,7 @@ public func downloadAll() throws -> UInt {
 /// let count = download_group("web").unwrap();
 /// println!("{} languages available", count);
 /// ```
-public func downloadGroup(name: String) throws -> UInt {
+public func downloadGroup(name: String) throws -> Int {
         let _rb_name = RustString(name)
     return try RustBridge.downloadGroup(_rb_name)
 }

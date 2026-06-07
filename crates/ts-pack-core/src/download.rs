@@ -363,22 +363,16 @@ impl DownloadManager {
 
         // Fetch manifest if not already loaded (caller holds file lock).
         {
-            let mut guard = self
-                .manifest
-                .lock()
-                .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+            let mut guard = self.manifest.lock().map_err(|e| Error::LockPoisoned(e.to_string()))?;
             if guard.is_none() {
                 *guard = Some(self.fetch_manifest_inner_locked()?);
             }
         }
 
-        let guard = self
-            .manifest
-            .lock()
-            .map_err(|e| Error::LockPoisoned(e.to_string()))?;
-        let manifest = guard.as_ref().ok_or_else(|| {
-            Error::LockPoisoned("manifest was not loaded after fetch".to_string())
-        })?;
+        let guard = self.manifest.lock().map_err(|e| Error::LockPoisoned(e.to_string()))?;
+        let manifest = guard
+            .as_ref()
+            .ok_or_else(|| Error::LockPoisoned("manifest was not loaded after fetch".to_string()))?;
 
         // Verify requested languages exist in manifest
         for name in &missing {
@@ -537,10 +531,7 @@ impl DownloadManager {
     fn group_languages_fast(&self, group: &str) -> Result<Vec<String>, Error> {
         // Try the in-memory cache first (cheapest path, no I/O).
         {
-            let guard = self
-                .manifest
-                .lock()
-                .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+            let guard = self.manifest.lock().map_err(|e| Error::LockPoisoned(e.to_string()))?;
             if let Some(ref manifest) = *guard {
                 return Self::resolve_group(manifest, group);
             }
@@ -550,10 +541,7 @@ impl DownloadManager {
         if let Some(manifest) = self.read_cached_manifest()? {
             let names = Self::resolve_group(&manifest, group)?;
             // Populate in-memory cache for subsequent calls.
-            *self
-                .manifest
-                .lock()
-                .map_err(|e| Error::LockPoisoned(e.to_string()))? = Some(manifest);
+            *self.manifest.lock().map_err(|e| Error::LockPoisoned(e.to_string()))? = Some(manifest);
             return Ok(names);
         }
 
@@ -565,10 +553,7 @@ impl DownloadManager {
         // Double-check after acquiring the lock — another process may have
         // written the manifest while we waited.
         let manifest = {
-            let mut mem_guard = self
-                .manifest
-                .lock()
-                .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+            let mut mem_guard = self.manifest.lock().map_err(|e| Error::LockPoisoned(e.to_string()))?;
             if let Some(ref existing) = *mem_guard {
                 return Self::resolve_group(existing, group);
             }
@@ -783,23 +768,17 @@ impl DownloadManager {
     fn download_all_best_effort_locked(&self) -> Result<usize, Error> {
         // Load or fetch the manifest under the lock.
         {
-            let mut guard = self
-                .manifest
-                .lock()
-                .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+            let mut guard = self.manifest.lock().map_err(|e| Error::LockPoisoned(e.to_string()))?;
             if guard.is_none() {
                 *guard = Some(self.fetch_manifest_inner_locked()?);
             }
         }
 
         let (platform_key, bundle) = {
-            let guard = self
-                .manifest
-                .lock()
-                .map_err(|e| Error::LockPoisoned(e.to_string()))?;
-            let manifest = guard.as_ref().ok_or_else(|| {
-                Error::LockPoisoned("manifest was not loaded after fetch".to_string())
-            })?;
+            let guard = self.manifest.lock().map_err(|e| Error::LockPoisoned(e.to_string()))?;
+            let manifest = guard
+                .as_ref()
+                .ok_or_else(|| Error::LockPoisoned("manifest was not loaded after fetch".to_string()))?;
             let platform_key = Self::platform_key();
             let bundle = manifest.platforms.get(&platform_key).ok_or_else(|| {
                 Error::Download(format!(
@@ -947,14 +926,11 @@ impl DownloadManager {
         let mut hasher = Sha256::new();
         hasher.update(data);
         let hash = hasher.finalize();
-        hash.iter().fold(
-            String::with_capacity(hash.len() * 2),
-            |mut s, byte| {
-                use std::fmt::Write as _;
-                let _ = write!(s, "{byte:02x}");
-                s
-            },
-        )
+        hash.iter().fold(String::with_capacity(hash.len() * 2), |mut s, byte| {
+            use std::fmt::Write as _;
+            let _ = write!(s, "{byte:02x}");
+            s
+        })
     }
 
     /// Platform key for the current OS/arch, e.g. "linux-x86_64", "macos-arm64".

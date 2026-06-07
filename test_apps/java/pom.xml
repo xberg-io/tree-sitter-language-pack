@@ -62,7 +62,97 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>natives/**/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-native-lib</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Use Java system properties (os.name, os.arch) which are more reliable than antrun's <os> conditions -->
+                                <!-- Detect OS: check os.name -->
+                                <condition property="os.name.detected" value="macos">
+                                    <or>
+                                        <matches string="${os.name}" pattern="(?i).*mac.*" />
+                                        <matches string="${os.name}" pattern="(?i).*darwin.*" />
+                                    </or>
+                                </condition>
+                                <condition property="os.name.detected" value="windows">
+                                    <matches string="${os.name}" pattern="(?i).*win.*" />
+                                </condition>
+                                <condition property="os.name.detected" value="linux">
+                                    <equals arg1="${os.name.detected}" arg2="" />
+                                </condition>
+                                <!-- Detect architecture -->
+                                <condition property="arch.detected" value="arm64">
+                                    <or>
+                                        <matches string="${os.arch}" pattern="(?i)(aarch64|arm64)" />
+                                    </or>
+                                </condition>
+                                <condition property="arch.detected" value="x86_64">
+                                    <or>
+                                        <matches string="${os.arch}" pattern="(?i)(x86_64|amd64)" />
+                                    </or>
+                                </condition>
+                                <!-- Fallback to default arch if not matched -->
+                                <condition property="arch.detected" value="${os.arch}">
+                                    <equals arg1="${arch.detected}" arg2="" />
+                                </condition>
+                                <!-- Build natives RID and library filename -->
+                                <property name="natives.rid" value="${os.name.detected}-${arch.detected}" />
+                                <condition property="native.lib.name" value="libts_pack_core_ffi.dylib">
+                                    <matches string="${os.name.detected}" pattern="(?i)macos" />
+                                </condition>
+                                <condition property="native.lib.name" value="libts_pack_core_ffi.so">
+                                    <matches string="${os.name.detected}" pattern="(?i)linux" />
+                                </condition>
+                                <condition property="native.lib.name" value="ts_pack_core_ffi.dll">
+                                    <matches string="${os.name.detected}" pattern="(?i)windows" />
+                                </condition>
+                                <!-- Define source and destination paths -->
+                                <!-- Use basedir to resolve workspace root more robustly -->
+                                <property name="workspace.root" value="${project.basedir}/../.." />
+                                <property name="native.source" value="${workspace.root}/target/release/${native.lib.name}" />
+                                <property name="native.dest.dir" value="${project.basedir}/src/main/resources/natives/${natives.rid}" />
+                                <!-- Copy native library if it exists -->
+                                <available file="${native.source}" property="native.lib.exists" />
+                                <condition property="should.fail.on.copy.error">
+                                    <isset property="native.lib.exists" />
+                                </condition>
+                                <echo message="Copying native library from ${native.source} to ${native.dest.dir} (RID: ${natives.rid})" />
+                                <echo message="Native library exists: ${native.lib.exists}" />
+                                <mkdir dir="${native.dest.dir}" />
+                                <copy file="${native.source}" todir="${native.dest.dir}" failonerror="true" verbose="true" />
+                                <!-- Verify copy succeeded and library is in correct location -->
+                                <condition property="copy.failed">
+                                    <and>
+                                        <isset property="native.lib.exists" />
+                                        <not>
+                                            <available file="${native.dest.dir}/${native.lib.name}" />
+                                        </not>
+                                    </and>
+                                </condition>
+                                <fail if="copy.failed" message="Failed to copy native library from ${native.source} to ${native.dest.dir}/${native.lib.name}" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -87,7 +177,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
-                    <argLine>--enable-preview --enable-native-access=ALL-UNNAMED</argLine>
+                    <argLine>--enable-preview --enable-native-access=ALL-UNNAMED -Djava.library.path=${project.basedir}/../../target/release</argLine>
                     <workingDirectory>${project.basedir}/../../test_documents</workingDirectory>
                 </configuration>
             </plugin>

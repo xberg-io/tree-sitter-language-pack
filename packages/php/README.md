@@ -98,15 +98,10 @@ Pre-compiled tree-sitter grammars for 306 programming languages with PHP binding
 
 ## What This Package Provides
 
-- **Parser access** — load a tree-sitter language parser by name without wiring
-  individual grammar crates or packages.
-- **Code intelligence primitives** — parse trees, functions, classes, imports,
-  exports, symbols, docstrings, diagnostics, and syntax-aware chunks.
-- **Shared cache model** — parsers are fetched and cached once, then reused by
-  every call in the process.
-- **Same catalog as every binding** — Rust, Python, Node.js, Go, Java, PHP,
-  Ruby, .NET, Elixir, WASM, Dart, Kotlin Android, Swift, Zig, and C FFI use
-  the same grammar set.
+- **Parser access** — load a tree-sitter language parser by name without wiring individual grammar crates or packages.
+- **Code intelligence primitives** — parse trees, functions, classes, imports, exports, symbols, docstrings, diagnostics, and syntax-aware chunks.
+- **Shared cache model** — parsers are fetched and cached once, then reused by every call in the process.
+- **Same catalog as every binding** — Rust, Python, Node.js, Go, Java, PHP, Ruby, .NET, Elixir, WASM, Dart, Kotlin Android, Swift, Zig, and C FFI use the same grammar set.
 - **PHP extension** — typed PHP surface over the Rust parser pack.
 
 ## Installation
@@ -121,16 +116,11 @@ See the [language guide](https://docs.tree-sitter-language-pack.kreuzberg.dev) f
 
 ## Features
 
-- **300+ languages** — pre-compiled tree-sitter grammars covering every major
-  programming language and many minor ones.
-- **On-demand download + cache** — parsers fetched at first use; subsequent
-  runs hit the local cache.
-- **Code intelligence** — extract functions, classes, imports, exports, symbols,
-  docstrings, and diagnostics with one API.
+- **300+ languages** — pre-compiled tree-sitter grammars covering every major programming language and many minor ones.
+- **On-demand download + cache** — parsers fetched at first use; subsequent runs hit the local cache.
+- **Code intelligence** — extract functions, classes, imports, exports, symbols, docstrings, and diagnostics with one API.
 - **Syntax-aware chunking** — semantic chunks for RAG/LLM pipelines.
-- **Polyglot bindings** — Rust core with native bindings for Python, TypeScript,
-  Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly via
-  [alef](https://github.com/kreuzberg-dev/alef).
+- **Polyglot bindings** — Rust core with native bindings for Python, TypeScript, Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly via [alef](https://github.com/kreuzberg-dev/alef).
 
 ## Documentation
 

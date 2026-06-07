@@ -454,7 +454,7 @@ pub fn get_language(name: []const u8) Error!Language {
     const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_get_language(name_z);
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     return Language{ ._handle = _result.? };
@@ -473,7 +473,7 @@ pub fn get_parser(name: []const u8) Error!Parser {
     const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_get_parser(name_z);
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     return Parser{ ._handle = _result.? };
@@ -549,7 +549,7 @@ pub fn process(source: []const u8, config: []const u8) Error![]u8 {
     if (config_handle == null) return _first_error(Error);
     defer c.ts_pack_process_config_free(config_handle);
     const _result = c.ts_pack_process(source_z, config_handle);
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     return blk: {
@@ -621,7 +621,7 @@ pub fn download(names: []const u8) Error!u64 {
     const names_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{names}, 0);
     defer std.heap.c_allocator.free(names_z);
     const _result = c.ts_pack_download(names_z);
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     return _result;
@@ -642,7 +642,7 @@ pub fn download(names: []const u8) Error!u64 {
 /// Returns an error if the manifest cannot be fetched or the bundle download fails.
 pub fn download_all() Error!u64 {
     const _result = c.ts_pack_download_all();
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     return _result;
@@ -665,7 +665,7 @@ pub fn download_group(name: []const u8) Error!u64 {
     const name_z = try std.fmt.allocPrintSentinel(std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_download_group(name_z);
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     return _result;
@@ -682,7 +682,7 @@ pub fn download_group(name: []const u8) Error!u64 {
 /// Returns an error if the manifest cannot be fetched.
 pub fn manifest_languages() Error![]u8 {
     const _result = c.ts_pack_manifest_languages();
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     const _result_len = c.ts_pack_manifest_languages_len();
@@ -736,7 +736,7 @@ pub fn clean_cache() Error!void {
 /// Returns an error if the system cache directory cannot be determined.
 pub fn cache_dir() Error![]u8 {
     const _result = c.ts_pack_cache_dir();
-    if (c.ts_pack_last_error_code() != 0) {
+    if (_result == null) {
         return _first_error(Error);
     }
     const _result_len = c.ts_pack_cache_dir_len();
@@ -1096,7 +1096,7 @@ pub const LanguageRegistry = struct {
         const name_z = try std.heap.c_allocator.dupeZ(u8, name);
         defer std.heap.c_allocator.free(name_z);
         const _result = c.ts_pack_language_registry_get_language(@as(*c.TS_PACKLanguageRegistry, @ptrCast(self._handle)), name_z);
-        if (c.ts_pack_last_error_code() != 0) {
+        if (_result == null) {
             return _first_error(Error);
         }
         return Language{ ._handle = _result.? };
@@ -1170,7 +1170,7 @@ pub const LanguageRegistry = struct {
         if (config_handle == null) return _first_error(Error);
         defer c.ts_pack_process_config_free(config_handle);
         const _result = c.ts_pack_language_registry_process(@as(*c.TS_PACKLanguageRegistry, @ptrCast(self._handle)), source_z, config_handle);
-        if (c.ts_pack_last_error_code() != 0) {
+        if (_result == null) {
             return _first_error(Error);
         }
         return blk: {
@@ -1223,7 +1223,7 @@ pub const DownloadManager = struct {
     /// Returns the number of library files extracted (including those already cached).
     pub fn download_all_best_effort(self: *DownloadManager) (Error || error{OutOfMemory})!u64 {
         const _result = c.ts_pack_download_manager_download_all_best_effort(@as(*c.TS_PACKDownloadManager, @ptrCast(self._handle)));
-        if (c.ts_pack_last_error_code() != 0) {
+        if (_result == null) {
             return _first_error(Error);
         }
         return _result;
