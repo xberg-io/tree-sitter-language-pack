@@ -39,9 +39,9 @@ checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
 name = "bitflags"
-version = "2.12.1"
+version = "2.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84d7ced0ae9557296835c32bf1b1e02b44c746701f898460fb000d7eaa84f00a"
+checksum = "b4388bee8683e3d04af747c73422af53102d2bd24d9eadb6cbc100baef4b43f8"
 
 [[package]]
 name = "block-buffer"
@@ -885,7 +885,7 @@ checksum = "009994f150cc0cd50ff54917d5bc8bffe8cad10ca10d81c34da2ec421ae61782"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.9.0-rc.20"
+version = "1.9.0-rc.23"
 dependencies = [
  "ahash",
  "cc",
@@ -906,7 +906,7 @@ dependencies = [
 
 [[package]]
 name = "tree_sitter_language_pack-e2e-rust"
-version = "1.9.0-rc.20"
+version = "1.9.0-rc.23"
 dependencies = [
  "serde_json",
  "tree-sitter-language-pack",

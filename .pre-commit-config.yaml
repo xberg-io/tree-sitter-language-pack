@@ -13,8 +13,8 @@ repos:
                 - --write
             stages:
                 - commit-msg
-    - repo: /Users/naamanhirschfeld/workspace/kreuzberg-dev/pre-commit-hooks
-      rev: v2.1.4
+    - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
+      rev: v2.1.6
       hooks:
           # AI governance
           - id: ai-rulez-generate

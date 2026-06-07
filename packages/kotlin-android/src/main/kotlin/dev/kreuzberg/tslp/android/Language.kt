@@ -24,5 +24,7 @@
 package dev.kreuzberg.tslp.android
 
 class Language internal constructor(internal val handle: Long) : AutoCloseable {
-    override fun close() { TreeSitterLanguagePackBridge.nativeFreeLanguage(handle) }
+    override fun close() {
+        TreeSitterLanguagePackBridge.nativeFreeLanguage(handle)
+    }
 }

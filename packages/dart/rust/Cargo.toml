@@ -1,6 +1,6 @@
 [package]
 name = "tree-sitter-language-pack-dart"
-version = "1.9.0-rc.23"
+version = "1.9.0-rc.24"
 edition = "2024"
 license = "MIT"
 
@@ -13,9 +13,9 @@ ignored = ["tree_sitter_language_pack"]
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
-tree_sitter_language_pack = { path = "../../../crates/ts-pack-core", package = "tree-sitter-language-pack", features = ["serde", "config", "download"] }
 flutter_rust_bridge = "=2.12.0"
 serde_json = "1"
+tree_sitter_language_pack = { path = "../../../crates/ts-pack-core", package = "tree-sitter-language-pack", features = ["serde", "config", "download"] }
 
 [lints.rust]
 # flutter_rust_bridge uses #[cfg(frb_expand)] internally during macro expansion.
