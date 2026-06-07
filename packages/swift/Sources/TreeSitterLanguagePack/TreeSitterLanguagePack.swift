@@ -1217,7 +1217,7 @@ public func availableLanguages() -> [String] {
 /// assert!(has_language("shell")); // alias for "bash"
 /// assert!(!has_language("nonexistent_language"));
 /// ```
-public func hasLanguage(name: String) -> Int {
+public func hasLanguage(name: String) -> Bool {
         let _rb_name = RustString(name)
     return RustBridge.hasLanguage(_rb_name)
 }
@@ -1234,7 +1234,7 @@ public func hasLanguage(name: String) -> Int {
 /// let count = language_count();
 /// println!("{} languages available", count);
 /// ```
-public func languageCount() -> Int {
+public func languageCount() -> UInt {
     return RustBridge.languageCount()
 }
 /// Process source code and extract file intelligence using the global registry.
@@ -1333,7 +1333,7 @@ public func configure(config: PackConfig) throws {
 /// let count = download(&["python", "rust", "typescript"]).unwrap();
 /// println!("Ensured {} languages", count);
 /// ```
-public func download(names: [String]) throws -> Int {
+public func download(names: [String]) throws -> UInt {
         let _rb_names: RustVec<RustString> = { let v = RustVec<RustString>(); for s in names { v.push(value: RustString(s)) }; return v }()
     return try RustBridge.download(_rb_names)
 }
@@ -1359,7 +1359,7 @@ public func download(names: [String]) throws -> Int {
 /// let count = download_all().unwrap();
 /// println!("{} languages available", count);
 /// ```
-public func downloadAll() throws -> Int {
+public func downloadAll() throws -> UInt {
     return try RustBridge.downloadAll()
 }
 /// Download every language in a named group (e.g. `"web"`, `"data"`).
@@ -1384,7 +1384,7 @@ public func downloadAll() throws -> Int {
 /// let count = download_group("web").unwrap();
 /// println!("{} languages available", count);
 /// ```
-public func downloadGroup(name: String) throws -> Int {
+public func downloadGroup(name: String) throws -> UInt {
         let _rb_name = RustString(name)
     return try RustBridge.downloadGroup(_rb_name)
 }
