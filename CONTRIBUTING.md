@@ -1,6 +1,7 @@
 # Contributing to Tree-Sitter Language Pack
 
-Thank you for your interest in contributing to tree-sitter-language-pack! This guide will help you get started with development.
+Thank you for your interest in contributing to tree-sitter-language-pack! This guide will
+help you get started with development.
 
 ## Table of Contents
 
@@ -21,7 +22,9 @@ Thank you for your interest in contributing to tree-sitter-language-pack! This g
 
 ### Task Installation
 
-This project uses [Task](https://taskfile.dev/) for task automation and orchestration. Task is a task runner that simplifies development workflows across multiple languages and platforms.
+This project uses [Task](https://taskfile.dev/) for task automation and orchestration.
+Task is a task runner that simplifies development workflows across multiple languages and
+platforms.
 
 #### Install Task
 
@@ -197,23 +200,30 @@ task c:e2e:test        # Run C E2E tests
 
 ## Parser Caching
 
-Cloning 306 tree-sitter grammar repositories is slow. The build system includes a multi-layer caching strategy to avoid redundant work.
+Cloning 306 tree-sitter grammar repositories is slow. The build system includes a multi-layer
+caching strategy to avoid redundant work.
 
 ### How It Works
 
-1. **Cache manifest** (`parsers/.cache_manifest.json`): Tracks a SHA256-based key for each language derived from its full configuration (repo URL, revision, branch, directory, generate flag, ABI version). On subsequent runs, only languages whose configuration has changed — or whose parser files are missing from disk — are re-cloned.
+1. **Cache manifest** (`parsers/.cache_manifest.json`): Tracks a SHA256-based key for each
+   language derived from its full configuration (repo URL, revision, branch, directory,
+   generate flag, ABI version). On subsequent runs, only languages whose configuration has
+   changed — or whose parser files are missing from disk — are re-cloned.
 
-2. **CI cache** (`actions/cache@v4`): All CI workflows cache the `parsers/` directory keyed on `sources/language_definitions.json`. When definitions haven't changed between runs, the clone step completes instantly.
+2. **CI cache** (`actions/cache@v4`): All CI workflows cache the `parsers/` directory keyed
+   on `sources/language_definitions.json`. When definitions haven't changed between runs,
+   the clone step completes instantly.
 
-3. **Stale entry cleanup**: If a language is removed from `language_definitions.json`, the next run deletes its parser directory and manifest entry automatically.
+3. **Stale entry cleanup**: If a language is removed from `language_definitions.json`, the
+   next run deletes its parser directory and manifest entry automatically.
 
 ### Environment Variables
 
-| Variable          | Default                  | Description                                                                        |
-| ----------------- | ------------------------ | ---------------------------------------------------------------------------------- |
-| `TSLP_CACHE_DIR`  | `<project_root>/parsers` | Override the directory where compiled parser sources are stored                    |
-| `TSLP_VENDOR_DIR` | `<project_root>/vendor`  | Override the directory where grammar repos are cloned                              |
-| `TSLP_NO_CACHE`   | (unset)                  | Set to `1`, `true`, or `yes` to force a full re-clone, ignoring the cache manifest |
+| Variable          | Default              | Description                                   |
+| ----------------- | -------------------- | --------------------------------------------- |
+| `TSLP_CACHE_DIR`  | `<project_root>/parsers` | Override compiled parser sources location |
+| `TSLP_VENDOR_DIR` | `<project_root>/vendor`  | Override grammar clone location           |
+| `TSLP_NO_CACHE`   | (unset)              | Force full re-clone, ignore cache manifest    |
 
 ### Common Scenarios
 
@@ -232,7 +242,11 @@ TSLP_CACHE_DIR=/tmp/tslp-parsers task clone
 
 ### License Requirements
 
-All included grammars **must** be released under a permissive open-source license such as MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, or Unlicense. We do **not** accept grammars licensed under GPL, AGPL, LGPL, MPL, or any other copyleft license. This policy ensures that tree-sitter-language-pack can be freely used in any project — commercial or otherwise — without imposing license obligations on downstream users.
+All included grammars **must** be released under a permissive open-source license such as
+MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, or Unlicense. We do **not** accept
+grammars licensed under GPL, AGPL, LGPL, MPL, or any other copyleft license. This policy
+ensures that tree-sitter-language-pack can be freely used in any project — commercial or
+otherwise — without imposing license obligations on downstream users.
 
 Before proposing a new grammar, verify its license by checking the `LICENSE` file in the grammar repository.
 
@@ -259,16 +273,16 @@ Before proposing a new grammar, verify its license by checking the `LICENSE` fil
    - `directory` (optional): Path to src folder if not in root
    - `generate` (optional): Run tree-sitter generate command
 
-1. **Add a Cargo feature** for the language in `crates/ts-pack-core/Cargo.toml`
+2. **Add a Cargo feature** for the language in `crates/ts-pack-core/Cargo.toml`
 
-1. **Clone and build**
+3. **Clone and build**
 
    ```bash
    task clone
    task build:dev
    ```
 
-1. **Regenerate E2E smoke fixtures and test**
+4. **Regenerate E2E smoke fixtures and test**
 
    ```bash
    task e2e:generate:smoke-fixtures
@@ -278,7 +292,8 @@ Before proposing a new grammar, verify its license by checking the `LICENSE` fil
 
 ## E2E Tests
 
-E2E tests are generated from JSON fixtures in `tools/e2e-generator/fixtures/` and produce runnable test suites for each language binding.
+E2E tests are generated from JSON fixtures in `tools/e2e-generator/fixtures/` and produce
+runnable test suites for each language binding.
 
 ```bash
 # Generate E2E tests for all languages
@@ -345,20 +360,20 @@ We use conventional commits:
    git checkout -b feat/add-language-support
    ```
 
-1. **Make your changes** and run checks locally:
+2. **Make your changes** and run checks locally:
 
    ```bash
    task check
    ```
 
-1. **Commit and push**
+3. **Commit and push**
 
    ```bash
    git commit -m "feat: add support for new language"
    git push origin feat/add-language-support
    ```
 
-1. **Create a Pull Request** — link any related issues and ensure CI passes.
+4. **Create a Pull Request** — link any related issues and ensure CI passes.
 
 ## Maintenance Tasks
 
