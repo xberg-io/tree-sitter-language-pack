@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Omit field-level javadoc in multiline Java record declarations for PMD compliance.** PMD 7.x does not recognize javadoc preceding annotations as belonging to record components (DanglingJavadoc rule). Field-level documentation is omitted from multiline record declarations since records are self-documenting value types and class-level record javadoc provides sufficient context. (Alef upstream: `src/backends/java/gen_bindings/types.rs`)
+
 - **Suppress `missing_docs` lint in generated swift-bridge bindings.** The swift-bridge crate
   (`packages/swift/rust/src/lib.rs`) is entirely generated code with 1:1 wrapper mirrors of
   `tree_sitter_language_pack` types. Rustdoc coverage on these wrappers is not meaningful —
