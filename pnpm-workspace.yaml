@@ -9,34 +9,11 @@ allowBuilds:
   esbuild: true
   tree-sitter: true
 minimumReleaseAgeExclude:
-  # Keep rc.19 entries while pnpm-lock.yaml still references them (the lockfile
-  # only gets refreshed once rc.20 is published). Both stay excluded so a
-  # release commit can land before its own published artifacts age past the
-  # release-age policy cutoff.
-  - '@kreuzberg/tree-sitter-language-pack-darwin-arm64@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-darwin-x64@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-linux-arm64-musl@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-linux-x64-musl@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc@1.9.0-rc.19'
-  - '@kreuzberg/tree-sitter-language-pack-darwin-arm64@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-darwin-x64@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-linux-arm64-musl@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-linux-x64-musl@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc@1.9.0-rc.20'
-  - '@kreuzberg/tree-sitter-language-pack-darwin-arm64@1.9.0-rc.23'
-  - '@kreuzberg/tree-sitter-language-pack-darwin-x64@1.9.0-rc.23'
-  - '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu@1.9.0-rc.23'
-  - '@kreuzberg/tree-sitter-language-pack-linux-arm64-musl@1.9.0-rc.23'
-  - '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu@1.9.0-rc.23'
-  - '@kreuzberg/tree-sitter-language-pack-linux-x64-musl@1.9.0-rc.23'
-  - '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc@1.9.0-rc.23'
-  - '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc@1.9.0-rc.23'
+  # pnpm 11+ matches these as name-only globs (the `pkg@version` form is not
+  # honored — sibling polyglot repos use the same pattern). The wildcard covers
+  # all current and future RC platform packages so release commits can land
+  # before their own published artifacts age past the policy cutoff.
+  - '@kreuzberg/tree-sitter-language-pack-*'
 
 # e2e/wasm is intentionally NOT in the workspace because its `tree_sitter_language_pack`
 # dep is `file:../../crates/ts-pack-core-wasm/pkg` which only exists after wasm-pack

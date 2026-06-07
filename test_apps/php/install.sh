@@ -50,8 +50,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # Verify the extension loads via explicit `-d` flag (same mechanism run_tests.php uses).
-# Note: The extension internally registers as "ts-pack-core-php" despite the filename.
-if ! php -d extension=tree_sitter_language_pack -m | grep -qi "ts-pack-core-php"; then
+if ! php -d extension=tree_sitter_language_pack -m | grep -qi "tree_sitter_language_pack"; then
   echo "::error::tree_sitter_language_pack extension failed to load after PIE install" >&2
   exit 1
 fi
