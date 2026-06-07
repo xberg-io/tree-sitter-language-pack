@@ -43,7 +43,7 @@ EXT_DIR="$(php -r 'echo ini_get("extension_dir");')"
 test -f "$EXT_DIR/tree_sitter_language_pack.so" || test -f "$EXT_DIR/tree_sitter_language_pack.dylib" || test -f "$EXT_DIR/tree_sitter_language_pack.dll"
 
 # Load it explicitly for the smoke test (the verify-install action runs
-# phpunit with this same `-dextension=` flag in CI).
+# phpunit with this same `-d extension=` flag in CI).
 if ! php -dextension=tree_sitter_language_pack -m | grep -qi tree_sitter_language_pack; then
   echo "::error::tree_sitter_language_pack extension failed to load after PIE install" >&2
   exit 1

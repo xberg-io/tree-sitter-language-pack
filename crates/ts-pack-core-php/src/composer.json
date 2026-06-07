@@ -34,7 +34,7 @@
   "extra": {
     "pie": {
       "binary": {
-        "url-template": "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v{Version}/php_tree_sitter_language_pack-{Version}_php{PhpVersion}-{Arch}-{OS}-{Libc}-{TSMode}.tgz"
+        "url-template": "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/{Version}/php_tree_sitter_language_pack-{Version}_php{PhpVersion}-{Arch}-{OS}-{Libc}-{TSMode}.tgz"
       }
     }
   }
