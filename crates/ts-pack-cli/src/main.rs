@@ -1,3 +1,9 @@
+//! `ts-pack` — command-line interface for the tree-sitter language pack.
+//!
+//! Download parsers, list and inspect supported languages, parse source files,
+//! run the code-intelligence pipeline, manage the cache, generate shell completions,
+//! and scaffold project configuration.
+
 use clap::{CommandFactory, Parser, Subcommand};
 use std::io::{self, Read, Write};
 use std::path::PathBuf;
