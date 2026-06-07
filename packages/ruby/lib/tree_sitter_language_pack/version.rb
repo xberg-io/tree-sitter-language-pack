@@ -6,5 +6,5 @@
 
 module TreeSitterLanguagePack
   ## The version string for this package.
-  VERSION = "1.9.0.pre.rc.24"
+  VERSION = "1.9.0.pre.rc.25"
 end
