@@ -69,11 +69,13 @@ dependencies {
 }
 
 mavenPublishing {
-    configure(AndroidSingleVariantLibrary(
-        variant = "release",
-        sourcesJar = com.vanniktech.maven.publish.SourcesJar.Sources(),
-        javadocJar = com.vanniktech.maven.publish.JavadocJar.Empty(),
-    ))
+    configure(
+        AndroidSingleVariantLibrary(
+            variant = "release",
+            sourcesJar = com.vanniktech.maven.publish.SourcesJar.Sources(),
+            javadocJar = com.vanniktech.maven.publish.JavadocJar.Empty(),
+        )
+    )
 
     publishToMavenCentral()
     signAllPublications()
@@ -104,7 +106,9 @@ mavenPublishing {
         scm {
             url.set("https://github.com/kreuzberg-dev/tree-sitter-language-pack")
             connection.set("scm:git:git://github.com/kreuzberg-dev/tree-sitter-language-pack.git")
-            developerConnection.set("scm:git:ssh://git@github.com:kreuzberg-dev/tree-sitter-language-pack.git")
+            developerConnection.set(
+                "scm:git:ssh://git@github.com:kreuzberg-dev/tree-sitter-language-pack.git"
+            )
         }
     }
 }
