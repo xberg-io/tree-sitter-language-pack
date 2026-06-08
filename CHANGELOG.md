@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.28] - 2026-06-08
+
+### Fixed
+
+- **Homebrew `libts-pack` bottle now ships with all 306 grammars statically compiled.** The `build-c-ffi` step in `.github/workflows/publish.yaml` was invoking `alef publish build --lang ffi` without `TSLP_LANGUAGES`, so `crates/ts-pack-core/build.rs` defaulted to zero statically-compiled grammars and the resulting FFI tarball (downloaded verbatim by the libts-pack formula) had an empty language registry. The bottle's `ts_pack_available_languages()` returned an empty string, breaking `test_apps/homebrew/ffi_smoke.c`. Step now sets `TSLP_LANGUAGES` to the full language list (via the same `python3 -c "import json"` extraction used by the CLI build) and `TSLP_LINK_MODE=static`.
+
+- **C# NuGet `TreeSitterLanguagePack` package now bundles an FFI dylib with all 306 grammars statically compiled.** Same root cause as the libts-pack fix above — the `build-csharp-native` step invoked `build-csharp-natives@v1` without setting `TSLP_LANGUAGES`. The composite action's native cargo build inherits the calling step's env, so adding `TSLP_LANGUAGES`/`TSLP_LINK_MODE=static`/`PROJECT_ROOT` on the step propagates into cargo. Fixes the `Language 'comment' not found` failure surfaced by `test_apps/csharp` against rc.27.
+
+- **`CommentKind::Block` and `CommentKind::Doc` rustdoc no longer contains literal `*/` inside backticks.** The `*/` sequence inside `` `/* ... */` `` code spans was landing verbatim in NAPI-RS-emitted JSDoc, prematurely closing the `/** ... */` block and triggering oxlint `TS(1164): Computed property names are not allowed in enums`. Reworded the rustdoc to avoid the `*/` terminator. (Alef 0.23.47 added an `escape_jsdoc_block_close` sanitization helper but it does not reach the napi enum variant doc path — tracked as alef 0.23.48+ follow-up.)
+
+### Changed
+
+- **Alef pin bumped 0.23.34 → 0.23.48.** Pulls in the Zig null-check primitive-return fix (0.23.47), PHP module entry explicit-name fix (0.23.47), JSDoc `*/` sanitization helper (0.23.47), kotlin-android foojay-resolver plugin emission (0.23.47), Zig publish package name using Zig platform mapping (0.23.48), Zig null-guard returning canonical `error.Serialization` (0.23.47), FFI Finalize owner-pointer preservation (0.23.46), and the c download_ffi.sh asset name + zig cache clear + php pie always-install fixes (0.23.43–45).
+
 ## [1.9.0-rc.27] - 2026-06-08
 
 ### Fixed

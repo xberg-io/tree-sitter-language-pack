@@ -2,7 +2,7 @@
 title: "Dart API Reference"
 ---
 
-## Dart API Reference <span class="version-badge">v1.9.0-rc.27</span>
+## Dart API Reference <span class="version-badge">v1.9.0-rc.28</span>
 
 ### Functions
 
@@ -1502,8 +1502,8 @@ and documentation comments.
 | Value | Description |
 |-------|-------------|
 | `Line` | A single-line comment (e.g., `// ...` or `# ...`). |
-| `Block` | A block or multi-line comment (e.g., `/* ... */`). |
-| `Doc` | A documentation comment (e.g., `/// ...` or `/** ... */`). |
+| `Block` | A block or multi-line comment using slash-star delimiters. |
+| `Doc` | A documentation comment such as `/// ...` or slash-double-star block. |
 
 ---
 

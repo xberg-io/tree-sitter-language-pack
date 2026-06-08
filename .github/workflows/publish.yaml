@@ -1357,6 +1357,18 @@ jobs:
             - name: Install alef
               uses: kreuzberg-dev/actions/install-alef@v1
 
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.12"
+
+            - name: Get all language names
+              id: langs
+              shell: bash
+              run: |
+                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
             - name: Build and package C FFI distribution
               shell: bash
               run: |
@@ -1364,6 +1376,8 @@ jobs:
                   alef publish package --lang ffi --target ${{ matrix.target }} -o dist/c-ffi
               env:
                   PROJECT_ROOT: ${{ github.workspace }}
+                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+                  TSLP_LINK_MODE: static
 
             - name: Fix macOS dylib install_name (C FFI)
               if: runner.os == 'macOS'
@@ -1556,6 +1570,18 @@ jobs:
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.12"
+
+            - name: Get all language names
+              id: langs
+              shell: bash
+              run: |
+                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
             - name: Build C# native library
               uses: kreuzberg-dev/actions/build-csharp-natives@v1
               with:
@@ -1565,6 +1591,10 @@ jobs:
                   rid: ${{ matrix.rid }}
                   output-dir: dist/csharp-ffi
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+                  TSLP_LINK_MODE: static
+                  PROJECT_ROOT: ${{ github.workspace }}
 
             - name: Upload native artifact
               uses: actions/upload-artifact@v7

@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.23.34"
+alef_version = "0.23.48"
 languages = [
   "python",
   "node",
@@ -1041,52 +1041,52 @@ github_repo = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "1.9.0rc27"
+version = "1.9.0rc28"
 
 [crates.e2e.registry.packages.node]
 name = "@kreuzberg/tree-sitter-language-pack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.go]
 module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
-version = "v1.9.0-rc.27"
+version = "v1.9.0-rc.28"
 
 [crates.e2e.registry.packages.java]
 group_id = "dev.kreuzberg.treesitterlanguagepack"
 artifact_id = "tree-sitter-language-pack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "1.9.0.pre.rc.27"
+version = "1.9.0.pre.rc.28"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.wasm]
 name = "@kreuzberg/tree-sitter-language-pack-wasm"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.php]
 name = "kreuzberg-dev/tree-sitter-language-pack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 # Per-platform hashes — alef publish only produces per-platform zig tarballs
 # (no generic-name tarball). Placeholders trigger network auto-fetch at regen
 # time via `zig fetch <url>`, resolving to the real published hash.
@@ -1100,15 +1100,15 @@ version = "1.9.0-rc.27"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "dev.kreuzberg:tree-sitter-language-pack-android"
-version = "1.9.0-rc.27"
+version = "1.9.0-rc.28"
 
 [crates.scaffold]
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"

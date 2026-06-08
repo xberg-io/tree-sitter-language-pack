@@ -166,9 +166,9 @@ pub enum CommentKind {
     #[default]
     /// A single-line comment (e.g., `// ...` or `# ...`).
     Line,
-    /// A block or multi-line comment (e.g., `/* ... */`).
+    /// A block or multi-line comment using slash-star delimiters.
     Block,
-    /// A documentation comment (e.g., `/// ...` or `/** ... */`).
+    /// A documentation comment such as `/// ...` or slash-double-star block.
     Doc,
 }
 

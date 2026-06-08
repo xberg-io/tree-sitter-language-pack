@@ -2,7 +2,7 @@
 title: "C API Reference"
 ---
 
-## C API Reference <span class="version-badge">v1.9.0-rc.27</span>
+## C API Reference <span class="version-badge">v1.9.0-rc.28</span>
 
 ### Functions
 
@@ -1502,8 +1502,8 @@ and documentation comments.
 | Value | Description |
 |-------|-------------|
 | `TS_PACK_LINE` | A single-line comment (e.g., `// ...` or `# ...`). |
-| `TS_PACK_BLOCK` | A block or multi-line comment (e.g., `/* ... */`). |
-| `TS_PACK_DOC` | A documentation comment (e.g., `/// ...` or `/** ... */`). |
+| `TS_PACK_BLOCK` | A block or multi-line comment using slash-star delimiters. |
+| `TS_PACK_DOC` | A documentation comment such as `/// ...` or slash-double-star block. |
 
 ---
 

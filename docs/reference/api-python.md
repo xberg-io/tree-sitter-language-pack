@@ -2,7 +2,7 @@
 title: "Python API Reference"
 ---
 
-## Python API Reference <span class="version-badge">v1.9.0-rc.27</span>
+## Python API Reference <span class="version-badge">v1.9.0-rc.28</span>
 
 ### Functions
 
@@ -1508,8 +1508,8 @@ and documentation comments.
 | Value | Description |
 |-------|-------------|
 | `LINE` | A single-line comment (e.g., `// ...` or `# ...`). |
-| `BLOCK` | A block or multi-line comment (e.g., `/* ... */`). |
-| `DOC` | A documentation comment (e.g., `/// ...` or `/** ... */`). |
+| `BLOCK` | A block or multi-line comment using slash-star delimiters. |
+| `DOC` | A documentation comment such as `/// ...` or slash-double-star block. |
 
 ---
 

@@ -101,7 +101,7 @@ tasks:
         desc: Run Homebrew CLI + FFI smoke test (not yet alef-managed)
         dir: test_apps/homebrew
         cmds:
-            - bash run_tests.sh
+            - TSLP_BREW_VERSION=$(grep -m 1 'version = ' ../../Cargo.toml | sed 's/version = "\(.*\)"/\1/') bash run_tests.sh
 
     # Legacy aliases — kept so existing invocations don't break.
     smoke:

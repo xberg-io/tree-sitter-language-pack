@@ -2,7 +2,7 @@
 title: "Ruby API Reference"
 ---
 
-## Ruby API Reference <span class="version-badge">v1.9.0-rc.27</span>
+## Ruby API Reference <span class="version-badge">v1.9.0-rc.28</span>
 
 ### Functions
 
@@ -1502,8 +1502,8 @@ and documentation comments.
 | Value | Description |
 |-------|-------------|
 | `line` | A single-line comment (e.g., `// ...` or `# ...`). |
-| `block` | A block or multi-line comment (e.g., `/* ... */`). |
-| `doc` | A documentation comment (e.g., `/// ...` or `/** ... */`). |
+| `block` | A block or multi-line comment using slash-star delimiters. |
+| `doc` | A documentation comment such as `/// ...` or slash-double-star block. |
 
 ---
 

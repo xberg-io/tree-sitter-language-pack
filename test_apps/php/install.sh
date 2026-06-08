@@ -7,7 +7,7 @@ set -euo pipefail
 
 # Version override: pass as $1 to test an arbitrary tag; defaults to the
 # alef-pinned version from `[crates.e2e.registry.packages.php].version`.
-VERSION="${1:-1.9.0-rc.27}"
+VERSION="${1:-1.9.0-rc.28}"
 
 # PIE >= 1.3.7 supports the array-form `php-ext.download-url-method`
 # our composer.json emits; 1.4.0+ is preferred. Download PIE if we don't
@@ -36,10 +36,15 @@ else
 fi
 
 # Install the extension binary into the running PHP's extension dir.
+# Always run PIE — an existence-only skip leaves a stale .so from a prior rc
+# (different ABI / missing symbols) in $EXT_DIR, which then fails the verification
+# step below. PIE itself is idempotent: re-installing overwrites the existing
+# binary cleanly. The php.ini-append guard below prevents duplicate `extension=`
+# lines so the verification step doesn't trip on "Module already loaded".
+EXT_DIR="$(php -r 'echo ini_get("extension_dir");')"
 "$PIE" install "kreuzberg-dev/tree-sitter-language-pack:$VERSION" --skip-enable-extension
 
-# Verify the .so loads.
-EXT_DIR="$(php -r 'echo ini_get("extension_dir");')"
+# Verify the .so/.dylib/.dll exists after install (or was already present).
 test -f "$EXT_DIR/tree_sitter_language_pack.so" || test -f "$EXT_DIR/tree_sitter_language_pack.dylib" || test -f "$EXT_DIR/tree_sitter_language_pack.dll"
 
 # Enable the extension in php.ini (PIE with --skip-enable-extension doesn't do this automatically).
@@ -65,8 +70,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   export PIE_INSTALLED_EXTENSION_PATH="$EXT_DIR/tree_sitter_language_pack.dylib"
 fi
 
-# Verify the extension loads via explicit `-d` flag (same mechanism run_tests.php uses).
-if ! php -d extension=tree_sitter_language_pack -m | grep -qi "tree_sitter_language_pack"; then
+# Verify the extension loads. If php.ini already enables it (from this run or a
+# prior one), `php -m` alone reports it loaded and adding `-d extension=` would
+# raise "Module ... is already loaded". Only fall back to the explicit `-d`
+# flag when the extension is not auto-loaded by php.ini.
+if php -m 2>/dev/null | grep -qi "tree_sitter_language_pack"; then
+  echo "tree_sitter_language_pack extension loaded via php.ini"
+elif ! php -d extension=tree_sitter_language_pack -m | grep -qi "tree_sitter_language_pack"; then
   echo "::error::tree_sitter_language_pack extension failed to load after PIE install" >&2
   exit 1
 fi

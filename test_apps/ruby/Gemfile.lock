@@ -55,13 +55,13 @@ GEM
       rubocop (~> 1.81)
     ruby-progressbar (1.13.0)
     sorbet-runtime (0.6.13249)
-    tree_sitter_language_pack (1.9.0.pre.rc.25-aarch64-linux)
+    tree_sitter_language_pack (1.9.0.pre.rc.27-aarch64-linux)
       sorbet-runtime (~> 0.5)
-    tree_sitter_language_pack (1.9.0.pre.rc.25-arm64-darwin)
+    tree_sitter_language_pack (1.9.0.pre.rc.27-arm64-darwin)
       sorbet-runtime (~> 0.5)
-    tree_sitter_language_pack (1.9.0.pre.rc.25-x86_64-darwin)
+    tree_sitter_language_pack (1.9.0.pre.rc.27-x86_64-darwin)
       sorbet-runtime (~> 0.5)
-    tree_sitter_language_pack (1.9.0.pre.rc.25-x86_64-linux)
+    tree_sitter_language_pack (1.9.0.pre.rc.27-x86_64-linux)
       sorbet-runtime (~> 0.5)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
@@ -79,7 +79,7 @@ DEPENDENCIES
   rspec (~> 3.13)
   rubocop (~> 1.86)
   rubocop-rspec (~> 3.9)
-  tree_sitter_language_pack (~> 1.9.0.pre.rc.25)
+  tree_sitter_language_pack (~> 1.9.0.pre.rc.27)
 
 CHECKSUMS
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
@@ -108,10 +108,10 @@ CHECKSUMS
   rubocop-rspec (3.9.0) sha256=8fa70a3619408237d789aeecfb9beef40576acc855173e60939d63332fdb55e2
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   sorbet-runtime (0.6.13249) sha256=bec5cc161dab7470428557a054d502b80c7ca55a8b7ce4dd6f139d8e2ff6329b
-  tree_sitter_language_pack (1.9.0.pre.rc.25-aarch64-linux) sha256=8b9c9c0d23875326b6810af9946af20d971e9ecf3f0bf336e799863165d53282
-  tree_sitter_language_pack (1.9.0.pre.rc.25-arm64-darwin) sha256=06ac6acd2a5d4579cddc27bfeba209f1e89068d625006538dfec152eacd9905a
-  tree_sitter_language_pack (1.9.0.pre.rc.25-x86_64-darwin) sha256=8eb0d1d1e4172239ce992cf45808c5704bbc1f7aea89b7384d1fc633285635cf
-  tree_sitter_language_pack (1.9.0.pre.rc.25-x86_64-linux) sha256=fd677696bed04902c802263cb4a8805a74758615b45e7ad2895f6db07a187145
+  tree_sitter_language_pack (1.9.0.pre.rc.27-aarch64-linux) sha256=fe1b2297e2250ca7685c19aa1a9f58b6ff75a6d350aaad36e9c80c8c1b4d69bf
+  tree_sitter_language_pack (1.9.0.pre.rc.27-arm64-darwin) sha256=a0cd95beb005bc40f834907531ac19d9be7fd325f5d563eb8d5d337e795fdb16
+  tree_sitter_language_pack (1.9.0.pre.rc.27-x86_64-darwin) sha256=869ac6d5b7c3262c952d2d1784de46b97cf3228ef42d9fa5140525ec0fc7b3ab
+  tree_sitter_language_pack (1.9.0.pre.rc.27-x86_64-linux) sha256=c36a42a2e010ac44c8dff5ae06b1b4fc96bcdb4aad9ffa98ed9df489a0902aae
   unicode-display_width (3.2.0) sha256=0cdd96b5681a5949cdbc2c55e7b420facae74c4aaf9a9815eee1087cb1853c42
   unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
   uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6

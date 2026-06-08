@@ -348,8 +348,8 @@ and documentation comments.
 | Variant | Description |
 |---------|-------------|
 | `Line` | A single-line comment (e.g., `// ...` or `# ...`). |
-| `Block` | A block or multi-line comment (e.g., `/* ... */`). |
-| `Doc` | A documentation comment (e.g., `/// ...` or `/** ... */`). |
+| `Block` | A block or multi-line comment using slash-star delimiters. |
+| `Doc` | A documentation comment such as `/// ...` or slash-double-star block. |
 
 ---
 
