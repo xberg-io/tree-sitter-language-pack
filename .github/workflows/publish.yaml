@@ -3314,14 +3314,24 @@ jobs:
 
                   shopt -s nullglob
 
-                  # The download step uses merge-multiple: true, so all per-platform
-                  # artifacts land flat under tmp/go-ffi-all/ as a set of
-                  # `tree-sitter-language-pack-go-v<ver>-<platform>.tar.gz` tarballs
-                  # (alef emits the packaged tarball, not the extracted dir).
+                  # upload-artifact@v7 preserves the path prefix relative to
+                  # $GITHUB_WORKSPACE, so the per-platform tarballs actually land at
+                  # tmp/go-ffi-all/dist/go-ffi/<tarball>.tar.gz (not at the root).
+                  # Use find to walk the tree instead of a flat glob — the previous
+                  # flat glob silently matched 0 files for every rc since the v7 bump,
+                  # which meant "No changes to commit" and the subtree tag was never
+                  # pushed (rc.23–rc.27 all relied on manual staging).
                   staging="$(mktemp -d)"
                   trap 'rm -rf "${staging}"' EXIT
 
-                  for tarball in ../../../tmp/go-ffi-all/tree-sitter-language-pack-go-v*.tar.gz; do
+                  mapfile -t tarballs < <(find ../../../tmp/go-ffi-all -type f -name 'tree-sitter-language-pack-go-v*.tar.gz')
+                  if [[ ${#tarballs[@]} -eq 0 ]]; then
+                    echo "ERROR: no go-ffi tarballs found under tmp/go-ffi-all/" >&2
+                    find ../../../tmp/go-ffi-all -maxdepth 4 -print
+                    exit 1
+                  fi
+
+                  for tarball in "${tarballs[@]}"; do
                     tarball_name="$(basename "${tarball}" .tar.gz)"
 
                     # Match a known platform label as suffix of the tarball name —
