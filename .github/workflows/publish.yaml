@@ -2595,25 +2595,38 @@ jobs:
               run: |
                   set -euo pipefail
                   lib_dir="packages/dart/lib/src/native"
+                  mkdir -p "$lib_dir"
 
-                  if [[ ! -d "$lib_dir" ]]; then
-                    mkdir -p "$lib_dir"
+                  # upload-artifact@v7 preserves the path prefix relative to
+                  # $GITHUB_WORKSPACE, so files uploaded as `dart-natives/<label>/<file>`
+                  # land at `dart-natives/dart-natives/<label>/<file>` after
+                  # `merge-multiple: true` download. Walk the tree and route each
+                  # file to its rid by inferring the rid from the parent directory
+                  # name (the last component before the file). Fail loudly if no
+                  # natives are found — same defensive pattern as stage-go-ffi.
+                  mapfile -t natives < <(find dart-natives -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \))
+                  if [[ ${#natives[@]} -eq 0 ]]; then
+                    echo "ERROR: no native libraries found under dart-natives/" >&2
+                    find dart-natives -maxdepth 4 -print
+                    exit 1
                   fi
 
-                  # Copy per-platform natives: linux-x64, macos-arm64, macos-x64, windows-x64
-                  for rid in linux-x64 macos-arm64 macos-x64 windows-x64; do
-                    rid_dir="$lib_dir/$rid"
-                    mkdir -p "$rid_dir"
-
-                    if [[ -d "dart-natives/$rid" ]]; then
-                      cp dart-natives/$rid/* "$rid_dir/"
-                      echo "Staged natives for $rid"
-                    else
-                      echo "Warning: no native directory found for $rid"
-                    fi
+                  staged_rids=()
+                  for f in "${natives[@]}"; do
+                    rid="$(basename "$(dirname "$f")")"
+                    case "$rid" in
+                      linux-x64|linux-arm64|macos-arm64|macos-x64|windows-x64|windows-arm64) ;;
+                      *)
+                        echo "Warning: unrecognized rid '$rid' for $f; skipping"
+                        continue
+                        ;;
+                    esac
+                    mkdir -p "$lib_dir/$rid"
+                    cp "$f" "$lib_dir/$rid/"
+                    staged_rids+=("$rid")
+                    echo "Staged $(basename "$f") → $lib_dir/$rid/"
                   done
 
-                  # List staged structure
                   echo "Native library structure:"
                   find "$lib_dir" -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sort
             - uses: actions/upload-artifact@v7
