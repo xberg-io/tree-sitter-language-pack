@@ -178,16 +178,16 @@ repos:
             args: ["--all"]
           - id: pyproject-fmt
             additional_dependencies: ["pyproject-fmt==2.5.0"]
-            # alef sync-versions emits packages/python/pyproject.toml with a
+            # alef emits packages/python/pyproject.toml with a
             # specific classifier list, lint.per-file-ignores ordering, and
             # tool.mypy overrides block. pyproject-fmt re-orders + collapses
             # entries, which then trips the `git diff --exit-code` check in CI
-            # after alef sync-versions re-emits.
+            # after alef re-emits.
             exclude: ^packages/python/pyproject\.toml$
           - id: ruff-format
             exclude: ^fixtures/bench/
           - id: oxfmt
-            # napi-rs bootstrap shim is re-emitted by alef sync-versions in
+            # napi-rs bootstrap shim is re-emitted by alef in
             # 2-space form; oxfmt's tab/single-line auto-format would diverge,
             # breaking the `git diff --exit-code` check in CI Validate.
             exclude: |
@@ -213,9 +213,9 @@ repos:
           - id: mix-format
             files: ^packages/elixir/
           - id: swift-format
-            # alef sync-versions emits Package.swift with a single-line URL;
+            # alef emits Package.swift with a single-line URL;
             # swift-format wraps to next-line, breaking the `git diff --exit-code`
-            # check in CI after alef sync-versions re-emits.
+            # check in CI after alef re-emits.
             exclude: ^Package\.swift$
           - id: dart-format
           - id: zig-fmt
