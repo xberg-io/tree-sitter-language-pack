@@ -559,13 +559,15 @@ jobs:
                   source /tmp/sdist-smoke/bin/activate
                   pip install --upgrade pip
                   # --no-build-isolation needs every PEP 517 backend present in the venv
-                  # ahead of time: maturin for tree-sitter-language-pack itself, setuptools
-                  # + wheel for tree-sitter's sdist (a transitive build dep).
-                  pip install 'maturin>=1,<2' 'setuptools>=68' wheel
+                  # ahead of time: maturin for tree-sitter-language-pack itself.
+                  # Scope --no-binary to ONLY tree-sitter-language-pack so transitive
+                  # deps (tree-sitter, etc.) use their published wheels — otherwise we'd
+                  # have to pre-install every transitive backend (hatchling, scikit-build, …).
+                  pip install 'maturin>=1,<2'
                   TSLP_LANGUAGES="python,rust,javascript" \
                   TSLP_LINK_MODE=static \
                   TSLP_SOURCE_BUNDLE_URL="file://${BUNDLE}" \
-                    pip install --no-binary :all: --no-build-isolation \
+                    pip install --no-binary tree-sitter-language-pack --no-build-isolation \
                       dist/tree_sitter_language_pack-*.tar.gz
                   python -c "
                   import tree_sitter_language_pack as t
