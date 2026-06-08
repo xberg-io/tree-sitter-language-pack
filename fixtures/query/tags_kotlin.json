@@ -1,0 +1,15 @@
+{
+	"id": "tags_query_kotlin",
+	"description": "get_tags_query returns non-empty string for kotlin",
+	"category": "query",
+	"tags": ["query", "tags"],
+	"call": "tags",
+	"input": {
+		"language": "kotlin"
+	},
+	"assertions": [
+		{
+			"type": "not_empty"
+		}
+	]
+}

@@ -1,0 +1,15 @@
+{
+	"id": "tags_query_rust",
+	"description": "get_tags_query returns non-empty string for rust",
+	"category": "query",
+	"tags": ["query", "tags"],
+	"call": "tags",
+	"input": {
+		"language": "rust"
+	},
+	"assertions": [
+		{
+			"type": "not_empty"
+		}
+	]
+}

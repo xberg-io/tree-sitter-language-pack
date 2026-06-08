@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Bump alef pin `0.23.30 → 0.23.34` and regen all bindings, e2e, test_apps.** Pulls in 7 rolling alef fixes triaged from rc.25 test_app failures: php `#[php_class]` constants escape PHP-reserved variant names (`CLASS_`/`INTERFACE_`/…) avoiding `Fatal error: A class constant must not be called 'class'`; java javadoc `escape_javadoc_line` rewrites nested `*/` inside `{@code …}` to `*&#47;` so the surrounding `/** … */` block isn't closed prematurely (was breaking `mvn compile` on `CommentKind.java` + `DocstringFormat.java`); swift `ZSwiftPluginHelpers.swift` imports `RustBridge` (not `RustBridgeC`) so `RustString` resolves; zig test_apps_run sed pattern `s/}, */}\n/g` correctly splits `build.zig.zon` dep blocks so `zig fetch --save` populates `.hash` fields; dart flutter_rust_bridge external library loader uses `Abi.current()` instead of `Platform.version` string parsing for reliable arch detection; java e2e pom.xml antrun copy-native-lib step falls back from `ffi/lib/` (pre-built FFI tarball) to `target/release/` (local Cargo build); php install.sh appends `extension=<name>` to the loaded php.ini after PIE 1.4.5+ install (PIE's `--skip-enable-extension` default no longer auto-enables). (`alef.toml`, 482-file regen across `packages/`, `e2e/`, `crates/`, `test_apps/`)
+
+### Fixed
+
 - **Omit field-level javadoc in multiline Java record declarations for PMD compliance.** PMD 7.x does not recognize javadoc preceding annotations as belonging to record components (DanglingJavadoc rule). Field-level documentation is omitted from multiline record declarations since records are self-documenting value types and class-level record javadoc provides sufficient context. (Alef upstream: `src/backends/java/gen_bindings/types.rs`)
 
 - **Suppress `missing_docs` lint in generated swift-bridge bindings.** The swift-bridge crate
