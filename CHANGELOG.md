@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Local-clone fallback in `crates/ts-pack-core/build.rs`.** When the workspace `parsers/` tree is empty (gitignored on a fresh clone) and the GH release tarball for `parser-sources-{version}.tar.zst` isn't published yet (rc builds during the publish workflow window), the build no longer panics on a 404. The new resolution order is: workspace populated → OUT_DIR cache → `scripts/clone_vendors.py` (if present, dev workspace) → GH release tarball. The local-clone path tries `uv run --no-sync`, `uv run`, `python3`, and `python` in turn so it works across dev environments. Existing `TSLP_OFFLINE` and `TSLP_SOURCE_BUNDLE_URL` overrides are unchanged.
+
 ### Added
 
 - **`get_tags_query(language: &str) -> Option<&'static str>`** — new public accessor in `crates/ts-pack-core` mirroring `get_highlights_query` / `get_injections_query` / `get_locals_query`. Returns `Some` for the 15 languages with vendored `tags.scm` (rust, kotlin, csharp, swift, gleam, gap, al, enforce, gdshader, roc, cfml, ql, tact, sourcepawn, mojo) and `None` otherwise. Propagated to the PyO3, NAPI, and FFI bindings via the alef codegen cascade.

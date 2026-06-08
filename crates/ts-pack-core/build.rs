@@ -745,33 +745,92 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
     gen_query_fn(&mut f, "get_tags_query_impl", &tags, "tags.scm");
 }
 
-/// Fetch grammar sources from the GitHub release artifact when they aren't on
-/// disk locally — covers the sdist install case where the workspace `parsers/`
-/// tree isn't shipped. Returns the directory to use as the parsers root (either
-/// the original `parsers_dir` or a fresh extracted copy under `OUT_DIR`).
+/// Probe whether the parsers tree at `root` looks populated for the requested
+/// selection. Uses the same heuristic in both the workspace and OUT_DIR cache
+/// locations.
+fn parsers_root_populated(root: &Path, selected: &[String]) -> bool {
+    match selected.first() {
+        Some(first) => root.join(first).join("src/parser.c").exists(),
+        None => root.join("python").join("src/parser.c").exists(),
+    }
+}
+
+/// Try to populate the workspace `parsers/` tree by invoking
+/// `scripts/clone_vendors.py` from `project_root`. Returns true if the script
+/// ran successfully AND the tree is populated afterwards. Returns false if no
+/// script is present, no runner is available, or the script failed.
 ///
-/// Behavior gates:
-/// - `TSLP_OFFLINE=1` disables the download entirely; the existing
-///   "missing parser, skipping" warning path remains.
-/// - `TSLP_SOURCE_BUNDLE_URL` overrides the URL (also accepts `file://` for
-///   local-bundle smoke testing).
-/// - If the workspace parsers tree is healthy on disk we skip the download.
-///   For static builds we probe `parsers_dir/{first_selected}/src/parser.c`;
-///   for dyn-only builds (no static languages selected) we probe
-///   `parsers_dir/python/src/parser.c`, which is present in every populated
-///   workspace tree from day one. This prevents the all-None queries bug when
-///   consumers use only dynamic features on a published crate where the
-///   workspace `parsers/` dir is absent.
+/// This is the local-development fallback: a fresh workspace clone has
+/// `parsers/` gitignored, and a rc whose release hasn't been published yet has
+/// no GH tarball — so neither the workspace nor the remote path works. Cloning
+/// upstream grammars via the script bridges the gap.
+fn try_clone_vendors_locally(project_root: &Path, parsers_dir: &Path, selected: &[String]) -> bool {
+    let clone_script = project_root.join("scripts/clone_vendors.py");
+    if !clone_script.exists() {
+        return false;
+    }
+
+    println!(
+        "cargo:warning=parsers/ tree is empty; running scripts/clone_vendors.py to populate from upstream grammars"
+    );
+
+    let runners: &[&[&str]] = &[
+        &["uv", "run", "--no-sync", "scripts/clone_vendors.py"],
+        &["uv", "run", "scripts/clone_vendors.py"],
+        &["python3", "scripts/clone_vendors.py"],
+        &["python", "scripts/clone_vendors.py"],
+    ];
+    for cmd_args in runners {
+        let mut cmd = std::process::Command::new(cmd_args[0]);
+        cmd.args(&cmd_args[1..]);
+        cmd.current_dir(project_root);
+        match cmd.status() {
+            Ok(s) if s.success() => {
+                if parsers_root_populated(parsers_dir, selected) {
+                    return true;
+                }
+                println!(
+                    "cargo:warning=clone_vendors.py ({}) succeeded but parsers/ is still not populated",
+                    cmd_args.join(" ")
+                );
+                return false;
+            }
+            Ok(s) => {
+                println!(
+                    "cargo:warning=clone_vendors.py ({}) exited with {:?}",
+                    cmd_args.join(" "),
+                    s.code()
+                );
+            }
+            Err(e) => {
+                // Runner not found on PATH; try the next one.
+                println!(
+                    "cargo:warning=could not run clone_vendors.py via '{}': {e}",
+                    cmd_args[0]
+                );
+            }
+        }
+    }
+    false
+}
+
+/// Resolve grammar sources for the build. Order of preference:
+/// 1. Workspace `parsers/` tree is already populated → use it as-is.
+/// 2. `TSLP_OFFLINE=1` → return the empty workspace dir; downstream code falls
+///    into the "missing parser, skipping" warning path.
+/// 3. OUT_DIR cache already populated from a prior run → reuse it.
+/// 4. Workspace tree exists (`scripts/clone_vendors.py` is present) → invoke
+///    it to clone upstream grammars locally. Bridges the gap for fresh
+///    workspace clones and unpublished rc builds where the remote release
+///    tarball doesn't exist yet.
+/// 5. Otherwise (sdist install or step 4 failed) → download the
+///    `parser-sources-{version}.tar.zst` release asset and unpack it under
+///    OUT_DIR. `TSLP_SOURCE_BUNDLE_URL` overrides the URL (also accepts
+///    `file://` for local-bundle smoke testing).
+///
+/// Returns the directory to use as the parsers root.
 fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path) -> PathBuf {
-    // Determine whether the workspace parsers tree is healthy on disk.
-    // Prefer the requested-language marker when one is selected; otherwise
-    // probe a deterministic always-present parser.c (python is in the
-    // language pack from day one).
-    let workspace_populated = match selected.first() {
-        Some(first) => parsers_dir.join(first).join("src/parser.c").exists(),
-        None => parsers_dir.join("python").join("src/parser.c").exists(),
-    };
-    if workspace_populated {
+    if parsers_root_populated(parsers_dir, selected) {
         return parsers_dir.to_path_buf();
     }
     if env::var("TSLP_OFFLINE").is_ok_and(|v| !v.is_empty() && v != "0") {
@@ -790,6 +849,17 @@ fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path
         return if inner.is_dir() { inner } else { cache_dir };
     }
 
+    // Workspace fallback: when the project layout looks like a dev checkout
+    // (scripts/clone_vendors.py present), clone upstream grammars locally
+    // before falling back to the GH release tarball. This covers fresh
+    // workspaces and unpublished rc builds.
+    let project_root = parsers_dir.parent().unwrap_or(parsers_dir).to_path_buf();
+    println!("cargo:rerun-if-env-changed=TSLP_OFFLINE");
+    println!("cargo:rerun-if-env-changed=TSLP_SOURCE_BUNDLE_URL");
+    if try_clone_vendors_locally(&project_root, parsers_dir, selected) {
+        return parsers_dir.to_path_buf();
+    }
+
     let version = env::var("CARGO_PKG_VERSION").unwrap_or_else(|_| "unknown".to_string());
     let default_url = format!(
         "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v{version}/parser-sources-{version}.tar.zst"
@@ -797,8 +867,6 @@ fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path
     let url = env::var("TSLP_SOURCE_BUNDLE_URL").unwrap_or(default_url);
     let sha_url = format!("{url}.sha256");
 
-    println!("cargo:rerun-if-env-changed=TSLP_OFFLINE");
-    println!("cargo:rerun-if-env-changed=TSLP_SOURCE_BUNDLE_URL");
     println!("cargo:warning=Downloading parser sources from {url}");
 
     let body = fetch_bytes(&url).unwrap_or_else(|e| {
