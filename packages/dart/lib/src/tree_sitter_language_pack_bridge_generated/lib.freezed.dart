@@ -200,7 +200,7 @@ return other(_that.field0);case _:
 
 class DocstringFormat_PythonTripleQuote extends DocstringFormat {
   const DocstringFormat_PythonTripleQuote(): super._();
-
+  
 
 
 
@@ -232,7 +232,7 @@ String toString() {
 
 class DocstringFormat_JSDoc extends DocstringFormat {
   const DocstringFormat_JSDoc(): super._();
-
+  
 
 
 
@@ -264,7 +264,7 @@ String toString() {
 
 class DocstringFormat_Rustdoc extends DocstringFormat {
   const DocstringFormat_Rustdoc(): super._();
-
+  
 
 
 
@@ -296,7 +296,7 @@ String toString() {
 
 class DocstringFormat_GoDoc extends DocstringFormat {
   const DocstringFormat_GoDoc(): super._();
-
+  
 
 
 
@@ -328,7 +328,7 @@ String toString() {
 
 class DocstringFormat_JavaDoc extends DocstringFormat {
   const DocstringFormat_JavaDoc(): super._();
-
+  
 
 
 
@@ -360,7 +360,7 @@ String toString() {
 
 class DocstringFormat_Other extends DocstringFormat {
   const DocstringFormat_Other({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -646,7 +646,7 @@ return cacheLock(_that.field0);case _:
 
 class Error_LanguageNotFound extends Error {
   const Error_LanguageNotFound({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -712,7 +712,7 @@ as String,
 
 class Error_DynamicLoad extends Error {
   const Error_DynamicLoad({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -778,7 +778,7 @@ as String,
 
 class Error_NullLanguagePointer extends Error {
   const Error_NullLanguagePointer({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -844,7 +844,7 @@ as String,
 
 class Error_ParserSetup extends Error {
   const Error_ParserSetup({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -910,7 +910,7 @@ as String,
 
 class Error_LockPoisoned extends Error {
   const Error_LockPoisoned({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -976,7 +976,7 @@ as String,
 
 class Error_Config extends Error {
   const Error_Config({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1042,7 +1042,7 @@ as String,
 
 class Error_ParseFailed extends Error {
   const Error_ParseFailed(): super._();
-
+  
 
 
 
@@ -1074,7 +1074,7 @@ String toString() {
 
 class Error_QueryError extends Error {
   const Error_QueryError({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1140,7 +1140,7 @@ as String,
 
 class Error_InvalidRange extends Error {
   const Error_InvalidRange({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1206,7 +1206,7 @@ as String,
 
 class Error_Download extends Error {
   const Error_Download({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1272,7 +1272,7 @@ as String,
 
 class Error_ChecksumMismatch extends Error {
   const Error_ChecksumMismatch({required this.file, required this.expected, required this.actual}): super._();
-
+  
 
  final  String file;
  final  String expected;
@@ -1342,7 +1342,7 @@ as String,
 
 class Error_CacheLock extends Error {
   const Error_CacheLock({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1622,7 +1622,7 @@ return other(_that.field0);case _:
 
 class StructureKind_Function extends StructureKind {
   const StructureKind_Function(): super._();
-
+  
 
 
 
@@ -1654,7 +1654,7 @@ String toString() {
 
 class StructureKind_Method extends StructureKind {
   const StructureKind_Method(): super._();
-
+  
 
 
 
@@ -1686,7 +1686,7 @@ String toString() {
 
 class StructureKind_Class extends StructureKind {
   const StructureKind_Class(): super._();
-
+  
 
 
 
@@ -1718,7 +1718,7 @@ String toString() {
 
 class StructureKind_Struct extends StructureKind {
   const StructureKind_Struct(): super._();
-
+  
 
 
 
@@ -1750,7 +1750,7 @@ String toString() {
 
 class StructureKind_Interface extends StructureKind {
   const StructureKind_Interface(): super._();
-
+  
 
 
 
@@ -1782,7 +1782,7 @@ String toString() {
 
 class StructureKind_Enum extends StructureKind {
   const StructureKind_Enum(): super._();
-
+  
 
 
 
@@ -1814,7 +1814,7 @@ String toString() {
 
 class StructureKind_Module extends StructureKind {
   const StructureKind_Module(): super._();
-
+  
 
 
 
@@ -1846,7 +1846,7 @@ String toString() {
 
 class StructureKind_Trait extends StructureKind {
   const StructureKind_Trait(): super._();
-
+  
 
 
 
@@ -1878,7 +1878,7 @@ String toString() {
 
 class StructureKind_Impl extends StructureKind {
   const StructureKind_Impl(): super._();
-
+  
 
 
 
@@ -1910,7 +1910,7 @@ String toString() {
 
 class StructureKind_Namespace extends StructureKind {
   const StructureKind_Namespace(): super._();
-
+  
 
 
 
@@ -1942,7 +1942,7 @@ String toString() {
 
 class StructureKind_Other extends StructureKind {
   const StructureKind_Other({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -2210,7 +2210,7 @@ return other(_that.field0);case _:
 
 class SymbolKind_Variable extends SymbolKind {
   const SymbolKind_Variable(): super._();
-
+  
 
 
 
@@ -2242,7 +2242,7 @@ String toString() {
 
 class SymbolKind_Constant extends SymbolKind {
   const SymbolKind_Constant(): super._();
-
+  
 
 
 
@@ -2274,7 +2274,7 @@ String toString() {
 
 class SymbolKind_Function extends SymbolKind {
   const SymbolKind_Function(): super._();
-
+  
 
 
 
@@ -2306,7 +2306,7 @@ String toString() {
 
 class SymbolKind_Class extends SymbolKind {
   const SymbolKind_Class(): super._();
-
+  
 
 
 
@@ -2338,7 +2338,7 @@ String toString() {
 
 class SymbolKind_Type extends SymbolKind {
   const SymbolKind_Type(): super._();
-
+  
 
 
 
@@ -2370,7 +2370,7 @@ String toString() {
 
 class SymbolKind_Interface extends SymbolKind {
   const SymbolKind_Interface(): super._();
-
+  
 
 
 
@@ -2402,7 +2402,7 @@ String toString() {
 
 class SymbolKind_Enum extends SymbolKind {
   const SymbolKind_Enum(): super._();
-
+  
 
 
 
@@ -2434,7 +2434,7 @@ String toString() {
 
 class SymbolKind_Module extends SymbolKind {
   const SymbolKind_Module(): super._();
-
+  
 
 
 
@@ -2466,7 +2466,7 @@ String toString() {
 
 class SymbolKind_Other extends SymbolKind {
   const SymbolKind_Other({required this.field0}): super._();
-
+  
 
  final  String field0;
 

@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.27] - 2026-06-08
+
 ### Fixed
+
+- **Publish smoke install: scope `--no-binary` to `tree-sitter-language-pack`.** `pip install --no-binary :all: --no-build-isolation` forced source builds for transitive deps too and pip then failed `BackendUnavailable: Cannot import 'hatchling.build'` because the smoke venv only pre-installed maturin + setuptools + wheel. The smoke step now scopes `--no-binary` to just our package; transitives use their published wheels.
+
+- **Exclude `php8.5 / macos-arm64` from the PIE matrix.** `shivammathur/setup-php@2.37.1` cannot install PHP 8.5 on macOS arm64 — the brew arm64 bottle is not yet published, and the macOS arm64 runner images ship no pre-installed PHP. All other PHP 8.5 variants build cleanly. Re-enable when upstream catches up.
 
 - **Retry transient HTTP errors when downloading parser sources in `crates/ts-pack-core/build.rs`.** `fetch_bytes` now retries up to 6 times with exponential backoff (2s → 64s) on any ureq error, covering both network blips and the GitHub release CDN's intermittent 504s. Without retries, a single 504 mid-`cargo publish` verify-build would blow up the publish workflow (as happened on rc.26's `Publish Rust crates` job during the 2026-06-08 GH CDN incident).
 
