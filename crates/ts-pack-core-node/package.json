@@ -1,6 +1,6 @@
 {
   "name": "@kreuzberg/tree-sitter-language-pack",
-  "version": "1.9.0-rc.29",
+  "version": "1.9.0-rc.30",
   "description": "Pre-compiled tree-sitter grammars for 306 programming languages",
   "license": "MIT",
   "repository": {
@@ -18,14 +18,14 @@
   },
   "files": ["index.js", "index.d.ts", "*.node"],
   "optionalDependencies": {
-    "@kreuzberg/tree-sitter-language-pack-linux-x64-gnu": "1.9.0-rc.29",
-    "@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu": "1.9.0-rc.29",
-    "@kreuzberg/tree-sitter-language-pack-linux-x64-musl": "1.9.0-rc.29",
-    "@kreuzberg/tree-sitter-language-pack-linux-arm64-musl": "1.9.0-rc.29",
-    "@kreuzberg/tree-sitter-language-pack-darwin-x64": "1.9.0-rc.29",
-    "@kreuzberg/tree-sitter-language-pack-darwin-arm64": "1.9.0-rc.29",
-    "@kreuzberg/tree-sitter-language-pack-win32-x64-msvc": "1.9.0-rc.29",
-    "@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc": "1.9.0-rc.29"
+    "@kreuzberg/tree-sitter-language-pack-linux-x64-gnu": "1.9.0-rc.30",
+    "@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu": "1.9.0-rc.30",
+    "@kreuzberg/tree-sitter-language-pack-linux-x64-musl": "1.9.0-rc.30",
+    "@kreuzberg/tree-sitter-language-pack-linux-arm64-musl": "1.9.0-rc.30",
+    "@kreuzberg/tree-sitter-language-pack-darwin-x64": "1.9.0-rc.30",
+    "@kreuzberg/tree-sitter-language-pack-darwin-arm64": "1.9.0-rc.30",
+    "@kreuzberg/tree-sitter-language-pack-win32-x64-msvc": "1.9.0-rc.30",
+    "@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc": "1.9.0-rc.30"
   },
   "napi": {
     "packageName": "@kreuzberg/tree-sitter-language-pack",

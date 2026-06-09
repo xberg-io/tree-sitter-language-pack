@@ -15,6 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="TreeSitterLanguagePack" Version="1.9.0-rc.29" />
+    <PackageReference Include="TreeSitterLanguagePack" Version="1.9.0-rc.30" />
   </ItemGroup>
 </Project>

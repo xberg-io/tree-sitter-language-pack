@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.30] - 2026-06-09
+
+### Fixed
+
+- **`Stage Go FFI libraries` step uses `git add -f`.** Root `.gitignore` globally ignores `*.so`/`*.dylib`/`*.dll`/`*.lib`, so the plain `git add` silently refused to stage the downloaded FFI artifacts under `packages/go/.lib/`. `xargs` propagated the (silent) failure as exit 123, failing the step before the `packages/go/v<version>` subtree tag could be pushed. Added `-f` so the published Go module deliberately ships pre-built FFI artifacts past the global ignore. Fixes rc.29 publish run 27192809836 Stage Go FFI failure.
+- **`upload-release-assets@v1` receives the publisher-app token as an action input on all 4 cross-repo-write call sites.** The shared action sets `GH_TOKEN` inside its own composite step from `inputs.token` (default `github.token`), so a step-level `env: GH_TOKEN: …` on the calling job had no effect — uploads ran with the read-only default `GITHUB_TOKEN` and hit `HTTP 403: Resource not accessible by integration`. Now passes `token: ${{ steps.app-token.outputs.token }}` on the Go FFI, Elixir NIF, Swift bundle, and Zig upload sites. The PHP PIE upload site (line 2473) keeps the default token because its job declares `permissions: contents: write`. Fixes rc.29 publish run 27192809836 Upload Go FFI 403.
+- **Pulls in `kreuzberg-dev/actions` v1.8.49 retry-on-SSL upload fix.** `publish-github-release/scripts/upload_artifacts.py` now retries 5× with exponential backoff on `URLError` / `ssl.SSLError` / `ConnectionError` / `TimeoutError` / HTTP 5xx. rc.29 parser-sources bundle upload hit a transient `ssl.SSLEOFError` mid-upload on a 30 MB asset and cascaded to ~15 dependent failures (skipping `publish-crates`, which broke every PHP/Ruby/Elixir/Python-sdist `cargo generate-lockfile` against the unpublished workspace member); the retry absorbs the SSL race.
+
 ## [1.9.0-rc.29] - 2026-06-09
 
 ### Changed
