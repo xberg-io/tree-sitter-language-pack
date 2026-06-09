@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.31] - 2026-06-09
+
+### Fixed
+
+- **Alef pin bumped 0.23.58 → 0.23.65.** Pulls in two test_apps-driven fixes from alef 0.23.65:
+    - **kotlin-android**: Foojay toolchain resolver plugin bumped v0.7.0 → v0.10.0 in both `settings.gradle.kts` emitters. v0.7.0 referenced `JvmVendorSpec.IBM_SEMERU`, which Gradle 9.0+ removed (renamed to `IBM`); Gradle 9.5.1 hosts failed at project-evaluation with `Class org.gradle.jvm.toolchain.JvmVendorSpec does not have member field 'IBM_SEMERU'`. v0.10.0 is Gradle 9.x-safe.
+    - **zig**: published tarballs now use simple-arch platform labels (`linux-x86_64`, `linux-aarch64`, `macos-arm64`, `macos-x86_64`, `windows-x86_64`) matching `build.zig.zon` URL templates. Previously `RustTarget::platform_for(Language::Zig)` returned the rust triple, so `alef publish package --lang zig --target …` emitted `…-aarch64-apple-darwin.tar.gz` but the e2e codegen's URL templates and per-platform `[crates.e2e.registry.packages.zig.platform_hashes]` user config used the simple-arch convention. Consumers' `zig fetch` then 404'd.
+
 ## [1.9.0-rc.30] - 2026-06-09
 
 ### Fixed

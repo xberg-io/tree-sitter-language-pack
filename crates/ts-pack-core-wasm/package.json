@@ -1,6 +1,6 @@
 {
   "name": "@kreuzberg/tree-sitter-language-pack-wasm",
-  "version": "1.9.0-rc.30",
+  "version": "1.9.0-rc.31",
   "private": false,
   "description": "Pre-compiled tree-sitter grammars for 306 programming languages",
   "license": "MIT",
