@@ -14,7 +14,7 @@ repos:
             stages:
                 - commit-msg
     - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
-      rev: v2.1.6
+      rev: v2.1.10
       hooks:
           # Alef verification
           - id: alef-verify
