@@ -3502,8 +3502,10 @@ jobs:
               run: |
                   cd packages/go
 
-                  # Stage only the new/modified library files, not .gitkeep
-                  find .lib -type f ! -name ".gitkeep" -print0 | xargs -0 git add
+                  # Stage only the new/modified library files, not .gitkeep.
+                  # Use -f because root .gitignore globally ignores *.so/*.dylib/*.dll;
+                  # the published Go module deliberately ships pre-built FFI artifacts.
+                  find .lib -type f ! -name ".gitkeep" -print0 | xargs -0 git add -f
 
                   # Check if there are changes to commit
                   if git diff --cached --quiet; then
