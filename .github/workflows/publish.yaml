@@ -307,8 +307,7 @@ jobs:
                       dist/parser-sources-*.tar.zst
                       dist/parser-sources-*.tar.zst.sha256
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
-              env:
-                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  token: ${{ steps.app-token.outputs.token }}
 
     # ─── Build parser binaries ─────────────────────────────────────────
     build-parser-binaries:
@@ -1734,8 +1733,7 @@ jobs:
                       dist/parsers/parsers-*.tar.zst
                       dist/parsers/parsers.json
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
-              env:
-                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  token: ${{ steps.app-token.outputs.token }}
 
     # ─── Upload to GitHub Release: Go FFI ──────────────────────────────
     upload-go-release:
@@ -1817,8 +1815,7 @@ jobs:
                   # alef publish package emits tree-sitter-language-pack-ffi-v<ver>-<target>.tar.gz
                   artifacts: "dist/c-ffi/tree-sitter-language-pack-ffi-*.tar.gz"
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
-              env:
-                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  token: ${{ steps.app-token.outputs.token }}
 
     # ─── Upload to GitHub Release: Elixir NIFs ────────────────────────
     upload-elixir-release:
@@ -3180,8 +3177,7 @@ jobs:
                       dist/cli/ts-pack-*.tar.gz
                       dist/cli/ts-pack-*.zip
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
-              env:
-                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  token: ${{ steps.app-token.outputs.token }}
 
     # ─── Update Homebrew formula source URLs + SHAs ────────────────────
     publish-homebrew-formula:
