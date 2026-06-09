@@ -1,0 +1,27 @@
+# frozen_string_literal: true
+
+require "bundler"
+Bundler::GemHelper.install_tasks name: "tree_sitter_language_pack"
+require "rake/extensiontask"
+require "rspec/core/rake_task"
+
+GEMSPEC = Gem::Specification.load(File.expand_path("tree_sitter_language_pack.gemspec", __dir__))
+
+Rake::ExtensionTask.new("ts_pack_core_rb", GEMSPEC) do |ext|
+  ext.lib_dir = "lib"
+  ext.ext_dir = "ext/ts_pack_core_rb"
+  ext.cross_compile = true
+  ext.cross_platform = %w[
+    x86_64-linux
+    aarch64-linux
+    x86_64-darwin
+    arm64-darwin
+    x64-mingw32
+    x64-mingw-ucrt
+  ]
+end
+
+RSpec::Core::RakeTask.new(:spec)
+
+task spec: :compile
+task default: :spec

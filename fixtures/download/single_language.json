@@ -1,0 +1,23 @@
+{
+	"id": "download_single_language",
+	"description": "Download a single language parser and verify count",
+	"category": "download",
+	"tags": ["download"],
+	"call": "download_languages",
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Download feature requires network access and is not available in static builds"
+	},
+	"input": {
+		"languages": ["python"]
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		},
+		{
+			"type": "greater_than_or_equal",
+			"value": 1
+		}
+	]
+}

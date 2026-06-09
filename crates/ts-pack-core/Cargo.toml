@@ -1,0 +1,81 @@
+[package]
+name = "tree-sitter-language-pack"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Core library for tree-sitter language pack - provides compiled parsers for 306 languages"
+
+[features]
+default = ["dynamic-loading", "download"]
+dynamic-loading = ["dep:libloading"]
+serde = ["dep:serde", "dep:serde_json"]
+config = ["dep:serde", "dep:serde_json", "dep:toml", "dep:dirs"]
+download = [
+    "dep:ureq",
+    "dep:sha2",
+    "dep:tar",
+    "dep:zstd",
+    "dep:dirs",
+    "dep:fd-lock",
+    "dep:serde",
+    "dep:serde_json",
+    "dynamic-loading",
+]
+# Exposes internal helpers (e.g. `_testing_extract_languages`) for integration
+# tests or downstream crates that need to exercise the raw extraction path.
+# Never enable in production builds.
+test-internals = ["download"]
+
+[dependencies]
+ahash = { workspace = true }
+dirs = { workspace = true, optional = true }
+fd-lock = { workspace = true, optional = true }
+memchr = { workspace = true }
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+sha2 = { workspace = true, optional = true }
+tar = { workspace = true, optional = true }
+thiserror = { workspace = true }
+toml = { workspace = true, optional = true }
+tree-sitter = { workspace = true }
+ureq = { workspace = true, optional = true }
+zstd = { workspace = true, optional = true }
+
+# libloading does not support wasm32. The `dynamic-loading` feature falls back
+# to stub implementations in registry.rs on wasm32 (always returns errors).
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+libloading = { workspace = true, optional = true }
+
+[build-dependencies]
+cc = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+tar = { workspace = true }
+ureq = { workspace = true }
+zstd = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+tempfile = { workspace = true }
+
+[[test]]
+name = "concurrent_download"
+path = "tests/concurrent_download.rs"
+required-features = ["test-internals"]
+
+[[bench]]
+name = "benchmarks"
+harness = false
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+duplicated_attributes = "allow"
+
+[lints.rust]
+unsafe_code = "allow"
+unexpected_cfgs = { level = "warn", check-cfg = [
+    'cfg(alef)',
+    'cfg(feature, values("test-internals"))',
+] }

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_caddy",
+	"description": "Smoke test: load caddy and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": ":8080 {\n\trespond \"Hello\"\n}",
+		"config": {
+			"language": "caddy"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

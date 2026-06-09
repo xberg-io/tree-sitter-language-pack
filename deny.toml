@@ -1,0 +1,68 @@
+
+
+[graph]
+targets = []
+all-features = false
+no-default-features = false
+
+[output]
+feature-depth = 1
+
+[advisories]
+ignore = []
+
+[licenses]
+allow = [
+  "Apache-2.0",
+  "Apache-2.0 WITH LLVM-exception",
+  "MIT",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC",
+  "Zlib",
+  "Unlicense",
+  "CC0-1.0",
+  "CDLA-Permissive-2.0",
+  "Unicode-3.0",
+  "bzip2-1.0.6",
+  "MPL-2.0",
+  "BSL-1.0",
+  "OpenSSL",
+  "NCSA",
+]
+confidence-threshold = 0.8
+exceptions = []
+
+[licenses.private]
+ignore = true
+registries = []
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"
+highlight = "all"
+workspace-default-features = "allow"
+external-default-features = "allow"
+allow = []
+deny = []
+
+# Polyglot binding frameworks (ext-php-rs, napi-rs, magnus/rb-sys, rustler,
+# wasm-bindgen) each bring their own transitive dependency trees, causing
+# unavoidable duplicate crate versions. These are safe to skip.
+skip = []
+skip-tree = [
+  { crate = "ext-php-rs@0.15", reason = "PHP binding framework, brings own dep versions" },
+  { crate = "rb-sys@0.9", reason = "Ruby binding framework, brings own dep versions" },
+  { crate = "cbindgen@0.29", reason = "FFI header generator, brings older toml/winnow" },
+]
+
+[sources]
+unknown-registry = "warn"
+unknown-git = "warn"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
+
+[sources.allow-org]
+github = []
+gitlab = []
+bitbucket = []

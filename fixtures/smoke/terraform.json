@@ -1,0 +1,17 @@
+{
+	"id": "smoke_terraform",
+	"description": "Smoke test: load terraform and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "resource \"null_resource\" \"main\" {}",
+		"config": {
+			"language": "terraform"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

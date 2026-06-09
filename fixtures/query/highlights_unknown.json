@@ -1,0 +1,15 @@
+{
+	"id": "highlights_query_unknown_language",
+	"description": "get_highlights_query returns None for unknown language",
+	"category": "query",
+	"tags": ["query", "highlights"],
+	"call": "highlights",
+	"input": {
+		"language": "nonexistent_language_xyz"
+	},
+	"assertions": [
+		{
+			"type": "is_empty"
+		}
+	]
+}

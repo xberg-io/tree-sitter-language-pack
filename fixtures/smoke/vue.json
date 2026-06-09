@@ -1,0 +1,17 @@
+{
+	"id": "smoke_vue",
+	"description": "Smoke test: load vue and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<template><div>hello</div></template>",
+		"config": {
+			"language": "vue"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

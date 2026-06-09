@@ -1,0 +1,84 @@
+version: "3"
+
+tasks:
+    deps:
+        desc: Install Node.js dependencies
+        dir: crates/ts-pack-core-node
+        cmds:
+            - pnpm install
+
+    update:
+        desc: Update Node/TypeScript dependencies within current major versions (non-breaking)
+        cmds:
+            - echo "Updating Node/TypeScript dependencies across workspace (within-major)..."
+            - corepack up
+            - pnpm up -r
+            - pnpm up -w
+
+    upgrade:
+        desc: Upgrade Node/TypeScript dependencies to latest versions (cross-major / breaking)
+        cmds:
+            - echo "Upgrading Node/TypeScript dependencies across workspace (cross-major)..."
+            - corepack up
+            - pnpm up --latest -r
+            - pnpm up --latest -w
+
+    build:
+        desc: Build NAPI-RS native module (release)
+        dir: crates/ts-pack-core-node
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - napi build --release
+
+    build:dev:
+        desc: Build NAPI-RS native module (debug)
+        dir: crates/ts-pack-core-node
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - napi build
+
+    test:
+        desc: Smoke test Node.js native module
+        dir: crates/ts-pack-core-node
+        cmds:
+            - node -e "const m = require('./'); console.log('Languages:', m.availableLanguages().length)"
+
+    lint:
+        desc: Lint TypeScript/JavaScript code
+        cmds:
+            - npx oxlint --fix .
+
+    lint:check:
+        desc: Check TypeScript/JavaScript linting (CI)
+        cmds:
+            - npx oxlint .
+
+    format:
+        desc: Format TypeScript/JavaScript code
+        cmds:
+            - npx oxfmt .
+
+    format:check:
+        desc: Check TypeScript/JavaScript formatting (CI)
+        cmds:
+            - npx oxfmt --check .
+
+    clean:
+        desc: Clean Node.js build artifacts
+        dir: crates/ts-pack-core-node
+        cmds:
+            - rm -f *.node
+
+    e2e:generate:
+        desc: Generate TypeScript/Node E2E tests from fixtures
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - alef e2e generate --lang node
+
+    e2e:test:
+        desc: Run TypeScript/Node E2E tests
+        cmds:
+            - alef test --lang node --e2e --jobs 1

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_wat",
+	"description": "Smoke test: load wat and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(module)",
+		"config": {
+			"language": "wat"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

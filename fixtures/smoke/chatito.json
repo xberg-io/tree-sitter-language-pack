@@ -1,0 +1,17 @@
+{
+	"id": "smoke_chatito",
+	"description": "Smoke test: load chatito and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "%[greeting]\n    hello",
+		"config": {
+			"language": "chatito"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

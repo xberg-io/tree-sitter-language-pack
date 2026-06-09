@@ -1,0 +1,17 @@
+{
+	"id": "smoke_bsl",
+	"description": "Smoke test: load bsl and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "Procedure Main() EndProcedure",
+		"config": {
+			"language": "bsl"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_json5",
+	"description": "Smoke test: load json5 and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "json5"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

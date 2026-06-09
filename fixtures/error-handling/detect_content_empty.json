@@ -1,0 +1,18 @@
+{
+	"id": "error_detect_content_empty",
+	"description": "Detect language from empty content returns null",
+	"category": "error-handling",
+	"tags": ["error-handling", "detection"],
+	"call": "detect_content",
+	"input": {
+		"content": ""
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		},
+		{
+			"type": "is_empty"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_hlsl",
+	"description": "Smoke test: load hlsl and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "float4 main() : SV_Target { return 0; }",
+		"config": {
+			"language": "hlsl"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

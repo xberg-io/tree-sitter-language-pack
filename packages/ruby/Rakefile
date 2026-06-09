@@ -1,0 +1,84 @@
+# frozen_string_literal: true
+
+require "bundler"
+Bundler::GemHelper.install_tasks name: "tree_sitter_language_pack"
+require "rb_sys/extensiontask"
+require "rspec/core/rake_task"
+
+GEM_ROOT = __dir__
+GEMSPEC = Gem::Specification.load(File.expand_path("tree_sitter_language_pack.gemspec", GEM_ROOT))
+
+# Set of supported platform identifiers for native gem cross-compilation.
+# Used by `rb_sys/extensiontask` to drive the `rake compile:<platform>` tasks
+# that produce platform-specific prebuilt gems published alongside the source
+# gem on RubyGems.
+CROSS_PLATFORMS = %w[
+  x86_64-linux
+  aarch64-linux
+  arm64-darwin
+  x86_64-darwin
+  x64-mingw-ucrt
+].freeze
+
+# rb_sys 0.9.x's Cargo::Metadata runs `cargo metadata` without `--manifest-path`,
+# so it resolves to whatever workspace contains cwd. In this monorepo the root
+# workspace excludes our crate, so the lookup fails with PackageNotFoundError.
+# Chdir-around-construction also doesn't work because Rake::ExtensionTask resolves
+# its own paths (lib_dir, ext_dir, task wiring) at construction time relative to
+# cwd, breaking the compile pipeline. Patch Cargo::Metadata#cargo_metadata to add
+# the explicit `--manifest-path` pointing at the crate's Cargo.toml so the lookup
+# is unambiguous regardless of cwd.
+MANIFEST_PATH = File.expand_path("ext/ts_pack_core_rb/native/Cargo.toml", GEM_ROOT)
+
+module RbSys
+  module Cargo
+    class Metadata
+      manifest_path = MANIFEST_PATH
+      define_method(:cargo_metadata) do
+        return @cargo_metadata if @cargo_metadata
+
+        cargo = ENV["CARGO"] || "cargo"
+        args = ["metadata", "--format-version", "1", "--manifest-path", manifest_path]
+        args << "--no-deps" unless @deps
+        out, stderr, status = Open3.capture3(cargo, *args)
+        out.force_encoding(Encoding::UTF_8)
+        raise "exited with non-zero status (#{status})" unless status.success?
+
+        data = JSON.parse(out)
+        raise "metadata must be a Hash" unless data.is_a?(Hash)
+
+        @cargo_metadata = data
+      rescue StandardError => e
+        raise CargoMetadataError.new(e, stderr)
+      end
+      private :cargo_metadata
+    end
+  end
+end
+
+RbSys::ExtensionTask.new("ts-pack-core-rb", GEMSPEC) do |ext|
+  ext.lib_dir = "lib"
+  ext.ext_dir = "ext/ts_pack_core_rb/native"
+  ext.source_pattern = "*.{}"
+  ext.platform = "ruby"
+  ext.cross_compile = true
+  ext.cross_platform = CROSS_PLATFORMS
+  # Pin cross_compile_versions to Ruby 3.1+ stable releases, skipping Ruby 4.0.2
+  # which has a broken mingw sysroot in rb-sys-dock 0.9.127 (sys/select.h missing).
+  # This overrides the container's RUBY_CC_VERSION env var at rake task definition time.
+  # The setter was added in a later rb_sys version; guard against older gem installations
+  # where the method does not exist (e.g., rb_sys 0.9.127 locked to avoid mingw bug in 0.9.128).
+  if ext.respond_to?(:cross_compile_versions=)
+    ext.cross_compile_versions = %w[3.4.9 3.3.11 3.2.11 3.1.7]
+  end
+end
+
+RSpec::Core::RakeTask.new(:spec)
+
+# rake-compiler's `compile` task is a no-op when cross_compile is true; the real
+# work hangs off `compile:<ruby_platform>`. Wire `compile` → `compile:ruby` so
+# both the dev shorthand and CI's `bundle exec rake compile` actually build.
+task compile: "compile:ruby"
+
+task spec: :compile
+task default: :spec

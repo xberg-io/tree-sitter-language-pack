@@ -1,0 +1,17 @@
+{
+	"id": "smoke_kcl",
+	"description": "Smoke test: load kcl and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "kcl"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

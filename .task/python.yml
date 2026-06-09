@@ -1,0 +1,74 @@
+version: "3"
+
+tasks:
+    install:
+        desc: Install Python dependencies via uv
+        cmds:
+            - echo "Checking Python and uv..."
+            - python3 --version
+            - uv --version
+            - uv sync --no-install-project --group doc
+
+    format:
+        desc: Format Python code
+        cmds:
+            - uv run --no-sync ruff format
+            - uv run --no-sync ruff check --fix --unsafe-fixes
+
+    format:check:
+        desc: Check Python formatting (CI)
+        cmds:
+            - uv run --no-sync ruff format --check
+            - uv run --no-sync ruff check
+
+    lint:
+        desc: Lint Python code
+        cmds:
+            - uv run --no-sync ruff check --fix --unsafe-fixes
+            - uv run --no-sync ruff format
+
+    lint:check:
+        desc: Check Python linting without modifications
+        cmds:
+            - uv run --no-sync ruff check
+
+    clean:
+        desc: Clean Python build artifacts
+        cmds:
+            - rm -rf build/ dist/ *.egg-info __pycache__
+
+    update:
+        desc: Update Python dependencies within current major versions (non-breaking)
+        cmds:
+            - echo "Updating Python dependencies (within-major)..."
+            - uv sync --all-packages --all-extras --no-install-workspace --no-install-project
+            - echo "Checking remaining outdated dependencies..."
+            - uv pip list --outdated || true
+
+    upgrade:
+        desc: Upgrade Python dependencies to latest versions (cross-major / breaking)
+        cmds:
+            - echo "Upgrading Python dependencies (cross-major)..."
+            - uv sync --all-packages --all-extras --upgrade --no-install-workspace --no-install-project
+            - echo "Checking remaining outdated dependencies..."
+            - uv pip list --outdated || true
+
+    e2e:generate:
+        desc: Generate Python E2E tests from fixtures
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - alef e2e generate --lang python
+
+    e2e:test:
+        desc: Run Python E2E tests
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - alef test --lang python --e2e --jobs 1
+
+    e2e:verify:
+        desc: Full Python E2E pipeline (generate + test)
+        cmds:
+            - task: e2e:generate
+            - task: e2e:test

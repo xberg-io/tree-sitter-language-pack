@@ -1,0 +1,17 @@
+{
+	"id": "smoke_gowork",
+	"description": "Smoke test: load gowork and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "gowork"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

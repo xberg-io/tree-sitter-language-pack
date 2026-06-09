@@ -1,0 +1,17 @@
+{
+	"id": "smoke_bitbake",
+	"description": "Smoke test: load bitbake and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "DESCRIPTION = \"hello\"",
+		"config": {
+			"language": "bitbake"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

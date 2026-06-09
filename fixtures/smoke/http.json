@@ -1,0 +1,17 @@
+{
+	"id": "smoke_http",
+	"description": "Smoke test: load http and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "http"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_pascal",
+	"description": "Smoke test: load pascal and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "program Hello; begin end.",
+		"config": {
+			"language": "pascal"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

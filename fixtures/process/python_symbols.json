@@ -1,0 +1,25 @@
+{
+	"id": "process_python_symbols",
+	"description": "Python with class and functions, verify symbol count",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "MY_CONST = 42\ndef helper(): pass\nclass Widget: pass\n",
+		"config": {
+			"language": "python",
+			"symbols": true
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "count_min",
+			"field": "symbols",
+			"value": 1
+		}
+	]
+}

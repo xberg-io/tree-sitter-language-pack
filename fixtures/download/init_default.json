@@ -1,0 +1,19 @@
+{
+	"id": "download_init_default",
+	"description": "Initialize language pack with default config",
+	"category": "download",
+	"tags": ["download"],
+	"call": "init_pack",
+	"skip": {
+		"languages": ["c", "wasm"],
+		"reason": "Download feature requires network access and is not available in static builds"
+	},
+	"input": {
+		"config": {}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

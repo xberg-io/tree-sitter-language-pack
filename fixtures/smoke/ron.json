@@ -1,0 +1,17 @@
+{
+	"id": "smoke_ron",
+	"description": "Smoke test: load ron and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(key: \"value\")",
+		"config": {
+			"language": "ron"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,150 @@
+# Build output
+target/
+build/
+dist/
+wheelhouse/
+.build/
+.yardoc/
+
+# Language-specific build artifacts
+*.so
+*.dylib
+*.dll
+*.node
+*.bundle
+*.class
+*.egg-info/
+*$py.class
+*.py[cod]
+__pycache__/
+_build/
+deps/
+
+# Python
+.venv
+.coverage
+coverage.xml
+.mypy_cache
+.pytest_cache
+.ruff_cache
+.python-version
+
+# Node.js
+node_modules/
+.pnpm-store/
+
+# C#/.NET
+packages/csharp/**/bin/
+packages/csharp/**/obj/
+packages/csharp/**/runtimes/
+
+# Go vendored FFI artifacts
+packages/go/include/*
+!packages/go/include/ts_pack.h
+packages/go/lib/
+
+# Elixir build artifacts
+crates/ts-pack-elixir/deps/
+crates/ts-pack-elixir/_build/
+
+# Ruby
+crates/ts-pack-ruby/tmp/
+packages/ruby/tmp/
+
+# Parsers (cloned at build time)
+parsers/
+
+# Test app build/install artifacts
+test_apps/*/target/
+test_apps/*/build/
+test_apps/*/.venv/
+test_apps/*/vendor/
+test_apps/*/_build/
+test_apps/*/deps/
+test_apps/*/obj/
+test_apps/*/bin/
+test_apps/*/.dart_tool/
+test_apps/*/.gradle/
+test_apps/*/.build/
+test_apps/c/build/
+test_documents/file:/
+
+# E2E build artifacts
+e2e/c/build/
+e2e/c/test_*
+e2e/swift_e2e/.build/
+
+# IDE / OS
+.DS_store
+.idea/
+.run
+*.bak
+*.Cache
+*.cscfg
+*.suo
+*.user
+*.log
+
+# Environment
+.env
+requirements.txt
+vendor/
+
+# PHP cs-fixer cache
+packages/php/var/
+.php-cs-fixer.cache
+.php-cs-fixer.dist.php
+
+# AI assistant config (generated)
+CLAUDE.md
+.claude/
+.cursor/
+.gemini/
+.windsurf/
+.codex/
+.mcp.json
+.github/copilot-instructions.md
+AGENTS.md
+GEMINI.md
+
+.cache/
+site/
+.lycheecache
+
+
+# Additional generated artifacts
+.remote-cache/
+.alef/
+.gemini/
+GEMINI.md
+*.pyd
+.venv/
+.gems/
+vendor/bundle/
+*.h.bak
+*.test
+bin/
+obj/
+*.nupkg
+
+e2e/zig/.zig-cache/
+test_apps/zig/.zig-cache/
+test_apps/zig/zig-pkg/
+test_apps/swift_e2e/Package.resolved
+# swift-bridge generated sources MUST be tracked: SPM consumers checking out
+# the git tag don't run cargo build, so without these files in the tree the
+# RustString type defined here is missing → ZSwiftPluginHelpers.swift won't
+# compile. Regenerated on each rc cut via `cargo build -p tree-sitter-language-pack-swift`.
+e2e/dart/.dart_tool/
+
+test_apps/c/ffi/
+e2e/c/ffi/
+
+ .ai-rulez/.generated-manifest.json
+
+# BEGIN ai-rulez (DO NOT EDIT - managed by ai-rulez)
+.agents/
+.github/agents/
+.github/commands/
+.github/skills/
+# END ai-rulez

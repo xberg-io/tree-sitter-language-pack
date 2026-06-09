@@ -1,0 +1,163 @@
+name: CI CLI
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - ".github/workflows/ci-cli.yaml"
+            - ".cargo/config.toml"
+            - "rust-toolchain.toml"
+            - "Cargo.toml"
+            - "Cargo.lock"
+            - "crates/ts-pack-cli/**"
+            - "crates/ts-pack-core/**"
+            - "test_apps/cli/**"
+            - "test_apps/fixtures/**"
+    pull_request:
+        branches: [main]
+        paths:
+            - ".github/workflows/ci-cli.yaml"
+            - ".cargo/config.toml"
+            - "rust-toolchain.toml"
+            - "Cargo.toml"
+            - "Cargo.lock"
+            - "crates/ts-pack-cli/**"
+            - "crates/ts-pack-core/**"
+            - "test_apps/cli/**"
+            - "test_apps/fixtures/**"
+    workflow_run:
+        workflows: ["Publish Release"]
+        types: [completed]
+    workflow_dispatch:
+
+concurrency:
+    group: ci-cli-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+env:
+    CARGO_TERM_COLOR: always
+    CARGO_INCREMENTAL: 0
+    CARGO_PROFILE_DEV_DEBUG: 0
+    RUST_BACKTRACE: short
+    BUILD_PROFILE: ci
+
+jobs:
+    clone-vendors:
+        name: Clone vendors
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Setup Node
+              uses: actions/setup-node@v6
+
+            - name: Install tree-sitter CLI
+              run: npm install -g tree-sitter-cli
+
+            - name: Install uv
+              uses: astral-sh/setup-uv@v8.2.0
+              with:
+                  enable-cache: true
+
+            - name: Set up Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.14"
+
+            - name: Install dependencies
+              run: uv sync --no-install-project --no-install-workspace
+
+            - name: Cache parsers
+              uses: actions/cache@v5
+              with:
+                  path: parsers
+                  key: parsers-${{ hashFiles('sources/language_definitions.json') }}
+                  restore-keys: |
+                      parsers-
+
+            - name: Clone vendors
+              run: |
+                  mkdir -p parsers
+                  uv run --script scripts/clone_vendors.py
+
+            - name: Upload parsers
+              uses: actions/upload-artifact@v7
+              with:
+                  name: language-parsers
+                  path: parsers
+                  retention-days: 1
+
+    build-cli:
+        name: CLI Build & Test (${{ matrix.os }})
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        needs: clone-vendors
+        timeout-minutes: 30
+        strategy:
+            fail-fast: true
+            matrix:
+                os: [ubuntu-latest, macos-latest]
+        runs-on: ${{ matrix.os }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  cache-key-prefix: cli-${{ matrix.os }}
+                  use-sccache: true
+
+            - name: Build CLI (release)
+              shell: bash
+              run: cargo build --release --package ts-pack-cli
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+                  TSLP_LINK_MODE: static
+
+            - name: Verify CLI binary exists
+              shell: bash
+              run: |
+                  test -f target/release/ts-pack
+                  echo "CLI binary built: target/release/ts-pack"
+
+            - name: Smoke test — version
+              shell: bash
+              run: ./target/release/ts-pack --version
+
+            - name: Smoke test — help
+              shell: bash
+              run: ./target/release/ts-pack --help
+
+            - name: Run CLI smoke test script
+              shell: bash
+              run: |
+                  chmod +x test_apps/cli/smoke_test.sh
+                  TS_PACK_BIN=./target/release/ts-pack test_apps/cli/smoke_test.sh
+
+            - name: Run grammar test (static subset)
+              shell: bash
+              run: |
+                  chmod +x test_apps/cli/test_all_grammars.sh
+                  TS_PACK_BIN=./target/release/ts-pack TS_PACK_LANGUAGES="python,rust,javascript,typescript,go,html,css,json" test_apps/cli/test_all_grammars.sh
+
+            - name: Upload CLI binary (artifact)
+              if: success()
+              uses: actions/upload-artifact@v7
+              with:
+                  name: cli-${{ matrix.os }}-${{ github.sha }}
+                  path: target/release/ts-pack
+                  if-no-files-found: ignore
+                  retention-days: 7

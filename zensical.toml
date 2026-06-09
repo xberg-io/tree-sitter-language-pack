@@ -1,0 +1,206 @@
+[project]
+site_name = "tree-sitter-language-pack"
+site_description = "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, chunking, and bindings for Python, Node.js, Rust, Go, Java, Ruby, Elixir, PHP, and WebAssembly."
+site_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
+site_author = "kreuzberg.dev"
+repo_name = "kreuzberg-dev/tree-sitter-language-pack"
+repo_url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+edit_uri = "edit/main/docs/"
+copyright = "Copyright &copy; 2024-2026 Kreuzberg, inc."
+extra_css = ["css/extra.css"]
+nav = [
+  { "Home" = "index.md" },
+
+  { "Get Started" = [
+    { "Installation" = "getting-started/installation.md" },
+    { "Quick Start" = "getting-started/quickstart.md" },
+  ] },
+
+  { "Guides" = [
+    { "Core" = [
+      { "Parsing Code" = "guides/parsing.md" },
+      { "Code Intelligence" = "guides/intelligence.md" },
+      { "Chunking for LLMs" = "guides/chunking.md" },
+      { "Configuration" = "guides/configuration.md" },
+      { "Extraction Queries" = "guides/extraction.md" },
+    ] },
+    { "CLI" = "guides/cli.md" },
+    { "Deployment" = [
+      { "Docker" = "guides/docker.md" },
+      { "Building from Source" = "guides/building.md" },
+      { "Performance & Benchmarks" = "guides/performance.md" },
+    ] },
+  ] },
+
+  { "Concepts" = [
+    { "Architecture" = "concepts/architecture.md" },
+    { "Download Model" = "concepts/download-model.md" },
+    { "Code Intelligence" = "concepts/code-intelligence.md" },
+  ] },
+
+  { "Reference" = [
+    { "API" = [
+      { "Python" = "reference/api-python.md" },
+      { "TypeScript / Node.js" = "reference/api-typescript.md" },
+      { "Rust" = "reference/api-rust.md" },
+      { "Go" = "reference/api-go.md" },
+      { "Java" = "reference/api-java.md" },
+      { "C#" = "reference/api-csharp.md" },
+      { "Ruby" = "reference/api-ruby.md" },
+      { "PHP" = "reference/api-php.md" },
+      { "Elixir" = "reference/api-elixir.md" },
+      { "WebAssembly" = "reference/api-wasm.md" },
+      { "C / FFI" = "reference/api-c.md" },
+    ] },
+    { "Languages" = "languages.md" },
+    { "Types" = "reference/types.md" },
+    { "Errors" = "reference/errors.md" },
+    { "Configuration" = "reference/configuration.md" },
+  ] },
+
+  { "More" = [
+    { "Contributing" = "contributing.md" },
+    { "CI / CD" = "contributing/ci.md" },
+    { "Changelog" = "CHANGELOG.md" },
+  ] },
+
+  { "Ecosystem" = "ecosystem.md" },
+]
+
+[project.theme]
+name = "material"
+custom_dir = "docs/overrides"
+logo = "assets/logo.svg"
+favicon = "assets/favicon.ico"
+features = [
+  "content.code.copy",
+  "content.code.annotate",
+  "content.tabs.link",
+  "navigation.instant",
+  "navigation.instant.progress",
+  "navigation.path",
+  "navigation.prune",
+  "navigation.indexes",
+  "navigation.sections",
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.tracking",
+  "navigation.top",
+  "search.highlight",
+  "search.share",
+  "search.suggest",
+  "toc.follow",
+  "toc.integrate",
+  "announce.dismiss",
+]
+language = "en"
+
+[project.theme.font]
+text = "Inter"
+code = "JetBrains Mono"
+
+[project.theme.icon]
+repo = "github"
+search = "search"
+
+# Dark mode first (matches prefers-color-scheme: dark)
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+toggle.icon = "sun"
+toggle.name = "Switch to light mode"
+
+# Light mode
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "custom"
+accent = "custom"
+toggle.icon = "moon"
+toggle.name = "Switch to dark mode"
+
+# Markdown extensions
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.def_list]
+[project.markdown_extensions.footnotes]
+[project.markdown_extensions.md_in_html]
+[project.markdown_extensions.tables]
+
+[project.markdown_extensions.pymdownx.details]
+
+[project.markdown_extensions.pymdownx.emoji]
+emoji_index = "zensical.extensions.emoji.twemoji"
+emoji_generator = "zensical.extensions.emoji.to_svg"
+options.custom_icons = ["docs/overrides/.icons"]
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+linenums = false
+use_pygments = true
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.keys]
+[project.markdown_extensions.pymdownx.mark]
+[project.markdown_extensions.pymdownx.smartsymbols]
+
+[project.markdown_extensions.pymdownx.snippets]
+base_path = ["docs", "."]
+check_paths = true
+
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+combine_header_slug = true
+
+[project.markdown_extensions.pymdownx.tabbed.slugify]
+case = "lower"
+
+[project.markdown_extensions.pymdownx.tasklist]
+custom_checkbox = true
+
+[project.markdown_extensions.toc]
+permalink = true
+toc_depth = 3
+
+# Social links
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+name = "View on GitHub"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/python"
+link = "https://pypi.org/project/tree-sitter-language-pack/"
+name = "View on PyPI"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/docker"
+link = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/pkgs/container/tree-sitter-language-pack"
+name = "View on GitHub Container Registry"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/npm"
+link = "https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack"
+name = "View on npm"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/rust"
+link = "https://crates.io/crates/tree-sitter-language-pack"
+name = "View on crates.io"
+
+[project.extra.status]
+new = "Recently added"
+deprecated = "Deprecated"
+
+[project.extra.repo]
+stars = true
+forks = true

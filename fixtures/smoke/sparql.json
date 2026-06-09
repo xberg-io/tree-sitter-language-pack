@@ -1,0 +1,17 @@
+{
+	"id": "smoke_sparql",
+	"description": "Smoke test: load sparql and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "SELECT ?s WHERE { ?s ?p ?o }",
+		"config": {
+			"language": "sparql"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

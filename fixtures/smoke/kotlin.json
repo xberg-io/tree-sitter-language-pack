@@ -1,0 +1,17 @@
+{
+	"id": "smoke_kotlin",
+	"description": "Smoke test: load kotlin and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "fun main() {}",
+		"config": {
+			"language": "kotlin"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

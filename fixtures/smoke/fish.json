@@ -1,0 +1,17 @@
+{
+	"id": "smoke_fish",
+	"description": "Smoke test: load fish and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "echo hello",
+		"config": {
+			"language": "fish"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

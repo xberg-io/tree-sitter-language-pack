@@ -1,0 +1,17 @@
+{
+	"id": "smoke_java",
+	"description": "Smoke test: load java and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "class Main {}",
+		"config": {
+			"language": "java"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

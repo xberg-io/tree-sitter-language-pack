@@ -1,0 +1,15 @@
+{
+	"id": "injections_query_rust",
+	"description": "get_injections_query returns non-empty for rust",
+	"category": "query",
+	"tags": ["query", "injections"],
+	"call": "injections",
+	"input": {
+		"language": "rust"
+	},
+	"assertions": [
+		{
+			"type": "not_empty"
+		}
+	]
+}

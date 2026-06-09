@@ -1,0 +1,73 @@
+name: Deploy Documentation
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "docs/**"
+            - "zensical.toml"
+            - "pyproject.toml"
+            - "sources/language_definitions.json"
+            - "scripts/generate_grammar_table.py"
+            - ".github/workflows/docs.yaml"
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+concurrency:
+    group: pages
+    cancel-in-progress: false
+
+jobs:
+    lint:
+        name: Lint documentation
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+
+            - uses: kreuzberg-dev/actions/lint-docs@v1
+              with:
+                  working-directory: .
+                  strict: "false"
+                  validate-snippets: "false"
+
+    build:
+        name: Build documentation
+        needs: lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+
+            - uses: astral-sh/setup-uv@v8.2.0
+              with:
+                  enable-cache: true
+
+            - name: Generate supported languages table
+              run: uv run --no-sync python scripts/generate_grammar_table.py
+
+            - uses: kreuzberg-dev/actions/build-docs@v1
+              with:
+                  working-directory: .
+                  strict: "true"
+                  python-version: "3.13"
+
+            - uses: actions/upload-pages-artifact@v5
+              with:
+                  path: site
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - id: deployment
+              uses: actions/deploy-pages@v5

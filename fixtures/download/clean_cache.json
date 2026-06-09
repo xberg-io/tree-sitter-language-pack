@@ -1,0 +1,17 @@
+{
+	"id": "download_clean_cache",
+	"description": "Clean the parser cache directory",
+	"category": "download",
+	"tags": ["download"],
+	"call": "clean_cache",
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Download feature requires network access and cache cleanup is covered by Rust unit tests"
+	},
+	"input": {},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"id": "detect_ext_php",
+	"description": "detect_language_from_extension recognizes .php as php",
+	"category": "language-detection",
+	"tags": ["language-detection", "extension"],
+	"call": "detect_extension",
+	"input": {
+		"extension": "php"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "php"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_corn",
+	"description": "Smoke test: load corn and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "{ key = \"value\" }",
+		"config": {
+			"language": "corn"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

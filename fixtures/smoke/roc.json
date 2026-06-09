@@ -1,0 +1,17 @@
+{
+	"id": "smoke_roc",
+	"description": "Smoke test: load roc and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "roc"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

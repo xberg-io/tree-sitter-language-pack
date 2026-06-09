@@ -1,0 +1,17 @@
+{
+	"id": "smoke_scheme",
+	"description": "Smoke test: load scheme and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(define x 1)",
+		"config": {
+			"language": "scheme"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

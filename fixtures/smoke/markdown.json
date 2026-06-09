@@ -1,0 +1,17 @@
+{
+	"id": "smoke_markdown",
+	"description": "Smoke test: load markdown and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "# Hello\n\nWorld",
+		"config": {
+			"language": "markdown"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

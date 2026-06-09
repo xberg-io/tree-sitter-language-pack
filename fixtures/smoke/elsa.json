@@ -1,0 +1,17 @@
+{
+	"id": "smoke_elsa",
+	"description": "Smoke test: load elsa and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "elsa"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

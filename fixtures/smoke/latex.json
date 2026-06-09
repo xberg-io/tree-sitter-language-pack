@@ -1,0 +1,17 @@
+{
+	"id": "smoke_latex",
+	"description": "Smoke test: load latex and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "\\documentclass{article}\n\\begin{document}\nHello\n\\end{document}",
+		"config": {
+			"language": "latex"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

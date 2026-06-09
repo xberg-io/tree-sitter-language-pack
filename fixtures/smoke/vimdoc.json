@@ -1,0 +1,17 @@
+{
+	"id": "smoke_vimdoc",
+	"description": "Smoke test: load vimdoc and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "vimdoc"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

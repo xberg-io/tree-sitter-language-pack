@@ -1,0 +1,59 @@
+{
+	"filters": {
+		"comments": true,
+		"node-types": {
+			"nodeTypes": ["CodeBlock", "Code"]
+		}
+	},
+	"rules": {
+		"no-todo": false,
+		"no-start-duplicated-conjunction": {
+			"severity": "warning"
+		},
+		"no-empty-section": {
+			"severity": "warning"
+		},
+		"terminology": {
+			"defaultTerms": false,
+			"terms": ["Kreuzberg", "tree-sitter"]
+		},
+		"no-zero-width-spaces": true,
+		"@textlint-rule/no-invalid-control-character": true,
+		"no-surrogate-pair": true,
+		"@textlint-rule/no-unmatched-pair": false,
+		"write-good": {
+			"passive": false,
+			"weasel": false,
+			"tooWordy": false,
+			"adverb": false,
+			"so": false,
+			"illusion": false,
+			"severity": "warning"
+		},
+		"common-misspellings": true,
+		"stop-words": {
+			"severity": "warning",
+			"exclude": [
+				"e.g.",
+				"currently",
+				"subsequent",
+				"failed to",
+				"leverage",
+				"particularly",
+				"proximity",
+				"simply",
+				"specifically",
+				"relative to",
+				"all of",
+				"demonstrate",
+				"and/or",
+				"etc",
+				"promptly",
+				"there are"
+			]
+		},
+		"en-capitalization": {
+			"severity": "warning"
+		}
+	}
+}

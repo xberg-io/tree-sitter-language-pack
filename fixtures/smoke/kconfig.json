@@ -1,0 +1,17 @@
+{
+	"id": "smoke_kconfig",
+	"description": "Smoke test: load kconfig and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "config FOO\n\tbool \"Enable foo\"",
+		"config": {
+			"language": "kconfig"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

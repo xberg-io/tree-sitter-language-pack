@@ -1,0 +1,17 @@
+{
+	"id": "smoke_tablegen",
+	"description": "Smoke test: load tablegen and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "def Hello : Base {}",
+		"config": {
+			"language": "tablegen"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

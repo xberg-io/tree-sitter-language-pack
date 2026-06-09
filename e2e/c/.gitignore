@@ -1,0 +1,4 @@
+run_tests
+*.o
+mock_server.stdout
+mock_server.stdin

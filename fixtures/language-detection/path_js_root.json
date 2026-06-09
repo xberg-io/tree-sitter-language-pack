@@ -1,0 +1,16 @@
+{
+	"id": "detect_path_js_root",
+	"description": "detect_language_from_path recognizes app.js in root directory",
+	"category": "language-detection",
+	"tags": ["language-detection", "path"],
+	"call": "detect_path",
+	"input": {
+		"path": "app.js"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "javascript"
+		}
+	]
+}

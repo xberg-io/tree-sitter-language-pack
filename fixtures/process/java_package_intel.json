@@ -1,0 +1,39 @@
+{
+	"id": "java_package_declaration_process",
+	"description": "Intel: Java package declaration emitted as Module so callers can build FQNs (#112)",
+	"category": "process",
+	"tags": ["intel", "java", "fqn"],
+	"input": {
+		"source_code": "package com.example.widget;\n\npublic class Widget {\n    public String name() { return \"w\"; }\n}\n",
+		"config": {
+			"language": "java"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "java"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 2
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Module"
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Class"
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		}
+	]
+}

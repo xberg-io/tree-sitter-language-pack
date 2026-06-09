@@ -1,0 +1,27 @@
+[package]
+name = "ts-pack-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "CLI tool for tree-sitter language pack - manage parser downloads and run code intelligence"
+
+[[bin]]
+name = "ts-pack"
+path = "src/main.rs"
+
+[dependencies]
+clap = { workspace = true, features = ["derive"] }
+clap_complete = { workspace = true }
+serde_json = { workspace = true }
+tree-sitter-language-pack = { path = "../ts-pack-core", version = "1.9.0-rc.29", features = [
+    "download",
+    "config",
+    "serde",
+] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[lints]
+workspace = true

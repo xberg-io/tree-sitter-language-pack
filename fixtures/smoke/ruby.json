@@ -1,0 +1,17 @@
+{
+	"id": "smoke_ruby",
+	"description": "Smoke test: load ruby and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "puts 'hello'",
+		"config": {
+			"language": "ruby"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

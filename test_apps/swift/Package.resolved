@@ -1,0 +1,15 @@
+{
+  "originHash" : "ae665c0153d1c7b985b4e14d632c48077976d8c6c12c71f05764676108162d9d",
+  "pins" : [
+    {
+      "identity" : "tree-sitter-language-pack",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kreuzberg-dev/tree-sitter-language-pack.git",
+      "state" : {
+        "revision" : "f4b2c3413f4e5b68fff6a2a35f9b44d731875e3d",
+        "version" : "1.9.0-rc.16"
+      }
+    }
+  ],
+  "version" : 3
+}

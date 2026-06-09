@@ -1,0 +1,17 @@
+{
+	"id": "smoke_erlang",
+	"description": "Smoke test: load erlang and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "main() -> ok.",
+		"config": {
+			"language": "erlang"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

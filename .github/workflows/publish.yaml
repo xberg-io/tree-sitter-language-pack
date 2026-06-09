@@ -1,0 +1,3697 @@
+name: Publish Release
+
+on:
+    workflow_dispatch:
+        inputs:
+            tag:
+                description: "Release tag (e.g., v1.0.0-rc.2)"
+                required: true
+                type: string
+            dry_run:
+                description: "Dry run without publishing"
+                required: false
+                type: boolean
+                default: false
+            force_republish:
+                description: "Force republish even if version exists"
+                required: false
+                type: boolean
+                default: false
+            targets:
+                description: "Comma-separated targets or 'all'"
+                required: false
+                type: string
+                default: "all"
+    release:
+        types: [published]
+    repository_dispatch:
+        types: [publish-release]
+
+concurrency:
+    # Differentiate dry-run dispatches from real publishes so a stuck/failed dry-run
+    # does not block the release event for the same tag (cancel-in-progress: false).
+    group: ${{ github.workflow }}-${{ github.event.inputs.tag || github.event.release.tag_name || github.run_id }}-${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true' && 'dryrun' || 'real' }}
+    cancel-in-progress: false
+
+env:
+    CARGO_TERM_COLOR: always
+    CARGO_INCREMENTAL: "0"
+    RUST_BACKTRACE: short
+
+permissions:
+    contents: read
+
+jobs:
+    # ─── Prepare ───────────────────────────────────────────────────────
+    prepare:
+        name: Prepare release
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        outputs:
+            tag: ${{ steps.meta.outputs.tag }}
+            checkout_ref: ${{ steps.ref.outputs.checkout_ref }}
+            version: ${{ steps.meta.outputs.version }}
+            npm_tag: ${{ steps.meta.outputs.npm_tag }}
+            dry_run: ${{ steps.meta.outputs.dry_run }}
+            force_republish: ${{ steps.meta.outputs.force_republish }}
+            release_crates: ${{ steps.meta.outputs.release_crates }}
+            release_python: ${{ steps.meta.outputs.release_python }}
+            release_node: ${{ steps.meta.outputs.release_node }}
+            release_wasm: ${{ steps.meta.outputs.release_wasm }}
+            release_ruby: ${{ steps.meta.outputs.release_ruby }}
+            release_go: ${{ steps.meta.outputs.release_go }}
+            release_java: ${{ steps.meta.outputs.release_java }}
+            release_elixir: ${{ steps.meta.outputs.release_elixir }}
+            release_c_ffi: ${{ steps.meta.outputs.release_c_ffi }}
+            release_php: ${{ steps.meta.outputs.release_php }}
+            release_csharp: ${{ steps.meta.outputs.release_csharp }}
+            release_homebrew: ${{ steps.meta.outputs.release_homebrew }}
+            release_dart: ${{ steps.meta.outputs.release_dart }}
+            release_swift: ${{ steps.meta.outputs.release_swift }}
+            release_zig: ${{ steps.meta.outputs.release_zig }}
+            release_kotlin_android: ${{ steps.meta.outputs.release_kotlin }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Prepare release metadata
+              id: meta
+              uses: kreuzberg-dev/actions/prepare-release-metadata@v1
+              with:
+                  available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,dart,swift,zig,kotlin"
+
+            # In dry-run we may not yet have the tag pushed; check out the dispatch
+            # SHA instead so jobs can still validate the workflow against current
+            # workspace contents. Real publish keeps using the immutable tag.
+            - name: Resolve checkout ref
+              id: ref
+              env:
+                  DRY_RUN: ${{ steps.meta.outputs.dry_run }}
+                  TAG: ${{ steps.meta.outputs.tag }}
+                  DISPATCH_SHA: ${{ github.sha }}
+              run: |
+                  if [[ "${DRY_RUN}" == "true" ]]; then
+                    echo "checkout_ref=${DISPATCH_SHA}" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "checkout_ref=${TAG}" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Release info
+              run: |
+                  {
+                    echo "## Release Configuration"
+                    echo "- **Tag**: ${{ steps.meta.outputs.tag }}"
+                    echo "- **Version**: ${{ steps.meta.outputs.version }}"
+                    echo "- **npm tag**: ${{ steps.meta.outputs.npm_tag }}"
+                    echo "- **Dry run**: ${{ steps.meta.outputs.dry_run }}"
+                    echo "- **Force republish**: ${{ steps.meta.outputs.force_republish }}"
+                    echo "- **Targets**: ${{ steps.meta.outputs.release_targets }}"
+                    echo "- **Pre-release**: ${{ steps.meta.outputs.is_prerelease }}"
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+    # ─── Validate versions ──────────────────────────────────────────────
+    validate-versions:
+        name: Validate version consistency
+        needs: prepare
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Validate versions
+              uses: kreuzberg-dev/actions/validate-versions@v1
+              with:
+                  version: ${{ needs.prepare.outputs.version }}
+
+    # ─── Registry checks ──────────────────────────────────────────────
+    check-registries:
+        name: Check registries
+        needs: prepare
+        uses: kreuzberg-dev/actions/.github/workflows/reusable-check-registries.yml@v1
+        with:
+            version: ${{ needs.prepare.outputs.version }}
+            registries: |
+                [
+                  {
+                    "name": "cratesio",
+                    "registry": "cratesio",
+                    "package": "tree-sitter-language-pack"
+                  },
+                  {
+                    "name": "pypi",
+                    "registry": "pypi",
+                    "package": "tree-sitter-language-pack"
+                  },
+                  {
+                    "name": "npm",
+                    "registry": "npm",
+                    "package": "@kreuzberg/tree-sitter-language-pack"
+                  },
+                  {
+                    "name": "npm-wasm",
+                    "registry": "npm",
+                    "package": "@kreuzberg/tree-sitter-language-pack-wasm"
+                  },
+                  {
+                    "name": "rubygems",
+                    "registry": "rubygems",
+                    "package": "tree_sitter_language_pack"
+                  },
+                  {
+                    "name": "maven",
+                    "registry": "maven",
+                    "package": "dev.kreuzberg:tree-sitter-language-pack"
+                  },
+                  {
+                    "name": "hex",
+                    "registry": "hex",
+                    "package": "tree_sitter_language_pack"
+                  },
+                  {
+                    "name": "packagist",
+                    "registry": "packagist",
+                    "package": "kreuzberg-dev/tree-sitter-language-pack"
+                  },
+                  {
+                    "name": "nuget",
+                    "registry": "nuget",
+                    "package": "TreeSitterLanguagePack"
+                  },
+                  {
+                    "name": "homebrew",
+                    "registry": "homebrew",
+                    "package": "ts-pack",
+                    "tap-repo": "kreuzberg-dev/homebrew-tap"
+                  },
+                  {
+                    "name": "pub",
+                    "registry": "pub",
+                    "package": "tree_sitter_language_pack"
+                  },
+                  {
+                    "name": "zig",
+                    "registry": "github-release",
+                    "package": "tree-sitter-language-pack-zig-v${{ needs.prepare.outputs.version }}.tar.gz",
+                    "repo": "kreuzberg-dev/tree-sitter-language-pack",
+                    "assets": "tree-sitter-language-pack-zig-v${{ needs.prepare.outputs.version }}.tar.gz"
+                  },
+                  {
+                    "name": "maven-kotlin-android",
+                    "registry": "maven",
+                    "package": "dev.kreuzberg.tslp:tslp-android"
+                  }
+                ]
+
+    # ─── Clone vendors ────────────────────────────────────────────────
+    clone-vendors:
+        name: Clone vendors
+        needs: prepare
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Setup Node
+              uses: actions/setup-node@v6
+
+            - name: Install tree-sitter CLI
+              run: npm install -g tree-sitter-cli
+
+            - name: Install uv
+              uses: astral-sh/setup-uv@v8.2.0
+              with:
+                  enable-cache: true
+
+            - name: Set up Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.14"
+
+            - name: Install dependencies
+              run: uv sync --no-install-project --no-install-workspace
+
+            - name: Cache parsers
+              uses: actions/cache@v5
+              with:
+                  path: parsers
+                  key: parsers-${{ hashFiles('sources/language_definitions.json') }}
+                  restore-keys: |
+                      parsers-
+
+            - name: Clone vendors
+              run: |
+                  mkdir -p parsers
+                  uv run --script scripts/clone_vendors.py
+
+            - name: Upload parsers
+              uses: actions/upload-artifact@v7
+              with:
+                  name: language-parsers
+                  path: parsers
+                  retention-days: 3
+
+    # ─── Build parser-sources bundle (for from-source installs, fix #122) ─
+    build-parser-sources:
+        name: Build parser-sources bundle
+        needs: [prepare, validate-versions, clone-vendors]
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Pack parser sources
+              uses: kreuzberg-dev/actions/pack-source-bundle@v1
+              with:
+                  paths: |
+                      parsers
+                      sources
+                  excludes: |
+                      parsers/*/grammar.js
+                      parsers/*/grammar.json
+                      parsers/*/node-types.json
+                      parsers/*/binding.gyp
+                      parsers/*/package.json
+                      parsers/*/.gitignore
+                      parsers/*/test
+                  output: dist/parser-sources-${{ needs.prepare.outputs.version }}.tar.zst
+
+            - name: Upload to GitHub Release
+              if: ${{ needs.prepare.outputs.dry_run != 'true' }}
+              uses: kreuzberg-dev/actions/publish-github-release@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  title: "Release ${{ needs.prepare.outputs.tag }}"
+                  artifacts: |
+                      dist/parser-sources-*.tar.zst
+                      dist/parser-sources-*.tar.zst.sha256
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Build parser binaries ─────────────────────────────────────────
+    build-parser-binaries:
+        name: Build parser binaries (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 60
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                    - os: macos-latest
+                      label: macos-arm64
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                    - os: windows-latest
+                      label: windows-x86_64
+                    - os: windows-11-arm
+                      label: windows-aarch64
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Install zstd (if missing)
+              shell: bash
+              run: |
+                  if command -v zstd &>/dev/null; then
+                    echo "zstd already available: $(zstd --version)"
+                  elif [[ "$RUNNER_OS" == "Windows" ]]; then
+                    echo "Installing zstd for Windows..."
+                    curl -fsSL "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-v1.5.7-win64.zip" -o /tmp/zstd.zip
+                    unzip -q /tmp/zstd.zip -d /tmp/zstd
+                    cp /tmp/zstd/zstd-v1.5.7-win64/zstd.exe "$HOME/.cargo/bin/"
+                    echo "zstd installed: $(zstd --version)"
+                  else
+                    echo "Installing zstd via package manager..."
+                    if [[ "$RUNNER_OS" == "macOS" ]]; then
+                      brew install zstd
+                    else
+                      sudo apt-get update && sudo apt-get install -y zstd
+                    fi
+                  fi
+
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.12"
+
+            - name: Get all language names
+              id: langs
+              shell: bash
+              run: |
+                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
+            - name: Build all parsers
+              run: cargo build -p tree-sitter-language-pack --release
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  TSLP_LINK_MODE: dynamic
+                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+
+            - name: Package parser binaries (Unix)
+              if: runner.os != 'Windows'
+              run: |
+                  mkdir -p staging
+                  # Dynamic parser libraries are built into the OUT_DIR/libs/ by build.rs
+                  find target/release/build -path '*/out/libs/*' \( -name 'libtree_sitter_*.so' -o -name 'libtree_sitter_*.dylib' \) -exec cp {} staging/ \;
+                  echo "Packaged $(find staging/ -maxdepth 1 -type f | wc -l) parser libraries"
+                  find staging/ -maxdepth 1 -type f | head -20
+                  cd staging && tar -cf - . | zstd -19 -o "../parsers-${{ matrix.label }}.tar.zst"
+
+            - name: Package parser binaries (Windows)
+              if: runner.os == 'Windows'
+              shell: bash
+              run: |
+                  mkdir -p staging
+                  find target/release/build -path '*/out/libs/*' -name 'tree_sitter_*.dll' -exec cp {} staging/ \;
+                  echo "Packaged $(find staging/ -maxdepth 1 -type f | wc -l) parser libraries"
+                  cd staging && tar -cf - . | zstd -19 -o "../parsers-${{ matrix.label }}.tar.zst"
+
+            - name: Upload parser binaries
+              uses: actions/upload-artifact@v7
+              with:
+                  name: parsers-${{ matrix.label }}
+                  path: parsers-${{ matrix.label }}.tar.zst
+                  retention-days: 14
+
+    # ─── Build Python wheels ───────────────────────────────────────────
+    build-python-wheels:
+        name: Build Python wheel (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_python == 'true'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                    - os: macos-latest
+                      label: macos-arm64
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                    - os: windows-latest
+                      label: windows-x86_64
+                    - os: windows-11-arm
+                      label: windows-aarch64
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Free disk space (Linux)
+              if: runner.os == 'Linux'
+              uses: kreuzberg-dev/actions/free-disk-space-linux@v1
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Install maturin
+              run: pip install maturin
+
+            - name: Build wheel
+              # Run from packages/python so maturin picks up pyproject.toml's
+              # python-packages = ["tree_sitter_language_pack"] — without this,
+              # maturin builds a binary-only wheel containing just the .so plus
+              # dist-info and ships no Python source code (PyPI v1.6.3 regression,
+              # see #108).
+              working-directory: packages/python
+              # No --manifest-path: maturin reads pyproject.toml from CWD (which has
+              # [tool.maturin] manifest-path) and uses [project].version from there.
+              # Passing --manifest-path makes maturin walk up from the Cargo.toml's
+              # parent to find pyproject.toml and pick up the stale top-level one.
+              run: maturin build --release --out ../../dist
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+
+            - name: Upload wheel
+              uses: actions/upload-artifact@v7
+              with:
+                  name: python-wheel-${{ matrix.label }}
+                  path: dist/*.whl
+                  retention-days: 14
+
+    # ─── Build Python sdist ────────────────────────────────────────────
+    build-python-sdist:
+        name: Build Python sdist
+        needs: [prepare, validate-versions, clone-vendors, publish-crates]
+        if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_python == 'true' }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.13"
+
+            - name: Build sdist
+              uses: kreuzberg-dev/actions/build-python-sdist@v1
+              with:
+                  package-dir: packages/python
+                  output-dir: dist
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+            - name: Upload sdist
+              uses: actions/upload-artifact@v7
+              with:
+                  name: python-sdist
+                  path: dist/*.tar.gz
+                  retention-days: 14
+
+            # Smoke: install the just-built sdist with parsers/ hidden from the
+            # build, so build.rs has to fetch the source bundle. Proves the #122
+            # codepath works end-to-end before we cut a release.
+            - name: Pack a smoke source bundle
+              id: smoke-bundle
+              uses: kreuzberg-dev/actions/pack-source-bundle@v1
+              with:
+                  paths: |
+                      parsers
+                      sources
+                  excludes: |
+                      parsers/*/grammar.js
+                      parsers/*/grammar.json
+                      parsers/*/node-types.json
+                      parsers/*/binding.gyp
+                      parsers/*/package.json
+                      parsers/*/.gitignore
+                      parsers/*/test
+                  output: /tmp/parser-sources.tar.zst
+
+            - name: Smoke install from sdist (force source bundle download)
+              env:
+                  BUNDLE: ${{ steps.smoke-bundle.outputs.bundle-path }}
+              run: |
+                  set -euo pipefail
+                  # Hide parsers/ so build.rs can't find them locally — emulates sdist install.
+                  mv parsers /tmp/parsers-bak
+                  python -m venv /tmp/sdist-smoke
+                  # shellcheck disable=SC1091
+                  source /tmp/sdist-smoke/bin/activate
+                  pip install --upgrade pip
+                  # --no-build-isolation needs every PEP 517 backend present in the venv
+                  # ahead of time: maturin for tree-sitter-language-pack itself.
+                  # Scope --no-binary to ONLY tree-sitter-language-pack so transitive
+                  # deps (tree-sitter, etc.) use their published wheels — otherwise we'd
+                  # have to pre-install every transitive backend (hatchling, scikit-build, …).
+                  pip install 'maturin>=1,<2'
+                  TSLP_LANGUAGES="python,rust,javascript" \
+                  TSLP_LINK_MODE=static \
+                  TSLP_SOURCE_BUNDLE_URL="file://${BUNDLE}" \
+                    pip install --no-binary tree-sitter-language-pack --no-build-isolation \
+                      dist/tree_sitter_language_pack-*.tar.gz
+                  python -c "
+                  import tree_sitter_language_pack as t
+                  p = t.get_parser('python')
+                  tree = p.parse('def foo(): pass')
+                  root = tree.root_node()
+                  kind = root.kind()
+                  assert kind == 'module', kind
+                  print('OK:', kind)
+                  "
+                  # Restore parsers/ for any subsequent steps.
+                  mv /tmp/parsers-bak parsers
+
+    # ─── Build Node.js native modules ─────────────────────────────────
+    build-node-native:
+        name: Build Node.js (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_node == 'true'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x64-gnu
+                      napi_target: x86_64-unknown-linux-gnu
+                    - os: ubuntu-24.04-arm
+                      label: linux-arm64-gnu
+                      napi_target: aarch64-unknown-linux-gnu
+                    - os: macos-latest
+                      label: darwin-arm64
+                      napi_target: aarch64-apple-darwin
+                    - os: macos-15-intel
+                      label: darwin-x64
+                      napi_target: x86_64-apple-darwin
+                    - os: windows-latest
+                      label: win32-x64-msvc
+                      napi_target: x86_64-pc-windows-msvc
+                    - os: windows-11-arm
+                      label: win32-arm64-msvc
+                      napi_target: aarch64-pc-windows-msvc
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Free disk space (Linux)
+              if: runner.os == 'Linux'
+              uses: kreuzberg-dev/actions/free-disk-space-linux@v1
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "22"
+                  registry-url: "https://registry.npmjs.org"
+
+            - name: Install NAPI-RS CLI
+              run: npm install -g @napi-rs/cli
+
+            - name: Build native module
+              working-directory: crates/ts-pack-core-node
+              run: napi build --release --platform --target ${{ matrix.napi_target }}
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+
+            - name: Upload native module
+              uses: actions/upload-artifact@v7
+              with:
+                  name: node-native-${{ matrix.label }}
+                  path: crates/ts-pack-core-node/*.node
+                  retention-days: 14
+
+    # ─── Build Ruby gems ──────────────────────────────────────────────
+    build-ruby-gem:
+        name: Build Ruby gem (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors, publish-crates]
+        if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_ruby == 'true' }}
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        env:
+            RB_SYS_CARGO_PROFILE: release
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      ruby_platform: x86_64-linux
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                      ruby_platform: aarch64-linux
+                    - os: macos-latest
+                      label: macos-arm64
+                      ruby_platform: arm64-darwin
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      ruby_platform: x86_64-darwin
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Setup Ruby
+              uses: ruby/setup-ruby@v1.310.0
+              with:
+                  ruby-version: "3.4"
+                  bundler: none
+                  bundler-cache: false
+
+            - name: Install Bundler
+              run: gem install bundler --no-document && bundler --version
+
+            - name: Install Ruby dependencies
+              working-directory: packages/ruby
+              run: |
+                  bundle config set --local path vendor/bundle
+                  bundle check || bundle install
+
+            - name: Rewrite native dependencies
+              uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+              with:
+                  lang: ruby
+
+            - name: Compile native extension
+              working-directory: packages/ruby
+              timeout-minutes: 60
+              run: |
+                  echo "Compiling native extension..."
+                  bundle exec rake compile
+                  echo "Native extension compiled successfully"
+                  echo "=== Native libraries ==="
+                  find lib -name '*.so' -o -name '*.bundle' -o -name '*.dylib' 2>/dev/null | head -20
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
+
+            - name: Build platform gem
+              run: ruby scripts/publish/ruby/build-native-gem.rb "${{ matrix.ruby_platform }}"
+
+            - name: Verify gem was built
+              working-directory: packages/ruby
+              run: |
+                  if ! ls ./*.gem 1>/dev/null 2>&1; then
+                    echo "ERROR: No gem file found" >&2
+                    exit 1
+                  fi
+                  echo "Gem built successfully:"
+                  ls -lh ./*.gem
+                  # Verify it's a platform gem, not a source gem
+                  gem spec ./*.gem | grep -i platform
+
+            - name: Verify gem integrity
+              working-directory: packages/ruby
+              run: |
+                  for gem in ./*.gem; do
+                    echo "Validating: $gem"
+                    file "$gem"
+                    if ! gem spec "$gem" >/dev/null 2>&1; then
+                      echo "WARNING: gem spec check failed for $gem"
+                      if ! tar -tzf "$gem" >/dev/null 2>&1; then
+                        echo "ERROR: Corrupted gem file: $gem" >&2
+                        exit 1
+                      fi
+                    else
+                      echo "gem spec validation passed"
+                    fi
+                  done
+
+            - name: Upload gem artifacts
+              uses: actions/upload-artifact@v7
+              with:
+                  name: rubygems-${{ matrix.label }}
+                  path: packages/ruby/*.gem
+                  retention-days: 14
+                  compression-level: 0
+
+    # ─── Build WASM package (split into two jobs to avoid OOM) ─────────
+    build-wasm:
+        name: Build WASM package
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_wasm == 'true'
+        runs-on: ubuntu-latest
+        timeout-minutes: 120
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Free disk space (Linux)
+              uses: kreuzberg-dev/actions/free-disk-space-linux@v1
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: wasm32-unknown-unknown
+                  components: ""
+                  # sccache server competes for RAM with the compile and was correlating
+                  # with consistent OOM kills (SIGTERM at exit 143) on the free 16GB runner.
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Install WASI SDK
+              uses: kreuzberg-dev/actions/install-wasi-sdk@v1
+
+            - name: Install wasm-pack
+              run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+            - name: Add swap (best-effort; avoid OOM during 306-grammar static link)
+              shell: bash
+              run: |
+                  # Best-effort: free runners often already have swap, and fallocate
+                  # can fail on some FS layouts. Don't fail the job if swap isn't
+                  # creatable — we still rely on CARGO_BUILD_JOBS=1 to keep peak RAM low.
+                  set +e
+                  # Fallocate first, dd as fallback (slower but works on more filesystems).
+                  if sudo fallocate -l 6G /swapfile 2>/dev/null; then
+                    :
+                  elif sudo dd if=/dev/zero of=/swapfile bs=1M count=6144 status=none 2>/dev/null; then
+                    :
+                  else
+                    echo "swap allocation failed; continuing without extra swap"
+                    free -h
+                    exit 0
+                  fi
+                  sudo chmod 600 /swapfile
+                  sudo mkswap /swapfile >/dev/null
+                  sudo swapon /swapfile
+                  free -h
+
+            - name: Build WASM (nodejs and web targets)
+              working-directory: crates/ts-pack-core-wasm
+              run: |
+                  # Build both nodejs (for Node.js consumers) and web (for bundlers/browser)
+                  wasm-pack build --target nodejs --out-dir pkg/nodejs --release
+                  wasm-pack build --target web --out-dir pkg/web --release
+
+                  # Copy nodejs as the primary output for npm publish (Node.js is the primary consumer)
+                  cp -r pkg/nodejs/* pkg/
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  TSLP_LINK_MODE: static
+                  # Curated subset of grammars compiled into the WASM bundle.
+                  # Compiling all 306 grammars statically OOM-killed the free 16GB
+                  # runner during dependency-LLVM passes (consistent SIGTERM at exit
+                  # 143 around 7-15 min in). This list covers the most-used languages;
+                  # expand it once a larger CI runner is provisioned.
+                  # NOTE: jsx is part of the javascript grammar (no separate jsx grammar exists);
+                  # it is omitted here to avoid a build.rs warning about an unknown language.
+                  TSLP_LANGUAGES: "python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
+                  CARGO_PROFILE_RELEASE_LTO: "false"
+                  CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
+
+            - name: Verify WASM build output
+              working-directory: crates/ts-pack-core-wasm
+              run: |
+                  if [ ! -d pkg ]; then
+                    echo "ERROR: pkg/ directory not created by wasm-pack" >&2
+                    exit 1
+                  fi
+                  echo "=== WASM build output (nodejs primary) ==="
+                  ls -lh pkg/
+                  if [ ! -f pkg/ts_pack_core_wasm_bg.wasm ]; then
+                    echo "ERROR: WASM binary not found" >&2
+                    exit 1
+                  fi
+                  echo "WASM binary size: $(wc -c < pkg/ts_pack_core_wasm_bg.wasm) bytes"
+                  echo "=== Checking for bundler-only imports ==="
+                  if grep -q 'from "env"' pkg/ts_pack_core_wasm.js; then
+                    echo "ERROR: Found bundler-only imports in main JS" >&2
+                    grep 'from "env"' pkg/ts_pack_core_wasm.js | head -5
+                    exit 1
+                  fi
+                  echo "OK: No bundler-only imports detected"
+
+            - name: Patch WASM package.json
+              working-directory: crates/ts-pack-core-wasm
+              run: |
+                  VERSION="${{ needs.prepare.outputs.version }}"
+                  python3 -c "
+                  import json
+                  with open('pkg/package.json', 'r') as f:
+                      data = json.load(f)
+                  data['name'] = '@kreuzberg/tree-sitter-language-pack-wasm'
+                  data['version'] = '$VERSION'
+                  data['publishConfig'] = {'registry': 'https://registry.npmjs.org/', 'access': 'public'}
+                  data['repository'] = {'type': 'git', 'url': 'https://github.com/kreuzberg-dev/tree-sitter-language-pack'}
+                  data['license'] = 'MIT'
+                  # Ensure Node.js is the primary entry point
+                  data['main'] = 'ts_pack_core_wasm.js'
+                  data['module'] = 'ts_pack_core_wasm.js'
+                  with open('pkg/package.json', 'w') as f:
+                      json.dump(data, f, indent=2)
+                      f.write('\n')
+                  print(f'Patched pkg/package.json: name={data[\"name\"]}, version={data[\"version\"]}')
+                  "
+
+            - name: Upload WASM package
+              uses: actions/upload-artifact@v7
+              with:
+                  name: wasm-pkg
+                  path: crates/ts-pack-core-wasm/pkg/
+                  retention-days: 14
+
+    # ─── Build Go FFI libraries ────────────────────────────────────────
+    build-go-ffi:
+        name: Build Go FFI (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_go == 'true'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      target: x86_64-unknown-linux-gnu
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                      target: aarch64-unknown-linux-gnu
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      target: x86_64-apple-darwin
+                    - os: windows-latest
+                      label: windows-x86_64
+                      target: x86_64-pc-windows-msvc
+                    - os: windows-11-arm
+                      label: windows-aarch64
+                      target: aarch64-pc-windows-msvc
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - uses: kreuzberg-dev/actions/install-alef@v1
+
+            - name: Build and package Go FFI library with alef
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  # Build the FFI library for this target
+                  cargo build --release --target ${{ matrix.target }} -p ts-pack-core-ffi
+
+                  # Package with alef for distribution
+                  alef publish build --lang ffi --target ${{ matrix.target }}
+                  alef publish package --lang go --target ${{ matrix.target }} -o dist/go-ffi
+
+            - name: Fix macOS dylib install_name (Go FFI)
+              if: runner.os == 'macOS'
+              shell: bash
+              run: |
+                  echo "=== Fixing macOS dylib install_name in Go FFI package ==="
+                  find dist/go-ffi -name "*.dylib" -type f | while read -r dylib; do
+                    echo "Processing: $dylib"
+                    # Get the dylib filename
+                    dylib_name=$(basename "$dylib")
+                    echo "  Current install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                    # Rewrite to @rpath
+                    install_name_tool -id "@rpath/$dylib_name" "$dylib"
+                    echo "  New install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                  done
+                  echo "=== Go FFI dylib install_name fixes complete ==="
+
+            - name: Upload FFI artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: go-ffi-${{ matrix.label }}
+                  path: dist/go-ffi/
+                  if-no-files-found: error
+                  retention-days: 14
+
+    # ─── Build Java native libraries ───────────────────────────────────
+    build-java-natives:
+        name: Build Java natives (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_java == 'true'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      target: x86_64-unknown-linux-gnu
+                      platform: linux-x86_64
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                      target: aarch64-unknown-linux-gnu
+                      platform: linux-arm64
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                      platform: macos-arm64
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      target: x86_64-apple-darwin
+                      platform: macos-x86_64
+                    - os: windows-latest
+                      label: windows-x86_64
+                      target: x86_64-pc-windows-msvc
+                      platform: windows-x86_64
+                    - os: windows-11-arm
+                      label: windows-arm64
+                      target: aarch64-pc-windows-msvc
+                      platform: windows-arm64
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Build Java native library
+              uses: kreuzberg-dev/actions/build-java-natives@v1
+              with:
+                  target: ${{ matrix.target }}
+                  crate-name: ts-pack-core-ffi
+                  lib-name: ts_pack_core_ffi
+                  classifier: ${{ matrix.platform }}
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+                  output-dir: dist/java-ffi
+
+            - name: Upload native artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: java-natives-${{ matrix.label }}
+                  path: dist/java-ffi
+                  retention-days: 14
+
+    # ─── Build Java package ────────────────────────────────────────────
+    build-java-package:
+        name: Build Java package
+        needs: [prepare, validate-versions, build-java-natives]
+        if: needs.prepare.outputs.release_java == 'true'
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Setup Java
+              uses: actions/setup-java@v5
+              with:
+                  distribution: "temurin"
+                  java-version: "25"
+                  cache: "maven"
+
+            - name: Setup Maven
+              uses: kreuzberg-dev/actions/setup-maven@v1
+
+            - name: Download Java native artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: java-natives-*
+                  path: artifacts/java-natives
+                  merge-multiple: true
+
+            - name: Stage Java native resources
+              uses: kreuzberg-dev/actions/stage-java-natives@v1
+              with:
+                  artifacts-dir: artifacts/java-natives
+                  resources-dir: packages/java/src/main/resources/natives
+                  required-classifiers: linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-arm64
+                  lib-name: ts_pack_core_ffi
+
+            - name: Build and package
+              working-directory: packages/java
+              run: mvn clean package -DskipTests
+
+            - name: Verify JAR contains native libs
+              working-directory: packages/java
+              shell: bash
+              run: |
+                  JAR=""
+                  for f in target/tree-sitter-language-pack-*.jar; do
+                    case "$f" in *-sources.jar|*-javadoc.jar) continue ;; esac
+                    JAR="$f"
+                    break
+                  done
+                  if [ -z "$JAR" ]; then
+                    echo "::error::No JAR found in target/"
+                    exit 1
+                  fi
+                  echo "Checking JAR: $JAR"
+                  ENTRIES=$(jar tf "$JAR" | grep -E '^natives/[^/]+/(lib)?ts_pack_core_ffi\.(so|dll|dylib)$' || true)
+                  echo "Native lib entries:"
+                  echo "$ENTRIES"
+                  # Issue #128: a previous bug staged every lib under `natives/native/`
+                  # because the re-stage loop walked one dirname too far. Require each
+                  # expected classifier directory to be present individually so the
+                  # collapse-to-`native` regression cannot ship again.
+                  REQUIRED_CLASSIFIERS="linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-arm64"
+                  missing=()
+                  for c in $REQUIRED_CLASSIFIERS; do
+                    if ! echo "$ENTRIES" | grep -qE "^natives/$c/(lib)?ts_pack_core_ffi\.(so|dll|dylib)$"; then
+                      missing+=("$c")
+                    fi
+                  done
+                  if (( ${#missing[@]} > 0 )); then
+                    echo "::error::JAR missing natives for classifiers: ${missing[*]}"
+                    jar tf "$JAR" | grep -E '^natives/' || echo "(no natives/ entries at all)"
+                    exit 1
+                  fi
+
+            - name: Upload JAR artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: maven-packages
+                  path: packages/java/target/*.jar
+                  retention-days: 14
+
+    # ─── Build Elixir NIFs ────────────────────────────────────────────
+    build-elixir-nifs:
+        name: Build Elixir NIF (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors, publish-crates]
+        if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_elixir == 'true' }}
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      target: x86_64-unknown-linux-gnu
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                      target: aarch64-unknown-linux-gnu
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      target: x86_64-apple-darwin
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Rewrite native dependencies
+              uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+              with:
+                  lang: elixir
+
+            - name: Build Elixir NIF
+              working-directory: packages/elixir/native/tree_sitter_language_pack_nif
+              run: cargo build --release --target ${{ matrix.target }}
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  CARGO_BUILD_TARGET: ${{ matrix.target }}
+
+            - name: Package NIF libraries (NIF 2.16)
+              shell: bash
+              run: |
+                  VERSION="${{ needs.prepare.outputs.version }}"
+                  TARGET="${{ matrix.target }}"
+                  NIF_VERSION="2.16"
+
+                  if [[ "${{ runner.os }}" == "macOS" ]]; then
+                    ARCHIVE_EXT="so"
+                    LIB_NAME="libtree_sitter_language_pack_nif.dylib"
+                  else
+                    ARCHIVE_EXT="so"
+                    LIB_NAME="libtree_sitter_language_pack_nif.so"
+                  fi
+
+                  mkdir -p dist/elixir
+                  # Underscore name (matches Cargo output)
+                  ARTIFACT_UNDERSCORE="libtree_sitter_language_pack_nif-v${VERSION}-nif-${NIF_VERSION}-${TARGET}.${ARCHIVE_EXT}"
+                  # Hyphen name (matches what RustlerPrecompiled expects from crate: "ts-pack-elixir")
+                  ARTIFACT_HYPHEN="libtree-sitter-language-pack-nif-v${VERSION}-nif-${NIF_VERSION}-${TARGET}.${ARCHIVE_EXT}"
+
+                  # ts-pack-elixir is a standalone workspace, output is in packages/elixir/target/
+                  LIB_PATH="packages/elixir/native/tree_sitter_language_pack_nif/target/${TARGET}/release/${LIB_NAME}"
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    LIB_PATH="packages/elixir/native/tree_sitter_language_pack_nif/target/release/${LIB_NAME}"
+                  fi
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    LIB_PATH="target/${TARGET}/release/${LIB_NAME}"
+                  fi
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    LIB_PATH="target/release/${LIB_NAME}"
+                  fi
+
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    echo "ERROR: Library not found"
+                    find . -name "${LIB_NAME}" -type f 2>/dev/null || true
+                    exit 1
+                  fi
+
+                  # Create both underscore and hyphen tarballs
+                  cp "$LIB_PATH" "${ARTIFACT_UNDERSCORE}"
+                  tar -czf "dist/elixir/${ARTIFACT_UNDERSCORE}.tar.gz" "${ARTIFACT_UNDERSCORE}"
+                  echo "Created: dist/elixir/${ARTIFACT_UNDERSCORE}.tar.gz"
+
+                  cp "$LIB_PATH" "${ARTIFACT_HYPHEN}"
+                  tar -czf "dist/elixir/${ARTIFACT_HYPHEN}.tar.gz" "${ARTIFACT_HYPHEN}"
+                  echo "Created: dist/elixir/${ARTIFACT_HYPHEN}.tar.gz"
+
+            - name: Package NIF libraries (NIF 2.17)
+              shell: bash
+              run: |
+                  VERSION="${{ needs.prepare.outputs.version }}"
+                  TARGET="${{ matrix.target }}"
+                  NIF_VERSION="2.17"
+
+                  if [[ "${{ runner.os }}" == "macOS" ]]; then
+                    ARCHIVE_EXT="so"
+                    LIB_NAME="libtree_sitter_language_pack_nif.dylib"
+                  else
+                    ARCHIVE_EXT="so"
+                    LIB_NAME="libtree_sitter_language_pack_nif.so"
+                  fi
+
+                  ARTIFACT_UNDERSCORE="libtree_sitter_language_pack_nif-v${VERSION}-nif-${NIF_VERSION}-${TARGET}.${ARCHIVE_EXT}"
+                  ARTIFACT_HYPHEN="libtree-sitter-language-pack-nif-v${VERSION}-nif-${NIF_VERSION}-${TARGET}.${ARCHIVE_EXT}"
+
+                  # ts-pack-elixir is a standalone workspace, output is in packages/elixir/target/
+                  LIB_PATH="packages/elixir/native/tree_sitter_language_pack_nif/target/${TARGET}/release/${LIB_NAME}"
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    LIB_PATH="packages/elixir/native/tree_sitter_language_pack_nif/target/release/${LIB_NAME}"
+                  fi
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    LIB_PATH="target/${TARGET}/release/${LIB_NAME}"
+                  fi
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    LIB_PATH="target/release/${LIB_NAME}"
+                  fi
+
+                  if [[ ! -f "$LIB_PATH" ]]; then
+                    echo "ERROR: Library not found"
+                    find . -name "${LIB_NAME}" -type f 2>/dev/null || true
+                    exit 1
+                  fi
+
+                  cp "$LIB_PATH" "${ARTIFACT_UNDERSCORE}"
+                  tar -czf "dist/elixir/${ARTIFACT_UNDERSCORE}.tar.gz" "${ARTIFACT_UNDERSCORE}"
+                  echo "Created: dist/elixir/${ARTIFACT_UNDERSCORE}.tar.gz"
+
+                  cp "$LIB_PATH" "${ARTIFACT_HYPHEN}"
+                  tar -czf "dist/elixir/${ARTIFACT_HYPHEN}.tar.gz" "${ARTIFACT_HYPHEN}"
+                  echo "Created: dist/elixir/${ARTIFACT_HYPHEN}.tar.gz"
+
+            - name: Upload NIF artifacts
+              uses: actions/upload-artifact@v7
+              with:
+                  name: elixir-${{ matrix.label }}
+                  path: dist/elixir/*.tar.gz
+                  if-no-files-found: error
+                  retention-days: 14
+
+    # ─── Build C FFI libraries ────────────────────────────────────────
+    build-c-ffi:
+        name: Build C FFI (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_c_ffi == 'true'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      target: x86_64-unknown-linux-gnu
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                      target: aarch64-unknown-linux-gnu
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      target: x86_64-apple-darwin
+                    - os: windows-latest
+                      label: windows-x86_64
+                      target: x86_64-pc-windows-msvc
+                    - os: windows-11-arm
+                      label: windows-aarch64
+                      target: aarch64-pc-windows-msvc
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  target: ${{ matrix.target }}
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Install alef
+              uses: kreuzberg-dev/actions/install-alef@v1
+
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.12"
+
+            - name: Get all language names
+              id: langs
+              shell: bash
+              run: |
+                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
+            - name: Build and package C FFI distribution
+              shell: bash
+              run: |
+                  alef publish build --lang ffi --target ${{ matrix.target }}
+                  alef publish package --lang ffi --target ${{ matrix.target }} -o dist/c-ffi
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+                  TSLP_LINK_MODE: static
+
+            - name: Fix macOS dylib install_name (C FFI)
+              if: runner.os == 'macOS'
+              shell: bash
+              run: |
+                  echo "=== Fixing macOS dylib install_name in C FFI package ==="
+                  find dist/c-ffi -name "*.dylib" -type f | while read -r dylib; do
+                    echo "Processing: $dylib"
+                    # Get the dylib filename
+                    dylib_name=$(basename "$dylib")
+                    echo "  Current install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                    # Rewrite to @rpath
+                    install_name_tool -id "@rpath/$dylib_name" "$dylib"
+                    echo "  New install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                  done
+                  echo "=== C FFI dylib install_name fixes complete ==="
+
+            - name: Upload C FFI artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: c-ffi-${{ matrix.label }}
+                  path: dist/c-ffi/
+                  retention-days: 14
+
+    # ─── Build PHP PIE package ──────────────────────────────────────────
+    build-php-extension:
+        name: Build PHP PIE binary (php${{ matrix.php }} ${{ matrix.platform.label }})
+        needs: [prepare, validate-versions, clone-vendors, publish-crates]
+        if: ${{ !cancelled() && needs.publish-crates.result != 'failure' && needs.prepare.outputs.release_php == 'true' }}
+        runs-on: ${{ matrix.platform.os }}
+        timeout-minutes: 60
+        permissions:
+            contents: read
+        strategy:
+            fail-fast: false
+            matrix:
+                php: ["8.2", "8.3", "8.4", "8.5"]
+                platform:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      target: x86_64-unknown-linux-gnu
+                    - os: ubuntu-24.04-arm
+                      label: linux-arm64
+                      target: aarch64-unknown-linux-gnu
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      target: x86_64-apple-darwin
+                    - os: windows-latest
+                      label: windows-x86_64
+                      target: x86_64-pc-windows-msvc
+                    # windows-aarch64 omitted: ext-php-rs C wrapper compilation fails on
+                    # Windows ARM64 because PHP SDK headers (mmintrin.h) are X86-only.
+                exclude:
+                    - php: "8.5"
+                      platform:
+                          label: windows-x86_64
+                    # shivammathur/setup-php@2.37.1 cannot install PHP 8.5 on macos-arm64
+                    # (brew arm64 bottle not yet available). Re-enable when upstream supports it.
+                    - php: "8.5"
+                      platform:
+                          label: macos-arm64
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup PHP
+              uses: kreuzberg-dev/actions/setup-php@v1 # v1
+              with:
+                  php-version: ${{ matrix.php }}
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1 # v1
+              with:
+                  cache-key-prefix: publish-php-${{ matrix.platform.label }}-php${{ matrix.php }}
+                  toolchain: stable
+
+            - name: Install alef
+              uses: kreuzberg-dev/actions/install-alef@v1 # v1
+
+            - name: Build PHP extension
+              uses: kreuzberg-dev/actions/build-php-extension@v1 # v1
+              with:
+                  crate-name: ts-pack-core-php
+                  lib-name: ts_pack_core_php
+                  php-version: ${{ matrix.php }}
+                  php-ts: nts
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+            - name: Determine Windows compiler
+              if: runner.os == 'Windows'
+              id: wincompiler
+              shell: pwsh
+              run: |
+                  $compiler = switch ('${{ matrix.php }}') {
+                    '8.2' { 'vs16' }
+                    '8.3' { 'vs16' }
+                    '8.4' { 'vs17' }
+                    '8.5' { 'vs17' }
+                    default { 'vs17' }
+                  }
+                  "compiler=$compiler" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+            - name: Package PIE archive
+              uses: kreuzberg-dev/actions/package-php-pie@v1 # v1
+              with:
+                  php-version: ${{ matrix.php }}
+                  php-ts: nts
+                  target: ${{ matrix.platform.target }}
+                  windows-compiler: ${{ steps.wincompiler.outputs.compiler }}
+                  version: ${{ needs.prepare.outputs.version }}
+                  output-dir: dist/php-package
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+            - name: Upload PHP PIE package artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: php-package-${{ matrix.platform.label }}-php${{ matrix.php }}
+                  path: |
+                      dist/php-package/php_*.tgz
+                      dist/php-package/php_*.tgz.sha256
+                      dist/php-package/php_*.zip
+                      dist/php-package/php_*.zip.sha256
+                  retention-days: 14
+
+    # ─── Build C# native libraries ──────────────────────────────────────
+    build-csharp-native:
+        name: Build C# native (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_csharp == 'true'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      target: x86_64-unknown-linux-gnu
+                      rid: linux-x64
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                      target: aarch64-unknown-linux-gnu
+                      rid: linux-arm64
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                      rid: osx-arm64
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      target: x86_64-apple-darwin
+                      rid: osx-x64
+                    - os: windows-latest
+                      label: windows-x86_64
+                      target: x86_64-pc-windows-msvc
+                      rid: win-x64
+                    - os: windows-11-arm
+                      label: windows-aarch64
+                      target: aarch64-pc-windows-msvc
+                      rid: win-arm64
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.12"
+
+            - name: Get all language names
+              id: langs
+              shell: bash
+              run: |
+                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
+            - name: Build C# native library
+              uses: kreuzberg-dev/actions/build-csharp-natives@v1
+              with:
+                  target: ${{ matrix.target }}
+                  crate-name: ts-pack-core-ffi
+                  lib-name: ts_pack_core_ffi
+                  rid: ${{ matrix.rid }}
+                  output-dir: dist/csharp-ffi
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+                  TSLP_LINK_MODE: static
+                  PROJECT_ROOT: ${{ github.workspace }}
+
+            - name: Upload native artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: csharp-natives-${{ matrix.label }}
+                  path: dist/csharp-ffi
+                  retention-days: 14
+
+    # ─── Build C# NuGet package ─────────────────────────────────────────
+    build-csharp-package:
+        name: Build C# NuGet package
+        needs: [prepare, validate-versions, build-csharp-native]
+        if: needs.prepare.outputs.release_csharp == 'true'
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: "10.0"
+
+            - name: Download C# native artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: csharp-natives-*
+                  path: artifacts/csharp-natives
+                  merge-multiple: true
+
+            - name: Stage native assets
+              shell: bash
+              run: |
+                  RUNTIMES_DIR="packages/csharp/TreeSitterLanguagePack/runtimes"
+                  mkdir -p "$RUNTIMES_DIR"
+                  # Each artifact was uploaded as dist/csharp-ffi/ containing runtimes/{rid}/native/*.{so,dylib,dll}
+                  # When downloaded with merge-multiple: true, artifacts/csharp-natives/ preserves the runtimes/ subdirectory
+                  if [[ -d artifacts/csharp-natives ]]; then
+                    cp -r artifacts/csharp-natives/runtimes/* "$RUNTIMES_DIR/"
+                  fi
+                  echo "=== Staged native runtimes ==="
+                  find "$RUNTIMES_DIR" -type f | head -20
+
+            - name: Build and pack NuGet
+              working-directory: packages/csharp/TreeSitterLanguagePack
+              run: dotnet pack TreeSitterLanguagePack.csproj -c Release
+
+            - name: Upload NuGet package
+              uses: actions/upload-artifact@v7
+              with:
+                  name: nuget-packages
+                  path: packages/csharp/TreeSitterLanguagePack/bin/Release/*.nupkg
+                  retention-days: 14
+
+    # ─── Upload to GitHub Release: parser binaries ─────────────────────
+    upload-parser-binaries:
+        name: Upload parser binaries to GitHub Release
+        needs: [prepare, validate-versions, build-parser-binaries]
+        if: |
+            always() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.build-parser-binaries.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parser binary artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: parsers-*
+                  path: dist/parsers
+                  merge-multiple: true
+
+            - name: Generate parsers.json manifest
+              run: |
+                  python3 -c "
+                  import json, hashlib, os, subprocess
+
+                  version = '${{ needs.prepare.outputs.version }}'
+                  base_url = 'https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v' + version
+                  defs = json.load(open('sources/language_definitions.json'))
+
+                  platforms = {}
+                  for f in sorted(os.listdir('dist/parsers')):
+                      if f.startswith('parsers-') and f.endswith('.tar.zst'):
+                          path = os.path.join('dist/parsers', f)
+                          label = f.replace('parsers-', '').replace('.tar.zst', '')
+                          sha = hashlib.sha256(open(path, 'rb').read()).hexdigest()
+                          size = os.path.getsize(path)
+                          platforms[label] = {
+                              'url': base_url + '/' + f,
+                              'sha256': sha,
+                              'size': size,
+                          }
+
+                  languages = {}
+                  for name in sorted(defs.keys()):
+                      languages[name] = {'group': 'all', 'size': 0}
+
+                  manifest = {
+                      'version': version,
+                      'platforms': platforms,
+                      'languages': languages,
+                      'groups': {'all': sorted(defs.keys())},
+                  }
+
+                  with open('dist/parsers/parsers.json', 'w') as f:
+                      json.dump(manifest, f, indent=2)
+                  print(f'Generated parsers.json with {len(platforms)} platforms and {len(languages)} languages')
+                  "
+
+            - name: Upload to GitHub Release
+              uses: kreuzberg-dev/actions/publish-github-release@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  title: "Release ${{ needs.prepare.outputs.tag }}"
+                  artifacts: |
+                      dist/parsers/parsers-*.tar.zst
+                      dist/parsers/parsers.json
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Upload to GitHub Release: Go FFI ──────────────────────────────
+    upload-go-release:
+        name: Upload Go FFI to GitHub Release
+        needs: [prepare, validate-versions, build-go-ffi]
+        if: |
+            always() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.prepare.outputs.release_go == 'true' &&
+            needs.build-go-ffi.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download Go FFI artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: go-ffi-*
+                  path: dist/go
+                  merge-multiple: true
+
+            - uses: kreuzberg-dev/actions/upload-release-assets@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  working-directory: dist/go
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+                  assets: |
+                      **/*.tar.gz
+                      **/*.zip
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Upload to GitHub Release: C FFI ───────────────────────────────
+    upload-c-ffi-release:
+        name: Upload C FFI to GitHub Release
+        needs: [prepare, validate-versions, build-c-ffi]
+        if: |
+            always() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.prepare.outputs.release_c_ffi == 'true' &&
+            needs.build-c-ffi.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download C FFI artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: c-ffi-*
+                  path: dist/c-ffi
+                  merge-multiple: true
+
+            - name: Upload to GitHub Release
+              uses: kreuzberg-dev/actions/publish-github-release@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  title: "Release ${{ needs.prepare.outputs.tag }}"
+                  # alef publish package emits tree-sitter-language-pack-ffi-v<ver>-<target>.tar.gz
+                  artifacts: "dist/c-ffi/tree-sitter-language-pack-ffi-*.tar.gz"
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Upload to GitHub Release: Elixir NIFs ────────────────────────
+    upload-elixir-release:
+        name: Upload Elixir NIFs to GitHub Release
+        needs: [prepare, validate-versions, build-elixir-nifs]
+        if: |
+            always() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.prepare.outputs.release_elixir == 'true' &&
+            needs.build-elixir-nifs.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download Elixir NIF artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: elixir-*
+                  path: dist/elixir
+                  merge-multiple: true
+
+            - name: Ensure draft release exists
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+              run: |
+                  TAG="${{ needs.prepare.outputs.tag }}"
+                  gh release view "$TAG" >/dev/null 2>&1 || \
+                    gh release create "$TAG" --draft --title "Release $TAG"
+
+            - name: Upload Elixir NIF artifacts
+              uses: kreuzberg-dev/actions/upload-release-assets@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  working-directory: dist/elixir
+                  assets: "*.tar.gz"
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Publish Rust crates ───────────────────────────────────────────
+    # build-parser-sources must complete first: cargo publish --verify
+    # invokes the crate's build.rs which downloads the parser-sources tarball
+    # from this release's GH assets. Without that dependency the two jobs
+    # race; verify panics with HTTP 404 if it wins.
+    publish-crates:
+        name: Publish Rust crates
+        needs: [prepare, validate-versions, clone-vendors, check-registries, build-parser-sources]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_crates == 'true' &&
+            needs.validate-versions.result == 'success' &&
+            needs.clone-vendors.result == 'success' &&
+            needs.build-parser-sources.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).cratesio != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Publish crates
+              uses: kreuzberg-dev/actions/publish-crates@v1
+              with:
+                  crates: "tree-sitter-language-pack ts-pack-cli"
+                  version: ${{ needs.prepare.outputs.version }}
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+    # ─── Publish Python to PyPI ────────────────────────────────────────
+    publish-pypi:
+        name: Publish Python to PyPI
+        needs: [prepare, validate-versions, check-registries, build-python-wheels, build-python-sdist]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_python == 'true' &&
+            needs.build-python-wheels.result == 'success' &&
+            needs.build-python-sdist.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).pypi != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        environment: pypi
+        permissions:
+            id-token: write
+        steps:
+            - name: Download all wheels
+              uses: actions/download-artifact@v8
+              with:
+                  path: dist
+                  pattern: python-wheel-*
+                  merge-multiple: true
+
+            - name: Download sdist
+              uses: actions/download-artifact@v8
+              with:
+                  name: python-sdist
+                  path: dist
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              run: |
+                  {
+                    echo "## PyPI Dry Run"
+                    echo "Wheels staged for PyPI:"
+                    echo '```'
+                    ls -1 dist/*.whl
+                    echo '```'
+                    echo "Sdist staged for PyPI:"
+                    echo '```'
+                    ls -1 dist/*.tar.gz
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Publish to PyPI
+              uses: kreuzberg-dev/actions/publish-pypi@v1
+              with:
+                  packages-dir: dist
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+    # ─── Publish Node.js to npm ────────────────────────────────────────
+    publish-node:
+        name: Publish Node.js to npm
+        needs: [prepare, validate-versions, check-registries, build-node-native]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_node == 'true' &&
+            needs.build-node-native.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).npm != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "22"
+                  registry-url: "https://registry.npmjs.org"
+
+            - name: Install NAPI-RS CLI
+              run: npm install -g @napi-rs/cli
+
+            - name: Download all native modules
+              uses: actions/download-artifact@v8
+              with:
+                  path: crates/ts-pack-core-node/artifacts
+                  pattern: node-native-*
+                  merge-multiple: true
+
+            - name: Prepare platform packages
+              working-directory: crates/ts-pack-core-node
+              run: |
+                  echo "=== Downloaded artifacts ==="
+                  find artifacts -name '*.node' -type f
+                  echo ""
+                  napi create-npm-dirs --npm-dir npm
+                  napi artifacts --build-output-dir artifacts --npm-dir npm
+                  echo "=== Generated platform packages ==="
+                  find npm -name '*.node' -type f
+
+            - name: Pack platform packages
+              working-directory: crates/ts-pack-core-node/npm
+              run: |
+                  for dir in ./*/; do
+                    if [ -f "$dir/package.json" ]; then
+                      (cd "$dir" && npm pack && mv ./*.tgz ..)
+                    fi
+                  done
+                  echo "=== Packed tarballs ==="
+                  ls -lh ./*.tgz
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              working-directory: crates/ts-pack-core-node
+              run: |
+                  {
+                    echo "## npm Dry Run"
+                    echo "Platform packages staged:"
+                    echo '```'
+                    find npm -name '*.node' -type f
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Re-check npm before publish
+              if: ${{ !inputs.dry_run }}
+              id: recheck
+              uses: kreuzberg-dev/actions/check-registry@v1
+              with:
+                  registry: npm
+                  package: "@kreuzberg/tree-sitter-language-pack"
+                  version: ${{ needs.prepare.outputs.version }}
+
+            - name: Publish platform packages to npm
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/publish-npm@v1
+              with:
+                  packages-dir: crates/ts-pack-core-node/npm
+                  npm-tag: ${{ needs.prepare.outputs.npm_tag }}
+                  dry-run: ${{ inputs.dry_run }}
+
+            - name: Publish main package to npm
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/publish-npm@v1
+              with:
+                  package-dir: crates/ts-pack-core-node
+                  npm-tag: ${{ needs.prepare.outputs.npm_tag }}
+                  dry-run: ${{ inputs.dry_run }}
+
+    # ─── Publish WASM to npm ───────────────────────────────────────────
+    publish-wasm:
+        name: Publish WASM to npm
+        needs: [prepare, validate-versions, check-registries, build-wasm, publish-node]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_wasm == 'true' &&
+            needs.build-wasm.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results)['npm-wasm'] != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "22"
+                  registry-url: "https://registry.npmjs.org"
+
+            - name: Download WASM package
+              uses: actions/download-artifact@v8
+              with:
+                  name: wasm-pkg
+                  path: crates/ts-pack-core-wasm/pkg
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              run: |
+                  {
+                    echo "## npm WASM Dry Run"
+                    echo "WASM package staged for npm:"
+                    echo '```'
+                    ls -1 crates/ts-pack-core-wasm/pkg/
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Re-check npm before publish
+              if: ${{ !inputs.dry_run }}
+              id: recheck
+              uses: kreuzberg-dev/actions/check-registry@v1
+              with:
+                  registry: npm
+                  package: "@kreuzberg/tree-sitter-language-pack-wasm"
+                  version: ${{ needs.prepare.outputs.version }}
+
+            - name: Publish to npm
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/publish-npm@v1
+              with:
+                  package-dir: crates/ts-pack-core-wasm/pkg
+                  npm-tag: ${{ needs.prepare.outputs.npm_tag }}
+                  provenance: "true"
+                  dry-run: ${{ inputs.dry_run }}
+
+            - name: Wait for npm indexing
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/wait-for-package@v1
+              with:
+                  registry: npm
+                  package: "@kreuzberg/tree-sitter-language-pack-wasm"
+                  version: ${{ needs.prepare.outputs.version }}
+                  max-attempts: "20"
+
+    # ─── Publish Ruby gems ────────────────────────────────────────────
+    publish-rubygems:
+        name: Publish Ruby gems
+        needs: [prepare, validate-versions, check-registries, build-ruby-gem]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_ruby == 'true' &&
+            needs.build-ruby-gem.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).rubygems != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Setup Ruby
+              uses: ruby/setup-ruby@v1.310.0
+              with:
+                  ruby-version: "3.4"
+                  bundler: none
+                  bundler-cache: false
+
+            - name: Download Ruby gem artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: rubygems-*
+                  path: dist
+                  merge-multiple: true
+
+            - name: Rewrite native dependencies
+              uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+              with:
+                  lang: ruby
+
+            - name: Build source gem (fallback for unsupported platforms)
+              working-directory: packages/ruby
+              run: |
+                  gem build ./*.gemspec
+                  cp ./*.gem ../../dist/ 2>/dev/null || true
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+
+            - name: List all gems for publishing
+              working-directory: dist
+              run: |
+                  echo "=== All gems to publish ==="
+                  ls -lh tree_sitter_language_pack-*.gem 2>/dev/null || echo "(no gems found)"
+                  gem_count=$(find . -maxdepth 1 -name 'tree_sitter_language_pack-*.gem' -print | wc -l)
+                  echo "Total gems: $gem_count"
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              run: |
+                  {
+                    echo "## RubyGems Dry Run"
+                    echo "Gems staged for RubyGems:"
+                    echo '```'
+                    ls -1 dist/tree_sitter_language_pack-*.gem 2>/dev/null || echo "(no gems)"
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Re-check RubyGems before publish
+              if: ${{ !inputs.dry_run }}
+              id: recheck
+              uses: kreuzberg-dev/actions/check-registry@v1
+              with:
+                  registry: rubygems
+                  package: tree_sitter_language_pack
+                  version: ${{ needs.prepare.outputs.version }}
+
+            - name: Configure trusted publishing credentials
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: rubygems/configure-rubygems-credentials@v2.0.0
+
+            - name: Publish gems to RubyGems
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/publish-rubygems@v1
+              with:
+                  gems-dir: dist
+                  dry-run: ${{ inputs.dry_run }}
+
+    # ─── Publish Maven package ────────────────────────────────────────
+    publish-maven:
+        name: Publish Maven package
+        needs: [prepare, validate-versions, check-registries, build-java-package]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_java == 'true' &&
+            needs.build-java-package.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).maven != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+            contents: read
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Re-check Maven Central before publish
+              id: recheck
+              if: ${{ !inputs.dry_run }}
+              uses: kreuzberg-dev/actions/check-registry@v1
+              with:
+                  registry: maven
+                  package: dev.kreuzberg:tree-sitter-language-pack
+                  version: ${{ needs.prepare.outputs.version }}
+
+            - name: Setup Java
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: actions/setup-java@v5
+              with:
+                  distribution: temurin
+                  java-version: "25"
+                  cache: maven
+                  server-id: ossrh
+                  server-username: MAVEN_USERNAME
+                  server-password: MAVEN_PASSWORD
+                  gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+                  gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+            - name: Setup Maven
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/setup-maven@v1
+
+            # publish-maven runs `mvn clean deploy` which wipes target/ AND rebuilds
+            # the JAR from src/. The JAR with natives that build-java-package
+            # produced gets discarded; we must re-download the per-platform native
+            # artifacts and re-stage them under src/main/resources/natives/ so the
+            # rebuild's resources phase picks them up. Without this, the JAR
+            # uploaded to Maven Central contains only .class files (no .so/.dll/.dylib).
+            - name: Download Java native artifacts (re-stage for deploy rebuild)
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: java-natives-*
+                  path: artifacts/java-natives
+                  merge-multiple: false
+
+            - name: Re-stage Java native resources
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              shell: bash
+              run: |
+                  ARTIFACTS_DIR="artifacts/java-natives"
+                  RESOURCES_DIR="packages/java/src/main/resources/natives"
+                  REQUIRED_CLASSIFIERS="linux-x86_64 linux-arm64 macos-arm64 macos-x86_64 windows-x86_64 windows-arm64"
+                  mkdir -p "$RESOURCES_DIR"
+                  # build-java-natives@v1 stages each lib at
+                  # `{output-dir}/native/{classifier}/{libfile}` and uploads that tree as
+                  # artifact `java-natives-{label}`. download-artifact with
+                  # `merge-multiple: false` preserves the artifact-name wrapper, so the
+                  # final layout is:
+                  #   $ARTIFACTS_DIR/java-natives-{label}/native/{classifier}/{libfile}
+                  # The classifier is the lib's immediate parent — one `dirname` up.
+                  find "$ARTIFACTS_DIR" \( -name '*.so' -o -name '*.dll' -o -name '*.dylib' \) -print0 |
+                  while IFS= read -r -d '' f; do
+                    platform=$(basename "$(dirname "$f")")
+                    mkdir -p "$RESOURCES_DIR/$platform"
+                    cp "$f" "$RESOURCES_DIR/$platform/"
+                  done
+                  echo "=== Staged native resources for deploy ==="
+                  find "$RESOURCES_DIR" -type f | sort
+                  # Fail loudly if any required classifier directory is empty — this
+                  # caught us on 1.8.1 where natives collapsed under `natives/native/`
+                  # because the previous loop used `dirname "$(dirname …)"`.
+                  missing=()
+                  for c in $REQUIRED_CLASSIFIERS; do
+                    if ! ls "$RESOURCES_DIR/$c"/*ts_pack_core_ffi* >/dev/null 2>&1; then
+                      missing+=("$c")
+                    fi
+                  done
+                  if (( ${#missing[@]} > 0 )); then
+                    echo "::error::missing classifier dirs: ${missing[*]}"
+                    exit 1
+                  fi
+
+            - name: Publish to Maven Central
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/publish-maven@v1
+              with:
+                  pom-file: packages/java/pom.xml
+                  maven-profile: publish
+                  extra-args: -DskipTests
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+                  MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+                  MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              run: echo "Dry run requested; Maven publish skipped." >> "$GITHUB_STEP_SUMMARY"
+
+    # ─── Publish Elixir to Hex.pm ──────────────────────────────────────
+    publish-hex:
+        name: Publish Elixir to Hex.pm
+        needs: [prepare, validate-versions, check-registries, publish-crates, upload-elixir-release]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_elixir == 'true' &&
+            needs.upload-elixir-release.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).hex != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        environment: hex
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+
+            - name: Setup Elixir
+              uses: erlef/setup-elixir@v1.24.0
+              with:
+                  elixir-version: "1.17"
+                  otp-version: "27.2"
+                  version-type: strict
+
+            - name: Install Hex and Rebar
+              run: |
+                  mix local.hex --force
+                  mix local.rebar --force
+
+            - name: Generate checksums from GitHub release
+              # tslp uploads BOTH underscore and hyphen variants of NIF artifacts
+              # (libtree_sitter_language_pack_nif-* and libtree-sitter-language-pack-nif-*)
+              # because RustlerPrecompiled name normalization differs by runtime;
+              # the shared generate-elixir-checksums@v1 action only emits one form,
+              # so this stays as a tslp-specific script.
+              run: ./scripts/publish/elixir/generate_checksums.sh "${{ needs.prepare.outputs.version }}"
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+            - name: Install Elixir dependencies
+              working-directory: packages/elixir
+              run: mix deps.get
+
+            - name: Verify checksum file exists before compile
+              run: |
+                  CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.Native.exs"
+                  if [[ ! -f "$CHECKSUM_FILE" ]]; then
+                    echo "ERROR: Checksum file not found: $CHECKSUM_FILE"
+                    echo "The generate_checksums.sh step must have failed silently."
+                    exit 1
+                  fi
+                  echo "Checksum file present: $CHECKSUM_FILE"
+                  echo "Contents:"
+                  cat "$CHECKSUM_FILE"
+
+            - name: Patch Rustler --cfg flag placement
+              working-directory: packages/elixir
+              run: |
+                  sed -i 's/args ++ \["--cfg", "build_#{System.system_time(:millisecond)}"\]/args ++ ["--", "--cfg", "build_#{System.system_time(:millisecond)}"]/' deps/rustler/lib/rustler/compiler.ex
+
+            - name: Compile project (precompiled mode — checksums already generated)
+              working-directory: packages/elixir
+              run: mix compile
+
+            - name: Re-check Hex.pm before publish
+              id: recheck
+              uses: kreuzberg-dev/actions/check-registry@v1
+              with:
+                  registry: hex
+                  package: tree_sitter_language_pack
+                  version: ${{ needs.prepare.outputs.version }}
+
+            # On dry-run, exercise the actual Hex tarball build via the shared
+            # build-elixir-hex@v1 action (generates Cargo.lock via cargo
+            # generate-lockfile to satisfy mix.exs files list when the core crate
+            # is not yet on crates.io).
+            - name: Validate Hex tarball build (dry-run)
+              if: ${{ inputs.dry_run }}
+              uses: kreuzberg-dev/actions/build-elixir-hex@v1
+              with:
+                  package-dir: packages/elixir
+                  nif-crate-path: packages/elixir/native/tree_sitter_language_pack_nif
+                  dry-run: "true"
+                  rewrite-native-deps: "false"
+
+            - name: Publish to Hex.pm
+              if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
+              uses: kreuzberg-dev/actions/publish-hex@v1
+              with:
+                  package-dir: packages/elixir
+                  skip-docs: "true"
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              run: echo "Dry run requested; Hex.pm publish skipped (tarball build validated above)." >> "$GITHUB_STEP_SUMMARY"
+
+    # ─── Upload PHP PIE artifacts to GitHub Release ──────────────────
+    # Runs unconditionally on every release_php=true publish, even if Packagist
+    # already has the version. Without this, end users have no way to install
+    # the precompiled PHP extension binaries (PIE artifacts have 14-day workflow
+    # retention only).
+    upload-php-pie-release:
+        name: Upload PHP PIE binaries to GitHub Release
+        needs: [prepare, validate-versions, build-php-extension]
+        if: |
+            always() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.prepare.outputs.release_php == 'true' &&
+            needs.build-php-extension.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download PHP package artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: php-package-*
+                  path: dist/php-package
+                  merge-multiple: true
+
+            - name: Upload PHP PIE packages
+              uses: kreuzberg-dev/actions/upload-release-assets@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  working-directory: dist/php-package
+                  fail-if-empty: "false"
+                  assets: |
+                      php_*.tgz
+                      php_*.tgz.sha256
+                      php_*.zip
+                      php_*.zip.sha256
+
+    # ─── Publish PHP to Packagist ────────────────────────────────────
+    publish-packagist:
+        name: Publish PHP to Packagist
+        needs: [prepare, validate-versions, check-registries, build-php-extension]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_php == 'true' &&
+            needs.build-php-extension.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).packagist != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              run: echo "Dry run requested; Packagist publish skipped." >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Publish to Packagist
+              if: ${{ !inputs.dry_run }}
+              uses: kreuzberg-dev/actions/publish-packagist@v1
+              with:
+                  packagist-username: Goldziher
+                  package-name: kreuzberg-dev/tree-sitter-language-pack
+                  version: ${{ needs.prepare.outputs.version }}
+                  repository-url: https://github.com/kreuzberg-dev/tree-sitter-language-pack
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  PACKAGIST_API_TOKEN: ${{ secrets.PACKAGIST_API_TOKEN }}
+
+    # ─── Publish C# to NuGet ─────────────────────────────────────────
+    publish-nuget:
+        name: Publish C# to NuGet
+        needs: [prepare, validate-versions, check-registries, build-csharp-package]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_csharp == 'true' &&
+            needs.build-csharp-package.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).nuget != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: read
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: "10.0"
+
+            - name: Download NuGet package
+              uses: actions/download-artifact@v8
+              with:
+                  name: nuget-packages
+                  path: dist/nuget
+
+            - name: Dry run summary
+              if: ${{ inputs.dry_run }}
+              run: |
+                  {
+                    echo "## NuGet Dry Run"
+                    echo "NuGet packages staged:"
+                    echo '```'
+                    ls -1 dist/nuget/*.nupkg 2>/dev/null || echo "(no packages)"
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Publish to NuGet
+              if: ${{ !inputs.dry_run }}
+              uses: kreuzberg-dev/actions/publish-nuget@v1
+              with:
+                  packages-dir: dist/nuget
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+    # ─── Dart (pub.dev) ───────────────────────────────────────────────
+    build-dart-native:
+        name: Build Dart native library (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors, check-registries]
+        if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x64
+                      target: x86_64-unknown-linux-gnu
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                    - os: macos-15-intel
+                      label: macos-x64
+                      target: x86_64-apple-darwin
+                    - os: windows-latest
+                      label: windows-x64
+                      target: x86_64-pc-windows-msvc
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+            - uses: kreuzberg-dev/actions/build-dart-package@v1
+              id: build
+              with:
+                  package-dir: packages/dart/rust
+                  crate-name: tree-sitter-language-pack-dart
+            - name: Stage native library for assembly
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  lib_path="${{ steps.build.outputs.library-path }}"
+                  output_dir="dart-natives/${{ matrix.label }}"
+
+                  if [[ ! -f "$lib_path" ]]; then
+                    echo "Error: built library not found at $lib_path"
+                    exit 1
+                  fi
+
+                  mkdir -p "$output_dir"
+                  echo "Copying native library from $lib_path to $output_dir/"
+                  cp "$lib_path" "$output_dir/"
+
+                  if find "$output_dir" -maxdepth 1 -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) -print -quit | grep -q .; then
+                    echo "Native library staged successfully"
+                  else
+                    echo "Error: no native library found after copy"
+                    exit 1
+                  fi
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: dart-native-${{ matrix.label }}
+                  path: dart-natives/${{ matrix.label }}/
+                  if-no-files-found: error
+                  retention-days: 7
+
+    assemble-dart-package:
+        name: Assemble Dart package with natives
+        needs: [prepare, validate-versions, clone-vendors, check-registries, build-dart-native]
+        if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+            - name: Download native libraries for all platforms
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: dart-native-*
+                  path: dart-natives
+                  merge-multiple: true
+            - name: Stage natives into Dart package
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  lib_dir="packages/dart/lib/src/native"
+                  mkdir -p "$lib_dir"
+
+                  # upload-artifact@v7 preserves the path prefix relative to
+                  # $GITHUB_WORKSPACE, so files uploaded as `dart-natives/<label>/<file>`
+                  # land at `dart-natives/dart-natives/<label>/<file>` after
+                  # `merge-multiple: true` download. Walk the tree and route each
+                  # file to its rid by inferring the rid from the parent directory
+                  # name (the last component before the file). Fail loudly if no
+                  # natives are found — same defensive pattern as stage-go-ffi.
+                  mapfile -t natives < <(find dart-natives -type f \( -name '*.so' -o -name '*.dylib' -o -name '*.dll' \))
+                  if [[ ${#natives[@]} -eq 0 ]]; then
+                    echo "ERROR: no native libraries found under dart-natives/" >&2
+                    find dart-natives -maxdepth 4 -print
+                    exit 1
+                  fi
+
+                  staged_rids=()
+                  for f in "${natives[@]}"; do
+                    rid="$(basename "$(dirname "$f")")"
+                    case "$rid" in
+                      linux-x64|linux-arm64|macos-arm64|macos-x64|windows-x64|windows-arm64) ;;
+                      *)
+                        echo "Warning: unrecognized rid '$rid' for $f; skipping"
+                        continue
+                        ;;
+                    esac
+                    mkdir -p "$lib_dir/$rid"
+                    cp "$f" "$lib_dir/$rid/"
+                    staged_rids+=("$rid")
+                    echo "Staged $(basename "$f") → $lib_dir/$rid/"
+                  done
+
+                  echo "Native library structure:"
+                  find "$lib_dir" -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sort
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: dart-package-assembled
+                  path: packages/dart
+                  if-no-files-found: error
+                  retention-days: 7
+
+    trigger-pubdev:
+        name: Trigger pub.dev publish workflow
+        needs: [prepare, check-registries, assemble-dart-package]
+        # pub.dev OIDC rejects tokens from `release` events. We dispatch a separate
+        # workflow whose `workflow_dispatch` event produces an accepted token.
+        if: |
+            needs.prepare.outputs.release_dart == 'true' &&
+            needs.assemble-dart-package.result == 'success' &&
+            !inputs.dry_run &&
+            (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Dispatch publish-pubdev workflow
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  GH_REPO: ${{ github.repository }}
+              run: |
+                  gh workflow run publish-pubdev.yaml \
+                    --ref ${{ needs.prepare.outputs.tag }} \
+                    -f run_id=${{ github.run_id }}
+
+    # ─── Swift (Swift Package Index via tag) ──────────────────────────
+    build-swift-artifactbundle:
+        name: Build Swift artifact bundle
+        needs: [prepare, validate-versions, clone-vendors]
+        if: ${{ needs.prepare.outputs.release_swift == 'true' }}
+        runs-on: macos-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: kreuzberg-dev/actions/build-swift-artifactbundle@v1
+              id: bundle
+              with:
+                  crate-name: tree-sitter-language-pack-swift
+                  artifact-name: TreeSitterLanguagePack-rs
+                  binary-target-name: RustBridgeBinary
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: swift-artifactbundle
+                  path: ${{ steps.bundle.outputs.bundle-zip }}
+                  if-no-files-found: error
+                  retention-days: 14
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: swift-checksum
+                  path: ${{ steps.bundle.outputs.checksum-file }}
+                  if-no-files-found: error
+                  retention-days: 14
+
+    build-swift-package:
+        name: Build Swift package
+        needs: [prepare, validate-versions, clone-vendors]
+        if: ${{ needs.prepare.outputs.release_swift == 'true' }}
+        runs-on: macos-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: kreuzberg-dev/actions/build-swift-package@v1
+              with:
+                  package-dir: packages/swift
+                  crate-name: tree-sitter-language-pack-swift
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: swift-package
+                  path: packages/swift
+                  retention-days: 14
+
+    update-swift-package-manifest:
+        name: Update Swift Package.swift manifest with version and checksum
+        needs: [prepare, build-swift-artifactbundle]
+        if: ${{ needs.prepare.outputs.release_swift == 'true' }}
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+                  token: ${{ steps.app-token.outputs.token }}
+                  persist-credentials: true
+
+            - uses: actions/download-artifact@v8
+              with:
+                  name: swift-checksum
+                  path: swift-checksums
+
+            - name: Update Package.swift with version and checksum
+              run: |
+                  VERSION="${{ needs.prepare.outputs.version }}"
+                  CHECKSUM=$(cat swift-checksums/*.checksum | tr -d '[:space:]')
+
+                  # Replace placeholders in Package.swift
+                  sed -i "s/__ALEF_SWIFT_VERSION__/${VERSION}/g" Package.swift
+                  sed -i "s/__ALEF_SWIFT_CHECKSUM__/${CHECKSUM}/g" Package.swift
+
+                  echo "Updated Package.swift:"
+                  head -40 Package.swift
+
+            - name: Commit and push Package.swift
+              run: |
+                  git config user.name "kreuzberg-dev-publisher[bot]"
+                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+                  git add Package.swift
+                  git commit -m "chore(swift): update Package.swift with checksum for v${{ needs.prepare.outputs.version }}"
+                  git tag -f "${{ needs.prepare.outputs.tag }}"
+                  git push origin -f "refs/tags/${{ needs.prepare.outputs.tag }}"
+
+            - name: Download Swift artifact bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: swift-artifactbundle
+                  path: dist/swift
+
+            - name: Upload Swift artifact bundle to GitHub Release
+              uses: kreuzberg-dev/actions/upload-release-assets@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  working-directory: dist/swift
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+                  assets: |
+                      *.artifactbundle.zip
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Zig (GitHub Release tarball) ─────────────────────────────────
+    build-zig-package:
+        name: Build Zig package (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors, check-registries]
+        if: ${{ needs.prepare.outputs.release_zig == 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x64
+                      target: x86_64-unknown-linux-gnu
+                    - os: ubuntu-24.04-arm
+                      label: linux-arm64
+                      target: aarch64-unknown-linux-gnu
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                    - os: macos-15-intel
+                      label: macos-x64
+                      target: x86_64-apple-darwin
+                    - os: windows-latest
+                      label: windows-x64
+                      target: x86_64-pc-windows-msvc
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+            - uses: kreuzberg-dev/actions/install-alef@v1
+            - name: Build and package Zig FFI
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  # Build the FFI library for this target
+                  cargo build --release --target ${{ matrix.target }} -p ts-pack-core-ffi
+
+                  # Package with alef for distribution
+                  alef publish build --lang ffi --target ${{ matrix.target }}
+                  alef publish package --lang zig \
+                    --target ${{ matrix.target }} \
+                    -o dist/zig-ffi
+
+            - name: Fix macOS dylib install_name (Zig FFI)
+              if: runner.os == 'macOS'
+              shell: bash
+              run: |
+                  echo "=== Fixing macOS dylib install_name in Zig FFI package ==="
+                  find dist/zig-ffi -name "*.dylib" -type f | while read -r dylib; do
+                    echo "Processing: $dylib"
+                    # Get the dylib filename
+                    dylib_name=$(basename "$dylib")
+                    echo "  Current install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                    # Rewrite to @rpath
+                    install_name_tool -id "@rpath/$dylib_name" "$dylib"
+                    echo "  New install_name:"
+                    otool -D "$dylib" | tail -1 | sed 's/^/    /'
+                  done
+                  echo "=== Zig FFI dylib install_name fixes complete ==="
+
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: zig-ffi-${{ matrix.label }}
+                  path: dist/zig-ffi/
+                  if-no-files-found: error
+                  retention-days: 14
+
+    publish-zig:
+        name: Publish Zig package metadata to GitHub Release
+        needs: [prepare, check-registries, build-zig-package]
+        if: ${{ needs.prepare.outputs.release_zig == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).zig != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+            - name: Download Zig FFI tarballs
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: zig-ffi-*
+                  path: dist/zig
+                  merge-multiple: true
+            - uses: kreuzberg-dev/actions/upload-release-assets@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  working-directory: dist/zig
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+                  assets: |
+                      **/*.tar.gz
+                      **/*.zip
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Kotlin-Android (Maven Central via Gradle) ────────────────────
+    build-kotlin-android-natives:
+        name: Build kotlin-android natives (${{ matrix.abi }})
+        needs: [prepare, check-registries, clone-vendors]
+        if: ${{ needs.prepare.outputs.release_kotlin_android == 'true' && (fromJson(needs.check-registries.outputs.results).maven-kotlin-android != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 45
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - abi: arm64-v8a
+                      target: aarch64-linux-android
+                    - abi: x86_64
+                      target: x86_64-linux-android
+                    - abi: armeabi-v7a
+                      target: armv7-linux-androideabi
+                    - abi: x86
+                      target: i686-linux-android
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  submodules: recursive
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+                  cache-key-prefix: kotlin-android-${{ matrix.abi }}
+            - uses: kreuzberg-dev/actions/setup-android-ndk@v1
+            - uses: kreuzberg-dev/actions/build-android-natives@v1
+              with:
+                  crate-name: tree-sitter-language-pack-jni
+                  lib-name: ts_pack_jni
+                  abis: ${{ matrix.abi }}
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: kotlin-android-${{ matrix.abi }}
+                  path: dist/android-natives/${{ matrix.abi }}/
+                  if-no-files-found: error
+
+    publish-kotlin-android:
+        name: Publish kotlin-android (Maven Central via Gradle)
+        needs: [prepare, check-registries, build-kotlin-android-natives]
+        if: ${{ needs.prepare.outputs.release_kotlin_android == 'true' && needs.prepare.outputs.dry_run != 'true' && (fromJson(needs.check-registries.outputs.results).maven-kotlin-android != 'true' || needs.prepare.outputs.force_republish == 'true') }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+            - uses: actions/download-artifact@v8
+              with:
+                  pattern: kotlin-android-*
+                  path: kotlin-android-natives
+                  merge-multiple: false
+            - name: Stage natives into AAR jniLibs
+              shell: bash
+              run: |
+                  for abi in arm64-v8a x86_64 armeabi-v7a x86; do
+                    src="kotlin-android-natives/kotlin-android-${abi}"
+                    [ -d "$src" ] || continue
+                    mkdir -p "packages/kotlin-android/src/main/jniLibs/${abi}"
+                    cp -v "${src}/libts_pack_jni.so" \
+                          "packages/kotlin-android/src/main/jniLibs/${abi}/"
+                  done
+            - uses: kreuzberg-dev/actions/publish-maven-gradle@v1
+              with:
+                  working-directory: packages/kotlin-android
+                  gradle-task: publishAndReleaseToMavenCentral
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+                  MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+                  MAVEN_GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+                  MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+    # ─── Build CLI binaries ───────────────────────────────────────────
+    build-cli:
+        name: Build CLI (${{ matrix.label }})
+        needs: [prepare, validate-versions, clone-vendors]
+        if: needs.prepare.outputs.release_homebrew == 'true'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 120
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                      target: x86_64-unknown-linux-gnu
+                      artifact: ts-pack-linux-x86_64
+                    - os: ubuntu-24.04-arm
+                      label: linux-aarch64
+                      target: aarch64-unknown-linux-gnu
+                      artifact: ts-pack-linux-aarch64
+                    - os: macos-latest
+                      label: macos-arm64
+                      target: aarch64-apple-darwin
+                      artifact: ts-pack-macos-arm64
+                    - os: macos-15-intel
+                      label: macos-x86_64
+                      target: x86_64-apple-darwin
+                      artifact: ts-pack-macos-x86_64
+                    - os: windows-latest
+                      label: windows-x86_64
+                      target: x86_64-pc-windows-msvc
+                      artifact: ts-pack-windows-x86_64
+                    - os: windows-11-arm
+                      label: windows-aarch64
+                      target: aarch64-pc-windows-msvc
+                      artifact: ts-pack-windows-aarch64
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  target: ${{ matrix.target }}
+                  components: ""
+                  use-sccache: "false"
+                  install-llvm-cov: "false"
+
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.12"
+
+            - name: Get all language names
+              id: langs
+              shell: bash
+              run: |
+                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
+            - name: Build CLI
+              run: cargo build --release -p ts-pack-cli --target ${{ matrix.target }}
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+                  TSLP_LINK_MODE: static
+
+            - name: Package CLI (Unix)
+              if: runner.os != 'Windows'
+              shell: bash
+              run: |
+                  mkdir -p staging
+                  cp target/${{ matrix.target }}/release/ts-pack staging/
+                  cd staging && tar -czf "../${{ matrix.artifact }}.tar.gz" ts-pack
+
+            - name: Package CLI (Windows)
+              if: runner.os == 'Windows'
+              shell: bash
+              run: |
+                  mkdir -p staging
+                  cp target/${{ matrix.target }}/release/ts-pack.exe staging/
+                  cd staging && 7z a "../${{ matrix.artifact }}.zip" ts-pack.exe
+
+            - name: Upload CLI binary
+              uses: actions/upload-artifact@v7
+              with:
+                  name: ${{ matrix.artifact }}
+                  path: |
+                      ${{ matrix.artifact }}.tar.gz
+                      ${{ matrix.artifact }}.zip
+                  retention-days: 14
+
+    # ─── Upload CLI binaries to GitHub Release ──────────────────────────
+    upload-cli-release:
+        name: Upload CLI binaries to GitHub Release
+        needs: [prepare, build-cli]
+        if: |
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.build-cli.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Download CLI artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: ts-pack-*
+                  path: dist/cli
+                  merge-multiple: true
+
+            - name: Upload to GitHub Release
+              uses: kreuzberg-dev/actions/publish-github-release@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  title: "Release ${{ needs.prepare.outputs.tag }}"
+                  artifacts: |
+                      dist/cli/ts-pack-*.tar.gz
+                      dist/cli/ts-pack-*.zip
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+    # ─── Update Homebrew formula source URLs + SHAs ────────────────────
+    publish-homebrew-formula:
+        name: Update Homebrew formula
+        needs: [prepare, check-registries, upload-cli-release, upload-c-ffi-release]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_homebrew == 'true' &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.upload-cli-release.result == 'success' &&
+            needs.upload-c-ffi-release.result == 'success' &&
+            (fromJson(needs.check-registries.outputs.results).homebrew != 'true' || needs.prepare.outputs.force_republish == 'true')
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: tap-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+                  repositories: homebrew-tap
+
+            - name: Checkout source repo
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Checkout homebrew-tap
+              uses: actions/checkout@v6
+              with:
+                  repository: kreuzberg-dev/homebrew-tap
+                  token: ${{ steps.tap-token.outputs.token }}
+                  path: homebrew-tap
+
+            - name: Render formulas from templates
+              uses: kreuzberg-dev/actions/publish-homebrew-source-formulas@v1
+              with:
+                  tap-dir: ${{ github.workspace }}/homebrew-tap
+                  config-file: scripts/publish/homebrew.json
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  version: ${{ needs.prepare.outputs.version }}
+                  github-repo: ${{ github.repository }}
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+
+            - name: Commit and push to tap
+              working-directory: homebrew-tap
+              env:
+                  GH_TOKEN: ${{ steps.tap-token.outputs.token }}
+              run: |
+                  git config user.name "kreuzberg-dev-publisher[bot]"
+                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+                  if git diff --quiet Formula/; then
+                    echo "No formula changes; skipping commit."
+                    exit 0
+                  fi
+                  git add Formula/ts-pack.rb Formula/libts-pack.rb
+                  git commit -m "tree-sitter-language-pack ${{ needs.prepare.outputs.version }}"
+                  git push origin HEAD
+
+    # ─── Build real Homebrew bottles per platform ──────────────────────
+    homebrew-bottles:
+        name: Build Homebrew bottle (${{ matrix.bottle_tag }})
+        needs: [prepare, publish-homebrew-formula]
+        if: |
+            always() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.publish-homebrew-formula.result == 'success'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 90
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: macos-latest
+                      bottle_tag: arm64_sequoia
+                      install_brew: false
+                    - os: macos-15-intel
+                      bottle_tag: sequoia
+                      install_brew: false
+                    - os: ubuntu-latest
+                      bottle_tag: x86_64_linux
+                      install_brew: true
+                    - os: ubuntu-24.04-arm
+                      bottle_tag: arm64_linux
+                      install_brew: true
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout source repo
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Install Homebrew (Linux)
+              if: ${{ matrix.install_brew }}
+              uses: kreuzberg-dev/actions/install-homebrew-linux@v1
+
+            - name: Build bottles
+              uses: kreuzberg-dev/actions/homebrew-build-bottles@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  version: ${{ needs.prepare.outputs.version }}
+                  tap: kreuzberg-dev/tap
+                  formulas: |
+                      ts-pack
+                      libts-pack
+                  out-dir: ${{ github.workspace }}/bottle-json
+                  github-repo: kreuzberg-dev/tree-sitter-language-pack
+                  token: ${{ steps.app-token.outputs.token }}
+
+            - name: Upload bottle JSON manifests
+              uses: actions/upload-artifact@v7
+              with:
+                  name: homebrew-bottle-json-${{ matrix.bottle_tag }}
+                  path: ${{ github.workspace }}/bottle-json/*.json
+                  if-no-files-found: error
+
+    # ─── Merge bottle DSL into formulas in the tap ─────────────────────
+    publish-homebrew-bottles:
+        name: Merge Homebrew bottle DSL
+        needs: [prepare, publish-homebrew-formula, homebrew-bottles]
+        if: |
+            always() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            needs.publish-homebrew-formula.result == 'success' &&
+            needs.homebrew-bottles.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: tap-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+                  repositories: homebrew-tap
+
+            - name: Checkout source repo
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+            - name: Checkout homebrew-tap
+              uses: actions/checkout@v6
+              with:
+                  repository: kreuzberg-dev/homebrew-tap
+                  token: ${{ steps.tap-token.outputs.token }}
+                  path: homebrew-tap
+
+            - name: Download all bottle JSON manifests
+              uses: actions/download-artifact@v8
+              with:
+                  path: ${{ github.workspace }}/bottle-json
+                  pattern: homebrew-bottle-json-*
+                  merge-multiple: true
+
+            - name: Merge bottle DSL into formulas
+              uses: kreuzberg-dev/actions/homebrew-merge-bottles@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  version: ${{ needs.prepare.outputs.version }}
+                  tap-dir: ${{ github.workspace }}/homebrew-tap
+                  json-dir: ${{ github.workspace }}/bottle-json
+                  formulas: |
+                      ts-pack
+                      libts-pack
+                  github-repo: kreuzberg-dev/tree-sitter-language-pack
+
+            - name: Commit and push bottle DSL
+              working-directory: homebrew-tap
+              env:
+                  GH_TOKEN: ${{ steps.tap-token.outputs.token }}
+              run: |
+                  git config user.name "kreuzberg-dev-publisher[bot]"
+                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+                  if git diff --quiet Formula/; then
+                    echo "No bottle DSL changes; skipping commit."
+                    exit 0
+                  fi
+                  git add Formula/ts-pack.rb Formula/libts-pack.rb
+                  git commit -m "tree-sitter-language-pack ${{ needs.prepare.outputs.version }}: add bottle DSL"
+                  git push origin HEAD
+
+    # ─── Stage Go FFI libraries into packages/go/.lib/ ────────────────────
+    stage-go-ffi-libraries:
+        name: Stage Go FFI libraries for Go module distribution
+        needs: [prepare, build-go-ffi]
+        if: |
+            always() &&
+            needs.prepare.outputs.release_go == 'true' &&
+            needs.build-go-ffi.result == 'success'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+                  token: ${{ steps.app-token.outputs.token }}
+                  persist-credentials: true
+
+            - name: Configure git
+              run: |
+                  git config user.name "kreuzberg-dev-publisher[bot]"
+                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+
+            - name: Download Go FFI artifacts (all platforms)
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: go-ffi-*
+                  path: tmp/go-ffi-all
+                  merge-multiple: true
+
+            - name: Stage libraries into packages/go/.lib/
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  cd packages/go
+
+                  # Map alef-emitted platform labels to .lib directory names.
+                  declare -A PLATFORM_MAP=(
+                    [linux-x86_64]="linux-amd64"
+                    [linux-aarch64]="linux-arm64"
+                    [macos-arm64]="macos-arm64"
+                    [macos-x86_64]="macos-amd64"
+                    [windows-x86_64]="windows-amd64"
+                    [windows-aarch64]="windows-arm64"
+                  )
+
+                  shopt -s nullglob
+
+                  # upload-artifact@v7 preserves the path prefix relative to
+                  # $GITHUB_WORKSPACE, so the per-platform tarballs actually land at
+                  # tmp/go-ffi-all/dist/go-ffi/<tarball>.tar.gz (not at the root).
+                  # Use find to walk the tree instead of a flat glob — the previous
+                  # flat glob silently matched 0 files for every rc since the v7 bump,
+                  # which meant "No changes to commit" and the subtree tag was never
+                  # pushed (rc.23–rc.27 all relied on manual staging).
+                  staging="$(mktemp -d)"
+                  trap 'rm -rf "${staging}"' EXIT
+
+                  mapfile -t tarballs < <(find ../../tmp/go-ffi-all -type f -name 'tree-sitter-language-pack-go-v*.tar.gz')
+                  if [[ ${#tarballs[@]} -eq 0 ]]; then
+                    echo "ERROR: no go-ffi tarballs found under tmp/go-ffi-all/" >&2
+                    find ../../tmp/go-ffi-all -maxdepth 4 -print
+                    exit 1
+                  fi
+
+                  for tarball in "${tarballs[@]}"; do
+                    tarball_name="$(basename "${tarball}" .tar.gz)"
+
+                    # Match a known platform label as suffix of the tarball name —
+                    # the version itself contains dashes so plain split won't work.
+                    platform=""
+                    for known in "${!PLATFORM_MAP[@]}"; do
+                      if [[ "$tarball_name" == *"-${known}" ]]; then
+                        platform="$known"
+                        break
+                      fi
+                    done
+                    if [[ -z "$platform" ]]; then
+                      echo "  WARNING: Could not infer platform from $tarball_name; skipping"
+                      continue
+                    fi
+
+                    libdir="${PLATFORM_MAP[$platform]}"
+                    echo "Processing $tarball_name → .lib/$libdir"
+                    mkdir -p ".lib/$libdir"
+
+                    # Extract into a fresh staging dir and walk the lib/ subdir.
+                    extract_dir="${staging}/${tarball_name}"
+                    mkdir -p "${extract_dir}"
+                    tar -xzf "${tarball}" -C "${extract_dir}"
+
+                    src_lib="${extract_dir}/${tarball_name}/lib"
+                    if [[ ! -d "${src_lib}" ]]; then
+                      echo "  WARNING: ${src_lib} not found in tarball"
+                      tar -tzf "${tarball}" | head -20
+                      continue
+                    fi
+
+                    cp "${src_lib}"/* ".lib/$libdir/"
+                    # shellcheck disable=SC2012
+                    echo "  Copied: $(ls "${src_lib}" | tr '\n' ' ')"
+                  done
+
+                  # Verify libraries were staged
+                  echo ""
+                  echo "=== Staged libraries ==="
+                  find .lib -type f ! -name ".gitkeep" | sort
+                  lib_count=$(find .lib -type f ! -name ".gitkeep" -print | wc -l)
+                  if [[ "$lib_count" -eq 0 ]]; then
+                    echo "ERROR: No libraries staged" >&2
+                    exit 1
+                  fi
+                  echo "Staged $lib_count libraries"
+
+            - name: Commit staged libraries and tag Go module
+              if: ${{ needs.prepare.outputs.dry_run != 'true' }}
+              run: |
+                  cd packages/go
+
+                  # Stage only the new/modified library files, not .gitkeep
+                  find .lib -type f ! -name ".gitkeep" -print0 | xargs -0 git add
+
+                  # Check if there are changes to commit
+                  if git diff --cached --quiet; then
+                    echo "No changes to commit; skipping tag"
+                    exit 0
+                  fi
+
+                  git commit --no-verify -m "chore(go): stage pre-built FFI libraries for ${{ needs.prepare.outputs.version }}"
+                  echo "Libraries committed successfully"
+
+                  # Log the commit
+                  git log --oneline -1
+
+                  # Tag the staged commit as the Go module version
+                  # This ensures consumers fetching v<version> get the libraries
+                  git tag -a "packages/go/v${{ needs.prepare.outputs.version }}" -m "Go module v${{ needs.prepare.outputs.version }}"
+                  git push origin "refs/tags/packages/go/v${{ needs.prepare.outputs.version }}"
+                  echo "Go module tag pushed successfully"
+
+    # ─── Release finalize ──────────────────────────────────────────────
+    release-finalize:
+        name: Finalize release
+        needs:
+            - prepare
+            - validate-versions
+            - check-registries
+            - upload-parser-binaries
+            - upload-go-release
+            - upload-c-ffi-release
+            - upload-elixir-release
+            - upload-php-pie-release
+            - update-swift-package-manifest
+            - stage-go-ffi-libraries
+            - publish-crates
+            - publish-pypi
+            - publish-node
+            - publish-wasm
+            - publish-rubygems
+            - publish-maven
+            - publish-hex
+            - publish-packagist
+            - publish-nuget
+            - publish-homebrew-formula
+            - homebrew-bottles
+            - upload-cli-release
+            - publish-homebrew-bottles
+        if: always()
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/create-github-app-token@v2
+              id: app-token
+              with:
+                  app-id: ${{ secrets.BOT_APP_ID }}
+                  private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+                  owner: kreuzberg-dev
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  ref: ${{ needs.prepare.outputs.checkout_ref }}
+                  fetch-depth: 0
+
+            - name: Finalize release (publish from draft)
+              uses: kreuzberg-dev/actions/finalize-release@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  go-module-path: ""
+                  dry-run: ${{ needs.prepare.outputs.dry_run }}
+                  token: ${{ steps.app-token.outputs.token }}
+
+            - name: Aggregate release status
+              if: always()
+              env:
+                  CHECK_RESULTS: ${{ needs.check-registries.outputs.results }}
+                  RESULT_VALIDATE: ${{ needs.validate-versions.result }}
+                  RESULT_PUBLISH_CRATES: ${{ needs.publish-crates.result }}
+                  RESULT_PUBLISH_PYPI: ${{ needs.publish-pypi.result }}
+                  RESULT_PUBLISH_NODE: ${{ needs.publish-node.result }}
+                  RESULT_PUBLISH_WASM: ${{ needs.publish-wasm.result }}
+                  RESULT_PUBLISH_RUBYGEMS: ${{ needs.publish-rubygems.result }}
+                  RESULT_PUBLISH_MAVEN: ${{ needs.publish-maven.result }}
+                  RESULT_PUBLISH_HEX: ${{ needs.publish-hex.result }}
+                  RESULT_PUBLISH_PACKAGIST: ${{ needs.publish-packagist.result }}
+                  RESULT_PUBLISH_NUGET: ${{ needs.publish-nuget.result }}
+                  RESULT_UPLOAD_PARSERS: ${{ needs.upload-parser-binaries.result }}
+                  RESULT_UPLOAD_GO: ${{ needs.upload-go-release.result }}
+                  RESULT_UPLOAD_C_FFI: ${{ needs.upload-c-ffi-release.result }}
+                  RESULT_UPLOAD_ELIXIR: ${{ needs.upload-elixir-release.result }}
+                  RESULT_UPLOAD_HOMEBREW: ${{ needs.homebrew-bottles.result }}
+                  RESULT_PUBLISH_HOMEBREW: ${{ needs.publish-homebrew-bottles.result }}
+              run: |
+                  {
+                    echo "## Release Summary"
+                    echo ""
+                    echo "| Target | Status |"
+                    echo "|--------|--------|"
+
+                    if [[ "$RESULT_VALIDATE" != "success" ]]; then
+                      echo "| version-check | **FAILED** |"
+                    else
+                      echo "| version-check | passed |"
+                    fi
+
+                    declare -A results
+                    results[crates]="${RESULT_PUBLISH_CRATES}"
+                    results[python]="${RESULT_PUBLISH_PYPI}"
+                    results[node]="${RESULT_PUBLISH_NODE}"
+                    results[wasm]="${RESULT_PUBLISH_WASM}"
+                    results[ruby]="${RESULT_PUBLISH_RUBYGEMS}"
+                    results[maven]="${RESULT_PUBLISH_MAVEN}"
+                    results[hex]="${RESULT_PUBLISH_HEX}"
+                    results[parser-binaries]="${RESULT_UPLOAD_PARSERS}"
+                    results[go-ffi]="${RESULT_UPLOAD_GO}"
+                    results[c-ffi]="${RESULT_UPLOAD_C_FFI}"
+                    results[elixir-nifs]="${RESULT_UPLOAD_ELIXIR}"
+                    results[packagist]="${RESULT_PUBLISH_PACKAGIST}"
+                    results[nuget]="${RESULT_PUBLISH_NUGET}"
+                    results[homebrew]="${RESULT_PUBLISH_HOMEBREW}"
+
+                    declare -A checks
+                    checks[crates]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.cratesio // ""')"
+                    checks[python]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.pypi // ""')"
+                    checks[node]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.npm // ""')"
+                    checks[wasm]="$(printf '%s' "$CHECK_RESULTS" | jq -r '."npm-wasm" // ""')"
+                    checks[ruby]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.rubygems // ""')"
+                    checks[maven]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.maven // ""')"
+                    checks[hex]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.hex // ""')"
+                    checks[packagist]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.packagist // ""')"
+                    checks[nuget]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.nuget // ""')"
+                    checks[homebrew]="$(printf '%s' "$CHECK_RESULTS" | jq -r '.homebrew // ""')"
+
+                    for target in crates python node wasm ruby maven hex packagist nuget homebrew parser-binaries go-ffi c-ffi elixir-nifs; do
+                      result="${results[$target]}"
+                      check="${checks[$target]:-}"
+                      if [[ "$result" == "success" ]]; then
+                        echo "| $target | published |"
+                      elif [[ "$check" == "true" ]]; then
+                        echo "| $target | already exists (skipped) |"
+                      elif [[ "$result" == "skipped" ]]; then
+                        echo "| $target | skipped (not enabled) |"
+                      elif [[ "$result" == "failure" ]]; then
+                        echo "| $target | **FAILED** |"
+                      else
+                        echo "| $target | $result |"
+                      fi
+                    done
+
+                    echo ""
+                    echo "- **Tag**: ${{ needs.prepare.outputs.tag }}"
+                    echo "- **Version**: ${{ needs.prepare.outputs.version }}"
+                    echo "- **Dry run**: ${{ inputs.dry_run }}"
+                    echo "- **Force republish**: ${{ inputs.force_republish }}"
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+    announce-discord:
+        name: Announce release on Discord
+        needs:
+            - prepare
+            - publish-crates
+            - publish-pypi
+            - publish-node
+            - publish-wasm
+            - publish-rubygems
+            - publish-maven
+            - publish-hex
+            - publish-packagist
+            - publish-nuget
+            - publish-homebrew-formula
+            - publish-homebrew-bottles
+            - upload-parser-binaries
+            - upload-go-release
+            - upload-c-ffi-release
+            - upload-elixir-release
+            - upload-php-pie-release
+            - upload-cli-release
+            - release-finalize
+        if: |
+            always() &&
+            !cancelled() &&
+            needs.prepare.outputs.dry_run != 'true' &&
+            !contains(needs.*.result, 'failure')
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - uses: kreuzberg-dev/actions/announce-release-discord@v1
+              with:
+                  tag: ${{ needs.prepare.outputs.tag }}
+                  webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+                  project-name: tree-sitter-language-pack

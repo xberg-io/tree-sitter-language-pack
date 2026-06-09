@@ -1,0 +1,17 @@
+{
+	"id": "smoke_gstlaunch",
+	"description": "Smoke test: load gstlaunch and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "fakesrc ! fakesink",
+		"config": {
+			"language": "gstlaunch"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

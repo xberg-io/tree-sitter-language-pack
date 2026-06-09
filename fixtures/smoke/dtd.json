@@ -1,0 +1,17 @@
+{
+	"id": "smoke_dtd",
+	"description": "Smoke test: load dtd and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<!ELEMENT note (body)>",
+		"config": {
+			"language": "dtd"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

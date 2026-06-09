@@ -1,0 +1,14 @@
+name: Validate PR
+
+on:
+    pull_request:
+        types: [opened, edited, synchronize]
+
+concurrency:
+    group: validate-pr-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+jobs:
+    validate:
+        uses: kreuzberg-dev/actions/.github/workflows/reusable-validate-pr.yml@v1
+        secrets: inherit

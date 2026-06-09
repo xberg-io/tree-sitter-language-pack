@@ -1,0 +1,12 @@
+target/
+.git/
+node_modules/
+e2e/
+tests/
+docs/
+.venv/
+*.so
+*.dylib
+*.dll
+*.node
+*.bundle

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_haskell",
+	"description": "Smoke test: load haskell and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "main = putStrLn \"hello\"",
+		"config": {
+			"language": "haskell"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

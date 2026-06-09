@@ -1,0 +1,15 @@
+.dart_tool/
+build/
+pubspec.lock
+
+# `dart pub publish` respects .pubignore when present, falling back to
+# .gitignore otherwise. The root .gitignore excludes *.so, *.dylib, *.dll —
+# which would also strip the per-RID native libraries staged into
+# lib/src/native/<rid>/ by publish.yaml's assemble-dart-package job. Without
+# explicitly opting them back in, consumers on hardened-runtime platforms
+# (macOS) fall through to FRB's default loader that uses a relative
+# framework path, which dyld then rejects with:
+#   "relative path not allowed in hardened program"
+#
+# Override the ignore for the staged-natives tree only.
+!lib/src/native/**

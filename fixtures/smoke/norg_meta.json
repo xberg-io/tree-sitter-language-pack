@@ -1,0 +1,17 @@
+{
+	"id": "smoke_norg_meta",
+	"description": "Smoke test: load norg_meta and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "norg_meta"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

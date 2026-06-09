@@ -1,0 +1,17 @@
+{
+	"id": "smoke_agda",
+	"description": "Smoke test: load agda and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "module Main where",
+		"config": {
+			"language": "agda"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

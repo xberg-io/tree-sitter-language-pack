@@ -1,0 +1,17 @@
+{
+	"id": "smoke_gosum",
+	"description": "Smoke test: load gosum and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "example.com/pkg v1.0.0 h1:abc=",
+		"config": {
+			"language": "gosum"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

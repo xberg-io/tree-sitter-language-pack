@@ -1,0 +1,17 @@
+{
+	"id": "smoke_verilog",
+	"description": "Smoke test: load verilog and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "module main; endmodule",
+		"config": {
+			"language": "verilog"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

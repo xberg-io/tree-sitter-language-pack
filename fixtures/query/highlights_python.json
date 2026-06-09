@@ -1,0 +1,15 @@
+{
+	"id": "highlights_query_rust",
+	"description": "get_highlights_query returns non-empty string for rust",
+	"category": "query",
+	"tags": ["query", "highlights"],
+	"call": "highlights",
+	"input": {
+		"language": "rust"
+	},
+	"assertions": [
+		{
+			"type": "not_empty"
+		}
+	]
+}

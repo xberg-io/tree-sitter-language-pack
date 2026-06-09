@@ -1,0 +1,17 @@
+{
+	"id": "smoke_mermaid",
+	"description": "Smoke test: load mermaid and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "graph TD\nA --> B",
+		"config": {
+			"language": "mermaid"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

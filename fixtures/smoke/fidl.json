@@ -1,0 +1,17 @@
+{
+	"id": "smoke_fidl",
+	"description": "Smoke test: load fidl and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "fidl"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"id": "smoke_yuck",
+	"description": "Smoke test: load yuck and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Grammar fails to load under the wasm32 build; tracked as a follow-up"
+	},
+	"input": {
+		"source_code": "(defwidget main [] (label :text \"hi\"))",
+		"config": {
+			"language": "yuck"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

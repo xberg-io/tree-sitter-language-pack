@@ -1,0 +1,17 @@
+{
+	"id": "smoke_cpp",
+	"description": "Smoke test: load cpp and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "int main() { return 0; }",
+		"config": {
+			"language": "cpp"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

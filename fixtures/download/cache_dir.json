@@ -1,0 +1,20 @@
+{
+	"id": "download_cache_dir",
+	"description": "Get the cache directory path and verify it is non-empty",
+	"category": "download",
+	"tags": ["download"],
+	"call": "cache_dir",
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Download feature requires network access and is not available in static builds"
+	},
+	"input": {},
+	"assertions": [
+		{
+			"type": "not_error"
+		},
+		{
+			"type": "not_empty"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_org",
+	"description": "Smoke test: load org and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "* Hello\nWorld",
+		"config": {
+			"language": "org"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

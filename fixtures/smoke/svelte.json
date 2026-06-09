@@ -1,0 +1,17 @@
+{
+	"id": "smoke_svelte",
+	"description": "Smoke test: load svelte and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<script>let x = 1;</script>",
+		"config": {
+			"language": "svelte"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

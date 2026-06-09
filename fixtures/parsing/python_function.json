@@ -1,0 +1,17 @@
+{
+	"id": "parsing_python_function",
+	"description": "Parse a Python function definition and assert node type",
+	"category": "parsing",
+	"tags": ["parsing", "python"],
+	"input": {
+		"source_code": "def hello(): pass",
+		"config": {
+			"language": "python"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

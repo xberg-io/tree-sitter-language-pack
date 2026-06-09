@@ -1,0 +1,17 @@
+{
+	"id": "smoke_prisma",
+	"description": "Smoke test: load prisma and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "model User { id Int @id }",
+		"config": {
+			"language": "prisma"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

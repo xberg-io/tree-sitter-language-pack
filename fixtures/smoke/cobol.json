@@ -1,0 +1,17 @@
+{
+	"id": "smoke_cobol",
+	"description": "Smoke test: load cobol and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. HELLO.",
+		"config": {
+			"language": "cobol"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

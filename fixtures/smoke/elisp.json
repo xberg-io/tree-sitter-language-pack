@@ -1,0 +1,17 @@
+{
+	"id": "smoke_elisp",
+	"description": "Smoke test: load elisp and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(defun hello () (message \"hello\"))",
+		"config": {
+			"language": "elisp"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

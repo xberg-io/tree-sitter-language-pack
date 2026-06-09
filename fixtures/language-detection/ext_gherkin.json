@@ -1,0 +1,20 @@
+{
+  "id": "detect_ext_gherkin",
+  "description": "detect_language_from_extension recognizes .feature as gherkin",
+  "category": "language-detection",
+  "tags": ["language-detection", "extension"],
+  "skip": {
+    "languages": ["php", "ruby"],
+    "reason": "Gherkin not included in test builds (TSLP_LANGUAGES=mojo,nim,norg)"
+  },
+  "call": "detect_extension",
+  "input": {
+    "extension": "feature"
+  },
+  "assertions": [
+    {
+      "type": "equals",
+      "value": "gherkin"
+    }
+  ]
+}

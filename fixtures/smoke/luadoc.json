@@ -1,0 +1,17 @@
+{
+	"id": "smoke_luadoc",
+	"description": "Smoke test: load luadoc and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "---@param name string",
+		"config": {
+			"language": "luadoc"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

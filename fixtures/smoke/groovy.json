@@ -1,0 +1,17 @@
+{
+	"id": "smoke_groovy",
+	"description": "Smoke test: load groovy and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "def x = 1",
+		"config": {
+			"language": "groovy"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

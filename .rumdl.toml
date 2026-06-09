@@ -1,0 +1,46 @@
+# rumdl — Rust-based markdown linter
+# https://github.com/rvben/rumdl
+
+respect-gitignore = true
+exclude = [
+  "node_modules",
+  "target",
+  "dist",
+  "vendor",
+  "parsers",
+  "e2e",
+  "docs/reference",
+  # alef-managed READMEs — rumdl auto-fixes MD022 (blank lines around headings)
+  # but alef readme emits its own canonical form. Exclude so the CI freshness
+  # check (alef readme && git diff --exit-code) does not loop.
+  "packages/*/README.md",
+  "crates/*/README.md",
+]
+
+# MD012: Multiple consecutive blank lines
+# MD013: Line length (tables/code can be long)
+# MD024: Duplicate headings (configured below with siblings_only)
+# MD030: Spaces after list markers
+# MD033: Inline HTML (used in docs)
+# MD035: Horizontal rule style
+# MD036: Emphasis as heading (intentional style)
+# MD041: First line H1 not required
+# MD046: Code block style
+# MD051: Link fragment checking
+# MD076: Blank lines between list items
+disable = [
+  "MD012",
+  "MD013",
+  "MD024",
+  "MD030",
+  "MD033",
+  "MD035",
+  "MD036",
+  "MD041",
+  "MD046",
+  "MD051",
+  "MD076",
+]
+
+[MD024]
+siblings_only = true

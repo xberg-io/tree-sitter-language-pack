@@ -1,0 +1,15 @@
+{
+	"id": "locals_query_unknown_language",
+	"description": "get_locals_query returns empty for unknown language",
+	"category": "query",
+	"tags": ["query", "locals"],
+	"call": "locals",
+	"input": {
+		"language": "nonexistent_xyz"
+	},
+	"assertions": [
+		{
+			"type": "is_empty"
+		}
+	]
+}

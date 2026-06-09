@@ -1,0 +1,17 @@
+{
+	"id": "smoke_typst",
+	"description": "Smoke test: load typst and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "#let x = 1",
+		"config": {
+			"language": "typst"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,21 @@
+{
+	"id": "smoke_ziggy_schema",
+	"description": "Smoke test: load ziggy_schema and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Grammar fails to load under the wasm32 dynamic-loading build; tracked as a follow-up"
+	},
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "ziggy_schema"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

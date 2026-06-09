@@ -1,0 +1,17 @@
+{
+	"id": "smoke_jsonnet",
+	"description": "Smoke test: load jsonnet and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "{ key: 'value' }",
+		"config": {
+			"language": "jsonnet"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

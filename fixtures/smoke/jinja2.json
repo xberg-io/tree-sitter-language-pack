@@ -1,0 +1,17 @@
+{
+	"id": "smoke_jinja2",
+	"description": "Smoke test: load jinja2 and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "{{ variable }}",
+		"config": {
+			"language": "jinja2"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

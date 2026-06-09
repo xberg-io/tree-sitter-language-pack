@@ -1,0 +1,17 @@
+{
+	"id": "smoke_xml",
+	"description": "Smoke test: load xml and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<?xml version=\"1.0\"?>\n<root>hello</root>",
+		"config": {
+			"language": "xml"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

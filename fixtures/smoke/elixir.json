@@ -1,0 +1,17 @@
+{
+	"id": "smoke_elixir",
+	"description": "Smoke test: load elixir and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "IO.puts(\"hello\")",
+		"config": {
+			"language": "elixir"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

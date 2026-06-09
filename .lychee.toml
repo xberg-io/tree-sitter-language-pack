@@ -1,0 +1,118 @@
+# Configuration for the lychee link checker.
+# https://github.com/lycheeverse/lychee
+
+# Root directory for resolving relative paths in the built site
+root_dir = "site"
+
+# Exclude common patterns that produce false positives
+exclude = [
+  # Localhost / loopback addresses
+  "localhost",
+  "127\\.0\\.0\\.1",
+  "0\\.0\\.0\\.0",
+
+  # Placeholder / example domains
+  "example\\.com",
+  "example\\.org",
+
+  # Template variables (e.g. ${var}, {{ var }})
+  "\\$\\{",
+  "\\{\\{",
+
+  # GitHub edit links (require auth)
+  "/edit/main/",
+
+  # GitHub raw links for new/renamed files (404 until pushed)
+  "/raw/main/",
+
+  # Docs site self-references (404 until deployed)
+  "docs\\.tree-sitter-language-pack\\.kreuzberg\\.dev",
+  "docs\\.kreuzberg\\.dev",
+
+  # PyPI project pages (rate-limited)
+  "pypi\\.org/project/",
+
+  # crates.io (rate-limited)
+  "crates\\.io/crates/",
+
+  # npm (rate-limited)
+  "npmjs\\.com/package/",
+
+  # RubyGems (rate-limited)
+  "rubygems\\.org/gems/",
+
+  # Hex.pm (rate-limited)
+  "hex\\.pm/packages/",
+
+  # NuGet (rate-limited)
+  "nuget\\.org/packages/",
+
+  # Maven Central (rate-limited)
+  "central\\.sonatype\\.com",
+
+  # Packagist (rate-limited)
+  "packagist\\.org/packages/",
+
+  # pkg.go.dev (rate-limited)
+  "pkg\\.go\\.dev/",
+
+  # Discord invite links (require auth)
+  "discord\\.gg/",
+
+  # GitHub container registry (may not exist yet)
+  "pkgs/container/",
+
+  # GitHub releases with shell variables
+  "releases/download/v\\$",
+
+  # Maven XML namespace (not a real URL)
+  "maven\\.apache\\.org",
+
+  # PHP PEAR DTD (not a real URL)
+  "pear\\.php\\.net",
+
+  # Packagist downloads endpoint (405)
+  "packagist\\.org/downloads/",
+
+  # thanks.dev (403)
+  "thanks\\.dev/",
+
+  # GitHub raw content for install scripts (may not exist on branch)
+  "raw\\.githubusercontent\\.com",
+]
+
+# Exclude files that contain many grammar repo URLs (language definitions)
+exclude_path = [
+  "crates/ts-pack-core/language_definitions\\.json",
+  "docs/supported-languages\\.md",
+  "docs/languages\\.md",
+  ".*\\.lock$",
+  "vendor/",
+  "e2e/",
+  "parsers/",
+  "test_apps/",
+  "scripts/",
+  "examples/",
+  "tools/e2e-generator/",
+]
+
+# Accept these HTTP status codes as valid
+accept = [200, 204, 301, 302, 403, 405, 429]
+
+# Connection timeout in seconds
+timeout = 30
+
+# Max retries per link
+max_retries = 3
+
+# Max concurrent requests
+max_concurrency = 10
+
+# Do not check email addresses
+include_mail = false
+
+# Do not require HTTPS
+require_https = false
+
+# Cache results to speed up repeated runs
+cache = true

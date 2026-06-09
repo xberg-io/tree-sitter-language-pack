@@ -1,0 +1,17 @@
+{
+	"id": "smoke_query",
+	"description": "Smoke test: load query and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "(identifier) @name",
+		"config": {
+			"language": "query"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

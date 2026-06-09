@@ -1,0 +1,17 @@
+{
+	"id": "smoke_rst",
+	"description": "Smoke test: load rst and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "Hello\n=====\n\nWorld",
+		"config": {
+			"language": "rst"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

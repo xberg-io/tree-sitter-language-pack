@@ -1,0 +1,17 @@
+{
+	"id": "smoke_dot",
+	"description": "Smoke test: load dot and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "digraph G { A -> B; }",
+		"config": {
+			"language": "dot"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

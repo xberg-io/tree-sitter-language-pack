@@ -1,0 +1,17 @@
+{
+	"id": "smoke_apex",
+	"description": "Smoke test: load apex and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "public class Main {}",
+		"config": {
+			"language": "apex"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

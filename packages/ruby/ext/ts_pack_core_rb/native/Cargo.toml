@@ -1,0 +1,24 @@
+[package]
+name = "ts-pack-core-rb"
+version = "1.9.0-rc.29"
+edition = "2024"
+license = "MIT"
+description = "Pre-compiled tree-sitter grammars for 306 programming languages"
+readme = false
+keywords = ["language-pack", "parser", "syntax", "tree-sitter"]
+categories = []
+
+[package.metadata.cargo-machete]
+ignored = ["rb-sys"]
+
+[lib]
+name = "ts_pack_core_rb"
+path = "../src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+magnus = "0.8"
+rb-sys = ">=0.9, <0.9.128"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tree-sitter-language-pack = { version = "1.9.0-rc.29", path = "../../../../../crates/ts-pack-core", features = ["serde", "config", "download"] }

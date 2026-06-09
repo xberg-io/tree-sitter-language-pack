@@ -1,0 +1,17 @@
+{
+	"id": "smoke_ocaml",
+	"description": "Smoke test: load ocaml and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "let () = print_endline \"hello\"",
+		"config": {
+			"language": "ocaml"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,18 @@
+{
+	"id": "error_detect_extension_empty",
+	"description": "Detect language from empty extension returns null",
+	"category": "error-handling",
+	"tags": ["error-handling", "detection"],
+	"call": "detect_extension",
+	"input": {
+		"extension": ""
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		},
+		{
+			"type": "is_empty"
+		}
+	]
+}

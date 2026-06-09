@@ -1,0 +1,17 @@
+{
+	"id": "smoke_cmake",
+	"description": "Smoke test: load cmake and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "cmake_minimum_required(VERSION 3.0)",
+		"config": {
+			"language": "cmake"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

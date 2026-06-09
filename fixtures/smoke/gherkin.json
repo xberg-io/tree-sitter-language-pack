@@ -1,0 +1,21 @@
+{
+  "id": "smoke_gherkin",
+  "description": "Smoke test: load gherkin and parse a simple feature",
+  "category": "smoke",
+  "tags": ["smoke"],
+  "skip": {
+    "languages": ["php", "ruby"],
+    "reason": "Gherkin not included in test builds (TSLP_LANGUAGES=mojo,nim,norg)"
+  },
+  "input": {
+    "source_code": "Feature: Calculator\n  Scenario: Add numbers\n    Given I have entered 1\n    When I add 2\n    Then the result should be 3\n",
+    "config": {
+      "language": "gherkin"
+    }
+  },
+  "assertions": [
+    {
+      "type": "not_error"
+    }
+  ]
+}

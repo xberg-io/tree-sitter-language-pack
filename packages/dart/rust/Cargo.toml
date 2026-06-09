@@ -1,0 +1,23 @@
+[package]
+name = "tree-sitter-language-pack-dart"
+version = "1.9.0-rc.29"
+edition = "2024"
+license = "MIT"
+
+[package.metadata.cargo-machete]
+# Umbrella + sibling crates are pulled in so flutter_rust_bridge can resolve
+# every referenced type, but the generated Rust wrapper only `use`s a subset.
+ignored = ["tree_sitter_language_pack"]
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+flutter_rust_bridge = "=2.12.0"
+serde_json = "1"
+tree_sitter_language_pack = { path = "../../../crates/ts-pack-core", package = "tree-sitter-language-pack", features = ["serde", "config", "download"] }
+
+[lints.rust]
+# flutter_rust_bridge uses #[cfg(frb_expand)] internally during macro expansion.
+# Declare it as a known cfg so rustc does not emit unexpected_cfgs warnings.
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

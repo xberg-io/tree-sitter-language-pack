@@ -1,0 +1,17 @@
+{
+	"id": "smoke_promql",
+	"description": "Smoke test: load promql and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "promql"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

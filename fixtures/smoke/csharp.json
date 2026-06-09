@@ -1,0 +1,17 @@
+{
+	"id": "smoke_csharp",
+	"description": "Smoke test: load csharp and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "class Main {}",
+		"config": {
+			"language": "csharp"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

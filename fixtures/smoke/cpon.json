@@ -1,0 +1,17 @@
+{
+	"id": "smoke_cpon",
+	"description": "Smoke test: load cpon and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "{\"key\": 1}",
+		"config": {
+			"language": "cpon"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

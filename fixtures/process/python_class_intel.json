@@ -1,0 +1,39 @@
+{
+	"id": "python_class_with_methods_process",
+	"description": "Intel: extract nested structure from Python class with methods",
+	"category": "process",
+	"tags": ["intel", "nested"],
+	"input": {
+		"source_code": "class Calculator:\n    def add(self, a, b):\n        return a + b\n\n    def subtract(self, a, b):\n        return a - b\n",
+		"config": {
+			"language": "python"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 1
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Class"
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 6
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		}
+	]
+}

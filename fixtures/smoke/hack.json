@@ -1,0 +1,17 @@
+{
+	"id": "smoke_hack",
+	"description": "Smoke test: load hack and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<?hh\nfunction main(): void {}",
+		"config": {
+			"language": "hack"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

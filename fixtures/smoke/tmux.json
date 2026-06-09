@@ -1,0 +1,17 @@
+{
+	"id": "smoke_tmux",
+	"description": "Smoke test: load tmux and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "tmux"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

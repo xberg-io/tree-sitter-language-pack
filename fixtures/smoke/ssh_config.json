@@ -1,0 +1,17 @@
+{
+	"id": "smoke_ssh_config",
+	"description": "Smoke test: load ssh_config and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "Host example\n  HostName example.com",
+		"config": {
+			"language": "ssh_config"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

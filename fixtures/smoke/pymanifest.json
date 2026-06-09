@@ -1,0 +1,17 @@
+{
+	"id": "smoke_pymanifest",
+	"description": "Smoke test: load pymanifest and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "include *.txt",
+		"config": {
+			"language": "pymanifest"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

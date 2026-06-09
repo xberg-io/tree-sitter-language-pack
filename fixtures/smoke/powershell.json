@@ -1,0 +1,17 @@
+{
+	"id": "smoke_powershell",
+	"description": "Smoke test: load powershell and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "Write-Host 'hello'",
+		"config": {
+			"language": "powershell"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

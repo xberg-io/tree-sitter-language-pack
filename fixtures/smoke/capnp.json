@@ -1,0 +1,17 @@
+{
+	"id": "smoke_capnp",
+	"description": "Smoke test: load capnp and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "@0xabcdef1234567890;",
+		"config": {
+			"language": "capnp"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_rust",
+	"description": "Smoke test: load rust and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "fn main() {}",
+		"config": {
+			"language": "rust"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

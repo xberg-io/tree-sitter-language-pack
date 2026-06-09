@@ -1,0 +1,17 @@
+{
+	"id": "smoke_po",
+	"description": "Smoke test: load po and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "msgid \"hello\"\nmsgstr \"world\"",
+		"config": {
+			"language": "po"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

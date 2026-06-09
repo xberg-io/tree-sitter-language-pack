@@ -1,0 +1,39 @@
+{
+	"id": "python_function_process_detail",
+	"description": "Intel: extract structure from Python function definition",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "def greet(name):\n    return f'Hello, {name}!'\n",
+		"config": {
+			"language": "python"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 1
+		},
+		{
+			"type": "contains",
+			"field": "structure",
+			"value": "Function"
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 2
+		},
+		{
+			"type": "equals",
+			"field": "metrics.error_count",
+			"value": 0
+		}
+	]
+}

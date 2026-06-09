@@ -1,0 +1,17 @@
+{
+	"id": "smoke_magik",
+	"description": "Smoke test: load magik and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "_method object.hello\n_endmethod",
+		"config": {
+			"language": "magik"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

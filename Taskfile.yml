@@ -1,0 +1,387 @@
+version: "3"
+
+includes:
+    rust:
+        taskfile: .task/rust.yml
+    python:
+        taskfile: .task/python.yml
+    node:
+        taskfile: .task/node.yml
+    go:
+        taskfile: .task/go.yml
+    java:
+        taskfile: .task/java.yml
+    elixir:
+        taskfile: .task/elixir.yml
+    c:
+        taskfile: .task/c.yml
+    ruby:
+        taskfile: .task/ruby.yml
+    wasm:
+        taskfile: .task/wasm.yml
+    php:
+        taskfile: .task/php.yml
+    csharp:
+        taskfile: .task/csharp.yml
+    dart:
+        taskfile: .task/dart.yml
+    kotlin-android:
+        taskfile: .task/kotlin-android.yml
+    swift:
+        taskfile: .task/swift.yml
+    zig:
+        taskfile: .task/zig.yml
+    docs:
+        taskfile: ./.task/tools/docs.yml
+    version:
+        taskfile: .task/version.yml
+    test-apps:
+        taskfile: .task/test-apps.yml
+    _e2e_wf:
+        taskfile: .task/workflows/e2e.yml
+
+vars:
+    PROJECT_ROOT:
+        sh: pwd
+    VERSION:
+        sh: python3 -c "import tomllib; print(tomllib.load(open('Cargo.toml','rb'))['workspace']['package']['version'])"
+    FFI_TEST_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg"
+
+# Preconditions for task setup:
+# - Rust toolchain (rustup) — install via https://rustup.rs
+# - alef CLI — install via cargo install --git https://github.com/kreuzberg-dev/alef
+# - prek — install via cargo install prek
+# - uv (Python package manager) — for clone_vendors.py and other Python scripts
+# - git, network access for grammar cloning
+# - Per-language tools auto-skipped via alef preconditions
+
+tasks:
+    default:
+        desc: Show available tasks
+        cmds:
+            - task --list
+
+    setup:
+        desc: "Install all dependencies and dev tools"
+        cmds:
+            - task: rust:install
+            - alef setup
+            - prek install
+            - prek install --hook-type commit-msg
+            - task: clone:if-missing
+
+    ai-rulez:
+        desc: Generate ai-rulez configuration files (CLAUDE.md, etc.)
+        cmds:
+            - pnpm dlx ai-rulez@latest generate
+
+    clone:
+        desc: "Clone all language grammar repositories (full re-clone)"
+        cmds:
+            - uv run --no-sync scripts/clone_vendors.py
+
+    clone:if-missing:
+        desc: "Clone only missing language grammar repositories"
+        status:
+            - test -d parsers && [ "$(ls -A parsers 2>/dev/null | wc -l)" -gt 0 ]
+        cmds:
+            - uv run --no-sync scripts/clone_vendors.py
+
+    build:
+        desc: Build Rust core crates only
+        cmds:
+            - task: build:core
+
+    build:dev:
+        desc: Build in dev mode with a few languages for fast iteration
+        cmds:
+            - task: rust:build:dev
+
+    build:core:
+        desc: Build Rust core crates only
+        cmds:
+            - task: rust:build
+
+    build:all:
+        desc: Build Rust core crates and all language bindings
+        cmds:
+            - task: build:core
+            - task: build:bindings
+
+    build:release:
+        desc: Build Rust core crates in release mode
+        cmds:
+            - task: rust:build:release
+
+    build:ci:
+        desc: Build Rust core crates in CI mode
+        cmds:
+            - task: rust:build:release
+
+    build:bindings:
+        desc: Build all language bindings
+        cmds:
+            - task: alef:build
+
+    test:
+        desc: Run Rust core tests only
+        cmds:
+            - task: rust:test
+
+    test:all:
+        desc: Run all test suites across all languages
+        cmds:
+            - task: test
+            - alef test
+
+    test:bindings:
+        desc: Run binding test suites only
+        cmds:
+            - alef test
+
+    test:ci:
+        desc: Run test suites in CI mode
+        cmds:
+            - task: test:all
+
+    lint:
+        desc: Run all linters and formatters via prek (pre-commit framework)
+        cmds:
+            - prek run --all-files
+
+    lint:check:
+        desc: Run check-only linting
+        cmds:
+            - task: rust:lint:check
+
+    lint:licenses:
+        desc: Verify all grammar repositories use permissive licenses (no GPL/AGPL/copyleft)
+        cmds:
+            - uv run --no-sync python scripts/lint_grammar_licenses.py --update-cache
+
+    check:
+        desc: Run check-only validation
+        cmds:
+            - task: format:check
+            - task: lint:check
+
+    format:
+        desc: Format Rust core code
+        cmds:
+            - task: rust:format
+
+    format:check:
+        desc: Check Rust core formatting
+        cmds:
+            - task: rust:format:check
+
+    clean:
+        desc: Clean all build artifacts
+        cmds:
+            - task: rust:clean
+            - alef clean
+
+    update:
+        desc: Update all dependencies within current major versions (non-breaking)
+        cmds:
+            - echo "Starting within-major update (non-breaking minor/patch bumps)"
+            - echo "Updating Rust dependencies..."
+            - task: rust:update
+            - echo "Updating Python..."
+            - task: python:update
+            - echo "Updating Node/TypeScript..."
+            - task: node:update
+            - echo "Updating WASM..."
+            - task: wasm:update
+            - echo "Updating Ruby..."
+            - task: ruby:update
+            - echo "Updating Go..."
+            - task: go:update
+            - echo "Updating Java..."
+            - task: java:update
+            - echo "Updating C#..."
+            - task: csharp:update
+            - echo "Updating PHP..."
+            - task: php:update
+            - echo "Updating Elixir..."
+            - task: elixir:update
+            - echo "Updating Dart..."
+            - task: dart:update
+            - echo "Updating Swift..."
+            - task: swift:update
+            - echo "Updating Zig..."
+            - task: zig:update
+            - echo "Updating Kotlin-Android..."
+            - task: kotlin-android:update
+            - echo "Updating language grammar revisions..."
+            - uv run --no-sync scripts/pin_vendors.py
+            - echo "Refreshing pre-commit hooks..."
+            - prek autoupdate
+            - echo "Updating GitHub Actions pins..."
+            - uvx --from gh-actions-updater gau --update --recursive --pin-style major --missing-ref fallback .github
+            - echo "Within-major update complete (non-breaking changes only)"
+
+    upgrade:
+        desc: Upgrade all dependencies to latest versions (cross-major / breaking allowed)
+        cmds:
+            - echo "Starting cross-major upgrade (breaking changes allowed)"
+            - echo "Upgrading Rust dependencies (--incompatible)..."
+            - task: rust:upgrade
+            - echo "Upgrading Python..."
+            - task: python:upgrade
+            - echo "Upgrading Node/TypeScript..."
+            - task: node:upgrade
+            - echo "Upgrading WASM..."
+            - task: wasm:upgrade
+            - echo "Upgrading Ruby..."
+            - task: ruby:upgrade
+            - echo "Upgrading Go..."
+            - task: go:upgrade
+            - echo "Upgrading Java..."
+            - task: java:upgrade
+            - echo "Upgrading C#..."
+            - task: csharp:upgrade
+            - echo "Upgrading PHP..."
+            - task: php:upgrade
+            - echo "Upgrading Elixir..."
+            - task: elixir:upgrade
+            - echo "Upgrading Dart..."
+            - task: dart:upgrade
+            - echo "Upgrading Swift..."
+            - task: swift:upgrade
+            - echo "Upgrading Zig..."
+            - task: zig:upgrade
+            - echo "Upgrading Kotlin-Android..."
+            - task: kotlin-android:upgrade
+            - echo "Updating language grammar revisions..."
+            - uv run --no-sync scripts/pin_vendors.py
+            - echo "Refreshing pre-commit hooks..."
+            - prek autoupdate
+            - echo "Updating GitHub Actions pins..."
+            - uvx --from gh-actions-updater gau --update --recursive --pin-style major --missing-ref fallback .github
+            - echo "Cross-major upgrade complete (breaking bumps applied)"
+
+    update:grammars:
+        desc: Update language grammar revisions
+        cmds:
+            - uv run --no-sync scripts/pin_vendors.py
+
+    update:grammars:missing:
+        desc: Pin only languages missing revisions
+        cmds:
+            - uv run --no-sync scripts/pin_vendors.py --only-missing
+
+    update:grammars:check:
+        desc: Check for grammar updates against upstream (reports stale revisions without writing)
+        cmds:
+            - uv run --no-sync scripts/check_grammar_updates.py
+
+    # Publish tasks (via alef)
+    publish:validate:
+        desc: "Validate publish manifests are consistent"
+        cmds:
+            - alef publish validate
+
+    publish:prepare:
+        desc: "Prepare packages for publishing (vendor deps, stage FFI)"
+        cmds:
+            - alef publish prepare
+
+    publish:build:
+        desc: "Build release artifacts for all languages"
+        cmds:
+            - alef publish build
+
+    publish:package:
+        desc: "Package built artifacts into distributable archives"
+        cmds:
+            - alef publish package -o dist/
+
+    # Alef lifecycle
+    alef:generate:
+        desc: Regenerate all Alef-managed outputs without formatting or building
+        cmds:
+            - alef all --clean --format=false
+
+    alef:verify:
+        desc: Check Alef-generated files are up to date
+        cmds:
+            - alef verify --exit-code
+
+    alef:build:
+        desc: Build all language bindings
+        cmds:
+            - alef build
+
+    alef:format:
+        desc: Format Alef-managed language bindings
+        cmds:
+            - alef fmt
+
+    alef:sync:
+        desc: Sync version from Cargo.toml to all manifests
+        cmds:
+            - alef sync-versions
+
+    alef:docs:
+        desc: Generate API reference documentation
+        cmds:
+            - alef docs
+
+    # E2E aggregator tasks (canonical kreuzberg-dev surface).
+    e2e:generate:
+        desc: Generate E2E tests for all languages from fixtures
+        cmds:
+            - task: _e2e_wf:generate
+
+    e2e:build:
+        desc: Build all language bindings for E2E tests
+        cmds:
+            - task: alef:build
+
+    e2e:test:
+        desc: Run e2e tests across all bindings (FFI built first)
+        cmds:
+            - task: _e2e_wf:test
+
+    e2e:all:
+        desc: Build all bindings and run all e2e tests
+        cmds:
+            - task: e2e:build
+            - task: e2e:test
+
+    e2e:quick:
+        desc: Quick e2e (Rust only — fastest feedback)
+        cmds:
+            - task: _e2e_wf:quick
+
+    e2e:verify:
+        desc: Full e2e pipeline — generate, lint, test all suites
+        cmds:
+            - task: _e2e_wf:verify
+
+    e2e:lint:
+        desc: Lint all generated E2E test code
+        cmds:
+            - task: _e2e_wf:lint
+
+    # Documentation generation
+    docs:generate:languages:
+        desc: Generate supported languages documentation from language_definitions.json
+        cmds:
+            - uv run --no-sync scripts/generate_grammar_table.py
+        sources:
+            - sources/language_definitions.json
+        generates:
+            - docs/languages.md
+
+    docs:generate:api:
+        desc: Generate API reference docs (via alef)
+        cmds:
+            - alef docs
+
+    # README generation (via alef)
+    readme:generate:
+        desc: Generate all package READMEs
+        cmds:
+            - alef readme

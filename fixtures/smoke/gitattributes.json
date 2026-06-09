@@ -1,0 +1,17 @@
+{
+	"id": "smoke_gitattributes",
+	"description": "Smoke test: load gitattributes and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "*.txt text",
+		"config": {
+			"language": "gitattributes"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

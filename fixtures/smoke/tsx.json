@@ -1,0 +1,17 @@
+{
+	"id": "smoke_tsx",
+	"description": "Smoke test: load tsx and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "const App = () => <div />;",
+		"config": {
+			"language": "tsx"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,30 @@
+[package]
+name = "ts-pack-core-node"
+version = "1.9.0-rc.29"
+edition = "2024"
+license = "MIT"
+description = "Pre-compiled tree-sitter grammars for 306 programming languages"
+readme = false
+keywords = ["language-pack", "parser", "syntax", "tree-sitter"]
+categories = []
+
+# `serde_json` is emitted unconditionally above so the manifest is stable
+# across regens, but for umbrella crates with no JSON-marshalled return types
+# it is genuinely unused. The conditional `async-trait` / `futures-util` deps
+# are similarly flagged when the umbrella has trait-bridge / streaming
+# adapters configured but no actual async-trait callsite in this binding.
+[package.metadata.cargo-machete]
+ignored = ["serde_json"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi = { version = "3", features = ["async"] }
+napi-derive = "3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tree-sitter-language-pack = { version = "1.9.0-rc.29", path = "../ts-pack-core", features = ["serde", "config", "download"] }
+
+[build-dependencies]
+napi-build = "2"

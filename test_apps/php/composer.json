@@ -1,0 +1,20 @@
+{
+  "name": "kreuzberg-dev/e2e-php",
+  "description": "E2e tests for PHP bindings",
+  "type": "project",
+  "require": {
+    "php": ">=8.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^13.1",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tree\\Sitter\\Language\\Pack\\E2e\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "php run_tests.php"
+  }
+}

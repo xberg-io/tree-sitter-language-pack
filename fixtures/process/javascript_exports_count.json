@@ -1,0 +1,24 @@
+{
+	"id": "process_javascript_exports_count",
+	"description": "JavaScript with multiple exports, verify export count",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "export function greet() { return 'hi'; }\nexport const VERSION = '1.0';\nexport default class App {}\n",
+		"config": {
+			"language": "javascript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "javascript"
+		},
+		{
+			"type": "count_min",
+			"field": "exports",
+			"value": 2
+		}
+	]
+}

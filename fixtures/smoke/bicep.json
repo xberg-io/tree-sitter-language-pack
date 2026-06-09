@@ -1,0 +1,17 @@
+{
+	"id": "smoke_bicep",
+	"description": "Smoke test: load bicep and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "param name string",
+		"config": {
+			"language": "bicep"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

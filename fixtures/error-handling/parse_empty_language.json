@@ -1,0 +1,17 @@
+{
+	"id": "parse_empty_language",
+	"description": "process() returns error with empty language name",
+	"category": "error-handling",
+	"tags": ["error-handling", "parse"],
+	"input": {
+		"source_code": "x = 1",
+		"config": {
+			"language": ""
+		}
+	},
+	"assertions": [
+		{
+			"type": "error"
+		}
+	]
+}

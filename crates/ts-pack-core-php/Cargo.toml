@@ -1,0 +1,26 @@
+[package]
+name = "ts-pack-core-php"
+version = "1.9.0-rc.29"
+edition = "2024"
+license = "MIT"
+description = "Pre-compiled tree-sitter grammars for 306 programming languages"
+readme = false
+keywords = ["language-pack", "parser", "syntax", "tree-sitter"]
+categories = []
+
+# `ahash` and `futures-util` are conditionally included but not directly used in PHP code.
+[package.metadata.cargo-machete]
+ignored = ["tokio", "ahash"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+extension-module = []
+
+[dependencies]
+ext-php-rs = "0.15.15"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tree-sitter-language-pack = { version = "1.9.0-rc.29", path = "../ts-pack-core", features = ["serde", "config", "download"] }

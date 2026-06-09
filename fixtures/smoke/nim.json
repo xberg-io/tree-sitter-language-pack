@@ -1,0 +1,17 @@
+{
+	"id": "smoke_nim",
+	"description": "Smoke test: load nim and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "echo \"hello\"",
+		"config": {
+			"language": "nim"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

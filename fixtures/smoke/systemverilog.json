@@ -1,0 +1,17 @@
+{
+	"id": "smoke_systemverilog",
+	"description": "Smoke test: load systemverilog and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "systemverilog"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

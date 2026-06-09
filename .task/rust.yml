@@ -1,0 +1,175 @@
+version: "3"
+
+vars:
+    DEV_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+    LINK_MODE: "dynamic"
+
+tasks:
+    install:
+        desc: Install Rust toolchain and tools
+        cmds:
+            - echo "Checking Rust toolchain..."
+            - rustc --version
+            - rustup component add rustfmt clippy
+            - task: install:cargo-machete
+
+    install:cargo-machete:
+        desc: Install cargo-machete for unused dependency detection
+        cmds:
+            - cargo-machete --version 2>/dev/null || cargo install cargo-machete
+        ignore_error: true
+
+    build:
+        desc: Build all crates with all languages
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LINK_MODE: "{{.LINK_MODE}}"
+        cmds:
+            - cargo build --workspace --exclude ts-pack-ruby --exclude ts-pack-php --exclude ts-pack-wasm
+
+    build:dev:
+        desc: Build with a small set of languages for fast iteration
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LANGUAGES: "{{.DEV_LANGUAGES}}"
+            TSLP_LINK_MODE: "{{.LINK_MODE}}"
+        cmds:
+            - cargo build --workspace --exclude ts-pack-ruby --exclude ts-pack-php --exclude ts-pack-wasm
+
+    build:release:
+        desc: Build in release mode (optimized)
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LINK_MODE: "{{.LINK_MODE}}"
+        cmds:
+            - cargo build --workspace --exclude ts-pack-ruby --exclude ts-pack-php --exclude ts-pack-wasm --release
+
+    test:
+        desc: Run all Rust tests
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LINK_MODE: "{{.LINK_MODE}}"
+        cmds:
+            - cargo test --workspace --exclude ts-pack-ruby --exclude ts-pack-php --exclude ts-pack-wasm
+
+    test:quick:
+        desc: Run tests with a small set of languages
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LANGUAGES: "{{.DEV_LANGUAGES}}"
+            TSLP_LINK_MODE: "{{.LINK_MODE}}"
+        cmds:
+            - cargo test --workspace --exclude ts-pack-ruby --exclude ts-pack-php --exclude ts-pack-wasm
+
+    lint:
+        desc: Auto-fix Rust code linting (cargo fmt + clippy)
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LANGUAGES: "{{.DEV_LANGUAGES}}"
+            TSLP_LINK_MODE: static
+        cmds:
+            - cargo fmt --all
+            - cargo clippy --workspace --exclude ts-pack-ruby --exclude ts-pack-php --exclude ts-pack-wasm --fix --allow-dirty --allow-staged -- -D warnings
+
+    lint:check:
+        desc: Check Rust code linting without modifications
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LANGUAGES: "{{.DEV_LANGUAGES}}"
+            TSLP_LINK_MODE: static
+        cmds:
+            - cargo fmt --all -- --check
+            - cargo clippy --workspace --exclude ts-pack-ruby --exclude ts-pack-php --exclude ts-pack-wasm -- -D warnings
+
+    format:
+        desc: Format all Rust code
+        cmds:
+            - cargo fmt --all
+
+    format:check:
+        desc: Check Rust formatting (CI)
+        cmds:
+            - cargo fmt --all -- --check
+
+    clean:
+        desc: Clean Rust build artifacts
+        cmds:
+            - cargo clean
+
+    doc:
+        desc: Generate and open documentation
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LANGUAGES: "{{.DEV_LANGUAGES}}"
+            TSLP_LINK_MODE: static
+        cmds:
+            - cargo doc --workspace --no-deps --exclude ts-pack-ruby --open
+
+    update:
+        desc: Update Rust dependencies within current major versions (non-breaking)
+        cmds:
+            - echo "Updating Rust dependencies workspace (within-major)..."
+            - cargo upgrade
+            - cargo update
+            - echo "Updating Rust dependencies e2e (within-major)..."
+            - cargo upgrade --manifest-path e2e/rust/Cargo.toml
+            - cargo update --manifest-path e2e/rust/Cargo.toml
+
+    upgrade:
+        desc: Upgrade Rust dependencies to latest versions (cross-major / breaking)
+        cmds:
+            - echo "Upgrading Rust dependencies workspace (cross-major)..."
+            - cargo upgrade --incompatible
+            - cargo update
+            - echo "Upgrading Rust dependencies e2e (cross-major)..."
+            - cargo upgrade --incompatible --manifest-path e2e/rust/Cargo.toml
+            - cargo update --manifest-path e2e/rust/Cargo.toml
+
+    bench:
+        desc: Run criterion benchmarks
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LINK_MODE: "{{.LINK_MODE}}"
+        cmds:
+            - cargo bench -p tree-sitter-language-pack
+
+    e2e:generate:
+        desc: Generate and format Rust E2E tests from fixtures
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+        cmds:
+            - alef e2e generate --lang rust
+            - task: e2e:format
+
+    e2e:format:
+        desc: Format generated Rust E2E sources
+        cmds:
+            - cargo fmt --manifest-path e2e/rust/Cargo.toml
+
+    e2e:test:
+        desc: Run Rust E2E tests
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            # mojo, nim, norg exist locally but are missing from the release archive,
+            # so they must be compiled in to run their smoke tests offline. bash is the
+            # resolution target of the "shell" alias fixture and must therefore be statically
+            # available for the alias-resolution registry tests.
+            TSLP_LANGUAGES: "mojo,nim,norg,bash"
+        cmds:
+            - alef test --lang rust --e2e --jobs 1
+
+    e2e:all-grammars:
+        desc: Run Rust E2E tests with a representative set of grammars compiled statically
+        env:
+            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+            TSLP_LINK_MODE: static
+            TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,bash,c,cpp,java,ruby,swift,kotlin"
+        cmds:
+            - cargo test --manifest-path e2e/rust/Cargo.toml
+
+    e2e:verify:
+        desc: Regenerate and validate Rust E2E suite (generate + format + test)
+        cmds:
+            - task: e2e:generate
+            - task: e2e:format
+            - task: e2e:test

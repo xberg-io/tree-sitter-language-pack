@@ -1,0 +1,17 @@
+{
+	"id": "smoke_dart",
+	"description": "Smoke test: load dart and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "void main() {}",
+		"config": {
+			"language": "dart"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

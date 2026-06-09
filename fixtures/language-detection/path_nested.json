@@ -1,0 +1,16 @@
+{
+	"id": "detect_path_nested",
+	"description": "detect_language_from_path extracts extension from nested path src/main.py",
+	"category": "language-detection",
+	"tags": ["language-detection", "path"],
+	"call": "detect_path",
+	"input": {
+		"path": "src/main.py"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "python"
+		}
+	]
+}

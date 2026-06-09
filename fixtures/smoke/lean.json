@@ -1,0 +1,17 @@
+{
+	"id": "smoke_lean",
+	"description": "Smoke test: load lean and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "def main : IO Unit := pure ()",
+		"config": {
+			"language": "lean"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_tsv",
+	"description": "Smoke test: load tsv and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "a\tb\tc\n1\t2\t3",
+		"config": {
+			"language": "tsv"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,63 @@
+name: CI Dart
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "crates/ts-pack-core/**"
+            - "packages/dart/**"
+            - ".github/workflows/ci-dart.yaml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "crates/ts-pack-core/**"
+            - "packages/dart/**"
+            - ".github/workflows/ci-dart.yaml"
+    workflow_dispatch:
+
+concurrency:
+    group: ci-dart-${{ github.ref }}
+    cancel-in-progress: true
+
+env:
+    CARGO_TERM_COLOR: always
+    CARGO_INCREMENTAL: 0
+    CARGO_PROFILE_DEV_DEBUG: 0
+    RUST_BACKTRACE: short
+    TSLP_LINK_MODE: static
+    TSLP_LANGUAGES: mojo,nim,norg
+    # build.rs downloads parser-sources from the current rc tag URL, which
+    # 404s pre-publish (this workflow runs on the same commit as the tag, before
+    # publish.yaml uploads the asset). Skip the download — cargo check just
+    # type-checks; the static-link parser tables come from TSLP_LANGUAGES.
+    TSLP_OFFLINE: "1"
+
+permissions:
+    contents: read
+
+jobs:
+    dart-test:
+        name: Dart build + test (${{ matrix.os }})
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 30
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, macos-latest]
+        steps:
+            - uses: actions/checkout@v6
+            - uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  cache-key-prefix: ci-dart-${{ matrix.os }}
+            - uses: dart-lang/setup-dart@v1.7.2
+            - name: Install flutter_rust_bridge_codegen
+              run: cargo install flutter_rust_bridge_codegen --version 2.12.0 --locked
+            - name: Resolve Dart deps
+              working-directory: packages/dart
+              run: dart pub get
+            - name: Run flutter_rust_bridge_codegen
+              working-directory: packages/dart/rust
+              run: flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
+            - name: Build tree-sitter-language-pack-dart Rust crate
+              run: cargo build --release -p tree-sitter-language-pack-dart

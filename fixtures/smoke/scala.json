@@ -1,0 +1,17 @@
+{
+	"id": "smoke_scala",
+	"description": "Smoke test: load scala and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "object Main",
+		"config": {
+			"language": "scala"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "smoke_cfml",
+	"description": "Smoke test: load cfml and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "cfml"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

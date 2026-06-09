@@ -1,0 +1,17 @@
+{
+	"id": "smoke_ini",
+	"description": "Smoke test: load ini and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "[section]\nkey = value",
+		"config": {
+			"language": "ini"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

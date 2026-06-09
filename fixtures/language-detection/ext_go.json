@@ -1,0 +1,16 @@
+{
+	"id": "detect_ext_go",
+	"description": "detect_language_from_extension recognizes .go as go",
+	"category": "language-detection",
+	"tags": ["language-detection", "extension"],
+	"call": "detect_extension",
+	"input": {
+		"extension": "go"
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"value": "go"
+		}
+	]
+}

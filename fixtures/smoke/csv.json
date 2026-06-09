@@ -1,0 +1,17 @@
+{
+	"id": "smoke_csv",
+	"description": "Smoke test: load csv and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "a,b,c\n1,2,3",
+		"config": {
+			"language": "csv"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

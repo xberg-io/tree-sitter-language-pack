@@ -1,0 +1,17 @@
+{
+	"id": "smoke_bass",
+	"description": "Smoke test: load bass and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "bass"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

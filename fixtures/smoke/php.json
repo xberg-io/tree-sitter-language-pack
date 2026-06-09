@@ -1,0 +1,17 @@
+{
+	"id": "smoke_php",
+	"description": "Smoke test: load php and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<?php echo 'hello'; ?>",
+		"config": {
+			"language": "php"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

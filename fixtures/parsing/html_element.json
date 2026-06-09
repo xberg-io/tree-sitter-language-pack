@@ -1,0 +1,17 @@
+{
+	"id": "parsing_html_element",
+	"description": "Parse an HTML element and assert node type",
+	"category": "parsing",
+	"tags": ["parsing", "html"],
+	"input": {
+		"source_code": "<div>hello</div>",
+		"config": {
+			"language": "html"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

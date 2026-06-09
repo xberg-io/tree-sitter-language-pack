@@ -1,0 +1,17 @@
+{
+	"id": "smoke_teal",
+	"description": "Smoke test: load teal and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "x",
+		"config": {
+			"language": "teal"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"id": "parsing_javascript_class",
+	"description": "Parse a JavaScript class declaration.",
+	"category": "parsing",
+	"tags": ["parsing"],
+	"input": {
+		"source_code": "class Foo { bar() {} }",
+		"config": {
+			"language": "javascript"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

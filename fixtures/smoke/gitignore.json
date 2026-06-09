@@ -1,0 +1,17 @@
+{
+	"id": "smoke_gitignore",
+	"description": "Smoke test: load gitignore and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "*.o\n*.log",
+		"config": {
+			"language": "gitignore"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

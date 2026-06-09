@@ -1,0 +1,44 @@
+{
+	"id": "process_python_all_features",
+	"description": "Python comprehensive source with all feature extraction enabled",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "import os\nfrom pathlib import Path\n\n# Configuration\nMY_CONST = 42\n\ndef process_file(path):\n    \"\"\"Process a file and return contents.\"\"\"\n    with open(path) as f:\n        return f.read()\n\nclass FileProcessor:\n    def __init__(self, base_dir):\n        self.base_dir = base_dir\n",
+		"config": {
+			"language": "python",
+			"structure": true,
+			"imports": true,
+			"comments": true,
+			"docstrings": true,
+			"symbols": true
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "count_min",
+			"field": "structure",
+			"value": 2
+		},
+		{
+			"type": "count_min",
+			"field": "imports",
+			"value": 1
+		},
+		{
+			"type": "count_min",
+			"field": "comments",
+			"value": 1
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 10
+		}
+	]
+}

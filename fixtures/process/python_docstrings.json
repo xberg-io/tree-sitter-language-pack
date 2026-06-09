@@ -1,0 +1,25 @@
+{
+	"id": "process_python_docstrings",
+	"description": "Python with function docstring, verify docstring count",
+	"category": "process",
+	"tags": ["metadata"],
+	"input": {
+		"source_code": "def greet(name):\n    \"\"\"Say hello to someone.\"\"\"\n    return f\"Hello {name}\"\n",
+		"config": {
+			"language": "python",
+			"docstrings": true
+		}
+	},
+	"assertions": [
+		{
+			"type": "equals",
+			"field": "language",
+			"value": "python"
+		},
+		{
+			"type": "greater_than_or_equal",
+			"field": "metrics.total_lines",
+			"value": 3
+		}
+	]
+}

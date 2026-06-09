@@ -1,0 +1,17 @@
+{
+	"id": "smoke_xcompose",
+	"description": "Smoke test: load xcompose and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "<Multi_key> <a> : \"a\"",
+		"config": {
+			"language": "xcompose"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

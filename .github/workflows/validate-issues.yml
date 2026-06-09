@@ -1,0 +1,14 @@
+name: Validate Issues
+
+on:
+    issues:
+        types: [opened, edited]
+
+concurrency:
+    group: validate-issues-${{ github.event.issue.number }}
+    cancel-in-progress: true
+
+jobs:
+    validate:
+        uses: kreuzberg-dev/actions/.github/workflows/reusable-validate-issues.yml@v1
+        secrets: inherit

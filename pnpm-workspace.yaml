@@ -1,0 +1,21 @@
+packages:
+  - "."
+  - "crates/ts-pack-core-node"
+  - "e2e/node"
+onlyBuiltDependencies:
+  - esbuild
+  - tree-sitter
+allowBuilds:
+  esbuild: true
+  tree-sitter: true
+minimumReleaseAgeExclude:
+  # pnpm 11+ matches these as name-only globs (the `pkg@version` form is not
+  # honored — sibling polyglot repos use the same pattern). The wildcard covers
+  # all current and future RC platform packages so release commits can land
+  # before their own published artifacts age past the policy cutoff.
+  - '@kreuzberg/tree-sitter-language-pack-*'
+
+# e2e/wasm is intentionally NOT in the workspace because its `tree_sitter_language_pack`
+# dep is `file:../../crates/ts-pack-core-wasm/pkg` which only exists after wasm-pack
+# builds it. Keeping it out lets root `pnpm install` succeed in CI without requiring
+# a prebuilt wasm pkg. The wasm test job runs `pnpm install` inside e2e/wasm/ separately.

@@ -1,0 +1,64 @@
+# Configuration for the typos spell checker.
+# https://github.com/crate-ci/typos
+
+[default]
+extend-ignore-re = [
+  # Hex strings (e.g. commit hashes, checksums)
+  "[a-fA-F0-9]{32,}",
+  # Base64 encoded strings
+  "[A-Za-z0-9+/]{40,}={0,2}",
+  # URLs — avoid flagging path segments
+  "https?://[^\\s]+",
+]
+
+[default.extend-words]
+# Project-specific terms that are not typos
+kreuzberg = "kreuzberg"
+wasm = "wasm"
+mkdocs = "mkdocs"
+rumdl = "rumdl"
+nasm = "nasm"
+hlsl = "hlsl"
+glsl = "glsl"
+cuda = "cuda"
+ocaml = "ocaml"
+abl = "abl"
+fo = "fo"
+nd = "nd"
+ba = "ba"
+pn = "pn"
+# `ser` is the Jackson "serializer" package segment (databind.ser.std.StdSerializer).
+# Without this, typos rewrites `ser` -> `set`, breaking kotlin-android imports.
+ser = "ser"
+
+[default.extend-identifiers]
+TreeSitter = "TreeSitter"
+NuGet = "NuGet"
+PyPI = "PyPI"
+
+[files]
+extend-exclude = [
+  "fixtures/",
+  "*.lock",
+  "pnpm-lock.yaml",
+  "target/",
+  "node_modules/",
+  "dist/",
+  "site/",
+  "parsers/",
+  "crates/*/deps/",
+  "crates/*/tmp/",
+  "sources/",
+  "e2e/",
+  "vendor/",
+  "*.whl",
+  "*.tar.gz",
+  "*.png",
+  "*.ico",
+  "*.svg",
+  "CHANGELOG.md",
+  "docs/CHANGELOG.md",
+  "docs/snippets/",
+  "docs/supported-languages.md",
+  "docs/languages.md",
+]

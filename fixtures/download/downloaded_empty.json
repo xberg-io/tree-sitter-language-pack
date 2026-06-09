@@ -1,0 +1,17 @@
+{
+	"id": "download_downloaded_empty",
+	"description": "List downloaded languages (may be empty before any downloads)",
+	"category": "download",
+	"tags": ["download"],
+	"call": "downloaded_languages",
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Download feature requires network access and is not available in static builds"
+	},
+	"input": {},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

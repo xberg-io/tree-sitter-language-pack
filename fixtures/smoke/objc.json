@@ -1,0 +1,17 @@
+{
+	"id": "smoke_objc",
+	"description": "Smoke test: load objc and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "@interface Main @end",
+		"config": {
+			"language": "objc"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

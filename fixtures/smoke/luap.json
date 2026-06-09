@@ -1,0 +1,17 @@
+{
+	"id": "smoke_luap",
+	"description": "Smoke test: load luap and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "[a-z]+",
+		"config": {
+			"language": "luap"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

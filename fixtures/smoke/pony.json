@@ -1,0 +1,17 @@
+{
+	"id": "smoke_pony",
+	"description": "Smoke test: load pony and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "actor Main\n  new create(env: Env) => None",
+		"config": {
+			"language": "pony"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

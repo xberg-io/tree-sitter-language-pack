@@ -1,0 +1,17 @@
+{
+	"id": "smoke_python",
+	"description": "Smoke test: load python and parse a simple snippet",
+	"category": "smoke",
+	"tags": ["smoke"],
+	"input": {
+		"source_code": "print('hello')",
+		"config": {
+			"language": "python"
+		}
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}
