@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Release automation migrated to the `kreuzberg-dev-publisher` GitHub App.** All 15 release-write jobs in `.github/workflows/publish.yaml` (parser-sources upload, parser-binaries upload, Go FFI upload, C FFI upload, Elixir NIF upload + draft create, Hex checksums fetch, pubdev workflow dispatch, Swift manifest commit + tag force-push, Zig upload, CLI upload, homebrew formula render + tap push, homebrew bottle build + DSL merge + tap push, Go subtree commit + tag push, finalize-release) now mint a short-lived installation token via `actions/create-github-app-token@v2` keyed off the org secrets `BOT_APP_ID` / `BOT_APP_PRIVATE_KEY`. Bot identity: `kreuzberg-dev-publisher[bot]` (user id 291994444). Eliminates the `HOMEBREW_TOKEN` PAT for cross-repo tap pushes and lets tag pushes trigger downstream workflows (`GITHUB_TOKEN`-driven pushes don't). Branch protection on `main` requires `kreuzberg-dev-publisher[bot]` in the bypass list.
+
 ### Fixed
 
 - **`Stage Go FFI libraries` step in `.github/workflows/publish.yaml` now resolves the artifact path correctly.** The step `cd`s into `packages/go/` before walking the downloaded artifact tree, so the `find` invocation needs `../../tmp/go-ffi-all` (two levels up to the repo root). Commit `1de6c8dca` introduced `../../../tmp/go-ffi-all` (three levels up), pointing one directory above the workspace root → `find: '…/tmp/go-ffi-all': No such file or directory` → exit 1 → `packages/go/v1.9.0-rc.28` subtree tag never pushed. Manually staged + tagged rc.28; the next publish run picks up the fix.
