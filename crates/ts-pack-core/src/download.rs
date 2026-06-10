@@ -207,6 +207,13 @@ fn build_agent(mode: TlsRootsMode) -> ureq::Agent {
     ureq::Agent::config_builder()
         .tls_config(ureq::tls::TlsConfig::builder().root_certs(root_certs).build())
         .timeout_global(Some(HTTP_TIMEOUT))
+        // Honor standard proxy environment variables (HTTPS_PROXY / HTTP_PROXY /
+        // ALL_PROXY, incl. socks5://). Without this the agent always connects
+        // directly, so on networks where the GitHub release host is only
+        // reachable through a proxy the grammar download stalls until the
+        // global timeout fires (and pre-timeout builds hung forever). Proxy is
+        // applied only when the env vars are set; otherwise this is a no-op.
+        .proxy(ureq::Proxy::try_from_env())
         .build()
         .new_agent()
 }

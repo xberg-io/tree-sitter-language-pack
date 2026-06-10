@@ -59,7 +59,7 @@ toml = "1.1"
 toml_edit = "0.25"
 tree-sitter = "0.26"
 tree-sitter-language-pack = { path = "crates/ts-pack-core" }
-ureq = { version = "3", features = ["platform-verifier"] }
+ureq = { version = "3", features = ["platform-verifier", "socks-proxy"] }
 walkdir = "2.5"
 wasm-bindgen = "0.2"
 wasm-bindgen-test = "0.3"
