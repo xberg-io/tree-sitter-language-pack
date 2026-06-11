@@ -7,16 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.9.0-rc.32] - 2026-06-09
+## [1.9.0-rc.32] - 2026-06-11
 
 ### Fixed
 
 - **`release-finalize` job guards `Finalize release` on `prepare` success.** The job ran with `if: always()` and unconditionally invoked `finalize-release@v1`, which errors with `INPUT_TAG is required` whenever `prepare`'s `tag` output is empty (cancelled or failed `prepare`). Result: a cancelled rc.31 surfaced as a confusing `Finalize release: failure` on top of the actual upstream cancellation. Now `if: needs.prepare.result == 'success'`. rc.31 publish run 27214336783.
-- **PHP `test_apps/install.sh` verifies extension load via `extension_loaded()` rather than parsing `php -m` output.** When the PIE-installed extension was already loaded through the global `php.ini`, an explicit `php -d extension=...` invocation caused PHP to emit `Module already loaded` to stderr; the harness's combined-output capture treated the warning as fatal and the install step exited non-zero before the actual smoke test ran. Switched to `php -r 'exit(extension_loaded("...") ? 0 : 1);'` so the check is decoupled from PHP's logging and tolerant of double-loading. Pulled in from alef 0.23.66 via the alef-pin bump below.
+- **PHP `test_apps/install.sh` verifies extension load via `extension_loaded()` rather than parsing `php -m` output.** When the PIE-installed extension was already loaded through the global `php.ini`, an explicit `php -d extension=...` invocation caused PHP to emit `Module already loaded` to stderr; the harness's combined-output capture treated the warning as fatal and the install step exited non-zero before the actual smoke test ran. Switched to `php -r 'exit(extension_loaded("...") ? 0 : 1);'` so the check is decoupled from PHP's logging and tolerant of double-loading.
+- **`ts-pack-core-ffi` regen emits zero rustdoc warnings.** Previously the regen produced 26 broken-intra-doc-link warnings on every build because emitted `///` comments contained bare and backtick-wrapped intra-doc-link forms (`[download()]`, `` [`Error::LanguageNotFound`] ``, etc.) referencing core-crate items not in scope from the FFI wrapper. Pulled in via the alef 0.24.2 bump.
+- **`ts-pack-core-node` regen emits zero rustdoc warnings.** The previous regen left `Vec<u8>` and `Array<number>` bare in `JsBytes` doc comments, which rustdoc parsed as unclosed HTML tags. Pulled in via the alef 0.24.2 bump.
+- **`test_apps/zig/build.zig.zon` URLs now match publish-zig asset naming.** Previous releases emitted URLs with Go-style platform labels (`linux-aarch64`, `macos-arm64`, …) while published assets used Rust target triples (`aarch64-unknown-linux-gnu`, `aarch64-apple-darwin`, …), so `zig fetch` 404'd. The alef 0.24.2 bump switches both sides to Rust triples; tslp's `alef.toml` `[crates.e2e.registry.packages.zig.platform_hashes]` keys updated to match. Reverts the simple-arch direction taken in rc.31.
 
 ### Changed
 
-- **Alef pin bumped 0.23.65 → 0.23.68.** Pulls in the PHP install.sh `extension_loaded()` fix (0.23.66) above plus a sweep of NAPI / Swift / Dart / Elixir / C# / PyO3 codegen fixes (0.23.67–0.23.68) that are kreuzberg-driven but harmless to tslp. The local alef binary upgrade also normalized embedded `alef_version` headers across all alef-generated files.
+- **Alef pin bumped 0.23.68 → 0.24.2.** Pulls in the FFI/NAPI rustdoc-warning fixes and Zig URL alignment above, plus a Kotlin Android host JNI artifact for JVM test_apps (`buildHostJni` / `copyHostJni` Gradle tasks guarded by `alef.skipHostJni`), Go scaffold `module_major` parameterization that lets non-kreuzberg consumers configure their `packages/go/v{N}` layout, and a broad sweep of trait-bridge adapter fixes across Kotlin Android, C#, Java, Node, R, Swift, Dart, Elixir, and Go.
+- **`crates/ts-pack-core/build.rs` added to the `rust-max-lines` exclude list (1081 LOC > 1000-line ceiling).** Joins the existing remediation backlog of large files awaiting split.
 
 ## [1.9.0-rc.31] - 2026-06-09
 

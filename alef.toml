@@ -1092,11 +1092,11 @@ version = "1.9.0-rc.32"
 # time via `zig fetch <url>`, resolving to the real published hash.
 
 [crates.e2e.registry.packages.zig.platform_hashes]
-"linux-x86_64" = "STALE_TODO_REGENERATE"
-"linux-aarch64" = "STALE_TODO_REGENERATE"
-"macos-arm64" = "STALE_TODO_REGENERATE"
-"macos-x86_64" = "STALE_TODO_REGENERATE"
-"windows-x86_64" = "STALE_TODO_REGENERATE"
+"aarch64-apple-darwin" = "STALE_TODO_REGENERATE"
+"aarch64-unknown-linux-gnu" = "STALE_TODO_REGENERATE"
+"x86_64-apple-darwin" = "STALE_TODO_REGENERATE"
+"x86_64-pc-windows-msvc" = "STALE_TODO_REGENERATE"
+"x86_64-unknown-linux-gnu" = "STALE_TODO_REGENERATE"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
