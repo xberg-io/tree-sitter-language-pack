@@ -12,7 +12,7 @@ defmodule E2eElixir.MixProject do
 
   defp deps do
     [
-      {:tree_sitter_language_pack, "1.9.0-rc.31"},
+      {:tree_sitter_language_pack, "1.9.0-rc.32"},
       {:rustler_precompiled, "~> 0.9"},
       {:rustler, "~> 0.37", runtime: false}
     ]

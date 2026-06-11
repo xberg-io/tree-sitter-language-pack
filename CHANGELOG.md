@@ -7,13 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.32] - 2026-06-09
+
+### Fixed
+
+- **`release-finalize` job guards `Finalize release` on `prepare` success.** The job ran with `if: always()` and unconditionally invoked `finalize-release@v1`, which errors with `INPUT_TAG is required` whenever `prepare`'s `tag` output is empty (cancelled or failed `prepare`). Result: a cancelled rc.31 surfaced as a confusing `Finalize release: failure` on top of the actual upstream cancellation. Now `if: needs.prepare.result == 'success'`. rc.31 publish run 27214336783.
+- **PHP `test_apps/install.sh` verifies extension load via `extension_loaded()` rather than parsing `php -m` output.** When the PIE-installed extension was already loaded through the global `php.ini`, an explicit `php -d extension=...` invocation caused PHP to emit `Module already loaded` to stderr; the harness's combined-output capture treated the warning as fatal and the install step exited non-zero before the actual smoke test ran. Switched to `php -r 'exit(extension_loaded("...") ? 0 : 1);'` so the check is decoupled from PHP's logging and tolerant of double-loading. Pulled in from alef 0.23.66 via the alef-pin bump below.
+
+### Changed
+
+- **Alef pin bumped 0.23.65 → 0.23.68.** Pulls in the PHP install.sh `extension_loaded()` fix (0.23.66) above plus a sweep of NAPI / Swift / Dart / Elixir / C# / PyO3 codegen fixes (0.23.67–0.23.68) that are kreuzberg-driven but harmless to tslp. The local alef binary upgrade also normalized embedded `alef_version` headers across all alef-generated files.
+
 ## [1.9.0-rc.31] - 2026-06-09
 
 ### Fixed
 
 - **Alef pin bumped 0.23.58 → 0.23.65.** Pulls in two test_apps-driven fixes from alef 0.23.65:
-    - **kotlin-android**: Foojay toolchain resolver plugin bumped v0.7.0 → v0.10.0 in both `settings.gradle.kts` emitters. v0.7.0 referenced `JvmVendorSpec.IBM_SEMERU`, which Gradle 9.0+ removed (renamed to `IBM`); Gradle 9.5.1 hosts failed at project-evaluation with `Class org.gradle.jvm.toolchain.JvmVendorSpec does not have member field 'IBM_SEMERU'`. v0.10.0 is Gradle 9.x-safe.
-    - **zig**: published tarballs now use simple-arch platform labels (`linux-x86_64`, `linux-aarch64`, `macos-arm64`, `macos-x86_64`, `windows-x86_64`) matching `build.zig.zon` URL templates. Previously `RustTarget::platform_for(Language::Zig)` returned the rust triple, so `alef publish package --lang zig --target …` emitted `…-aarch64-apple-darwin.tar.gz` but the e2e codegen's URL templates and per-platform `[crates.e2e.registry.packages.zig.platform_hashes]` user config used the simple-arch convention. Consumers' `zig fetch` then 404'd.
+  - **kotlin-android**: Foojay toolchain resolver plugin bumped v0.7.0 → v0.10.0 in both `settings.gradle.kts` emitters. v0.7.0 referenced `JvmVendorSpec.IBM_SEMERU`, which Gradle 9.0+ removed (renamed to `IBM`); Gradle 9.5.1 hosts failed at project-evaluation with `Class org.gradle.jvm.toolchain.JvmVendorSpec does not have member field 'IBM_SEMERU'`. v0.10.0 is Gradle 9.x-safe.
+  - **zig**: published tarballs now use simple-arch platform labels (`linux-x86_64`, `linux-aarch64`, `macos-arm64`, `macos-x86_64`, `windows-x86_64`) matching `build.zig.zon` URL templates. Previously `RustTarget::platform_for(Language::Zig)` returned the rust triple, so `alef publish package --lang zig --target …` emitted `…-aarch64-apple-darwin.tar.gz` but the e2e codegen's URL templates and per-platform `[crates.e2e.registry.packages.zig.platform_hashes]` user config used the simple-arch convention. Consumers' `zig fetch` then 404'd.
 
 ## [1.9.0-rc.30] - 2026-06-09
 

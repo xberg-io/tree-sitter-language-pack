@@ -7,6 +7,7 @@ pub fn build(b: *std.Build) void {
     const test_step = b.step("test", "Run tests");
     const ffi_path = b.option([]const u8, "ffi_path", "Path to directory containing libts_pack_core_ffi") orelse "../../target/release";
     const ffi_include = b.option([]const u8, "ffi_include_path", "Path to directory containing FFI header") orelse "../../crates/ts-pack-core-ffi/include";
+    const ffi_path_abs = b.pathFromRoot(ffi_path);
 
     const tree_sitter_language_pack_module = b.addModule("tree_sitter_language_pack", .{
         .root_source_file = b.path("../../packages/zig/src/tree_sitter_language_pack.zig"),
@@ -17,6 +18,7 @@ pub fn build(b: *std.Build) void {
     tree_sitter_language_pack_module.addLibraryPath(.{ .cwd_relative = ffi_path });
     tree_sitter_language_pack_module.addIncludePath(.{ .cwd_relative = ffi_include });
     tree_sitter_language_pack_module.linkSystemLibrary("ts_pack_core_ffi", .{});
+    tree_sitter_language_pack_module.addRPath(.{ .cwd_relative = ffi_path_abs });
 
     const download_module = b.createModule(.{
         .root_source_file = b.path("src/download_test.zig"),
@@ -30,6 +32,7 @@ pub fn build(b: *std.Build) void {
         .root_module = download_module,
         .use_llvm = true,
     });
+    download_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const download_run = b.addRunArtifact(download_tests);
     test_step.dependOn(&download_run.step);
 
@@ -45,6 +48,7 @@ pub fn build(b: *std.Build) void {
         .root_module = error_handling_module,
         .use_llvm = true,
     });
+    error_handling_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const error_handling_run = b.addRunArtifact(error_handling_tests);
     test_step.dependOn(&error_handling_run.step);
 
@@ -60,6 +64,7 @@ pub fn build(b: *std.Build) void {
         .root_module = language_detection_module,
         .use_llvm = true,
     });
+    language_detection_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const language_detection_run = b.addRunArtifact(language_detection_tests);
     test_step.dependOn(&language_detection_run.step);
 
@@ -75,6 +80,7 @@ pub fn build(b: *std.Build) void {
         .root_module = parsing_module,
         .use_llvm = true,
     });
+    parsing_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const parsing_run = b.addRunArtifact(parsing_tests);
     test_step.dependOn(&parsing_run.step);
 
@@ -90,6 +96,7 @@ pub fn build(b: *std.Build) void {
         .root_module = process_module,
         .use_llvm = true,
     });
+    process_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const process_run = b.addRunArtifact(process_tests);
     test_step.dependOn(&process_run.step);
 
@@ -105,6 +112,7 @@ pub fn build(b: *std.Build) void {
         .root_module = query_module,
         .use_llvm = true,
     });
+    query_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const query_run = b.addRunArtifact(query_tests);
     test_step.dependOn(&query_run.step);
 
@@ -120,6 +128,7 @@ pub fn build(b: *std.Build) void {
         .root_module = registry_module,
         .use_llvm = true,
     });
+    registry_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const registry_run = b.addRunArtifact(registry_tests);
     test_step.dependOn(&registry_run.step);
 
@@ -135,6 +144,7 @@ pub fn build(b: *std.Build) void {
         .root_module = smoke_module,
         .use_llvm = true,
     });
+    smoke_tests.root_module.addRPath(.{ .cwd_relative = ffi_path_abs });
     const smoke_run = b.addRunArtifact(smoke_tests);
     test_step.dependOn(&smoke_run.step);
 
