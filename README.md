@@ -76,7 +76,7 @@ A comprehensive collection of tree-sitter language parsers with polyglot binding
 
 ## Overview
 
-**tree-sitter-language-pack** bundles 300+ tree-sitter language parsers into a single package with native bindings for multiple programming languages. Ship syntax analysis in your application without managing individual parser dependencies.
+**tree-sitter-language-pack** bundles 306 tree-sitter language parsers into a single package with native bindings for multiple programming languages. Ship syntax analysis in your application without managing individual parser dependencies.
 
 ## Architecture
 
@@ -251,18 +251,18 @@ The `process()` function returns structured analysis including functions, classe
 
 ## Supported Languages
 
-This pack includes 300+ languages. See the [full language list](docs/languages.md) for all supported grammars with extensions and repository links.
+This pack includes 306 languages. See the [full language list](docs/languages.md) for all supported grammars with extensions and repository links.
 
 ## Package READMEs
 
-- [Rust](crates/ts-pack-core/README.md) -- Rust core library providing access to 300+ tree-sitter parsers with on-demand download and caching support.
+- [Rust](crates/ts-pack-core/README.md) -- Rust core library providing access to 306 tree-sitter parsers with on-demand download and caching support.
 - [Python](packages/python/README.md) -- Python bindings for tree-sitter-language-pack, providing access to 306 pre-compiled tree-sitter parsers with on-demand downloads.
 - [Node.js](crates/ts-pack-core-node/README.md) -- Node.js NAPI bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [Go](packages/go/README.md) -- Go bindings for tree-sitter-language-pack with on-demand parser caching.
 - [Java](packages/java/README.md) -- Java bindings for tree-sitter-language-pack with on-demand parser downloads (JDK 22+).
 - [Elixir](packages/elixir/README.md) -- Elixir bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [Ruby](packages/ruby/README.md) -- Ruby bindings for tree-sitter-language-pack with on-demand parser downloads.
-- [WebAssembly](crates/ts-pack-core-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 300+ languages, use native bindings (Python, Node.js, etc.).
+- [WebAssembly](crates/ts-pack-core-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 306 languages, use native bindings (Python, Node.js, etc.).
 - [PHP](packages/php/README.md) -- PHP extension via ext-php-rs with on-demand parser downloads.
 - [.NET (C#)](packages/csharp/README.md) -- .NET P/Invoke bindings with on-demand parser downloads.
 - [C/C++ (FFI)](crates/ts-pack-core-ffi/README.md) -- C-compatible FFI bindings for tree-sitter-language-pack. Use from any language with C interop.
