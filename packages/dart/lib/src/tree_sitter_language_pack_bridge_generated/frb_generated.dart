@@ -51,6 +51,20 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
           }
         }
       }
+
+      // As a last resort on macOS, try to open the framework with an absolute path
+      // constructed from the current working directory. This handles cases where the
+      // package's native library is staged in the cwd (e.g., during local test runs
+      // or CI). Without this, flutter_rust_bridge's default loader would try a
+      // relative path, which hardened runtimes reject.
+      if (Platform.isMacOS) {
+        final cwdFramework = File(
+          '${Directory.current.path}/tree_sitter_language_pack_dart.framework/tree_sitter_language_pack_dart',
+        );
+        if (cwdFramework.existsSync()) {
+          return ExternalLibrary.open(cwdFramework.path);
+        }
+      }
     } catch (_) {
       // Fall through to the default loader on any resolution failure.
     }
