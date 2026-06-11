@@ -4,7 +4,7 @@ defmodule TreeSitterLanguagePack.MixProject do
   def project do
     [
       app: :tree_sitter_language_pack,
-      version: "1.9.0-rc.32",
+      version: "1.9.0-rc.33",
       elixir: "~> 1.14",
       elixirc_paths: ["lib", Path.expand("../../packages/elixir/native/tree_sitter_language_pack_nif/src", __DIR__)],
       rustler_crates: [

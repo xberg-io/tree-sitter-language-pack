@@ -2,7 +2,7 @@
 title: "C# API Reference"
 ---
 
-## C# API Reference <span class="version-badge">v1.9.0-rc.32</span>
+## C# API Reference <span class="version-badge">v1.9.0-rc.33</span>
 
 ### Functions
 

@@ -48,7 +48,7 @@ kotlin {
 
 dependencies {
     // Published Android AAR from Maven Central (verifies artifact resolution)
-    implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.32")
+    implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.33")
     // Jackson for JSON assertion helpers
     testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.18.2")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
@@ -81,7 +81,7 @@ dependencies {
 tasks.register("verifyAarPublished") {
     description = "Verify the published Android AAR contains jni and classes.jar"
     doLast {
-        val aarCoord = "dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.32"
+        val aarCoord = "dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.33"
         val (groupId, artifactId, version) = run {
             val parts = aarCoord.split(':')
             Triple(parts[0], parts[1], parts[2])
@@ -141,8 +141,8 @@ tasks.register("verifyAarPublished") {
 // Set alef.skipHostJni=true to disable this (e.g., in CI where only AAR validation is needed).
 tasks.register("buildHostJni", Exec::class) {
     if (project.properties["alef.skipHostJni"] != "true") {
-        val jniCargoPath = layout.projectDirectory.asFile.parentFile.parentFile.resolve("crates/tree-sitter-language-pack-jni/Cargo.toml").absolutePath
-        description = "Build host-platform JNI library from crates/tree-sitter-language-pack-jni"
+        val jniCargoPath = "../../crates/tree-sitter-language-pack-jni/Cargo.toml"
+        description = "Build host-platform JNI library from ../../crates/tree-sitter-language-pack-jni"
         commandLine("cargo", "build", "--release", "--manifest-path", jniCargoPath)
         errorOutput = System.err
     } else {
@@ -163,17 +163,16 @@ tasks.register("copyHostJni", Copy::class) {
         } else {
             "linux"
         }
-        // For workspace builds, cargo places artifacts in the workspace root target/release,
-        // not in the crate subdirectory. Check both locations for compatibility.
+        val jniCargoPath = "../../crates/tree-sitter-language-pack-jni/Cargo.toml"
+        val crateDir = jniCargoPath.substringBeforeLast("/Cargo.toml")
         val workspaceTarget = file("../../target/release")
-        val crateTarget = file("../../crates/tree-sitter-language-pack-jni/target/release")
+        val crateTarget = file(crateDir).resolve("target/release")
         val buildDir = if (workspaceTarget.exists()) workspaceTarget else crateTarget
 
-        // Map host platform to library filename
         val libName = when (hostPlatform) {
             "darwin" -> "libts_pack_jni.dylib"
             "windows" -> "ts_pack_jni.dll"
-            else -> "libts_pack_jni.so"  // linux
+            else -> "libts_pack_jni.so"
         }
 
         from(buildDir) {
@@ -202,10 +201,6 @@ tasks.withType<Test> {
     }
 }
 
-// `processDebugUnitTestJavaRes` and `processReleaseUnitTestJavaRes` package the
-// `src/test/resources` tree into the unit-test runtime classpath. They consume
-// the dylib emitted by `copyHostJni`, so AGP 8.10+ requires an explicit
-// dependency declaration to satisfy Gradle's task-output validation.
 tasks.matching { it.name.startsWith("processDebug") || it.name.startsWith("processRelease") }.configureEach {
     if (project.properties["alef.skipHostJni"] != "true" && name.contains("UnitTestJavaRes")) {
         dependsOn("copyHostJni")

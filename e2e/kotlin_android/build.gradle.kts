@@ -86,6 +86,54 @@ dependencies {
 
 }
 
+// Build host JNI library for JVM unit tests (macOS/Linux/Windows).
+// The generated Kotlin Bridge object calls System.loadLibrary("ts_pack_jni") for JVM
+// unit tests running on developer machines. This task builds the host-platform binary
+// and stages it into src/test/resources/host-jni/<platform>/ for the test loader.
+// Set alef.skipHostJni=true to disable this (e.g., in CI where only source-set validation is needed).
+tasks.register("buildHostJni", Exec::class) {
+    if (project.properties["alef.skipHostJni"] != "true") {
+        val jniCargoPath = "../../crates/tree-sitter-language-pack-jni/Cargo.toml"
+        description = "Build host-platform JNI library from ../../crates/tree-sitter-language-pack-jni"
+        commandLine("cargo", "build", "--release", "--manifest-path", jniCargoPath)
+        errorOutput = System.err
+    } else {
+        description = "Build host JNI (disabled via alef.skipHostJni=true)"
+        commandLine("true")
+    }
+}
+
+tasks.register("copyHostJni", Copy::class) {
+    if (project.properties["alef.skipHostJni"] != "true") {
+        description = "Copy host JNI library to test resources"
+        dependsOn("buildHostJni")
+
+        val hostPlatform = if (System.getProperty("os.name").lowercase().contains("mac")) {
+            "darwin"
+        } else if (System.getProperty("os.name").lowercase().contains("win")) {
+            "windows"
+        } else {
+            "linux"
+        }
+        val jniCargoPath = "../../crates/tree-sitter-language-pack-jni/Cargo.toml"
+        val crateDir = jniCargoPath.substringBeforeLast("/Cargo.toml")
+        val workspaceTarget = file("../../target/release")
+        val crateTarget = file(crateDir).resolve("target/release")
+        val buildDir = if (workspaceTarget.exists()) workspaceTarget else crateTarget
+
+        val libName = when (hostPlatform) {
+            "darwin" -> "libts_pack_jni.dylib"
+            "windows" -> "ts_pack_jni.dll"
+            else -> "libts_pack_jni.so"
+        }
+
+        from(buildDir) {
+            include(libName)
+        }
+        into(layout.projectDirectory.dir("src/test/resources/host-jni/$hostPlatform"))
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 
@@ -96,4 +144,25 @@ tasks.withType<Test> {
 
     // Resolve fixture paths (e.g. "docx/fake.docx") against test_documents/
     workingDir = file("${rootDir}/../../test_documents")
+
+    if (project.properties["alef.skipHostJni"] != "true") {
+        val hostPlatform = if (System.getProperty("os.name").lowercase().contains("mac")) {
+            "darwin"
+        } else if (System.getProperty("os.name").lowercase().contains("win")) {
+            "windows"
+        } else {
+            "linux"
+        }
+        systemProperty(
+            "java.library.path",
+            project.layout.projectDirectory.dir("src/test/resources/host-jni/$hostPlatform").asFile.absolutePath
+        )
+        dependsOn("copyHostJni")
+    }
+}
+
+tasks.matching { it.name.startsWith("processDebug") || it.name.startsWith("processRelease") }.configureEach {
+    if (project.properties["alef.skipHostJni"] != "true" && name.contains("UnitTestJavaRes")) {
+        dependsOn("copyHostJni")
+    }
 }
