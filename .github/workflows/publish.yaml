@@ -388,6 +388,12 @@ jobs:
                   PROJECT_ROOT: ${{ github.workspace }}
                   TSLP_LINK_MODE: dynamic
                   TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+                  # Override the shared setup-rust default `-D warnings` for the
+                  # release build. CI's `-D warnings` lives in ci.yaml + the
+                  # validate-rust-and-alef job above; publish artifact builds
+                  # must not be gated on lint freshness across 306 grammars +
+                  # cross-OS warning emission. Lints are still validated in CI.
+                  RUSTFLAGS: ""
 
             - name: Package parser binaries (Unix)
               if: runner.os != 'Windows'
