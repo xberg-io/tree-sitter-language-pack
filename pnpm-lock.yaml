@@ -11,7 +11,7 @@ importers:
   crates/ts-pack-core-node:
     devDependencies:
       '@napi-rs/cli':
-        specifier: ^3.7.1
+        specifier: ^3.6.2
         version: 3.7.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@25.9.3)(node-addon-api@8.8.0)
 
   e2e/node:
