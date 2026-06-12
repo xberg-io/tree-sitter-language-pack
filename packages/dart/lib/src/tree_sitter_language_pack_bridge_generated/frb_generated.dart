@@ -3560,7 +3560,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 4:
         return DocstringFormat_JavaDoc();
       case 5:
-        return DocstringFormat_Other(field0: dco_decode_String(raw[1]));
+        return DocstringFormat_Other(value: dco_decode_String(raw[1]));
       default:
         throw Exception("unreachable");
     }
@@ -3925,7 +3925,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 9:
         return StructureKind_Namespace();
       case 10:
-        return StructureKind_Other(field0: dco_decode_String(raw[1]));
+        return StructureKind_Other(value: dco_decode_String(raw[1]));
       default:
         throw Exception("unreachable");
     }
@@ -3967,7 +3967,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 7:
         return SymbolKind_Module();
       case 8:
-        return SymbolKind_Other(field0: dco_decode_String(raw[1]));
+        return SymbolKind_Other(value: dco_decode_String(raw[1]));
       default:
         throw Exception("unreachable");
     }
@@ -4430,8 +4430,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 4:
         return DocstringFormat_JavaDoc();
       case 5:
-        var var_field0 = sse_decode_String(deserializer);
-        return DocstringFormat_Other(field0: var_field0);
+        var var_value = sse_decode_String(deserializer);
+        return DocstringFormat_Other(value: var_value);
       default:
         throw UnimplementedError('');
     }
@@ -4932,8 +4932,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 9:
         return StructureKind_Namespace();
       case 10:
-        var var_field0 = sse_decode_String(deserializer);
-        return StructureKind_Other(field0: var_field0);
+        var var_value = sse_decode_String(deserializer);
+        return StructureKind_Other(value: var_value);
       default:
         throw UnimplementedError('');
     }
@@ -4979,8 +4979,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       case 7:
         return SymbolKind_Module();
       case 8:
-        var var_field0 = sse_decode_String(deserializer);
-        return SymbolKind_Other(field0: var_field0);
+        var var_value = sse_decode_String(deserializer);
+        return SymbolKind_Other(value: var_value);
       default:
         throw UnimplementedError('');
     }
@@ -5436,9 +5436,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_i_32(3, serializer);
       case DocstringFormat_JavaDoc():
         sse_encode_i_32(4, serializer);
-      case DocstringFormat_Other(field0: final field0):
+      case DocstringFormat_Other(value: final value):
         sse_encode_i_32(5, serializer);
-        sse_encode_String(field0, serializer);
+        sse_encode_String(value, serializer);
     }
   }
 
@@ -5861,9 +5861,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_i_32(8, serializer);
       case StructureKind_Namespace():
         sse_encode_i_32(9, serializer);
-      case StructureKind_Other(field0: final field0):
+      case StructureKind_Other(value: final value):
         sse_encode_i_32(10, serializer);
-        sse_encode_String(field0, serializer);
+        sse_encode_String(value, serializer);
     }
   }
 
@@ -5897,9 +5897,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_i_32(6, serializer);
       case SymbolKind_Module():
         sse_encode_i_32(7, serializer);
-      case SymbolKind_Other(field0: final field0):
+      case SymbolKind_Other(value: final value):
         sse_encode_i_32(8, serializer);
-        sse_encode_String(field0, serializer);
+        sse_encode_String(value, serializer);
     }
   }
 

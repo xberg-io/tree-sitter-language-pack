@@ -1488,7 +1488,7 @@ language-specific constructs that do not fit a standard category.
 | `TS_PACK_TRAIT` | A trait definition. |
 | `TS_PACK_IMPL` | An impl block (Rust) or similar implementation block. |
 | `TS_PACK_NAMESPACE` | A namespace declaration. |
-| `TS_PACK_OTHER` | A language-specific construct that does not fit any standard category. — Fields: `0`: `const char*` |
+| `TS_PACK_OTHER` | A language-specific construct that does not fit any standard category. The `value` field carries the language-specific kind label. — Fields: `value`: `const char*` |
 
 ---
 
@@ -1521,7 +1521,7 @@ Identifies the docstring convention used, which varies by language
 | `TS_PACK_RUSTDOC` | Rust `///` or `//!` doc comment. |
 | `TS_PACK_GO_DOC` | Go doc comment (a comment block immediately preceding a declaration). |
 | `TS_PACK_JAVA_DOC` | Java Javadoc comment (`/** ... */`). |
-| `TS_PACK_OTHER` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `const char*` |
+| `TS_PACK_OTHER` | A language-specific docstring format not covered by the standard variants. — Fields: `value`: `const char*` |
 
 ---
 
@@ -1556,7 +1556,7 @@ classes, types, interfaces, enums, and modules.
 | `TS_PACK_INTERFACE` | An interface definition. |
 | `TS_PACK_ENUM` | An enum definition. |
 | `TS_PACK_MODULE` | A module declaration. |
-| `TS_PACK_OTHER` | A symbol kind not covered by the standard variants. — Fields: `0`: `const char*` |
+| `TS_PACK_OTHER` | A symbol kind not covered by the standard variants. — Fields: `value`: `const char*` |
 
 ---
 

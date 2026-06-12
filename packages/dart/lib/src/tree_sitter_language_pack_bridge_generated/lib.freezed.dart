@@ -131,7 +131,7 @@ return other(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  pythonTripleQuote,TResult Function()?  jsDoc,TResult Function()?  rustdoc,TResult Function()?  goDoc,TResult Function()?  javaDoc,TResult Function( String field0)?  other,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  pythonTripleQuote,TResult Function()?  jsDoc,TResult Function()?  rustdoc,TResult Function()?  goDoc,TResult Function()?  javaDoc,TResult Function( String value)?  other,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case DocstringFormat_PythonTripleQuote() when pythonTripleQuote != null:
 return pythonTripleQuote();case DocstringFormat_JSDoc() when jsDoc != null:
@@ -139,7 +139,7 @@ return jsDoc();case DocstringFormat_Rustdoc() when rustdoc != null:
 return rustdoc();case DocstringFormat_GoDoc() when goDoc != null:
 return goDoc();case DocstringFormat_JavaDoc() when javaDoc != null:
 return javaDoc();case DocstringFormat_Other() when other != null:
-return other(_that.field0);case _:
+return other(_that.value);case _:
   return orElse();
 
 }
@@ -157,7 +157,7 @@ return other(_that.field0);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  pythonTripleQuote,required TResult Function()  jsDoc,required TResult Function()  rustdoc,required TResult Function()  goDoc,required TResult Function()  javaDoc,required TResult Function( String field0)  other,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  pythonTripleQuote,required TResult Function()  jsDoc,required TResult Function()  rustdoc,required TResult Function()  goDoc,required TResult Function()  javaDoc,required TResult Function( String value)  other,}) {final _that = this;
 switch (_that) {
 case DocstringFormat_PythonTripleQuote():
 return pythonTripleQuote();case DocstringFormat_JSDoc():
@@ -165,7 +165,7 @@ return jsDoc();case DocstringFormat_Rustdoc():
 return rustdoc();case DocstringFormat_GoDoc():
 return goDoc();case DocstringFormat_JavaDoc():
 return javaDoc();case DocstringFormat_Other():
-return other(_that.field0);}
+return other(_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -179,7 +179,7 @@ return other(_that.field0);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  pythonTripleQuote,TResult? Function()?  jsDoc,TResult? Function()?  rustdoc,TResult? Function()?  goDoc,TResult? Function()?  javaDoc,TResult? Function( String field0)?  other,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  pythonTripleQuote,TResult? Function()?  jsDoc,TResult? Function()?  rustdoc,TResult? Function()?  goDoc,TResult? Function()?  javaDoc,TResult? Function( String value)?  other,}) {final _that = this;
 switch (_that) {
 case DocstringFormat_PythonTripleQuote() when pythonTripleQuote != null:
 return pythonTripleQuote();case DocstringFormat_JSDoc() when jsDoc != null:
@@ -187,7 +187,7 @@ return jsDoc();case DocstringFormat_Rustdoc() when rustdoc != null:
 return rustdoc();case DocstringFormat_GoDoc() when goDoc != null:
 return goDoc();case DocstringFormat_JavaDoc() when javaDoc != null:
 return javaDoc();case DocstringFormat_Other() when other != null:
-return other(_that.field0);case _:
+return other(_that.value);case _:
   return null;
 
 }
@@ -200,7 +200,7 @@ return other(_that.field0);case _:
 
 class DocstringFormat_PythonTripleQuote extends DocstringFormat {
   const DocstringFormat_PythonTripleQuote(): super._();
-
+  
 
 
 
@@ -232,7 +232,7 @@ String toString() {
 
 class DocstringFormat_JSDoc extends DocstringFormat {
   const DocstringFormat_JSDoc(): super._();
-
+  
 
 
 
@@ -264,7 +264,7 @@ String toString() {
 
 class DocstringFormat_Rustdoc extends DocstringFormat {
   const DocstringFormat_Rustdoc(): super._();
-
+  
 
 
 
@@ -296,7 +296,7 @@ String toString() {
 
 class DocstringFormat_GoDoc extends DocstringFormat {
   const DocstringFormat_GoDoc(): super._();
-
+  
 
 
 
@@ -328,7 +328,7 @@ String toString() {
 
 class DocstringFormat_JavaDoc extends DocstringFormat {
   const DocstringFormat_JavaDoc(): super._();
-
+  
 
 
 
@@ -359,10 +359,11 @@ String toString() {
 
 
 class DocstringFormat_Other extends DocstringFormat {
-  const DocstringFormat_Other({required this.field0}): super._();
+  const DocstringFormat_Other({required this.value}): super._();
+  
 
-
- final  String field0;
+/// The format name not covered by standard variants.
+ final  String value;
 
 /// Create a copy of DocstringFormat
 /// with the given fields replaced by the non-null parameter values.
@@ -374,16 +375,16 @@ $DocstringFormat_OtherCopyWith<DocstringFormat_Other> get copyWith => _$Docstrin
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocstringFormat_Other&&(identical(other.field0, field0) || other.field0 == field0));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocstringFormat_Other&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,field0);
+int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'DocstringFormat.other(field0: $field0)';
+  return 'DocstringFormat.other(value: $value)';
 }
 
 
@@ -394,7 +395,7 @@ abstract mixin class $DocstringFormat_OtherCopyWith<$Res> implements $DocstringF
   factory $DocstringFormat_OtherCopyWith(DocstringFormat_Other value, $Res Function(DocstringFormat_Other) _then) = _$DocstringFormat_OtherCopyWithImpl;
 @useResult
 $Res call({
- String field0
+ String value
 });
 
 
@@ -411,9 +412,9 @@ class _$DocstringFormat_OtherCopyWithImpl<$Res>
 
 /// Create a copy of DocstringFormat
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
   return _then(DocstringFormat_Other(
-field0: null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
+value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -646,7 +647,7 @@ return cacheLock(_that.field0);case _:
 
 class Error_LanguageNotFound extends Error {
   const Error_LanguageNotFound({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -712,7 +713,7 @@ as String,
 
 class Error_DynamicLoad extends Error {
   const Error_DynamicLoad({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -778,7 +779,7 @@ as String,
 
 class Error_NullLanguagePointer extends Error {
   const Error_NullLanguagePointer({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -844,7 +845,7 @@ as String,
 
 class Error_ParserSetup extends Error {
   const Error_ParserSetup({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -910,7 +911,7 @@ as String,
 
 class Error_LockPoisoned extends Error {
   const Error_LockPoisoned({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -976,7 +977,7 @@ as String,
 
 class Error_Config extends Error {
   const Error_Config({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1042,7 +1043,7 @@ as String,
 
 class Error_ParseFailed extends Error {
   const Error_ParseFailed(): super._();
-
+  
 
 
 
@@ -1074,7 +1075,7 @@ String toString() {
 
 class Error_QueryError extends Error {
   const Error_QueryError({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1140,7 +1141,7 @@ as String,
 
 class Error_InvalidRange extends Error {
   const Error_InvalidRange({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1206,7 +1207,7 @@ as String,
 
 class Error_Download extends Error {
   const Error_Download({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1272,7 +1273,7 @@ as String,
 
 class Error_ChecksumMismatch extends Error {
   const Error_ChecksumMismatch({required this.file, required this.expected, required this.actual}): super._();
-
+  
 
  final  String file;
  final  String expected;
@@ -1342,7 +1343,7 @@ as String,
 
 class Error_CacheLock extends Error {
   const Error_CacheLock({required this.field0}): super._();
-
+  
 
  final  String field0;
 
@@ -1538,7 +1539,7 @@ return other(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  function,TResult Function()?  method,TResult Function()?  class_,TResult Function()?  struct,TResult Function()?  interface_,TResult Function()?  enum_,TResult Function()?  module,TResult Function()?  trait,TResult Function()?  impl,TResult Function()?  namespace,TResult Function( String field0)?  other,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  function,TResult Function()?  method,TResult Function()?  class_,TResult Function()?  struct,TResult Function()?  interface_,TResult Function()?  enum_,TResult Function()?  module,TResult Function()?  trait,TResult Function()?  impl,TResult Function()?  namespace,TResult Function( String value)?  other,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case StructureKind_Function() when function != null:
 return function();case StructureKind_Method() when method != null:
@@ -1551,7 +1552,7 @@ return module();case StructureKind_Trait() when trait != null:
 return trait();case StructureKind_Impl() when impl != null:
 return impl();case StructureKind_Namespace() when namespace != null:
 return namespace();case StructureKind_Other() when other != null:
-return other(_that.field0);case _:
+return other(_that.value);case _:
   return orElse();
 
 }
@@ -1569,7 +1570,7 @@ return other(_that.field0);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  function,required TResult Function()  method,required TResult Function()  class_,required TResult Function()  struct,required TResult Function()  interface_,required TResult Function()  enum_,required TResult Function()  module,required TResult Function()  trait,required TResult Function()  impl,required TResult Function()  namespace,required TResult Function( String field0)  other,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  function,required TResult Function()  method,required TResult Function()  class_,required TResult Function()  struct,required TResult Function()  interface_,required TResult Function()  enum_,required TResult Function()  module,required TResult Function()  trait,required TResult Function()  impl,required TResult Function()  namespace,required TResult Function( String value)  other,}) {final _that = this;
 switch (_that) {
 case StructureKind_Function():
 return function();case StructureKind_Method():
@@ -1582,7 +1583,7 @@ return module();case StructureKind_Trait():
 return trait();case StructureKind_Impl():
 return impl();case StructureKind_Namespace():
 return namespace();case StructureKind_Other():
-return other(_that.field0);}
+return other(_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1596,7 +1597,7 @@ return other(_that.field0);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  function,TResult? Function()?  method,TResult? Function()?  class_,TResult? Function()?  struct,TResult? Function()?  interface_,TResult? Function()?  enum_,TResult? Function()?  module,TResult? Function()?  trait,TResult? Function()?  impl,TResult? Function()?  namespace,TResult? Function( String field0)?  other,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  function,TResult? Function()?  method,TResult? Function()?  class_,TResult? Function()?  struct,TResult? Function()?  interface_,TResult? Function()?  enum_,TResult? Function()?  module,TResult? Function()?  trait,TResult? Function()?  impl,TResult? Function()?  namespace,TResult? Function( String value)?  other,}) {final _that = this;
 switch (_that) {
 case StructureKind_Function() when function != null:
 return function();case StructureKind_Method() when method != null:
@@ -1609,7 +1610,7 @@ return module();case StructureKind_Trait() when trait != null:
 return trait();case StructureKind_Impl() when impl != null:
 return impl();case StructureKind_Namespace() when namespace != null:
 return namespace();case StructureKind_Other() when other != null:
-return other(_that.field0);case _:
+return other(_that.value);case _:
   return null;
 
 }
@@ -1622,7 +1623,7 @@ return other(_that.field0);case _:
 
 class StructureKind_Function extends StructureKind {
   const StructureKind_Function(): super._();
-
+  
 
 
 
@@ -1654,7 +1655,7 @@ String toString() {
 
 class StructureKind_Method extends StructureKind {
   const StructureKind_Method(): super._();
-
+  
 
 
 
@@ -1686,7 +1687,7 @@ String toString() {
 
 class StructureKind_Class extends StructureKind {
   const StructureKind_Class(): super._();
-
+  
 
 
 
@@ -1718,7 +1719,7 @@ String toString() {
 
 class StructureKind_Struct extends StructureKind {
   const StructureKind_Struct(): super._();
-
+  
 
 
 
@@ -1750,7 +1751,7 @@ String toString() {
 
 class StructureKind_Interface extends StructureKind {
   const StructureKind_Interface(): super._();
-
+  
 
 
 
@@ -1782,7 +1783,7 @@ String toString() {
 
 class StructureKind_Enum extends StructureKind {
   const StructureKind_Enum(): super._();
-
+  
 
 
 
@@ -1814,7 +1815,7 @@ String toString() {
 
 class StructureKind_Module extends StructureKind {
   const StructureKind_Module(): super._();
-
+  
 
 
 
@@ -1846,7 +1847,7 @@ String toString() {
 
 class StructureKind_Trait extends StructureKind {
   const StructureKind_Trait(): super._();
-
+  
 
 
 
@@ -1878,7 +1879,7 @@ String toString() {
 
 class StructureKind_Impl extends StructureKind {
   const StructureKind_Impl(): super._();
-
+  
 
 
 
@@ -1910,7 +1911,7 @@ String toString() {
 
 class StructureKind_Namespace extends StructureKind {
   const StructureKind_Namespace(): super._();
-
+  
 
 
 
@@ -1941,10 +1942,11 @@ String toString() {
 
 
 class StructureKind_Other extends StructureKind {
-  const StructureKind_Other({required this.field0}): super._();
+  const StructureKind_Other({required this.value}): super._();
+  
 
-
- final  String field0;
+/// The language-specific kind name (e.g. `"macro"`, `"fixture"`).
+ final  String value;
 
 /// Create a copy of StructureKind
 /// with the given fields replaced by the non-null parameter values.
@@ -1956,16 +1958,16 @@ $StructureKind_OtherCopyWith<StructureKind_Other> get copyWith => _$StructureKin
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StructureKind_Other&&(identical(other.field0, field0) || other.field0 == field0));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StructureKind_Other&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,field0);
+int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'StructureKind.other(field0: $field0)';
+  return 'StructureKind.other(value: $value)';
 }
 
 
@@ -1976,7 +1978,7 @@ abstract mixin class $StructureKind_OtherCopyWith<$Res> implements $StructureKin
   factory $StructureKind_OtherCopyWith(StructureKind_Other value, $Res Function(StructureKind_Other) _then) = _$StructureKind_OtherCopyWithImpl;
 @useResult
 $Res call({
- String field0
+ String value
 });
 
 
@@ -1993,9 +1995,9 @@ class _$StructureKind_OtherCopyWithImpl<$Res>
 
 /// Create a copy of StructureKind
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
   return _then(StructureKind_Other(
-field0: null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
+value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -2132,7 +2134,7 @@ return other(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  variable,TResult Function()?  constant,TResult Function()?  function,TResult Function()?  class_,TResult Function()?  type,TResult Function()?  interface_,TResult Function()?  enum_,TResult Function()?  module,TResult Function( String field0)?  other,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  variable,TResult Function()?  constant,TResult Function()?  function,TResult Function()?  class_,TResult Function()?  type,TResult Function()?  interface_,TResult Function()?  enum_,TResult Function()?  module,TResult Function( String value)?  other,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SymbolKind_Variable() when variable != null:
 return variable();case SymbolKind_Constant() when constant != null:
@@ -2143,7 +2145,7 @@ return type();case SymbolKind_Interface() when interface_ != null:
 return interface_();case SymbolKind_Enum() when enum_ != null:
 return enum_();case SymbolKind_Module() when module != null:
 return module();case SymbolKind_Other() when other != null:
-return other(_that.field0);case _:
+return other(_that.value);case _:
   return orElse();
 
 }
@@ -2161,7 +2163,7 @@ return other(_that.field0);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  variable,required TResult Function()  constant,required TResult Function()  function,required TResult Function()  class_,required TResult Function()  type,required TResult Function()  interface_,required TResult Function()  enum_,required TResult Function()  module,required TResult Function( String field0)  other,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  variable,required TResult Function()  constant,required TResult Function()  function,required TResult Function()  class_,required TResult Function()  type,required TResult Function()  interface_,required TResult Function()  enum_,required TResult Function()  module,required TResult Function( String value)  other,}) {final _that = this;
 switch (_that) {
 case SymbolKind_Variable():
 return variable();case SymbolKind_Constant():
@@ -2172,7 +2174,7 @@ return type();case SymbolKind_Interface():
 return interface_();case SymbolKind_Enum():
 return enum_();case SymbolKind_Module():
 return module();case SymbolKind_Other():
-return other(_that.field0);}
+return other(_that.value);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -2186,7 +2188,7 @@ return other(_that.field0);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  variable,TResult? Function()?  constant,TResult? Function()?  function,TResult? Function()?  class_,TResult? Function()?  type,TResult? Function()?  interface_,TResult? Function()?  enum_,TResult? Function()?  module,TResult? Function( String field0)?  other,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  variable,TResult? Function()?  constant,TResult? Function()?  function,TResult? Function()?  class_,TResult? Function()?  type,TResult? Function()?  interface_,TResult? Function()?  enum_,TResult? Function()?  module,TResult? Function( String value)?  other,}) {final _that = this;
 switch (_that) {
 case SymbolKind_Variable() when variable != null:
 return variable();case SymbolKind_Constant() when constant != null:
@@ -2197,7 +2199,7 @@ return type();case SymbolKind_Interface() when interface_ != null:
 return interface_();case SymbolKind_Enum() when enum_ != null:
 return enum_();case SymbolKind_Module() when module != null:
 return module();case SymbolKind_Other() when other != null:
-return other(_that.field0);case _:
+return other(_that.value);case _:
   return null;
 
 }
@@ -2210,7 +2212,7 @@ return other(_that.field0);case _:
 
 class SymbolKind_Variable extends SymbolKind {
   const SymbolKind_Variable(): super._();
-
+  
 
 
 
@@ -2242,7 +2244,7 @@ String toString() {
 
 class SymbolKind_Constant extends SymbolKind {
   const SymbolKind_Constant(): super._();
-
+  
 
 
 
@@ -2274,7 +2276,7 @@ String toString() {
 
 class SymbolKind_Function extends SymbolKind {
   const SymbolKind_Function(): super._();
-
+  
 
 
 
@@ -2306,7 +2308,7 @@ String toString() {
 
 class SymbolKind_Class extends SymbolKind {
   const SymbolKind_Class(): super._();
-
+  
 
 
 
@@ -2338,7 +2340,7 @@ String toString() {
 
 class SymbolKind_Type extends SymbolKind {
   const SymbolKind_Type(): super._();
-
+  
 
 
 
@@ -2370,7 +2372,7 @@ String toString() {
 
 class SymbolKind_Interface extends SymbolKind {
   const SymbolKind_Interface(): super._();
-
+  
 
 
 
@@ -2402,7 +2404,7 @@ String toString() {
 
 class SymbolKind_Enum extends SymbolKind {
   const SymbolKind_Enum(): super._();
-
+  
 
 
 
@@ -2434,7 +2436,7 @@ String toString() {
 
 class SymbolKind_Module extends SymbolKind {
   const SymbolKind_Module(): super._();
-
+  
 
 
 
@@ -2465,10 +2467,11 @@ String toString() {
 
 
 class SymbolKind_Other extends SymbolKind {
-  const SymbolKind_Other({required this.field0}): super._();
+  const SymbolKind_Other({required this.value}): super._();
+  
 
-
- final  String field0;
+/// The language-specific symbol kind name.
+ final  String value;
 
 /// Create a copy of SymbolKind
 /// with the given fields replaced by the non-null parameter values.
@@ -2480,16 +2483,16 @@ $SymbolKind_OtherCopyWith<SymbolKind_Other> get copyWith => _$SymbolKind_OtherCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SymbolKind_Other&&(identical(other.field0, field0) || other.field0 == field0));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SymbolKind_Other&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,field0);
+int get hashCode => Object.hash(runtimeType,value);
 
 @override
 String toString() {
-  return 'SymbolKind.other(field0: $field0)';
+  return 'SymbolKind.other(value: $value)';
 }
 
 
@@ -2500,7 +2503,7 @@ abstract mixin class $SymbolKind_OtherCopyWith<$Res> implements $SymbolKindCopyW
   factory $SymbolKind_OtherCopyWith(SymbolKind_Other value, $Res Function(SymbolKind_Other) _then) = _$SymbolKind_OtherCopyWithImpl;
 @useResult
 $Res call({
- String field0
+ String value
 });
 
 
@@ -2517,9 +2520,9 @@ class _$SymbolKind_OtherCopyWithImpl<$Res>
 
 /// Create a copy of SymbolKind
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
   return _then(SymbolKind_Other(
-field0: null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
+value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

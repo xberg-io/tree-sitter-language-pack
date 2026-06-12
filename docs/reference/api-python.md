@@ -1494,7 +1494,7 @@ language-specific constructs that do not fit a standard category.
 | `TRAIT` | A trait definition. |
 | `IMPL` | An impl block (Rust) or similar implementation block. |
 | `NAMESPACE` | A namespace declaration. |
-| `OTHER` | A language-specific construct that does not fit any standard category. — Fields: `0`: `str` |
+| `OTHER` | A language-specific construct that does not fit any standard category. The `value` field carries the language-specific kind label. — Fields: `value`: `str` |
 
 ---
 
@@ -1527,7 +1527,7 @@ Identifies the docstring convention used, which varies by language
 | `RUSTDOC` | Rust `///` or `//!` doc comment. |
 | `GO_DOC` | Go doc comment (a comment block immediately preceding a declaration). |
 | `JAVA_DOC` | Java Javadoc comment (`/** ... */`). |
-| `OTHER` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `str` |
+| `OTHER` | A language-specific docstring format not covered by the standard variants. — Fields: `value`: `str` |
 
 ---
 
@@ -1562,7 +1562,7 @@ classes, types, interfaces, enums, and modules.
 | `INTERFACE` | An interface definition. |
 | `ENUM` | An enum definition. |
 | `MODULE` | A module declaration. |
-| `OTHER` | A symbol kind not covered by the standard variants. — Fields: `0`: `str` |
+| `OTHER` | A symbol kind not covered by the standard variants. — Fields: `value`: `str` |
 
 ---
 

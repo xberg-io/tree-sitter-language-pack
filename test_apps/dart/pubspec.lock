@@ -357,10 +357,10 @@ packages:
     dependency: "direct main"
     description:
       name: tree_sitter_language_pack
-      sha256: "38839fb9bc57dfdb26e786f62f0808f1dfda4c3adb71442900a6d1336da31239"
+      sha256: "6f07c664eb8dba86076a2f5a3c48d4179d19073d1f3531d4fc19d7c5f6319b3c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.0-rc.32"
+    version: "1.9.0-rc.33"
   typed_data:
     dependency: transitive
     description:

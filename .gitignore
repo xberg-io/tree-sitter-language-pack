@@ -124,6 +124,13 @@ vendor/bundle/
 *.h.bak
 *.test
 bin/
+# The dart package ships `bin/download_libs.dart` as its `pubspec executables:`
+# entry that consumers run after `pub get` to fetch the platform-specific native
+# library. Without re-including this path, `git ls-files` and `actions/checkout`
+# omit the file and `pub publish` ships a pubspec referencing a missing
+# executable — and `dart run <pkg>:download_libs` fails on every consumer.
+!packages/dart/bin/
+!packages/dart/bin/**
 obj/
 *.nupkg
 
