@@ -143,6 +143,11 @@ jobs:
                   # type-check, not real grammar tables.
                   TSLP_OFFLINE: "1"
               with:
+                  # Pin prek to the version we test against locally — otherwise the
+                  # action defaults to `latest` and a newer hook version can rewrite
+                  # files that diff vs. the committed shape, failing CI on a green
+                  # local run.
+                  prek-version: "0.4.4"
                   extra-args: --all-files
 
     # ---------------------------------------------------------------------------
