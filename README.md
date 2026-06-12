@@ -243,6 +243,8 @@ The `process()` function returns structured analysis including functions, classe
 | Feature                    | Description                                                                |
 | -------------------------- | -------------------------------------------------------------------------- |
 | **306 Languages**          | Pre-compiled parsers for 306 programming languages                         |
+| **Code Intelligence**       | Extract functions, classes, imports, docstrings, symbols from source       |
+| **Data Extraction**         | Hierarchical key-value trees from 17 config/data formats (JSON, YAML, TOML, properties, XML, CSV, …) |
 | **On-Demand Downloads**    | Parsers are downloaded on-demand and cached locally for fast reuse         |
 | **Selective Installation** | Download only the languages you need; unused parsers never downloaded      |
 | **Polyglot Bindings**      | Native bindings for Rust, Python, Node.js, Go, Java, Elixir, and C/C++     |
@@ -260,6 +262,7 @@ This pack includes 300+ languages. See the [full language list](docs/languages.m
 - [Node.js](crates/ts-pack-core-node/README.md) -- Node.js NAPI bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [Go](packages/go/README.md) -- Go bindings for tree-sitter-language-pack with on-demand parser caching.
 - [Java](packages/java/README.md) -- Java bindings for tree-sitter-language-pack with on-demand parser downloads (JDK 22+).
+- [Kotlin (Android + JVM)](packages/kotlin-android/README.md) -- Kotlin Android AAR and host-JVM bindings with on-demand parser downloads. JNI is first-class for gradle test execution in CI/CD without Android emulator.
 - [Elixir](packages/elixir/README.md) -- Elixir bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [Ruby](packages/ruby/README.md) -- Ruby bindings for tree-sitter-language-pack with on-demand parser downloads.
 - [WebAssembly](crates/ts-pack-core-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 300+ languages, use native bindings (Python, Node.js, etc.).
