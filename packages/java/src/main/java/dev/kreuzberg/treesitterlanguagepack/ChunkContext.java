@@ -4,11 +4,11 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.util.List;
 
 /**
  * Metadata for a single chunk of source code.
@@ -25,115 +25,110 @@ public record ChunkContext(
     @JsonProperty("symbols_defined") List<String> symbolsDefined,
     @JsonProperty("comments") List<CommentInfo> comments,
     @JsonProperty("docstrings") List<DocstringInfo> docstrings,
-    @JsonProperty("has_error_nodes") boolean hasErrorNodes) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String language = "";
-
-    @JsonProperty("chunk_index")
-    private long chunkIndex = 0;
-
-    @JsonProperty("total_chunks")
-    private long totalChunks = 0;
-
-    @JsonProperty("node_types")
-    private List<String> nodeTypes = List.of();
-
-    @JsonProperty("context_path")
-    private List<String> contextPath = List.of();
-
-    @JsonProperty("symbols_defined")
-    private List<String> symbolsDefined = List.of();
-
-    private List<CommentInfo> comments = List.of();
-    private List<DocstringInfo> docstrings = List.of();
-
-    @JsonProperty("has_error_nodes")
-    private boolean hasErrorNodes = false;
-
-    /** Sets the language field. */
-    @JsonProperty("language")
-    public Builder withLanguage(final String value) {
-      this.language = value;
-      return this;
+    @JsonProperty("has_error_nodes") boolean hasErrorNodes
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the chunkIndex field. */
-    @JsonProperty("chunk_index")
-    public Builder withChunkIndex(final long value) {
-      this.chunkIndex = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the totalChunks field. */
-    @JsonProperty("total_chunks")
-    public Builder withTotalChunks(final long value) {
-      this.totalChunks = value;
-      return this;
-    }
+private String language = "";
+        @JsonProperty("chunk_index")
+private long chunkIndex = 0;
+        @JsonProperty("total_chunks")
+private long totalChunks = 0;
+        @JsonProperty("node_types")
+private List<String> nodeTypes = List.of();
+        @JsonProperty("context_path")
+private List<String> contextPath = List.of();
+        @JsonProperty("symbols_defined")
+private List<String> symbolsDefined = List.of();
+private List<CommentInfo> comments = List.of();
+private List<DocstringInfo> docstrings = List.of();
+        @JsonProperty("has_error_nodes")
+private boolean hasErrorNodes = false;
 
-    /** Sets the nodeTypes field. */
-    @JsonProperty("node_types")
-    public Builder withNodeTypes(final List<String> value) {
-      this.nodeTypes = value;
-      return this;
-    }
+        /** Sets the language field. */
+        @JsonProperty("language")
+        public Builder withLanguage(final String value) {
+            this.language = value;
+            return this;
+        }
 
-    /** Sets the contextPath field. */
-    @JsonProperty("context_path")
-    public Builder withContextPath(final List<String> value) {
-      this.contextPath = value;
-      return this;
-    }
+        /** Sets the chunkIndex field. */
+        @JsonProperty("chunk_index")
+        public Builder withChunkIndex(final long value) {
+            this.chunkIndex = value;
+            return this;
+        }
 
-    /** Sets the symbolsDefined field. */
-    @JsonProperty("symbols_defined")
-    public Builder withSymbolsDefined(final List<String> value) {
-      this.symbolsDefined = value;
-      return this;
-    }
+        /** Sets the totalChunks field. */
+        @JsonProperty("total_chunks")
+        public Builder withTotalChunks(final long value) {
+            this.totalChunks = value;
+            return this;
+        }
 
-    /** Sets the comments field. */
-    @JsonProperty("comments")
-    public Builder withComments(final List<CommentInfo> value) {
-      this.comments = value;
-      return this;
-    }
+        /** Sets the nodeTypes field. */
+        @JsonProperty("node_types")
+        public Builder withNodeTypes(final List<String> value) {
+            this.nodeTypes = value;
+            return this;
+        }
 
-    /** Sets the docstrings field. */
-    @JsonProperty("docstrings")
-    public Builder withDocstrings(final List<DocstringInfo> value) {
-      this.docstrings = value;
-      return this;
-    }
+        /** Sets the contextPath field. */
+        @JsonProperty("context_path")
+        public Builder withContextPath(final List<String> value) {
+            this.contextPath = value;
+            return this;
+        }
 
-    /** Sets the hasErrorNodes field. */
-    @JsonProperty("has_error_nodes")
-    public Builder withHasErrorNodes(final boolean value) {
-      this.hasErrorNodes = value;
-      return this;
-    }
+        /** Sets the symbolsDefined field. */
+        @JsonProperty("symbols_defined")
+        public Builder withSymbolsDefined(final List<String> value) {
+            this.symbolsDefined = value;
+            return this;
+        }
 
-    /** Builds the ChunkContext instance. */
-    public ChunkContext build() {
-      return new ChunkContext(
-          language,
-          chunkIndex,
-          totalChunks,
-          nodeTypes,
-          contextPath,
-          symbolsDefined,
-          comments,
-          docstrings,
-          hasErrorNodes);
+        /** Sets the comments field. */
+        @JsonProperty("comments")
+        public Builder withComments(final List<CommentInfo> value) {
+            this.comments = value;
+            return this;
+        }
+
+        /** Sets the docstrings field. */
+        @JsonProperty("docstrings")
+        public Builder withDocstrings(final List<DocstringInfo> value) {
+            this.docstrings = value;
+            return this;
+        }
+
+        /** Sets the hasErrorNodes field. */
+        @JsonProperty("has_error_nodes")
+        public Builder withHasErrorNodes(final boolean value) {
+            this.hasErrorNodes = value;
+            return this;
+        }
+
+        /** Builds the ChunkContext instance. */
+        public ChunkContext build() {
+            return new ChunkContext(
+                language,
+                chunkIndex,
+                totalChunks,
+                nodeTypes,
+                contextPath,
+                symbolsDefined,
+                comments,
+                docstrings,
+                hasErrorNodes
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

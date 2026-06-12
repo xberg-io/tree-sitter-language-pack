@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.lang.foreign.Arena;
 import java.util.List;
 
 /**
@@ -13,119 +13,111 @@ import java.util.List;
  */
 @SuppressWarnings("PMD")
 public class DownloadManager implements AutoCloseable {
-  private final MemorySegment handle;
+    private final MemorySegment handle;
 
-  DownloadManager(MemorySegment handle) {
-    this.handle = handle;
-  }
+    DownloadManager(MemorySegment handle) {
+        this.handle = handle;
+    }
 
-  MemorySegment handle() {
-    return this.handle;
-  }
-  /**
-   * List languages that are already downloaded and cached.
-   */
-  public List<String> installedLanguages() throws TreeSitterLanguagePackRsException {
-    try {
-      // Unsupported return shape for installedLanguages
-      throw new TreeSitterLanguagePackRsException(
-          "installedLanguages: unsupported return shape", (Throwable) null);
-    } catch (TreeSitterLanguagePackRsException ex) {
-      throw ex;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("installedLanguages: failed", e);
+    MemorySegment handle() {
+        return this.handle;
     }
-  }
-  /**
-   * Download the platform bundle and extract every library file it contains.
-   *
-   * Unlike Self.ensure_languages, this does not check the manifest language list
-   * against archive contents — it simply extracts all {@code .so}/{@code .dylib}/{@code .dll} files
-   * from the bundle. Languages in the manifest that are missing from the archive
-   * are silently ignored rather than returning an error.
-   *
-   * Returns the number of library files extracted (including those already cached).
-   */
-  public long downloadAllBestEffort() throws TreeSitterLanguagePackRsException {
-    try {
-      var result =
-          (long) NativeLib.TS_PACK_DOWNLOAD_MANAGER_DOWNLOAD_ALL_BEST_EFFORT.invoke(this.handle);
-      return result;
-    } catch (TreeSitterLanguagePackRsException ex) {
-      throw ex;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("downloadAllBestEffort: failed", e);
+    /**
+     * List languages that are already downloaded and cached.
+     */
+    public List<String> installedLanguages() throws TreeSitterLanguagePackRsException {
+        try {
+            // Unsupported return shape for installedLanguages
+            throw new TreeSitterLanguagePackRsException("installedLanguages: unsupported return shape", (Throwable) null);
+        } catch (TreeSitterLanguagePackRsException ex) {
+            throw ex;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("installedLanguages: failed", e);
+        }
     }
-  }
-  /**
-   * Remove all cached parser libraries.
-   *
-   * Acquires the cross-process lock so {@code clean_cache} cannot race a concurrent
-   * downloader (avoids Windows sharing-violation errors against an in-flight
-   * bundle write). The {@code .download.lock} file itself is **not** removed — it is
-   * permanent infrastructure; deleting it could allow a concurrent process that
-   * already opened the file to continue holding a stale lock handle while a new
-   * process opens a fresh inode, breaking the mutual-exclusion guarantee.
-   */
-  public void cleanCache() throws TreeSitterLanguagePackRsException {
-    try {
-      NativeLib.TS_PACK_DOWNLOAD_MANAGER_CLEAN_CACHE.invoke(this.handle);
-      checkLastFfiError();
-    } catch (TreeSitterLanguagePackRsException ex) {
-      throw ex;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("cleanCache: failed", e);
+    /**
+     * Download the platform bundle and extract every library file it contains.
+     *
+     * Unlike Self.ensure_languages, this does not check the manifest language list
+     * against archive contents — it simply extracts all {@code .so}/{@code .dylib}/{@code .dll} files
+     * from the bundle. Languages in the manifest that are missing from the archive
+     * are silently ignored rather than returning an error.
+     *
+     * Returns the number of library files extracted (including those already cached).
+     */
+    public long downloadAllBestEffort() throws TreeSitterLanguagePackRsException {
+        try {
+            var result = (long) NativeLib.TS_PACK_DOWNLOAD_MANAGER_DOWNLOAD_ALL_BEST_EFFORT.invoke(this.handle);
+            return result;
+        } catch (TreeSitterLanguagePackRsException ex) {
+            throw ex;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("downloadAllBestEffort: failed", e);
+        }
     }
-  }
-  /**
-   * Create a new download manager for the given version.
-   */
-  public static DownloadManager create(final String version)
-      throws TreeSitterLanguagePackRsException {
-    java.util.Objects.requireNonNull(version, "version must not be null");
-    try {
-      Arena arena = Arena.ofShared();
-      var cVersion = arena.allocateFrom(version);
-      var handle = (MemorySegment) NativeLib.TS_PACK_DOWNLOAD_MANAGER_NEW.invoke(cVersion);
-      if (handle == null || handle.equals(MemorySegment.NULL)) {
-        throw new TreeSitterLanguagePackRsException("create returned null", (Throwable) null);
-      }
-      return new DownloadManager(handle);
-    } catch (Throwable e) {
-      if (e instanceof TreeSitterLanguagePackRsException)
-        throw (TreeSitterLanguagePackRsException) e;
-      throw new RuntimeException("create failed: " + e.getMessage(), e);
+    /**
+     * Remove all cached parser libraries.
+     *
+     * Acquires the cross-process lock so {@code clean_cache} cannot race a concurrent
+     * downloader (avoids Windows sharing-violation errors against an in-flight
+     * bundle write). The {@code .download.lock} file itself is **not** removed — it is
+     * permanent infrastructure; deleting it could allow a concurrent process that
+     * already opened the file to continue holding a stale lock handle while a new
+     * process opens a fresh inode, breaking the mutual-exclusion guarantee.
+     */
+    public void cleanCache() throws TreeSitterLanguagePackRsException {
+        try {
+            NativeLib.TS_PACK_DOWNLOAD_MANAGER_CLEAN_CACHE.invoke(this.handle);
+            checkLastFfiError();
+        } catch (TreeSitterLanguagePackRsException ex) {
+            throw ex;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("cleanCache: failed", e);
+        }
     }
-  }
+    /**
+     * Create a new download manager for the given version.
+     */
+    public static DownloadManager create(final String version) throws TreeSitterLanguagePackRsException {
+        java.util.Objects.requireNonNull(version, "version must not be null");
+        try {
+            Arena arena = Arena.ofShared();
+            var cVersion = arena.allocateFrom(version);
+            var handle = (MemorySegment) NativeLib.TS_PACK_DOWNLOAD_MANAGER_NEW.invoke(cVersion);
+            if (handle == null || handle.equals(MemorySegment.NULL)) {
+                throw new TreeSitterLanguagePackRsException("create returned null", (Throwable) null);
+            }
+            return new DownloadManager(handle);
+        }
+        catch (Throwable e) {
+            if (e instanceof TreeSitterLanguagePackRsException) throw (TreeSitterLanguagePackRsException) e;
+            throw new RuntimeException("create failed: " + e.getMessage(), e);
+        }
+    }
+    @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public void close() {
+        if (handle != null && !handle.equals(MemorySegment.NULL)) {
+            try {
+                NativeLib.TS_PACK_DOWNLOAD_MANAGER_FREE.invoke(handle);
+            } catch (Throwable e) {
+                throw new RuntimeException("Failed to free DownloadManager: " + e.getMessage(), e);
+            }
+        }
+    }
 
-  @Override
-  @SuppressWarnings("PMD.AvoidCatchingGenericException")
-  public void close() {
-    if (handle != null && !handle.equals(MemorySegment.NULL)) {
-      try {
-        NativeLib.TS_PACK_DOWNLOAD_MANAGER_FREE.invoke(handle);
-      } catch (Throwable e) {
-        throw new RuntimeException("Failed to free DownloadManager: " + e.getMessage(), e);
-      }
-    }
-  }
-
-  // CPD-OFF — generated FFI boilerplate, identical across all opaque types by design.
-  private static void checkLastFfiError() throws TreeSitterLanguagePackRsException {
-    try {
-      int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-      if (code == 0) {
-        return;
-      }
-      MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-      String msg = ctxPtr.equals(MemorySegment.NULL)
-          ? "unknown"
-          : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-      throw new TreeSitterLanguagePackRsException(code, msg);
-    } catch (TreeSitterLanguagePackRsException e) {
-      throw e;
-    } catch (Throwable e) {
-      throw new TreeSitterLanguagePackRsException("failed to read last error", e);
-    }
-  } // CPD-ON
+    // CPD-OFF — generated FFI boilerplate, identical across all opaque types by design.
+    private static void checkLastFfiError() throws TreeSitterLanguagePackRsException {
+        try {
+            int code = (int) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+            if (code == 0) { return; }
+            MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+            throw new TreeSitterLanguagePackRsException(code, msg);
+        } catch (TreeSitterLanguagePackRsException e) {
+            throw e;
+        } catch (Throwable e) {
+            throw new TreeSitterLanguagePackRsException("failed to read last error", e);
+        }
+    }    // CPD-ON
 }

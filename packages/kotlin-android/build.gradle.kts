@@ -77,8 +77,7 @@ dependencies {
 tasks.register("buildHostJni", Exec::class) {
     if (project.properties["alef.skipHostJni"] != "true") {
         val jniCargoPath = "../../crates/tree-sitter-language-pack-jni/Cargo.toml"
-        description =
-            "Build host-platform JNI library from ../../crates/tree-sitter-language-pack-jni"
+        description = "Build host-platform JNI library from ../../crates/tree-sitter-language-pack-jni"
         commandLine("cargo", "build", "--release", "--manifest-path", jniCargoPath)
         errorOutput = System.err
     } else {
@@ -97,12 +96,11 @@ tasks.register("copyHostJni", Copy::class) {
         val buildDir = jniCratePath.resolve("target/release")
 
         // Map host platform to library filename
-        val libName =
-            when (hostPlatform) {
-                "darwin" -> "libts_pack_jni.dylib"
-                "windows" -> "ts_pack_jni.dll"
-                else -> "libts_pack_jni.so" // linux
-            }
+        val libName = when (hostPlatform) {
+            "darwin" -> "libts_pack_jni.dylib"
+            "windows" -> "ts_pack_jni.dll"
+            else -> "libts_pack_jni.so"  // linux
+        }
 
         from(buildDir) {
             include(libName)
@@ -116,10 +114,7 @@ tasks.withType<Test> {
         val hostPlatform = "darwin"
         systemProperty(
             "java.library.path",
-            project.layout.projectDirectory
-                .dir("src/test/resources/host-jni/$hostPlatform")
-                .asFile
-                .absolutePath,
+            project.layout.projectDirectory.dir("src/test/resources/host-jni/$hostPlatform").asFile.absolutePath
         )
         dependsOn("copyHostJni")
     }
@@ -129,22 +124,18 @@ tasks.withType<Test> {
 // `src/test/resources` tree into the unit-test runtime classpath. They consume
 // the dylib emitted by `copyHostJni`, so AGP 8.10+ requires an explicit
 // dependency declaration to satisfy Gradle's task-output validation.
-tasks
-    .matching { it.name.startsWith("processDebug") || it.name.startsWith("processRelease") }
-    .configureEach {
-        if (project.properties["alef.skipHostJni"] != "true" && name.contains("UnitTestJavaRes")) {
-            dependsOn("copyHostJni")
-        }
+tasks.matching { it.name.startsWith("processDebug") || it.name.startsWith("processRelease") }.configureEach {
+    if (project.properties["alef.skipHostJni"] != "true" && name.contains("UnitTestJavaRes")) {
+        dependsOn("copyHostJni")
     }
+}
 
 mavenPublishing {
-    configure(
-        AndroidSingleVariantLibrary(
-            variant = "release",
-            sourcesJar = com.vanniktech.maven.publish.SourcesJar.Sources(),
-            javadocJar = com.vanniktech.maven.publish.JavadocJar.Empty(),
-        )
-    )
+    configure(AndroidSingleVariantLibrary(
+        variant = "release",
+        sourcesJar = com.vanniktech.maven.publish.SourcesJar.Sources(),
+        javadocJar = com.vanniktech.maven.publish.JavadocJar.Empty(),
+    ))
 
     publishToMavenCentral()
     signAllPublications()
@@ -175,9 +166,7 @@ mavenPublishing {
         scm {
             url.set("https://github.com/kreuzberg-dev/tree-sitter-language-pack")
             connection.set("scm:git:git://github.com/kreuzberg-dev/tree-sitter-language-pack.git")
-            developerConnection.set(
-                "scm:git:ssh://git@github.com:kreuzberg-dev/tree-sitter-language-pack.git"
-            )
+            developerConnection.set("scm:git:ssh://git@github.com:kreuzberg-dev/tree-sitter-language-pack.git")
         }
     }
 }

@@ -21,58 +21,59 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @SuppressWarnings("PMD")
 public enum DocstringFormat {
-  /**
-   * Python triple-quoted string docstring ({@code """..."""}).
-   */
-  PythonTripleQuote("pythontriplequote"),
-  /**
-   * JavaScript/TypeScript JSDoc comment ({@code /** ... *&#47;}).
-   */
-  JSDoc("jsdoc"),
-  /**
-   * Rust {@code ///} or {@code //!} doc comment.
-   */
-  Rustdoc("rustdoc"),
-  /**
-   * Go doc comment (a comment block immediately preceding a declaration).
-   */
-  GoDoc("godoc"),
-  /**
-   * Java Javadoc comment ({@code /** ... *&#47;}).
-   */
-  JavaDoc("javadoc"),
-  /**
-   * A language-specific docstring format not covered by the standard variants.
-   */
-  Other("other");
+    /**
+     * Python triple-quoted string docstring ({@code """..."""}).
+     */
+    PythonTripleQuote("pythontriplequote"),
+    /**
+     * JavaScript/TypeScript JSDoc comment ({@code /** ... *&#47;}).
+     */
+    JSDoc("jsdoc"),
+    /**
+     * Rust {@code ///} or {@code //!} doc comment.
+     */
+    Rustdoc("rustdoc"),
+    /**
+     * Go doc comment (a comment block immediately preceding a declaration).
+     */
+    GoDoc("godoc"),
+    /**
+     * Java Javadoc comment ({@code /** ... *&#47;}).
+     */
+    JavaDoc("javadoc"),
+    /**
+     * A language-specific docstring format not covered by the standard variants.
+     */
+    Other("other");
 
-  /** The string value. */
-  private final String value;
 
-  DocstringFormat(final String value) {
-    this.value = value;
-  }
+    /** The string value. */
+    private final String value;
 
-  /** Returns the string value. */
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  /** Creates an instance from a string value. */
-  @JsonCreator
-  public static DocstringFormat fromValue(final String value) {
-    for (DocstringFormat e : values()) {
-      if (e.value.equalsIgnoreCase(value)) {
-        return e;
-      }
+    DocstringFormat(final String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unknown DocstringFormat value: " + value);
-  }
 
-  /** Returns the wire-format string value (matches JSON serialization). */
-  @Override
-  public String toString() {
-    return value;
-  }
+    /** Returns the string value. */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /** Creates an instance from a string value. */
+    @JsonCreator
+    public static DocstringFormat fromValue(final String value) {
+        for (DocstringFormat e : values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown DocstringFormat value: " + value);
+    }
+
+    /** Returns the wire-format string value (matches JSON serialization). */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -15,38 +15,40 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = Point.Builder.class)
 @SuppressWarnings("PMD")
-public record Point(
-    @JsonProperty("row") long row, @JsonProperty("column") long column) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private long row = 0;
-    private long column = 0;
-
-    /** Sets the row field. */
-    @JsonProperty("row")
-    public Builder withRow(final long value) {
-      this.row = value;
-      return this;
+public record Point(@JsonProperty("row") long row, @JsonProperty("column") long column) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the column field. */
-    @JsonProperty("column")
-    public Builder withColumn(final long value) {
-      this.column = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Builds the Point instance. */
-    public Point build() {
-      return new Point(row, column);
+private long row = 0;
+private long column = 0;
+
+        /** Sets the row field. */
+        @JsonProperty("row")
+        public Builder withRow(final long value) {
+            this.row = value;
+            return this;
+        }
+
+        /** Sets the column field. */
+        @JsonProperty("column")
+        public Builder withColumn(final long value) {
+            this.column = value;
+            return this;
+        }
+
+        /** Builds the Point instance. */
+        public Point build() {
+            return new Point(
+                row,
+                column
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

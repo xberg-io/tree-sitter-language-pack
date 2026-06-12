@@ -4,11 +4,11 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.util.List;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -26,99 +26,106 @@ public record StructureItem(
     @Nullable @JsonProperty("decorators") List<String> decorators,
     @Nullable @JsonProperty("doc_comment") String docComment,
     @Nullable @JsonProperty("signature") String signature,
-    @Nullable @JsonProperty("body_span") Span bodySpan) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private StructureKind kind = null;
-    private String name = null;
-    private String visibility = null;
-    private Span span = null;
-    private List<StructureItem> children = null;
-    private List<String> decorators = null;
-
-    @JsonProperty("doc_comment")
-    private String docComment = null;
-
-    private String signature = null;
-
-    @JsonProperty("body_span")
-    private Span bodySpan = null;
-
-    /** Sets the kind field. */
-    @JsonProperty("kind")
-    public Builder withKind(final StructureKind value) {
-      this.kind = value;
-      return this;
+    @Nullable @JsonProperty("body_span") Span bodySpan
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the name field. */
-    @JsonProperty("name")
-    public Builder withName(final @Nullable String value) {
-      this.name = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the visibility field. */
-    @JsonProperty("visibility")
-    public Builder withVisibility(final @Nullable String value) {
-      this.visibility = value;
-      return this;
-    }
+private StructureKind kind = null;
+private String name = null;
+private String visibility = null;
+private Span span = null;
+private List<StructureItem> children = null;
+private List<String> decorators = null;
+        @JsonProperty("doc_comment")
+private String docComment = null;
+private String signature = null;
+        @JsonProperty("body_span")
+private Span bodySpan = null;
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+        /** Sets the kind field. */
+        @JsonProperty("kind")
+        public Builder withKind(final StructureKind value) {
+            this.kind = value;
+            return this;
+        }
 
-    /** Sets the children field. */
-    @JsonProperty("children")
-    public Builder withChildren(final @Nullable List<StructureItem> value) {
-      this.children = value;
-      return this;
-    }
+        /** Sets the name field. */
+        @JsonProperty("name")
+        public Builder withName(final @Nullable String value) {
+            this.name = value;
+            return this;
+        }
 
-    /** Sets the decorators field. */
-    @JsonProperty("decorators")
-    public Builder withDecorators(final @Nullable List<String> value) {
-      this.decorators = value;
-      return this;
-    }
+        /** Sets the visibility field. */
+        @JsonProperty("visibility")
+        public Builder withVisibility(final @Nullable String value) {
+            this.visibility = value;
+            return this;
+        }
 
-    /** Sets the docComment field. */
-    @JsonProperty("doc_comment")
-    public Builder withDocComment(final @Nullable String value) {
-      this.docComment = value;
-      return this;
-    }
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
 
-    /** Sets the signature field. */
-    @JsonProperty("signature")
-    public Builder withSignature(final @Nullable String value) {
-      this.signature = value;
-      return this;
-    }
+        /** Sets the children field. */
+        @JsonProperty("children")
+        public Builder withChildren(final @Nullable List<StructureItem> value) {
+            this.children = value;
+            return this;
+        }
 
-    /** Sets the bodySpan field. */
-    @JsonProperty("body_span")
-    public Builder withBodySpan(final @Nullable Span value) {
-      this.bodySpan = value;
-      return this;
-    }
+        /** Sets the decorators field. */
+        @JsonProperty("decorators")
+        public Builder withDecorators(final @Nullable List<String> value) {
+            this.decorators = value;
+            return this;
+        }
 
-    /** Builds the StructureItem instance. */
-    public StructureItem build() {
-      return new StructureItem(
-          kind, name, visibility, span, children, decorators, docComment, signature, bodySpan);
+        /** Sets the docComment field. */
+        @JsonProperty("doc_comment")
+        public Builder withDocComment(final @Nullable String value) {
+            this.docComment = value;
+            return this;
+        }
+
+        /** Sets the signature field. */
+        @JsonProperty("signature")
+        public Builder withSignature(final @Nullable String value) {
+            this.signature = value;
+            return this;
+        }
+
+        /** Sets the bodySpan field. */
+        @JsonProperty("body_span")
+        public Builder withBodySpan(final @Nullable Span value) {
+            this.bodySpan = value;
+            return this;
+        }
+
+        /** Builds the StructureItem instance. */
+        public StructureItem build() {
+            return new StructureItem(
+                kind,
+                name,
+                visibility,
+                span,
+                children,
+                decorators,
+                docComment,
+                signature,
+                bodySpan
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

@@ -28,27 +28,28 @@ package dev.kreuzberg.tslp.android
 /**
  * The kind of a data node extracted from a data-format file.
  *
- * Classifies each node in the hierarchical `DataNode` tree returned when `data_extraction` is
- * enabled on `ProcessConfig`.
+ * Classifies each node in the hierarchical `DataNode` tree returned when
+ * `data_extraction` is enabled on `ProcessConfig`.
  *
  * # Wire format (public JSON contract)
  *
- * Unit variants serialize as a bare string (`"KeyValue"`). DO NOT add `#[serde(tag = "...")]` or
- * rename variants — every language binding has a hand-written deserializer matching this exact
- * shape, and any change breaks all bindings' `process()` tests simultaneously. Covered by
- * `tests/wire_format.rs`.
+ * Unit variants serialize as a bare string (`"KeyValue"`). DO NOT add
+ * `#[serde(tag = "...")]` or rename variants — every language binding has a
+ * hand-written deserializer matching this exact shape, and any change breaks
+ * all bindings' `process()` tests simultaneously.
+ * Covered by `tests/wire_format.rs`.
  */
 enum class DataNodeKind {
     /**
-     * A key/value pair or mapping (json/toml/properties/yaml/hcl/cue/kdl pair, or a wrapper
-     * "object"/"mapping" container).
+     * A key/value pair or mapping (json/toml/properties/yaml/hcl/cue/kdl pair,
+     * or a wrapper "object"/"mapping" container).
      */
     @com.fasterxml.jackson.annotation.JsonProperty("KeyValue") KEY_VALUE,
     /** An XML element with a tag name in `key` and attributes in `attributes`. */
     @com.fasterxml.jackson.annotation.JsonProperty("Element") ELEMENT,
     /**
-     * A positional sequence item (JSON array element, YAML block sequence item, CSV/PSV row or
-     * cell).
+     * A positional sequence item (JSON array element, YAML block sequence item,
+     * CSV/PSV row or cell).
      */
     @com.fasterxml.jackson.annotation.JsonProperty("Sequence") SEQUENCE;
 

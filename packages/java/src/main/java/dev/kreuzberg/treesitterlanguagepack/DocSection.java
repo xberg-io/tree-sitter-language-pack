@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.jspecify.annotations.Nullable;
@@ -19,45 +19,50 @@ import org.jspecify.annotations.Nullable;
 public record DocSection(
     @JsonProperty("kind") String kind,
     @Nullable @JsonProperty("name") String name,
-    @JsonProperty("description") String description) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String kind = "";
-    private String name = null;
-    private String description = "";
-
-    /** Sets the kind field. */
-    @JsonProperty("kind")
-    public Builder withKind(final String value) {
-      this.kind = value;
-      return this;
+    @JsonProperty("description") String description
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the name field. */
-    @JsonProperty("name")
-    public Builder withName(final @Nullable String value) {
-      this.name = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the description field. */
-    @JsonProperty("description")
-    public Builder withDescription(final String value) {
-      this.description = value;
-      return this;
-    }
+private String kind = "";
+private String name = null;
+private String description = "";
 
-    /** Builds the DocSection instance. */
-    public DocSection build() {
-      return new DocSection(kind, name, description);
+        /** Sets the kind field. */
+        @JsonProperty("kind")
+        public Builder withKind(final String value) {
+            this.kind = value;
+            return this;
+        }
+
+        /** Sets the name field. */
+        @JsonProperty("name")
+        public Builder withName(final @Nullable String value) {
+            this.name = value;
+            return this;
+        }
+
+        /** Sets the description field. */
+        @JsonProperty("description")
+        public Builder withDescription(final String value) {
+            this.description = value;
+            return this;
+        }
+
+        /** Builds the DocSection instance. */
+        public DocSection build() {
+            return new DocSection(
+                kind,
+                name,
+                description
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

@@ -28,43 +28,33 @@ package dev.kreuzberg.tslp.android
 /**
  * The format of a docstring extracted from source code.
  *
- * Identifies the docstring convention used, which varies by language (e.g., Python triple-quoted
- * strings, JSDoc, Rustdoc `///` comments).
+ * Identifies the docstring convention used, which varies by language
+ * (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
  *
  * # Wire format (public JSON contract)
  *
- * Unit variants serialize as a bare string (`"JSDoc"`); the `Other` variant serializes as a
- * single-keyed object (`{"Other": "rst"}`). DO NOT add `#[serde(tag = "...")]`. Covered by
- * `tests/wire_format.rs`.
+ * Unit variants serialize as a bare string (`"JSDoc"`); the `Other`
+ * variant serializes as a single-keyed object (`{"Other": "rst"}`). DO
+ * NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
  */
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = DocstringFormatDeserializer::class
-)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = DocstringFormatDeserializer::class)
 @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = DocstringFormatSerializer::class)
 sealed class DocstringFormat {
     /** Python triple-quoted string docstring (`"""..."""`). */
     object PythonTripleQuote : DocstringFormat()
-
     /** JavaScript/TypeScript JSDoc comment (`/ ** ... * /`). */
     object JSDoc : DocstringFormat()
-
     /** Rust `///` or `//!` doc comment. */
     object Rustdoc : DocstringFormat()
-
     /** Go doc comment (a comment block immediately preceding a declaration). */
     object GoDoc : DocstringFormat()
-
     /** Java Javadoc comment (`/ ** ... * /`). */
     object JavaDoc : DocstringFormat()
-
     /** A language-specific docstring format not covered by the standard variants. */
     data class Other(val value: String) : DocstringFormat()
 }
 
-private class DocstringFormatDeserializer :
-    com.fasterxml.jackson.databind.deser.std.StdDeserializer<DocstringFormat>(
-        DocstringFormat::class.java
-    ) {
+private class DocstringFormatDeserializer : com.fasterxml.jackson.databind.deser.std.StdDeserializer<DocstringFormat>(DocstringFormat::class.java) {
     @Suppress("LongMethod", "CyclomaticComplexMethod", "ReturnCount")
     override fun deserialize(
         parser: com.fasterxml.jackson.core.JsonParser,
@@ -78,13 +68,9 @@ private class DocstringFormatDeserializer :
                 "Rustdoc" -> DocstringFormat.Rustdoc
                 "GoDoc" -> DocstringFormat.GoDoc
                 "JavaDoc" -> DocstringFormat.JavaDoc
-                else ->
-                    throw com.fasterxml.jackson.databind.exc.InvalidFormatException(
-                        parser,
-                        "Unknown DocstringFormat unit variant",
-                        node.asText(),
-                        DocstringFormat::class.java,
-                    )
+                else -> throw com.fasterxml.jackson.databind.exc.InvalidFormatException(
+                    parser, "Unknown DocstringFormat unit variant", node.asText(), DocstringFormat::class.java,
+                )
             }
         }
         if (node.isObject) {
@@ -95,34 +81,21 @@ private class DocstringFormatDeserializer :
                 if (!it.hasNext()) {
                     val payload = entry.value
                     return when (entry.key) {
-                        "Other" ->
-                            DocstringFormat.Other(
-                                ctx.readTreeAsValue<String>(payload, String::class.java)
-                            )
-                        else ->
-                            throw com.fasterxml.jackson.databind.exc.InvalidFormatException(
-                                parser,
-                                "Unknown DocstringFormat data variant",
-                                entry.key,
-                                DocstringFormat::class.java,
-                            )
+                        "Other" -> DocstringFormat.Other(ctx.readTreeAsValue<String>(payload, String::class.java))
+                        else -> throw com.fasterxml.jackson.databind.exc.InvalidFormatException(
+                            parser, "Unknown DocstringFormat data variant", entry.key, DocstringFormat::class.java,
+                        )
                     }
                 }
             }
         }
         throw com.fasterxml.jackson.databind.exc.InvalidFormatException(
-            parser,
-            "Cannot deserialize DocstringFormat: expected string or single-field object",
-            null,
-            DocstringFormat::class.java,
+            parser, "Cannot deserialize DocstringFormat: expected string or single-field object", null, DocstringFormat::class.java,
         )
     }
 }
 
-private class DocstringFormatSerializer :
-    com.fasterxml.jackson.databind.ser.std.StdSerializer<DocstringFormat>(
-        DocstringFormat::class.java
-    ) {
+private class DocstringFormatSerializer : com.fasterxml.jackson.databind.ser.std.StdSerializer<DocstringFormat>(DocstringFormat::class.java) {
     @Suppress("LongMethod")
     override fun serialize(
         value: DocstringFormat,
@@ -130,9 +103,7 @@ private class DocstringFormatSerializer :
         provider: com.fasterxml.jackson.databind.SerializerProvider,
     ) {
         @Suppress("UNCHECKED_CAST")
-        val mapper =
-            (gen.codec as? com.fasterxml.jackson.databind.ObjectMapper)
-                ?: com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()
+        val mapper = (gen.codec as? com.fasterxml.jackson.databind.ObjectMapper) ?: com.fasterxml.jackson.databind.ObjectMapper().findAndRegisterModules()
         when (value) {
             is DocstringFormat.PythonTripleQuote -> gen.writeString("PythonTripleQuote")
             is DocstringFormat.JSDoc -> gen.writeString("JSDoc")

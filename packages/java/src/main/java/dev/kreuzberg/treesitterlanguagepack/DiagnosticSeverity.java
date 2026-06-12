@@ -15,46 +15,47 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @SuppressWarnings("PMD")
 public enum DiagnosticSeverity {
-  /**
-   * A parse error (e.g., an {@code ERROR} or {@code MISSING} node in the tree).
-   */
-  Error("error"),
-  /**
-   * A warning-level diagnostic.
-   */
-  Warning("warning"),
-  /**
-   * An informational diagnostic.
-   */
-  Info("info");
+    /**
+     * A parse error (e.g., an {@code ERROR} or {@code MISSING} node in the tree).
+     */
+    Error("error"),
+    /**
+     * A warning-level diagnostic.
+     */
+    Warning("warning"),
+    /**
+     * An informational diagnostic.
+     */
+    Info("info");
 
-  /** The string value. */
-  private final String value;
 
-  DiagnosticSeverity(final String value) {
-    this.value = value;
-  }
+    /** The string value. */
+    private final String value;
 
-  /** Returns the string value. */
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  /** Creates an instance from a string value. */
-  @JsonCreator
-  public static DiagnosticSeverity fromValue(final String value) {
-    for (DiagnosticSeverity e : values()) {
-      if (e.value.equalsIgnoreCase(value)) {
-        return e;
-      }
+    DiagnosticSeverity(final String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unknown DiagnosticSeverity value: " + value);
-  }
 
-  /** Returns the wire-format string value (matches JSON serialization). */
-  @Override
-  public String toString() {
-    return value;
-  }
+    /** Returns the string value. */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /** Creates an instance from a string value. */
+    @JsonCreator
+    public static DiagnosticSeverity fromValue(final String value) {
+        for (DiagnosticSeverity e : values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown DiagnosticSeverity value: " + value);
+    }
+
+    /** Returns the wire-format string value (matches JSON serialization). */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

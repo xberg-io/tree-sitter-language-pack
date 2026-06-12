@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * A dynamic shared library could not be loaded at runtime.
  */
 public class DynamicLoadException extends ErrorException {
-  /** Creates a new DynamicLoadException with the given message. */
-  public DynamicLoadException(final String message) {
-    super(message);
-  }
+    /** Creates a new DynamicLoadException with the given message. */
+    public DynamicLoadException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new DynamicLoadException with the given message and cause. */
-  public DynamicLoadException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new DynamicLoadException with the given message and cause. */
+    public DynamicLoadException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

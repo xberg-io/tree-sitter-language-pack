@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * An internal `RwLock` or `Mutex` was poisoned by a previous panic.
  */
 public class LockPoisonedException extends ErrorException {
-  /** Creates a new LockPoisonedException with the given message. */
-  public LockPoisonedException(final String message) {
-    super(message);
-  }
+    /** Creates a new LockPoisonedException with the given message. */
+    public LockPoisonedException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new LockPoisonedException with the given message and cause. */
-  public LockPoisonedException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new LockPoisonedException with the given message and cause. */
+    public LockPoisonedException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -7,13 +7,13 @@ package dev.kreuzberg.treesitterlanguagepack;
 /** Exception thrown when input validation fails. */
 @SuppressWarnings({"checkstyle:LineLength", "PMD"})
 public class InvalidInputException extends TreeSitterLanguagePackRsException {
-  /** Creates a new InvalidInputException. */
-  public InvalidInputException(final String message) {
-    super(1, message);
-  }
+    /** Creates a new InvalidInputException. */
+    public InvalidInputException(final String message) {
+        super(1, message);
+    }
 
-  /** Creates a new InvalidInputException with a cause. */
-  public InvalidInputException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new InvalidInputException with a cause. */
+    public InvalidInputException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

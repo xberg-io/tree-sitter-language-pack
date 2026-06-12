@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.jspecify.annotations.Nullable;
@@ -28,150 +28,145 @@ public record ProcessConfig(
     @Nullable @JsonProperty("symbols") Boolean symbols,
     @Nullable @JsonProperty("diagnostics") Boolean diagnostics,
     @Nullable @JsonProperty("chunk_max_size") Long chunkMaxSize,
-    @Nullable @JsonProperty("data_extraction") Boolean dataExtraction) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String language = "";
-    private Boolean structure = null;
-    private Boolean imports = null;
-    private Boolean exports = null;
-    private Boolean comments = null;
-    private Boolean docstrings = null;
-    private Boolean symbols = null;
-    private Boolean diagnostics = null;
-
-    @JsonProperty("chunk_max_size")
-    private Long chunkMaxSize = null;
-
-    @JsonProperty("data_extraction")
-    private Boolean dataExtraction = null;
-
-    /** Sets the language field. */
-    @JsonProperty("language")
-    public Builder withLanguage(final String value) {
-      this.language = value;
-      return this;
+    @Nullable @JsonProperty("data_extraction") Boolean dataExtraction
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the structure field. */
-    @JsonProperty("structure")
-    public Builder withStructure(final @Nullable Boolean value) {
-      this.structure = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the imports field. */
-    @JsonProperty("imports")
-    public Builder withImports(final @Nullable Boolean value) {
-      this.imports = value;
-      return this;
-    }
+private String language = "";
+private Boolean structure = null;
+private Boolean imports = null;
+private Boolean exports = null;
+private Boolean comments = null;
+private Boolean docstrings = null;
+private Boolean symbols = null;
+private Boolean diagnostics = null;
+        @JsonProperty("chunk_max_size")
+private Long chunkMaxSize = null;
+        @JsonProperty("data_extraction")
+private Boolean dataExtraction = null;
 
-    /** Sets the exports field. */
-    @JsonProperty("exports")
-    public Builder withExports(final @Nullable Boolean value) {
-      this.exports = value;
-      return this;
-    }
+        /** Sets the language field. */
+        @JsonProperty("language")
+        public Builder withLanguage(final String value) {
+            this.language = value;
+            return this;
+        }
 
-    /** Sets the comments field. */
-    @JsonProperty("comments")
-    public Builder withComments(final @Nullable Boolean value) {
-      this.comments = value;
-      return this;
-    }
+        /** Sets the structure field. */
+        @JsonProperty("structure")
+        public Builder withStructure(final @Nullable Boolean value) {
+            this.structure = value;
+            return this;
+        }
 
-    /** Sets the docstrings field. */
-    @JsonProperty("docstrings")
-    public Builder withDocstrings(final @Nullable Boolean value) {
-      this.docstrings = value;
-      return this;
-    }
+        /** Sets the imports field. */
+        @JsonProperty("imports")
+        public Builder withImports(final @Nullable Boolean value) {
+            this.imports = value;
+            return this;
+        }
 
-    /** Sets the symbols field. */
-    @JsonProperty("symbols")
-    public Builder withSymbols(final @Nullable Boolean value) {
-      this.symbols = value;
-      return this;
-    }
+        /** Sets the exports field. */
+        @JsonProperty("exports")
+        public Builder withExports(final @Nullable Boolean value) {
+            this.exports = value;
+            return this;
+        }
 
-    /** Sets the diagnostics field. */
-    @JsonProperty("diagnostics")
-    public Builder withDiagnostics(final @Nullable Boolean value) {
-      this.diagnostics = value;
-      return this;
-    }
+        /** Sets the comments field. */
+        @JsonProperty("comments")
+        public Builder withComments(final @Nullable Boolean value) {
+            this.comments = value;
+            return this;
+        }
 
-    /** Sets the chunkMaxSize field. */
-    @JsonProperty("chunk_max_size")
-    public Builder withChunkMaxSize(final @Nullable Long value) {
-      this.chunkMaxSize = value;
-      return this;
-    }
+        /** Sets the docstrings field. */
+        @JsonProperty("docstrings")
+        public Builder withDocstrings(final @Nullable Boolean value) {
+            this.docstrings = value;
+            return this;
+        }
 
-    /** Sets the dataExtraction field. */
-    @JsonProperty("data_extraction")
-    public Builder withDataExtraction(final @Nullable Boolean value) {
-      this.dataExtraction = value;
-      return this;
-    }
+        /** Sets the symbols field. */
+        @JsonProperty("symbols")
+        public Builder withSymbols(final @Nullable Boolean value) {
+            this.symbols = value;
+            return this;
+        }
 
-    /** Builds the ProcessConfig instance. */
-    public ProcessConfig build() {
-      return new ProcessConfig(
-          language,
-          structure,
-          imports,
-          exports,
-          comments,
-          docstrings,
-          symbols,
-          diagnostics,
-          chunkMaxSize,
-          dataExtraction);
+        /** Sets the diagnostics field. */
+        @JsonProperty("diagnostics")
+        public Builder withDiagnostics(final @Nullable Boolean value) {
+            this.diagnostics = value;
+            return this;
+        }
+
+        /** Sets the chunkMaxSize field. */
+        @JsonProperty("chunk_max_size")
+        public Builder withChunkMaxSize(final @Nullable Long value) {
+            this.chunkMaxSize = value;
+            return this;
+        }
+
+        /** Sets the dataExtraction field. */
+        @JsonProperty("data_extraction")
+        public Builder withDataExtraction(final @Nullable Boolean value) {
+            this.dataExtraction = value;
+            return this;
+        }
+
+        /** Builds the ProcessConfig instance. */
+        public ProcessConfig build() {
+            return new ProcessConfig(
+                language,
+                structure,
+                imports,
+                exports,
+                comments,
+                docstrings,
+                symbols,
+                diagnostics,
+                chunkMaxSize,
+                dataExtraction
+            );
+        }
     }
-  }
-  // CPD-ON
-  public static ProcessConfig defaultInstance() {
-    throw new UnsupportedOperationException(
-        "defaultInstance is not yet bridged via JNI; use the Builder instead.");
-  }
-  /**
-   * Enable chunking with the given maximum chunk size in bytes.
-   */
-  public ProcessConfig withChunking(long maxSize) {
-    throw new UnsupportedOperationException(
-        "withChunking is not yet bridged via JNI; reconstruct via Builder.");
-  }
-  /**
-   * Enable all analysis features.
-   */
-  public ProcessConfig all() {
-    throw new UnsupportedOperationException(
-        "all is not yet bridged via JNI; reconstruct via Builder.");
-  }
-  /**
-   * Disable all analysis features (only metrics computed).
-   */
-  public ProcessConfig minimal() {
-    throw new UnsupportedOperationException(
-        "minimal is not yet bridged via JNI; reconstruct via Builder.");
-  }
-  /**
-   * Enable or disable hierarchical data extraction for data-format files.
-   *
-   * When {@code true}, ProcessResult.data(crate.ProcessResult.data) is
-   * populated with a key/value tree for supported data-format languages.
-   */
-  public ProcessConfig withDataExtraction(boolean enabled) {
-    throw new UnsupportedOperationException(
-        "withDataExtraction is not yet bridged via JNI; reconstruct via Builder.");
-  }
+    // CPD-ON
+    public static ProcessConfig defaultInstance() {
+        throw new UnsupportedOperationException("defaultInstance is not yet bridged via JNI; use the Builder instead.");
+    }
+    /**
+     * Enable chunking with the given maximum chunk size in bytes.
+     */
+    public ProcessConfig withChunking(long maxSize) {
+        throw new UnsupportedOperationException("withChunking is not yet bridged via JNI; reconstruct via Builder.");
+    }
+    /**
+     * Enable all analysis features.
+     */
+    public ProcessConfig all() {
+        throw new UnsupportedOperationException("all is not yet bridged via JNI; reconstruct via Builder.");
+    }
+    /**
+     * Disable all analysis features (only metrics computed).
+     */
+    public ProcessConfig minimal() {
+        throw new UnsupportedOperationException("minimal is not yet bridged via JNI; reconstruct via Builder.");
+    }
+    /**
+     * Enable or disable hierarchical data extraction for data-format files.
+     *
+     * When {@code true}, ProcessResult.data(crate.ProcessResult.data) is
+     * populated with a key/value tree for supported data-format languages.
+     */
+    public ProcessConfig withDataExtraction(boolean enabled) {
+        throw new UnsupportedOperationException("withDataExtraction is not yet bridged via JNI; reconstruct via Builder.");
+    }
 }

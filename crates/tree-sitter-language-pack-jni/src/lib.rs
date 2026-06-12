@@ -109,14 +109,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::detect_language_from_extension(&ext);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDetectLanguageFromPath(
@@ -135,14 +131,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::detect_language_from_path(&path);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeDetectLanguageFromContent(
@@ -161,14 +153,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::detect_language_from_content(&content);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetHighlightsQuery(
@@ -187,14 +175,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::get_highlights_query(&language);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetInjectionsQuery(
@@ -213,14 +197,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::get_injections_query(&language);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetLocalsQuery(
@@ -239,14 +219,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::get_locals_query(&language);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetTagsQuery(
@@ -265,14 +241,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::get_tags_query(&language);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeGetLanguage(
@@ -341,14 +313,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
         }
     };
     let v = core_crate::detect_language(&path);
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeAvailableLanguages(
@@ -661,16 +629,7 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
             throw_jni_error(env, &format!("{e}"));
             std::ptr::null_mut()
         }
-        Ok(v) => {
-            let s = match serde_json::to_string(&v) {
-                Ok(s) => s,
-                Err(e) => {
-                    throw_jni_error(env, &format!("serialize: {e}"));
-                    return std::ptr::null_mut();
-                }
-            };
-            string_to_jstring(env, &s)
-        }
+        Ok(v) => string_to_jstring(env, &v),
     }
 }
 #[unsafe(no_mangle)]
@@ -873,14 +832,7 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     // ensures the handle outlives this call.
     let client: &core_crate::Node = unsafe { &*(handle as *const core_crate::Node) };
     let v = client.kind();
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    string_to_jstring(env, &v)
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeKindId(
@@ -1243,14 +1195,7 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     // ensures the handle outlives this call.
     let client: &core_crate::Node = unsafe { &*(handle as *const core_crate::Node) };
     let v = client.to_sexp();
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    string_to_jstring(env, &v)
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeNodeWalk(
@@ -1361,14 +1306,10 @@ pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguage
     // ensures the handle outlives this call.
     let client: &core_crate::TreeCursor = unsafe { &*(handle as *const core_crate::TreeCursor) };
     let v = client.field_name();
-    let s = match serde_json::to_string(&v) {
-        Ok(s) => s,
-        Err(e) => {
-            throw_jni_error(env, &format!("serialize: {e}"));
-            return std::ptr::null_mut();
-        }
-    };
-    string_to_jstring(env, &s)
+    match v {
+        None => std::ptr::null_mut(),
+        Some(s) => string_to_jstring(env, &s),
+    }
 }
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn Java_dev_kreuzberg_tslp_android_TreeSitterLanguagePackBridge_nativeFreeTreeCursor(

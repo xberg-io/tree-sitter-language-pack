@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * The tree-sitter language function returned a null pointer for the given language name.
  */
 public class NullLanguagePointerException extends ErrorException {
-  /** Creates a new NullLanguagePointerException with the given message. */
-  public NullLanguagePointerException(final String message) {
-    super(message);
-  }
+    /** Creates a new NullLanguagePointerException with the given message. */
+    public NullLanguagePointerException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new NullLanguagePointerException with the given message and cause. */
-  public NullLanguagePointerException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new NullLanguagePointerException with the given message and cause. */
+    public NullLanguagePointerException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

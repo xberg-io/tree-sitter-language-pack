@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.jspecify.annotations.Nullable;
@@ -20,55 +20,60 @@ public record CommentInfo(
     @JsonProperty("text") String text,
     @JsonProperty("kind") CommentKind kind,
     @JsonProperty("span") Span span,
-    @Nullable @JsonProperty("associated_node") String associatedNode) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String text = "";
-    private CommentKind kind = null;
-    private Span span = null;
-
-    @JsonProperty("associated_node")
-    private String associatedNode = null;
-
-    /** Sets the text field. */
-    @JsonProperty("text")
-    public Builder withText(final String value) {
-      this.text = value;
-      return this;
+    @Nullable @JsonProperty("associated_node") String associatedNode
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the kind field. */
-    @JsonProperty("kind")
-    public Builder withKind(final CommentKind value) {
-      this.kind = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+private String text = "";
+private CommentKind kind = null;
+private Span span = null;
+        @JsonProperty("associated_node")
+private String associatedNode = null;
 
-    /** Sets the associatedNode field. */
-    @JsonProperty("associated_node")
-    public Builder withAssociatedNode(final @Nullable String value) {
-      this.associatedNode = value;
-      return this;
-    }
+        /** Sets the text field. */
+        @JsonProperty("text")
+        public Builder withText(final String value) {
+            this.text = value;
+            return this;
+        }
 
-    /** Builds the CommentInfo instance. */
-    public CommentInfo build() {
-      return new CommentInfo(text, kind, span, associatedNode);
+        /** Sets the kind field. */
+        @JsonProperty("kind")
+        public Builder withKind(final CommentKind value) {
+            this.kind = value;
+            return this;
+        }
+
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Sets the associatedNode field. */
+        @JsonProperty("associated_node")
+        public Builder withAssociatedNode(final @Nullable String value) {
+            this.associatedNode = value;
+            return this;
+        }
+
+        /** Builds the CommentInfo instance. */
+        public CommentInfo build() {
+            return new CommentInfo(
+                text,
+                kind,
+                span,
+                associatedNode
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

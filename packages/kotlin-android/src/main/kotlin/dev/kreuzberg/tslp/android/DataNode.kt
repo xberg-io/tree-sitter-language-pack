@@ -28,28 +28,29 @@ package dev.kreuzberg.tslp.android
 /**
  * A node in the hierarchical data tree produced by data-format extraction.
  *
- * When `ProcessConfig.data_extraction` is `true`, `ProcessResult.data` is populated with a root
- * `DataNode` whose `children` mirror the structure of the parsed file.
+ * When `ProcessConfig.data_extraction` is
+ * `true`, `ProcessResult.data` is populated with a root `DataNode` whose
+ * `children` mirror the structure of the parsed file.
  *
  * The `kind` field determines which other fields are meaningful:
  *
- * | `kind`     | `key`                     | `value`      | `attributes` | `children`     |
- * |------------|---------------------------|--------------|--------------|----------------|
- * | `KeyValue` | key / mapping key / index | leaf value   | empty        | nested map     |
- * | `Element`  | XML tag name              | text content | XML attrs    | child elements |
- * | `Sequence` | positional index (`"0"`)  | leaf value   | empty        | sub-items      |
+ * | `kind`     | `key`                    | `value`       | `attributes` | `children` |
+ * |------------|--------------------------|---------------|--------------|------------|
+ * | `KeyValue` | key / mapping key / index | leaf value   | empty        | nested map |
+ * | `Element`  | XML tag name             | text content  | XML attrs    | child elements |
+ * | `Sequence` | positional index (`"0"`) | leaf value   | empty        | sub-items  |
  */
 data class DataNode(
     /** Whether this node is a key/value pair, XML element, or sequence item. */
     val kind: DataNodeKind = DataNodeKind.KEY_VALUE,
     /**
-     * Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `null` at the document
-     * root.
+     * Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …).
+     * `null` at the document root.
      */
     val key: String? = null,
     /**
-     * Leaf scalar value, if any. `null` for containers (objects, arrays, XML elements with child
-     * elements).
+     * Leaf scalar value, if any. `null` for containers (objects, arrays, XML elements
+     * with child elements).
      */
     val value: String? = null,
     /** Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. */

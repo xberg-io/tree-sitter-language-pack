@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * A parser download from GitHub releases failed.
  */
 public class DownloadException extends ErrorException {
-  /** Creates a new DownloadException with the given message. */
-  public DownloadException(final String message) {
-    super(message);
-  }
+    /** Creates a new DownloadException with the given message. */
+    public DownloadException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new DownloadException with the given message and cause. */
-  public DownloadException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new DownloadException with the given message and cause. */
+    public DownloadException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

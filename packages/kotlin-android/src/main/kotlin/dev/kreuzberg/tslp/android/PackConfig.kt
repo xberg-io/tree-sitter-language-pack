@@ -28,8 +28,9 @@ package dev.kreuzberg.tslp.android
 /**
  * Configuration for the tree-sitter language pack.
  *
- * Controls cache directory and which languages to pre-download. Can be loaded from a TOML file,
- * constructed programmatically, or passed as a dict/object from language bindings.
+ * Controls cache directory and which languages to pre-download.
+ * Can be loaded from a TOML file, constructed programmatically,
+ * or passed as a dict/object from language bindings.
  */
 data class PackConfig(
     /**

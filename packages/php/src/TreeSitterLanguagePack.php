@@ -26,8 +26,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function detectLanguageFromExtension(
-        string $ext,
-    ): ?string {
+string $ext): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::detectLanguageFromExtension($ext); // delegate to native extension class
     }
     /**
@@ -47,8 +47,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function detectLanguageFromPath(
-        string $path,
-    ): ?string {
+string $path): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::detectLanguageFromPath($path); // delegate to native extension class
     }
     /**
@@ -79,8 +79,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function detectLanguageFromContent(
-        string $content,
-    ): ?string {
+string $content): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::detectLanguageFromContent($content); // delegate to native extension class
     }
     /**
@@ -93,8 +93,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function getHighlightsQuery(
-        string $language,
-    ): ?string {
+string $language): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::getHighlightsQuery($language); // delegate to native extension class
     }
     /**
@@ -107,8 +107,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function getInjectionsQuery(
-        string $language,
-    ): ?string {
+string $language): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::getInjectionsQuery($language); // delegate to native extension class
     }
     /**
@@ -121,8 +121,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function getLocalsQuery(
-        string $language,
-    ): ?string {
+string $language): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::getLocalsQuery($language); // delegate to native extension class
     }
     /**
@@ -135,8 +135,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function getTagsQuery(
-        string $language,
-    ): ?string {
+string $language): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::getTagsQuery($language); // delegate to native extension class
     }
     /**
@@ -151,8 +151,8 @@ final class TreeSitterLanguagePack
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
     public static function getLanguage(
-        string $name,
-    ): Language {
+string $name): Language
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::getLanguage($name); // delegate to native extension class
     }
     /**
@@ -166,8 +166,8 @@ final class TreeSitterLanguagePack
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
     public static function getParser(
-        string $name,
-    ): Parser {
+string $name): Parser
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::getParser($name); // delegate to native extension class
     }
     /**
@@ -179,8 +179,8 @@ final class TreeSitterLanguagePack
      * @return ?string
      */
     public static function detectLanguage(
-        string $path,
-    ): ?string {
+string $path): ?string
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::detectLanguage($path); // delegate to native extension class
     }
     /**
@@ -191,8 +191,7 @@ final class TreeSitterLanguagePack
      *
      * @return array<string>
      */
-    public static function availableLanguages(): array
-    {
+    public static function availableLanguages(): array {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::availableLanguages(); // delegate to native extension class
     }
     /**
@@ -205,8 +204,8 @@ final class TreeSitterLanguagePack
      * @return bool
      */
     public static function hasLanguage(
-        string $name,
-    ): bool {
+string $name): bool
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::hasLanguage($name); // delegate to native extension class
     }
     /**
@@ -217,8 +216,7 @@ final class TreeSitterLanguagePack
      *
      * @return int
      */
-    public static function languageCount(): int
-    {
+    public static function languageCount(): int {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::languageCount(); // delegate to native extension class
     }
     /**
@@ -234,9 +232,8 @@ final class TreeSitterLanguagePack
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
     public static function process(
-        string $source,
-        ProcessConfig $config,
-    ): ProcessResult {
+string $source, ProcessConfig $config): ProcessResult
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::process($source, $config); // delegate to native extension class
     }
     /**
@@ -251,8 +248,8 @@ final class TreeSitterLanguagePack
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
     public static function init(
-        ?PackConfig $config = null,
-    ): void {
+?PackConfig $config = null): void
+    {
         \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::init($config ?? new PackConfig()); // delegate to native extension class
     }
     /**
@@ -268,8 +265,8 @@ final class TreeSitterLanguagePack
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
     public static function configure(
-        ?PackConfig $config = null,
-    ): void {
+?PackConfig $config = null): void
+    {
         \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::configure($config ?? new PackConfig()); // delegate to native extension class
     }
     /**
@@ -283,8 +280,8 @@ final class TreeSitterLanguagePack
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
     public static function download(
-        array $names,
-    ): int {
+array $names): int
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::download($names); // delegate to native extension class
     }
     /**
@@ -301,8 +298,7 @@ final class TreeSitterLanguagePack
      * @return int
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
-    public static function downloadAll(): int
-    {
+    public static function downloadAll(): int {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::downloadAll(); // delegate to native extension class
     }
     /**
@@ -320,8 +316,8 @@ final class TreeSitterLanguagePack
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
     public static function downloadGroup(
-        string $name,
-    ): int {
+string $name): int
+    {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::downloadGroup($name); // delegate to native extension class
     }
     /**
@@ -334,8 +330,7 @@ final class TreeSitterLanguagePack
      * @return array<string>
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
-    public static function manifestLanguages(): array
-    {
+    public static function manifestLanguages(): array {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::manifestLanguages(); // delegate to native extension class
     }
     /**
@@ -346,8 +341,7 @@ final class TreeSitterLanguagePack
      *
      * @return array<string>
      */
-    public static function downloadedLanguages(): array
-    {
+    public static function downloadedLanguages(): array {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::downloadedLanguages(); // delegate to native extension class
     }
     /**
@@ -359,8 +353,7 @@ final class TreeSitterLanguagePack
      * @return void
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
-    public static function cleanCache(): void
-    {
+    public static function cleanCache(): void {
         \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::cleanCache(); // delegate to native extension class
     }
     /**
@@ -372,8 +365,7 @@ final class TreeSitterLanguagePack
      * @return string
      * @throws \Tree\Sitter\Language\Pack\TreeSitterLanguagePackException
      */
-    public static function cacheDir(): string
-    {
+    public static function cacheDir(): string {
         return \Tree\Sitter\Language\Pack\TreeSitterLanguagePackApi::cacheDir(); // delegate to native extension class
     }
 }

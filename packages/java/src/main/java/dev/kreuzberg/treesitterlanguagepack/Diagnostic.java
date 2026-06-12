@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -18,45 +18,50 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public record Diagnostic(
     @JsonProperty("message") String message,
     @JsonProperty("severity") DiagnosticSeverity severity,
-    @JsonProperty("span") Span span) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String message = "";
-    private DiagnosticSeverity severity = null;
-    private Span span = null;
-
-    /** Sets the message field. */
-    @JsonProperty("message")
-    public Builder withMessage(final String value) {
-      this.message = value;
-      return this;
+    @JsonProperty("span") Span span
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the severity field. */
-    @JsonProperty("severity")
-    public Builder withSeverity(final DiagnosticSeverity value) {
-      this.severity = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+private String message = "";
+private DiagnosticSeverity severity = null;
+private Span span = null;
 
-    /** Builds the Diagnostic instance. */
-    public Diagnostic build() {
-      return new Diagnostic(message, severity, span);
+        /** Sets the message field. */
+        @JsonProperty("message")
+        public Builder withMessage(final String value) {
+            this.message = value;
+            return this;
+        }
+
+        /** Sets the severity field. */
+        @JsonProperty("severity")
+        public Builder withSeverity(final DiagnosticSeverity value) {
+            this.severity = value;
+            return this;
+        }
+
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Builds the Diagnostic instance. */
+        public Diagnostic build() {
+            return new Diagnostic(
+                message,
+                severity,
+                span
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

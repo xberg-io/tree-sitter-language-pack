@@ -28,7 +28,8 @@ package dev.kreuzberg.tslp.android
 /**
  * An XML-style attribute attached to an `Element` node.
  *
- * Populated only for `DataNodeKind.Element`; always empty for `KeyValue` and `Sequence` nodes.
+ * Populated only for `DataNodeKind.Element`; always empty for `KeyValue` and
+ * `Sequence` nodes.
  */
 data class DataAttribute(
     /** Attribute name (e.g. `"class"`, `"href"`). */

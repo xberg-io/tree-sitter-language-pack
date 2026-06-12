@@ -4,11 +4,11 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.util.List;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -22,64 +22,69 @@ public record ImportInfo(
     @Nullable @JsonProperty("items") List<String> items,
     @Nullable @JsonProperty("alias") String alias,
     @JsonProperty("is_wildcard") boolean isWildcard,
-    @JsonProperty("span") Span span) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String source = "";
-    private List<String> items = null;
-    private String alias = null;
-
-    @JsonProperty("is_wildcard")
-    private boolean isWildcard = false;
-
-    private Span span = null;
-
-    /** Sets the source field. */
-    @JsonProperty("source")
-    public Builder withSource(final String value) {
-      this.source = value;
-      return this;
+    @JsonProperty("span") Span span
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the items field. */
-    @JsonProperty("items")
-    public Builder withItems(final @Nullable List<String> value) {
-      this.items = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the alias field. */
-    @JsonProperty("alias")
-    public Builder withAlias(final @Nullable String value) {
-      this.alias = value;
-      return this;
-    }
+private String source = "";
+private List<String> items = null;
+private String alias = null;
+        @JsonProperty("is_wildcard")
+private boolean isWildcard = false;
+private Span span = null;
 
-    /** Sets the isWildcard field. */
-    @JsonProperty("is_wildcard")
-    public Builder withIsWildcard(final boolean value) {
-      this.isWildcard = value;
-      return this;
-    }
+        /** Sets the source field. */
+        @JsonProperty("source")
+        public Builder withSource(final String value) {
+            this.source = value;
+            return this;
+        }
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+        /** Sets the items field. */
+        @JsonProperty("items")
+        public Builder withItems(final @Nullable List<String> value) {
+            this.items = value;
+            return this;
+        }
 
-    /** Builds the ImportInfo instance. */
-    public ImportInfo build() {
-      return new ImportInfo(source, items, alias, isWildcard, span);
+        /** Sets the alias field. */
+        @JsonProperty("alias")
+        public Builder withAlias(final @Nullable String value) {
+            this.alias = value;
+            return this;
+        }
+
+        /** Sets the isWildcard field. */
+        @JsonProperty("is_wildcard")
+        public Builder withIsWildcard(final boolean value) {
+            this.isWildcard = value;
+            return this;
+        }
+
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Builds the ImportInfo instance. */
+        public ImportInfo build() {
+            return new ImportInfo(
+                source,
+                items,
+                alias,
+                isWildcard,
+                span
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

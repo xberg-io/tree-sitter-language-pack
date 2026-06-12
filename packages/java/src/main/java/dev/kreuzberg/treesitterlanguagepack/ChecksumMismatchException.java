@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * The downloaded file's SHA-256 digest did not match the manifest's expected value.
  */
 public class ChecksumMismatchException extends ErrorException {
-  /** Creates a new ChecksumMismatchException with the given message. */
-  public ChecksumMismatchException(final String message) {
-    super(message);
-  }
+    /** Creates a new ChecksumMismatchException with the given message. */
+    public ChecksumMismatchException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new ChecksumMismatchException with the given message and cause. */
-  public ChecksumMismatchException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new ChecksumMismatchException with the given message and cause. */
+    public ChecksumMismatchException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

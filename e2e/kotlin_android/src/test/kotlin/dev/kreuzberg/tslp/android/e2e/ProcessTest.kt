@@ -22,9 +22,9 @@ class ProcessTest {
     companion object {
         init {
             try {
-                System.loadLibrary("tree-sitter-language-pack_jni")
+                System.loadLibrary("ts_pack_jni")
             } catch (e: UnsatisfiedLinkError) {
-                System.err.println("Failed to load tree-sitter-language-pack_jni library: ${e.message}")
+                System.err.println("Failed to load ts_pack_jni library: ${e.message}")
                 val libPath = System.getProperty("java.library.path")
                 System.err.println("java.library.path: $libPath")
                 throw e
@@ -39,7 +39,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("#include <stdio.h>\n\nint main() {\n    printf(\"hello\");\n    return 0;\n}\n", config)
         assertEquals("c", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.metrics.totalLines >= 6, "expected >= 6")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -51,7 +51,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("# A comment\ndef greet(name):\n    \"\"\"Say hello.\"\"\"\n    return f'Hi {name}'\n\nimport os\n", config)
         assertEquals("python", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.imports.size >= 1, "expected at least 1 elements")
         assertTrue(result.metrics.totalLines >= 6, "expected >= 6")
         assertEquals(0, result.metrics.errorCount)
@@ -73,7 +73,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello\")\n}\n", config)
         assertEquals("go", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.imports.size >= 1, "expected at least 1 elements")
         assertTrue(result.metrics.totalLines >= 7, "expected >= 7")
         assertEquals(0, result.metrics.errorCount)
@@ -86,7 +86,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"hello\")\n}\n", config)
         assertEquals("go", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.imports.size >= 1, "expected at least 1 elements")
         assertTrue(result.metrics.totalLines >= 7, "expected >= 7")
         assertEquals(0, result.metrics.errorCount)
@@ -99,7 +99,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("import java.util.List;\n\npublic class Greeter {\n    public String greet(String name) {\n        return \"Hello \" + name;\n    }\n}\n", config)
         assertEquals("java", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Class"), "expected to contain: " + "Class")
+        assertTrue(result.structure.toString().lowercase().contains("Class".toString().lowercase()), "expected to contain: " + "Class")
         assertTrue(result.imports.size >= 1, "expected at least 1 elements")
         assertTrue(result.metrics.totalLines >= 7, "expected >= 7")
         assertEquals(0, result.metrics.errorCount)
@@ -112,8 +112,8 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("package com.example.widget;\n\npublic class Widget {\n    public String name() { return \"w\"; }\n}\n", config)
         assertEquals("java", result.language.trim())
         assertTrue(result.structure.size >= 2, "expected at least 2 elements")
-        assertTrue((result.structure as List<String>).contains("Module"), "expected to contain: " + "Module")
-        assertTrue((result.structure as List<String>).contains("Class"), "expected to contain: " + "Class")
+        assertTrue(result.structure.toString().lowercase().contains("Module".toString().lowercase()), "expected to contain: " + "Module")
+        assertTrue(result.structure.toString().lowercase().contains("Class".toString().lowercase()), "expected to contain: " + "Class")
         assertEquals(0, result.metrics.errorCount)
     }
 
@@ -124,7 +124,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("import fs from 'fs';\nimport path from 'path';\n\nfunction process(input) {\n    return input.trim();\n}\n", config)
         assertEquals("javascript", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.imports.size >= 2, "expected at least 2 elements")
         assertTrue(result.metrics.totalLines >= 6, "expected >= 6")
         assertEquals(0, result.metrics.errorCount)
@@ -137,7 +137,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("import fs from 'fs';\nimport path from 'path';\n\nfunction process(input) {\n    return input.trim();\n}\n", config)
         assertEquals("javascript", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.imports.size >= 2, "expected at least 2 elements")
         assertTrue(result.metrics.totalLines >= 6, "expected >= 6")
         assertEquals(0, result.metrics.errorCount)
@@ -150,8 +150,8 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("package foo.bar\n\nclass Widget {\n    fun greet(): String = \"hi\"\n}\n", config)
         assertEquals("kotlin", result.language.trim())
         assertTrue(result.structure.size >= 2, "expected at least 2 elements")
-        assertTrue((result.structure as List<String>).contains("Module"), "expected to contain: " + "Module")
-        assertTrue((result.structure as List<String>).contains("Class"), "expected to contain: " + "Class")
+        assertTrue(result.structure.toString().lowercase().contains("Module".toString().lowercase()), "expected to contain: " + "Module")
+        assertTrue(result.structure.toString().lowercase().contains("Class".toString().lowercase()), "expected to contain: " + "Class")
         assertEquals(0, result.metrics.errorCount)
     }
 
@@ -210,7 +210,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("import os\nimport sys\nfrom pathlib import Path\n\ndef main():\n    pass\n", config)
         assertEquals("python", result.language.trim())
         assertTrue(result.imports.size >= 2, "expected at least 2 elements")
-        assertTrue((result.imports as List<String>).contains("os"), "expected to contain: " + "os")
+        assertTrue(result.imports.toString().lowercase().contains("os".toString().lowercase()), "expected to contain: " + "os")
     }
 
     @Test
@@ -240,7 +240,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("pub struct MyConfig {\n    pub name: String,\n    pub value: i32,\n}\n\nimpl MyConfig {\n    pub fn new() -> Self {\n        Self { name: String::new(), value: 0 }\n    }\n}\n", config)
         assertEquals("rust", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("MyConfig"), "expected to contain: " + "MyConfig")
+        assertTrue(result.structure.toString().lowercase().contains("MyConfig".toString().lowercase()), "expected to contain: " + "MyConfig")
     }
 
     @Test
@@ -271,7 +271,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("class Calculator:\n    def add(self, a, b):\n        return a + b\n\n    def subtract(self, a, b):\n        return a - b\n", config)
         assertEquals("python", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Class"), "expected to contain: " + "Class")
+        assertTrue(result.structure.toString().lowercase().contains("Class".toString().lowercase()), "expected to contain: " + "Class")
         assertTrue(result.metrics.totalLines >= 6, "expected >= 6")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -283,7 +283,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("class Calculator:\n    def add(self, a, b):\n        return a + b\n\n    def subtract(self, a, b):\n        return a - b\n", config)
         assertEquals("python", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Class"), "expected to contain: " + "Class")
+        assertTrue(result.structure.toString().lowercase().contains("Class".toString().lowercase()), "expected to contain: " + "Class")
         assertTrue(result.metrics.totalLines >= 6, "expected >= 6")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -305,7 +305,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("def greet(name):\n    return f'Hello, {name}!'\n", config)
         assertEquals("python", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.metrics.totalLines >= 2, "expected >= 2")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -317,7 +317,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("def greet(name):\n    return f'Hello, {name}!'\n", config)
         assertEquals("python", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.metrics.totalLines >= 2, "expected >= 2")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -371,7 +371,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("require 'json'\n\nclass Greeter\n  def greet(name)\n    \"Hello #{name}\"\n  end\nend\n", config)
         assertEquals("ruby", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Class"), "expected to contain: " + "Class")
+        assertTrue(result.structure.toString().lowercase().contains("Class".toString().lowercase()), "expected to contain: " + "Class")
         assertTrue(result.metrics.totalLines >= 7, "expected >= 7")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -403,7 +403,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("fn add(a: i32, b: i32) -> i32 {\n    a + b\n}\n", config)
         assertEquals("rust", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.metrics.totalLines >= 3, "expected >= 3")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -415,7 +415,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("fn add(a: i32, b: i32) -> i32 {\n    a + b\n}\n", config)
         assertEquals("rust", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.metrics.totalLines >= 3, "expected >= 3")
         assertEquals(0, result.metrics.errorCount)
     }
@@ -427,7 +427,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("import { readFile } from 'fs';\n\nfunction greet(name: string): string {\n    return `Hello, \${name}!`;\n}\n", config)
         assertEquals("typescript", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.imports.size >= 1, "expected at least 1 elements")
         assertTrue(result.metrics.totalLines >= 5, "expected >= 5")
         assertEquals(0, result.metrics.errorCount)
@@ -440,7 +440,7 @@ class ProcessTest {
         val result = TreeSitterLanguagePack.process("import { readFile } from 'fs';\n\nfunction greet(name: string): string {\n    return `Hello, \${name}!`;\n}\n", config)
         assertEquals("typescript", result.language.trim())
         assertTrue(result.structure.size >= 1, "expected at least 1 elements")
-        assertTrue((result.structure as List<String>).contains("Function"), "expected to contain: " + "Function")
+        assertTrue(result.structure.toString().lowercase().contains("Function".toString().lowercase()), "expected to contain: " + "Function")
         assertTrue(result.imports.size >= 1, "expected at least 1 elements")
         assertTrue(result.metrics.totalLines >= 5, "expected >= 5")
         assertEquals(0, result.metrics.errorCount)

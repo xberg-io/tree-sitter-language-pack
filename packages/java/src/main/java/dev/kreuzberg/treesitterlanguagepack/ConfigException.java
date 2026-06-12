@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * A configuration file or value was invalid or could not be applied.
  */
 public class ConfigException extends ErrorException {
-  /** Creates a new ConfigException with the given message. */
-  public ConfigException(final String message) {
-    super(message);
-  }
+    /** Creates a new ConfigException with the given message. */
+    public ConfigException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new ConfigException with the given message and cause. */
-  public ConfigException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new ConfigException with the given message and cause. */
+    public ConfigException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

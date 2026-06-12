@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.jspecify.annotations.Nullable;
@@ -21,64 +21,69 @@ public record SymbolInfo(
     @JsonProperty("kind") SymbolKind kind,
     @JsonProperty("span") Span span,
     @Nullable @JsonProperty("type_annotation") String typeAnnotation,
-    @Nullable @JsonProperty("doc") String doc) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String name = "";
-    private SymbolKind kind = null;
-    private Span span = null;
-
-    @JsonProperty("type_annotation")
-    private String typeAnnotation = null;
-
-    private String doc = null;
-
-    /** Sets the name field. */
-    @JsonProperty("name")
-    public Builder withName(final String value) {
-      this.name = value;
-      return this;
+    @Nullable @JsonProperty("doc") String doc
+) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the kind field. */
-    @JsonProperty("kind")
-    public Builder withKind(final SymbolKind value) {
-      this.kind = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+private String name = "";
+private SymbolKind kind = null;
+private Span span = null;
+        @JsonProperty("type_annotation")
+private String typeAnnotation = null;
+private String doc = null;
 
-    /** Sets the typeAnnotation field. */
-    @JsonProperty("type_annotation")
-    public Builder withTypeAnnotation(final @Nullable String value) {
-      this.typeAnnotation = value;
-      return this;
-    }
+        /** Sets the name field. */
+        @JsonProperty("name")
+        public Builder withName(final String value) {
+            this.name = value;
+            return this;
+        }
 
-    /** Sets the doc field. */
-    @JsonProperty("doc")
-    public Builder withDoc(final @Nullable String value) {
-      this.doc = value;
-      return this;
-    }
+        /** Sets the kind field. */
+        @JsonProperty("kind")
+        public Builder withKind(final SymbolKind value) {
+            this.kind = value;
+            return this;
+        }
 
-    /** Builds the SymbolInfo instance. */
-    public SymbolInfo build() {
-      return new SymbolInfo(name, kind, span, typeAnnotation, doc);
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Sets the typeAnnotation field. */
+        @JsonProperty("type_annotation")
+        public Builder withTypeAnnotation(final @Nullable String value) {
+            this.typeAnnotation = value;
+            return this;
+        }
+
+        /** Sets the doc field. */
+        @JsonProperty("doc")
+        public Builder withDoc(final @Nullable String value) {
+            this.doc = value;
+            return this;
+        }
+
+        /** Builds the SymbolInfo instance. */
+        public SymbolInfo build() {
+            return new SymbolInfo(
+                name,
+                kind,
+                span,
+                typeAnnotation,
+                doc
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

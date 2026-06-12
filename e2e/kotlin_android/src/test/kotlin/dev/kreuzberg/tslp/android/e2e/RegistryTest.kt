@@ -18,9 +18,9 @@ class RegistryTest {
     companion object {
         init {
             try {
-                System.loadLibrary("tree-sitter-language-pack_jni")
+                System.loadLibrary("ts_pack_jni")
             } catch (e: UnsatisfiedLinkError) {
-                System.err.println("Failed to load tree-sitter-language-pack_jni library: ${e.message}")
+                System.err.println("Failed to load ts_pack_jni library: ${e.message}")
                 val libPath = System.getProperty("java.library.path")
                 System.err.println("java.library.path: $libPath")
                 throw e

@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * The requested language name (or alias) was not found in the registry.
  */
 public class LanguageNotFoundException extends ErrorException {
-  /** Creates a new LanguageNotFoundException with the given message. */
-  public LanguageNotFoundException(final String message) {
-    super(message);
-  }
+    /** Creates a new LanguageNotFoundException with the given message. */
+    public LanguageNotFoundException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new LanguageNotFoundException with the given message and cause. */
-  public LanguageNotFoundException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new LanguageNotFoundException with the given message and cause. */
+    public LanguageNotFoundException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

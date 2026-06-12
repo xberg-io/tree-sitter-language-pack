@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * The language could not be applied to the parser (e.g., ABI version mismatch).
  */
 public class ParserSetupException extends ErrorException {
-  /** Creates a new ParserSetupException with the given message. */
-  public ParserSetupException(final String message) {
-    super(message);
-  }
+    /** Creates a new ParserSetupException with the given message. */
+    public ParserSetupException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new ParserSetupException with the given message and cause. */
-  public ParserSetupException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new ParserSetupException with the given message and cause. */
+    public ParserSetupException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

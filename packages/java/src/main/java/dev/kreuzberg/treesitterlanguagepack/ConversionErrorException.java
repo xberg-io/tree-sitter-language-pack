@@ -7,13 +7,13 @@ package dev.kreuzberg.treesitterlanguagepack;
 /** Exception thrown when type conversion fails. */
 @SuppressWarnings({"checkstyle:LineLength", "PMD"})
 public class ConversionErrorException extends TreeSitterLanguagePackRsException {
-  /** Creates a new ConversionErrorException. */
-  public ConversionErrorException(final String message) {
-    super(2, message);
-  }
+    /** Creates a new ConversionErrorException. */
+    public ConversionErrorException(final String message) {
+        super(2, message);
+    }
 
-  /** Creates a new ConversionErrorException with a cause. */
-  public ConversionErrorException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new ConversionErrorException with a cause. */
+    public ConversionErrorException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

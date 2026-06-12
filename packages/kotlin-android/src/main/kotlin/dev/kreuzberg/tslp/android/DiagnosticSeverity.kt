@@ -28,7 +28,8 @@ package dev.kreuzberg.tslp.android
 /**
  * Severity level of a diagnostic produced during parsing.
  *
- * Used to classify parse errors, warnings, and informational messages found in the syntax tree.
+ * Used to classify parse errors, warnings, and informational messages
+ * found in the syntax tree.
  */
 enum class DiagnosticSeverity {
     /** A parse error (e.g., an `ERROR` or `MISSING` node in the tree). */

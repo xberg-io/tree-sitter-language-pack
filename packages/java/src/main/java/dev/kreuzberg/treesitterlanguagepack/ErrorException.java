@@ -10,13 +10,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * features are enabled.
  */
 public class ErrorException extends Exception {
-  /** Creates a new ErrorException with the given message. */
-  public ErrorException(final String message) {
-    super(message);
-  }
+    /** Creates a new ErrorException with the given message. */
+    public ErrorException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new ErrorException with the given message and cause. */
-  public ErrorException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new ErrorException with the given message and cause. */
+    public ErrorException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

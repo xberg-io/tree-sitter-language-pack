@@ -6,13 +6,13 @@ package dev.kreuzberg.treesitterlanguagepack;
  * The cross-process download cache lock file could not be acquired or created.
  */
 public class CacheLockException extends ErrorException {
-  /** Creates a new CacheLockException with the given message. */
-  public CacheLockException(final String message) {
-    super(message);
-  }
+    /** Creates a new CacheLockException with the given message. */
+    public CacheLockException(final String message) {
+        super(message);
+    }
 
-  /** Creates a new CacheLockException with the given message and cause. */
-  public CacheLockException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
+    /** Creates a new CacheLockException with the given message and cause. */
+    public CacheLockException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

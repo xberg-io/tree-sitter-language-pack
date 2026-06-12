@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package dev.kreuzberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -15,38 +15,40 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ByteRange.Builder.class)
 @SuppressWarnings("PMD")
-public record ByteRange(
-    @JsonProperty("start") long start, @JsonProperty("end") long end) {
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private long start = 0;
-    private long end = 0;
-
-    /** Sets the start field. */
-    @JsonProperty("start")
-    public Builder withStart(final long value) {
-      this.start = value;
-      return this;
+public record ByteRange(@JsonProperty("start") long start, @JsonProperty("end") long end) {
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the end field. */
-    @JsonProperty("end")
-    public Builder withEnd(final long value) {
-      this.end = value;
-      return this;
-    }
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Builds the ByteRange instance. */
-    public ByteRange build() {
-      return new ByteRange(start, end);
+private long start = 0;
+private long end = 0;
+
+        /** Sets the start field. */
+        @JsonProperty("start")
+        public Builder withStart(final long value) {
+            this.start = value;
+            return this;
+        }
+
+        /** Sets the end field. */
+        @JsonProperty("end")
+        public Builder withEnd(final long value) {
+            this.end = value;
+            return this;
+        }
+
+        /** Builds the ByteRange instance. */
+        public ByteRange build() {
+            return new ByteRange(
+                start,
+                end
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

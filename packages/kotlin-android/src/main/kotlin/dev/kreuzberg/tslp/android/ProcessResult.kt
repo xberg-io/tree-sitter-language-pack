@@ -28,9 +28,9 @@ package dev.kreuzberg.tslp.android
 /**
  * Complete analysis result from processing a source file.
  *
- * Contains metrics, structural analysis, imports/exports, comments, docstrings, symbols,
- * diagnostics, and optionally chunked code segments. Fields are populated based on the
- * `ProcessConfig` flags.
+ * Contains metrics, structural analysis, imports/exports, comments,
+ * docstrings, symbols, diagnostics, and optionally chunked code segments.
+ * Fields are populated based on the `ProcessConfig` flags.
  */
 data class ProcessResult(
     /** The language name used to parse the source file. */
@@ -56,9 +56,9 @@ data class ProcessResult(
     /**
      * Hierarchical data tree extracted when `config.data_extraction` is `true`.
      *
-     * Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML,
-     * CSV, and more). `null` when `data_extraction` is `false` (the default) or when the language
-     * is not a recognised data format.
+     * Populated for supported data-format languages (JSON, YAML, TOML, properties,
+     * HCL, INI, XML, CSV, and more). `null` when `data_extraction` is `false` (the
+     * default) or when the language is not a recognised data format.
      *
      * See `DataNode` for the shape of the returned tree.
      */
