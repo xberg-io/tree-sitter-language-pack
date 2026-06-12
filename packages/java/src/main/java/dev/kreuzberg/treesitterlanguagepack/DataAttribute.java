@@ -1,0 +1,63 @@
+// Hand-written — DO NOT EDIT via alef generate (DataAttribute is not yet in the alef DTO emitter).
+// Must match the wire format documented in crates/ts-pack-core/src/intel/types.rs.
+package dev.kreuzberg.treesitterlanguagepack;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+/**
+ * An XML-style attribute attached to an {@link DataNode} of kind {@link DataNodeKind#Element}.
+ *
+ * <p>Always empty for {@link DataNodeKind#KeyValue} and {@link DataNodeKind#Sequence} nodes.
+ */
+@JsonInclude(JsonInclude.Include.NON_ABSENT)
+@JsonDeserialize(builder = DataAttribute.Builder.class)
+@SuppressWarnings("PMD")
+public record DataAttribute(
+    @JsonProperty("name") String name,
+    @JsonProperty("value") String value,
+    @JsonProperty("span") Span span) {
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    // CPD-OFF
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
+
+        private String name = "";
+        private String value = "";
+        private Span span = null;
+
+        /** Sets the name field. */
+        @JsonProperty("name")
+        public Builder withName(final String value) {
+            this.name = value;
+            return this;
+        }
+
+        /** Sets the value field. */
+        @JsonProperty("value")
+        public Builder withValue(final String value) {
+            this.value = value;
+            return this;
+        }
+
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Builds the DataAttribute instance. */
+        public DataAttribute build() {
+            return new DataAttribute(name, value, span);
+        }
+    }
+    // CPD-ON
+}

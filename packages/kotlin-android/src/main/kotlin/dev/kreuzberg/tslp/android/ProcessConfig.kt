@@ -49,4 +49,6 @@ data class ProcessConfig(
     val diagnostics: Boolean = false,
     /** Maximum chunk size in bytes. `null` disables chunking. */
     val chunkMaxSize: Long? = null,
+    /** Extract hierarchical data tree from data-format files. Default: false. */
+    val dataExtraction: Boolean = false,
 )

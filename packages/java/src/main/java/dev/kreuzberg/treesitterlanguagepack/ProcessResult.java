@@ -44,7 +44,8 @@ public record ProcessResult(
     @Nullable @JsonProperty("docstrings") List<DocstringInfo> docstrings,
     @Nullable @JsonProperty("symbols") List<SymbolInfo> symbols,
     @Nullable @JsonProperty("diagnostics") List<Diagnostic> diagnostics,
-    @Nullable @JsonProperty("chunks") List<CodeChunk> chunks) {
+    @Nullable @JsonProperty("chunks") List<CodeChunk> chunks,
+    @Nullable @JsonProperty("data") DataNode data) {
   public static Builder builder() {
     return new Builder();
   }
@@ -64,6 +65,7 @@ public record ProcessResult(
     private List<SymbolInfo> symbols = null;
     private List<Diagnostic> diagnostics = null;
     private List<CodeChunk> chunks = null;
+    private DataNode data = null;
 
     /** Sets the language field. */
     @JsonProperty("language")
@@ -135,6 +137,13 @@ public record ProcessResult(
       return this;
     }
 
+    /** Sets the data field. */
+    @JsonProperty("data")
+    public Builder withData(final @Nullable DataNode value) {
+      this.data = value;
+      return this;
+    }
+
     /** Builds the ProcessResult instance. */
     public ProcessResult build() {
       return new ProcessResult(
@@ -147,7 +156,8 @@ public record ProcessResult(
           docstrings,
           symbols,
           diagnostics,
-          chunks);
+          chunks,
+          data);
     }
   }
   // CPD-ON

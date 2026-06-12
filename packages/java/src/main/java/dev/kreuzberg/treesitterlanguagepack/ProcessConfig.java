@@ -27,7 +27,8 @@ public record ProcessConfig(
     @Nullable @JsonProperty("docstrings") Boolean docstrings,
     @Nullable @JsonProperty("symbols") Boolean symbols,
     @Nullable @JsonProperty("diagnostics") Boolean diagnostics,
-    @Nullable @JsonProperty("chunk_max_size") Long chunkMaxSize) {
+    @Nullable @JsonProperty("chunk_max_size") Long chunkMaxSize,
+    @Nullable @JsonProperty("data_extraction") Boolean dataExtraction) {
   public static Builder builder() {
     return new Builder();
   }
@@ -48,6 +49,9 @@ public record ProcessConfig(
 
     @JsonProperty("chunk_max_size")
     private Long chunkMaxSize = null;
+
+    @JsonProperty("data_extraction")
+    private Boolean dataExtraction = null;
 
     /** Sets the language field. */
     @JsonProperty("language")
@@ -112,6 +116,13 @@ public record ProcessConfig(
       return this;
     }
 
+    /** Sets the dataExtraction field. */
+    @JsonProperty("data_extraction")
+    public Builder withDataExtraction(final @Nullable Boolean value) {
+      this.dataExtraction = value;
+      return this;
+    }
+
     /** Builds the ProcessConfig instance. */
     public ProcessConfig build() {
       return new ProcessConfig(
@@ -123,7 +134,8 @@ public record ProcessConfig(
           docstrings,
           symbols,
           diagnostics,
-          chunkMaxSize);
+          chunkMaxSize,
+          dataExtraction);
     }
   }
   // CPD-ON

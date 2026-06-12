@@ -53,4 +53,6 @@ data class ProcessResult(
     val diagnostics: List<Diagnostic> = emptyList(),
     /** Syntax-aware code chunks produced when chunking is enabled. */
     val chunks: List<CodeChunk> = emptyList(),
+    /** Hierarchical data tree extracted when `data_extraction` is true. */
+    val data: DataNode? = null,
 )
