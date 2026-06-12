@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.39] - 2026-06-12
+
 ### Added
 
 - **Hierarchical data extraction for 17 data-format languages (#136).** Set `data_extraction = true` on `ProcessConfig` to extract a nested `DataNode` tree preserving the original document's hierarchy. Covers JSON, HJSON, JSON5, TOML, properties, Cue, HCL, HOCON, KDL, YAML, INI, EditorConfig, PO, Nginx, Caddy (key-value pairs); XML and DTD (element shape); and CSV/PSV (sequence shape). See [docs/guides/intelligence.md#data-extraction](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/intelligence/#data-extraction).
 
 - **JNI is a first-class test-apps target for Kotlin Android host-JVM.** The kotlin_android test app's host-JVM gradle tests now satisfy `Language::Jni` in `alef test-apps run`, enabling CI/CD verification without Android emulator. Requires alef 0.24.14+.
+
+### Changed
+
+- **Alef pin bumped 0.24.10 → 0.24.14.** Pulls in the JNI run-default split (host-JVM gradle runner replaces the `Ffi | Jni` no-op), JNI return marshalling for raw `String` / `Option<String>` returns (no more JSON-encoded `"\"python\""` surfacing in Kotlin), Kotlin test emitter `loadLibrary` respecting `[crates.ffi] prefix` (resolves `ts_pack_jni` instead of the literal crate name), and the Kotlin assertion emitter switching list-`contains` checks to a case-insensitive `toString().lowercase().contains(...)` shape that mirrors the Java emitter.
 
 ## [1.9.0-rc.32] - 2026-06-11
 

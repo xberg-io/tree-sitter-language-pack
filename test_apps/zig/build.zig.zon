@@ -5,28 +5,23 @@
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
         .tree_sitter_language_pack_aarch64_apple_darwin = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.38/tree-sitter-language-pack-zig-v1.9.0-rc.38-aarch64-apple-darwin.tar.gz",
-            .hash = "tree_sitter_language_pack-1.9.0-rc.38-jCz0Y215OQDUm6OPqfW25TIWQkVDR024co1u2Dr1h45v",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-aarch64-apple-darwin.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_aarch64_unknown_linux_gnu = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.38/tree-sitter-language-pack-zig-v1.9.0-rc.38-aarch64-unknown-linux-gnu.tar.gz",
-            .hash = "tree_sitter_language_pack-1.9.0-rc.38-jCz0Yz1TPgBomCykZfFu3dixaEBUOOD9jVRmvx_pOne3",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-aarch64-unknown-linux-gnu.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_x86_64_apple_darwin = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.38/tree-sitter-language-pack-zig-v1.9.0-rc.38-x86_64-apple-darwin.tar.gz",
-            .hash = "tree_sitter_language_pack-1.9.0-rc.38-jCz0YxmtPgB0JtffoKnY4zL5Z1nfckNpNA4-vMFsXo9R",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-x86_64-apple-darwin.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_x86_64_pc_windows_msvc = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.38/tree-sitter-language-pack-zig-v1.9.0-rc.38-x86_64-pc-windows-msvc.tar.gz",
-            .hash = "tree_sitter_language_pack-1.9.0-rc.38-jCz0Y7ZrQwBpe3fn8WBjs4n0iB5kBCwQgQdvzx7s4QEk",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-x86_64-pc-windows-msvc.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_x86_64_unknown_linux_gnu = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.38/tree-sitter-language-pack-zig-v1.9.0-rc.38-x86_64-unknown-linux-gnu.tar.gz",
-            .hash = "tree_sitter_language_pack-1.9.0-rc.38-jCz0Y62vRgCxMITglI7Oz7xtYXdS1F_BEggezRfQJ2LH",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-x86_64-unknown-linux-gnu.tar.gz",
             .lazy = true,
         },
     },

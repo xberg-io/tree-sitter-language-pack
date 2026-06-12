@@ -157,4 +157,4 @@ __all__ = [
     "process",
 ]
 
-__version__ = "1.9.0-rc.38"
+__version__ = "1.9.0-rc.39"
