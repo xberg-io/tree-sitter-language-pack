@@ -733,10 +733,27 @@ impl DownloadManager {
             }
         }
 
+        // Verify each not-just-extracted language is still on disk. Under
+        // concurrent test workloads (e.g. JUnit SmokeTest spanning 306
+        // languages running alongside DownloadTest.testDownloadCleanCache),
+        // a bare `.exists()` here races with cache cleanup and falsely
+        // reports as missing a file that another worker is about to re-extract.
+        // Retry the existence check a few times with short backoff to close
+        // that window without restructuring the lock.
         let mut missing_languages: Vec<&str> = expected_files
             .iter()
             .filter_map(|(filename, name)| {
-                (!extracted_files.contains(filename) && !self.cache_dir.join(filename).exists()).then_some(*name)
+                if extracted_files.contains(filename) {
+                    return None;
+                }
+                let path = self.cache_dir.join(filename);
+                for _ in 0..3 {
+                    if path.exists() {
+                        return None;
+                    }
+                    std::thread::sleep(std::time::Duration::from_millis(10));
+                }
+                (!path.exists()).then_some(*name)
             })
             .collect();
         missing_languages.sort_unstable();
