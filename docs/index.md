@@ -38,6 +38,10 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
   Beyond raw syntax trees: functions, classes, imports, exports, symbols, comments, and docstrings — extracted with one call.
 
+- :material-content-copy:{ .lg .middle } **Structured Data Extraction**
+
+  Extract hierarchical key-value trees from 17 config and data formats: JSON, YAML, TOML, properties, XML, CSV, and more.
+
 - :material-content-cut:{ .lg .middle } **LLM-aware Chunking**
 
   Split source at natural boundaries (functions, classes, blocks) so chunks stay semantically intact for embeddings and prompt windows.
