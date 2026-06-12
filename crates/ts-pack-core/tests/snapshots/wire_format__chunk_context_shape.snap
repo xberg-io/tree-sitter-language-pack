@@ -1,0 +1,22 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "ChunkContext\n{\n    language: \"python\".to_string(), chunk_index: 0, total_chunks: 3,\n    node_types: vec![\"function_definition\".to_string()], context_path:\n    vec![\"MyClass\".to_string(), \"my_method\".to_string()], symbols_defined:\n    vec![\"x\".to_string()], comments: vec![], docstrings: vec![],\n    has_error_nodes: false,\n}"
+---
+{
+  "language": "python",
+  "chunk_index": 0,
+  "total_chunks": 3,
+  "node_types": [
+    "function_definition"
+  ],
+  "context_path": [
+    "MyClass",
+    "my_method"
+  ],
+  "symbols_defined": [
+    "x"
+  ],
+  "comments": [],
+  "docstrings": [],
+  "has_error_nodes": false
+}

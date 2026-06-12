@@ -58,12 +58,18 @@ zstd = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
+insta = { version = "1.48", features = ["json"] }
 tempfile = { workspace = true }
 
 [[test]]
 name = "concurrent_download"
 path = "tests/concurrent_download.rs"
 required-features = ["test-internals"]
+
+[[test]]
+name = "wire_format"
+path = "tests/wire_format.rs"
+required-features = ["serde", "config"]
 
 [[bench]]
 name = "benchmarks"

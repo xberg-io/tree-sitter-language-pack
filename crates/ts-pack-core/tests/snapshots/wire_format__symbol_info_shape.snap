@@ -1,0 +1,18 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "SymbolInfo\n{\n    name: \"x\".to_string(), kind: SymbolKind::Variable, span: span(),\n    type_annotation: Some(\"int\".to_string()), doc:\n    Some(\"the answer\".to_string()),\n}"
+---
+{
+  "name": "x",
+  "kind": "Variable",
+  "span": {
+    "start_byte": 10,
+    "end_byte": 20,
+    "start_line": 1,
+    "start_column": 0,
+    "end_line": 2,
+    "end_column": 5
+  },
+  "type_annotation": "int",
+  "doc": "the answer"
+}

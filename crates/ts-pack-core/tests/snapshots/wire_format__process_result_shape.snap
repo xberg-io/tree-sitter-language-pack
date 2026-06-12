@@ -1,0 +1,31 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "ProcessResult\n{\n    language: \"python\".to_string(), metrics: FileMetrics\n    {\n        total_lines: 2, code_lines: 2, comment_lines: 0, blank_lines: 0,\n        total_bytes: 19, node_count: 5, error_count: 0, max_depth: 2,\n    }, structure:\n    vec![StructureItem\n    {\n        kind: StructureKind::Function, name: Some(\"foo\".to_string()),\n        visibility: None, span: span(), children: vec![], decorators: vec![],\n        doc_comment: None, signature: None, body_span: None,\n    }], imports: vec![], exports: vec![], comments: vec![], docstrings:\n    vec![], symbols: vec![], diagnostics: vec![], chunks: vec![],\n}"
+---
+{
+  "language": "python",
+  "metrics": {
+    "total_lines": 2,
+    "code_lines": 2,
+    "comment_lines": 0,
+    "blank_lines": 0,
+    "total_bytes": 19,
+    "node_count": 5,
+    "error_count": 0,
+    "max_depth": 2
+  },
+  "structure": [
+    {
+      "kind": "Function",
+      "name": "foo",
+      "span": {
+        "start_byte": 10,
+        "end_byte": 20,
+        "start_line": 1,
+        "start_column": 0,
+        "end_line": 2,
+        "end_column": 5
+      }
+    }
+  ]
+}

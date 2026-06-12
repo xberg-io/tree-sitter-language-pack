@@ -1,0 +1,24 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "DocstringInfo\n{\n    text: \"\\\"\\\"\\\"foo\\\"\\\"\\\"\".to_string(), format:\n    DocstringFormat::PythonTripleQuote, span: span(), associated_item:\n    Some(\"my_func\".to_string()), parsed_sections:\n    vec![DocSection\n    {\n        kind: \"returns\".to_string(), name: None, description:\n        \"the result\".to_string(),\n    }],\n}"
+---
+{
+  "text": "\"\"\"foo\"\"\"",
+  "format": "PythonTripleQuote",
+  "span": {
+    "start_byte": 10,
+    "end_byte": 20,
+    "start_line": 1,
+    "start_column": 0,
+    "end_line": 2,
+    "end_column": 5
+  },
+  "associated_item": "my_func",
+  "parsed_sections": [
+    {
+      "kind": "returns",
+      "name": null,
+      "description": "the result"
+    }
+  ]
+}

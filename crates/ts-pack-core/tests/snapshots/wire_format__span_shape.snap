@@ -1,0 +1,12 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: span()
+---
+{
+  "start_byte": 10,
+  "end_byte": 20,
+  "start_line": 1,
+  "start_column": 0,
+  "end_line": 2,
+  "end_column": 5
+}

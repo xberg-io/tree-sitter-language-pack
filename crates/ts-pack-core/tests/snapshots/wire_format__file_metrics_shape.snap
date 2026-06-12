@@ -1,0 +1,14 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "FileMetrics\n{\n    total_lines: 50, code_lines: 30, comment_lines: 10, blank_lines: 10,\n    total_bytes: 1024, node_count: 200, error_count: 0, max_depth: 5,\n}"
+---
+{
+  "total_lines": 50,
+  "code_lines": 30,
+  "comment_lines": 10,
+  "blank_lines": 10,
+  "total_bytes": 1024,
+  "node_count": 200,
+  "error_count": 0,
+  "max_depth": 5
+}

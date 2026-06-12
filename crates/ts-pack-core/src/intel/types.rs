@@ -97,6 +97,15 @@ pub struct FileMetrics {
 /// Categorizes top-level and nested declarations such as functions, classes,
 /// structs, enums, traits, and more. Use [`Other`](StructureKind::Other) for
 /// language-specific constructs that do not fit a standard category.
+///
+/// # Wire format (public JSON contract)
+///
+/// Unit variants serialize as a bare string (`"Function"`); the `Other`
+/// variant serializes as a single-keyed object (`{"Other": "macro"}`). DO
+/// NOT add `#[serde(tag = "...")]` or rename variants — every language
+/// binding has a hand-written deserializer matching this exact shape, and
+/// any change breaks all bindings' `process()` tests simultaneously.
+/// Covered by `tests/wire_format.rs`.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum StructureKind {
@@ -191,6 +200,12 @@ pub struct CommentInfo {
 ///
 /// Identifies the docstring convention used, which varies by language
 /// (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
+///
+/// # Wire format (public JSON contract)
+///
+/// Unit variants serialize as a bare string (`"JSDoc"`); the `Other`
+/// variant serializes as a single-keyed object (`{"Other": "rst"}`). DO
+/// NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum DocstringFormat {
@@ -288,6 +303,12 @@ pub struct ExportInfo {
 ///
 /// Categorizes symbol definitions such as variables, constants, functions,
 /// classes, types, interfaces, enums, and modules.
+///
+/// # Wire format (public JSON contract)
+///
+/// Unit variants serialize as a bare string (`"Function"`); the `Other`
+/// variant serializes as a single-keyed object (`{"Other": "macro"}`). DO
+/// NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum SymbolKind {

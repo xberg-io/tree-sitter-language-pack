@@ -1,0 +1,7 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "SymbolKind::Other(\"macro\".to_string())"
+---
+{
+  "Other": "macro"
+}

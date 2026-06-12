@@ -1,0 +1,18 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "StructureItem\n{\n    kind: StructureKind::Other(\"macro\".to_string()), name:\n    Some(\"my_macro\".to_string()), visibility: None, span: span(), children:\n    vec![], decorators: vec![], doc_comment: None, signature: None, body_span:\n    None,\n}"
+---
+{
+  "kind": {
+    "Other": "macro"
+  },
+  "name": "my_macro",
+  "span": {
+    "start_byte": 10,
+    "end_byte": 20,
+    "start_line": 1,
+    "start_column": 0,
+    "end_line": 2,
+    "end_column": 5
+  }
+}

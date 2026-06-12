@@ -1,0 +1,17 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "CommentInfo\n{\n    text: \"// a comment\".to_string(), kind: CommentKind::Line, span: span(),\n    associated_node: Some(\"function_definition\".to_string()),\n}"
+---
+{
+  "text": "// a comment",
+  "kind": "Line",
+  "span": {
+    "start_byte": 10,
+    "end_byte": 20,
+    "start_line": 1,
+    "start_column": 0,
+    "end_line": 2,
+    "end_column": 5
+  },
+  "associated_node": "function_definition"
+}

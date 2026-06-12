@@ -1,0 +1,5 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "SymbolKind::Enum"
+---
+"Enum"

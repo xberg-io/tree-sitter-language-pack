@@ -1,0 +1,15 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "ProcessConfig\n{\n    language: std::borrow::Cow::Borrowed(\"python\"), structure: true, imports:\n    true, exports: true, comments: false, docstrings: false, symbols: false,\n    diagnostics: false, chunk_max_size: None,\n}"
+---
+{
+  "language": "python",
+  "structure": true,
+  "imports": true,
+  "exports": true,
+  "comments": false,
+  "docstrings": false,
+  "symbols": false,
+  "diagnostics": false,
+  "chunk_max_size": null
+}

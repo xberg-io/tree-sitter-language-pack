@@ -1,0 +1,20 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "ImportInfo\n{\n    source: \"numpy\".to_string(), items: vec![\"array\".to_string()], alias:\n    Some(\"np\".to_string()), is_wildcard: false, span: span(),\n}"
+---
+{
+  "source": "numpy",
+  "items": [
+    "array"
+  ],
+  "alias": "np",
+  "is_wildcard": false,
+  "span": {
+    "start_byte": 10,
+    "end_byte": 20,
+    "start_line": 1,
+    "start_column": 0,
+    "end_line": 2,
+    "end_column": 5
+  }
+}

@@ -1,0 +1,26 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "CodeChunk\n{\n    content: \"def foo():\\n    pass\".to_string(), start_byte: 0, end_byte: 19,\n    start_line: 0, end_line: 1, metadata: ChunkContext\n    {\n        language: \"python\".to_string(), chunk_index: 0, total_chunks: 1,\n        node_types: vec![\"function_definition\".to_string()], context_path:\n        vec![], symbols_defined: vec![\"foo\".to_string()], comments: vec![],\n        docstrings: vec![], has_error_nodes: false,\n    },\n}"
+---
+{
+  "content": "def foo():\n    pass",
+  "start_byte": 0,
+  "end_byte": 19,
+  "start_line": 0,
+  "end_line": 1,
+  "metadata": {
+    "language": "python",
+    "chunk_index": 0,
+    "total_chunks": 1,
+    "node_types": [
+      "function_definition"
+    ],
+    "context_path": [],
+    "symbols_defined": [
+      "foo"
+    ],
+    "comments": [],
+    "docstrings": [],
+    "has_error_nodes": false
+  }
+}

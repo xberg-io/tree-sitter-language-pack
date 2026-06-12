@@ -1,0 +1,9 @@
+---
+source: crates/ts-pack-core/tests/wire_format.rs
+expression: "DocSection\n{\n    kind: \"args\".to_string(), name: Some(\"x\".to_string()), description:\n    \"The input value.\".to_string(),\n}"
+---
+{
+  "kind": "args",
+  "name": "x",
+  "description": "The input value."
+}
