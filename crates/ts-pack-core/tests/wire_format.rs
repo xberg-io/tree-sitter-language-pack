@@ -14,9 +14,9 @@
 
 use insta::assert_json_snapshot;
 use tree_sitter_language_pack::{
-    ChunkContext, CodeChunk, CommentInfo, CommentKind, Diagnostic, DiagnosticSeverity, DocSection,
-    DocstringFormat, DocstringInfo, ExportInfo, ExportKind, FileMetrics, ImportInfo, ProcessConfig,
-    ProcessResult, Span, StructureItem, StructureKind, SymbolInfo, SymbolKind,
+    ChunkContext, CodeChunk, CommentInfo, CommentKind, Diagnostic, DiagnosticSeverity, DocSection, DocstringFormat,
+    DocstringInfo, ExportInfo, ExportKind, FileMetrics, ImportInfo, ProcessConfig, ProcessResult, Span, StructureItem,
+    StructureKind, SymbolInfo, SymbolKind,
 };
 
 fn span() -> Span {

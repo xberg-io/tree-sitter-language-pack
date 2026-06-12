@@ -764,7 +764,11 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
                 });
                 let contents = fs::read_to_string(&query_path)
                     .unwrap_or_else(|e| panic!("Failed to read {}: {e}", query_path.display()));
-                let escaped = contents.replace('\\', "\\\\").replace('"', "\\\"").replace('\n', "\\n");
+                let escaped = contents
+                    .replace('\\', "\\\\")
+                    .replace('"', "\\\"")
+                    .replace('\r', "")
+                    .replace('\n', "\\n");
                 writeln!(f, "        \"{lang}\" => Some(\"{escaped}\"),",).unwrap();
             }
             writeln!(f, "        _ => None,").unwrap();
