@@ -2,7 +2,7 @@
 # alef:hash:76f3bac7536fa4e5b8ab9a93be197508306d06b566fe7cc519a38c1b9ebf9f42
 [package]
 name = "tree-sitter-language-pack-swift"
-version = "1.9.0-rc.33"
+version = "1.9.0-rc.34"
 edition = "2024"
 license = "MIT"
 

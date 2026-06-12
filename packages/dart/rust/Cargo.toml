@@ -1,6 +1,6 @@
 [package]
 name = "tree-sitter-language-pack-dart"
-version = "1.9.0-rc.33"
+version = "1.9.0-rc.34"
 edition = "2024"
 license = "MIT"
 

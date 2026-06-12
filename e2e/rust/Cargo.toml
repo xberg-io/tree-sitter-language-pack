@@ -7,7 +7,7 @@
 
 [package]
 name = "tree_sitter_language_pack-e2e-rust"
-version = "1.9.0-rc.33"
+version = "1.9.0-rc.34"
 edition = "2021"
 license = "MIT"
 publish = false
