@@ -99,6 +99,7 @@ pub struct FileMetrics {
 /// language-specific constructs that do not fit a standard category.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(tag = "kind"))]
 pub enum StructureKind {
     #[default]
     /// A free-standing or associated function.
@@ -122,7 +123,11 @@ pub enum StructureKind {
     /// A namespace declaration.
     Namespace,
     /// A language-specific construct that does not fit any standard category.
-    Other(String),
+    /// The `value` field carries the language-specific kind label.
+    Other {
+        /// The language-specific kind name (e.g. `"macro"`, `"fixture"`).
+        value: String,
+    },
 }
 
 /// A structural item (function, class, struct, etc.) in source code.
@@ -193,6 +198,7 @@ pub struct CommentInfo {
 /// (e.g., Python triple-quoted strings, JSDoc, Rustdoc `///` comments).
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(tag = "kind"))]
 pub enum DocstringFormat {
     #[default]
     /// Python triple-quoted string docstring (`"""..."""`).
@@ -206,7 +212,10 @@ pub enum DocstringFormat {
     /// Java Javadoc comment (`/** ... */`).
     JavaDoc,
     /// A language-specific docstring format not covered by the standard variants.
-    Other(String),
+    Other {
+        /// The format name not covered by standard variants.
+        value: String,
+    },
 }
 
 /// A docstring extracted from source code.
@@ -290,6 +299,7 @@ pub struct ExportInfo {
 /// classes, types, interfaces, enums, and modules.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", serde(tag = "kind"))]
 pub enum SymbolKind {
     #[default]
     /// A variable binding.
@@ -309,7 +319,10 @@ pub enum SymbolKind {
     /// A module declaration.
     Module,
     /// A symbol kind not covered by the standard variants.
-    Other(String),
+    Other {
+        /// The language-specific symbol kind name.
+        value: String,
+    },
 }
 
 /// A symbol (variable, function, type, etc.) extracted from source code.
