@@ -5,6 +5,7 @@
 //! docstrings, symbols, and diagnostics.
 
 pub mod chunking;
+pub(crate) mod data_extraction;
 pub mod intelligence;
 pub mod types;
 
@@ -50,6 +51,9 @@ pub fn process(
     }
     if let Some(max_size) = config.chunk_max_size {
         result.chunks = chunking::chunk_source(source, &config.language, max_size, &lang, &tree);
+    }
+    if config.data_extraction {
+        result.data = data_extraction::extract_data(&root, source, &config.language);
     }
 
     Ok(result)
