@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.24.13"
+alef_version = "0.24.14"
 languages = [
   "python",
   "node",
@@ -1109,6 +1109,15 @@ version = "1.9.0-rc.38"
 [crates.e2e.registry.packages.kotlin_android]
 name = "dev.kreuzberg:tree-sitter-language-pack-android"
 version = "1.9.0-rc.38"
+
+# JNI test app reuses the kotlin_android Gradle scaffold (`buildHostJni` +
+# `copyHostJni` → JUnit tests loading the JNI cdylib via JNA on the host JVM).
+# `TSLP_LANGUAGES`/`TSLP_LINK_MODE` are set on the gradle invocation so the
+# spawned `cargo build` inside `buildHostJni` inherits them and links the
+# additional manual grammars (mojo/nim/norg) that the smoke tests exercise.
+[crates.e2e.registry.run.jni]
+precondition = "command -v gradle >/dev/null 2>&1"
+run = "cd test_apps/kotlin_android && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg gradle test --no-daemon"
 
 [crates.scaffold]
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"

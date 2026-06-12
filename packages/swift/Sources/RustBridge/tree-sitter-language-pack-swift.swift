@@ -199,6 +199,12 @@ public func packConfigFromJson<GenericIntoRustString: IntoRustString>(_ json: Ge
 public func processConfigFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> ProcessConfig {
     try { let val = __swift_bridge__$process_config_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return ProcessConfig(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
 }
+public func dataAttributeFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> DataAttribute {
+    try { let val = __swift_bridge__$data_attribute_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return DataAttribute(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+}
+public func dataNodeFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> DataNode {
+    try { let val = __swift_bridge__$data_node_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return DataNode(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+}
 public func spanFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> Span {
     try { let val = __swift_bridge__$span_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return Span(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
 }
@@ -244,6 +250,9 @@ public func pointFromJson<GenericIntoRustString: IntoRustString>(_ json: Generic
 public func byteRangeFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> ByteRange {
     try { let val = __swift_bridge__$byte_range_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return ByteRange(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
 }
+public func dataNodeKindFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> DataNodeKind {
+    try { let val = __swift_bridge__$data_node_kind_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return DataNodeKind(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+}
 public func structureKindFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> StructureKind {
     try { let val = __swift_bridge__$structure_kind_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return StructureKind(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
 }
@@ -261,6 +270,12 @@ public func symbolKindFromJson<GenericIntoRustString: IntoRustString>(_ json: Ge
 }
 public func diagnosticSeverityFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> DiagnosticSeverity {
     try { let val = __swift_bridge__$diagnostic_severity_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return DiagnosticSeverity(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+}
+public func __alef_phantom_vec_data_attribute() -> RustVec<DataAttribute> {
+    RustVec(ptr: __swift_bridge__$__alef_phantom_vec_data_attribute())
+}
+public func __alef_phantom_vec_data_node() -> RustVec<DataNode> {
+    RustVec(ptr: __swift_bridge__$__alef_phantom_vec_data_node())
 }
 public func __alef_phantom_vec_span() -> RustVec<Span> {
     RustVec(ptr: __swift_bridge__$__alef_phantom_vec_span())
@@ -334,6 +349,9 @@ public func __alef_phantom_vec_download_manager() -> RustVec<DownloadManager> {
 public func __alef_phantom_vec_language() -> RustVec<Language> {
     RustVec(ptr: __swift_bridge__$__alef_phantom_vec_language())
 }
+public func __alef_phantom_vec_data_node_kind() -> RustVec<DataNodeKind> {
+    RustVec(ptr: __swift_bridge__$__alef_phantom_vec_data_node_kind())
+}
 public func __alef_phantom_vec_structure_kind() -> RustVec<StructureKind> {
     RustVec(ptr: __swift_bridge__$__alef_phantom_vec_structure_kind())
 }
@@ -352,6 +370,204 @@ public func __alef_phantom_vec_symbol_kind() -> RustVec<SymbolKind> {
 public func __alef_phantom_vec_diagnostic_severity() -> RustVec<DiagnosticSeverity> {
     RustVec(ptr: __swift_bridge__$__alef_phantom_vec_diagnostic_severity())
 }
+
+public class DataAttribute: DataAttributeRefMut {
+    public var isOwned: Bool = true
+
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+
+    deinit {
+        if isOwned {
+            __swift_bridge__$DataAttribute$_free(ptr)
+        }
+    }
+}
+extension DataAttribute {
+    public convenience init<GenericIntoRustString: IntoRustString>(_ name: GenericIntoRustString, _ value: GenericIntoRustString, _ span: Span) {
+        self.init(ptr: __swift_bridge__$DataAttribute$new({ let rustString = name.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), { let rustString = value.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), {span.isOwned = false; return span.ptr;}()))
+    }
+}
+public class DataAttributeRefMut: DataAttributeRef {
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+}
+public class DataAttributeRef {
+    public var ptr: UnsafeMutableRawPointer
+
+    public init(ptr: UnsafeMutableRawPointer) {
+        self.ptr = ptr
+    }
+}
+extension DataAttributeRef {
+    public func name() -> RustString {
+        RustString(ptr: __swift_bridge__$DataAttribute$name(ptr))
+    }
+
+    public func value() -> RustString {
+        RustString(ptr: __swift_bridge__$DataAttribute$value(ptr))
+    }
+
+    public func span() -> Span {
+        Span(ptr: __swift_bridge__$DataAttribute$span(ptr))
+    }
+}
+extension DataAttribute: Vectorizable {
+    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {
+        __swift_bridge__$Vec_DataAttribute$new()
+    }
+
+    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {
+        __swift_bridge__$Vec_DataAttribute$drop(vecPtr)
+    }
+
+    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: DataAttribute) {
+        __swift_bridge__$Vec_DataAttribute$push(vecPtr, {value.isOwned = false; return value.ptr;}())
+    }
+
+    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {
+        let pointer = __swift_bridge__$Vec_DataAttribute$pop(vecPtr)
+        if pointer == nil {
+            return nil
+        } else {
+            return (DataAttribute(ptr: pointer!) as! Self)
+        }
+    }
+
+    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DataAttributeRef> {
+        let pointer = __swift_bridge__$Vec_DataAttribute$get(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DataAttributeRef(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DataAttributeRefMut> {
+        let pointer = __swift_bridge__$Vec_DataAttribute$get_mut(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DataAttributeRefMut(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<DataAttributeRef> {
+        UnsafePointer<DataAttributeRef>(OpaquePointer(__swift_bridge__$Vec_DataAttribute$as_ptr(vecPtr)))
+    }
+
+    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
+        __swift_bridge__$Vec_DataAttribute$len(vecPtr)
+    }
+}
+
+
+public class DataNode: DataNodeRefMut {
+    public var isOwned: Bool = true
+
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+
+    deinit {
+        if isOwned {
+            __swift_bridge__$DataNode$_free(ptr)
+        }
+    }
+}
+extension DataNode {
+    public convenience init<GenericIntoRustString: IntoRustString>(_ kind: DataNodeKind, _ key: Optional<GenericIntoRustString>, _ value: Optional<GenericIntoRustString>, _ attributes: RustVec<DataAttribute>, _ children: RustVec<DataNode>, _ span: Span) {
+        self.init(ptr: __swift_bridge__$DataNode$new({kind.isOwned = false; return kind.ptr;}(), { if let rustString = optionalStringIntoRustString(key) { rustString.isOwned = false; return rustString.ptr } else { return nil } }(), { if let rustString = optionalStringIntoRustString(value) { rustString.isOwned = false; return rustString.ptr } else { return nil } }(), { let val = attributes; val.isOwned = false; return val.ptr }(), { let val = children; val.isOwned = false; return val.ptr }(), {span.isOwned = false; return span.ptr;}()))
+    }
+}
+public class DataNodeRefMut: DataNodeRef {
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+}
+public class DataNodeRef {
+    public var ptr: UnsafeMutableRawPointer
+
+    public init(ptr: UnsafeMutableRawPointer) {
+        self.ptr = ptr
+    }
+}
+extension DataNodeRef {
+    public func kind() -> RustString {
+        RustString(ptr: __swift_bridge__$DataNode$kind(ptr))
+    }
+
+    public func key() -> Optional<RustString> {
+        { let val = __swift_bridge__$DataNode$key(ptr); if val != nil { return RustString(ptr: val!) } else { return nil } }()
+    }
+
+    public func value() -> Optional<RustString> {
+        { let val = __swift_bridge__$DataNode$value(ptr); if val != nil { return RustString(ptr: val!) } else { return nil } }()
+    }
+
+    public func attributes() -> RustVec<DataAttribute> {
+        RustVec(ptr: __swift_bridge__$DataNode$attributes(ptr))
+    }
+
+    public func children() -> RustVec<DataNode> {
+        RustVec(ptr: __swift_bridge__$DataNode$children(ptr))
+    }
+
+    public func span() -> Span {
+        Span(ptr: __swift_bridge__$DataNode$span(ptr))
+    }
+}
+extension DataNode: Vectorizable {
+    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {
+        __swift_bridge__$Vec_DataNode$new()
+    }
+
+    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {
+        __swift_bridge__$Vec_DataNode$drop(vecPtr)
+    }
+
+    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: DataNode) {
+        __swift_bridge__$Vec_DataNode$push(vecPtr, {value.isOwned = false; return value.ptr;}())
+    }
+
+    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {
+        let pointer = __swift_bridge__$Vec_DataNode$pop(vecPtr)
+        if pointer == nil {
+            return nil
+        } else {
+            return (DataNode(ptr: pointer!) as! Self)
+        }
+    }
+
+    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DataNodeRef> {
+        let pointer = __swift_bridge__$Vec_DataNode$get(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DataNodeRef(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DataNodeRefMut> {
+        let pointer = __swift_bridge__$Vec_DataNode$get_mut(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DataNodeRefMut(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<DataNodeRef> {
+        UnsafePointer<DataNodeRef>(OpaquePointer(__swift_bridge__$Vec_DataNode$as_ptr(vecPtr)))
+    }
+
+    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
+        __swift_bridge__$Vec_DataNode$len(vecPtr)
+    }
+}
+
 
 public class Span: SpanRefMut {
     public var isOwned: Bool = true
@@ -472,8 +688,8 @@ public class ProcessResult: ProcessResultRefMut {
     }
 }
 extension ProcessResult {
-    public convenience init<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString, _ metrics: FileMetrics, _ structure: RustVec<StructureItem>, _ imports: RustVec<ImportInfo>, _ exports: RustVec<ExportInfo>, _ comments: RustVec<CommentInfo>, _ docstrings: RustVec<DocstringInfo>, _ symbols: RustVec<SymbolInfo>, _ diagnostics: RustVec<Diagnostic>, _ chunks: RustVec<CodeChunk>) {
-        self.init(ptr: __swift_bridge__$ProcessResult$new({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), {metrics.isOwned = false; return metrics.ptr;}(), { let val = structure; val.isOwned = false; return val.ptr }(), { let val = imports; val.isOwned = false; return val.ptr }(), { let val = exports; val.isOwned = false; return val.ptr }(), { let val = comments; val.isOwned = false; return val.ptr }(), { let val = docstrings; val.isOwned = false; return val.ptr }(), { let val = symbols; val.isOwned = false; return val.ptr }(), { let val = diagnostics; val.isOwned = false; return val.ptr }(), { let val = chunks; val.isOwned = false; return val.ptr }()))
+    public convenience init<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString, _ metrics: FileMetrics, _ structure: RustVec<StructureItem>, _ imports: RustVec<ImportInfo>, _ exports: RustVec<ExportInfo>, _ comments: RustVec<CommentInfo>, _ docstrings: RustVec<DocstringInfo>, _ symbols: RustVec<SymbolInfo>, _ diagnostics: RustVec<Diagnostic>, _ chunks: RustVec<CodeChunk>, _ data: Optional<DataNode>) {
+        self.init(ptr: __swift_bridge__$ProcessResult$new({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), {metrics.isOwned = false; return metrics.ptr;}(), { let val = structure; val.isOwned = false; return val.ptr }(), { let val = imports; val.isOwned = false; return val.ptr }(), { let val = exports; val.isOwned = false; return val.ptr }(), { let val = comments; val.isOwned = false; return val.ptr }(), { let val = docstrings; val.isOwned = false; return val.ptr }(), { let val = symbols; val.isOwned = false; return val.ptr }(), { let val = diagnostics; val.isOwned = false; return val.ptr }(), { let val = chunks; val.isOwned = false; return val.ptr }(), { if let val = data { val.isOwned = false; return val.ptr } else { return nil } }()))
     }
 }
 public class ProcessResultRefMut: ProcessResultRef {
@@ -527,6 +743,10 @@ extension ProcessResultRef {
 
     public func chunks() -> RustVec<CodeChunk> {
         RustVec(ptr: __swift_bridge__$ProcessResult$chunks(ptr))
+    }
+
+    public func data() -> Optional<DataNode> {
+        { let val = __swift_bridge__$ProcessResult$data(ptr); if val != nil { return DataNode(ptr: val!) } else { return nil } }()
     }
 }
 extension ProcessResult: Vectorizable {
@@ -2295,8 +2515,8 @@ public class ProcessConfig: ProcessConfigRefMut {
     }
 }
 extension ProcessConfig {
-    public convenience init<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString, _ structure: Bool, _ imports: Bool, _ exports: Bool, _ comments: Bool, _ docstrings: Bool, _ symbols: Bool, _ diagnostics: Bool, _ chunk_max_size: Optional<UInt>) {
-        self.init(ptr: __swift_bridge__$ProcessConfig$new({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), structure, imports, exports, comments, docstrings, symbols, diagnostics, chunk_max_size.intoFfiRepr()))
+    public convenience init<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString, _ structure: Bool, _ imports: Bool, _ exports: Bool, _ comments: Bool, _ docstrings: Bool, _ symbols: Bool, _ diagnostics: Bool, _ chunk_max_size: Optional<UInt>, _ data_extraction: Bool) {
+        self.init(ptr: __swift_bridge__$ProcessConfig$new({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), structure, imports, exports, comments, docstrings, symbols, diagnostics, chunk_max_size.intoFfiRepr(), data_extraction))
     }
 }
 public class ProcessConfigRefMut: ProcessConfigRef {
@@ -2346,6 +2566,10 @@ extension ProcessConfigRef {
 
     public func chunkMaxSize() -> Optional<UInt> {
         __swift_bridge__$ProcessConfig$chunk_max_size(ptr).intoSwiftRepr()
+    }
+
+    public func dataExtraction() -> Bool {
+        __swift_bridge__$ProcessConfig$data_extraction(ptr)
     }
 }
 extension ProcessConfig: Vectorizable {
@@ -2619,6 +2843,86 @@ extension Language: Vectorizable {
 
     public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
         __swift_bridge__$Vec_Language$len(vecPtr)
+    }
+}
+
+
+public class DataNodeKind: DataNodeKindRefMut {
+    public var isOwned: Bool = true
+
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+
+    deinit {
+        if isOwned {
+            __swift_bridge__$DataNodeKind$_free(ptr)
+        }
+    }
+}
+public class DataNodeKindRefMut: DataNodeKindRef {
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+}
+public class DataNodeKindRef {
+    public var ptr: UnsafeMutableRawPointer
+
+    public init(ptr: UnsafeMutableRawPointer) {
+        self.ptr = ptr
+    }
+}
+extension DataNodeKindRef {
+    public func to_string() -> RustString {
+        RustString(ptr: __swift_bridge__$DataNodeKind$to_string(ptr))
+    }
+}
+extension DataNodeKind: Vectorizable {
+    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {
+        __swift_bridge__$Vec_DataNodeKind$new()
+    }
+
+    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {
+        __swift_bridge__$Vec_DataNodeKind$drop(vecPtr)
+    }
+
+    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: DataNodeKind) {
+        __swift_bridge__$Vec_DataNodeKind$push(vecPtr, {value.isOwned = false; return value.ptr;}())
+    }
+
+    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {
+        let pointer = __swift_bridge__$Vec_DataNodeKind$pop(vecPtr)
+        if pointer == nil {
+            return nil
+        } else {
+            return (DataNodeKind(ptr: pointer!) as! Self)
+        }
+    }
+
+    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DataNodeKindRef> {
+        let pointer = __swift_bridge__$Vec_DataNodeKind$get(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DataNodeKindRef(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DataNodeKindRefMut> {
+        let pointer = __swift_bridge__$Vec_DataNodeKind$get_mut(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DataNodeKindRefMut(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<DataNodeKindRef> {
+        UnsafePointer<DataNodeKindRef>(OpaquePointer(__swift_bridge__$Vec_DataNodeKind$as_ptr(vecPtr)))
+    }
+
+    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
+        __swift_bridge__$Vec_DataNodeKind$len(vecPtr)
     }
 }
 
