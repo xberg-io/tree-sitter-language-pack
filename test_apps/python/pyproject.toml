@@ -19,7 +19,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "tree-sitter-language-pack==1.9.0rc34",
+  "tree-sitter-language-pack==1.9.0rc35",
   "pytest>=7.4",
   "pytest-asyncio>=0.23",
   "pytest-timeout>=2.1",
