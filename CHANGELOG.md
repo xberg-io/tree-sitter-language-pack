@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.41] - 2026-06-13
+
+### Fixed
+
+- **JNI codegen: `&[&str]` core params no longer fail E0308.** The JNI function/method shims emitted `&names` for `Vec<String>` slots, which coerces to `&[String]` but not `&[&str]`. Core fns declared as `&[&str]` (e.g. `download(&[&str])`) failed to compile with `expected reference &[&str], found reference &Vec<String>`. Alef now consults the IR `vec_inner_is_ref` flag to materialise a `Vec<&str>` and borrow it (`&names.iter().map(|s| s.as_str()).collect::<Vec<_>>()`) when the core function expects `&[&str]`, matching the existing Dart codegen behaviour. Folded into the alef 0.24.17 release.
+
 ## [1.9.0-rc.40] - 2026-06-13
 
 ### Fixed

@@ -1104,14 +1104,20 @@ fn main() {
     }
 
     if !failed.is_empty() {
-        println!(
-            "cargo:warning=FAILED to compile {} language(s): {}",
-            failed.len(),
-            failed.join(", ")
-        );
-        // Write failed languages so CI/release tooling can detect and fail the build.
+        // Persist the failure list so CI tooling can inspect it after the panic.
         let failed_path = out_dir.join("failed_languages.txt");
         fs::write(&failed_path, failed.join("\n") + "\n").expect("Failed to write failed_languages.txt");
+        let allow_failures = env::var("TSLP_ALLOW_FAILED_GRAMMARS").ok().is_some_and(|v| v == "1");
+        let message = format!(
+            "FAILED to compile {} grammar(s): {}. Published artifacts must not advertise grammars that fail to build — fix the grammar pin or remove the entry from sources/language_definitions.json. Set TSLP_ALLOW_FAILED_GRAMMARS=1 for local debugging only.",
+            failed.len(),
+            failed.join(", "),
+        );
+        if allow_failures {
+            println!("cargo:warning={message}");
+        } else {
+            panic!("{message}");
+        }
     }
 
     generate_registry(&static_compiled, &dynamic_compiled, &definitions, &libs_dir, &out_dir);

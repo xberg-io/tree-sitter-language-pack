@@ -1695,34 +1695,83 @@ jobs:
             - name: Generate parsers.json manifest
               run: |
                   python3 -c "
-                  import json, hashlib, os, subprocess
+                  import json, hashlib, os, sys, tarfile
 
                   version = '${{ needs.prepare.outputs.version }}'
                   base_url = 'https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v' + version
-                  defs = json.load(open('sources/language_definitions.json'))
 
+                  # Derive the language list from what is actually inside the
+                  # per-platform parser archives, not from sources/language_definitions.json.
+                  # The source registry can advertise a grammar whose scanner
+                  # fails to compile on one platform; if we trusted the source
+                  # list, the manifest would claim every grammar is downloadable
+                  # but the archive would not contain it, surfacing at runtime
+                  # as 'Downloaded archive did not contain parser libraries for: X'.
+                  # Walking the archives is the only source of truth.
+                  PARSER_EXTS = ('.so', '.dylib', '.dll')
+                  per_platform_langs = {}
                   platforms = {}
                   for f in sorted(os.listdir('dist/parsers')):
-                      if f.startswith('parsers-') and f.endswith('.tar.zst'):
-                          path = os.path.join('dist/parsers', f)
-                          label = f.replace('parsers-', '').replace('.tar.zst', '')
-                          sha = hashlib.sha256(open(path, 'rb').read()).hexdigest()
-                          size = os.path.getsize(path)
-                          platforms[label] = {
-                              'url': base_url + '/' + f,
-                              'sha256': sha,
-                              'size': size,
-                          }
+                      if not (f.startswith('parsers-') and f.endswith('.tar.zst')):
+                          continue
+                      path = os.path.join('dist/parsers', f)
+                      label = f.replace('parsers-', '').replace('.tar.zst', '')
+                      sha = hashlib.sha256(open(path, 'rb').read()).hexdigest()
+                      size = os.path.getsize(path)
+                      platforms[label] = {
+                          'url': base_url + '/' + f,
+                          'sha256': sha,
+                          'size': size,
+                      }
+                      langs = set()
+                      with tarfile.open(path, 'r:*') as tar:
+                          for member in tar.getmembers():
+                              base = os.path.basename(member.name)
+                              for ext in PARSER_EXTS:
+                                  if base.endswith(ext):
+                                      langs.add(base[:-len(ext)])
+                                      break
+                      per_platform_langs[label] = langs
 
-                  languages = {}
-                  for name in sorted(defs.keys()):
-                      languages[name] = {'group': 'all', 'size': 0}
+                  if not per_platform_langs:
+                      print('ERROR: no parsers-*.tar.zst archives found in dist/parsers/', file=sys.stderr)
+                      sys.exit(1)
+
+                  # Cross-platform parity: a grammar must be present in every
+                  # archive to be advertised. Anything missing from one platform
+                  # but present on another is reported as a build error rather
+                  # than silently shipped.
+                  intersection = set.intersection(*per_platform_langs.values())
+                  union = set.union(*per_platform_langs.values())
+                  asymmetric = union - intersection
+                  if asymmetric:
+                      print(
+                          f'ERROR: parity mismatch across platforms. Grammars present on some platforms but not others: {sorted(asymmetric)}',
+                          file=sys.stderr,
+                      )
+                      for label in sorted(per_platform_langs):
+                          missing = sorted(union - per_platform_langs[label])
+                          if missing:
+                              print(f'  [{label}] missing: {missing}', file=sys.stderr)
+                      sys.exit(1)
+
+                  shipped = sorted(intersection)
+                  languages = {name: {'group': 'all', 'size': 0} for name in shipped}
+
+                  # Cross-check against the source registry and report any
+                  # advertised-but-dropped grammars. We do not fail here because
+                  # the cargo build step (with TSLP_ALLOW_FAILED_GRAMMARS unset)
+                  # is the canonical fail-fast point; this is informational.
+                  defs = json.load(open('sources/language_definitions.json'))
+                  dropped = sorted(set(defs.keys()) - intersection)
+                  if dropped:
+                      print(f'NOTE: registry lists {len(dropped)} grammar(s) not present in archives: {dropped}')
 
                   manifest = {
                       'version': version,
                       'platforms': platforms,
                       'languages': languages,
-                      'groups': {'all': sorted(defs.keys())},
+                      'groups': {'all': shipped},
                   }
 
                   with open('dist/parsers/parsers.json', 'w') as f:

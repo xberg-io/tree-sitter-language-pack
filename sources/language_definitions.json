@@ -247,7 +247,7 @@
       "cfc"
     ],
     "repo": "https://github.com/cfmleditor/tree-sitter-cfml",
-    "rev": "5279bde9b31d54efa68efb77a4b18ee9508518e4"
+    "rev": "824dd8d32d7d5142c557fb23f67f6c843475f993"
   },
   "chatito": {
     "extensions": [
@@ -790,7 +790,7 @@
       "plt"
     ],
     "repo": "https://github.com/dpezto/tree-sitter-gnuplot",
-    "rev": "12325509f4b5beb9f77b3da134c0560f0a7c7063"
+    "rev": "072c737e981729e0e6f53fcf3ec9b1612f98fca0"
   },
   "go": {
     "branch": "master",
@@ -1267,7 +1267,7 @@
       "mlir"
     ],
     "repo": "https://github.com/artagnon/tree-sitter-mlir",
-    "rev": "8012662e96d5119898fe2f3d4f3b2366597d2607"
+    "rev": "eabbbe4cfbd5d7cfa88dbb3836c5f861f72df096"
   },
   "mojo": {
     "extensions": [
@@ -2292,13 +2292,13 @@
       "ziggy"
     ],
     "repo": "https://github.com/kristoff-it/ziggy",
-    "rev": "0c2ae8a81b26c4bb7a8024df4ba86174fac56c5a"
+    "rev": "28858736fa0a166a839743960a5c9b4c2386f20c"
   },
   "ziggy_schema": {
     "directory": "tree-sitter-ziggy-schema",
     "extensions": [],
     "repo": "https://github.com/kristoff-it/ziggy",
-    "rev": "0c2ae8a81b26c4bb7a8024df4ba86174fac56c5a"
+    "rev": "28858736fa0a166a839743960a5c9b4c2386f20c"
   },
   "zsh": {
     "extensions": [

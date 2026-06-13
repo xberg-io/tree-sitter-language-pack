@@ -6,7 +6,7 @@
 
     <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
     <artifactId>tree-sitter-language-pack</artifactId>
-    <version>1.9.0-rc.40</version>
+    <version>1.9.0-rc.41</version>
     <packaging>jar</packaging>
 
     <name>tree-sitter-language-pack</name>
