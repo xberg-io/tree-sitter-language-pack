@@ -5,23 +5,23 @@
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
         .tree_sitter_language_pack_aarch64_apple_darwin = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-aarch64-apple-darwin.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.40/tree-sitter-language-pack-zig-v1.9.0-rc.40-aarch64-apple-darwin.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_aarch64_unknown_linux_gnu = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-aarch64-unknown-linux-gnu.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.40/tree-sitter-language-pack-zig-v1.9.0-rc.40-aarch64-unknown-linux-gnu.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_x86_64_apple_darwin = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-x86_64-apple-darwin.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.40/tree-sitter-language-pack-zig-v1.9.0-rc.40-x86_64-apple-darwin.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_x86_64_pc_windows_msvc = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-x86_64-pc-windows-msvc.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.40/tree-sitter-language-pack-zig-v1.9.0-rc.40-x86_64-pc-windows-msvc.tar.gz",
             .lazy = true,
         },
         .tree_sitter_language_pack_x86_64_unknown_linux_gnu = .{
-            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.39/tree-sitter-language-pack-zig-v1.9.0-rc.39-x86_64-unknown-linux-gnu.tar.gz",
+            .url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.40/tree-sitter-language-pack-zig-v1.9.0-rc.40-x86_64-unknown-linux-gnu.tar.gz",
             .lazy = true,
         },
     },

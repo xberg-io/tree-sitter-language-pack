@@ -68,6 +68,7 @@ test_apps/*/.gradle/
 test_apps/*/.build/
 test_apps/c/build/
 test_documents/file:/
+test_apps/*/file:/
 
 # E2E build artifacts
 e2e/c/build/

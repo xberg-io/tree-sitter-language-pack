@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.40] - 2026-06-13
+
+### Fixed
+
+- **Removed stray `test_apps/kotlin_android/file:/tmp/` directory that broke every Windows publish job.** A prior regen wrote a runtime download cache (`.download.lock`, `manifest.json`) into a literal directory named `file:` because a `cache_dir` value of the form `file:/tmp/…` was interpreted as a relative path rather than a URI. The `:` is illegal in Windows paths, so every `actions/checkout` step on Windows failed with `invalid path 'test_apps/kotlin_android/file:/tmp/.download.lock'` — collapsing 21 Windows builds in the rc.39 publish run and leaving npm / PyPI / NuGet / Maven stuck at rc.38. The bad files are removed and `.gitignore` now blocks the pattern (`test_apps/*/file:/`) alongside the existing `test_documents/file:/` guard.
+
 ## [1.9.0-rc.39] - 2026-06-12
 
 ### Added
