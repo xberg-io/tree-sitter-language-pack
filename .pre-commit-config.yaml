@@ -63,7 +63,7 @@ repos:
           - id: shellcheck
 
           - id: markdownlint-rumdl-strict
-            exclude: ^(docs/reference/|packages/.*/README\.md|crates/.*/README\.md)$
+            exclude: ^(docs/reference/|packages/.*/README\.md|crates/.*/README\.md|README\.md)$
           - id: textlint
             files: ^docs/.*\.md$
             exclude: ^docs/(CHANGELOG|snippets/|reference/|api-|migration/)
