@@ -1668,8 +1668,7 @@ jobs:
         needs: [prepare, validate-versions, build-parser-binaries]
         if: |
             always() &&
-            needs.prepare.outputs.dry_run != 'true' &&
-            needs.build-parser-binaries.result == 'success'
+            needs.prepare.outputs.dry_run != 'true'
         runs-on: ubuntu-latest
         timeout-minutes: 15
         steps:
@@ -1693,6 +1692,7 @@ jobs:
                   merge-multiple: true
 
             - name: Generate parsers.json manifest
+              id: generate-manifest
               run: |
                   python3 -c "
                   import json, hashlib, os, sys, tarfile
@@ -1736,6 +1736,11 @@ jobs:
                   if not per_platform_langs:
                       print('ERROR: no parsers-*.tar.zst archives found in dist/parsers/', file=sys.stderr)
                       sys.exit(1)
+
+                  import os
+                  platform_count = len(platforms)
+                  with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
+                      f.write(f'platform_count={platform_count}\n')
 
                   # Cross-platform parity: a grammar must be present in every
                   # archive to be advertised. Anything missing from one platform
@@ -1790,6 +1795,16 @@ jobs:
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
                   token: ${{ steps.app-token.outputs.token }}
 
+            - name: Check for partial parser binary upload
+              if: |
+                  steps.generate-manifest.outputs.platform_count != '' &&
+                  steps.generate-manifest.outputs.platform_count < 6
+              run: |
+                  platform_count=${{ steps.generate-manifest.outputs.platform_count }}
+                  echo "::warning::Parser binaries uploaded from only ${platform_count}/6 platforms. \
+                  Build failures on other platforms (visible in build-parser-binaries matrix) must be fixed before next release. \
+                  Consumers will receive platform-specific 'not found' errors for missing platforms."
+
     # ─── Upload to GitHub Release: Go FFI ──────────────────────────────
     upload-go-release:
         name: Upload Go FFI to GitHub Release
@@ -1797,8 +1812,7 @@ jobs:
         if: |
             always() &&
             needs.prepare.outputs.dry_run != 'true' &&
-            needs.prepare.outputs.release_go == 'true' &&
-            needs.build-go-ffi.result == 'success'
+            needs.prepare.outputs.release_go == 'true'
         runs-on: ubuntu-latest
         timeout-minutes: 15
         steps:
@@ -1838,8 +1852,7 @@ jobs:
         if: |
             always() &&
             needs.prepare.outputs.dry_run != 'true' &&
-            needs.prepare.outputs.release_c_ffi == 'true' &&
-            needs.build-c-ffi.result == 'success'
+            needs.prepare.outputs.release_c_ffi == 'true'
         runs-on: ubuntu-latest
         timeout-minutes: 15
         steps:
