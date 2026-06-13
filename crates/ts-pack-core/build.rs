@@ -250,7 +250,22 @@ fn compile_parser_dynamic(name: &str, c_symbol: Option<&str>, parser_dir: &Path,
 
     let status = cmd.status();
     match status {
-        Ok(s) if s.success() => true,
+        Ok(s) if s.success() => {
+            // Verify the output file was actually produced. The compiler can return
+            // success but fail to create the dylib (e.g., linker crash, out of memory).
+            // This is a critical check for large parsers like gnuplot (45MB) where
+            // resource exhaustion may not propagate as a non-zero exit code.
+            if output_path.exists() {
+                true
+            } else {
+                println!(
+                    "cargo:warning=Failed to compile shared library for '{}': compiler succeeded but output file was not created at {}",
+                    name,
+                    output_path.display()
+                );
+                false
+            }
+        }
         Ok(s) => {
             println!(
                 "cargo:warning=Failed to compile shared library for '{}': exit code {:?}",
