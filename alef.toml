@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.24.17"
+alef_version = "0.25.0"
 languages = [
   "python",
   "node",
@@ -675,7 +675,7 @@ class = "dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack"
 options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.csharp]
-class = "TreeSitterLanguagePackLib"
+class = "TreeSitterLanguagePackConverter"
 options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.php]
