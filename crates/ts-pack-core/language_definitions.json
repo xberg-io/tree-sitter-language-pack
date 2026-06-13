@@ -790,7 +790,7 @@
       "plt"
     ],
     "repo": "https://github.com/dpezto/tree-sitter-gnuplot",
-    "rev": "072c737e981729e0e6f53fcf3ec9b1612f98fca0"
+    "rev": "cccf7a6893dfddc7eb3784870960982acf476a9d"
   },
   "go": {
     "branch": "master",
