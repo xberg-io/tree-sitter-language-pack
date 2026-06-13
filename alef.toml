@@ -108,6 +108,16 @@ path = "packages/elixir/native/tree_sitter_language_pack_nif/Cargo.toml"
 search = '^version = "[^"]*"'
 replace = 'version = "{version}"'
 
+# `alef test-apps generate` does not regen `packages/`, so this constant drifts
+# when a release bumps Cargo.toml without a full `alef all --clean` regen — rc.41
+# shipped with `_moduleVersion = '1.9.0-rc.40'`, breaking `download_libs.dart`
+# for the published Dart package. Sync-versions keeps it lockstep with the
+# workspace crate version going forward.
+[[workspace.sync.text_replacements]]
+path = "packages/dart/bin/download_libs.dart"
+search = "_moduleVersion = '[^']*'"
+replace = "_moduleVersion = '{version}'"
+
 [[crates]]
 name = "tree-sitter-language-pack"
 core_import = "tree_sitter_language_pack"
