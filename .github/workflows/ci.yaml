@@ -293,7 +293,13 @@ jobs:
 
             - name: Check version sync
               run: |
-                  alef sync-versions
+                  # --skip-swift-checksum: the Linux runner can't install
+                  # aarch64-apple-darwin without Xcode/rustup target add, so the
+                  # Swift artifactbundle checksum substitution that's normally
+                  # part of sync-versions fails with E0463 on cfg-if/libc.
+                  # Skip it here; the checksum will be re-synced on rc-cut from
+                  # the macOS-equipped local environment + the publish workflow.
+                  alef sync-versions --skip-swift-checksum
                   # Ignore whitespace-only diffs — `alef readme` (run in a previous
                   # step) leaves rumdl-vs-alef blank-line drift in crates/*/README.md
                   # files that's tolerated by the freshness check above but would
