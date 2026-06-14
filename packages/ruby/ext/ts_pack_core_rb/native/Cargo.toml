@@ -1,6 +1,6 @@
 [package]
 name = "ts-pack-core-rb"
-version = "1.9.0-rc.41"
+version = "1.9.0-rc.42"
 edition = "2024"
 license = "MIT"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"
@@ -21,4 +21,4 @@ magnus = "0.8"
 rb-sys = ">=0.9, <0.9.128"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tree-sitter-language-pack = { version = "1.9.0-rc.41", path = "../../../../../crates/ts-pack-core", features = ["serde", "config", "download"] }
+tree-sitter-language-pack = { version = "1.9.0-rc.42", path = "../../../../../crates/ts-pack-core", features = ["serde", "config", "download"] }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 $finder = (new PhpCsFixer\Finder())
     ->in(array_filter([
-        __DIR__ . '/src',
+        is_dir(__DIR__ . '/src') ? __DIR__ . '/src' : null,
         is_dir(__DIR__ . '/tests') ? __DIR__ . '/tests' : null,
     ]));
 

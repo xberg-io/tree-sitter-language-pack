@@ -357,10 +357,10 @@ NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 | Variant | Description |
 |---------|-------------|
 | `PythonTripleQuote` | Python triple-quoted string docstring (`"""..."""`). |
-| `JSDoc` | JavaScript/TypeScript JSDoc comment (`/** ... */`). |
+| `JSDoc` | JavaScript/TypeScript JSDoc block comment (opens with two stars, closes with star-slash). |
 | `Rustdoc` | Rust `///` or `//!` doc comment. |
 | `GoDoc` | Go doc comment (a comment block immediately preceding a declaration). |
-| `JavaDoc` | Java Javadoc comment (`/** ... */`). |
+| `JavaDoc` | Java Javadoc block comment (opens with two stars, closes with star-slash). |
 | `Other` | A language-specific docstring format not covered by the standard variants. — Fields: `_0`: `String` |
 
 ---

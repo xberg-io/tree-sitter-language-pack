@@ -2,7 +2,7 @@
 title: "Rust API Reference"
 ---
 
-## Rust API Reference <span class="version-badge">v1.9.0-rc.41</span>
+## Rust API Reference <span class="version-badge">v1.9.0-rc.42</span>
 
 ### Functions
 
@@ -1612,10 +1612,10 @@ NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 | Value | Description |
 |-------|-------------|
 | `PythonTripleQuote` | Python triple-quoted string docstring (`"""..."""`). |
-| `JsDoc` | JavaScript/TypeScript JSDoc comment (`/** ... */`). |
+| `JsDoc` | JavaScript/TypeScript JSDoc block comment (opens with two stars, closes with star-slash). |
 | `Rustdoc` | Rust `///` or `//!` doc comment. |
 | `GoDoc` | Go doc comment (a comment block immediately preceding a declaration). |
-| `JavaDoc` | Java Javadoc comment (`/** ... */`). |
+| `JavaDoc` | Java Javadoc block comment (opens with two stars, closes with star-slash). |
 | `Other` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `String` |
 
 ---

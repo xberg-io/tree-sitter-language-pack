@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.42] - 2026-06-14
+
+### Changed
+
+- **Regenerated against released alef 0.25.0.** Picks up the new `Extension` trait surface (per-extension TOML config + `transform_emitted_files` hook), Swift target-specific core dependency overrides, the zig `_first_error` → contextual error fix, and the Dart hardened-runtime framework load fix. Restores `crates/ts-pack-core-ffi/{src/lib.rs,build.rs,cbindgen.toml}` which a transient pre-release regen against an in-progress alef had erroneously dropped.
+
 ## [1.9.0-rc.41] - 2026-06-13
 
 ### Fixed

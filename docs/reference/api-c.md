@@ -2,7 +2,7 @@
 title: "C API Reference"
 ---
 
-## C API Reference <span class="version-badge">v1.9.0-rc.41</span>
+## C API Reference <span class="version-badge">v1.9.0-rc.42</span>
 
 ### Functions
 
@@ -1612,10 +1612,10 @@ NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 | Value | Description |
 |-------|-------------|
 | `TS_PACK_PYTHON_TRIPLE_QUOTE` | Python triple-quoted string docstring (`"""..."""`). |
-| `TS_PACK_JS_DOC` | JavaScript/TypeScript JSDoc comment (`/** ... */`). |
+| `TS_PACK_JS_DOC` | JavaScript/TypeScript JSDoc block comment (opens with two stars, closes with star-slash). |
 | `TS_PACK_RUSTDOC` | Rust `///` or `//!` doc comment. |
 | `TS_PACK_GO_DOC` | Go doc comment (a comment block immediately preceding a declaration). |
-| `TS_PACK_JAVA_DOC` | Java Javadoc comment (`/** ... */`). |
+| `TS_PACK_JAVA_DOC` | Java Javadoc block comment (opens with two stars, closes with star-slash). |
 | `TS_PACK_OTHER` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `const char*` |
 
 ---

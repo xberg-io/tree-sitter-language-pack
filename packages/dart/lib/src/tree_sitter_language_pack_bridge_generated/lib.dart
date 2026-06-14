@@ -831,7 +831,8 @@ sealed class DocstringFormat with _$DocstringFormat {
   const factory DocstringFormat.pythonTripleQuote() =
       DocstringFormat_PythonTripleQuote;
 
-  /// JavaScript/TypeScript JSDoc comment (`/** ... */`).
+  /// JavaScript/TypeScript JSDoc block comment (opens with two stars, closes
+  /// with star-slash).
   const factory DocstringFormat.jsDoc() = DocstringFormat_JSDoc;
 
   /// Rust `///` or `//!` doc comment.
@@ -840,7 +841,8 @@ sealed class DocstringFormat with _$DocstringFormat {
   /// Go doc comment (a comment block immediately preceding a declaration).
   const factory DocstringFormat.goDoc() = DocstringFormat_GoDoc;
 
-  /// Java Javadoc comment (`/** ... */`).
+  /// Java Javadoc block comment (opens with two stars, closes with
+  /// star-slash).
   const factory DocstringFormat.javaDoc() = DocstringFormat_JavaDoc;
 
   /// A language-specific docstring format not covered by the standard variants.

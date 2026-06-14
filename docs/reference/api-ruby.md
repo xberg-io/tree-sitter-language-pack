@@ -2,7 +2,7 @@
 title: "Ruby API Reference"
 ---
 
-## Ruby API Reference <span class="version-badge">v1.9.0-rc.41</span>
+## Ruby API Reference <span class="version-badge">v1.9.0-rc.42</span>
 
 ### Functions
 
@@ -1612,10 +1612,10 @@ NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 | Value | Description |
 |-------|-------------|
 | `python_triple_quote` | Python triple-quoted string docstring (`"""..."""`). |
-| `js_doc` | JavaScript/TypeScript JSDoc comment (`/** ... */`). |
+| `js_doc` | JavaScript/TypeScript JSDoc block comment (opens with two stars, closes with star-slash). |
 | `rustdoc` | Rust `///` or `//!` doc comment. |
 | `go_doc` | Go doc comment (a comment block immediately preceding a declaration). |
-| `java_doc` | Java Javadoc comment (`/** ... */`). |
+| `java_doc` | Java Javadoc block comment (opens with two stars, closes with star-slash). |
 | `other` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `String` |
 
 ---

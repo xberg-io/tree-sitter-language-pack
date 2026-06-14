@@ -2,7 +2,7 @@
 title: "Python API Reference"
 ---
 
-## Python API Reference <span class="version-badge">v1.9.0-rc.41</span>
+## Python API Reference <span class="version-badge">v1.9.0-rc.42</span>
 
 ### Functions
 
@@ -1618,10 +1618,10 @@ NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 | Value | Description |
 |-------|-------------|
 | `PYTHON_TRIPLE_QUOTE` | Python triple-quoted string docstring (`"""..."""`). |
-| `JS_DOC` | JavaScript/TypeScript JSDoc comment (`/** ... */`). |
+| `JS_DOC` | JavaScript/TypeScript JSDoc block comment (opens with two stars, closes with star-slash). |
 | `RUSTDOC` | Rust `///` or `//!` doc comment. |
 | `GO_DOC` | Go doc comment (a comment block immediately preceding a declaration). |
-| `JAVA_DOC` | Java Javadoc comment (`/** ... */`). |
+| `JAVA_DOC` | Java Javadoc block comment (opens with two stars, closes with star-slash). |
 | `OTHER` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `str` |
 
 ---

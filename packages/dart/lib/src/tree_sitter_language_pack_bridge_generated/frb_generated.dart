@@ -46,7 +46,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
       for (final dir in searchDirs) {
         for (final name in libNames) {
           final libPath = dir.resolve(name).toFilePath();
-          if (File(libPath).existsSync()) {
+          if (File(libPath).existsSync() || Directory(libPath).existsSync()) {
             return ExternalLibrary.open(libPath);
           }
         }
@@ -78,7 +78,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
     // — list that first so the loader finds it before the bare dylib.
     if (Platform.isMacOS)
       return const [
-        'tree_sitter_language_pack_dart.framework/tree_sitter_language_pack_dart',
+        'tree_sitter_language_pack_dart.framework',
         'libtree_sitter_language_pack_dart.dylib',
       ];
     if (Platform.isWindows) return const ['tree_sitter_language_pack_dart.dll'];
