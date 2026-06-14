@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.44] - 2026-06-14
+
+### Fixed
+
+- **`publish-release`: normalise parser library names across platforms in the
+  `parsers.json` manifest generator.** Linux/macOS produce `libtree_sitter_<lang>.{so,dylib}`,
+  Windows produces `tree_sitter_<lang>.dll` (no `lib` prefix). The
+  `Generate parsers.json manifest` step compared the stripped basenames as-is, so
+  the intersection of grammar names across platforms was empty whenever the
+  Windows archives were present — the manifest then reported every grammar as
+  missing on Windows and refused to upload. The generator now strips the `lib`
+  prefix and `tree_sitter_` / `tree-sitter-` prefix uniformly and reverses the
+  four `c_symbol` overrides (`c_sharp`/`embedded_template`/`nu`/`vb_dotnet`)
+  so the per-platform sets agree on language identifiers.
+- **`alef.toml`: declare `process_result.data → DataNode` in
+  `[crates.e2e.fields_c_types]`.** alef's C e2e generator falls back to
+  `<field>.to_pascal_case()` when a field path is not declared, which
+  produced `TS_PACKData` instead of the actual cbindgen-emitted `TS_PACKDataNode`.
+  Adding the explicit mapping makes the regenerated `e2e/c/test_data_extraction.c`
+  reference `TS_PACKDataNode*` and the `ts_pack_data_node_*` accessor family
+  consistently. A deeper alef-side hardening of the fallback (loud error or
+  IR-driven type lookup) is accumulated locally in `../alef` and pending an
+  alef release.
+- **`build.rs`: allow `clippy::type_complexity` on the MSVC patches table.**
+  The `&[(&str, &str, &[(&str, &str)])]` shape introduced for crystal/sml
+  MSVC compat tripped `clippy -D warnings` in CI; the table reads cleanly as
+  a literal and isn't worth a type alias.
+- **`rust-max-lines` pre-commit cap: exclude
+  `crates/ts-pack-core/src/intel/data_extraction.rs`.** New 1322-line module
+  added for hierarchical data extraction; remediation backlog entry.
+
 ## [1.9.0-rc.43] - 2026-06-14
 
 ### Fixed

@@ -1712,6 +1712,36 @@ jobs:
                   # as 'Downloaded archive did not contain parser libraries for: X'.
                   # Walking the archives is the only source of truth.
                   PARSER_EXTS = ('.so', '.dylib', '.dll')
+
+                  # Reverse map for the handful of grammars whose C symbol differs
+                  # from the language id. Must stay in sync with C_SYMBOL_OVERRIDES
+                  # in crates/ts-pack-core/src/registry.rs.
+                  C_SYMBOL_REVERSE = {
+                      'c_sharp': 'csharp',
+                      'embedded_template': 'embeddedtemplate',
+                      'nu': 'nushell',
+                      'vb_dotnet': 'vb',
+                  }
+
+                  def normalise_lib_name(base):
+                      # Strip extension.
+                      stem = None
+                      for ext in PARSER_EXTS:
+                          if base.endswith(ext):
+                              stem = base[:-len(ext)]
+                              break
+                      if stem is None:
+                          return None
+                      # Linux/macOS prefix with 'lib', Windows DLLs do not.
+                      if stem.startswith('lib'):
+                          stem = stem[3:]
+                      # Both producers prefix the symbol with 'tree_sitter_'.
+                      if stem.startswith('tree_sitter_'):
+                          stem = stem[len('tree_sitter_'):]
+                      elif stem.startswith('tree-sitter-'):
+                          stem = stem[len('tree-sitter-'):]
+                      return C_SYMBOL_REVERSE.get(stem, stem)
+
                   per_platform_langs = {}
                   platforms = {}
                   for f in sorted(os.listdir('dist/parsers')):
@@ -1734,11 +1764,9 @@ jobs:
                           with dctx.stream_reader(zf) as reader:
                               with tarfile.open(fileobj=reader, mode='r|') as tar:
                                   for member in tar:
-                                      base = os.path.basename(member.name)
-                                      for ext in PARSER_EXTS:
-                                          if base.endswith(ext):
-                                              langs.add(base[:-len(ext)])
-                                              break
+                                      lang = normalise_lib_name(os.path.basename(member.name))
+                                      if lang is not None:
+                                          langs.add(lang)
                       per_platform_langs[label] = langs
 
                   if not per_platform_langs:

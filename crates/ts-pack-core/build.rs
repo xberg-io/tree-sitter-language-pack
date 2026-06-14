@@ -884,6 +884,7 @@ fn try_clone_vendors_locally(project_root: &Path, parsers_dir: &Path, selected: 
 /// A sentinel comment is written on the first run so subsequent build.rs
 /// invocations short-circuit without re-reading or re-writing the source.
 fn apply_msvc_compat_patches(parsers_dir: &Path) {
+    #[allow(clippy::type_complexity)]
     let patches: &[(&str, &str, &[(&str, &str)])] = &[
         (
             "crystal",

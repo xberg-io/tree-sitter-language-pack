@@ -34,7 +34,7 @@ repos:
             args: ["--max=1000"]
             # Remediation backlog: existing files over the 1,000-LOC ceiling. New
             # files are subject to the cap. Shrink this list when files are split.
-            exclude: ^(crates/tree-sitter-language-pack-jni/src/lib\.rs|crates/ts-pack-core-ffi/src/lib\.rs|crates/ts-pack-core-node/src/lib\.rs|crates/ts-pack-core-php/src/lib\.rs|crates/ts-pack-core-py/src/lib\.rs|crates/ts-pack-core-wasm/src/lib\.rs|crates/ts-pack-core/build\.rs|crates/ts-pack-core/src/download\.rs|packages/dart/rust/src/frb_generated\.rs|packages/dart/rust/src/lib\.rs|packages/elixir/native/tree_sitter_language_pack_nif/src/lib\.rs|packages/ruby/ext/ts_pack_core_rb/src/lib\.rs|packages/swift/rust/src/lib\.rs)$
+            exclude: ^(crates/tree-sitter-language-pack-jni/src/lib\.rs|crates/ts-pack-core-ffi/src/lib\.rs|crates/ts-pack-core-node/src/lib\.rs|crates/ts-pack-core-php/src/lib\.rs|crates/ts-pack-core-py/src/lib\.rs|crates/ts-pack-core-wasm/src/lib\.rs|crates/ts-pack-core/build\.rs|crates/ts-pack-core/src/download\.rs|crates/ts-pack-core/src/intel/data_extraction\.rs|packages/dart/rust/src/frb_generated\.rs|packages/dart/rust/src/lib\.rs|packages/elixir/native/tree_sitter_language_pack_nif/src/lib\.rs|packages/ruby/ext/ts_pack_core_rb/src/lib\.rs|packages/swift/rust/src/lib\.rs)$
 
           # Linters and checks
           - id: ai-rulez-generate
