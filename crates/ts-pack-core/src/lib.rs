@@ -143,6 +143,14 @@ pub fn get_language(name: &str) -> Result<Language, Error> {
         let dm = DownloadManager::with_cache_dir(env!("CARGO_PKG_VERSION"), cache_dir);
         let resolved = crate::registry::resolve_alias(name);
         dm.ensure_languages(&[resolved])?;
+        if let Ok(lang) = REGISTRY.get_language(resolved) {
+            return Ok(lang);
+        }
+        // Retry once: a concurrent `clean_cache()` (or external process touching the
+        // libs dir) can delete the file between the extraction above and the
+        // registry lookup. `ensure_languages` is idempotent and TOCTOU-safe, so a
+        // second pass either replays the extraction or no-ops on a now-stable cache.
+        dm.ensure_languages(&[resolved])?;
         REGISTRY.get_language(resolved)
     }
 
