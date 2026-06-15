@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.49] - 2026-06-15
+
+### Changed
+
+- **Bumped `alef` pin 0.25.9 → 0.25.11.** Regenerated all bindings via `task alef:sync` + `task alef:generate`. Picks up the accumulated 0.25.10 and 0.25.11 fix series:
+  - **0.25.10 — `publish prepare` canonicalize bug.** `publish prepare` was canonicalizing only `manifest_dir.join("Cargo.toml")`, not `manifest_dir` itself. With `current_dir(manifest_dir)` set on the cargo subprocess, the `--manifest-path ./packages/elixir/.../Cargo.toml` argument resolved relative to the new cwd — effectively doubling the path — and cargo bailed with `manifest path '...' does not exist` followed by the misleading "publish core first" hint. Every source-build binding in rc.48 hit this (Python sdist, Ruby gem, Elixir NIF, PHP PIE). 0.25.10 canonicalizes `manifest_dir` itself at the top of the regenerate branch and `manifest_abs` in `rewrite_binding_path_deps`.
+  - **0.25.10 — kotlin-android `copyHostJni` always reads workspace target.** Drop the configuration-time `if (workspaceTarget.exists())` selector that evaluated before `cargo build` finished, eliminating the `UnsatisfiedLinkError` cascade at static-init time on every JNI-loading test class.
+  - **0.25.10 — R extendr enum path resolution.** `gen_from_binding_to_core`/`gen_from_core_to_binding` now use `resolve_type_path` against a `build_type_path_lookup(api)` map instead of `core_enum_path_remapped`, fixing E0433 `cannot find ImageOutputFormat in crate 'kreuzberg'` for enums defined outside the crate root.
+  - **0.25.10 — Swift `From<core>` arms cfg-gate variants.** `emit_enum_wrapper` now prepends `#[cfg(...)]` before each rendered arm so the match remains valid when the binding crate's feature set drops upstream variants (iOS / Android cross-targets).
+  - **0.25.10 — C# e2e csproj emits `<GenerateAssemblyInfo>false</GenerateAssemblyInfo>`.** Closes the CS0579 duplicate-attribute path for consumer e2e directories that carry a hand-checked-in `Properties/AssemblyInfo.cs`.
+  - **0.25.10 — Visitor result routes bare strings to `Custom` when multiple string-payload variants exist.** Fixes silent fallback to the default variant when an enum has both `Custom(String)` and `Error(String)`.
+  - **0.25.10 — FFI visitor context emits enum-typed fields as `i32` discriminant.** Closes the `ArrayIndexOutOfBoundsException` cascade in `VisitorBridge.decodeContext` caused by reading the low 4 bytes of `tag_name` pointer when the C struct omitted the enum field.
+  - **0.25.10 — Dart cfg-extraction whitespace bug and check-cfg allow-list.** `extract_feature_names_from_cfg` now normalizes whitespace + handles the `any(test, feature = "X")` sibling form; check-cfg allow-list populates from every `EnumDef.variants[*].cfg` instead of falling back to the single-entry `cfg(frb_expand)` form.
+  - **0.25.10 — Release task: `task set-version` handles prerelease versions when updating `ALEF_REV`** + **Ruby Rakefile template documents `GEMSPEC` constant** for YARD coverage.
+  - **0.25.11 — README generation supports named non-language targets.** `[crates.readme.targets.<name>]` renders additional template-backed README outputs alongside per-language READMEs.
+  - **0.25.11 — Option B cfg forwarding for Dart and Swift binding crates.** Each cfg feature name referenced by any IR type/field/variant/function is now emitted as `{name} = ["{core_dep_key}/{name}"]` in `[features]`, making the feature resolvable at the binding level and eliminating `unexpected_cfgs` without an allow-list. Shared collection logic extracted to `src/codegen/cfg.rs`. WASM backend now delegates to it. Swift `emit_enum_wrapper` emits a `_ => unreachable!()` catch-all whenever any variant in the primary list carries a `#[cfg(...)]` gate.
+  - **0.25.11 — Generated Homebrew test apps trust third-party taps before installing formulae.** `run_tests.sh` now calls `brew trust "$TAP" || true` before `brew bundle install`.
+  - **0.25.11 — Dart test_app run no longer invokes `download_libs`.** Natives ship inside the pub.dev package; the FRB loader resolves them from `lib/src/native/<rid>/`. Drops the structural HTTP 404 against `releases/download/v.../tree-sitter-language-pack-dart-...` that masked publish-pipeline failures.
+  - **0.25.11 — C e2e Makefile: always re-download `ts_pack.h`.** Drops the `HEADER_PATH`/`LIB_PATH` short-circuit that elided the header dependency whenever a stale prior-rc header was on disk. Per-version marker `ffi/.alef-ffi-version` keeps unchanged trees from paying network cost. Resolves the rc.48 C test_app `unknown type name 'TS_PACKDataNode'` cascade.
+  - **0.25.11 — C# scaffold: SDK-generated AssemblyInfo with explicit version stamps and full RID list.** Enables `<GenerateAssemblyInfo>` (drops `false` suppression), stamps `<AssemblyVersion>`/`<FileVersion>` as 4-component numeric (`MAJOR.MINOR.PATCH.0`) via new `to_dotnet_assembly_version` helper, preserves full SemVer on `<InformationalVersion>`, replaces conditional singular `<RuntimeIdentifier>` with a plural list of all six published RIDs, and pins `<PlatformTarget>AnyCPU</PlatformTarget>`. Resolves the rc.48 C# `Version=0.0.0.0` + `targets a different processor` cascade.
+  - **0.25.11 — Zig `_error_with_message` dispatches to per-error-set message-prefix matchers.** Replaces the unconditional `_first_error(E)` fallback that masked the real cause of every typed FFI failure; emits a `if (E == ErrName) return _from_ffi_msg_ErrName(msg_opt);` chain per declared error-set.
+  - **0.25.11 — Rustler codegen clippy violations** (type complexity, collapsible if, struct update, useless conversions) + **Rustler trait-bridge parameter cloning skips no-op clones on reference types** + **JNI clippy lints + Swift cargo.rs api param** + **pyo3 async lifetime/result-handling cleanup**.
+- **Bumped tslp `1.9.0-rc.48` → `1.9.0-rc.49`** propagated via `task alef:sync`.
+
 ## [1.9.0-rc.48] - 2026-06-15
 
 ### Changed

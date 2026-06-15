@@ -1,6 +1,6 @@
 [package]
 name = "tree-sitter-language-pack-dart"
-version = "1.9.0-rc.48"
+version = "1.9.0-rc.49"
 edition = "2024"
 license = "MIT"
 
@@ -11,7 +11,8 @@ ignored = ["tree_sitter_language_pack"]
 
 [lib]
 crate-type = ["cdylib", "staticlib"]
-
+[features]
+download = ["tree_sitter_language_pack/download"]
 [dependencies]
 flutter_rust_bridge = "=2.12.0"
 serde_json = "1"
@@ -19,7 +20,4 @@ tree_sitter_language_pack = { path = "../../../crates/ts-pack-core", package = "
 
 [lints.rust]
 # flutter_rust_bridge uses #[cfg(frb_expand)] internally during macro expansion.
-# Variant arms gated on upstream features (e.g. #[cfg(feature = "office")]) use
-# cfg conditions that are not declared in this binding crate. Declare all of them
-# as known cfgs so rustc does not emit unexpected_cfgs warnings.
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

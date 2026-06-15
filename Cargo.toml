@@ -15,7 +15,7 @@ exclude = [
 resolver = "2"
 
 [workspace.package]
-version = "1.9.0-rc.48"
+version = "1.9.0-rc.49"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"

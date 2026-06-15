@@ -48,7 +48,7 @@ kotlin {
 
 dependencies {
     // Published Android AAR from Maven Central (verifies artifact resolution)
-    implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.48")
+    implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.49")
     // Jackson for JSON assertion helpers
     testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.18.2")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
@@ -81,7 +81,7 @@ dependencies {
 tasks.register("verifyAarPublished") {
     description = "Verify the published Android AAR contains jni and classes.jar"
     doLast {
-        val aarCoord = "dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.48"
+        val aarCoord = "dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.49"
         val (groupId, artifactId, version) = run {
             val parts = aarCoord.split(':')
             Triple(parts[0], parts[1], parts[2])
@@ -163,19 +163,22 @@ tasks.register("copyHostJni", Copy::class) {
         } else {
             "linux"
         }
-        val jniCargoPath = "../../crates/tree-sitter-language-pack-jni/Cargo.toml"
-        val crateDir = jniCargoPath.substringBeforeLast("/Cargo.toml")
-        val workspaceTarget = file("../../target/release")
-        val crateTarget = file(crateDir).resolve("target/release")
-        val buildDir = if (workspaceTarget.exists()) workspaceTarget else crateTarget
-
         val libName = when (hostPlatform) {
             "darwin" -> "libts_pack_jni.dylib"
             "windows" -> "ts_pack_jni.dll"
             else -> "libts_pack_jni.so"
         }
 
-        from(buildDir) {
+        // Cargo builds to the workspace target directory by default, even when
+        // --manifest-path points at a member crate. The previous
+        // `if (workspaceTarget.exists()) ... else crateTarget` dual-path was
+        // evaluated at gradle configuration time, before `cargo build` finished
+        // or before the workspace target dir existed, so the glob could match
+        // zero files and the test runtime would fail with `UnsatisfiedLinkError`
+        // at static-init time. Always read from the workspace target.
+        val workspaceTarget = file("../../target/release")
+
+        from(workspaceTarget) {
             include(libName)
         }
         into(layout.projectDirectory.dir("src/test/resources/host-jni/$hostPlatform"))
