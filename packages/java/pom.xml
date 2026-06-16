@@ -6,7 +6,7 @@
 
     <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
     <artifactId>tree-sitter-language-pack</artifactId>
-    <version>1.9.0-rc.51</version>
+    <version>1.9.0-rc.52</version>
     <packaging>jar</packaging>
 
     <name>tree-sitter-language-pack</name>
@@ -189,8 +189,8 @@
                          with the correct classifier (e.g. osx-aarch64, linux-x64, …).
                          When CI runs `mvn package -Dclassifier=osx-aarch64`, Maven
                          passes the classifier through to this configuration, allowing
-                         the JAR to be published as tree-sitter-language-pack-java-1.9.0-osx-aarch64.jar
-                         instead of tree-sitter-language-pack-java-1.9.0.jar. -->
+                         the JAR to be published as example-language-pack-java-1.9.0-osx-aarch64.jar
+                         instead of example-language-pack-java-1.9.0.jar. -->
                     <classifier>${classifier}</classifier>
                 </configuration>
             </plugin>

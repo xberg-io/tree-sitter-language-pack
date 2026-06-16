@@ -2,7 +2,7 @@
 title: "Rust API Reference"
 ---
 
-## Rust API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Rust API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `None` for unrecognized extensions. The match is case-insensitive.
 
 ```rust
 pub fn detect_language_from_extension(ext: &str) -> Option<String>
+```
+
+**Example:**
+
+```rust
+let result = detect_language_from_extension("value");
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```rust
 pub fn detect_language_from_path(path: &str) -> Option<String>
+```
+
+**Example:**
+
+```rust
+let result = detect_language_from_path("value");
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 pub fn detect_language_from_content(content: &str) -> Option<String>
 ```
 
+**Example:**
+
+```rust
+let result = detect_language_from_content("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -98,6 +116,18 @@ if no highlights query is bundled for this language.
 ```rust
 pub fn get_highlights_query(language: &str) -> Option<String>
 ```
+
+**Example:**
+
+```rust
+use tree_sitter_language_pack::get_highlights_query;
+
+// Returns Some(...) for languages with bundled queries
+let query = get_highlights_query("python");
+// Returns None for languages without bundled highlights queries
+let missing = get_highlights_query("nonexistent_lang");
+assert!(missing.is_none());
+```rust
 
 **Parameters:**
 
@@ -122,6 +152,17 @@ if no injections query is bundled for this language.
 pub fn get_injections_query(language: &str) -> Option<String>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::get_injections_query;
+
+let query = get_injections_query("markdown");
+// Returns None for languages without bundled injections queries
+let missing = get_injections_query("nonexistent_lang");
+assert!(missing.is_none());
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +186,17 @@ if no locals query is bundled for this language.
 pub fn get_locals_query(language: &str) -> Option<String>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::get_locals_query;
+
+let query = get_locals_query("python");
+// Returns None for languages without bundled locals queries
+let missing = get_locals_query("nonexistent_lang");
+assert!(missing.is_none());
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -167,6 +219,17 @@ if no tags query is bundled for this language.
 ```rust
 pub fn get_tags_query(language: &str) -> Option<String>
 ```
+
+**Example:**
+
+```rust
+use tree_sitter_language_pack::get_tags_query;
+
+let query = get_tags_query("rust");
+// Returns None for languages without bundled tags queries
+let missing = get_tags_query("nonexistent_lang");
+assert!(missing.is_none());
+```rust
 
 **Parameters:**
 
@@ -197,6 +260,19 @@ or `Error.Download` if auto-download fails.
 pub fn get_language(name: &str) -> Result<Language, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::{get_language, Parser};
+
+let _lang = get_language("python")?;
+let mut parser = Parser::new();
+parser.set_language("python")?;
+let tree = parser.parse("x = 1").expect("parse failed");
+assert_eq!(tree.root_node().kind(), "module");
+# Ok::<(), tree_sitter_language_pack::Error>(())
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +280,7 @@ pub fn get_language(name: &str) -> Result<Language, Error>
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -226,6 +303,17 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 pub fn get_parser(name: &str) -> Result<Parser, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::get_parser;
+
+let mut parser = get_parser("rust")?;
+let tree = parser.parse("fn main() {}").expect("parse failed");
+assert!(!tree.root_node().has_error());
+# Ok::<(), tree_sitter_language_pack::Error>(())
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +321,7 @@ pub fn get_parser(name: &str) -> Result<Parser, Error>
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -247,6 +336,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```rust
 pub fn detect_language(path: &str) -> Option<String>
+```
+
+**Example:**
+
+```rust
+let result = detect_language("value");
 ```
 
 **Parameters:**
@@ -272,6 +367,17 @@ plus any configured aliases.
 pub fn available_languages() -> Vec<String>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::available_languages;
+
+let langs = available_languages();
+for name in &langs {
+    println!("{}", name);
+}
+```rust
+
 **Returns:** `Vec<String>`
 
 ---
@@ -288,6 +394,16 @@ dynamically available, or a known alias for one of these).
 ```rust
 pub fn has_language(name: &str) -> bool
 ```
+
+**Example:**
+
+```rust
+use tree_sitter_language_pack::has_language;
+
+assert!(has_language("python"));
+assert!(has_language("shell")); // alias for "bash"
+assert!(!has_language("nonexistent_language"));
+```rust
 
 **Parameters:**
 
@@ -312,6 +428,15 @@ and aliases.
 pub fn language_count() -> usize
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::language_count;
+
+let count = language_count();
+println!("{} languages available", count);
+```rust
+
 **Returns:** `usize`
 
 ---
@@ -334,6 +459,18 @@ Returns an error if the language is not found or parsing fails.
 pub fn process(source: &str, config: ProcessConfig) -> Result<ProcessResult, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::{ProcessConfig, process};
+
+let config = ProcessConfig::new("python").all();
+let result = process("def hello(): pass", &config).unwrap();
+println!("Language: {}", result.language);
+println!("Lines: {}", result.metrics.total_lines);
+println!("Structures: {}", result.structure.len());
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +479,7 @@ pub fn process(source: &str, config: ProcessConfig) -> Result<ProcessResult, Err
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -364,13 +502,27 @@ Returns an error if configuration cannot be applied or if downloads fail.
 pub fn init(config: PackConfig) -> Result<(), Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::{PackConfig, init};
+
+let config = PackConfig {
+    cache_dir: None,
+    languages: Some(vec!["python".to_string(), "rust".to_string()]),
+    groups: None,
+};
+init(&config).unwrap();
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `()`
+**Returns:** No return value.
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -394,13 +546,28 @@ Returns an error if the lock cannot be acquired.
 pub fn configure(config: PackConfig) -> Result<(), Error>
 ```
 
+**Example:**
+
+```rust
+use std::path::PathBuf;
+use tree_sitter_language_pack::{PackConfig, configure};
+
+let config = PackConfig {
+    cache_dir: Some(PathBuf::from("/tmp/my-parsers")),
+    languages: None,
+    groups: None,
+};
+configure(&config).unwrap();
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `()`
+**Returns:** No return value.
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -423,6 +590,15 @@ the download fails.
 pub fn download(names: Vec<String>) -> Result<usize, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::download;
+
+let count = download(&["python", "rust", "typescript"]).unwrap();
+println!("Ensured {} languages", count);
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +606,7 @@ pub fn download(names: Vec<String>) -> Result<usize, Error>
 | `names` | `Vec<String>` | Yes | The names |
 
 **Returns:** `usize`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -456,7 +633,17 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 pub fn download_all() -> Result<usize, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::download_all;
+
+let count = download_all().unwrap();
+println!("{} languages available", count);
+```rust
+
 **Returns:** `usize`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -483,6 +670,15 @@ or any constituent language fails to download.
 pub fn download_group(name: &str) -> Result<usize, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::download_group;
+
+let count = download_group("web").unwrap();
+println!("{} languages available", count);
+```rust
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +686,7 @@ pub fn download_group(name: &str) -> Result<usize, Error>
 | `name` | `String` | Yes | The name |
 
 **Returns:** `usize`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -512,7 +709,17 @@ Returns an error if the manifest cannot be fetched.
 pub fn manifest_languages() -> Result<Vec<String>, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::manifest_languages;
+
+let langs = manifest_languages().unwrap();
+println!("{} languages available for download", langs.len());
+```rust
+
 **Returns:** `Vec<String>`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -529,6 +736,15 @@ cache directory does not exist or cannot be read.
 ```rust
 pub fn downloaded_languages() -> Vec<String>
 ```
+
+**Example:**
+
+```rust
+use tree_sitter_language_pack::downloaded_languages;
+
+let langs = downloaded_languages();
+println!("{} languages already cached", langs.len());
+```rust
 
 **Returns:** `Vec<String>`
 
@@ -551,7 +767,17 @@ Returns an error if the cache directory cannot be removed.
 pub fn clean_cache() -> Result<(), Error>
 ```
 
-**Returns:** `()`
+**Example:**
+
+```rust
+use tree_sitter_language_pack::clean_cache;
+
+clean_cache().unwrap();
+println!("Cache cleared");
+```rust
+
+**Returns:** No return value.
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -573,7 +799,17 @@ Returns an error if the system cache directory cannot be determined.
 pub fn cache_dir() -> Result<String, Error>
 ```
 
+**Example:**
+
+```rust
+use tree_sitter_language_pack::cache_dir;
+
+let dir = cache_dir().unwrap();
+println!("Cache directory: {dir}");
+```rust
+
 **Returns:** `String`
+
 **Errors:** Returns `Err(Error)`.
 
 ---
@@ -721,19 +957,35 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
 **Signature:**
 
 ```rust
-pub fn new(version: &str) -> DownloadManager
+pub fn new(version: &str) -> Result<DownloadManager, Error>
 ```
 
-#### installed_languages()
+**Example:**
+
+```rust
+let result = DownloadManager::new("value")?;
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `String` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Returns `Err(Error)`.
+
+###### installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +995,15 @@ List languages that are already downloaded and cached.
 pub fn installed_languages(&self) -> Vec<String>
 ```
 
-#### download_all_best_effort()
+**Example:**
+
+```rust
+let result = instance.installed_languages();
+```
+
+**Returns:** `Vec<String>`
+
+###### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -757,10 +1017,20 @@ Returns the number of library files extracted (including those already cached).
 **Signature:**
 
 ```rust
-pub fn download_all_best_effort(&self) -> usize
+pub fn download_all_best_effort(&self) -> Result<usize, Error>
 ```
 
-#### clean_cache()
+**Example:**
+
+```rust
+let result = instance.download_all_best_effort()?;
+```
+
+**Returns:** `usize`
+
+**Errors:** Returns `Err(Error)`.
+
+###### clean_cache()
 
 Remove all cached parser libraries.
 
@@ -774,8 +1044,18 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 **Signature:**
 
 ```rust
-pub fn clean_cache(&self)
+pub fn clean_cache(&self) -> Result<(), Error>
 ```
+
+**Example:**
+
+```rust
+instance.clean_cache()?;
+```
+
+**Returns:** No return value.
+
+**Errors:** Returns `Err(Error)`.
 
 ---
 
@@ -835,9 +1115,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1130,15 @@ about dynamically loadable grammars and will load them on demand.
 pub fn new() -> LanguageRegistry
 ```
 
-#### get_language()
+**Example:**
+
+```rust
+let result = LanguageRegistry::new();
+```
+
+**Returns:** `LanguageRegistry`
+
+###### get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -866,10 +1154,26 @@ does not match any known grammar.
 **Signature:**
 
 ```rust
-pub fn get_language(&self, name: &str) -> Language
+pub fn get_language(&self, name: &str) -> Result<Language, Error>
 ```
 
-#### available_languages()
+**Example:**
+
+```rust
+let result = instance.get_language("value")?;
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Returns `Err(Error)`.
+
+###### available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1186,15 @@ Includes statically compiled languages, dynamically loadable languages
 pub fn available_languages(&self) -> Vec<String>
 ```
 
-#### has_parser()
+**Example:**
+
+```rust
+let result = instance.available_languages();
+```
+
+**Returns:** `Vec<String>`
+
+###### has_parser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1223,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 pub fn has_parser(&self, name: &str) -> bool
 ```
 
-#### has_language()
+**Example:**
+
+```rust
+let result = instance.has_parser("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `bool`
+
+###### has_language()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1250,21 @@ table or from a dynamic library on disk.
 pub fn has_language(&self, name: &str) -> bool
 ```
 
-#### language_count()
+**Example:**
+
+```rust
+let result = instance.has_language("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `bool`
+
+###### language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -934,23 +1274,56 @@ Return the total number of available languages (including aliases).
 pub fn language_count(&self) -> usize
 ```
 
-#### process()
+**Example:**
+
+```rust
+let result = instance.language_count();
+```
+
+**Returns:** `usize`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
 **Signature:**
 
 ```rust
-pub fn process(&self, source: &str, config: ProcessConfig) -> ProcessResult
+pub fn process(&self, source: &str, config: ProcessConfig) -> Result<ProcessResult, Error>
 ```
 
-#### default()
+**Example:**
+
+```rust
+let result = instance.process("value", ProcessConfig::default())?;
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Returns `Err(Error)`.
+
+###### default()
 
 **Signature:**
 
 ```rust
 pub fn default() -> LanguageRegistry
 ```
+
+**Example:**
+
+```rust
+let result = LanguageRegistry::default();
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1334,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -971,7 +1344,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 pub fn clone(&self) -> Node
 ```
 
-#### kind()
+**Example:**
+
+```rust
+let result = instance.clone();
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1362,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 pub fn kind(&self) -> String
 ```
 
-#### kind_id()
+**Example:**
+
+```rust
+let result = instance.kind();
+```
+
+**Returns:** `String`
+
+###### kind_id()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1384,15 @@ than comparing the string `kind()` in tight AST loops.
 pub fn kind_id(&self) -> u16
 ```
 
-#### start_byte()
+**Example:**
+
+```rust
+let result = instance.kind_id();
+```
+
+**Returns:** `u16`
+
+###### start_byte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1402,15 @@ Return the inclusive start byte offset of this node.
 pub fn start_byte(&self) -> usize
 ```
 
-#### end_byte()
+**Example:**
+
+```rust
+let result = instance.start_byte();
+```
+
+**Returns:** `usize`
+
+###### end_byte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1420,15 @@ Return the exclusive end byte offset of this node.
 pub fn end_byte(&self) -> usize
 ```
 
-#### byte_range()
+**Example:**
+
+```rust
+let result = instance.end_byte();
+```
+
+**Returns:** `usize`
+
+###### byte_range()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1441,15 @@ text accessor.
 pub fn byte_range(&self) -> ByteRange
 ```
 
-#### start_position()
+**Example:**
+
+```rust
+let result = instance.byte_range();
+```
+
+**Returns:** `ByteRange`
+
+###### start_position()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1459,15 @@ Return the start `Point` (row, column).
 pub fn start_position(&self) -> Point
 ```
 
-#### end_position()
+**Example:**
+
+```rust
+let result = instance.start_position();
+```
+
+**Returns:** `Point`
+
+###### end_position()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1477,15 @@ Return the end `Point` (row, column).
 pub fn end_position(&self) -> Point
 ```
 
-#### is_named()
+**Example:**
+
+```rust
+let result = instance.end_position();
+```
+
+**Returns:** `Point`
+
+###### is_named()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1495,15 @@ True when this node is named (not punctuation/whitespace).
 pub fn is_named(&self) -> bool
 ```
 
-#### is_error()
+**Example:**
+
+```rust
+let result = instance.is_named();
+```
+
+**Returns:** `bool`
+
+###### is_error()
 
 True when this is an error node.
 
@@ -1068,7 +1513,15 @@ True when this is an error node.
 pub fn is_error(&self) -> bool
 ```
 
-#### is_missing()
+**Example:**
+
+```rust
+let result = instance.is_error();
+```
+
+**Returns:** `bool`
+
+###### is_missing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1531,15 @@ True when this is a missing-token node.
 pub fn is_missing(&self) -> bool
 ```
 
-#### is_extra()
+**Example:**
+
+```rust
+let result = instance.is_missing();
+```
+
+**Returns:** `bool`
+
+###### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1549,15 @@ True when this is an "extra" node (e.g. a comment).
 pub fn is_extra(&self) -> bool
 ```
 
-#### has_error()
+**Example:**
+
+```rust
+let result = instance.is_extra();
+```
+
+**Returns:** `bool`
+
+###### has_error()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1567,15 @@ True when this node or any descendant is an error.
 pub fn has_error(&self) -> bool
 ```
 
-#### parent()
+**Example:**
+
+```rust
+let result = instance.has_error();
+```
+
+**Returns:** `bool`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1585,15 @@ Return this node's parent, if any.
 pub fn parent(&self) -> Option<Node>
 ```
 
-#### child()
+**Example:**
+
+```rust
+let result = instance.parent();
+```
+
+**Returns:** `Option<Node>`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1603,21 @@ Return the i-th child of this node, if any.
 pub fn child(&self, index: u32) -> Option<Node>
 ```
 
-#### child_count()
+**Example:**
+
+```rust
+let result = instance.child(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `u32` | Yes | The index |
+
+**Returns:** `Option<Node>`
+
+###### child_count()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1627,15 @@ Total number of children (including unnamed).
 pub fn child_count(&self) -> usize
 ```
 
-#### named_child()
+**Example:**
+
+```rust
+let result = instance.child_count();
+```
+
+**Returns:** `usize`
+
+###### named_child()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1645,21 @@ Return the i-th named child of this node, if any.
 pub fn named_child(&self, index: u32) -> Option<Node>
 ```
 
-#### named_child_count()
+**Example:**
+
+```rust
+let result = instance.named_child(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `u32` | Yes | The index |
+
+**Returns:** `Option<Node>`
+
+###### named_child_count()
 
 Number of named children of this node.
 
@@ -1148,7 +1669,15 @@ Number of named children of this node.
 pub fn named_child_count(&self) -> usize
 ```
 
-#### child_by_field_name()
+**Example:**
+
+```rust
+let result = instance.named_child_count();
+```
+
+**Returns:** `usize`
+
+###### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1687,21 @@ Look up a child by its grammar-defined field name.
 pub fn child_by_field_name(&self, name: &str) -> Option<Node>
 ```
 
-#### to_sexp()
+**Example:**
+
+```rust
+let result = instance.child_by_field_name("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Option<Node>`
+
+###### to_sexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1711,15 @@ Return the S-expression form of this node's subtree.
 pub fn to_sexp(&self) -> String
 ```
 
-#### walk()
+**Example:**
+
+```rust
+let result = instance.to_sexp();
+```
+
+**Returns:** `String`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1728,14 @@ Return a `TreeCursor` positioned at this node.
 ```rust
 pub fn walk(&self) -> TreeCursor
 ```
+
+**Example:**
+
+```rust
+let result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1759,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1773,15 @@ Call `Parser.set_language` before parsing.
 pub fn new() -> Parser
 ```
 
-#### set_language()
+**Example:**
+
+```rust
+let result = Parser::new();
+```
+
+**Returns:** `Parser`
+
+###### set_language()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1229,10 +1796,26 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 **Signature:**
 
 ```rust
-pub fn set_language(&self, name: &str)
+pub fn set_language(&self, name: &str) -> Result<(), Error>
 ```
 
-#### parse()
+**Example:**
+
+```rust
+instance.set_language("value")?;
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Returns `Err(Error)`.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `None` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1826,21 @@ or no language is set.
 pub fn parse(&self, source: &str) -> Option<Tree>
 ```
 
-#### parse_bytes()
+**Example:**
+
+```rust
+let result = instance.parse("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+
+**Returns:** `Option<Tree>`
+
+###### parse_bytes()
 
 Parse a raw byte slice. Returns `None` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1851,21 @@ no language is set.
 pub fn parse_bytes(&self, source: &[u8]) -> Option<Tree>
 ```
 
-#### reset()
+**Example:**
+
+```rust
+let result = instance.parse_bytes(b"data");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `Vec<u8>` | Yes | The source |
+
+**Returns:** `Option<Tree>`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1876,29 @@ not be incremental.
 pub fn reset(&self)
 ```
 
-#### default()
+**Example:**
+
+```rust
+instance.reset();
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
 ```rust
 pub fn default() -> Parser
 ```
+
+**Example:**
+
+```rust
+let result = Parser::default();
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1932,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunk_max_size` | `Option<usize>` | `None` | Maximum chunk size in bytes. `None` disables chunking. |
 | `data_extraction` | `bool` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `None`. |
 
-### Methods
+##### Methods
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1315,7 +1942,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 pub fn default() -> ProcessConfig
 ```
 
-#### with_chunking()
+**Example:**
+
+```rust
+let result = ProcessConfig::default();
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1960,21 @@ Enable chunking with the given maximum chunk size in bytes.
 pub fn with_chunking(&self, max_size: usize) -> ProcessConfig
 ```
 
-#### all()
+**Example:**
+
+```rust
+let result = instance.with_chunking(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `max_size` | `usize` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1335,7 +1984,15 @@ Enable all analysis features.
 pub fn all(&self) -> ProcessConfig
 ```
 
-#### minimal()
+**Example:**
+
+```rust
+let result = instance.all();
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +2002,15 @@ Disable all analysis features (only metrics computed).
 pub fn minimal(&self) -> ProcessConfig
 ```
 
-#### with_data_extraction()
+**Example:**
+
+```rust
+let result = instance.minimal();
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_data_extraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +2022,20 @@ populated with a key/value tree for supported data-format languages.
 ```rust
 pub fn with_data_extraction(&self, enabled: bool) -> ProcessConfig
 ```
+
+**Example:**
+
+```rust
+let result = instance.with_data_extraction(true);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `bool` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2117,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### root_node()
+###### root_node()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2129,15 @@ Return the root `Node` of this tree.
 pub fn root_node(&self) -> Node
 ```
 
-#### walk()
+**Example:**
+
+```rust
+let result = instance.root_node();
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2147,23 @@ Return a `TreeCursor` positioned at the root.
 pub fn walk(&self) -> TreeCursor
 ```
 
+**Example:**
+
+```rust
+let result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2173,15 @@ Return the `Node` at the cursor's current position.
 pub fn node(&self) -> Node
 ```
 
-#### goto_first_child()
+**Example:**
+
+```rust
+let result = instance.node();
+```
+
+**Returns:** `Node`
+
+###### goto_first_child()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2192,15 @@ Returns `true` if a child existed.
 pub fn goto_first_child(&self) -> bool
 ```
 
-#### goto_parent()
+**Example:**
+
+```rust
+let result = instance.goto_first_child();
+```
+
+**Returns:** `bool`
+
+###### goto_parent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2211,15 @@ Returns `true` if a parent existed.
 pub fn goto_parent(&self) -> bool
 ```
 
-#### goto_next_sibling()
+**Example:**
+
+```rust
+let result = instance.goto_parent();
+```
+
+**Returns:** `bool`
+
+###### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2230,15 @@ Returns `true` if a sibling existed.
 pub fn goto_next_sibling(&self) -> bool
 ```
 
-#### field_name()
+**Example:**
+
+```rust
+let result = instance.goto_next_sibling();
+```
+
+**Returns:** `bool`
+
+###### field_name()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2247,14 @@ Return the field name for the current node, if any.
 ```rust
 pub fn field_name(&self) -> Option<String>
 ```
+
+**Example:**
+
+```rust
+let result = instance.field_name();
+```
+
+**Returns:** `Option<String>`
 
 ---
 

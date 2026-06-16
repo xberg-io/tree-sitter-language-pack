@@ -2,7 +2,7 @@
 title: "Java API Reference"
 ---
 
-## Java API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Java API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 
 ```java
 public static Optional<String> detectLanguageFromExtension(String ext)
+```
+
+**Example:**
+
+```java
+var result = detectLanguageFromExtension("value");
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```java
 public static Optional<String> detectLanguageFromPath(String path)
+```
+
+**Example:**
+
+```java
+var result = detectLanguageFromPath("value");
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 public static Optional<String> detectLanguageFromContent(String content)
 ```
 
+**Example:**
+
+```java
+var result = detectLanguageFromContent("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```java
 public static Optional<String> getHighlightsQuery(String language)
+```
+
+**Example:**
+
+```java
+var result = getHighlightsQuery("value");
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 public static Optional<String> getInjectionsQuery(String language)
 ```
 
+**Example:**
+
+```java
+var result = getInjectionsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 public static Optional<String> getLocalsQuery(String language)
 ```
 
+**Example:**
+
+```java
+var result = getLocalsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```java
 public static Optional<String> getTagsQuery(String language)
+```
+
+**Example:**
+
+```java
+var result = getTagsQuery("value");
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 public static Language getLanguage(String name) throws Error
 ```
 
+**Example:**
+
+```java
+var result = getLanguage("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ public static Language getLanguage(String name) throws Error
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 public static Parser getParser(String name) throws Error
 ```
 
+**Example:**
+
+```java
+var result = getParser("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ public static Parser getParser(String name) throws Error
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```java
 public static Optional<String> detectLanguage(String path)
+```
+
+**Example:**
+
+```java
+var result = detectLanguage("value");
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 public static List<String> availableLanguages()
 ```
 
+**Example:**
+
+```java
+var result = availableLanguages();
+```
+
 **Returns:** `List<String>`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```java
 public static boolean hasLanguage(String name)
+```
+
+**Example:**
+
+```java
+var result = hasLanguage("value");
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 public static long languageCount()
 ```
 
+**Example:**
+
+```java
+var result = languageCount();
+```
+
 **Returns:** `long`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 public static ProcessResult process(String source, ProcessConfig config) throws Error
 ```
 
+**Example:**
+
+```java
+var result = process("value", new ProcessConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ public static ProcessResult process(String source, ProcessConfig config) throws 
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 public static void init(PackConfig config) throws Error
 ```
 
+**Example:**
+
+```java
+init(new PackConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 public static void configure(PackConfig config) throws Error
 ```
 
+**Example:**
+
+```java
+configure(new PackConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 public static long download(List<String> names) throws Error
 ```
 
+**Example:**
+
+```java
+var result = download(List.of());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ public static long download(List<String> names) throws Error
 | `names` | `List<String>` | Yes | The names |
 
 **Returns:** `long`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 public static long downloadAll() throws Error
 ```
 
+**Example:**
+
+```java
+var result = downloadAll();
+```
+
 **Returns:** `long`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 public static long downloadGroup(String name) throws Error
 ```
 
+**Example:**
+
+```java
+var result = downloadGroup("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ public static long downloadGroup(String name) throws Error
 | `name` | `String` | Yes | The name |
 
 **Returns:** `long`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 public static List<String> manifestLanguages() throws Error
 ```
 
+**Example:**
+
+```java
+var result = manifestLanguages();
+```
+
 **Returns:** `List<String>`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```java
 public static List<String> downloadedLanguages()
+```
+
+**Example:**
+
+```java
+var result = downloadedLanguages();
 ```
 
 **Returns:** `List<String>`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 public static void cleanCache() throws Error
 ```
 
-**Returns:** `void`
+**Example:**
+
+```java
+cleanCache();
+```
+
+**Returns:** No return value.
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 public static String cacheDir() throws Error
 ```
 
+**Example:**
+
+```java
+var result = cacheDir();
+```
+
 **Returns:** `String`
+
 **Errors:** Throws `ErrorException`.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -733,7 +882,23 @@ Create a new download manager for the given version.
 public static DownloadManager new(String version) throws Error
 ```
 
-#### installedLanguages()
+**Example:**
+
+```java
+var result = DownloadManager.new("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `String` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Throws `ErrorException`.
+
+###### installedLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +908,15 @@ List languages that are already downloaded and cached.
 public List<String> installedLanguages()
 ```
 
-#### downloadAllBestEffort()
+**Example:**
+
+```java
+var result = instance.installedLanguages();
+```
+
+**Returns:** `List<String>`
+
+###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +933,17 @@ Returns the number of library files extracted (including those already cached).
 public long downloadAllBestEffort() throws Error
 ```
 
-#### cleanCache()
+**Example:**
+
+```java
+var result = instance.downloadAllBestEffort();
+```
+
+**Returns:** `long`
+
+**Errors:** Throws `ErrorException`.
+
+###### cleanCache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +959,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```java
 public void cleanCache() throws Error
 ```
+
+**Example:**
+
+```java
+instance.cleanCache();
+```
+
+**Returns:** No return value.
+
+**Errors:** Throws `ErrorException`.
 
 ---
 
@@ -835,9 +1028,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1043,15 @@ about dynamically loadable grammars and will load them on demand.
 public static LanguageRegistry new()
 ```
 
-#### getLanguage()
+**Example:**
+
+```java
+var result = LanguageRegistry.new();
+```
+
+**Returns:** `LanguageRegistry`
+
+###### getLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1070,23 @@ does not match any known grammar.
 public Language getLanguage(String name) throws Error
 ```
 
-#### availableLanguages()
+**Example:**
+
+```java
+var result = instance.getLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Throws `ErrorException`.
+
+###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1099,15 @@ Includes statically compiled languages, dynamically loadable languages
 public List<String> availableLanguages()
 ```
 
-#### hasParser()
+**Example:**
+
+```java
+var result = instance.availableLanguages();
+```
+
+**Returns:** `List<String>`
+
+###### hasParser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1136,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 public boolean hasParser(String name)
 ```
 
-#### hasLanguage()
+**Example:**
+
+```java
+var result = instance.hasParser("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `boolean`
+
+###### hasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1163,21 @@ table or from a dynamic library on disk.
 public boolean hasLanguage(String name)
 ```
 
-#### languageCount()
+**Example:**
+
+```java
+var result = instance.hasLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `boolean`
+
+###### languageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1187,15 @@ Return the total number of available languages (including aliases).
 public long languageCount()
 ```
 
-#### process()
+**Example:**
+
+```java
+var result = instance.languageCount();
+```
+
+**Returns:** `long`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1205,38 @@ Parse source code and extract file intelligence based on config in a single pass
 public ProcessResult process(String source, ProcessConfig config) throws Error
 ```
 
-#### defaultOptions()
+**Example:**
+
+```java
+var result = instance.process("value", new ProcessConfig());
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Throws `ErrorException`.
+
+###### defaultOptions()
 
 **Signature:**
 
 ```java
 public static LanguageRegistry defaultOptions()
 ```
+
+**Example:**
+
+```java
+var result = LanguageRegistry.defaultOptions();
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1247,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -971,7 +1257,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 public Node clone()
 ```
 
-#### kind()
+**Example:**
+
+```java
+var result = instance.clone();
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1275,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 public String kind()
 ```
 
-#### kindId()
+**Example:**
+
+```java
+var result = instance.kind();
+```
+
+**Returns:** `String`
+
+###### kindId()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1297,15 @@ than comparing the string `kind()` in tight AST loops.
 public short kindId()
 ```
 
-#### startByte()
+**Example:**
+
+```java
+var result = instance.kindId();
+```
+
+**Returns:** `short`
+
+###### startByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1315,15 @@ Return the inclusive start byte offset of this node.
 public long startByte()
 ```
 
-#### endByte()
+**Example:**
+
+```java
+var result = instance.startByte();
+```
+
+**Returns:** `long`
+
+###### endByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1333,15 @@ Return the exclusive end byte offset of this node.
 public long endByte()
 ```
 
-#### byteRange()
+**Example:**
+
+```java
+var result = instance.endByte();
+```
+
+**Returns:** `long`
+
+###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1354,15 @@ text accessor.
 public ByteRange byteRange()
 ```
 
-#### startPosition()
+**Example:**
+
+```java
+var result = instance.byteRange();
+```
+
+**Returns:** `ByteRange`
+
+###### startPosition()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1372,15 @@ Return the start `Point` (row, column).
 public Point startPosition()
 ```
 
-#### endPosition()
+**Example:**
+
+```java
+var result = instance.startPosition();
+```
+
+**Returns:** `Point`
+
+###### endPosition()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1390,15 @@ Return the end `Point` (row, column).
 public Point endPosition()
 ```
 
-#### isNamed()
+**Example:**
+
+```java
+var result = instance.endPosition();
+```
+
+**Returns:** `Point`
+
+###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1408,15 @@ True when this node is named (not punctuation/whitespace).
 public boolean isNamed()
 ```
 
-#### isError()
+**Example:**
+
+```java
+var result = instance.isNamed();
+```
+
+**Returns:** `boolean`
+
+###### isError()
 
 True when this is an error node.
 
@@ -1068,7 +1426,15 @@ True when this is an error node.
 public boolean isError()
 ```
 
-#### isMissing()
+**Example:**
+
+```java
+var result = instance.isError();
+```
+
+**Returns:** `boolean`
+
+###### isMissing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1444,15 @@ True when this is a missing-token node.
 public boolean isMissing()
 ```
 
-#### isExtra()
+**Example:**
+
+```java
+var result = instance.isMissing();
+```
+
+**Returns:** `boolean`
+
+###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1462,15 @@ True when this is an "extra" node (e.g. a comment).
 public boolean isExtra()
 ```
 
-#### hasError()
+**Example:**
+
+```java
+var result = instance.isExtra();
+```
+
+**Returns:** `boolean`
+
+###### hasError()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1480,15 @@ True when this node or any descendant is an error.
 public boolean hasError()
 ```
 
-#### parent()
+**Example:**
+
+```java
+var result = instance.hasError();
+```
+
+**Returns:** `boolean`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1498,15 @@ Return this node's parent, if any.
 public Optional<Node> parent()
 ```
 
-#### child()
+**Example:**
+
+```java
+var result = instance.parent();
+```
+
+**Returns:** `Optional<Node>`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1516,21 @@ Return the i-th child of this node, if any.
 public Optional<Node> child(int index)
 ```
 
-#### childCount()
+**Example:**
+
+```java
+var result = instance.child(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `int` | Yes | The index |
+
+**Returns:** `Optional<Node>`
+
+###### childCount()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1540,15 @@ Total number of children (including unnamed).
 public long childCount()
 ```
 
-#### namedChild()
+**Example:**
+
+```java
+var result = instance.childCount();
+```
+
+**Returns:** `long`
+
+###### namedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1558,21 @@ Return the i-th named child of this node, if any.
 public Optional<Node> namedChild(int index)
 ```
 
-#### namedChildCount()
+**Example:**
+
+```java
+var result = instance.namedChild(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `int` | Yes | The index |
+
+**Returns:** `Optional<Node>`
+
+###### namedChildCount()
 
 Number of named children of this node.
 
@@ -1148,7 +1582,15 @@ Number of named children of this node.
 public long namedChildCount()
 ```
 
-#### childByFieldName()
+**Example:**
+
+```java
+var result = instance.namedChildCount();
+```
+
+**Returns:** `long`
+
+###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1600,21 @@ Look up a child by its grammar-defined field name.
 public Optional<Node> childByFieldName(String name)
 ```
 
-#### toSexp()
+**Example:**
+
+```java
+var result = instance.childByFieldName("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Optional<Node>`
+
+###### toSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1624,15 @@ Return the S-expression form of this node's subtree.
 public String toSexp()
 ```
 
-#### walk()
+**Example:**
+
+```java
+var result = instance.toSexp();
+```
+
+**Returns:** `String`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1641,14 @@ Return a `TreeCursor` positioned at this node.
 ```java
 public TreeCursor walk()
 ```
+
+**Example:**
+
+```java
+var result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1672,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1686,15 @@ Call `Parser.set_language` before parsing.
 public static Parser new()
 ```
 
-#### setLanguage()
+**Example:**
+
+```java
+var result = Parser.new();
+```
+
+**Returns:** `Parser`
+
+###### setLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1712,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 public void setLanguage(String name) throws Error
 ```
 
-#### parse()
+**Example:**
+
+```java
+instance.setLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Throws `ErrorException`.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1739,21 @@ or no language is set.
 public Optional<Tree> parse(String source)
 ```
 
-#### parseBytes()
+**Example:**
+
+```java
+var result = instance.parse("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+
+**Returns:** `Optional<Tree>`
+
+###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1764,21 @@ no language is set.
 public Optional<Tree> parseBytes(byte[] source)
 ```
 
-#### reset()
+**Example:**
+
+```java
+var result = instance.parseBytes("data".getBytes());
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `byte[]` | Yes | The source |
+
+**Returns:** `Optional<Tree>`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1789,29 @@ not be incremental.
 public void reset()
 ```
 
-#### defaultOptions()
+**Example:**
+
+```java
+instance.reset();
+```
+
+**Returns:** No return value.
+
+###### defaultOptions()
 
 **Signature:**
 
 ```java
 public static Parser defaultOptions()
 ```
+
+**Example:**
+
+```java
+var result = Parser.defaultOptions();
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1845,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunkMaxSize` | `Optional<Long>` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 | `dataExtraction` | `boolean` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `null`. |
 
-### Methods
+##### Methods
 
-#### defaultOptions()
+###### defaultOptions()
 
 **Signature:**
 
@@ -1315,7 +1855,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 public static ProcessConfig defaultOptions()
 ```
 
-#### withChunking()
+**Example:**
+
+```java
+var result = ProcessConfig.defaultOptions();
+```
+
+**Returns:** `ProcessConfig`
+
+###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1873,21 @@ Enable chunking with the given maximum chunk size in bytes.
 public ProcessConfig withChunking(long maxSize)
 ```
 
-#### all()
+**Example:**
+
+```java
+var result = instance.withChunking(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `maxSize` | `long` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1335,7 +1897,15 @@ Enable all analysis features.
 public ProcessConfig all()
 ```
 
-#### minimal()
+**Example:**
+
+```java
+var result = instance.all();
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1915,15 @@ Disable all analysis features (only metrics computed).
 public ProcessConfig minimal()
 ```
 
-#### withDataExtraction()
+**Example:**
+
+```java
+var result = instance.minimal();
+```
+
+**Returns:** `ProcessConfig`
+
+###### withDataExtraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1935,20 @@ populated with a key/value tree for supported data-format languages.
 ```java
 public ProcessConfig withDataExtraction(boolean enabled)
 ```
+
+**Example:**
+
+```java
+var result = instance.withDataExtraction(true);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `boolean` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2030,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### rootNode()
+###### rootNode()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2042,15 @@ Return the root `Node` of this tree.
 public Node rootNode()
 ```
 
-#### walk()
+**Example:**
+
+```java
+var result = instance.rootNode();
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2060,23 @@ Return a `TreeCursor` positioned at the root.
 public TreeCursor walk()
 ```
 
+**Example:**
+
+```java
+var result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2086,15 @@ Return the `Node` at the cursor's current position.
 public Node node()
 ```
 
-#### gotoFirstChild()
+**Example:**
+
+```java
+var result = instance.node();
+```
+
+**Returns:** `Node`
+
+###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2105,15 @@ Returns `true` if a child existed.
 public boolean gotoFirstChild()
 ```
 
-#### gotoParent()
+**Example:**
+
+```java
+var result = instance.gotoFirstChild();
+```
+
+**Returns:** `boolean`
+
+###### gotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2124,15 @@ Returns `true` if a parent existed.
 public boolean gotoParent()
 ```
 
-#### gotoNextSibling()
+**Example:**
+
+```java
+var result = instance.gotoParent();
+```
+
+**Returns:** `boolean`
+
+###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2143,15 @@ Returns `true` if a sibling existed.
 public boolean gotoNextSibling()
 ```
 
-#### fieldName()
+**Example:**
+
+```java
+var result = instance.gotoNextSibling();
+```
+
+**Returns:** `boolean`
+
+###### fieldName()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2160,14 @@ Return the field name for the current node, if any.
 ```java
 public Optional<String> fieldName()
 ```
+
+**Example:**
+
+```java
+var result = instance.fieldName();
+```
+
+**Returns:** `Optional<String>`
 
 ---
 

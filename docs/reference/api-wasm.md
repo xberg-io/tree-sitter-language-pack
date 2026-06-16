@@ -2,7 +2,7 @@
 title: "WebAssembly API Reference"
 ---
 
-## WebAssembly API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## WebAssembly API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 
 ```typescript
 function detectLanguageFromExtension(ext: string): string | null
+```
+
+**Example:**
+
+```typescript
+const result = detectLanguageFromExtension("value");
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```typescript
 function detectLanguageFromPath(path: string): string | null
+```
+
+**Example:**
+
+```typescript
+const result = detectLanguageFromPath("value");
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 function detectLanguageFromContent(content: string): string | null
 ```
 
+**Example:**
+
+```typescript
+const result = detectLanguageFromContent("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```typescript
 function getHighlightsQuery(language: string): string | null
+```
+
+**Example:**
+
+```typescript
+const result = getHighlightsQuery("value");
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 function getInjectionsQuery(language: string): string | null
 ```
 
+**Example:**
+
+```typescript
+const result = getInjectionsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 function getLocalsQuery(language: string): string | null
 ```
 
+**Example:**
+
+```typescript
+const result = getLocalsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```typescript
 function getTagsQuery(language: string): string | null
+```
+
+**Example:**
+
+```typescript
+const result = getTagsQuery("value");
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 function getLanguage(name: string): Language
 ```
 
+**Example:**
+
+```typescript
+const result = getLanguage("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ function getLanguage(name: string): Language
 | `name` | `string` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 function getParser(name: string): Parser
 ```
 
+**Example:**
+
+```typescript
+const result = getParser("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ function getParser(name: string): Parser
 | `name` | `string` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```typescript
 function detectLanguage(path: string): string | null
+```
+
+**Example:**
+
+```typescript
+const result = detectLanguage("value");
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 function availableLanguages(): Array<string>
 ```
 
+**Example:**
+
+```typescript
+const result = availableLanguages();
+```
+
 **Returns:** `Array<string>`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```typescript
 function hasLanguage(name: string): boolean
+```
+
+**Example:**
+
+```typescript
+const result = hasLanguage("value");
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 function languageCount(): number
 ```
 
+**Example:**
+
+```typescript
+const result = languageCount();
+```
+
 **Returns:** `number`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 function process(source: string, config: ProcessConfig): ProcessResult
 ```
 
+**Example:**
+
+```typescript
+const result = process("value", new ProcessConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ function process(source: string, config: ProcessConfig): ProcessResult
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 function init(config: PackConfig): void
 ```
 
+**Example:**
+
+```typescript
+init(new PackConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 function configure(config: PackConfig): void
 ```
 
+**Example:**
+
+```typescript
+configure(new PackConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 function download(names: Array<string>): number
 ```
 
+**Example:**
+
+```typescript
+const result = download([]);
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ function download(names: Array<string>): number
 | `names` | `Array<string>` | Yes | The names |
 
 **Returns:** `number`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 function downloadAll(): number
 ```
 
+**Example:**
+
+```typescript
+const result = downloadAll();
+```
+
 **Returns:** `number`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 function downloadGroup(name: string): number
 ```
 
+**Example:**
+
+```typescript
+const result = downloadGroup("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ function downloadGroup(name: string): number
 | `name` | `string` | Yes | The name |
 
 **Returns:** `number`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 function manifestLanguages(): Array<string>
 ```
 
+**Example:**
+
+```typescript
+const result = manifestLanguages();
+```
+
 **Returns:** `Array<string>`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```typescript
 function downloadedLanguages(): Array<string>
+```
+
+**Example:**
+
+```typescript
+const result = downloadedLanguages();
 ```
 
 **Returns:** `Array<string>`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 function cleanCache(): void
 ```
 
-**Returns:** `void`
+**Example:**
+
+```typescript
+cleanCache();
+```
+
+**Returns:** No return value.
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 function cacheDir(): string
 ```
 
+**Example:**
+
+```typescript
+const result = cacheDir();
+```
+
 **Returns:** `string`
+
 **Errors:** Throws `Error` with a descriptive message.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -733,7 +882,23 @@ Create a new download manager for the given version.
 static new(version: string): DownloadManager
 ```
 
-#### installedLanguages()
+**Example:**
+
+```typescript
+const result = DownloadManager.new("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `string` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Throws `Error` with a descriptive message.
+
+###### installedLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +908,15 @@ List languages that are already downloaded and cached.
 installedLanguages(): Array<string>
 ```
 
-#### downloadAllBestEffort()
+**Example:**
+
+```typescript
+const result = instance.installedLanguages();
+```
+
+**Returns:** `Array<string>`
+
+###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +933,17 @@ Returns the number of library files extracted (including those already cached).
 downloadAllBestEffort(): number
 ```
 
-#### cleanCache()
+**Example:**
+
+```typescript
+const result = instance.downloadAllBestEffort();
+```
+
+**Returns:** `number`
+
+**Errors:** Throws `Error` with a descriptive message.
+
+###### cleanCache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +959,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```typescript
 cleanCache(): void
 ```
+
+**Example:**
+
+```typescript
+instance.cleanCache();
+```
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error` with a descriptive message.
 
 ---
 
@@ -835,9 +1028,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1043,15 @@ about dynamically loadable grammars and will load them on demand.
 static new(): LanguageRegistry
 ```
 
-#### getLanguage()
+**Example:**
+
+```typescript
+const result = LanguageRegistry.new();
+```
+
+**Returns:** `LanguageRegistry`
+
+###### getLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1070,23 @@ does not match any known grammar.
 getLanguage(name: string): Language
 ```
 
-#### availableLanguages()
+**Example:**
+
+```typescript
+const result = instance.getLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Throws `Error` with a descriptive message.
+
+###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1099,15 @@ Includes statically compiled languages, dynamically loadable languages
 availableLanguages(): Array<string>
 ```
 
-#### hasParser()
+**Example:**
+
+```typescript
+const result = instance.availableLanguages();
+```
+
+**Returns:** `Array<string>`
+
+###### hasParser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1136,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 hasParser(name: string): boolean
 ```
 
-#### hasLanguage()
+**Example:**
+
+```typescript
+const result = instance.hasParser("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
+
+**Returns:** `boolean`
+
+###### hasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1163,21 @@ table or from a dynamic library on disk.
 hasLanguage(name: string): boolean
 ```
 
-#### languageCount()
+**Example:**
+
+```typescript
+const result = instance.hasLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
+
+**Returns:** `boolean`
+
+###### languageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1187,15 @@ Return the total number of available languages (including aliases).
 languageCount(): number
 ```
 
-#### process()
+**Example:**
+
+```typescript
+const result = instance.languageCount();
+```
+
+**Returns:** `number`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1205,38 @@ Parse source code and extract file intelligence based on config in a single pass
 process(source: string, config: ProcessConfig): ProcessResult
 ```
 
-#### default()
+**Example:**
+
+```typescript
+const result = instance.process("value", new ProcessConfig());
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `string` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Throws `Error` with a descriptive message.
+
+###### default()
 
 **Signature:**
 
 ```typescript
 static default(): LanguageRegistry
 ```
+
+**Example:**
+
+```typescript
+const result = LanguageRegistry.default();
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1247,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -971,7 +1257,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 clone(): Node
 ```
 
-#### kind()
+**Example:**
+
+```typescript
+const result = instance.clone();
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1275,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 kind(): string
 ```
 
-#### kindId()
+**Example:**
+
+```typescript
+const result = instance.kind();
+```
+
+**Returns:** `string`
+
+###### kindId()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1297,15 @@ than comparing the string `kind()` in tight AST loops.
 kindId(): number
 ```
 
-#### startByte()
+**Example:**
+
+```typescript
+const result = instance.kindId();
+```
+
+**Returns:** `number`
+
+###### startByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1315,15 @@ Return the inclusive start byte offset of this node.
 startByte(): number
 ```
 
-#### endByte()
+**Example:**
+
+```typescript
+const result = instance.startByte();
+```
+
+**Returns:** `number`
+
+###### endByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1333,15 @@ Return the exclusive end byte offset of this node.
 endByte(): number
 ```
 
-#### byteRange()
+**Example:**
+
+```typescript
+const result = instance.endByte();
+```
+
+**Returns:** `number`
+
+###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1354,15 @@ text accessor.
 byteRange(): ByteRange
 ```
 
-#### startPosition()
+**Example:**
+
+```typescript
+const result = instance.byteRange();
+```
+
+**Returns:** `ByteRange`
+
+###### startPosition()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1372,15 @@ Return the start `Point` (row, column).
 startPosition(): Point
 ```
 
-#### endPosition()
+**Example:**
+
+```typescript
+const result = instance.startPosition();
+```
+
+**Returns:** `Point`
+
+###### endPosition()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1390,15 @@ Return the end `Point` (row, column).
 endPosition(): Point
 ```
 
-#### isNamed()
+**Example:**
+
+```typescript
+const result = instance.endPosition();
+```
+
+**Returns:** `Point`
+
+###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1408,15 @@ True when this node is named (not punctuation/whitespace).
 isNamed(): boolean
 ```
 
-#### isError()
+**Example:**
+
+```typescript
+const result = instance.isNamed();
+```
+
+**Returns:** `boolean`
+
+###### isError()
 
 True when this is an error node.
 
@@ -1068,7 +1426,15 @@ True when this is an error node.
 isError(): boolean
 ```
 
-#### isMissing()
+**Example:**
+
+```typescript
+const result = instance.isError();
+```
+
+**Returns:** `boolean`
+
+###### isMissing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1444,15 @@ True when this is a missing-token node.
 isMissing(): boolean
 ```
 
-#### isExtra()
+**Example:**
+
+```typescript
+const result = instance.isMissing();
+```
+
+**Returns:** `boolean`
+
+###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1462,15 @@ True when this is an "extra" node (e.g. a comment).
 isExtra(): boolean
 ```
 
-#### hasError()
+**Example:**
+
+```typescript
+const result = instance.isExtra();
+```
+
+**Returns:** `boolean`
+
+###### hasError()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1480,15 @@ True when this node or any descendant is an error.
 hasError(): boolean
 ```
 
-#### parent()
+**Example:**
+
+```typescript
+const result = instance.hasError();
+```
+
+**Returns:** `boolean`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1498,15 @@ Return this node's parent, if any.
 parent(): Node | null
 ```
 
-#### child()
+**Example:**
+
+```typescript
+const result = instance.parent();
+```
+
+**Returns:** `Node | null`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1516,21 @@ Return the i-th child of this node, if any.
 child(index: number): Node | null
 ```
 
-#### childCount()
+**Example:**
+
+```typescript
+const result = instance.child(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `number` | Yes | The index |
+
+**Returns:** `Node | null`
+
+###### childCount()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1540,15 @@ Total number of children (including unnamed).
 childCount(): number
 ```
 
-#### namedChild()
+**Example:**
+
+```typescript
+const result = instance.childCount();
+```
+
+**Returns:** `number`
+
+###### namedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1558,21 @@ Return the i-th named child of this node, if any.
 namedChild(index: number): Node | null
 ```
 
-#### namedChildCount()
+**Example:**
+
+```typescript
+const result = instance.namedChild(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `number` | Yes | The index |
+
+**Returns:** `Node | null`
+
+###### namedChildCount()
 
 Number of named children of this node.
 
@@ -1148,7 +1582,15 @@ Number of named children of this node.
 namedChildCount(): number
 ```
 
-#### childByFieldName()
+**Example:**
+
+```typescript
+const result = instance.namedChildCount();
+```
+
+**Returns:** `number`
+
+###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1600,21 @@ Look up a child by its grammar-defined field name.
 childByFieldName(name: string): Node | null
 ```
 
-#### toSexp()
+**Example:**
+
+```typescript
+const result = instance.childByFieldName("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
+
+**Returns:** `Node | null`
+
+###### toSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1624,15 @@ Return the S-expression form of this node's subtree.
 toSexp(): string
 ```
 
-#### walk()
+**Example:**
+
+```typescript
+const result = instance.toSexp();
+```
+
+**Returns:** `string`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1641,14 @@ Return a `TreeCursor` positioned at this node.
 ```typescript
 walk(): TreeCursor
 ```
+
+**Example:**
+
+```typescript
+const result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1672,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1686,15 @@ Call `Parser.set_language` before parsing.
 static new(): Parser
 ```
 
-#### setLanguage()
+**Example:**
+
+```typescript
+const result = Parser.new();
+```
+
+**Returns:** `Parser`
+
+###### setLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1712,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 setLanguage(name: string): void
 ```
 
-#### parse()
+**Example:**
+
+```typescript
+instance.setLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `string` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error` with a descriptive message.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1739,21 @@ or no language is set.
 parse(source: string): Tree | null
 ```
 
-#### parseBytes()
+**Example:**
+
+```typescript
+const result = instance.parse("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `string` | Yes | The source |
+
+**Returns:** `Tree | null`
+
+###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1764,21 @@ no language is set.
 parseBytes(source: Buffer): Tree | null
 ```
 
-#### reset()
+**Example:**
+
+```typescript
+const result = instance.parseBytes(new Uint8Array([100, 97, 116, 97]));
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `Buffer` | Yes | The source |
+
+**Returns:** `Tree | null`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1789,29 @@ not be incremental.
 reset(): void
 ```
 
-#### default()
+**Example:**
+
+```typescript
+instance.reset();
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
 ```typescript
 static default(): Parser
 ```
+
+**Example:**
+
+```typescript
+const result = Parser.default();
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1845,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunkMaxSize` | `number \| null` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 | `dataExtraction` | `boolean` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `null`. |
 
-### Methods
+##### Methods
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1315,7 +1855,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 static default(): ProcessConfig
 ```
 
-#### withChunking()
+**Example:**
+
+```typescript
+const result = ProcessConfig.default();
+```
+
+**Returns:** `ProcessConfig`
+
+###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1873,21 @@ Enable chunking with the given maximum chunk size in bytes.
 withChunking(maxSize: number): ProcessConfig
 ```
 
-#### all()
+**Example:**
+
+```typescript
+const result = instance.withChunking(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `maxSize` | `number` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1335,7 +1897,15 @@ Enable all analysis features.
 all(): ProcessConfig
 ```
 
-#### minimal()
+**Example:**
+
+```typescript
+const result = instance.all();
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1915,15 @@ Disable all analysis features (only metrics computed).
 minimal(): ProcessConfig
 ```
 
-#### withDataExtraction()
+**Example:**
+
+```typescript
+const result = instance.minimal();
+```
+
+**Returns:** `ProcessConfig`
+
+###### withDataExtraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1935,20 @@ populated with a key/value tree for supported data-format languages.
 ```typescript
 withDataExtraction(enabled: boolean): ProcessConfig
 ```
+
+**Example:**
+
+```typescript
+const result = instance.withDataExtraction(true);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `boolean` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2030,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### rootNode()
+###### rootNode()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2042,15 @@ Return the root `Node` of this tree.
 rootNode(): Node
 ```
 
-#### walk()
+**Example:**
+
+```typescript
+const result = instance.rootNode();
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2060,23 @@ Return a `TreeCursor` positioned at the root.
 walk(): TreeCursor
 ```
 
+**Example:**
+
+```typescript
+const result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2086,15 @@ Return the `Node` at the cursor's current position.
 node(): Node
 ```
 
-#### gotoFirstChild()
+**Example:**
+
+```typescript
+const result = instance.node();
+```
+
+**Returns:** `Node`
+
+###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2105,15 @@ Returns `true` if a child existed.
 gotoFirstChild(): boolean
 ```
 
-#### gotoParent()
+**Example:**
+
+```typescript
+const result = instance.gotoFirstChild();
+```
+
+**Returns:** `boolean`
+
+###### gotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2124,15 @@ Returns `true` if a parent existed.
 gotoParent(): boolean
 ```
 
-#### gotoNextSibling()
+**Example:**
+
+```typescript
+const result = instance.gotoParent();
+```
+
+**Returns:** `boolean`
+
+###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2143,15 @@ Returns `true` if a sibling existed.
 gotoNextSibling(): boolean
 ```
 
-#### fieldName()
+**Example:**
+
+```typescript
+const result = instance.gotoNextSibling();
+```
+
+**Returns:** `boolean`
+
+###### fieldName()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2160,14 @@ Return the field name for the current node, if any.
 ```typescript
 fieldName(): string | null
 ```
+
+**Example:**
+
+```typescript
+const result = instance.fieldName();
+```
+
+**Returns:** `string | null`
 
 ---
 

@@ -1,18 +1,17 @@
 {
-  "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack": "workspace:*",
-    "@types/node": "^22.10.2",
-    "tree-sitter": "^0.25.0",
-    "vitest": "^4.1.5"
-  },
+  "name": "@kreuzberg/tree-sitter-language-pack-e2e-typescript",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
   "engines": {
     "node": "^22 || ^24"
   },
-  "name": "@kreuzberg/tree-sitter-language-pack-e2e-typescript",
-  "private": true,
   "scripts": {
     "test": "vitest run"
   },
-  "type": "module",
-  "version": "0.1.0"
+  "devDependencies": {
+    "@kreuzberg/tree-sitter-language-pack": "workspace:*",
+    "@types/node": "^22.10.2",
+    "vitest": "^4.1.5"
+  }
 }

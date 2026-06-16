@@ -2,7 +2,7 @@
 title: "Go API Reference"
 ---
 
-## Go API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Go API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `nil` for unrecognized extensions. The match is case-insensitive.
 
 ```go
 func DetectLanguageFromExtension(ext string) *string
+```
+
+**Example:**
+
+```go
+result := DetectLanguageFromExtension("value")
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```go
 func DetectLanguageFromPath(path string) *string
+```
+
+**Example:**
+
+```go
+result := DetectLanguageFromPath("value")
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 func DetectLanguageFromContent(content string) *string
 ```
 
+**Example:**
+
+```go
+result := DetectLanguageFromContent("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```go
 func GetHighlightsQuery(language string) *string
+```
+
+**Example:**
+
+```go
+result := GetHighlightsQuery("value")
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 func GetInjectionsQuery(language string) *string
 ```
 
+**Example:**
+
+```go
+result := GetInjectionsQuery("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 func GetLocalsQuery(language string) *string
 ```
 
+**Example:**
+
+```go
+result := GetLocalsQuery("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```go
 func GetTagsQuery(language string) *string
+```
+
+**Example:**
+
+```go
+result := GetTagsQuery("value")
 ```
 
 **Parameters:**
@@ -197,6 +239,15 @@ or `Error.Download` if auto-download fails.
 func GetLanguage(name string) (Language, error)
 ```
 
+**Example:**
+
+```go
+result, err := GetLanguage("value")
+if err != nil {
+    return err
+}
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +255,7 @@ func GetLanguage(name string) (Language, error)
 | `Name` | `string` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Returns `error`.
 
 ---
@@ -226,6 +278,15 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 func GetParser(name string) (Parser, error)
 ```
 
+**Example:**
+
+```go
+result, err := GetParser("value")
+if err != nil {
+    return err
+}
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +294,7 @@ func GetParser(name string) (Parser, error)
 | `Name` | `string` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Returns `error`.
 
 ---
@@ -247,6 +309,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```go
 func DetectLanguage(path string) *string
+```
+
+**Example:**
+
+```go
+result := DetectLanguage("value")
 ```
 
 **Parameters:**
@@ -272,6 +340,12 @@ plus any configured aliases.
 func AvailableLanguages() []string
 ```
 
+**Example:**
+
+```go
+result := AvailableLanguages()
+```
+
 **Returns:** `[]string`
 
 ---
@@ -287,6 +361,12 @@ dynamically available, or a known alias for one of these).
 
 ```go
 func HasLanguage(name string) bool
+```
+
+**Example:**
+
+```go
+result := HasLanguage("value")
 ```
 
 **Parameters:**
@@ -312,6 +392,12 @@ and aliases.
 func LanguageCount() int
 ```
 
+**Example:**
+
+```go
+result := LanguageCount()
+```
+
 **Returns:** `int`
 
 ---
@@ -334,6 +420,15 @@ Returns an error if the language is not found or parsing fails.
 func Process(source string, config ProcessConfig) (ProcessResult, error)
 ```
 
+**Example:**
+
+```go
+result, err := Process("value", ProcessConfig{})
+if err != nil {
+    return err
+}
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +437,7 @@ func Process(source string, config ProcessConfig) (ProcessResult, error)
 | `Config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Returns `error`.
 
 ---
@@ -364,13 +460,22 @@ Returns an error if configuration cannot be applied or if downloads fail.
 func Init(config PackConfig) error
 ```
 
+**Example:**
+
+```go
+if err := Init(PackConfig{}); err != nil {
+    return err
+}
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `Config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** ``
+**Returns:** No return value.
+
 **Errors:** Returns `error`.
 
 ---
@@ -394,13 +499,22 @@ Returns an error if the lock cannot be acquired.
 func Configure(config PackConfig) error
 ```
 
+**Example:**
+
+```go
+if err := Configure(PackConfig{}); err != nil {
+    return err
+}
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `Config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** ``
+**Returns:** No return value.
+
 **Errors:** Returns `error`.
 
 ---
@@ -423,6 +537,15 @@ the download fails.
 func Download(names []string) (int, error)
 ```
 
+**Example:**
+
+```go
+result, err := Download(nil)
+if err != nil {
+    return err
+}
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +553,7 @@ func Download(names []string) (int, error)
 | `Names` | `[]string` | Yes | The names |
 
 **Returns:** `int`
+
 **Errors:** Returns `error`.
 
 ---
@@ -456,7 +580,17 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 func DownloadAll() (int, error)
 ```
 
+**Example:**
+
+```go
+result, err := DownloadAll()
+if err != nil {
+    return err
+}
+```
+
 **Returns:** `int`
+
 **Errors:** Returns `error`.
 
 ---
@@ -483,6 +617,15 @@ or any constituent language fails to download.
 func DownloadGroup(name string) (int, error)
 ```
 
+**Example:**
+
+```go
+result, err := DownloadGroup("value")
+if err != nil {
+    return err
+}
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +633,7 @@ func DownloadGroup(name string) (int, error)
 | `Name` | `string` | Yes | The name |
 
 **Returns:** `int`
+
 **Errors:** Returns `error`.
 
 ---
@@ -512,7 +656,17 @@ Returns an error if the manifest cannot be fetched.
 func ManifestLanguages() ([]string, error)
 ```
 
+**Example:**
+
+```go
+result, err := ManifestLanguages()
+if err != nil {
+    return err
+}
+```
+
 **Returns:** `[]string`
+
 **Errors:** Returns `error`.
 
 ---
@@ -528,6 +682,12 @@ cache directory does not exist or cannot be read.
 
 ```go
 func DownloadedLanguages() []string
+```
+
+**Example:**
+
+```go
+result := DownloadedLanguages()
 ```
 
 **Returns:** `[]string`
@@ -551,7 +711,16 @@ Returns an error if the cache directory cannot be removed.
 func CleanCache() error
 ```
 
-**Returns:** ``
+**Example:**
+
+```go
+if err := CleanCache(); err != nil {
+    return err
+}
+```
+
+**Returns:** No return value.
+
 **Errors:** Returns `error`.
 
 ---
@@ -573,7 +742,17 @@ Returns an error if the system cache directory cannot be determined.
 func CacheDir() (string, error)
 ```
 
+**Example:**
+
+```go
+result, err := CacheDir()
+if err != nil {
+    return err
+}
+```
+
 **Returns:** `string`
+
 **Errors:** Returns `error`.
 
 ---
@@ -721,9 +900,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### New()
+###### New()
 
 Create a new download manager for the given version.
 
@@ -733,7 +912,26 @@ Create a new download manager for the given version.
 func (o *DownloadManager) New(version string) (DownloadManager, error)
 ```
 
-#### InstalledLanguages()
+**Example:**
+
+```go
+result, err := DownloadManager.New("value")
+if err != nil {
+    return err
+}
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Version` | `string` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Returns `error`.
+
+###### InstalledLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +941,15 @@ List languages that are already downloaded and cached.
 func (o *DownloadManager) InstalledLanguages() []string
 ```
 
-#### DownloadAllBestEffort()
+**Example:**
+
+```go
+result := instance.InstalledLanguages()
+```
+
+**Returns:** `[]string`
+
+###### DownloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +966,20 @@ Returns the number of library files extracted (including those already cached).
 func (o *DownloadManager) DownloadAllBestEffort() (int, error)
 ```
 
-#### CleanCache()
+**Example:**
+
+```go
+result, err := instance.DownloadAllBestEffort()
+if err != nil {
+    return err
+}
+```
+
+**Returns:** `int`
+
+**Errors:** Returns `error`.
+
+###### CleanCache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +995,18 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```go
 func (o *DownloadManager) CleanCache() error
 ```
+
+**Example:**
+
+```go
+if err := instance.CleanCache(); err != nil {
+    return err
+}
+```
+
+**Returns:** No return value.
+
+**Errors:** Returns `error`.
 
 ---
 
@@ -835,9 +1066,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### New()
+###### New()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1081,15 @@ about dynamically loadable grammars and will load them on demand.
 func (o *LanguageRegistry) New() LanguageRegistry
 ```
 
-#### GetLanguage()
+**Example:**
+
+```go
+result := LanguageRegistry.New()
+```
+
+**Returns:** `LanguageRegistry`
+
+###### GetLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1108,26 @@ does not match any known grammar.
 func (o *LanguageRegistry) GetLanguage(name string) (Language, error)
 ```
 
-#### AvailableLanguages()
+**Example:**
+
+```go
+result, err := instance.GetLanguage("value")
+if err != nil {
+    return err
+}
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Returns `error`.
+
+###### AvailableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1140,15 @@ Includes statically compiled languages, dynamically loadable languages
 func (o *LanguageRegistry) AvailableLanguages() []string
 ```
 
-#### HasParser()
+**Example:**
+
+```go
+result := instance.AvailableLanguages()
+```
+
+**Returns:** `[]string`
+
+###### HasParser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1177,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 func (o *LanguageRegistry) HasParser(name string) bool
 ```
 
-#### HasLanguage()
+**Example:**
+
+```go
+result := instance.HasParser("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `bool`
+
+###### HasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1204,21 @@ table or from a dynamic library on disk.
 func (o *LanguageRegistry) HasLanguage(name string) bool
 ```
 
-#### LanguageCount()
+**Example:**
+
+```go
+result := instance.HasLanguage("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `bool`
+
+###### LanguageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1228,15 @@ Return the total number of available languages (including aliases).
 func (o *LanguageRegistry) LanguageCount() int
 ```
 
-#### Process()
+**Example:**
+
+```go
+result := instance.LanguageCount()
+```
+
+**Returns:** `int`
+
+###### Process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1246,41 @@ Parse source code and extract file intelligence based on config in a single pass
 func (o *LanguageRegistry) Process(source string, config ProcessConfig) (ProcessResult, error)
 ```
 
-#### Default()
+**Example:**
+
+```go
+result, err := instance.Process("value", ProcessConfig{})
+if err != nil {
+    return err
+}
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Source` | `string` | Yes | The source |
+| `Config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Returns `error`.
+
+###### Default()
 
 **Signature:**
 
 ```go
 func (o *LanguageRegistry) Default() LanguageRegistry
 ```
+
+**Example:**
+
+```go
+result := LanguageRegistry.Default()
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1291,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### Clone()
+###### Clone()
 
 **Signature:**
 
@@ -971,7 +1301,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 func (o *Node) Clone() Node
 ```
 
-#### Kind()
+**Example:**
+
+```go
+result := instance.Clone()
+```
+
+**Returns:** `Node`
+
+###### Kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1319,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 func (o *Node) Kind() string
 ```
 
-#### KindId()
+**Example:**
+
+```go
+result := instance.Kind()
+```
+
+**Returns:** `string`
+
+###### KindId()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1341,15 @@ than comparing the string `kind()` in tight AST loops.
 func (o *Node) KindId() uint16
 ```
 
-#### StartByte()
+**Example:**
+
+```go
+result := instance.KindId()
+```
+
+**Returns:** `uint16`
+
+###### StartByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1359,15 @@ Return the inclusive start byte offset of this node.
 func (o *Node) StartByte() int
 ```
 
-#### EndByte()
+**Example:**
+
+```go
+result := instance.StartByte()
+```
+
+**Returns:** `int`
+
+###### EndByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1377,15 @@ Return the exclusive end byte offset of this node.
 func (o *Node) EndByte() int
 ```
 
-#### ByteRange()
+**Example:**
+
+```go
+result := instance.EndByte()
+```
+
+**Returns:** `int`
+
+###### ByteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1398,15 @@ text accessor.
 func (o *Node) ByteRange() ByteRange
 ```
 
-#### StartPosition()
+**Example:**
+
+```go
+result := instance.ByteRange()
+```
+
+**Returns:** `ByteRange`
+
+###### StartPosition()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1416,15 @@ Return the start `Point` (row, column).
 func (o *Node) StartPosition() Point
 ```
 
-#### EndPosition()
+**Example:**
+
+```go
+result := instance.StartPosition()
+```
+
+**Returns:** `Point`
+
+###### EndPosition()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1434,15 @@ Return the end `Point` (row, column).
 func (o *Node) EndPosition() Point
 ```
 
-#### IsNamed()
+**Example:**
+
+```go
+result := instance.EndPosition()
+```
+
+**Returns:** `Point`
+
+###### IsNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1452,15 @@ True when this node is named (not punctuation/whitespace).
 func (o *Node) IsNamed() bool
 ```
 
-#### IsError()
+**Example:**
+
+```go
+result := instance.IsNamed()
+```
+
+**Returns:** `bool`
+
+###### IsError()
 
 True when this is an error node.
 
@@ -1068,7 +1470,15 @@ True when this is an error node.
 func (o *Node) IsError() bool
 ```
 
-#### IsMissing()
+**Example:**
+
+```go
+result := instance.IsError()
+```
+
+**Returns:** `bool`
+
+###### IsMissing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1488,15 @@ True when this is a missing-token node.
 func (o *Node) IsMissing() bool
 ```
 
-#### IsExtra()
+**Example:**
+
+```go
+result := instance.IsMissing()
+```
+
+**Returns:** `bool`
+
+###### IsExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1506,15 @@ True when this is an "extra" node (e.g. a comment).
 func (o *Node) IsExtra() bool
 ```
 
-#### HasError()
+**Example:**
+
+```go
+result := instance.IsExtra()
+```
+
+**Returns:** `bool`
+
+###### HasError()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1524,15 @@ True when this node or any descendant is an error.
 func (o *Node) HasError() bool
 ```
 
-#### Parent()
+**Example:**
+
+```go
+result := instance.HasError()
+```
+
+**Returns:** `bool`
+
+###### Parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1542,15 @@ Return this node's parent, if any.
 func (o *Node) Parent() *Node
 ```
 
-#### Child()
+**Example:**
+
+```go
+result := instance.Parent()
+```
+
+**Returns:** `*Node`
+
+###### Child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1560,21 @@ Return the i-th child of this node, if any.
 func (o *Node) Child(index uint32) *Node
 ```
 
-#### ChildCount()
+**Example:**
+
+```go
+result := instance.Child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Index` | `uint32` | Yes | The index |
+
+**Returns:** `*Node`
+
+###### ChildCount()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1584,15 @@ Total number of children (including unnamed).
 func (o *Node) ChildCount() int
 ```
 
-#### NamedChild()
+**Example:**
+
+```go
+result := instance.ChildCount()
+```
+
+**Returns:** `int`
+
+###### NamedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1602,21 @@ Return the i-th named child of this node, if any.
 func (o *Node) NamedChild(index uint32) *Node
 ```
 
-#### NamedChildCount()
+**Example:**
+
+```go
+result := instance.NamedChild(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Index` | `uint32` | Yes | The index |
+
+**Returns:** `*Node`
+
+###### NamedChildCount()
 
 Number of named children of this node.
 
@@ -1148,7 +1626,15 @@ Number of named children of this node.
 func (o *Node) NamedChildCount() int
 ```
 
-#### ChildByFieldName()
+**Example:**
+
+```go
+result := instance.NamedChildCount()
+```
+
+**Returns:** `int`
+
+###### ChildByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1644,21 @@ Look up a child by its grammar-defined field name.
 func (o *Node) ChildByFieldName(name string) *Node
 ```
 
-#### ToSexp()
+**Example:**
+
+```go
+result := instance.ChildByFieldName("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `*Node`
+
+###### ToSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1668,15 @@ Return the S-expression form of this node's subtree.
 func (o *Node) ToSexp() string
 ```
 
-#### Walk()
+**Example:**
+
+```go
+result := instance.ToSexp()
+```
+
+**Returns:** `string`
+
+###### Walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1685,14 @@ Return a `TreeCursor` positioned at this node.
 ```go
 func (o *Node) Walk() TreeCursor
 ```
+
+**Example:**
+
+```go
+result := instance.Walk()
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1716,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### New()
+###### New()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1730,15 @@ Call `Parser.set_language` before parsing.
 func (o *Parser) New() Parser
 ```
 
-#### SetLanguage()
+**Example:**
+
+```go
+result := Parser.New()
+```
+
+**Returns:** `Parser`
+
+###### SetLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1756,25 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 func (o *Parser) SetLanguage(name string) error
 ```
 
-#### Parse()
+**Example:**
+
+```go
+if err := instance.SetLanguage("value"); err != nil {
+    return err
+}
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Returns `error`.
+
+###### Parse()
 
 Parse a UTF-8 source string. Returns `nil` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1785,21 @@ or no language is set.
 func (o *Parser) Parse(source string) *Tree
 ```
 
-#### ParseBytes()
+**Example:**
+
+```go
+result := instance.Parse("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Source` | `string` | Yes | The source |
+
+**Returns:** `*Tree`
+
+###### ParseBytes()
 
 Parse a raw byte slice. Returns `nil` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1810,21 @@ no language is set.
 func (o *Parser) ParseBytes(source []byte) *Tree
 ```
 
-#### Reset()
+**Example:**
+
+```go
+result := instance.ParseBytes([]byte("data"))
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Source` | `[]byte` | Yes | The source |
+
+**Returns:** `*Tree`
+
+###### Reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1835,29 @@ not be incremental.
 func (o *Parser) Reset()
 ```
 
-#### Default()
+**Example:**
+
+```go
+instance.Reset()
+```
+
+**Returns:** No return value.
+
+###### Default()
 
 **Signature:**
 
 ```go
 func (o *Parser) Default() Parser
 ```
+
+**Example:**
+
+```go
+result := Parser.Default()
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1891,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `ChunkMaxSize` | `*int` | `nil` | Maximum chunk size in bytes. `nil` disables chunking. |
 | `DataExtraction` | `bool` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `nil`. |
 
-### Methods
+##### Methods
 
-#### Default()
+###### Default()
 
 **Signature:**
 
@@ -1315,7 +1901,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 func (o *ProcessConfig) Default() ProcessConfig
 ```
 
-#### WithChunking()
+**Example:**
+
+```go
+result := ProcessConfig.Default()
+```
+
+**Returns:** `ProcessConfig`
+
+###### WithChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1919,21 @@ Enable chunking with the given maximum chunk size in bytes.
 func (o *ProcessConfig) WithChunking(maxSize int) ProcessConfig
 ```
 
-#### All()
+**Example:**
+
+```go
+result := instance.WithChunking(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `MaxSize` | `int` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### All()
 
 Enable all analysis features.
 
@@ -1335,7 +1943,15 @@ Enable all analysis features.
 func (o *ProcessConfig) All() ProcessConfig
 ```
 
-#### Minimal()
+**Example:**
+
+```go
+result := instance.All()
+```
+
+**Returns:** `ProcessConfig`
+
+###### Minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1961,15 @@ Disable all analysis features (only metrics computed).
 func (o *ProcessConfig) Minimal() ProcessConfig
 ```
 
-#### WithDataExtraction()
+**Example:**
+
+```go
+result := instance.Minimal()
+```
+
+**Returns:** `ProcessConfig`
+
+###### WithDataExtraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1981,20 @@ populated with a key/value tree for supported data-format languages.
 ```go
 func (o *ProcessConfig) WithDataExtraction(enabled bool) ProcessConfig
 ```
+
+**Example:**
+
+```go
+result := instance.WithDataExtraction(true)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Enabled` | `bool` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2076,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### RootNode()
+###### RootNode()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2088,15 @@ Return the root `Node` of this tree.
 func (o *Tree) RootNode() Node
 ```
 
-#### Walk()
+**Example:**
+
+```go
+result := instance.RootNode()
+```
+
+**Returns:** `Node`
+
+###### Walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2106,23 @@ Return a `TreeCursor` positioned at the root.
 func (o *Tree) Walk() TreeCursor
 ```
 
+**Example:**
+
+```go
+result := instance.Walk()
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### Node()
+###### Node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2132,15 @@ Return the `Node` at the cursor's current position.
 func (o *TreeCursor) Node() Node
 ```
 
-#### GotoFirstChild()
+**Example:**
+
+```go
+result := instance.Node()
+```
+
+**Returns:** `Node`
+
+###### GotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2151,15 @@ Returns `true` if a child existed.
 func (o *TreeCursor) GotoFirstChild() bool
 ```
 
-#### GotoParent()
+**Example:**
+
+```go
+result := instance.GotoFirstChild()
+```
+
+**Returns:** `bool`
+
+###### GotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2170,15 @@ Returns `true` if a parent existed.
 func (o *TreeCursor) GotoParent() bool
 ```
 
-#### GotoNextSibling()
+**Example:**
+
+```go
+result := instance.GotoParent()
+```
+
+**Returns:** `bool`
+
+###### GotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2189,15 @@ Returns `true` if a sibling existed.
 func (o *TreeCursor) GotoNextSibling() bool
 ```
 
-#### FieldName()
+**Example:**
+
+```go
+result := instance.GotoNextSibling()
+```
+
+**Returns:** `bool`
+
+###### FieldName()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2206,14 @@ Return the field name for the current node, if any.
 ```go
 func (o *TreeCursor) FieldName() *string
 ```
+
+**Example:**
+
+```go
+result := instance.FieldName()
+```
+
+**Returns:** `*string`
 
 ---
 

@@ -2,7 +2,7 @@
 title: "Ruby API Reference"
 ---
 
-## Ruby API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Ruby API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `nil` for unrecognized extensions. The match is case-insensitive.
 
 ```ruby
 def self.detect_language_from_extension(ext)
+```
+
+**Example:**
+
+```ruby
+result = detect_language_from_extension("value")
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```ruby
 def self.detect_language_from_path(path)
+```
+
+**Example:**
+
+```ruby
+result = detect_language_from_path("value")
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 def self.detect_language_from_content(content)
 ```
 
+**Example:**
+
+```ruby
+result = detect_language_from_content("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```ruby
 def self.get_highlights_query(language)
+```
+
+**Example:**
+
+```ruby
+result = get_highlights_query("value")
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 def self.get_injections_query(language)
 ```
 
+**Example:**
+
+```ruby
+result = get_injections_query("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 def self.get_locals_query(language)
 ```
 
+**Example:**
+
+```ruby
+result = get_locals_query("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```ruby
 def self.get_tags_query(language)
+```
+
+**Example:**
+
+```ruby
+result = get_tags_query("value")
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 def self.get_language(name)
 ```
 
+**Example:**
+
+```ruby
+result = get_language("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ def self.get_language(name)
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 def self.get_parser(name)
 ```
 
+**Example:**
+
+```ruby
+result = get_parser("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ def self.get_parser(name)
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```ruby
 def self.detect_language(path)
+```
+
+**Example:**
+
+```ruby
+result = detect_language("value")
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 def self.available_languages()
 ```
 
+**Example:**
+
+```ruby
+result = available_languages()
+```
+
 **Returns:** `Array<String>`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```ruby
 def self.has_language(name)
+```
+
+**Example:**
+
+```ruby
+result = has_language("value")
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 def self.language_count()
 ```
 
+**Example:**
+
+```ruby
+result = language_count()
+```
+
 **Returns:** `Integer`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 def self.process(source, config)
 ```
 
+**Example:**
+
+```ruby
+result = process("value", ProcessConfig.new)
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ def self.process(source, config)
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 def self.init(config)
 ```
 
+**Example:**
+
+```ruby
+init(PackConfig.new)
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `nil`
+**Returns:** No return value.
+
 **Errors:** Raises `Error`.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 def self.configure(config)
 ```
 
+**Example:**
+
+```ruby
+configure(PackConfig.new)
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `nil`
+**Returns:** No return value.
+
 **Errors:** Raises `Error`.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 def self.download(names)
 ```
 
+**Example:**
+
+```ruby
+result = download([])
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ def self.download(names)
 | `names` | `Array<String>` | Yes | The names |
 
 **Returns:** `Integer`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 def self.download_all()
 ```
 
+**Example:**
+
+```ruby
+result = download_all()
+```
+
 **Returns:** `Integer`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 def self.download_group(name)
 ```
 
+**Example:**
+
+```ruby
+result = download_group("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ def self.download_group(name)
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Integer`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 def self.manifest_languages()
 ```
 
+**Example:**
+
+```ruby
+result = manifest_languages()
+```
+
 **Returns:** `Array<String>`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```ruby
 def self.downloaded_languages()
+```
+
+**Example:**
+
+```ruby
+result = downloaded_languages()
 ```
 
 **Returns:** `Array<String>`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 def self.clean_cache()
 ```
 
-**Returns:** `nil`
+**Example:**
+
+```ruby
+clean_cache()
+```
+
+**Returns:** No return value.
+
 **Errors:** Raises `Error`.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 def self.cache_dir()
 ```
 
+**Example:**
+
+```ruby
+result = cache_dir()
+```
+
 **Returns:** `String`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -733,7 +882,23 @@ Create a new download manager for the given version.
 def self.new(version)
 ```
 
-#### installed_languages()
+**Example:**
+
+```ruby
+result = DownloadManager.new("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `String` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Raises `Error`.
+
+###### installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +908,15 @@ List languages that are already downloaded and cached.
 def installed_languages()
 ```
 
-#### download_all_best_effort()
+**Example:**
+
+```ruby
+result = instance.installed_languages()
+```
+
+**Returns:** `Array<String>`
+
+###### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +933,17 @@ Returns the number of library files extracted (including those already cached).
 def download_all_best_effort()
 ```
 
-#### clean_cache()
+**Example:**
+
+```ruby
+result = instance.download_all_best_effort()
+```
+
+**Returns:** `Integer`
+
+**Errors:** Raises `Error`.
+
+###### clean_cache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +959,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```ruby
 def clean_cache()
 ```
+
+**Example:**
+
+```ruby
+instance.clean_cache()
+```
+
+**Returns:** No return value.
+
+**Errors:** Raises `Error`.
 
 ---
 
@@ -835,9 +1028,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1043,15 @@ about dynamically loadable grammars and will load them on demand.
 def self.new()
 ```
 
-#### get_language()
+**Example:**
+
+```ruby
+result = LanguageRegistry.new()
+```
+
+**Returns:** `LanguageRegistry`
+
+###### get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1070,23 @@ does not match any known grammar.
 def get_language(name)
 ```
 
-#### available_languages()
+**Example:**
+
+```ruby
+result = instance.get_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Raises `Error`.
+
+###### available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1099,15 @@ Includes statically compiled languages, dynamically loadable languages
 def available_languages()
 ```
 
-#### has_parser()
+**Example:**
+
+```ruby
+result = instance.available_languages()
+```
+
+**Returns:** `Array<String>`
+
+###### has_parser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1136,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 def has_parser(name)
 ```
 
-#### has_language()
+**Example:**
+
+```ruby
+result = instance.has_parser("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Boolean`
+
+###### has_language()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1163,21 @@ table or from a dynamic library on disk.
 def has_language(name)
 ```
 
-#### language_count()
+**Example:**
+
+```ruby
+result = instance.has_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Boolean`
+
+###### language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1187,15 @@ Return the total number of available languages (including aliases).
 def language_count()
 ```
 
-#### process()
+**Example:**
+
+```ruby
+result = instance.language_count()
+```
+
+**Returns:** `Integer`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1205,38 @@ Parse source code and extract file intelligence based on config in a single pass
 def process(source, config)
 ```
 
-#### default()
+**Example:**
+
+```ruby
+result = instance.process("value", ProcessConfig.new)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Raises `Error`.
+
+###### default()
 
 **Signature:**
 
 ```ruby
 def self.default()
 ```
+
+**Example:**
+
+```ruby
+result = LanguageRegistry.default()
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1247,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -971,7 +1257,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 def clone()
 ```
 
-#### kind()
+**Example:**
+
+```ruby
+result = instance.clone()
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1275,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 def kind()
 ```
 
-#### kind_id()
+**Example:**
+
+```ruby
+result = instance.kind()
+```
+
+**Returns:** `String`
+
+###### kind_id()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1297,15 @@ than comparing the string `kind()` in tight AST loops.
 def kind_id()
 ```
 
-#### start_byte()
+**Example:**
+
+```ruby
+result = instance.kind_id()
+```
+
+**Returns:** `Integer`
+
+###### start_byte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1315,15 @@ Return the inclusive start byte offset of this node.
 def start_byte()
 ```
 
-#### end_byte()
+**Example:**
+
+```ruby
+result = instance.start_byte()
+```
+
+**Returns:** `Integer`
+
+###### end_byte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1333,15 @@ Return the exclusive end byte offset of this node.
 def end_byte()
 ```
 
-#### byte_range()
+**Example:**
+
+```ruby
+result = instance.end_byte()
+```
+
+**Returns:** `Integer`
+
+###### byte_range()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1354,15 @@ text accessor.
 def byte_range()
 ```
 
-#### start_position()
+**Example:**
+
+```ruby
+result = instance.byte_range()
+```
+
+**Returns:** `ByteRange`
+
+###### start_position()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1372,15 @@ Return the start `Point` (row, column).
 def start_position()
 ```
 
-#### end_position()
+**Example:**
+
+```ruby
+result = instance.start_position()
+```
+
+**Returns:** `Point`
+
+###### end_position()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1390,15 @@ Return the end `Point` (row, column).
 def end_position()
 ```
 
-#### is_named()
+**Example:**
+
+```ruby
+result = instance.end_position()
+```
+
+**Returns:** `Point`
+
+###### is_named()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1408,15 @@ True when this node is named (not punctuation/whitespace).
 def is_named()
 ```
 
-#### is_error()
+**Example:**
+
+```ruby
+result = instance.is_named()
+```
+
+**Returns:** `Boolean`
+
+###### is_error()
 
 True when this is an error node.
 
@@ -1068,7 +1426,15 @@ True when this is an error node.
 def is_error()
 ```
 
-#### is_missing()
+**Example:**
+
+```ruby
+result = instance.is_error()
+```
+
+**Returns:** `Boolean`
+
+###### is_missing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1444,15 @@ True when this is a missing-token node.
 def is_missing()
 ```
 
-#### is_extra()
+**Example:**
+
+```ruby
+result = instance.is_missing()
+```
+
+**Returns:** `Boolean`
+
+###### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1462,15 @@ True when this is an "extra" node (e.g. a comment).
 def is_extra()
 ```
 
-#### has_error()
+**Example:**
+
+```ruby
+result = instance.is_extra()
+```
+
+**Returns:** `Boolean`
+
+###### has_error()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1480,15 @@ True when this node or any descendant is an error.
 def has_error()
 ```
 
-#### parent()
+**Example:**
+
+```ruby
+result = instance.has_error()
+```
+
+**Returns:** `Boolean`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1498,15 @@ Return this node's parent, if any.
 def parent()
 ```
 
-#### child()
+**Example:**
+
+```ruby
+result = instance.parent()
+```
+
+**Returns:** `Node?`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1516,21 @@ Return the i-th child of this node, if any.
 def child(index)
 ```
 
-#### child_count()
+**Example:**
+
+```ruby
+result = instance.child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `Integer` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### child_count()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1540,15 @@ Total number of children (including unnamed).
 def child_count()
 ```
 
-#### named_child()
+**Example:**
+
+```ruby
+result = instance.child_count()
+```
+
+**Returns:** `Integer`
+
+###### named_child()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1558,21 @@ Return the i-th named child of this node, if any.
 def named_child(index)
 ```
 
-#### named_child_count()
+**Example:**
+
+```ruby
+result = instance.named_child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `Integer` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### named_child_count()
 
 Number of named children of this node.
 
@@ -1148,7 +1582,15 @@ Number of named children of this node.
 def named_child_count()
 ```
 
-#### child_by_field_name()
+**Example:**
+
+```ruby
+result = instance.named_child_count()
+```
+
+**Returns:** `Integer`
+
+###### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1600,21 @@ Look up a child by its grammar-defined field name.
 def child_by_field_name(name)
 ```
 
-#### to_sexp()
+**Example:**
+
+```ruby
+result = instance.child_by_field_name("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Node?`
+
+###### to_sexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1624,15 @@ Return the S-expression form of this node's subtree.
 def to_sexp()
 ```
 
-#### walk()
+**Example:**
+
+```ruby
+result = instance.to_sexp()
+```
+
+**Returns:** `String`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1641,14 @@ Return a `TreeCursor` positioned at this node.
 ```ruby
 def walk()
 ```
+
+**Example:**
+
+```ruby
+result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1672,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1686,15 @@ Call `Parser.set_language` before parsing.
 def self.new()
 ```
 
-#### set_language()
+**Example:**
+
+```ruby
+result = Parser.new()
+```
+
+**Returns:** `Parser`
+
+###### set_language()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1712,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 def set_language(name)
 ```
 
-#### parse()
+**Example:**
+
+```ruby
+instance.set_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Raises `Error`.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `nil` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1739,21 @@ or no language is set.
 def parse(source)
 ```
 
-#### parse_bytes()
+**Example:**
+
+```ruby
+result = instance.parse("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### parse_bytes()
 
 Parse a raw byte slice. Returns `nil` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1764,21 @@ no language is set.
 def parse_bytes(source)
 ```
 
-#### reset()
+**Example:**
+
+```ruby
+result = instance.parse_bytes("data")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1789,29 @@ not be incremental.
 def reset()
 ```
 
-#### default()
+**Example:**
+
+```ruby
+instance.reset()
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
 ```ruby
 def self.default()
 ```
+
+**Example:**
+
+```ruby
+result = Parser.default()
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1845,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunk_max_size` | `Integer?` | `nil` | Maximum chunk size in bytes. `nil` disables chunking. |
 | `data_extraction` | `Boolean` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `nil`. |
 
-### Methods
+##### Methods
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1315,7 +1855,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 def self.default()
 ```
 
-#### with_chunking()
+**Example:**
+
+```ruby
+result = ProcessConfig.default()
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1873,21 @@ Enable chunking with the given maximum chunk size in bytes.
 def with_chunking(max_size)
 ```
 
-#### all()
+**Example:**
+
+```ruby
+result = instance.with_chunking(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `max_size` | `Integer` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1335,7 +1897,15 @@ Enable all analysis features.
 def all()
 ```
 
-#### minimal()
+**Example:**
+
+```ruby
+result = instance.all()
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1915,15 @@ Disable all analysis features (only metrics computed).
 def minimal()
 ```
 
-#### with_data_extraction()
+**Example:**
+
+```ruby
+result = instance.minimal()
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_data_extraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1935,20 @@ populated with a key/value tree for supported data-format languages.
 ```ruby
 def with_data_extraction(enabled)
 ```
+
+**Example:**
+
+```ruby
+result = instance.with_data_extraction(true)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `Boolean` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2030,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### root_node()
+###### root_node()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2042,15 @@ Return the root `Node` of this tree.
 def root_node()
 ```
 
-#### walk()
+**Example:**
+
+```ruby
+result = instance.root_node()
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2060,23 @@ Return a `TreeCursor` positioned at the root.
 def walk()
 ```
 
+**Example:**
+
+```ruby
+result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2086,15 @@ Return the `Node` at the cursor's current position.
 def node()
 ```
 
-#### goto_first_child()
+**Example:**
+
+```ruby
+result = instance.node()
+```
+
+**Returns:** `Node`
+
+###### goto_first_child()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2105,15 @@ Returns `true` if a child existed.
 def goto_first_child()
 ```
 
-#### goto_parent()
+**Example:**
+
+```ruby
+result = instance.goto_first_child()
+```
+
+**Returns:** `Boolean`
+
+###### goto_parent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2124,15 @@ Returns `true` if a parent existed.
 def goto_parent()
 ```
 
-#### goto_next_sibling()
+**Example:**
+
+```ruby
+result = instance.goto_parent()
+```
+
+**Returns:** `Boolean`
+
+###### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2143,15 @@ Returns `true` if a sibling existed.
 def goto_next_sibling()
 ```
 
-#### field_name()
+**Example:**
+
+```ruby
+result = instance.goto_next_sibling()
+```
+
+**Returns:** `Boolean`
+
+###### field_name()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2160,14 @@ Return the field name for the current node, if any.
 ```ruby
 def field_name()
 ```
+
+**Example:**
+
+```ruby
+result = instance.field_name()
+```
+
+**Returns:** `String?`
 
 ---
 

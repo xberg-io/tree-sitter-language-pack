@@ -2,7 +2,7 @@
 title: "Python API Reference"
 ---
 
-## Python API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Python API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `None` for unrecognized extensions. The match is case-insensitive.
 
 ```python
 def detect_language_from_extension(ext: str) -> str | None
+```
+
+**Example:**
+
+```python
+result = detect_language_from_extension("value")
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```python
 def detect_language_from_path(path: str) -> str | None
+```
+
+**Example:**
+
+```python
+result = detect_language_from_path("value")
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 def detect_language_from_content(content: str) -> str | None
 ```
 
+**Example:**
+
+```python
+result = detect_language_from_content("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```python
 def get_highlights_query(language: str) -> str | None
+```
+
+**Example:**
+
+```python
+result = get_highlights_query("value")
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 def get_injections_query(language: str) -> str | None
 ```
 
+**Example:**
+
+```python
+result = get_injections_query("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 def get_locals_query(language: str) -> str | None
 ```
 
+**Example:**
+
+```python
+result = get_locals_query("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```python
 def get_tags_query(language: str) -> str | None
+```
+
+**Example:**
+
+```python
+result = get_tags_query("value")
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 def get_language(name: str) -> Language
 ```
 
+**Example:**
+
+```python
+result = get_language("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ def get_language(name: str) -> Language
 | `name` | `str` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 def get_parser(name: str) -> Parser
 ```
 
+**Example:**
+
+```python
+result = get_parser("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ def get_parser(name: str) -> Parser
 | `name` | `str` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```python
 def detect_language(path: str) -> str | None
+```
+
+**Example:**
+
+```python
+result = detect_language("value")
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 def available_languages() -> list[str]
 ```
 
+**Example:**
+
+```python
+result = available_languages()
+```
+
 **Returns:** `list[str]`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```python
 def has_language(name: str) -> bool
+```
+
+**Example:**
+
+```python
+result = has_language("value")
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 def language_count() -> int
 ```
 
+**Example:**
+
+```python
+result = language_count()
+```
+
 **Returns:** `int`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 def process(source: str, config: ProcessConfig) -> ProcessResult
 ```
 
+**Example:**
+
+```python
+result = process("value", ProcessConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ def process(source: str, config: ProcessConfig) -> ProcessResult
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 def init(config: PackConfig) -> None
 ```
 
+**Example:**
+
+```python
+init(PackConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `None`
+**Returns:** No return value.
+
 **Errors:** Raises `Error`.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 def configure(config: PackConfig) -> None
 ```
 
+**Example:**
+
+```python
+configure(PackConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `None`
+**Returns:** No return value.
+
 **Errors:** Raises `Error`.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 def download(names: list[str]) -> int
 ```
 
+**Example:**
+
+```python
+result = download([])
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ def download(names: list[str]) -> int
 | `names` | `list[str]` | Yes | The names |
 
 **Returns:** `int`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 def download_all() -> int
 ```
 
+**Example:**
+
+```python
+result = download_all()
+```
+
 **Returns:** `int`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 def download_group(name: str) -> int
 ```
 
+**Example:**
+
+```python
+result = download_group("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ def download_group(name: str) -> int
 | `name` | `str` | Yes | The name |
 
 **Returns:** `int`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 def manifest_languages() -> list[str]
 ```
 
+**Example:**
+
+```python
+result = manifest_languages()
+```
+
 **Returns:** `list[str]`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```python
 def downloaded_languages() -> list[str]
+```
+
+**Example:**
+
+```python
+result = downloaded_languages()
 ```
 
 **Returns:** `list[str]`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 def clean_cache() -> None
 ```
 
-**Returns:** `None`
+**Example:**
+
+```python
+clean_cache()
+```
+
+**Returns:** No return value.
+
 **Errors:** Raises `Error`.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 def cache_dir() -> str
 ```
 
+**Example:**
+
+```python
+result = cache_dir()
+```
+
 **Returns:** `str`
+
 **Errors:** Raises `Error`.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -734,7 +883,23 @@ Create a new download manager for the given version.
 def new(version: str) -> DownloadManager
 ```
 
-#### installed_languages()
+**Example:**
+
+```python
+result = DownloadManager.new("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `str` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Raises `Error`.
+
+###### installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -744,7 +909,15 @@ List languages that are already downloaded and cached.
 def installed_languages(self) -> list[str]
 ```
 
-#### download_all_best_effort()
+**Example:**
+
+```python
+result = instance.installed_languages()
+```
+
+**Returns:** `list[str]`
+
+###### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -761,7 +934,17 @@ Returns the number of library files extracted (including those already cached).
 def download_all_best_effort(self) -> int
 ```
 
-#### clean_cache()
+**Example:**
+
+```python
+result = instance.download_all_best_effort()
+```
+
+**Returns:** `int`
+
+**Errors:** Raises `Error`.
+
+###### clean_cache()
 
 Remove all cached parser libraries.
 
@@ -777,6 +960,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```python
 def clean_cache(self) -> None
 ```
+
+**Example:**
+
+```python
+instance.clean_cache()
+```
+
+**Returns:** No return value.
+
+**Errors:** Raises `Error`.
 
 ---
 
@@ -836,9 +1029,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -852,7 +1045,15 @@ about dynamically loadable grammars and will load them on demand.
 def new() -> LanguageRegistry
 ```
 
-#### get_language()
+**Example:**
+
+```python
+result = LanguageRegistry.new()
+```
+
+**Returns:** `LanguageRegistry`
+
+###### get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -871,7 +1072,23 @@ does not match any known grammar.
 def get_language(self, name: str) -> Language
 ```
 
-#### available_languages()
+**Example:**
+
+```python
+result = instance.get_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Raises `Error`.
+
+###### available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -884,7 +1101,15 @@ Includes statically compiled languages, dynamically loadable languages
 def available_languages(self) -> list[str]
 ```
 
-#### has_parser()
+**Example:**
+
+```python
+result = instance.available_languages()
+```
+
+**Returns:** `list[str]`
+
+###### has_parser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -913,7 +1138,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 def has_parser(self, name: str) -> bool
 ```
 
-#### has_language()
+**Example:**
+
+```python
+result = instance.has_parser("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
+
+**Returns:** `bool`
+
+###### has_language()
 
 Check whether a language is available by name or alias.
 
@@ -926,7 +1165,21 @@ table or from a dynamic library on disk.
 def has_language(self, name: str) -> bool
 ```
 
-#### language_count()
+**Example:**
+
+```python
+result = instance.has_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
+
+**Returns:** `bool`
+
+###### language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -936,7 +1189,15 @@ Return the total number of available languages (including aliases).
 def language_count(self) -> int
 ```
 
-#### process()
+**Example:**
+
+```python
+result = instance.language_count()
+```
+
+**Returns:** `int`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -946,7 +1207,24 @@ Parse source code and extract file intelligence based on config in a single pass
 def process(self, source: str, config: ProcessConfig) -> ProcessResult
 ```
 
-#### default()
+**Example:**
+
+```python
+result = instance.process("value", ProcessConfig())
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `str` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Raises `Error`.
+
+###### default()
 
 **Signature:**
 
@@ -954,6 +1232,14 @@ def process(self, source: str, config: ProcessConfig) -> ProcessResult
 @staticmethod
 def default() -> LanguageRegistry
 ```
+
+**Example:**
+
+```python
+result = LanguageRegistry.default()
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -964,9 +1250,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -974,7 +1260,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 def clone(self) -> Node
 ```
 
-#### kind()
+**Example:**
+
+```python
+result = instance.clone()
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -984,7 +1278,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 def kind(self) -> str
 ```
 
-#### kind_id()
+**Example:**
+
+```python
+result = instance.kind()
+```
+
+**Returns:** `str`
+
+###### kind_id()
 
 Return the node's numeric kind ID.
 
@@ -998,7 +1300,15 @@ than comparing the string `kind()` in tight AST loops.
 def kind_id(self) -> int
 ```
 
-#### start_byte()
+**Example:**
+
+```python
+result = instance.kind_id()
+```
+
+**Returns:** `int`
+
+###### start_byte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1008,7 +1318,15 @@ Return the inclusive start byte offset of this node.
 def start_byte(self) -> int
 ```
 
-#### end_byte()
+**Example:**
+
+```python
+result = instance.start_byte()
+```
+
+**Returns:** `int`
+
+###### end_byte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1018,7 +1336,15 @@ Return the exclusive end byte offset of this node.
 def end_byte(self) -> int
 ```
 
-#### byte_range()
+**Example:**
+
+```python
+result = instance.end_byte()
+```
+
+**Returns:** `int`
+
+###### byte_range()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1031,7 +1357,15 @@ text accessor.
 def byte_range(self) -> ByteRange
 ```
 
-#### start_position()
+**Example:**
+
+```python
+result = instance.byte_range()
+```
+
+**Returns:** `ByteRange`
+
+###### start_position()
 
 Return the start `Point` (row, column).
 
@@ -1041,7 +1375,15 @@ Return the start `Point` (row, column).
 def start_position(self) -> Point
 ```
 
-#### end_position()
+**Example:**
+
+```python
+result = instance.start_position()
+```
+
+**Returns:** `Point`
+
+###### end_position()
 
 Return the end `Point` (row, column).
 
@@ -1051,7 +1393,15 @@ Return the end `Point` (row, column).
 def end_position(self) -> Point
 ```
 
-#### is_named()
+**Example:**
+
+```python
+result = instance.end_position()
+```
+
+**Returns:** `Point`
+
+###### is_named()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1061,7 +1411,15 @@ True when this node is named (not punctuation/whitespace).
 def is_named(self) -> bool
 ```
 
-#### is_error()
+**Example:**
+
+```python
+result = instance.is_named()
+```
+
+**Returns:** `bool`
+
+###### is_error()
 
 True when this is an error node.
 
@@ -1071,7 +1429,15 @@ True when this is an error node.
 def is_error(self) -> bool
 ```
 
-#### is_missing()
+**Example:**
+
+```python
+result = instance.is_error()
+```
+
+**Returns:** `bool`
+
+###### is_missing()
 
 True when this is a missing-token node.
 
@@ -1081,7 +1447,15 @@ True when this is a missing-token node.
 def is_missing(self) -> bool
 ```
 
-#### is_extra()
+**Example:**
+
+```python
+result = instance.is_missing()
+```
+
+**Returns:** `bool`
+
+###### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1091,7 +1465,15 @@ True when this is an "extra" node (e.g. a comment).
 def is_extra(self) -> bool
 ```
 
-#### has_error()
+**Example:**
+
+```python
+result = instance.is_extra()
+```
+
+**Returns:** `bool`
+
+###### has_error()
 
 True when this node or any descendant is an error.
 
@@ -1101,7 +1483,15 @@ True when this node or any descendant is an error.
 def has_error(self) -> bool
 ```
 
-#### parent()
+**Example:**
+
+```python
+result = instance.has_error()
+```
+
+**Returns:** `bool`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1111,7 +1501,15 @@ Return this node's parent, if any.
 def parent(self) -> Node | None
 ```
 
-#### child()
+**Example:**
+
+```python
+result = instance.parent()
+```
+
+**Returns:** `Node | None`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1121,7 +1519,21 @@ Return the i-th child of this node, if any.
 def child(self, index: int) -> Node | None
 ```
 
-#### child_count()
+**Example:**
+
+```python
+result = instance.child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `int` | Yes | The index |
+
+**Returns:** `Node | None`
+
+###### child_count()
 
 Total number of children (including unnamed).
 
@@ -1131,7 +1543,15 @@ Total number of children (including unnamed).
 def child_count(self) -> int
 ```
 
-#### named_child()
+**Example:**
+
+```python
+result = instance.child_count()
+```
+
+**Returns:** `int`
+
+###### named_child()
 
 Return the i-th named child of this node, if any.
 
@@ -1141,7 +1561,21 @@ Return the i-th named child of this node, if any.
 def named_child(self, index: int) -> Node | None
 ```
 
-#### named_child_count()
+**Example:**
+
+```python
+result = instance.named_child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `int` | Yes | The index |
+
+**Returns:** `Node | None`
+
+###### named_child_count()
 
 Number of named children of this node.
 
@@ -1151,7 +1585,15 @@ Number of named children of this node.
 def named_child_count(self) -> int
 ```
 
-#### child_by_field_name()
+**Example:**
+
+```python
+result = instance.named_child_count()
+```
+
+**Returns:** `int`
+
+###### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
 
@@ -1161,7 +1603,21 @@ Look up a child by its grammar-defined field name.
 def child_by_field_name(self, name: str) -> Node | None
 ```
 
-#### to_sexp()
+**Example:**
+
+```python
+result = instance.child_by_field_name("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
+
+**Returns:** `Node | None`
+
+###### to_sexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1171,7 +1627,15 @@ Return the S-expression form of this node's subtree.
 def to_sexp(self) -> str
 ```
 
-#### walk()
+**Example:**
+
+```python
+result = instance.to_sexp()
+```
+
+**Returns:** `str`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1180,6 +1644,14 @@ Return a `TreeCursor` positioned at this node.
 ```python
 def walk(self) -> TreeCursor
 ```
+
+**Example:**
+
+```python
+result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1203,9 +1675,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1218,7 +1690,15 @@ Call `Parser.set_language` before parsing.
 def new() -> Parser
 ```
 
-#### set_language()
+**Example:**
+
+```python
+result = Parser.new()
+```
+
+**Returns:** `Parser`
+
+###### set_language()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1236,7 +1716,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 def set_language(self, name: str) -> None
 ```
 
-#### parse()
+**Example:**
+
+```python
+instance.set_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `str` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Raises `Error`.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `None` if parsing was cancelled
 or no language is set.
@@ -1247,7 +1743,21 @@ or no language is set.
 def parse(self, source: str) -> Tree | None
 ```
 
-#### parse_bytes()
+**Example:**
+
+```python
+result = instance.parse("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `str` | Yes | The source |
+
+**Returns:** `Tree | None`
+
+###### parse_bytes()
 
 Parse a raw byte slice. Returns `None` if parsing was cancelled or
 no language is set.
@@ -1258,7 +1768,21 @@ no language is set.
 def parse_bytes(self, source: bytes) -> Tree | None
 ```
 
-#### reset()
+**Example:**
+
+```python
+result = instance.parse_bytes(b"data")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `bytes` | Yes | The source |
+
+**Returns:** `Tree | None`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1269,7 +1793,15 @@ not be incremental.
 def reset(self) -> None
 ```
 
-#### default()
+**Example:**
+
+```python
+instance.reset()
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
@@ -1277,6 +1809,14 @@ def reset(self) -> None
 @staticmethod
 def default() -> Parser
 ```
+
+**Example:**
+
+```python
+result = Parser.default()
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1310,9 +1850,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunk_max_size` | `int \| None` | `None` | Maximum chunk size in bytes. `None` disables chunking. |
 | `data_extraction` | `bool` | `False` | Extract hierarchical key/value data tree from data-format files. Default: false. When `True`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `None`. |
 
-### Methods
+##### Methods
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1321,7 +1861,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 def default() -> ProcessConfig
 ```
 
-#### with_chunking()
+**Example:**
+
+```python
+result = ProcessConfig.default()
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1331,7 +1879,21 @@ Enable chunking with the given maximum chunk size in bytes.
 def with_chunking(self, max_size: int) -> ProcessConfig
 ```
 
-#### all()
+**Example:**
+
+```python
+result = instance.with_chunking(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `max_size` | `int` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1341,7 +1903,15 @@ Enable all analysis features.
 def all(self) -> ProcessConfig
 ```
 
-#### minimal()
+**Example:**
+
+```python
+result = instance.all()
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1351,7 +1921,15 @@ Disable all analysis features (only metrics computed).
 def minimal(self) -> ProcessConfig
 ```
 
-#### with_data_extraction()
+**Example:**
+
+```python
+result = instance.minimal()
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_data_extraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1363,6 +1941,20 @@ populated with a key/value tree for supported data-format languages.
 ```python
 def with_data_extraction(self, enabled: bool) -> ProcessConfig
 ```
+
+**Example:**
+
+```python
+result = instance.with_data_extraction(True)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `bool` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1444,9 +2036,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### root_node()
+###### root_node()
 
 Return the root `Node` of this tree.
 
@@ -1456,7 +2048,15 @@ Return the root `Node` of this tree.
 def root_node(self) -> Node
 ```
 
-#### walk()
+**Example:**
+
+```python
+result = instance.root_node()
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1466,15 +2066,23 @@ Return a `TreeCursor` positioned at the root.
 def walk(self) -> TreeCursor
 ```
 
+**Example:**
+
+```python
+result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1484,7 +2092,15 @@ Return the `Node` at the cursor's current position.
 def node(self) -> Node
 ```
 
-#### goto_first_child()
+**Example:**
+
+```python
+result = instance.node()
+```
+
+**Returns:** `Node`
+
+###### goto_first_child()
 
 Move the cursor to the first child of the current node.
 Returns `True` if a child existed.
@@ -1495,7 +2111,15 @@ Returns `True` if a child existed.
 def goto_first_child(self) -> bool
 ```
 
-#### goto_parent()
+**Example:**
+
+```python
+result = instance.goto_first_child()
+```
+
+**Returns:** `bool`
+
+###### goto_parent()
 
 Move the cursor to the parent of the current node.
 Returns `True` if a parent existed.
@@ -1506,7 +2130,15 @@ Returns `True` if a parent existed.
 def goto_parent(self) -> bool
 ```
 
-#### goto_next_sibling()
+**Example:**
+
+```python
+result = instance.goto_parent()
+```
+
+**Returns:** `bool`
+
+###### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `True` if a sibling existed.
@@ -1517,7 +2149,15 @@ Returns `True` if a sibling existed.
 def goto_next_sibling(self) -> bool
 ```
 
-#### field_name()
+**Example:**
+
+```python
+result = instance.goto_next_sibling()
+```
+
+**Returns:** `bool`
+
+###### field_name()
 
 Return the field name for the current node, if any.
 
@@ -1526,6 +2166,14 @@ Return the field name for the current node, if any.
 ```python
 def field_name(self) -> str | None
 ```
+
+**Example:**
+
+```python
+result = instance.field_name()
+```
+
+**Returns:** `str | None`
 
 ---
 

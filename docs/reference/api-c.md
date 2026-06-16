@@ -2,7 +2,7 @@
 title: "C API Reference"
 ---
 
-## C API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## C API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `NULL` for unrecognized extensions. The match is case-insensitive.
 
 ```c
 const char** ts_pack_detect_language_from_extension(const char* ext);
+```
+
+**Example:**
+
+```c
+const char** result = ts_pack_detect_language_from_extension("value");
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```c
 const char** ts_pack_detect_language_from_path(const char* path);
+```
+
+**Example:**
+
+```c
+const char** result = ts_pack_detect_language_from_path("value");
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 const char** ts_pack_detect_language_from_content(const char* content);
 ```
 
+**Example:**
+
+```c
+const char** result = ts_pack_detect_language_from_content("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```c
 const char** ts_pack_get_highlights_query(const char* language);
+```
+
+**Example:**
+
+```c
+const char** result = ts_pack_get_highlights_query("value");
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 const char** ts_pack_get_injections_query(const char* language);
 ```
 
+**Example:**
+
+```c
+const char** result = ts_pack_get_injections_query("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 const char** ts_pack_get_locals_query(const char* language);
 ```
 
+**Example:**
+
+```c
+const char** result = ts_pack_get_locals_query("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```c
 const char** ts_pack_get_tags_query(const char* language);
+```
+
+**Example:**
+
+```c
+const char** result = ts_pack_get_tags_query("value");
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 TsPackLanguage* ts_pack_get_language(const char* name);
 ```
 
+**Example:**
+
+```c
+TsPackLanguage *result = ts_pack_get_language("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ TsPackLanguage* ts_pack_get_language(const char* name);
 | `name` | `const char*` | Yes | The name |
 
 **Returns:** `TsPackLanguage`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 TsPackParser* ts_pack_get_parser(const char* name);
 ```
 
+**Example:**
+
+```c
+TsPackParser *result = ts_pack_get_parser("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ TsPackParser* ts_pack_get_parser(const char* name);
 | `name` | `const char*` | Yes | The name |
 
 **Returns:** `TsPackParser`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```c
 const char** ts_pack_detect_language(const char* path);
+```
+
+**Example:**
+
+```c
+const char** result = ts_pack_detect_language("value");
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 const char** ts_pack_available_languages();
 ```
 
+**Example:**
+
+```c
+const char** result = ts_pack_available_languages();
+```
+
 **Returns:** `const char**`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```c
 bool ts_pack_has_language(const char* name);
+```
+
+**Example:**
+
+```c
+bool result = ts_pack_has_language("value");
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 uintptr_t ts_pack_language_count();
 ```
 
+**Example:**
+
+```c
+uintptr_t result = ts_pack_language_count();
+```
+
 **Returns:** `uintptr_t`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 TsPackProcessResult* ts_pack_process(const char* source, TsPackProcessConfig config);
 ```
 
+**Example:**
+
+```c
+TsPackProcessResult *result = ts_pack_process("value", NULL);
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ TsPackProcessResult* ts_pack_process(const char* source, TsPackProcessConfig con
 | `config` | `TsPackProcessConfig` | Yes | The configuration options |
 
 **Returns:** `TsPackProcessResult`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 void ts_pack_init(TsPackPackConfig config);
 ```
 
+**Example:**
+
+```c
+ts_pack_init(NULL);
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `TsPackPackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 void ts_pack_configure(TsPackPackConfig config);
 ```
 
+**Example:**
+
+```c
+ts_pack_configure(NULL);
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `TsPackPackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 uintptr_t ts_pack_download(const char** names);
 ```
 
+**Example:**
+
+```c
+uintptr_t result = ts_pack_download(NULL);
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ uintptr_t ts_pack_download(const char** names);
 | `names` | `const char**` | Yes | The names |
 
 **Returns:** `uintptr_t`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 uintptr_t ts_pack_download_all();
 ```
 
+**Example:**
+
+```c
+uintptr_t result = ts_pack_download_all();
+```
+
 **Returns:** `uintptr_t`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 uintptr_t ts_pack_download_group(const char* name);
 ```
 
+**Example:**
+
+```c
+uintptr_t result = ts_pack_download_group("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ uintptr_t ts_pack_download_group(const char* name);
 | `name` | `const char*` | Yes | The name |
 
 **Returns:** `uintptr_t`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 const char** ts_pack_manifest_languages();
 ```
 
+**Example:**
+
+```c
+const char** result = ts_pack_manifest_languages();
+```
+
 **Returns:** `const char**`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```c
 const char** ts_pack_downloaded_languages();
+```
+
+**Example:**
+
+```c
+const char** result = ts_pack_downloaded_languages();
 ```
 
 **Returns:** `const char**`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 void ts_pack_clean_cache();
 ```
 
-**Returns:** `void`
+**Example:**
+
+```c
+ts_pack_clean_cache();
+```
+
+**Returns:** No return value.
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 const char* ts_pack_cache_dir();
 ```
 
+**Example:**
+
+```c
+const char *result = ts_pack_cache_dir();
+```
+
 **Returns:** `const char*`
+
 **Errors:** Returns `NULL` on error.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### ts_pack_new()
+###### ts_pack_new()
 
 Create a new download manager for the given version.
 
@@ -733,7 +882,23 @@ Create a new download manager for the given version.
 TsPackDownloadManager ts_pack_new(const char* version);
 ```
 
-#### ts_pack_installed_languages()
+**Example:**
+
+```c
+TsPackDownloadManager *result = ts_pack_new("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `const char*` | Yes | The version |
+
+**Returns:** `TsPackDownloadManager`
+
+**Errors:** Returns `NULL` on error.
+
+###### ts_pack_installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +908,15 @@ List languages that are already downloaded and cached.
 const char** ts_pack_installed_languages();
 ```
 
-#### ts_pack_download_all_best_effort()
+**Example:**
+
+```c
+const char** result = ts_pack_installed_languages(instance);
+```
+
+**Returns:** `const char**`
+
+###### ts_pack_download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +933,17 @@ Returns the number of library files extracted (including those already cached).
 uintptr_t ts_pack_download_all_best_effort();
 ```
 
-#### ts_pack_clean_cache()
+**Example:**
+
+```c
+uintptr_t result = ts_pack_download_all_best_effort(instance);
+```
+
+**Returns:** `uintptr_t`
+
+**Errors:** Returns `NULL` on error.
+
+###### ts_pack_clean_cache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +959,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```c
 void ts_pack_clean_cache();
 ```
+
+**Example:**
+
+```c
+ts_pack_clean_cache(instance);
+```
+
+**Returns:** No return value.
+
+**Errors:** Returns `NULL` on error.
 
 ---
 
@@ -835,9 +1028,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### ts_pack_new()
+###### ts_pack_new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1043,15 @@ about dynamically loadable grammars and will load them on demand.
 TsPackLanguageRegistry ts_pack_new();
 ```
 
-#### ts_pack_get_language()
+**Example:**
+
+```c
+TsPackLanguageRegistry *result = ts_pack_new();
+```
+
+**Returns:** `TsPackLanguageRegistry`
+
+###### ts_pack_get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1070,23 @@ does not match any known grammar.
 TsPackLanguage ts_pack_get_language(const char* name);
 ```
 
-#### ts_pack_available_languages()
+**Example:**
+
+```c
+TsPackLanguage *result = ts_pack_get_language(instance, "value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `const char*` | Yes | The name |
+
+**Returns:** `TsPackLanguage`
+
+**Errors:** Returns `NULL` on error.
+
+###### ts_pack_available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1099,15 @@ Includes statically compiled languages, dynamically loadable languages
 const char** ts_pack_available_languages();
 ```
 
-#### ts_pack_has_parser()
+**Example:**
+
+```c
+const char** result = ts_pack_available_languages(instance);
+```
+
+**Returns:** `const char**`
+
+###### ts_pack_has_parser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1136,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 bool ts_pack_has_parser(const char* name);
 ```
 
-#### ts_pack_has_language()
+**Example:**
+
+```c
+bool result = ts_pack_has_parser(instance, "value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `const char*` | Yes | The name |
+
+**Returns:** `bool`
+
+###### ts_pack_has_language()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1163,21 @@ table or from a dynamic library on disk.
 bool ts_pack_has_language(const char* name);
 ```
 
-#### ts_pack_language_count()
+**Example:**
+
+```c
+bool result = ts_pack_has_language(instance, "value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `const char*` | Yes | The name |
+
+**Returns:** `bool`
+
+###### ts_pack_language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1187,15 @@ Return the total number of available languages (including aliases).
 uintptr_t ts_pack_language_count();
 ```
 
-#### ts_pack_process()
+**Example:**
+
+```c
+uintptr_t result = ts_pack_language_count(instance);
+```
+
+**Returns:** `uintptr_t`
+
+###### ts_pack_process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1205,38 @@ Parse source code and extract file intelligence based on config in a single pass
 TsPackProcessResult ts_pack_process(const char* source, TsPackProcessConfig config);
 ```
 
-#### ts_pack_default()
+**Example:**
+
+```c
+TsPackProcessResult *result = ts_pack_process(instance, "value", NULL);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `const char*` | Yes | The source |
+| `config` | `TsPackProcessConfig` | Yes | The configuration options |
+
+**Returns:** `TsPackProcessResult`
+
+**Errors:** Returns `NULL` on error.
+
+###### ts_pack_default()
 
 **Signature:**
 
 ```c
 TsPackLanguageRegistry ts_pack_default();
 ```
+
+**Example:**
+
+```c
+TsPackLanguageRegistry *result = ts_pack_default();
+```
+
+**Returns:** `TsPackLanguageRegistry`
 
 ---
 
@@ -961,9 +1247,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### ts_pack_clone()
+###### ts_pack_clone()
 
 **Signature:**
 
@@ -971,7 +1257,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 TsPackNode ts_pack_clone();
 ```
 
-#### ts_pack_kind()
+**Example:**
+
+```c
+TsPackNode *result = ts_pack_clone(instance);
+```
+
+**Returns:** `TsPackNode`
+
+###### ts_pack_kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1275,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 const char* ts_pack_kind();
 ```
 
-#### ts_pack_kind_id()
+**Example:**
+
+```c
+const char *result = ts_pack_kind(instance);
+```
+
+**Returns:** `const char*`
+
+###### ts_pack_kind_id()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1297,15 @@ than comparing the string `kind()` in tight AST loops.
 uint16_t ts_pack_kind_id();
 ```
 
-#### ts_pack_start_byte()
+**Example:**
+
+```c
+uint16_t result = ts_pack_kind_id(instance);
+```
+
+**Returns:** `uint16_t`
+
+###### ts_pack_start_byte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1315,15 @@ Return the inclusive start byte offset of this node.
 uintptr_t ts_pack_start_byte();
 ```
 
-#### ts_pack_end_byte()
+**Example:**
+
+```c
+uintptr_t result = ts_pack_start_byte(instance);
+```
+
+**Returns:** `uintptr_t`
+
+###### ts_pack_end_byte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1333,15 @@ Return the exclusive end byte offset of this node.
 uintptr_t ts_pack_end_byte();
 ```
 
-#### ts_pack_byte_range()
+**Example:**
+
+```c
+uintptr_t result = ts_pack_end_byte(instance);
+```
+
+**Returns:** `uintptr_t`
+
+###### ts_pack_byte_range()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1354,15 @@ text accessor.
 TsPackByteRange ts_pack_byte_range();
 ```
 
-#### ts_pack_start_position()
+**Example:**
+
+```c
+TsPackByteRange *result = ts_pack_byte_range(instance);
+```
+
+**Returns:** `TsPackByteRange`
+
+###### ts_pack_start_position()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1372,15 @@ Return the start `Point` (row, column).
 TsPackPoint ts_pack_start_position();
 ```
 
-#### ts_pack_end_position()
+**Example:**
+
+```c
+TsPackPoint *result = ts_pack_start_position(instance);
+```
+
+**Returns:** `TsPackPoint`
+
+###### ts_pack_end_position()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1390,15 @@ Return the end `Point` (row, column).
 TsPackPoint ts_pack_end_position();
 ```
 
-#### ts_pack_is_named()
+**Example:**
+
+```c
+TsPackPoint *result = ts_pack_end_position(instance);
+```
+
+**Returns:** `TsPackPoint`
+
+###### ts_pack_is_named()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1408,15 @@ True when this node is named (not punctuation/whitespace).
 bool ts_pack_is_named();
 ```
 
-#### ts_pack_is_error()
+**Example:**
+
+```c
+bool result = ts_pack_is_named(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_is_error()
 
 True when this is an error node.
 
@@ -1068,7 +1426,15 @@ True when this is an error node.
 bool ts_pack_is_error();
 ```
 
-#### ts_pack_is_missing()
+**Example:**
+
+```c
+bool result = ts_pack_is_error(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_is_missing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1444,15 @@ True when this is a missing-token node.
 bool ts_pack_is_missing();
 ```
 
-#### ts_pack_is_extra()
+**Example:**
+
+```c
+bool result = ts_pack_is_missing(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_is_extra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1462,15 @@ True when this is an "extra" node (e.g. a comment).
 bool ts_pack_is_extra();
 ```
 
-#### ts_pack_has_error()
+**Example:**
+
+```c
+bool result = ts_pack_is_extra(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_has_error()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1480,15 @@ True when this node or any descendant is an error.
 bool ts_pack_has_error();
 ```
 
-#### ts_pack_parent()
+**Example:**
+
+```c
+bool result = ts_pack_has_error(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1498,15 @@ Return this node's parent, if any.
 TsPackNode* ts_pack_parent();
 ```
 
-#### ts_pack_child()
+**Example:**
+
+```c
+TsPackNode* result = ts_pack_parent(instance);
+```
+
+**Returns:** `TsPackNode*`
+
+###### ts_pack_child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1516,21 @@ Return the i-th child of this node, if any.
 TsPackNode* ts_pack_child(uint32_t index);
 ```
 
-#### ts_pack_child_count()
+**Example:**
+
+```c
+TsPackNode* result = ts_pack_child(instance, 42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `uint32_t` | Yes | The index |
+
+**Returns:** `TsPackNode*`
+
+###### ts_pack_child_count()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1540,15 @@ Total number of children (including unnamed).
 uintptr_t ts_pack_child_count();
 ```
 
-#### ts_pack_named_child()
+**Example:**
+
+```c
+uintptr_t result = ts_pack_child_count(instance);
+```
+
+**Returns:** `uintptr_t`
+
+###### ts_pack_named_child()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1558,21 @@ Return the i-th named child of this node, if any.
 TsPackNode* ts_pack_named_child(uint32_t index);
 ```
 
-#### ts_pack_named_child_count()
+**Example:**
+
+```c
+TsPackNode* result = ts_pack_named_child(instance, 42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `uint32_t` | Yes | The index |
+
+**Returns:** `TsPackNode*`
+
+###### ts_pack_named_child_count()
 
 Number of named children of this node.
 
@@ -1148,7 +1582,15 @@ Number of named children of this node.
 uintptr_t ts_pack_named_child_count();
 ```
 
-#### ts_pack_child_by_field_name()
+**Example:**
+
+```c
+uintptr_t result = ts_pack_named_child_count(instance);
+```
+
+**Returns:** `uintptr_t`
+
+###### ts_pack_child_by_field_name()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1600,21 @@ Look up a child by its grammar-defined field name.
 TsPackNode* ts_pack_child_by_field_name(const char* name);
 ```
 
-#### ts_pack_to_sexp()
+**Example:**
+
+```c
+TsPackNode* result = ts_pack_child_by_field_name(instance, "value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `const char*` | Yes | The name |
+
+**Returns:** `TsPackNode*`
+
+###### ts_pack_to_sexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1624,15 @@ Return the S-expression form of this node's subtree.
 const char* ts_pack_to_sexp();
 ```
 
-#### ts_pack_walk()
+**Example:**
+
+```c
+const char *result = ts_pack_to_sexp(instance);
+```
+
+**Returns:** `const char*`
+
+###### ts_pack_walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1641,14 @@ Return a `TreeCursor` positioned at this node.
 ```c
 TsPackTreeCursor ts_pack_walk();
 ```
+
+**Example:**
+
+```c
+TsPackTreeCursor *result = ts_pack_walk(instance);
+```
+
+**Returns:** `TsPackTreeCursor`
 
 ---
 
@@ -1200,9 +1672,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### ts_pack_new()
+###### ts_pack_new()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1686,15 @@ Call `Parser.set_language` before parsing.
 TsPackParser ts_pack_new();
 ```
 
-#### ts_pack_set_language()
+**Example:**
+
+```c
+TsPackParser *result = ts_pack_new();
+```
+
+**Returns:** `TsPackParser`
+
+###### ts_pack_set_language()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1712,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 void ts_pack_set_language(const char* name);
 ```
 
-#### ts_pack_parse()
+**Example:**
+
+```c
+ts_pack_set_language(instance, "value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `const char*` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Returns `NULL` on error.
+
+###### ts_pack_parse()
 
 Parse a UTF-8 source string. Returns `NULL` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1739,21 @@ or no language is set.
 TsPackTree* ts_pack_parse(const char* source);
 ```
 
-#### ts_pack_parse_bytes()
+**Example:**
+
+```c
+TsPackTree* result = ts_pack_parse(instance, "value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `const char*` | Yes | The source |
+
+**Returns:** `TsPackTree*`
+
+###### ts_pack_parse_bytes()
 
 Parse a raw byte slice. Returns `NULL` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1764,21 @@ no language is set.
 TsPackTree* ts_pack_parse_bytes(const uint8_t* source);
 ```
 
-#### ts_pack_reset()
+**Example:**
+
+```c
+TsPackTree* result = ts_pack_parse_bytes(instance, (const uint8_t *)"data");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `const uint8_t*` | Yes | The source |
+
+**Returns:** `TsPackTree*`
+
+###### ts_pack_reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1789,29 @@ not be incremental.
 void ts_pack_reset();
 ```
 
-#### ts_pack_default()
+**Example:**
+
+```c
+ts_pack_reset(instance);
+```
+
+**Returns:** No return value.
+
+###### ts_pack_default()
 
 **Signature:**
 
 ```c
 TsPackParser ts_pack_default();
 ```
+
+**Example:**
+
+```c
+TsPackParser *result = ts_pack_default();
+```
+
+**Returns:** `TsPackParser`
 
 ---
 
@@ -1305,9 +1845,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunk_max_size` | `uintptr_t*` | `NULL` | Maximum chunk size in bytes. `NULL` disables chunking. |
 | `data_extraction` | `bool` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `NULL`. |
 
-### Methods
+##### Methods
 
-#### ts_pack_default()
+###### ts_pack_default()
 
 **Signature:**
 
@@ -1315,7 +1855,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 TsPackProcessConfig ts_pack_default();
 ```
 
-#### ts_pack_with_chunking()
+**Example:**
+
+```c
+TsPackProcessConfig *result = ts_pack_default();
+```
+
+**Returns:** `TsPackProcessConfig`
+
+###### ts_pack_with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1873,21 @@ Enable chunking with the given maximum chunk size in bytes.
 TsPackProcessConfig ts_pack_with_chunking(uintptr_t max_size);
 ```
 
-#### ts_pack_all()
+**Example:**
+
+```c
+TsPackProcessConfig *result = ts_pack_with_chunking(instance, 42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `max_size` | `uintptr_t` | Yes | The max size |
+
+**Returns:** `TsPackProcessConfig`
+
+###### ts_pack_all()
 
 Enable all analysis features.
 
@@ -1335,7 +1897,15 @@ Enable all analysis features.
 TsPackProcessConfig ts_pack_all();
 ```
 
-#### ts_pack_minimal()
+**Example:**
+
+```c
+TsPackProcessConfig *result = ts_pack_all(instance);
+```
+
+**Returns:** `TsPackProcessConfig`
+
+###### ts_pack_minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1915,15 @@ Disable all analysis features (only metrics computed).
 TsPackProcessConfig ts_pack_minimal();
 ```
 
-#### ts_pack_with_data_extraction()
+**Example:**
+
+```c
+TsPackProcessConfig *result = ts_pack_minimal(instance);
+```
+
+**Returns:** `TsPackProcessConfig`
+
+###### ts_pack_with_data_extraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1935,20 @@ populated with a key/value tree for supported data-format languages.
 ```c
 TsPackProcessConfig ts_pack_with_data_extraction(bool enabled);
 ```
+
+**Example:**
+
+```c
+TsPackProcessConfig *result = ts_pack_with_data_extraction(instance, true);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `bool` | Yes | The enabled |
+
+**Returns:** `TsPackProcessConfig`
 
 ---
 
@@ -1438,9 +2030,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### ts_pack_root_node()
+###### ts_pack_root_node()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2042,15 @@ Return the root `Node` of this tree.
 TsPackNode ts_pack_root_node();
 ```
 
-#### ts_pack_walk()
+**Example:**
+
+```c
+TsPackNode *result = ts_pack_root_node(instance);
+```
+
+**Returns:** `TsPackNode`
+
+###### ts_pack_walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2060,23 @@ Return a `TreeCursor` positioned at the root.
 TsPackTreeCursor ts_pack_walk();
 ```
 
+**Example:**
+
+```c
+TsPackTreeCursor *result = ts_pack_walk(instance);
+```
+
+**Returns:** `TsPackTreeCursor`
+
 ---
 
 #### TsPackTreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### ts_pack_node()
+###### ts_pack_node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2086,15 @@ Return the `Node` at the cursor's current position.
 TsPackNode ts_pack_node();
 ```
 
-#### ts_pack_goto_first_child()
+**Example:**
+
+```c
+TsPackNode *result = ts_pack_node(instance);
+```
+
+**Returns:** `TsPackNode`
+
+###### ts_pack_goto_first_child()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2105,15 @@ Returns `true` if a child existed.
 bool ts_pack_goto_first_child();
 ```
 
-#### ts_pack_goto_parent()
+**Example:**
+
+```c
+bool result = ts_pack_goto_first_child(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_goto_parent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2124,15 @@ Returns `true` if a parent existed.
 bool ts_pack_goto_parent();
 ```
 
-#### ts_pack_goto_next_sibling()
+**Example:**
+
+```c
+bool result = ts_pack_goto_parent(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2143,15 @@ Returns `true` if a sibling existed.
 bool ts_pack_goto_next_sibling();
 ```
 
-#### ts_pack_field_name()
+**Example:**
+
+```c
+bool result = ts_pack_goto_next_sibling(instance);
+```
+
+**Returns:** `bool`
+
+###### ts_pack_field_name()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2160,14 @@ Return the field name for the current node, if any.
 ```c
 const char** ts_pack_field_name();
 ```
+
+**Example:**
+
+```c
+const char** result = ts_pack_field_name(instance);
+```
+
+**Returns:** `const char**`
 
 ---
 

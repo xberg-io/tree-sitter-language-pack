@@ -2,7 +2,7 @@
 title: "Kotlin (Android) API Reference"
 ---
 
-## Kotlin (Android) API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Kotlin (Android) API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 
 ```kotlin
 fun detectLanguageFromExtension(ext: String): String?
+```
+
+**Example:**
+
+```kotlin
+val result = detectLanguageFromExtension("value")
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```kotlin
 fun detectLanguageFromPath(path: String): String?
+```
+
+**Example:**
+
+```kotlin
+val result = detectLanguageFromPath("value")
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 fun detectLanguageFromContent(content: String): String?
 ```
 
+**Example:**
+
+```kotlin
+val result = detectLanguageFromContent("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```kotlin
 fun getHighlightsQuery(language: String): String?
+```
+
+**Example:**
+
+```kotlin
+val result = getHighlightsQuery("value")
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 fun getInjectionsQuery(language: String): String?
 ```
 
+**Example:**
+
+```kotlin
+val result = getInjectionsQuery("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 fun getLocalsQuery(language: String): String?
 ```
 
+**Example:**
+
+```kotlin
+val result = getLocalsQuery("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```kotlin
 fun getTagsQuery(language: String): String?
+```
+
+**Example:**
+
+```kotlin
+val result = getTagsQuery("value")
 ```
 
 **Parameters:**
@@ -198,6 +240,12 @@ or `Error.Download` if auto-download fails.
 fun getLanguage(name: String): Language
 ```
 
+**Example:**
+
+```kotlin
+val result = getLanguage("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -205,6 +253,7 @@ fun getLanguage(name: String): Language
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -228,6 +277,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 fun getParser(name: String): Parser
 ```
 
+**Example:**
+
+```kotlin
+val result = getParser("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -235,6 +290,7 @@ fun getParser(name: String): Parser
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -249,6 +305,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```kotlin
 fun detectLanguage(path: String): String?
+```
+
+**Example:**
+
+```kotlin
+val result = detectLanguage("value")
 ```
 
 **Parameters:**
@@ -274,6 +336,12 @@ plus any configured aliases.
 fun availableLanguages(): List<String>
 ```
 
+**Example:**
+
+```kotlin
+val result = availableLanguages()
+```
+
 **Returns:** `List<String>`
 
 ---
@@ -289,6 +357,12 @@ dynamically available, or a known alias for one of these).
 
 ```kotlin
 fun hasLanguage(name: String): Boolean
+```
+
+**Example:**
+
+```kotlin
+val result = hasLanguage("value")
 ```
 
 **Parameters:**
@@ -314,6 +388,12 @@ and aliases.
 fun languageCount(): Long
 ```
 
+**Example:**
+
+```kotlin
+val result = languageCount()
+```
+
 **Returns:** `Long`
 
 ---
@@ -337,6 +417,12 @@ Returns an error if the language is not found or parsing fails.
 fun process(source: String, config: ProcessConfig): ProcessResult
 ```
 
+**Example:**
+
+```kotlin
+val result = process("value", ProcessConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -345,6 +431,7 @@ fun process(source: String, config: ProcessConfig): ProcessResult
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -368,13 +455,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 fun init(config: PackConfig)
 ```
 
+**Example:**
+
+```kotlin
+init(PackConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `Unit`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -399,13 +493,20 @@ Returns an error if the lock cannot be acquired.
 fun configure(config: PackConfig)
 ```
 
+**Example:**
+
+```kotlin
+configure(PackConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `Unit`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -429,6 +530,12 @@ the download fails.
 fun download(names: List<String>): Long
 ```
 
+**Example:**
+
+```kotlin
+val result = download([])
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -436,6 +543,7 @@ fun download(names: List<String>): Long
 | `names` | `List<String>` | Yes | The names |
 
 **Returns:** `Long`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -463,7 +571,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 fun downloadAll(): Long
 ```
 
+**Example:**
+
+```kotlin
+val result = downloadAll()
+```
+
 **Returns:** `Long`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -491,6 +606,12 @@ or any constituent language fails to download.
 fun downloadGroup(name: String): Long
 ```
 
+**Example:**
+
+```kotlin
+val result = downloadGroup("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -498,6 +619,7 @@ fun downloadGroup(name: String): Long
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Long`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -521,7 +643,14 @@ Returns an error if the manifest cannot be fetched.
 fun manifestLanguages(): List<String>
 ```
 
+**Example:**
+
+```kotlin
+val result = manifestLanguages()
+```
+
 **Returns:** `List<String>`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -537,6 +666,12 @@ cache directory does not exist or cannot be read.
 
 ```kotlin
 fun downloadedLanguages(): List<String>
+```
+
+**Example:**
+
+```kotlin
+val result = downloadedLanguages()
 ```
 
 **Returns:** `List<String>`
@@ -561,7 +696,14 @@ Returns an error if the cache directory cannot be removed.
 fun cleanCache()
 ```
 
-**Returns:** `Unit`
+**Example:**
+
+```kotlin
+cleanCache()
+```
+
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -584,7 +726,14 @@ Returns an error if the system cache directory cannot be determined.
 fun cacheDir(): String
 ```
 
+**Example:**
+
+```kotlin
+val result = cacheDir()
+```
+
 **Returns:** `String`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -732,9 +881,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -746,7 +895,23 @@ Create a new download manager for the given version.
 fun new(version: String): DownloadManager
 ```
 
-#### installedLanguages()
+**Example:**
+
+```kotlin
+val result = DownloadManager.new("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `String` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Throws `Error`.
+
+###### installedLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -756,7 +921,15 @@ List languages that are already downloaded and cached.
 fun installedLanguages(): List<String>
 ```
 
-#### downloadAllBestEffort()
+**Example:**
+
+```kotlin
+val result = instance.installedLanguages()
+```
+
+**Returns:** `List<String>`
+
+###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -774,7 +947,17 @@ Returns the number of library files extracted (including those already cached).
 fun downloadAllBestEffort(): Long
 ```
 
-#### cleanCache()
+**Example:**
+
+```kotlin
+val result = instance.downloadAllBestEffort()
+```
+
+**Returns:** `Long`
+
+**Errors:** Throws `Error`.
+
+###### cleanCache()
 
 Remove all cached parser libraries.
 
@@ -791,6 +974,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 @Throws(Error::class)
 fun cleanCache()
 ```
+
+**Example:**
+
+```kotlin
+instance.cleanCache()
+```
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
 
 ---
 
@@ -850,9 +1043,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -866,7 +1059,15 @@ about dynamically loadable grammars and will load them on demand.
 fun new(): LanguageRegistry
 ```
 
-#### getLanguage()
+**Example:**
+
+```kotlin
+val result = LanguageRegistry.new()
+```
+
+**Returns:** `LanguageRegistry`
+
+###### getLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -886,7 +1087,23 @@ does not match any known grammar.
 fun getLanguage(name: String): Language
 ```
 
-#### availableLanguages()
+**Example:**
+
+```kotlin
+val result = instance.getLanguage("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Throws `Error`.
+
+###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -899,7 +1116,15 @@ Includes statically compiled languages, dynamically loadable languages
 fun availableLanguages(): List<String>
 ```
 
-#### hasParser()
+**Example:**
+
+```kotlin
+val result = instance.availableLanguages()
+```
+
+**Returns:** `List<String>`
+
+###### hasParser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -928,7 +1153,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 fun hasParser(name: String): Boolean
 ```
 
-#### hasLanguage()
+**Example:**
+
+```kotlin
+val result = instance.hasParser("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Boolean`
+
+###### hasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -941,7 +1180,21 @@ table or from a dynamic library on disk.
 fun hasLanguage(name: String): Boolean
 ```
 
-#### languageCount()
+**Example:**
+
+```kotlin
+val result = instance.hasLanguage("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Boolean`
+
+###### languageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -951,7 +1204,15 @@ Return the total number of available languages (including aliases).
 fun languageCount(): Long
 ```
 
-#### process()
+**Example:**
+
+```kotlin
+val result = instance.languageCount()
+```
+
+**Returns:** `Long`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -962,7 +1223,24 @@ Parse source code and extract file intelligence based on config in a single pass
 fun process(source: String, config: ProcessConfig): ProcessResult
 ```
 
-#### default()
+**Example:**
+
+```kotlin
+val result = instance.process("value", ProcessConfig())
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Throws `Error`.
+
+###### default()
 
 **Signature:**
 
@@ -970,6 +1248,14 @@ fun process(source: String, config: ProcessConfig): ProcessResult
 @JvmStatic
 fun default(): LanguageRegistry
 ```
+
+**Example:**
+
+```kotlin
+val result = LanguageRegistry.default()
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -980,9 +1266,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -990,7 +1276,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 fun clone(): Node
 ```
 
-#### kind()
+**Example:**
+
+```kotlin
+val result = instance.clone()
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -1000,7 +1294,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 fun kind(): String
 ```
 
-#### kindId()
+**Example:**
+
+```kotlin
+val result = instance.kind()
+```
+
+**Returns:** `String`
+
+###### kindId()
 
 Return the node's numeric kind ID.
 
@@ -1014,7 +1316,15 @@ than comparing the string `kind()` in tight AST loops.
 fun kindId(): Short
 ```
 
-#### startByte()
+**Example:**
+
+```kotlin
+val result = instance.kindId()
+```
+
+**Returns:** `Short`
+
+###### startByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1024,7 +1334,15 @@ Return the inclusive start byte offset of this node.
 fun startByte(): Long
 ```
 
-#### endByte()
+**Example:**
+
+```kotlin
+val result = instance.startByte()
+```
+
+**Returns:** `Long`
+
+###### endByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1034,7 +1352,15 @@ Return the exclusive end byte offset of this node.
 fun endByte(): Long
 ```
 
-#### byteRange()
+**Example:**
+
+```kotlin
+val result = instance.endByte()
+```
+
+**Returns:** `Long`
+
+###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1047,7 +1373,15 @@ text accessor.
 fun byteRange(): ByteRange
 ```
 
-#### startPosition()
+**Example:**
+
+```kotlin
+val result = instance.byteRange()
+```
+
+**Returns:** `ByteRange`
+
+###### startPosition()
 
 Return the start `Point` (row, column).
 
@@ -1057,7 +1391,15 @@ Return the start `Point` (row, column).
 fun startPosition(): Point
 ```
 
-#### endPosition()
+**Example:**
+
+```kotlin
+val result = instance.startPosition()
+```
+
+**Returns:** `Point`
+
+###### endPosition()
 
 Return the end `Point` (row, column).
 
@@ -1067,7 +1409,15 @@ Return the end `Point` (row, column).
 fun endPosition(): Point
 ```
 
-#### isNamed()
+**Example:**
+
+```kotlin
+val result = instance.endPosition()
+```
+
+**Returns:** `Point`
+
+###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1077,7 +1427,15 @@ True when this node is named (not punctuation/whitespace).
 fun isNamed(): Boolean
 ```
 
-#### isError()
+**Example:**
+
+```kotlin
+val result = instance.isNamed()
+```
+
+**Returns:** `Boolean`
+
+###### isError()
 
 True when this is an error node.
 
@@ -1087,7 +1445,15 @@ True when this is an error node.
 fun isError(): Boolean
 ```
 
-#### isMissing()
+**Example:**
+
+```kotlin
+val result = instance.isError()
+```
+
+**Returns:** `Boolean`
+
+###### isMissing()
 
 True when this is a missing-token node.
 
@@ -1097,7 +1463,15 @@ True when this is a missing-token node.
 fun isMissing(): Boolean
 ```
 
-#### isExtra()
+**Example:**
+
+```kotlin
+val result = instance.isMissing()
+```
+
+**Returns:** `Boolean`
+
+###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1107,7 +1481,15 @@ True when this is an "extra" node (e.g. a comment).
 fun isExtra(): Boolean
 ```
 
-#### hasError()
+**Example:**
+
+```kotlin
+val result = instance.isExtra()
+```
+
+**Returns:** `Boolean`
+
+###### hasError()
 
 True when this node or any descendant is an error.
 
@@ -1117,7 +1499,15 @@ True when this node or any descendant is an error.
 fun hasError(): Boolean
 ```
 
-#### parent()
+**Example:**
+
+```kotlin
+val result = instance.hasError()
+```
+
+**Returns:** `Boolean`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1127,7 +1517,15 @@ Return this node's parent, if any.
 fun parent(): Node?
 ```
 
-#### child()
+**Example:**
+
+```kotlin
+val result = instance.parent()
+```
+
+**Returns:** `Node?`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1137,7 +1535,21 @@ Return the i-th child of this node, if any.
 fun child(index: Int): Node?
 ```
 
-#### childCount()
+**Example:**
+
+```kotlin
+val result = instance.child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `Int` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### childCount()
 
 Total number of children (including unnamed).
 
@@ -1147,7 +1559,15 @@ Total number of children (including unnamed).
 fun childCount(): Long
 ```
 
-#### namedChild()
+**Example:**
+
+```kotlin
+val result = instance.childCount()
+```
+
+**Returns:** `Long`
+
+###### namedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1157,7 +1577,21 @@ Return the i-th named child of this node, if any.
 fun namedChild(index: Int): Node?
 ```
 
-#### namedChildCount()
+**Example:**
+
+```kotlin
+val result = instance.namedChild(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `Int` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### namedChildCount()
 
 Number of named children of this node.
 
@@ -1167,7 +1601,15 @@ Number of named children of this node.
 fun namedChildCount(): Long
 ```
 
-#### childByFieldName()
+**Example:**
+
+```kotlin
+val result = instance.namedChildCount()
+```
+
+**Returns:** `Long`
+
+###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1177,7 +1619,21 @@ Look up a child by its grammar-defined field name.
 fun childByFieldName(name: String): Node?
 ```
 
-#### toSexp()
+**Example:**
+
+```kotlin
+val result = instance.childByFieldName("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Node?`
+
+###### toSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1187,7 +1643,15 @@ Return the S-expression form of this node's subtree.
 fun toSexp(): String
 ```
 
-#### walk()
+**Example:**
+
+```kotlin
+val result = instance.toSexp()
+```
+
+**Returns:** `String`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1196,6 +1660,14 @@ Return a `TreeCursor` positioned at this node.
 ```kotlin
 fun walk(): TreeCursor
 ```
+
+**Example:**
+
+```kotlin
+val result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1219,9 +1691,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1234,7 +1706,15 @@ Call `Parser.set_language` before parsing.
 fun new(): Parser
 ```
 
-#### setLanguage()
+**Example:**
+
+```kotlin
+val result = Parser.new()
+```
+
+**Returns:** `Parser`
+
+###### setLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1253,7 +1733,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 fun setLanguage(name: String)
 ```
 
-#### parse()
+**Example:**
+
+```kotlin
+instance.setLanguage("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1264,7 +1760,21 @@ or no language is set.
 fun parse(source: String): Tree?
 ```
 
-#### parseBytes()
+**Example:**
+
+```kotlin
+val result = instance.parse("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1275,7 +1785,21 @@ no language is set.
 fun parseBytes(source: ByteArray): Tree?
 ```
 
-#### reset()
+**Example:**
+
+```kotlin
+val result = instance.parseBytes("data".toByteArray())
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `ByteArray` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1286,7 +1810,15 @@ not be incremental.
 fun reset()
 ```
 
-#### default()
+**Example:**
+
+```kotlin
+instance.reset()
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
@@ -1294,6 +1826,14 @@ fun reset()
 @JvmStatic
 fun default(): Parser
 ```
+
+**Example:**
+
+```kotlin
+val result = Parser.default()
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1327,9 +1867,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunkMaxSize` | `Long?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 | `dataExtraction` | `Boolean` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `null`. |
 
-### Methods
+##### Methods
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1338,7 +1878,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 fun default(): ProcessConfig
 ```
 
-#### withChunking()
+**Example:**
+
+```kotlin
+val result = ProcessConfig.default()
+```
+
+**Returns:** `ProcessConfig`
+
+###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1348,7 +1896,21 @@ Enable chunking with the given maximum chunk size in bytes.
 fun withChunking(maxSize: Long): ProcessConfig
 ```
 
-#### all()
+**Example:**
+
+```kotlin
+val result = instance.withChunking(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `maxSize` | `Long` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1358,7 +1920,15 @@ Enable all analysis features.
 fun all(): ProcessConfig
 ```
 
-#### minimal()
+**Example:**
+
+```kotlin
+val result = instance.all()
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1368,7 +1938,15 @@ Disable all analysis features (only metrics computed).
 fun minimal(): ProcessConfig
 ```
 
-#### withDataExtraction()
+**Example:**
+
+```kotlin
+val result = instance.minimal()
+```
+
+**Returns:** `ProcessConfig`
+
+###### withDataExtraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1380,6 +1958,20 @@ populated with a key/value tree for supported data-format languages.
 ```kotlin
 fun withDataExtraction(enabled: Boolean): ProcessConfig
 ```
+
+**Example:**
+
+```kotlin
+val result = instance.withDataExtraction(true)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `Boolean` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1461,9 +2053,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### rootNode()
+###### rootNode()
 
 Return the root `Node` of this tree.
 
@@ -1473,7 +2065,15 @@ Return the root `Node` of this tree.
 fun rootNode(): Node
 ```
 
-#### walk()
+**Example:**
+
+```kotlin
+val result = instance.rootNode()
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1483,15 +2083,23 @@ Return a `TreeCursor` positioned at the root.
 fun walk(): TreeCursor
 ```
 
+**Example:**
+
+```kotlin
+val result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1501,7 +2109,15 @@ Return the `Node` at the cursor's current position.
 fun node(): Node
 ```
 
-#### gotoFirstChild()
+**Example:**
+
+```kotlin
+val result = instance.node()
+```
+
+**Returns:** `Node`
+
+###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1512,7 +2128,15 @@ Returns `true` if a child existed.
 fun gotoFirstChild(): Boolean
 ```
 
-#### gotoParent()
+**Example:**
+
+```kotlin
+val result = instance.gotoFirstChild()
+```
+
+**Returns:** `Boolean`
+
+###### gotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1523,7 +2147,15 @@ Returns `true` if a parent existed.
 fun gotoParent(): Boolean
 ```
 
-#### gotoNextSibling()
+**Example:**
+
+```kotlin
+val result = instance.gotoParent()
+```
+
+**Returns:** `Boolean`
+
+###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1534,7 +2166,15 @@ Returns `true` if a sibling existed.
 fun gotoNextSibling(): Boolean
 ```
 
-#### fieldName()
+**Example:**
+
+```kotlin
+val result = instance.gotoNextSibling()
+```
+
+**Returns:** `Boolean`
+
+###### fieldName()
 
 Return the field name for the current node, if any.
 
@@ -1543,6 +2183,14 @@ Return the field name for the current node, if any.
 ```kotlin
 fun fieldName(): String?
 ```
+
+**Example:**
+
+```kotlin
+val result = instance.fieldName()
+```
+
+**Returns:** `String?`
 
 ---
 

@@ -2,7 +2,7 @@
 title: "Elixir API Reference"
 ---
 
-## Elixir API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Elixir API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -17,6 +17,12 @@ Returns `nil` for unrecognized extensions. The match is case-insensitive.
 ```elixir
 @spec detect_language_from_extension(ext) :: {:ok, term()} | {:error, term()}
 def detect_language_from_extension(ext)
+```
+
+**Example:**
+
+```elixir
+{:ok, result} = detect_language_from_extension("value")
 ```
 
 **Parameters:**
@@ -41,6 +47,12 @@ path has no extension or the extension is not recognized.
 ```elixir
 @spec detect_language_from_path(path) :: {:ok, term()} | {:error, term()}
 def detect_language_from_path(path)
+```
+
+**Example:**
+
+```elixir
+{:ok, result} = detect_language_from_path("value")
 ```
 
 **Parameters:**
@@ -79,6 +91,12 @@ malformed, or the interpreter is not recognised.
 def detect_language_from_content(content)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = detect_language_from_content("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -101,6 +119,12 @@ if no highlights query is bundled for this language.
 ```elixir
 @spec get_highlights_query(language) :: {:ok, term()} | {:error, term()}
 def get_highlights_query(language)
+```
+
+**Example:**
+
+```elixir
+{:ok, result} = get_highlights_query("value")
 ```
 
 **Parameters:**
@@ -127,6 +151,12 @@ if no injections query is bundled for this language.
 def get_injections_query(language)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = get_injections_query("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -151,6 +181,12 @@ if no locals query is bundled for this language.
 def get_locals_query(language)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = get_locals_query("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -173,6 +209,12 @@ if no tags query is bundled for this language.
 ```elixir
 @spec get_tags_query(language) :: {:ok, term()} | {:error, term()}
 def get_tags_query(language)
+```
+
+**Example:**
+
+```elixir
+{:ok, result} = get_tags_query("value")
 ```
 
 **Parameters:**
@@ -205,6 +247,12 @@ or `Error.Download` if auto-download fails.
 def get_language(name)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = get_language("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -212,6 +260,7 @@ def get_language(name)
 | `name` | `String.t()` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -235,6 +284,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 def get_parser(name)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = get_parser("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -242,6 +297,7 @@ def get_parser(name)
 | `name` | `String.t()` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -257,6 +313,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 ```elixir
 @spec detect_language(path) :: {:ok, term()} | {:error, term()}
 def detect_language(path)
+```
+
+**Example:**
+
+```elixir
+{:ok, result} = detect_language("value")
 ```
 
 **Parameters:**
@@ -283,6 +345,12 @@ plus any configured aliases.
 def available_languages()
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = available_languages()
+```
+
 **Returns:** `list(String.t())`
 
 ---
@@ -299,6 +367,12 @@ dynamically available, or a known alias for one of these).
 ```elixir
 @spec has_language(name) :: {:ok, term()} | {:error, term()}
 def has_language(name)
+```
+
+**Example:**
+
+```elixir
+{:ok, result} = has_language("value")
 ```
 
 **Parameters:**
@@ -325,6 +399,12 @@ and aliases.
 def language_count()
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = language_count()
+```
+
 **Returns:** `integer()`
 
 ---
@@ -348,6 +428,12 @@ Returns an error if the language is not found or parsing fails.
 def process(source, config)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = process("value", %{{}})
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -356,6 +442,7 @@ def process(source, config)
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -379,13 +466,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 def init(config)
 ```
 
+**Example:**
+
+```elixir
+:ok = init(%{{}})
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `:ok`
+**Returns:** No return value.
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -410,13 +504,20 @@ Returns an error if the lock cannot be acquired.
 def configure(config)
 ```
 
+**Example:**
+
+```elixir
+:ok = configure(%{{}})
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `:ok`
+**Returns:** No return value.
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -440,6 +541,12 @@ the download fails.
 def download(names)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = download([])
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -447,6 +554,7 @@ def download(names)
 | `names` | `list(String.t())` | Yes | The names |
 
 **Returns:** `integer()`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -474,7 +582,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 def download_all()
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = download_all()
+```
+
 **Returns:** `integer()`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -502,6 +617,12 @@ or any constituent language fails to download.
 def download_group(name)
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = download_group("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -509,6 +630,7 @@ def download_group(name)
 | `name` | `String.t()` | Yes | The name |
 
 **Returns:** `integer()`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -532,7 +654,14 @@ Returns an error if the manifest cannot be fetched.
 def manifest_languages()
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = manifest_languages()
+```
+
 **Returns:** `list(String.t())`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -549,6 +678,12 @@ cache directory does not exist or cannot be read.
 ```elixir
 @spec downloaded_languages() :: {:ok, term()} | {:error, term()}
 def downloaded_languages()
+```
+
+**Example:**
+
+```elixir
+{:ok, result} = downloaded_languages()
 ```
 
 **Returns:** `list(String.t())`
@@ -573,7 +708,14 @@ Returns an error if the cache directory cannot be removed.
 def clean_cache()
 ```
 
-**Returns:** `:ok`
+**Example:**
+
+```elixir
+:ok = clean_cache()
+```
+
+**Returns:** No return value.
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -596,7 +738,14 @@ Returns an error if the system cache directory cannot be determined.
 def cache_dir()
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = cache_dir()
+```
+
 **Returns:** `String.t()`
+
 **Errors:** Returns `{:error, reason}`
 
 ---
@@ -744,9 +893,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Functions
+##### Functions
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -756,7 +905,23 @@ Create a new download manager for the given version.
 def new(version)
 ```
 
-#### installed_languages()
+**Example:**
+
+```elixir
+{:ok, result} = DownloadManager.new("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `String.t()` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Returns `{:error, reason}`
+
+###### installed_languages()
 
 List languages that are already downloaded and cached.
 
@@ -766,7 +931,15 @@ List languages that are already downloaded and cached.
 def installed_languages()
 ```
 
-#### download_all_best_effort()
+**Example:**
+
+```elixir
+{:ok, result} = instance.installed_languages()
+```
+
+**Returns:** `list(String.t())`
+
+###### download_all_best_effort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -783,7 +956,17 @@ Returns the number of library files extracted (including those already cached).
 def download_all_best_effort()
 ```
 
-#### clean_cache()
+**Example:**
+
+```elixir
+{:ok, result} = instance.download_all_best_effort()
+```
+
+**Returns:** `integer()`
+
+**Errors:** Returns `{:error, reason}`
+
+###### clean_cache()
 
 Remove all cached parser libraries.
 
@@ -799,6 +982,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```elixir
 def clean_cache()
 ```
+
+**Example:**
+
+```elixir
+:ok = instance.clean_cache()
+```
+
+**Returns:** No return value.
+
+**Errors:** Returns `{:error, reason}`
 
 ---
 
@@ -858,9 +1051,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Functions
+##### Functions
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -873,7 +1066,15 @@ about dynamically loadable grammars and will load them on demand.
 def new()
 ```
 
-#### get_language()
+**Example:**
+
+```elixir
+{:ok, result} = LanguageRegistry.new()
+```
+
+**Returns:** `LanguageRegistry`
+
+###### get_language()
 
 Get a tree-sitter `Language` by name.
 
@@ -892,7 +1093,23 @@ does not match any known grammar.
 def get_language(name)
 ```
 
-#### available_languages()
+**Example:**
+
+```elixir
+{:ok, result} = instance.get_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String.t()` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Returns `{:error, reason}`
+
+###### available_languages()
 
 List all available language names, sorted and deduplicated.
 
@@ -905,7 +1122,15 @@ Includes statically compiled languages, dynamically loadable languages
 def available_languages()
 ```
 
-#### has_parser()
+**Example:**
+
+```elixir
+{:ok, result} = instance.available_languages()
+```
+
+**Returns:** `list(String.t())`
+
+###### has_parser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -934,7 +1159,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 def has_parser(name)
 ```
 
-#### has_language()
+**Example:**
+
+```elixir
+{:ok, result} = instance.has_parser("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String.t()` | Yes | The name |
+
+**Returns:** `boolean()`
+
+###### has_language()
 
 Check whether a language is available by name or alias.
 
@@ -947,7 +1186,21 @@ table or from a dynamic library on disk.
 def has_language(name)
 ```
 
-#### language_count()
+**Example:**
+
+```elixir
+{:ok, result} = instance.has_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String.t()` | Yes | The name |
+
+**Returns:** `boolean()`
+
+###### language_count()
 
 Return the total number of available languages (including aliases).
 
@@ -957,7 +1210,15 @@ Return the total number of available languages (including aliases).
 def language_count()
 ```
 
-#### process()
+**Example:**
+
+```elixir
+{:ok, result} = instance.language_count()
+```
+
+**Returns:** `integer()`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -967,13 +1228,38 @@ Parse source code and extract file intelligence based on config in a single pass
 def process(source, config)
 ```
 
-#### default()
+**Example:**
+
+```elixir
+{:ok, result} = instance.process("value", %{{}})
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String.t()` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Returns `{:error, reason}`
+
+###### default()
 
 **Signature:**
 
 ```elixir
 def default()
 ```
+
+**Example:**
+
+```elixir
+{:ok, result} = LanguageRegistry.default()
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -984,9 +1270,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Functions
+##### Functions
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -994,7 +1280,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 def clone()
 ```
 
-#### kind()
+**Example:**
+
+```elixir
+{:ok, result} = instance.clone()
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -1004,7 +1298,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 def kind()
 ```
 
-#### kind_id()
+**Example:**
+
+```elixir
+{:ok, result} = instance.kind()
+```
+
+**Returns:** `String.t()`
+
+###### kind_id()
 
 Return the node's numeric kind ID.
 
@@ -1018,7 +1320,15 @@ than comparing the string `kind()` in tight AST loops.
 def kind_id()
 ```
 
-#### start_byte()
+**Example:**
+
+```elixir
+{:ok, result} = instance.kind_id()
+```
+
+**Returns:** `integer()`
+
+###### start_byte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1028,7 +1338,15 @@ Return the inclusive start byte offset of this node.
 def start_byte()
 ```
 
-#### end_byte()
+**Example:**
+
+```elixir
+{:ok, result} = instance.start_byte()
+```
+
+**Returns:** `integer()`
+
+###### end_byte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1038,7 +1356,15 @@ Return the exclusive end byte offset of this node.
 def end_byte()
 ```
 
-#### byte_range()
+**Example:**
+
+```elixir
+{:ok, result} = instance.end_byte()
+```
+
+**Returns:** `integer()`
+
+###### byte_range()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1051,7 +1377,15 @@ text accessor.
 def byte_range()
 ```
 
-#### start_position()
+**Example:**
+
+```elixir
+{:ok, result} = instance.byte_range()
+```
+
+**Returns:** `ByteRange`
+
+###### start_position()
 
 Return the start `Point` (row, column).
 
@@ -1061,7 +1395,15 @@ Return the start `Point` (row, column).
 def start_position()
 ```
 
-#### end_position()
+**Example:**
+
+```elixir
+{:ok, result} = instance.start_position()
+```
+
+**Returns:** `Point`
+
+###### end_position()
 
 Return the end `Point` (row, column).
 
@@ -1071,7 +1413,15 @@ Return the end `Point` (row, column).
 def end_position()
 ```
 
-#### is_named()
+**Example:**
+
+```elixir
+{:ok, result} = instance.end_position()
+```
+
+**Returns:** `Point`
+
+###### is_named()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1081,7 +1431,15 @@ True when this node is named (not punctuation/whitespace).
 def is_named()
 ```
 
-#### is_error()
+**Example:**
+
+```elixir
+{:ok, result} = instance.is_named()
+```
+
+**Returns:** `boolean()`
+
+###### is_error()
 
 True when this is an error node.
 
@@ -1091,7 +1449,15 @@ True when this is an error node.
 def is_error()
 ```
 
-#### is_missing()
+**Example:**
+
+```elixir
+{:ok, result} = instance.is_error()
+```
+
+**Returns:** `boolean()`
+
+###### is_missing()
 
 True when this is a missing-token node.
 
@@ -1101,7 +1467,15 @@ True when this is a missing-token node.
 def is_missing()
 ```
 
-#### is_extra()
+**Example:**
+
+```elixir
+{:ok, result} = instance.is_missing()
+```
+
+**Returns:** `boolean()`
+
+###### is_extra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1111,7 +1485,15 @@ True when this is an "extra" node (e.g. a comment).
 def is_extra()
 ```
 
-#### has_error()
+**Example:**
+
+```elixir
+{:ok, result} = instance.is_extra()
+```
+
+**Returns:** `boolean()`
+
+###### has_error()
 
 True when this node or any descendant is an error.
 
@@ -1121,7 +1503,15 @@ True when this node or any descendant is an error.
 def has_error()
 ```
 
-#### parent()
+**Example:**
+
+```elixir
+{:ok, result} = instance.has_error()
+```
+
+**Returns:** `boolean()`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1131,7 +1521,15 @@ Return this node's parent, if any.
 def parent()
 ```
 
-#### child()
+**Example:**
+
+```elixir
+{:ok, result} = instance.parent()
+```
+
+**Returns:** `Node | nil`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1141,7 +1539,21 @@ Return the i-th child of this node, if any.
 def child(index)
 ```
 
-#### child_count()
+**Example:**
+
+```elixir
+{:ok, result} = instance.child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `integer()` | Yes | The index |
+
+**Returns:** `Node | nil`
+
+###### child_count()
 
 Total number of children (including unnamed).
 
@@ -1151,7 +1563,15 @@ Total number of children (including unnamed).
 def child_count()
 ```
 
-#### named_child()
+**Example:**
+
+```elixir
+{:ok, result} = instance.child_count()
+```
+
+**Returns:** `integer()`
+
+###### named_child()
 
 Return the i-th named child of this node, if any.
 
@@ -1161,7 +1581,21 @@ Return the i-th named child of this node, if any.
 def named_child(index)
 ```
 
-#### named_child_count()
+**Example:**
+
+```elixir
+{:ok, result} = instance.named_child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `integer()` | Yes | The index |
+
+**Returns:** `Node | nil`
+
+###### named_child_count()
 
 Number of named children of this node.
 
@@ -1171,7 +1605,15 @@ Number of named children of this node.
 def named_child_count()
 ```
 
-#### child_by_field_name()
+**Example:**
+
+```elixir
+{:ok, result} = instance.named_child_count()
+```
+
+**Returns:** `integer()`
+
+###### child_by_field_name()
 
 Look up a child by its grammar-defined field name.
 
@@ -1181,7 +1623,21 @@ Look up a child by its grammar-defined field name.
 def child_by_field_name(name)
 ```
 
-#### to_sexp()
+**Example:**
+
+```elixir
+{:ok, result} = instance.child_by_field_name("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String.t()` | Yes | The name |
+
+**Returns:** `Node | nil`
+
+###### to_sexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1191,7 +1647,15 @@ Return the S-expression form of this node's subtree.
 def to_sexp()
 ```
 
-#### walk()
+**Example:**
+
+```elixir
+{:ok, result} = instance.to_sexp()
+```
+
+**Returns:** `String.t()`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1200,6 +1664,14 @@ Return a `TreeCursor` positioned at this node.
 ```elixir
 def walk()
 ```
+
+**Example:**
+
+```elixir
+{:ok, result} = instance.walk()
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1223,9 +1695,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Functions
+##### Functions
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1237,7 +1709,15 @@ Call `Parser.set_language` before parsing.
 def new()
 ```
 
-#### set_language()
+**Example:**
+
+```elixir
+{:ok, result} = Parser.new()
+```
+
+**Returns:** `Parser`
+
+###### set_language()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1255,7 +1735,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 def set_language(name)
 ```
 
-#### parse()
+**Example:**
+
+```elixir
+:ok = instance.set_language("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String.t()` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Returns `{:error, reason}`
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `nil` if parsing was cancelled
 or no language is set.
@@ -1266,7 +1762,21 @@ or no language is set.
 def parse(source)
 ```
 
-#### parse_bytes()
+**Example:**
+
+```elixir
+{:ok, result} = instance.parse("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String.t()` | Yes | The source |
+
+**Returns:** `Tree | nil`
+
+###### parse_bytes()
 
 Parse a raw byte slice. Returns `nil` if parsing was cancelled or
 no language is set.
@@ -1277,7 +1787,21 @@ no language is set.
 def parse_bytes(source)
 ```
 
-#### reset()
+**Example:**
+
+```elixir
+{:ok, result} = instance.parse_bytes(<<100, 97, 116, 97>>)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `binary()` | Yes | The source |
+
+**Returns:** `Tree | nil`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1288,13 +1812,29 @@ not be incremental.
 def reset()
 ```
 
-#### default()
+**Example:**
+
+```elixir
+:ok = instance.reset()
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
 ```elixir
 def default()
 ```
+
+**Example:**
+
+```elixir
+{:ok, result} = Parser.default()
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1328,9 +1868,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunk_max_size` | `integer() \| nil` | `nil` | Maximum chunk size in bytes. `nil` disables chunking. |
 | `data_extraction` | `boolean()` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `nil`. |
 
-### Functions
+##### Functions
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1338,7 +1878,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 def default()
 ```
 
-#### with_chunking()
+**Example:**
+
+```elixir
+{:ok, result} = ProcessConfig.default()
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_chunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1348,7 +1896,21 @@ Enable chunking with the given maximum chunk size in bytes.
 def with_chunking(max_size)
 ```
 
-#### all()
+**Example:**
+
+```elixir
+{:ok, result} = instance.with_chunking(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `max_size` | `integer()` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1358,7 +1920,15 @@ Enable all analysis features.
 def all()
 ```
 
-#### minimal()
+**Example:**
+
+```elixir
+{:ok, result} = instance.all()
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1368,7 +1938,15 @@ Disable all analysis features (only metrics computed).
 def minimal()
 ```
 
-#### with_data_extraction()
+**Example:**
+
+```elixir
+{:ok, result} = instance.minimal()
+```
+
+**Returns:** `ProcessConfig`
+
+###### with_data_extraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1380,6 +1958,20 @@ populated with a key/value tree for supported data-format languages.
 ```elixir
 def with_data_extraction(enabled)
 ```
+
+**Example:**
+
+```elixir
+{:ok, result} = instance.with_data_extraction(true)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `boolean()` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1461,9 +2053,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Functions
+##### Functions
 
-#### root_node()
+###### root_node()
 
 Return the root `Node` of this tree.
 
@@ -1473,7 +2065,15 @@ Return the root `Node` of this tree.
 def root_node()
 ```
 
-#### walk()
+**Example:**
+
+```elixir
+{:ok, result} = instance.root_node()
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1483,15 +2083,23 @@ Return a `TreeCursor` positioned at the root.
 def walk()
 ```
 
+**Example:**
+
+```elixir
+{:ok, result} = instance.walk()
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Functions
+##### Functions
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1501,7 +2109,15 @@ Return the `Node` at the cursor's current position.
 def node()
 ```
 
-#### goto_first_child()
+**Example:**
+
+```elixir
+{:ok, result} = instance.node()
+```
+
+**Returns:** `Node`
+
+###### goto_first_child()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1512,7 +2128,15 @@ Returns `true` if a child existed.
 def goto_first_child()
 ```
 
-#### goto_parent()
+**Example:**
+
+```elixir
+{:ok, result} = instance.goto_first_child()
+```
+
+**Returns:** `boolean()`
+
+###### goto_parent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1523,7 +2147,15 @@ Returns `true` if a parent existed.
 def goto_parent()
 ```
 
-#### goto_next_sibling()
+**Example:**
+
+```elixir
+{:ok, result} = instance.goto_parent()
+```
+
+**Returns:** `boolean()`
+
+###### goto_next_sibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1534,7 +2166,15 @@ Returns `true` if a sibling existed.
 def goto_next_sibling()
 ```
 
-#### field_name()
+**Example:**
+
+```elixir
+{:ok, result} = instance.goto_next_sibling()
+```
+
+**Returns:** `boolean()`
+
+###### field_name()
 
 Return the field name for the current node, if any.
 
@@ -1543,6 +2183,14 @@ Return the field name for the current node, if any.
 ```elixir
 def field_name()
 ```
+
+**Example:**
+
+```elixir
+{:ok, result} = instance.field_name()
+```
+
+**Returns:** `String.t() | nil`
 
 ---
 

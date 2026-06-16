@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.25.15"
+alef_version = "0.25.18"
 languages = [
   "python",
   "node",
@@ -134,14 +134,10 @@ features = ["serde", "config", "download"]
 [crates.python]
 module_name = "_native"
 pip_name = "tree-sitter-language-pack"
-pip_dependencies = ["tree-sitter>=0.23"]
 release_gil = true
 
 [crates.python.stubs]
 output = "packages/python/tree_sitter_language_pack/"
-
-[crates.python.capsule_types]
-Language = "tree_sitter.Language"
 
 [crates.python.extra_init_imports]
 "._supported_languages" = ["SupportedLanguage"]
@@ -149,12 +145,6 @@ Language = "tree_sitter.Language"
 [crates.node]
 package_name = "@kreuzberg/tree-sitter-language-pack"
 crate_dir = "crates/ts-pack-core-node"
-
-[crates.node.capsule_types.Language]
-type = "Language"
-from_module = "tree-sitter"
-property_name = "language"
-type_tag = { lower = "0x8AF2E5212AD58ABF", upper = "0xD5006CAD83ABBA16" }
 
 [crates.ruby]
 gem_name = "tree_sitter_language_pack"
@@ -616,13 +606,6 @@ result_fields = [
 "file_metrics.error_count" = "uintptr_t"
 "file_metrics.max_depth" = "uintptr_t"
 
-# `e2e/node/tests/capsule_passthrough.test.ts` imports the upstream
-# `tree-sitter` npm package to verify FFI capsule type-tag passthrough between
-# our `Language` object and tree-sitter's native module. Without this entry
-# `alef e2e generate` strips the devDependency from `e2e/node/package.json` on
-# every regen. Lands via the alef 0.17.13+ `harness_extras` knob.
-[crates.e2e.harness_extras.node]
-dev_dependencies = { "tree-sitter" = "^0.25.0" }
 
 [crates.e2e.call]
 function = "process"
@@ -1052,52 +1035,52 @@ github_repo = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "1.9.0rc51"
+version = "1.9.0rc52"
 
 [crates.e2e.registry.packages.node]
 name = "@kreuzberg/tree-sitter-language-pack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.go]
 module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
-version = "v1.9.0-rc.51"
+version = "v1.9.0-rc.52"
 
 [crates.e2e.registry.packages.java]
 group_id = "dev.kreuzberg.treesitterlanguagepack"
 artifact_id = "tree-sitter-language-pack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "1.9.0.pre.rc.51"
+version = "1.9.0.pre.rc.52"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.wasm]
 name = "@kreuzberg/tree-sitter-language-pack-wasm"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.php]
 name = "kreuzberg-dev/tree-sitter-language-pack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 # Per-platform hashes — alef publish only produces per-platform zig tarballs
 # (no generic-name tarball). Placeholders trigger network auto-fetch at regen
 # time via `zig fetch <url>`, resolving to the real published hash.
@@ -1111,15 +1094,15 @@ version = "1.9.0-rc.51"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "dev.kreuzberg:tree-sitter-language-pack-android"
-version = "1.9.0-rc.51"
+version = "1.9.0-rc.52"
 
 # JNI test app reuses the kotlin_android Gradle scaffold (`buildHostJni` +
 # `copyHostJni` → JUnit tests loading the JNI cdylib via JNA on the host JVM).

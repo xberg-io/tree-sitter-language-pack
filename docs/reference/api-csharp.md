@@ -2,7 +2,7 @@
 title: "C# API Reference"
 ---
 
-## C# API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## C# API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 
 ```csharp
 public static string? DetectLanguageFromExtension(string ext)
+```
+
+**Example:**
+
+```csharp
+var result = DetectLanguageFromExtension("value");
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```csharp
 public static string? DetectLanguageFromPath(string path)
+```
+
+**Example:**
+
+```csharp
+var result = DetectLanguageFromPath("value");
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 public static string? DetectLanguageFromContent(string content)
 ```
 
+**Example:**
+
+```csharp
+var result = DetectLanguageFromContent("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```csharp
 public static string? GetHighlightsQuery(string language)
+```
+
+**Example:**
+
+```csharp
+var result = GetHighlightsQuery("value");
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 public static string? GetInjectionsQuery(string language)
 ```
 
+**Example:**
+
+```csharp
+var result = GetInjectionsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 public static string? GetLocalsQuery(string language)
 ```
 
+**Example:**
+
+```csharp
+var result = GetLocalsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```csharp
 public static string? GetTagsQuery(string language)
+```
+
+**Example:**
+
+```csharp
+var result = GetTagsQuery("value");
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 public static Language GetLanguage(string name)
 ```
 
+**Example:**
+
+```csharp
+var result = GetLanguage("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ public static Language GetLanguage(string name)
 | `Name` | `string` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 public static Parser GetParser(string name)
 ```
 
+**Example:**
+
+```csharp
+var result = GetParser("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ public static Parser GetParser(string name)
 | `Name` | `string` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```csharp
 public static string? DetectLanguage(string path)
+```
+
+**Example:**
+
+```csharp
+var result = DetectLanguage("value");
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 public static List<string> AvailableLanguages()
 ```
 
+**Example:**
+
+```csharp
+var result = AvailableLanguages();
+```
+
 **Returns:** `List<string>`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```csharp
 public static bool HasLanguage(string name)
+```
+
+**Example:**
+
+```csharp
+var result = HasLanguage("value");
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 public static nuint LanguageCount()
 ```
 
+**Example:**
+
+```csharp
+var result = LanguageCount();
+```
+
 **Returns:** `nuint`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 public static ProcessResult Process(string source, ProcessConfig config)
 ```
 
+**Example:**
+
+```csharp
+var result = Process("value", new ProcessConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ public static ProcessResult Process(string source, ProcessConfig config)
 | `Config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 public static void Init(PackConfig config)
 ```
 
+**Example:**
+
+```csharp
+Init(new PackConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `Config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 public static void Configure(PackConfig config)
 ```
 
+**Example:**
+
+```csharp
+Configure(new PackConfig());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `Config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 public static nuint Download(List<string> names)
 ```
 
+**Example:**
+
+```csharp
+var result = Download(new List<object>());
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ public static nuint Download(List<string> names)
 | `Names` | `List<string>` | Yes | The names |
 
 **Returns:** `nuint`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 public static nuint DownloadAll()
 ```
 
+**Example:**
+
+```csharp
+var result = DownloadAll();
+```
+
 **Returns:** `nuint`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 public static nuint DownloadGroup(string name)
 ```
 
+**Example:**
+
+```csharp
+var result = DownloadGroup("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ public static nuint DownloadGroup(string name)
 | `Name` | `string` | Yes | The name |
 
 **Returns:** `nuint`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 public static List<string> ManifestLanguages()
 ```
 
+**Example:**
+
+```csharp
+var result = ManifestLanguages();
+```
+
 **Returns:** `List<string>`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```csharp
 public static List<string> DownloadedLanguages()
+```
+
+**Example:**
+
+```csharp
+var result = DownloadedLanguages();
 ```
 
 **Returns:** `List<string>`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 public static void CleanCache()
 ```
 
-**Returns:** `void`
+**Example:**
+
+```csharp
+CleanCache();
+```
+
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 public static string CacheDir()
 ```
 
+**Example:**
+
+```csharp
+var result = CacheDir();
+```
+
 **Returns:** `string`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### New()
+###### New()
 
 Create a new download manager for the given version.
 
@@ -733,7 +882,23 @@ Create a new download manager for the given version.
 public DownloadManager New(string version)
 ```
 
-#### InstalledLanguages()
+**Example:**
+
+```csharp
+var result = DownloadManager.New("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Version` | `string` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Throws `Error`.
+
+###### InstalledLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +908,15 @@ List languages that are already downloaded and cached.
 public List<string> InstalledLanguages()
 ```
 
-#### DownloadAllBestEffort()
+**Example:**
+
+```csharp
+var result = instance.InstalledLanguages();
+```
+
+**Returns:** `List<string>`
+
+###### DownloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +933,17 @@ Returns the number of library files extracted (including those already cached).
 public nuint DownloadAllBestEffort()
 ```
 
-#### CleanCache()
+**Example:**
+
+```csharp
+var result = instance.DownloadAllBestEffort();
+```
+
+**Returns:** `nuint`
+
+**Errors:** Throws `Error`.
+
+###### CleanCache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +959,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```csharp
 public void CleanCache()
 ```
+
+**Example:**
+
+```csharp
+instance.CleanCache();
+```
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
 
 ---
 
@@ -835,9 +1028,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### New()
+###### New()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1043,15 @@ about dynamically loadable grammars and will load them on demand.
 public LanguageRegistry New()
 ```
 
-#### GetLanguage()
+**Example:**
+
+```csharp
+var result = LanguageRegistry.New();
+```
+
+**Returns:** `LanguageRegistry`
+
+###### GetLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1070,23 @@ does not match any known grammar.
 public Language GetLanguage(string name)
 ```
 
-#### AvailableLanguages()
+**Example:**
+
+```csharp
+var result = instance.GetLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Throws `Error`.
+
+###### AvailableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1099,15 @@ Includes statically compiled languages, dynamically loadable languages
 public List<string> AvailableLanguages()
 ```
 
-#### HasParser()
+**Example:**
+
+```csharp
+var result = instance.AvailableLanguages();
+```
+
+**Returns:** `List<string>`
+
+###### HasParser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1136,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 public bool HasParser(string name)
 ```
 
-#### HasLanguage()
+**Example:**
+
+```csharp
+var result = instance.HasParser("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `bool`
+
+###### HasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1163,21 @@ table or from a dynamic library on disk.
 public bool HasLanguage(string name)
 ```
 
-#### LanguageCount()
+**Example:**
+
+```csharp
+var result = instance.HasLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `bool`
+
+###### LanguageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1187,15 @@ Return the total number of available languages (including aliases).
 public nuint LanguageCount()
 ```
 
-#### Process()
+**Example:**
+
+```csharp
+var result = instance.LanguageCount();
+```
+
+**Returns:** `nuint`
+
+###### Process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1205,38 @@ Parse source code and extract file intelligence based on config in a single pass
 public ProcessResult Process(string source, ProcessConfig config)
 ```
 
-#### CreateDefault()
+**Example:**
+
+```csharp
+var result = instance.Process("value", new ProcessConfig());
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Source` | `string` | Yes | The source |
+| `Config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Throws `Error`.
+
+###### CreateDefault()
 
 **Signature:**
 
 ```csharp
 public LanguageRegistry CreateDefault()
 ```
+
+**Example:**
+
+```csharp
+var result = LanguageRegistry.CreateDefault();
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1247,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### Clone()
+###### Clone()
 
 **Signature:**
 
@@ -971,7 +1257,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 public Node Clone()
 ```
 
-#### Kind()
+**Example:**
+
+```csharp
+var result = instance.Clone();
+```
+
+**Returns:** `Node`
+
+###### Kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1275,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 public string Kind()
 ```
 
-#### KindId()
+**Example:**
+
+```csharp
+var result = instance.Kind();
+```
+
+**Returns:** `string`
+
+###### KindId()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1297,15 @@ than comparing the string `kind()` in tight AST loops.
 public ushort KindId()
 ```
 
-#### StartByte()
+**Example:**
+
+```csharp
+var result = instance.KindId();
+```
+
+**Returns:** `ushort`
+
+###### StartByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1315,15 @@ Return the inclusive start byte offset of this node.
 public nuint StartByte()
 ```
 
-#### EndByte()
+**Example:**
+
+```csharp
+var result = instance.StartByte();
+```
+
+**Returns:** `nuint`
+
+###### EndByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1333,15 @@ Return the exclusive end byte offset of this node.
 public nuint EndByte()
 ```
 
-#### ByteRange()
+**Example:**
+
+```csharp
+var result = instance.EndByte();
+```
+
+**Returns:** `nuint`
+
+###### ByteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1354,15 @@ text accessor.
 public ByteRange ByteRange()
 ```
 
-#### StartPosition()
+**Example:**
+
+```csharp
+var result = instance.ByteRange();
+```
+
+**Returns:** `ByteRange`
+
+###### StartPosition()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1372,15 @@ Return the start `Point` (row, column).
 public Point StartPosition()
 ```
 
-#### EndPosition()
+**Example:**
+
+```csharp
+var result = instance.StartPosition();
+```
+
+**Returns:** `Point`
+
+###### EndPosition()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1390,15 @@ Return the end `Point` (row, column).
 public Point EndPosition()
 ```
 
-#### IsNamed()
+**Example:**
+
+```csharp
+var result = instance.EndPosition();
+```
+
+**Returns:** `Point`
+
+###### IsNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1408,15 @@ True when this node is named (not punctuation/whitespace).
 public bool IsNamed()
 ```
 
-#### IsError()
+**Example:**
+
+```csharp
+var result = instance.IsNamed();
+```
+
+**Returns:** `bool`
+
+###### IsError()
 
 True when this is an error node.
 
@@ -1068,7 +1426,15 @@ True when this is an error node.
 public bool IsError()
 ```
 
-#### IsMissing()
+**Example:**
+
+```csharp
+var result = instance.IsError();
+```
+
+**Returns:** `bool`
+
+###### IsMissing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1444,15 @@ True when this is a missing-token node.
 public bool IsMissing()
 ```
 
-#### IsExtra()
+**Example:**
+
+```csharp
+var result = instance.IsMissing();
+```
+
+**Returns:** `bool`
+
+###### IsExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1462,15 @@ True when this is an "extra" node (e.g. a comment).
 public bool IsExtra()
 ```
 
-#### HasError()
+**Example:**
+
+```csharp
+var result = instance.IsExtra();
+```
+
+**Returns:** `bool`
+
+###### HasError()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1480,15 @@ True when this node or any descendant is an error.
 public bool HasError()
 ```
 
-#### Parent()
+**Example:**
+
+```csharp
+var result = instance.HasError();
+```
+
+**Returns:** `bool`
+
+###### Parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1498,15 @@ Return this node's parent, if any.
 public Node? Parent()
 ```
 
-#### Child()
+**Example:**
+
+```csharp
+var result = instance.Parent();
+```
+
+**Returns:** `Node?`
+
+###### Child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1516,21 @@ Return the i-th child of this node, if any.
 public Node? Child(uint index)
 ```
 
-#### ChildCount()
+**Example:**
+
+```csharp
+var result = instance.Child(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Index` | `uint` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### ChildCount()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1540,15 @@ Total number of children (including unnamed).
 public nuint ChildCount()
 ```
 
-#### NamedChild()
+**Example:**
+
+```csharp
+var result = instance.ChildCount();
+```
+
+**Returns:** `nuint`
+
+###### NamedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1558,21 @@ Return the i-th named child of this node, if any.
 public Node? NamedChild(uint index)
 ```
 
-#### NamedChildCount()
+**Example:**
+
+```csharp
+var result = instance.NamedChild(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Index` | `uint` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### NamedChildCount()
 
 Number of named children of this node.
 
@@ -1148,7 +1582,15 @@ Number of named children of this node.
 public nuint NamedChildCount()
 ```
 
-#### ChildByFieldName()
+**Example:**
+
+```csharp
+var result = instance.NamedChildCount();
+```
+
+**Returns:** `nuint`
+
+###### ChildByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1600,21 @@ Look up a child by its grammar-defined field name.
 public Node? ChildByFieldName(string name)
 ```
 
-#### ToSexp()
+**Example:**
+
+```csharp
+var result = instance.ChildByFieldName("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** `Node?`
+
+###### ToSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1624,15 @@ Return the S-expression form of this node's subtree.
 public string ToSexp()
 ```
 
-#### Walk()
+**Example:**
+
+```csharp
+var result = instance.ToSexp();
+```
+
+**Returns:** `string`
+
+###### Walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1641,14 @@ Return a `TreeCursor` positioned at this node.
 ```csharp
 public TreeCursor Walk()
 ```
+
+**Example:**
+
+```csharp
+var result = instance.Walk();
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1672,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### New()
+###### New()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1686,15 @@ Call `Parser.set_language` before parsing.
 public Parser New()
 ```
 
-#### SetLanguage()
+**Example:**
+
+```csharp
+var result = Parser.New();
+```
+
+**Returns:** `Parser`
+
+###### SetLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1712,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 public void SetLanguage(string name)
 ```
 
-#### Parse()
+**Example:**
+
+```csharp
+instance.SetLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Name` | `string` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
+
+###### Parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1739,21 @@ or no language is set.
 public Tree? Parse(string source)
 ```
 
-#### ParseBytes()
+**Example:**
+
+```csharp
+var result = instance.Parse("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Source` | `string` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### ParseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1764,21 @@ no language is set.
 public Tree? ParseBytes(byte[] source)
 ```
 
-#### Reset()
+**Example:**
+
+```csharp
+var result = instance.ParseBytes(System.Text.Encoding.UTF8.GetBytes("data"));
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Source` | `byte[]` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### Reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1789,29 @@ not be incremental.
 public void Reset()
 ```
 
-#### CreateDefault()
+**Example:**
+
+```csharp
+instance.Reset();
+```
+
+**Returns:** No return value.
+
+###### CreateDefault()
 
 **Signature:**
 
 ```csharp
 public Parser CreateDefault()
 ```
+
+**Example:**
+
+```csharp
+var result = Parser.CreateDefault();
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1845,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `ChunkMaxSize` | `nuint?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 | `DataExtraction` | `bool` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `null`. |
 
-### Methods
+##### Methods
 
-#### CreateDefault()
+###### CreateDefault()
 
 **Signature:**
 
@@ -1315,7 +1855,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 public ProcessConfig CreateDefault()
 ```
 
-#### WithChunking()
+**Example:**
+
+```csharp
+var result = ProcessConfig.CreateDefault();
+```
+
+**Returns:** `ProcessConfig`
+
+###### WithChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1873,21 @@ Enable chunking with the given maximum chunk size in bytes.
 public ProcessConfig WithChunking(nuint maxSize)
 ```
 
-#### All()
+**Example:**
+
+```csharp
+var result = instance.WithChunking(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `MaxSize` | `nuint` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### All()
 
 Enable all analysis features.
 
@@ -1335,7 +1897,15 @@ Enable all analysis features.
 public ProcessConfig All()
 ```
 
-#### Minimal()
+**Example:**
+
+```csharp
+var result = instance.All();
+```
+
+**Returns:** `ProcessConfig`
+
+###### Minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1915,15 @@ Disable all analysis features (only metrics computed).
 public ProcessConfig Minimal()
 ```
 
-#### WithDataExtraction()
+**Example:**
+
+```csharp
+var result = instance.Minimal();
+```
+
+**Returns:** `ProcessConfig`
+
+###### WithDataExtraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1935,20 @@ populated with a key/value tree for supported data-format languages.
 ```csharp
 public ProcessConfig WithDataExtraction(bool enabled)
 ```
+
+**Example:**
+
+```csharp
+var result = instance.WithDataExtraction(true);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `Enabled` | `bool` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2030,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### RootNode()
+###### RootNode()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2042,15 @@ Return the root `Node` of this tree.
 public Node RootNode()
 ```
 
-#### Walk()
+**Example:**
+
+```csharp
+var result = instance.RootNode();
+```
+
+**Returns:** `Node`
+
+###### Walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2060,23 @@ Return a `TreeCursor` positioned at the root.
 public TreeCursor Walk()
 ```
 
+**Example:**
+
+```csharp
+var result = instance.Walk();
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### Node()
+###### Node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2086,15 @@ Return the `Node` at the cursor's current position.
 public Node Node()
 ```
 
-#### GotoFirstChild()
+**Example:**
+
+```csharp
+var result = instance.Node();
+```
+
+**Returns:** `Node`
+
+###### GotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2105,15 @@ Returns `true` if a child existed.
 public bool GotoFirstChild()
 ```
 
-#### GotoParent()
+**Example:**
+
+```csharp
+var result = instance.GotoFirstChild();
+```
+
+**Returns:** `bool`
+
+###### GotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2124,15 @@ Returns `true` if a parent existed.
 public bool GotoParent()
 ```
 
-#### GotoNextSibling()
+**Example:**
+
+```csharp
+var result = instance.GotoParent();
+```
+
+**Returns:** `bool`
+
+###### GotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2143,15 @@ Returns `true` if a sibling existed.
 public bool GotoNextSibling()
 ```
 
-#### FieldName()
+**Example:**
+
+```csharp
+var result = instance.GotoNextSibling();
+```
+
+**Returns:** `bool`
+
+###### FieldName()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2160,14 @@ Return the field name for the current node, if any.
 ```csharp
 public string? FieldName()
 ```
+
+**Example:**
+
+```csharp
+var result = instance.FieldName();
+```
+
+**Returns:** `string?`
 
 ---
 

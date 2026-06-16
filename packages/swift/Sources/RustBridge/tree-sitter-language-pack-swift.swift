@@ -115,6 +115,15 @@ public func languageRegistryLanguageCount(_ client: LanguageRegistryRef) -> UInt
 public func languageRegistryProcess<GenericIntoRustString: IntoRustString>(_ client: LanguageRegistryRef, _ source: GenericIntoRustString, _ config: ProcessConfig) throws -> ProcessResult {
     try { let val = __swift_bridge__$language_registry_process(client.ptr, { let rustString = source.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), {config.isOwned = false; return config.ptr;}()); if val.is_ok { return ProcessResult(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
 }
+public func downloadManagerInstalledLanguages(_ client: DownloadManagerRef) -> RustVec<RustString> {
+    RustVec(ptr: __swift_bridge__$download_manager_installed_languages(client.ptr))
+}
+public func downloadManagerDownloadAllBestEffort(_ client: DownloadManagerRef) throws -> UInt {
+    try { let val = __swift_bridge__$download_manager_download_all_best_effort(client.ptr); switch val.tag { case __swift_bridge__$ResultUIntAndString$ResultOk: return val.payload.ok case __swift_bridge__$ResultUIntAndString$ResultErr: throw RustString(ptr: val.payload.err) default: fatalError() } }()
+}
+public func downloadManagerCleanCache(_ client: DownloadManagerRef) throws -> () {
+    try { let val = __swift_bridge__$download_manager_clean_cache(client.ptr); if val != nil { throw RustString(ptr: val!) } else { return } }()
+}
 public func detectLanguageFromExtension<GenericIntoRustString: IntoRustString>(_ ext: GenericIntoRustString) -> RustString {
     RustString(ptr: __swift_bridge__$detect_language_from_extension({ let rustString = ext.intoRustString(); rustString.isOwned = false; return rustString.ptr }()))
 }
@@ -156,6 +165,33 @@ public func languageCount() -> UInt {
 }
 public func process<GenericIntoRustString: IntoRustString>(_ source: GenericIntoRustString, _ config: ProcessConfig) throws -> ProcessResult {
     try { let val = __swift_bridge__$process({ let rustString = source.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), {config.isOwned = false; return config.ptr;}()); if val.is_ok { return ProcessResult(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+}
+public func init_(_ config: PackConfig) throws -> () {
+    try { let val = __swift_bridge__$init_({config.isOwned = false; return config.ptr;}()); if val != nil { throw RustString(ptr: val!) } else { return } }()
+}
+public func configure(_ config: PackConfig) throws -> () {
+    try { let val = __swift_bridge__$configure({config.isOwned = false; return config.ptr;}()); if val != nil { throw RustString(ptr: val!) } else { return } }()
+}
+public func download<GenericIntoRustString: IntoRustString>(_ names: RustVec<GenericIntoRustString>) throws -> UInt {
+    try { let val = __swift_bridge__$download({ let val = names; val.isOwned = false; return val.ptr }()); switch val.tag { case __swift_bridge__$ResultUIntAndString$ResultOk: return val.payload.ok case __swift_bridge__$ResultUIntAndString$ResultErr: throw RustString(ptr: val.payload.err) default: fatalError() } }()
+}
+public func downloadAll() throws -> UInt {
+    try { let val = __swift_bridge__$download_all(); switch val.tag { case __swift_bridge__$ResultUIntAndString$ResultOk: return val.payload.ok case __swift_bridge__$ResultUIntAndString$ResultErr: throw RustString(ptr: val.payload.err) default: fatalError() } }()
+}
+public func downloadGroup<GenericIntoRustString: IntoRustString>(_ name: GenericIntoRustString) throws -> UInt {
+    try { let val = __swift_bridge__$download_group({ let rustString = name.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); switch val.tag { case __swift_bridge__$ResultUIntAndString$ResultOk: return val.payload.ok case __swift_bridge__$ResultUIntAndString$ResultErr: throw RustString(ptr: val.payload.err) default: fatalError() } }()
+}
+public func manifestLanguages() throws -> RustVec<RustString> {
+    try { let val = __swift_bridge__$manifest_languages(); if val.is_ok { return RustVec(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+}
+public func downloadedLanguages() -> RustVec<RustString> {
+    RustVec(ptr: __swift_bridge__$downloaded_languages())
+}
+public func cleanCache() throws -> () {
+    try { let val = __swift_bridge__$clean_cache(); if val != nil { throw RustString(ptr: val!) } else { return } }()
+}
+public func cacheDir() throws -> RustString {
+    try { let val = __swift_bridge__$cache_dir(); if val.is_ok { return RustString(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
 }
 public func packConfigFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> PackConfig {
     try { let val = __swift_bridge__$pack_config_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return PackConfig(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
@@ -330,6 +366,9 @@ public func __alef_phantom_vec_symbol_kind() -> RustVec<SymbolKind> {
 }
 public func __alef_phantom_vec_diagnostic_severity() -> RustVec<DiagnosticSeverity> {
     RustVec(ptr: __swift_bridge__$__alef_phantom_vec_diagnostic_severity())
+}
+public func __alef_phantom_vec_download_manager() -> RustVec<DownloadManager> {
+    RustVec(ptr: __swift_bridge__$__alef_phantom_vec_download_manager())
 }
 
 public class DataAttribute: DataAttributeRefMut {
@@ -2654,6 +2693,81 @@ extension LanguageRegistry: Vectorizable {
 
     public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
         __swift_bridge__$Vec_LanguageRegistry$len(vecPtr)
+    }
+}
+
+
+public class DownloadManager: DownloadManagerRefMut {
+    public var isOwned: Bool = true
+
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+
+    deinit {
+        if isOwned {
+            __swift_bridge__$DownloadManager$_free(ptr)
+        }
+    }
+}
+public class DownloadManagerRefMut: DownloadManagerRef {
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+}
+public class DownloadManagerRef {
+    public var ptr: UnsafeMutableRawPointer
+
+    public init(ptr: UnsafeMutableRawPointer) {
+        self.ptr = ptr
+    }
+}
+extension DownloadManager: Vectorizable {
+    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {
+        __swift_bridge__$Vec_DownloadManager$new()
+    }
+
+    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {
+        __swift_bridge__$Vec_DownloadManager$drop(vecPtr)
+    }
+
+    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: DownloadManager) {
+        __swift_bridge__$Vec_DownloadManager$push(vecPtr, {value.isOwned = false; return value.ptr;}())
+    }
+
+    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {
+        let pointer = __swift_bridge__$Vec_DownloadManager$pop(vecPtr)
+        if pointer == nil {
+            return nil
+        } else {
+            return (DownloadManager(ptr: pointer!) as! Self)
+        }
+    }
+
+    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DownloadManagerRef> {
+        let pointer = __swift_bridge__$Vec_DownloadManager$get(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DownloadManagerRef(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<DownloadManagerRefMut> {
+        let pointer = __swift_bridge__$Vec_DownloadManager$get_mut(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return DownloadManagerRefMut(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<DownloadManagerRef> {
+        UnsafePointer<DownloadManagerRef>(OpaquePointer(__swift_bridge__$Vec_DownloadManager$as_ptr(vecPtr)))
+    }
+
+    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
+        __swift_bridge__$Vec_DownloadManager$len(vecPtr)
     }
 }
 

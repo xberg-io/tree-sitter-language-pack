@@ -63,6 +63,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const download_run = b.addRunArtifact(download_tests);
+    download_run.step.dependOn(&data_extraction_run.step);
     test_step.dependOn(&download_run.step);
 
     const error_handling_module = b.createModule(.{
@@ -78,6 +79,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const error_handling_run = b.addRunArtifact(error_handling_tests);
+    error_handling_run.step.dependOn(&download_run.step);
     test_step.dependOn(&error_handling_run.step);
 
     const language_detection_module = b.createModule(.{
@@ -93,6 +95,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const language_detection_run = b.addRunArtifact(language_detection_tests);
+    language_detection_run.step.dependOn(&error_handling_run.step);
     test_step.dependOn(&language_detection_run.step);
 
     const parsing_module = b.createModule(.{
@@ -108,6 +111,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const parsing_run = b.addRunArtifact(parsing_tests);
+    parsing_run.step.dependOn(&language_detection_run.step);
     test_step.dependOn(&parsing_run.step);
 
     const process_module = b.createModule(.{
@@ -123,6 +127,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const process_run = b.addRunArtifact(process_tests);
+    process_run.step.dependOn(&parsing_run.step);
     test_step.dependOn(&process_run.step);
 
     const query_module = b.createModule(.{
@@ -138,6 +143,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const query_run = b.addRunArtifact(query_tests);
+    query_run.step.dependOn(&process_run.step);
     test_step.dependOn(&query_run.step);
 
     const registry_module = b.createModule(.{
@@ -153,6 +159,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const registry_run = b.addRunArtifact(registry_tests);
+    registry_run.step.dependOn(&query_run.step);
     test_step.dependOn(&registry_run.step);
 
     const smoke_module = b.createModule(.{
@@ -168,6 +175,7 @@ pub fn build(b: *std.Build) void {
         .use_llvm = true,
     });
     const smoke_run = b.addRunArtifact(smoke_tests);
+    smoke_run.step.dependOn(&registry_run.step);
     test_step.dependOn(&smoke_run.step);
 
 }

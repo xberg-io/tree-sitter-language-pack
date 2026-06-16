@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="TreeSitterLanguagePack" Version="1.9.0-rc.51" />
+    <PackageReference Include="TreeSitterLanguagePack" Version="1.9.0-rc.52" />
   </ItemGroup>
 
   <ItemGroup>

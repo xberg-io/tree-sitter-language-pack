@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@kreuzberg/tree-sitter-language-pack-wasm':
-        specifier: ^1.9.0-rc.49
-        version: 1.9.0-rc.49
+        specifier: ^1.9.0-rc.51
+        version: 1.9.0-rc.51
       rollup:
         specifier: ^4.53.3
         version: 4.60.4
@@ -32,8 +32,8 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@kreuzberg/tree-sitter-language-pack-wasm@1.9.0-rc.49':
-    resolution: {integrity: sha512-kMi2XeObU5xdTyusXStxH6lJv7NXFQEoWuulr/0QS2UOkaCU1hsTZAf9VQBm7PPU4Hey7pK/CCFC4axXspn/rg==}
+  '@kreuzberg/tree-sitter-language-pack-wasm@1.9.0-rc.51':
+    resolution: {integrity: sha512-5EZNmCyt6W2i6ByohZ2XN94gnDGeAWyHD1fpaNRT4sjZEu+mG9DPxcdp86EsrfCtJcrBbg8yLH61PjfJub//+w==}
 
   '@napi-rs/wasm-runtime@1.1.4':
     resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
@@ -615,7 +615,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@kreuzberg/tree-sitter-language-pack-wasm@1.9.0-rc.49': {}
+  '@kreuzberg/tree-sitter-language-pack-wasm@1.9.0-rc.51': {}
 
   '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:

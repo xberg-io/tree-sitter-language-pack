@@ -2,7 +2,7 @@
 title: "Swift API Reference"
 ---
 
-## Swift API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Swift API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 
 ```swift
 public static func detectLanguageFromExtension(ext: String) -> String?
+```
+
+**Example:**
+
+```swift
+let result = detectLanguageFromExtension("value")
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```swift
 public static func detectLanguageFromPath(path: String) -> String?
+```
+
+**Example:**
+
+```swift
+let result = detectLanguageFromPath("value")
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 public static func detectLanguageFromContent(content: String) -> String?
 ```
 
+**Example:**
+
+```swift
+let result = detectLanguageFromContent("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```swift
 public static func getHighlightsQuery(language: String) -> String?
+```
+
+**Example:**
+
+```swift
+let result = getHighlightsQuery("value")
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 public static func getInjectionsQuery(language: String) -> String?
 ```
 
+**Example:**
+
+```swift
+let result = getInjectionsQuery("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 public static func getLocalsQuery(language: String) -> String?
 ```
 
+**Example:**
+
+```swift
+let result = getLocalsQuery("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```swift
 public static func getTagsQuery(language: String) -> String?
+```
+
+**Example:**
+
+```swift
+let result = getTagsQuery("value")
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 public static func getLanguage(name: String) throws -> Language
 ```
 
+**Example:**
+
+```swift
+let result = try getLanguage("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ public static func getLanguage(name: String) throws -> Language
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 public static func getParser(name: String) throws -> Parser
 ```
 
+**Example:**
+
+```swift
+let result = try getParser("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ public static func getParser(name: String) throws -> Parser
 | `name` | `String` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```swift
 public static func detectLanguage(path: String) -> String?
+```
+
+**Example:**
+
+```swift
+let result = detectLanguage("value")
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 public static func availableLanguages() -> [String]
 ```
 
+**Example:**
+
+```swift
+let result = availableLanguages()
+```
+
 **Returns:** `[String]`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```swift
 public static func hasLanguage(name: String) -> Bool
+```
+
+**Example:**
+
+```swift
+let result = hasLanguage("value")
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 public static func languageCount() -> UInt64
 ```
 
+**Example:**
+
+```swift
+let result = languageCount()
+```
+
 **Returns:** `UInt64`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 public static func process(source: String, config: ProcessConfig) throws -> ProcessResult
 ```
 
+**Example:**
+
+```swift
+let result = try process("value", ProcessConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ public static func process(source: String, config: ProcessConfig) throws -> Proc
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 public static func init(config: PackConfig) throws
 ```
 
+**Example:**
+
+```swift
+try init(PackConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `Void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 public static func configure(config: PackConfig) throws
 ```
 
+**Example:**
+
+```swift
+try configure(PackConfig())
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `Void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 public static func download(names: [String]) throws -> UInt64
 ```
 
+**Example:**
+
+```swift
+let result = try download([])
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ public static func download(names: [String]) throws -> UInt64
 | `names` | `[String]` | Yes | The names |
 
 **Returns:** `UInt64`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 public static func downloadAll() throws -> UInt64
 ```
 
+**Example:**
+
+```swift
+let result = try downloadAll()
+```
+
 **Returns:** `UInt64`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 public static func downloadGroup(name: String) throws -> UInt64
 ```
 
+**Example:**
+
+```swift
+let result = try downloadGroup("value")
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ public static func downloadGroup(name: String) throws -> UInt64
 | `name` | `String` | Yes | The name |
 
 **Returns:** `UInt64`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 public static func manifestLanguages() throws -> [String]
 ```
 
+**Example:**
+
+```swift
+let result = try manifestLanguages()
+```
+
 **Returns:** `[String]`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```swift
 public static func downloadedLanguages() -> [String]
+```
+
+**Example:**
+
+```swift
+let result = downloadedLanguages()
 ```
 
 **Returns:** `[String]`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 public static func cleanCache() throws
 ```
 
-**Returns:** `Void`
+**Example:**
+
+```swift
+try cleanCache()
+```
+
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 public static func cacheDir() throws -> String
 ```
 
+**Example:**
+
+```swift
+let result = try cacheDir()
+```
+
 **Returns:** `String`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -733,7 +882,23 @@ Create a new download manager for the given version.
 public static func new(version: String) throws -> DownloadManager
 ```
 
-#### installedLanguages()
+**Example:**
+
+```swift
+let result = try DownloadManager.new("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `String` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Throws `Error`.
+
+###### installedLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +908,15 @@ List languages that are already downloaded and cached.
 public func installedLanguages() -> [String]
 ```
 
-#### downloadAllBestEffort()
+**Example:**
+
+```swift
+let result = instance.installedLanguages()
+```
+
+**Returns:** `[String]`
+
+###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +933,17 @@ Returns the number of library files extracted (including those already cached).
 public func downloadAllBestEffort() throws -> UInt64
 ```
 
-#### cleanCache()
+**Example:**
+
+```swift
+let result = try instance.downloadAllBestEffort()
+```
+
+**Returns:** `UInt64`
+
+**Errors:** Throws `Error`.
+
+###### cleanCache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +959,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```swift
 public func cleanCache() throws
 ```
+
+**Example:**
+
+```swift
+try instance.cleanCache()
+```
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
 
 ---
 
@@ -835,9 +1028,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1043,15 @@ about dynamically loadable grammars and will load them on demand.
 public static func new() -> LanguageRegistry
 ```
 
-#### getLanguage()
+**Example:**
+
+```swift
+let result = LanguageRegistry.new()
+```
+
+**Returns:** `LanguageRegistry`
+
+###### getLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1070,23 @@ does not match any known grammar.
 public func getLanguage(name: String) throws -> Language
 ```
 
-#### availableLanguages()
+**Example:**
+
+```swift
+let result = try instance.getLanguage("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Throws `Error`.
+
+###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1099,15 @@ Includes statically compiled languages, dynamically loadable languages
 public func availableLanguages() -> [String]
 ```
 
-#### hasParser()
+**Example:**
+
+```swift
+let result = instance.availableLanguages()
+```
+
+**Returns:** `[String]`
+
+###### hasParser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1136,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 public func hasParser(name: String) -> Bool
 ```
 
-#### hasLanguage()
+**Example:**
+
+```swift
+let result = instance.hasParser("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Bool`
+
+###### hasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1163,21 @@ table or from a dynamic library on disk.
 public func hasLanguage(name: String) -> Bool
 ```
 
-#### languageCount()
+**Example:**
+
+```swift
+let result = instance.hasLanguage("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Bool`
+
+###### languageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1187,15 @@ Return the total number of available languages (including aliases).
 public func languageCount() -> UInt64
 ```
 
-#### process()
+**Example:**
+
+```swift
+let result = instance.languageCount()
+```
+
+**Returns:** `UInt64`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1205,38 @@ Parse source code and extract file intelligence based on config in a single pass
 public func process(source: String, config: ProcessConfig) throws -> ProcessResult
 ```
 
-#### default()
+**Example:**
+
+```swift
+let result = try instance.process("value", ProcessConfig())
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Throws `Error`.
+
+###### default()
 
 **Signature:**
 
 ```swift
 public static func default() -> LanguageRegistry
 ```
+
+**Example:**
+
+```swift
+let result = LanguageRegistry.default()
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1247,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -971,7 +1257,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 public func clone() -> Node
 ```
 
-#### kind()
+**Example:**
+
+```swift
+let result = instance.clone()
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1275,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 public func kind() -> String
 ```
 
-#### kindId()
+**Example:**
+
+```swift
+let result = instance.kind()
+```
+
+**Returns:** `String`
+
+###### kindId()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1297,15 @@ than comparing the string `kind()` in tight AST loops.
 public func kindId() -> UInt16
 ```
 
-#### startByte()
+**Example:**
+
+```swift
+let result = instance.kindId()
+```
+
+**Returns:** `UInt16`
+
+###### startByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1315,15 @@ Return the inclusive start byte offset of this node.
 public func startByte() -> UInt64
 ```
 
-#### endByte()
+**Example:**
+
+```swift
+let result = instance.startByte()
+```
+
+**Returns:** `UInt64`
+
+###### endByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1333,15 @@ Return the exclusive end byte offset of this node.
 public func endByte() -> UInt64
 ```
 
-#### byteRange()
+**Example:**
+
+```swift
+let result = instance.endByte()
+```
+
+**Returns:** `UInt64`
+
+###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1354,15 @@ text accessor.
 public func byteRange() -> ByteRange
 ```
 
-#### startPosition()
+**Example:**
+
+```swift
+let result = instance.byteRange()
+```
+
+**Returns:** `ByteRange`
+
+###### startPosition()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1372,15 @@ Return the start `Point` (row, column).
 public func startPosition() -> Point
 ```
 
-#### endPosition()
+**Example:**
+
+```swift
+let result = instance.startPosition()
+```
+
+**Returns:** `Point`
+
+###### endPosition()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1390,15 @@ Return the end `Point` (row, column).
 public func endPosition() -> Point
 ```
 
-#### isNamed()
+**Example:**
+
+```swift
+let result = instance.endPosition()
+```
+
+**Returns:** `Point`
+
+###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1408,15 @@ True when this node is named (not punctuation/whitespace).
 public func isNamed() -> Bool
 ```
 
-#### isError()
+**Example:**
+
+```swift
+let result = instance.isNamed()
+```
+
+**Returns:** `Bool`
+
+###### isError()
 
 True when this is an error node.
 
@@ -1068,7 +1426,15 @@ True when this is an error node.
 public func isError() -> Bool
 ```
 
-#### isMissing()
+**Example:**
+
+```swift
+let result = instance.isError()
+```
+
+**Returns:** `Bool`
+
+###### isMissing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1444,15 @@ True when this is a missing-token node.
 public func isMissing() -> Bool
 ```
 
-#### isExtra()
+**Example:**
+
+```swift
+let result = instance.isMissing()
+```
+
+**Returns:** `Bool`
+
+###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1462,15 @@ True when this is an "extra" node (e.g. a comment).
 public func isExtra() -> Bool
 ```
 
-#### hasError()
+**Example:**
+
+```swift
+let result = instance.isExtra()
+```
+
+**Returns:** `Bool`
+
+###### hasError()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1480,15 @@ True when this node or any descendant is an error.
 public func hasError() -> Bool
 ```
 
-#### parent()
+**Example:**
+
+```swift
+let result = instance.hasError()
+```
+
+**Returns:** `Bool`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1498,15 @@ Return this node's parent, if any.
 public func parent() -> Node?
 ```
 
-#### child()
+**Example:**
+
+```swift
+let result = instance.parent()
+```
+
+**Returns:** `Node?`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1516,21 @@ Return the i-th child of this node, if any.
 public func child(index: UInt32) -> Node?
 ```
 
-#### childCount()
+**Example:**
+
+```swift
+let result = instance.child(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `UInt32` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### childCount()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1540,15 @@ Total number of children (including unnamed).
 public func childCount() -> UInt64
 ```
 
-#### namedChild()
+**Example:**
+
+```swift
+let result = instance.childCount()
+```
+
+**Returns:** `UInt64`
+
+###### namedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1558,21 @@ Return the i-th named child of this node, if any.
 public func namedChild(index: UInt32) -> Node?
 ```
 
-#### namedChildCount()
+**Example:**
+
+```swift
+let result = instance.namedChild(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `UInt32` | Yes | The index |
+
+**Returns:** `Node?`
+
+###### namedChildCount()
 
 Number of named children of this node.
 
@@ -1148,7 +1582,15 @@ Number of named children of this node.
 public func namedChildCount() -> UInt64
 ```
 
-#### childByFieldName()
+**Example:**
+
+```swift
+let result = instance.namedChildCount()
+```
+
+**Returns:** `UInt64`
+
+###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1600,21 @@ Look up a child by its grammar-defined field name.
 public func childByFieldName(name: String) -> Node?
 ```
 
-#### toSexp()
+**Example:**
+
+```swift
+let result = instance.childByFieldName("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** `Node?`
+
+###### toSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1624,15 @@ Return the S-expression form of this node's subtree.
 public func toSexp() -> String
 ```
 
-#### walk()
+**Example:**
+
+```swift
+let result = instance.toSexp()
+```
+
+**Returns:** `String`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1641,14 @@ Return a `TreeCursor` positioned at this node.
 ```swift
 public func walk() -> TreeCursor
 ```
+
+**Example:**
+
+```swift
+let result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1672,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1686,15 @@ Call `Parser.set_language` before parsing.
 public static func new() -> Parser
 ```
 
-#### setLanguage()
+**Example:**
+
+```swift
+let result = Parser.new()
+```
+
+**Returns:** `Parser`
+
+###### setLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1712,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 public func setLanguage(name: String) throws
 ```
 
-#### parse()
+**Example:**
+
+```swift
+try instance.setLanguage("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `String` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1739,21 @@ or no language is set.
 public func parse(source: String) -> Tree?
 ```
 
-#### parseBytes()
+**Example:**
+
+```swift
+let result = instance.parse("value")
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `String` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1764,21 @@ no language is set.
 public func parseBytes(source: Data) -> Tree?
 ```
 
-#### reset()
+**Example:**
+
+```swift
+let result = instance.parseBytes(Data("data".utf8))
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `Data` | Yes | The source |
+
+**Returns:** `Tree?`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1789,29 @@ not be incremental.
 public func reset()
 ```
 
-#### default()
+**Example:**
+
+```swift
+instance.reset()
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
 ```swift
 public static func default() -> Parser
 ```
+
+**Example:**
+
+```swift
+let result = Parser.default()
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1845,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunkMaxSize` | `UInt64?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 | `dataExtraction` | `Bool` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `null`. |
 
-### Methods
+##### Methods
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1315,7 +1855,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 public static func default() -> ProcessConfig
 ```
 
-#### withChunking()
+**Example:**
+
+```swift
+let result = ProcessConfig.default()
+```
+
+**Returns:** `ProcessConfig`
+
+###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1873,21 @@ Enable chunking with the given maximum chunk size in bytes.
 public func withChunking(maxSize: UInt64) -> ProcessConfig
 ```
 
-#### all()
+**Example:**
+
+```swift
+let result = instance.withChunking(42)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `maxSize` | `UInt64` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1335,7 +1897,15 @@ Enable all analysis features.
 public func all() -> ProcessConfig
 ```
 
-#### minimal()
+**Example:**
+
+```swift
+let result = instance.all()
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1915,15 @@ Disable all analysis features (only metrics computed).
 public func minimal() -> ProcessConfig
 ```
 
-#### withDataExtraction()
+**Example:**
+
+```swift
+let result = instance.minimal()
+```
+
+**Returns:** `ProcessConfig`
+
+###### withDataExtraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1935,20 @@ populated with a key/value tree for supported data-format languages.
 ```swift
 public func withDataExtraction(enabled: Bool) -> ProcessConfig
 ```
+
+**Example:**
+
+```swift
+let result = instance.withDataExtraction(true)
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `Bool` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2030,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### rootNode()
+###### rootNode()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2042,15 @@ Return the root `Node` of this tree.
 public func rootNode() -> Node
 ```
 
-#### walk()
+**Example:**
+
+```swift
+let result = instance.rootNode()
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2060,23 @@ Return a `TreeCursor` positioned at the root.
 public func walk() -> TreeCursor
 ```
 
+**Example:**
+
+```swift
+let result = instance.walk()
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2086,15 @@ Return the `Node` at the cursor's current position.
 public func node() -> Node
 ```
 
-#### gotoFirstChild()
+**Example:**
+
+```swift
+let result = instance.node()
+```
+
+**Returns:** `Node`
+
+###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2105,15 @@ Returns `true` if a child existed.
 public func gotoFirstChild() -> Bool
 ```
 
-#### gotoParent()
+**Example:**
+
+```swift
+let result = instance.gotoFirstChild()
+```
+
+**Returns:** `Bool`
+
+###### gotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2124,15 @@ Returns `true` if a parent existed.
 public func gotoParent() -> Bool
 ```
 
-#### gotoNextSibling()
+**Example:**
+
+```swift
+let result = instance.gotoParent()
+```
+
+**Returns:** `Bool`
+
+###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2143,15 @@ Returns `true` if a sibling existed.
 public func gotoNextSibling() -> Bool
 ```
 
-#### fieldName()
+**Example:**
+
+```swift
+let result = instance.gotoNextSibling()
+```
+
+**Returns:** `Bool`
+
+###### fieldName()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2160,14 @@ Return the field name for the current node, if any.
 ```swift
 public func fieldName() -> String?
 ```
+
+**Example:**
+
+```swift
+let result = instance.fieldName()
+```
+
+**Returns:** `String?`
 
 ---
 

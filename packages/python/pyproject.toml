@@ -4,7 +4,7 @@ requires = [ "maturin>=1,<2" ]
 
 [project]
 name = "tree-sitter-language-pack"
-version = "1.9.0rc51"
+version = "1.9.0rc52"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"
 keywords = [ "language-pack", "parser", "syntax", "tree-sitter" ]
 license = "MIT"
@@ -18,9 +18,6 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
-]
-dependencies = [
-  "tree-sitter>=0.23",
 ]
 urls.repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 

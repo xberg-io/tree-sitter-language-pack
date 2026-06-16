@@ -2,7 +2,7 @@
 title: "Zig API Reference"
 ---
 
-## Zig API Reference <span class="version-badge">v1.9.0-rc.51</span>
+## Zig API Reference <span class="version-badge">v1.9.0-rc.52</span>
 
 ### Functions
 
@@ -16,6 +16,12 @@ Returns `null` for unrecognized extensions. The match is case-insensitive.
 
 ```zig
 pub fn detect_language_from_extension(ext: [:0]const u8) ?[:0]const u8
+```
+
+**Example:**
+
+```zig
+const result = detectLanguageFromExtension("value");
 ```
 
 **Parameters:**
@@ -39,6 +45,12 @@ path has no extension or the extension is not recognized.
 
 ```zig
 pub fn detect_language_from_path(path: [:0]const u8) ?[:0]const u8
+```
+
+**Example:**
+
+```zig
+const result = detectLanguageFromPath("value");
 ```
 
 **Parameters:**
@@ -76,6 +88,12 @@ malformed, or the interpreter is not recognised.
 pub fn detect_language_from_content(content: [:0]const u8) ?[:0]const u8
 ```
 
+**Example:**
+
+```zig
+const result = detectLanguageFromContent("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -97,6 +115,12 @@ if no highlights query is bundled for this language.
 
 ```zig
 pub fn get_highlights_query(language: [:0]const u8) ?[:0]const u8
+```
+
+**Example:**
+
+```zig
+const result = getHighlightsQuery("value");
 ```
 
 **Parameters:**
@@ -122,6 +146,12 @@ if no injections query is bundled for this language.
 pub fn get_injections_query(language: [:0]const u8) ?[:0]const u8
 ```
 
+**Example:**
+
+```zig
+const result = getInjectionsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -145,6 +175,12 @@ if no locals query is bundled for this language.
 pub fn get_locals_query(language: [:0]const u8) ?[:0]const u8
 ```
 
+**Example:**
+
+```zig
+const result = getLocalsQuery("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -166,6 +202,12 @@ if no tags query is bundled for this language.
 
 ```zig
 pub fn get_tags_query(language: [:0]const u8) ?[:0]const u8
+```
+
+**Example:**
+
+```zig
+const result = getTagsQuery("value");
 ```
 
 **Parameters:**
@@ -197,6 +239,12 @@ or `Error.Download` if auto-download fails.
 pub fn get_language(name: [:0]const u8) Error!Language
 ```
 
+**Example:**
+
+```zig
+const result = try getLanguage("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -204,6 +252,7 @@ pub fn get_language(name: [:0]const u8) Error!Language
 | `name` | `[:0]const u8` | Yes | The name |
 
 **Returns:** `Language`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -226,6 +275,12 @@ Returns `Error.LanguageNotFound` if the language is not recognized, or
 pub fn get_parser(name: [:0]const u8) Error!Parser
 ```
 
+**Example:**
+
+```zig
+const result = try getParser("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -233,6 +288,7 @@ pub fn get_parser(name: [:0]const u8) Error!Parser
 | `name` | `[:0]const u8` | Yes | The name |
 
 **Returns:** `Parser`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -247,6 +303,12 @@ This compatibility alias matches the pre-Alef Python binding API.
 
 ```zig
 pub fn detect_language(path: [:0]const u8) ?[:0]const u8
+```
+
+**Example:**
+
+```zig
+const result = detectLanguage("value");
 ```
 
 **Parameters:**
@@ -272,6 +334,12 @@ plus any configured aliases.
 pub fn available_languages() []const [:0]const u8
 ```
 
+**Example:**
+
+```zig
+const result = availableLanguages();
+```
+
 **Returns:** `[]const [:0]const u8`
 
 ---
@@ -287,6 +355,12 @@ dynamically available, or a known alias for one of these).
 
 ```zig
 pub fn has_language(name: [:0]const u8) bool
+```
+
+**Example:**
+
+```zig
+const result = hasLanguage("value");
 ```
 
 **Parameters:**
@@ -312,6 +386,12 @@ and aliases.
 pub fn language_count() u64
 ```
 
+**Example:**
+
+```zig
+const result = languageCount();
+```
+
 **Returns:** `u64`
 
 ---
@@ -334,6 +414,12 @@ Returns an error if the language is not found or parsing fails.
 pub fn process(source: [:0]const u8, config: ProcessConfig) Error!ProcessResult
 ```
 
+**Example:**
+
+```zig
+const result = try process("value", .{});
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -342,6 +428,7 @@ pub fn process(source: [:0]const u8, config: ProcessConfig) Error!ProcessResult
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -364,13 +451,20 @@ Returns an error if configuration cannot be applied or if downloads fail.
 pub fn init(config: PackConfig) Error!void
 ```
 
+**Example:**
+
+```zig
+try init(.{});
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -394,13 +488,20 @@ Returns an error if the lock cannot be acquired.
 pub fn configure(config: PackConfig) Error!void
 ```
 
+**Example:**
+
+```zig
+try configure(.{});
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `config` | `PackConfig` | Yes | The configuration options |
 
-**Returns:** `void`
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -423,6 +524,12 @@ the download fails.
 pub fn download(names: []const [:0]const u8) Error!u64
 ```
 
+**Example:**
+
+```zig
+const result = try download(&[_]u8{});
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -430,6 +537,7 @@ pub fn download(names: []const [:0]const u8) Error!u64
 | `names` | `[]const [:0]const u8` | Yes | The names |
 
 **Returns:** `u64`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -456,7 +564,14 @@ Returns an error if the manifest cannot be fetched or the bundle download fails.
 pub fn download_all() Error!u64
 ```
 
+**Example:**
+
+```zig
+const result = try downloadAll();
+```
+
 **Returns:** `u64`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -483,6 +598,12 @@ or any constituent language fails to download.
 pub fn download_group(name: [:0]const u8) Error!u64
 ```
 
+**Example:**
+
+```zig
+const result = try downloadGroup("value");
+```
+
 **Parameters:**
 
 | Name | Type | Required | Description |
@@ -490,6 +611,7 @@ pub fn download_group(name: [:0]const u8) Error!u64
 | `name` | `[:0]const u8` | Yes | The name |
 
 **Returns:** `u64`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -512,7 +634,14 @@ Returns an error if the manifest cannot be fetched.
 pub fn manifest_languages() Error![]const [:0]const u8
 ```
 
+**Example:**
+
+```zig
+const result = try manifestLanguages();
+```
+
 **Returns:** `[]const [:0]const u8`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -528,6 +657,12 @@ cache directory does not exist or cannot be read.
 
 ```zig
 pub fn downloaded_languages() []const [:0]const u8
+```
+
+**Example:**
+
+```zig
+const result = downloadedLanguages();
 ```
 
 **Returns:** `[]const [:0]const u8`
@@ -551,7 +686,14 @@ Returns an error if the cache directory cannot be removed.
 pub fn clean_cache() Error!void
 ```
 
-**Returns:** `void`
+**Example:**
+
+```zig
+try cleanCache();
+```
+
+**Returns:** No return value.
+
 **Errors:** Throws `Error`.
 
 ---
@@ -573,7 +715,14 @@ Returns an error if the system cache directory cannot be determined.
 pub fn cache_dir() Error![:0]const u8
 ```
 
+**Example:**
+
+```zig
+const result = try cacheDir();
+```
+
 **Returns:** `[:0]const u8`
+
 **Errors:** Throws `Error`.
 
 ---
@@ -721,9 +870,9 @@ A docstring extracted from source code.
 
 Manages downloading and caching of pre-built parser shared libraries.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new download manager for the given version.
 
@@ -733,7 +882,23 @@ Create a new download manager for the given version.
 pub fn new(version: [:0]const u8) Error!DownloadManager
 ```
 
-#### installedLanguages()
+**Example:**
+
+```zig
+const result = try DownloadManager.new("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `version` | `[:0]const u8` | Yes | The version |
+
+**Returns:** `DownloadManager`
+
+**Errors:** Throws `Error`.
+
+###### installedLanguages()
 
 List languages that are already downloaded and cached.
 
@@ -743,7 +908,15 @@ List languages that are already downloaded and cached.
 pub fn installedLanguages(self: *const DownloadManager) []const [:0]const u8
 ```
 
-#### downloadAllBestEffort()
+**Example:**
+
+```zig
+const result = instance.installedLanguages();
+```
+
+**Returns:** `[]const [:0]const u8`
+
+###### downloadAllBestEffort()
 
 Download the platform bundle and extract every library file it contains.
 
@@ -760,7 +933,17 @@ Returns the number of library files extracted (including those already cached).
 pub fn downloadAllBestEffort(self: *const DownloadManager) Error!u64
 ```
 
-#### cleanCache()
+**Example:**
+
+```zig
+const result = try instance.downloadAllBestEffort();
+```
+
+**Returns:** `u64`
+
+**Errors:** Throws `Error`.
+
+###### cleanCache()
 
 Remove all cached parser libraries.
 
@@ -776,6 +959,16 @@ process opens a fresh inode, breaking the mutual-exclusion guarantee.
 ```zig
 pub fn cleanCache(self: *const DownloadManager) Error!void
 ```
+
+**Example:**
+
+```zig
+try instance.cleanCache();
+```
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
 
 ---
 
@@ -835,9 +1028,9 @@ Use `LanguageRegistry.new()` for the default registry, or access the
 global instance via the module-level convenience functions
 (`get_language`, `available_languages`, etc.).
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Create a new registry populated with all statically compiled languages.
 
@@ -850,7 +1043,15 @@ about dynamically loadable grammars and will load them on demand.
 pub fn new() LanguageRegistry
 ```
 
-#### getLanguage()
+**Example:**
+
+```zig
+const result = LanguageRegistry.new();
+```
+
+**Returns:** `LanguageRegistry`
+
+###### getLanguage()
 
 Get a tree-sitter `Language` by name.
 
@@ -869,7 +1070,23 @@ does not match any known grammar.
 pub fn getLanguage(self: *const LanguageRegistry, name: [:0]const u8) Error!Language
 ```
 
-#### availableLanguages()
+**Example:**
+
+```zig
+const result = try instance.getLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
+
+**Returns:** `Language`
+
+**Errors:** Throws `Error`.
+
+###### availableLanguages()
 
 List all available language names, sorted and deduplicated.
 
@@ -882,7 +1099,15 @@ Includes statically compiled languages, dynamically loadable languages
 pub fn availableLanguages(self: *const LanguageRegistry) []const [:0]const u8
 ```
 
-#### hasParser()
+**Example:**
+
+```zig
+const result = instance.availableLanguages();
+```
+
+**Returns:** `[]const [:0]const u8`
+
+###### hasParser()
 
 Check whether a parser is statically compiled into this build.
 
@@ -911,7 +1136,21 @@ let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);
 pub fn hasParser(self: *const LanguageRegistry, name: [:0]const u8) bool
 ```
 
-#### hasLanguage()
+**Example:**
+
+```zig
+const result = instance.hasParser("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
+
+**Returns:** `bool`
+
+###### hasLanguage()
 
 Check whether a language is available by name or alias.
 
@@ -924,7 +1163,21 @@ table or from a dynamic library on disk.
 pub fn hasLanguage(self: *const LanguageRegistry, name: [:0]const u8) bool
 ```
 
-#### languageCount()
+**Example:**
+
+```zig
+const result = instance.hasLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
+
+**Returns:** `bool`
+
+###### languageCount()
 
 Return the total number of available languages (including aliases).
 
@@ -934,7 +1187,15 @@ Return the total number of available languages (including aliases).
 pub fn languageCount(self: *const LanguageRegistry) u64
 ```
 
-#### process()
+**Example:**
+
+```zig
+const result = instance.languageCount();
+```
+
+**Returns:** `u64`
+
+###### process()
 
 Parse source code and extract file intelligence based on config in a single pass.
 
@@ -944,13 +1205,38 @@ Parse source code and extract file intelligence based on config in a single pass
 pub fn process(self: *const LanguageRegistry, source: [:0]const u8, config: ProcessConfig) Error!ProcessResult
 ```
 
-#### default()
+**Example:**
+
+```zig
+const result = try instance.process("value", .{});
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `[:0]const u8` | Yes | The source |
+| `config` | `ProcessConfig` | Yes | The configuration options |
+
+**Returns:** `ProcessResult`
+
+**Errors:** Throws `Error`.
+
+###### default()
 
 **Signature:**
 
 ```zig
 pub fn default() LanguageRegistry
 ```
+
+**Example:**
+
+```zig
+const result = LanguageRegistry.default();
+```
+
+**Returns:** `LanguageRegistry`
 
 ---
 
@@ -961,9 +1247,9 @@ A single syntax node within a `Tree`.
 Nodes hold a strong reference to their parent tree so they remain valid
 regardless of how the tree is moved or stored at the FFI boundary.
 
-### Methods
+##### Methods
 
-#### clone()
+###### clone()
 
 **Signature:**
 
@@ -971,7 +1257,15 @@ regardless of how the tree is moved or stored at the FFI boundary.
 pub fn clone(self: *const Node) Node
 ```
 
-#### kind()
+**Example:**
+
+```zig
+const result = instance.clone();
+```
+
+**Returns:** `Node`
+
+###### kind()
 
 Return the node's kind name (e.g. `"function_definition"`).
 
@@ -981,7 +1275,15 @@ Return the node's kind name (e.g. `"function_definition"`).
 pub fn kind(self: *const Node) [:0]const u8
 ```
 
-#### kindId()
+**Example:**
+
+```zig
+const result = instance.kind();
+```
+
+**Returns:** `[:0]const u8`
+
+###### kindId()
 
 Return the node's numeric kind ID.
 
@@ -995,7 +1297,15 @@ than comparing the string `kind()` in tight AST loops.
 pub fn kindId(self: *const Node) u16
 ```
 
-#### startByte()
+**Example:**
+
+```zig
+const result = instance.kindId();
+```
+
+**Returns:** `u16`
+
+###### startByte()
 
 Return the inclusive start byte offset of this node.
 
@@ -1005,7 +1315,15 @@ Return the inclusive start byte offset of this node.
 pub fn startByte(self: *const Node) u64
 ```
 
-#### endByte()
+**Example:**
+
+```zig
+const result = instance.startByte();
+```
+
+**Returns:** `u64`
+
+###### endByte()
 
 Return the exclusive end byte offset of this node.
 
@@ -1015,7 +1333,15 @@ Return the exclusive end byte offset of this node.
 pub fn endByte(self: *const Node) u64
 ```
 
-#### byteRange()
+**Example:**
+
+```zig
+const result = instance.endByte();
+```
+
+**Returns:** `u64`
+
+###### byteRange()
 
 Return the node's byte range as a `ByteRange`.
 
@@ -1028,7 +1354,15 @@ text accessor.
 pub fn byteRange(self: *const Node) ByteRange
 ```
 
-#### startPosition()
+**Example:**
+
+```zig
+const result = instance.byteRange();
+```
+
+**Returns:** `ByteRange`
+
+###### startPosition()
 
 Return the start `Point` (row, column).
 
@@ -1038,7 +1372,15 @@ Return the start `Point` (row, column).
 pub fn startPosition(self: *const Node) Point
 ```
 
-#### endPosition()
+**Example:**
+
+```zig
+const result = instance.startPosition();
+```
+
+**Returns:** `Point`
+
+###### endPosition()
 
 Return the end `Point` (row, column).
 
@@ -1048,7 +1390,15 @@ Return the end `Point` (row, column).
 pub fn endPosition(self: *const Node) Point
 ```
 
-#### isNamed()
+**Example:**
+
+```zig
+const result = instance.endPosition();
+```
+
+**Returns:** `Point`
+
+###### isNamed()
 
 True when this node is named (not punctuation/whitespace).
 
@@ -1058,7 +1408,15 @@ True when this node is named (not punctuation/whitespace).
 pub fn isNamed(self: *const Node) bool
 ```
 
-#### isError()
+**Example:**
+
+```zig
+const result = instance.isNamed();
+```
+
+**Returns:** `bool`
+
+###### isError()
 
 True when this is an error node.
 
@@ -1068,7 +1426,15 @@ True when this is an error node.
 pub fn isError(self: *const Node) bool
 ```
 
-#### isMissing()
+**Example:**
+
+```zig
+const result = instance.isError();
+```
+
+**Returns:** `bool`
+
+###### isMissing()
 
 True when this is a missing-token node.
 
@@ -1078,7 +1444,15 @@ True when this is a missing-token node.
 pub fn isMissing(self: *const Node) bool
 ```
 
-#### isExtra()
+**Example:**
+
+```zig
+const result = instance.isMissing();
+```
+
+**Returns:** `bool`
+
+###### isExtra()
 
 True when this is an "extra" node (e.g. a comment).
 
@@ -1088,7 +1462,15 @@ True when this is an "extra" node (e.g. a comment).
 pub fn isExtra(self: *const Node) bool
 ```
 
-#### hasError()
+**Example:**
+
+```zig
+const result = instance.isExtra();
+```
+
+**Returns:** `bool`
+
+###### hasError()
 
 True when this node or any descendant is an error.
 
@@ -1098,7 +1480,15 @@ True when this node or any descendant is an error.
 pub fn hasError(self: *const Node) bool
 ```
 
-#### parent()
+**Example:**
+
+```zig
+const result = instance.hasError();
+```
+
+**Returns:** `bool`
+
+###### parent()
 
 Return this node's parent, if any.
 
@@ -1108,7 +1498,15 @@ Return this node's parent, if any.
 pub fn parent(self: *const Node) ?Node
 ```
 
-#### child()
+**Example:**
+
+```zig
+const result = instance.parent();
+```
+
+**Returns:** `?Node`
+
+###### child()
 
 Return the i-th child of this node, if any.
 
@@ -1118,7 +1516,21 @@ Return the i-th child of this node, if any.
 pub fn child(self: *const Node, index: u32) ?Node
 ```
 
-#### childCount()
+**Example:**
+
+```zig
+const result = instance.child(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `u32` | Yes | The index |
+
+**Returns:** `?Node`
+
+###### childCount()
 
 Total number of children (including unnamed).
 
@@ -1128,7 +1540,15 @@ Total number of children (including unnamed).
 pub fn childCount(self: *const Node) u64
 ```
 
-#### namedChild()
+**Example:**
+
+```zig
+const result = instance.childCount();
+```
+
+**Returns:** `u64`
+
+###### namedChild()
 
 Return the i-th named child of this node, if any.
 
@@ -1138,7 +1558,21 @@ Return the i-th named child of this node, if any.
 pub fn namedChild(self: *const Node, index: u32) ?Node
 ```
 
-#### namedChildCount()
+**Example:**
+
+```zig
+const result = instance.namedChild(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `index` | `u32` | Yes | The index |
+
+**Returns:** `?Node`
+
+###### namedChildCount()
 
 Number of named children of this node.
 
@@ -1148,7 +1582,15 @@ Number of named children of this node.
 pub fn namedChildCount(self: *const Node) u64
 ```
 
-#### childByFieldName()
+**Example:**
+
+```zig
+const result = instance.namedChildCount();
+```
+
+**Returns:** `u64`
+
+###### childByFieldName()
 
 Look up a child by its grammar-defined field name.
 
@@ -1158,7 +1600,21 @@ Look up a child by its grammar-defined field name.
 pub fn childByFieldName(self: *const Node, name: [:0]const u8) ?Node
 ```
 
-#### toSexp()
+**Example:**
+
+```zig
+const result = instance.childByFieldName("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
+
+**Returns:** `?Node`
+
+###### toSexp()
 
 Return the S-expression form of this node's subtree.
 
@@ -1168,7 +1624,15 @@ Return the S-expression form of this node's subtree.
 pub fn toSexp(self: *const Node) [:0]const u8
 ```
 
-#### walk()
+**Example:**
+
+```zig
+const result = instance.toSexp();
+```
+
+**Returns:** `[:0]const u8`
+
+###### walk()
 
 Return a `TreeCursor` positioned at this node.
 
@@ -1177,6 +1641,14 @@ Return a `TreeCursor` positioned at this node.
 ```zig
 pub fn walk(self: *const Node) TreeCursor
 ```
+
+**Example:**
+
+```zig
+const result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
 
 ---
 
@@ -1200,9 +1672,9 @@ or passed as a dict/object from language bindings.
 
 A tree-sitter parser configured for one language at a time.
 
-### Methods
+##### Methods
 
-#### new()
+###### new()
 
 Construct a new parser with no language set.
 
@@ -1214,7 +1686,15 @@ Call `Parser.set_language` before parsing.
 pub fn new() Parser
 ```
 
-#### setLanguage()
+**Example:**
+
+```zig
+const result = Parser.new();
+```
+
+**Returns:** `Parser`
+
+###### setLanguage()
 
 Configure the parser to use the language identified by name (e.g. `"python"`).
 
@@ -1232,7 +1712,23 @@ or `Error.ParserSetup` if the language ABI is incompatible.
 pub fn setLanguage(self: *const Parser, name: [:0]const u8) Error!void
 ```
 
-#### parse()
+**Example:**
+
+```zig
+try instance.setLanguage("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `name` | `[:0]const u8` | Yes | The name |
+
+**Returns:** No return value.
+
+**Errors:** Throws `Error`.
+
+###### parse()
 
 Parse a UTF-8 source string. Returns `null` if parsing was cancelled
 or no language is set.
@@ -1243,7 +1739,21 @@ or no language is set.
 pub fn parse(self: *const Parser, source: [:0]const u8) ?Tree
 ```
 
-#### parseBytes()
+**Example:**
+
+```zig
+const result = instance.parse("value");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `[:0]const u8` | Yes | The source |
+
+**Returns:** `?Tree`
+
+###### parseBytes()
 
 Parse a raw byte slice. Returns `null` if parsing was cancelled or
 no language is set.
@@ -1254,7 +1764,21 @@ no language is set.
 pub fn parseBytes(self: *const Parser, source: []const u8) ?Tree
 ```
 
-#### reset()
+**Example:**
+
+```zig
+const result = instance.parseBytes("data");
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `source` | `[]const u8` | Yes | The source |
+
+**Returns:** `?Tree`
+
+###### reset()
 
 Reset internal state. The next call to `parse` will
 not be incremental.
@@ -1265,13 +1789,29 @@ not be incremental.
 pub fn reset(self: *const Parser) void
 ```
 
-#### default()
+**Example:**
+
+```zig
+instance.reset();
+```
+
+**Returns:** No return value.
+
+###### default()
 
 **Signature:**
 
 ```zig
 pub fn default() Parser
 ```
+
+**Example:**
+
+```zig
+const result = Parser.default();
+```
+
+**Returns:** `Parser`
 
 ---
 
@@ -1305,9 +1845,9 @@ Controls which analysis features are enabled and whether chunking is performed.
 | `chunkMaxSize` | `u64?` | `null` | Maximum chunk size in bytes. `null` disables chunking. |
 | `dataExtraction` | `bool` | `false` | Extract hierarchical key/value data tree from data-format files. Default: false. When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO, nginx config, Caddy config, XML, and DTD. For languages outside this set the field is left as `null`. |
 
-### Methods
+##### Methods
 
-#### default()
+###### default()
 
 **Signature:**
 
@@ -1315,7 +1855,15 @@ Controls which analysis features are enabled and whether chunking is performed.
 pub fn default() ProcessConfig
 ```
 
-#### withChunking()
+**Example:**
+
+```zig
+const result = ProcessConfig.default();
+```
+
+**Returns:** `ProcessConfig`
+
+###### withChunking()
 
 Enable chunking with the given maximum chunk size in bytes.
 
@@ -1325,7 +1873,21 @@ Enable chunking with the given maximum chunk size in bytes.
 pub fn withChunking(self: *const ProcessConfig, max_size: u64) ProcessConfig
 ```
 
-#### all()
+**Example:**
+
+```zig
+const result = instance.withChunking(42);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `maxSize` | `u64` | Yes | The max size |
+
+**Returns:** `ProcessConfig`
+
+###### all()
 
 Enable all analysis features.
 
@@ -1335,7 +1897,15 @@ Enable all analysis features.
 pub fn all(self: *const ProcessConfig) ProcessConfig
 ```
 
-#### minimal()
+**Example:**
+
+```zig
+const result = instance.all();
+```
+
+**Returns:** `ProcessConfig`
+
+###### minimal()
 
 Disable all analysis features (only metrics computed).
 
@@ -1345,7 +1915,15 @@ Disable all analysis features (only metrics computed).
 pub fn minimal(self: *const ProcessConfig) ProcessConfig
 ```
 
-#### withDataExtraction()
+**Example:**
+
+```zig
+const result = instance.minimal();
+```
+
+**Returns:** `ProcessConfig`
+
+###### withDataExtraction()
 
 Enable or disable hierarchical data extraction for data-format files.
 
@@ -1357,6 +1935,20 @@ populated with a key/value tree for supported data-format languages.
 ```zig
 pub fn withDataExtraction(self: *const ProcessConfig, enabled: bool) ProcessConfig
 ```
+
+**Example:**
+
+```zig
+const result = instance.withDataExtraction(true);
+```
+
+**Parameters:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `enabled` | `bool` | Yes | The enabled |
+
+**Returns:** `ProcessConfig`
 
 ---
 
@@ -1438,9 +2030,9 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 A parsed syntax tree. Cheap to clone (refcount bump).
 
-### Methods
+##### Methods
 
-#### rootNode()
+###### rootNode()
 
 Return the root `Node` of this tree.
 
@@ -1450,7 +2042,15 @@ Return the root `Node` of this tree.
 pub fn rootNode(self: *const Tree) Node
 ```
 
-#### walk()
+**Example:**
+
+```zig
+const result = instance.rootNode();
+```
+
+**Returns:** `Node`
+
+###### walk()
 
 Return a `TreeCursor` positioned at the root.
 
@@ -1460,15 +2060,23 @@ Return a `TreeCursor` positioned at the root.
 pub fn walk(self: *const Tree) TreeCursor
 ```
 
+**Example:**
+
+```zig
+const result = instance.walk();
+```
+
+**Returns:** `TreeCursor`
+
 ---
 
 #### TreeCursor
 
 A cursor for traversing a `Tree`.
 
-### Methods
+##### Methods
 
-#### node()
+###### node()
 
 Return the `Node` at the cursor's current position.
 
@@ -1478,7 +2086,15 @@ Return the `Node` at the cursor's current position.
 pub fn node(self: *const TreeCursor) Node
 ```
 
-#### gotoFirstChild()
+**Example:**
+
+```zig
+const result = instance.node();
+```
+
+**Returns:** `Node`
+
+###### gotoFirstChild()
 
 Move the cursor to the first child of the current node.
 Returns `true` if a child existed.
@@ -1489,7 +2105,15 @@ Returns `true` if a child existed.
 pub fn gotoFirstChild(self: *const TreeCursor) bool
 ```
 
-#### gotoParent()
+**Example:**
+
+```zig
+const result = instance.gotoFirstChild();
+```
+
+**Returns:** `bool`
+
+###### gotoParent()
 
 Move the cursor to the parent of the current node.
 Returns `true` if a parent existed.
@@ -1500,7 +2124,15 @@ Returns `true` if a parent existed.
 pub fn gotoParent(self: *const TreeCursor) bool
 ```
 
-#### gotoNextSibling()
+**Example:**
+
+```zig
+const result = instance.gotoParent();
+```
+
+**Returns:** `bool`
+
+###### gotoNextSibling()
 
 Move the cursor to the next sibling of the current node.
 Returns `true` if a sibling existed.
@@ -1511,7 +2143,15 @@ Returns `true` if a sibling existed.
 pub fn gotoNextSibling(self: *const TreeCursor) bool
 ```
 
-#### fieldName()
+**Example:**
+
+```zig
+const result = instance.gotoNextSibling();
+```
+
+**Returns:** `bool`
+
+###### fieldName()
 
 Return the field name for the current node, if any.
 
@@ -1520,6 +2160,14 @@ Return the field name for the current node, if any.
 ```zig
 pub fn fieldName(self: *const TreeCursor) ?[:0]const u8
 ```
+
+**Example:**
+
+```zig
+const result = instance.fieldName();
+```
+
+**Returns:** `?[:0]const u8`
 
 ---
 

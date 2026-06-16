@@ -4,6 +4,7 @@ export {
 	DiagnosticSeverity,
 	DownloadManager,
 	ExportKind,
+	Language,
 	LanguageRegistry,
 	Node,
 	Parser,
