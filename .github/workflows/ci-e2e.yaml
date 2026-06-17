@@ -1267,11 +1267,10 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Setup Elixir
-              uses: erlef/setup-elixir@v1.24.0
+              uses: kreuzberg-dev/actions/setup-elixir@v1
               with:
                   elixir-version: "1.17"
                   otp-version: "27.2"
-                  version-type: strict
 
             - name: Install Task
               uses: kreuzberg-dev/actions/install-task@v1
