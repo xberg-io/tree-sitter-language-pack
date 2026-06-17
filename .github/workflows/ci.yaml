@@ -499,6 +499,103 @@ jobs:
                   retention-days: 7
 
     # ---------------------------------------------------------------------------
+    # 5.5. build-e2e-bundles — Compile parsers + emit a local manifest
+    #
+    # Pre-publish, the workspace version (e.g. v1.9.0-rc.21) has no GitHub
+    # release yet, so the runtime's network fetch of `parsers.json` 404s.
+    # This job builds the parsers from cloned vendors, packages them as a
+    # tar.zst bundle, and emits a `parsers.json` manifest whose platform URL
+    # points at the bundle via `file://`. Downstream test jobs export
+    # `TREE_SITTER_LANGUAGE_PACK_MANIFEST_URL` so the runtime resolves
+    # manifest + bundle from disk instead of the network.
+    # ---------------------------------------------------------------------------
+    build-e2e-bundles:
+        name: Build e2e parser bundle (${{ matrix.label }})
+        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        needs: [clone-vendors]
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 45
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      label: linux-x86_64
+                    - os: macos-latest
+                      label: macos-arm64
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Download parsers
+              uses: actions/download-artifact@v8
+              with:
+                  name: language-parsers
+                  path: parsers
+
+            - name: Setup Rust
+              uses: kreuzberg-dev/actions/setup-rust@v1
+              with:
+                  components: ""
+                  use-sccache: "true"
+                  cache-key-prefix: e2e-bundles-${{ matrix.label }}
+                  install-llvm-cov: "false"
+
+            - name: Setup Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.12"
+
+            - name: Install zstd
+              shell: bash
+              run: |
+                  if command -v zstd &>/dev/null; then
+                    echo "zstd already available: $(zstd --version)"
+                  elif [[ "$RUNNER_OS" == "macOS" ]]; then
+                    brew install zstd
+                  else
+                    sudo apt-get update && sudo apt-get install -y zstd
+                  fi
+
+            - name: Get all language names
+              id: langs
+              shell: bash
+              run: |
+                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
+            - name: Build all parsers
+              run: cargo build -p tree-sitter-language-pack --release
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
+                  TSLP_LINK_MODE: dynamic
+                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+
+            - name: Package parser binaries
+              shell: bash
+              run: |
+                  mkdir -p staging dist
+                  find target/release/build -path '*/out/libs/*' \( -name 'libtree_sitter_*.so' -o -name 'libtree_sitter_*.dylib' \) -exec cp {} staging/ \;
+                  count=$(find staging/ -maxdepth 1 -type f | wc -l)
+                  echo "Packaged $count parser libraries"
+                  if [ "$count" -eq 0 ]; then
+                    echo "ERROR: no parser libraries built" >&2
+                    exit 1
+                  fi
+                  cd staging && tar -cf - . | zstd -3 -o "../dist/parsers-${{ matrix.label }}.tar.zst"
+
+            - name: Upload e2e parser bundle
+              uses: actions/upload-artifact@v7
+              with:
+                  name: e2e-bundles-${{ matrix.label }}
+                  path: dist/parsers-${{ matrix.label }}.tar.zst
+                  retention-days: 1
+
+            - name: Cleanup Rust cache
+              if: always()
+              uses: kreuzberg-dev/actions/cleanup-rust-cache@v1
+
+    # ---------------------------------------------------------------------------
     # 6. build-python — Python wheels (maturin)
     # ---------------------------------------------------------------------------
     build-python:
@@ -571,7 +668,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
              needs.changes.outputs.python == 'true')
-        needs: [build-python, changes]
+        needs: [build-python, changes, build-e2e-bundles]
         runs-on: ${{ matrix.os }}
         timeout-minutes: 30
         strategy:
@@ -593,6 +690,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-${{ matrix.platform }}
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: ${{ matrix.platform }}
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Setup Python
               uses: actions/setup-python@v6
@@ -690,7 +800,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
              needs.changes.outputs.node == 'true')
-        needs: [build-node, changes]
+        needs: [build-node, changes, build-e2e-bundles]
         runs-on: ${{ matrix.os }}
         timeout-minutes: 30
         strategy:
@@ -704,6 +814,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-${{ matrix.platform == 'linux-x64' && 'linux-x86_64' || 'macos-arm64' }}
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: ${{ matrix.platform == 'linux-x64' && 'linux-x86_64' || 'macos-arm64' }}
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Setup Node.js workspace
               uses: kreuzberg-dev/actions/setup-node-workspace@v1
@@ -830,12 +953,25 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
              needs.changes.outputs.wasm == 'true')
-        needs: [build-wasm, changes]
+        needs: [build-wasm, changes, build-e2e-bundles]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-linux-x86_64
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: linux-x86_64
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download WASM Node.js artifacts
               uses: actions/download-artifact@v8
@@ -868,7 +1004,7 @@ jobs:
              needs.changes.outputs.go == 'true' ||
              needs.changes.outputs.core == 'true' ||
              needs.changes.outputs.ffi == 'true')
-        needs: [build-ffi, changes, clone-vendors]
+        needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -876,6 +1012,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-linux-x86_64
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: linux-x86_64
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download parsers
               uses: actions/download-artifact@v8
@@ -954,7 +1103,7 @@ jobs:
              needs.changes.outputs.java == 'true' ||
              needs.changes.outputs.core == 'true' ||
              needs.changes.outputs.ffi == 'true')
-        needs: [build-ffi, changes, clone-vendors]
+        needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -964,6 +1113,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-linux-x86_64
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: linux-x86_64
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download parsers
               uses: actions/download-artifact@v8
@@ -1049,7 +1211,7 @@ jobs:
              needs.changes.outputs.csharp == 'true' ||
              needs.changes.outputs.core == 'true' ||
              needs.changes.outputs.ffi == 'true')
-        needs: [build-ffi, changes, clone-vendors]
+        needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
         runs-on: ${{ matrix.os }}
         timeout-minutes: 30
         strategy:
@@ -1064,6 +1226,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: ${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download parsers
               uses: actions/download-artifact@v8
@@ -1140,7 +1315,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.ruby == 'true' ||
              needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors]
+        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -1149,6 +1324,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-linux-x86_64
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: linux-x86_64
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download parsers
               uses: actions/download-artifact@v8
@@ -1199,7 +1387,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.php == 'true' ||
              needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors]
+        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
         runs-on: ${{ matrix.os }}
         timeout-minutes: 30
         strategy:
@@ -1212,6 +1400,21 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              if: matrix.os == 'ubuntu-latest'
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-linux-x86_64
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              if: matrix.os == 'ubuntu-latest'
+              shell: bash
+              env:
+                  PLATFORM_LABEL: linux-x86_64
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download parsers
               uses: actions/download-artifact@v8
@@ -1298,7 +1501,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.elixir == 'true' ||
              needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors]
+        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -1307,6 +1510,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-linux-x86_64
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: linux-x86_64
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download parsers
               uses: actions/download-artifact@v8
@@ -1386,7 +1602,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.ffi == 'true' ||
              needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors]
+        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -1397,6 +1613,19 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download e2e parser bundle
+              uses: actions/download-artifact@v8
+              with:
+                  name: e2e-bundles-linux-x86_64
+                  path: e2e-bundles
+
+            - name: Wire e2e manifest
+              shell: bash
+              env:
+                  PLATFORM_LABEL: linux-x86_64
+                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+              run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Download parsers
               uses: actions/download-artifact@v8

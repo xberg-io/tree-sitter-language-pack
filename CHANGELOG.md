@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **`ci.yaml` test-* jobs 404 race on `parsers.json`.** Mirrored `ci-e2e.yaml`'s `build-e2e-bundles` job into `ci.yaml` and added `TREE_SITTER_LANGUAGE_PACK_MANIFEST_URL` manifest wiring to all test-* jobs (test-python, test-node, test-wasm, test-go, test-java, test-csharp, test-ruby, test-php, test-elixir, test-c-ffi). Pre-publish, the workspace version has no GitHub Release yet, so the runtime's network fetch of `parsers.json` would 404; bundling parsers locally and exporting the manifest URL avoids the race.
+
 ## [1.9.0-rc.54] - 2026-06-17
 
 ### Changed
