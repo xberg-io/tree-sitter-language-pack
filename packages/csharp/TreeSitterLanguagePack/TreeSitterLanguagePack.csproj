@@ -3,10 +3,10 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>TreeSitterLanguagePack</RootNamespace>
     <PackageId>TreeSitterLanguagePack</PackageId>
-    <Version>1.9.0-rc.53</Version>
+    <Version>1.9.0-rc.54</Version>
     <AssemblyVersion>1.9.0.0</AssemblyVersion>
     <FileVersion>1.9.0.0</FileVersion>
-    <InformationalVersion>1.9.0-rc.53</InformationalVersion>
+    <InformationalVersion>1.9.0-rc.54</InformationalVersion>
     <Description>Pre-compiled tree-sitter grammars for 306 programming languages</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/kreuzberg-dev/tree-sitter-language-pack</RepositoryUrl>

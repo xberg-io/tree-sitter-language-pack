@@ -2,7 +2,7 @@
 title: "C API Reference"
 ---
 
-## C API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## C API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -750,7 +750,7 @@ Metadata for a single chunk of source code.
 | `chunk_index` | `uintptr_t` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `total_chunks` | `uintptr_t` | — | Total number of chunks the file was split into. |
 | `node_types` | `const char**` | `NULL` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `context_path` | `const char**` | `NULL` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
+| `context_path` | `const char**` | `NULL` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
 | `symbols_defined` | `const char**` | `NULL` | Names of symbols defined within this chunk. |
 | `comments` | `TsPackCommentInfo*` | `NULL` | Comments contained within this chunk. |
 | `docstrings` | `TsPackDocstringInfo*` | `NULL` | Docstrings contained within this chunk. |

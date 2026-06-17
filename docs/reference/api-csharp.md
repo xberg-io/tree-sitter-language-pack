@@ -2,7 +2,7 @@
 title: "C# API Reference"
 ---
 
-## C# API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## C# API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -750,7 +750,7 @@ Metadata for a single chunk of source code.
 | `ChunkIndex` | `nuint` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `TotalChunks` | `nuint` | — | Total number of chunks the file was split into. |
 | `NodeTypes` | `List<string>` | `new List<string>()` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `ContextPath` | `List<string>` | `new List<string>()` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
+| `ContextPath` | `List<string>` | `new List<string>()` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
 | `SymbolsDefined` | `List<string>` | `new List<string>()` | Names of symbols defined within this chunk. |
 | `Comments` | `List<CommentInfo>` | `new List<CommentInfo>()` | Comments contained within this chunk. |
 | `Docstrings` | `List<DocstringInfo>` | `new List<DocstringInfo>()` | Docstrings contained within this chunk. |
@@ -1774,7 +1774,7 @@ var result = instance.ParseBytes(System.Text.Encoding.UTF8.GetBytes("data"));
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `Source` | `byte[]` | Yes | The source |
+| `Source` | `byte\[\]` | Yes | The source |
 
 **Returns:** `Tree?`
 

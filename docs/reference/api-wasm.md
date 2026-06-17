@@ -2,7 +2,7 @@
 title: "WebAssembly API Reference"
 ---
 
-## WebAssembly API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## WebAssembly API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -749,11 +749,11 @@ Metadata for a single chunk of source code.
 | `language` | `string` | — | Language name used to parse this chunk. |
 | `chunkIndex` | `number` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `totalChunks` | `number` | — | Total number of chunks the file was split into. |
-| `nodeTypes` | `Array<string>` | `[]` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `contextPath` | `Array<string>` | `[]` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
-| `symbolsDefined` | `Array<string>` | `[]` | Names of symbols defined within this chunk. |
-| `comments` | `Array<CommentInfo>` | `[]` | Comments contained within this chunk. |
-| `docstrings` | `Array<DocstringInfo>` | `[]` | Docstrings contained within this chunk. |
+| `nodeTypes` | `Array<string>` | `\[\]` | Tree-sitter node kinds that appear at the top level of this chunk. |
+| `contextPath` | `Array<string>` | `\[\]` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
+| `symbolsDefined` | `Array<string>` | `\[\]` | Names of symbols defined within this chunk. |
+| `comments` | `Array<CommentInfo>` | `\[\]` | Comments contained within this chunk. |
+| `docstrings` | `Array<DocstringInfo>` | `\[\]` | Docstrings contained within this chunk. |
 | `hasErrorNodes` | `boolean` | — | Whether this chunk contains any tree-sitter error nodes. |
 
 ---
@@ -822,8 +822,8 @@ The `kind` field determines which other fields are meaningful:
 | `kind` | `DataNodeKind` | `DataNodeKind.KeyValue` | Whether this node is a key/value pair, XML element, or sequence item. |
 | `key` | `string \| null` | `null` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `null` at the document root. |
 | `value` | `string \| null` | `null` | Leaf scalar value, if any. `null` for containers (objects, arrays, XML elements with child elements). |
-| `attributes` | `Array<DataAttribute>` | `[]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
-| `children` | `Array<DataNode>` | `[]` | Children for nested containers and XML element bodies. |
+| `attributes` | `Array<DataAttribute>` | `\[\]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
+| `children` | `Array<DataNode>` | `\[\]` | Children for nested containers and XML element bodies. |
 | `span` | `Span` | — | Source span covering this node in the original source file. |
 
 ---
@@ -862,7 +862,7 @@ A docstring extracted from source code.
 | `format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | The docstring format (Python, JSDoc, Rustdoc, etc.). |
 | `span` | `Span` | — | Source span covering the docstring. |
 | `associatedItem` | `string \| null` | `null` | Name of the item this docstring documents. |
-| `parsedSections` | `Array<DocSection>` | `[]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
+| `parsedSections` | `Array<DocSection>` | `\[\]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
 
 ---
 
@@ -1008,7 +1008,7 @@ An import statement extracted from source code.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `source` | `string` | — | The module or path being imported from. |
-| `items` | `Array<string>` | `[]` | Specific names imported from the source module. |
+| `items` | `Array<string>` | `\[\]` | Specific names imported from the source module. |
 | `alias` | `string \| null` | `null` | Alias assigned to the import (e.g., `import numpy as np`). |
 | `isWildcard` | `boolean` | — | Whether this is a wildcard import (e.g., `import *` or `use foo.*`). |
 | `span` | `Span` | — | Source span covering the import statement. |
@@ -1663,8 +1663,8 @@ or passed as a dict/object from language bindings.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cacheDir` | `string \| null` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `Array<string> \| null` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `groups` | `Array<string> \| null` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+| `languages` | `Array<string> \| null` | `\[\]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `Array<string> \| null` | `\[\]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1964,14 +1964,14 @@ Fields are populated based on the `ProcessConfig` flags.
 |-------|------|---------|-------------|
 | `language` | `string` | — | The language name used to parse the source file. |
 | `metrics` | `FileMetrics` | — | File-level metrics (line counts, byte size, error count). |
-| `structure` | `Array<StructureItem>` | `[]` | Top-level structural items (functions, classes, etc.). |
-| `imports` | `Array<ImportInfo>` | `[]` | Import statements extracted from the source. |
-| `exports` | `Array<ExportInfo>` | `[]` | Export statements extracted from the source. |
-| `comments` | `Array<CommentInfo>` | `[]` | Comments extracted from the source. |
-| `docstrings` | `Array<DocstringInfo>` | `[]` | Docstrings extracted from the source. |
-| `symbols` | `Array<SymbolInfo>` | `[]` | Symbol definitions (variables, types, functions) extracted from the source. |
-| `diagnostics` | `Array<Diagnostic>` | `[]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
-| `chunks` | `Array<CodeChunk>` | `[]` | Syntax-aware code chunks produced when chunking is enabled. |
+| `structure` | `Array<StructureItem>` | `\[\]` | Top-level structural items (functions, classes, etc.). |
+| `imports` | `Array<ImportInfo>` | `\[\]` | Import statements extracted from the source. |
+| `exports` | `Array<ExportInfo>` | `\[\]` | Export statements extracted from the source. |
+| `comments` | `Array<CommentInfo>` | `\[\]` | Comments extracted from the source. |
+| `docstrings` | `Array<DocstringInfo>` | `\[\]` | Docstrings extracted from the source. |
+| `symbols` | `Array<SymbolInfo>` | `\[\]` | Symbol definitions (variables, types, functions) extracted from the source. |
+| `diagnostics` | `Array<Diagnostic>` | `\[\]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
+| `chunks` | `Array<CodeChunk>` | `\[\]` | Syntax-aware code chunks produced when chunking is enabled. |
 | `data` | `DataNode \| null` | `null` | Hierarchical data tree extracted when `config.data_extraction` is `true`. Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML, CSV, and more). `null` when `data_extraction` is `false` (the default) or when the language is not a recognised data format. See `DataNode` for the shape of the returned tree. |
 
 ---
@@ -2004,8 +2004,8 @@ A structural item (function, class, struct, etc.) in source code.
 | `name` | `string \| null` | `null` | The declared name of the item, if present. |
 | `visibility` | `string \| null` | `null` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
 | `span` | `Span` | — | Source span covering the entire item declaration. |
-| `children` | `Array<StructureItem>` | `[]` | Nested structural items (e.g., methods within a class). |
-| `decorators` | `Array<string>` | `[]` | Decorator or attribute names applied to the item. |
+| `children` | `Array<StructureItem>` | `\[\]` | Nested structural items (e.g., methods within a class). |
+| `decorators` | `Array<string>` | `\[\]` | Decorator or attribute names applied to the item. |
 | `docComment` | `string \| null` | `null` | Documentation comment attached to the item, if any. |
 | `signature` | `string \| null` | `null` | Full signature text of the item (e.g., function parameters and return type). |
 | `bodySpan` | `Span \| null` | `null` | Source span covering only the body of the item, if distinct from the declaration. |

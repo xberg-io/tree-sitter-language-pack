@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	moduleVersion = "1.9.0-rc.53"
+	moduleVersion = "1.9.0-rc.54"
 	repoURL       = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 	assetPrefix   = "tree-sitter-language-pack"
 )
@@ -197,6 +197,17 @@ func copyLibraryToBindingPackage(srcDir, dstDir string) error {
 	// Create destination directory
 	if err := os.MkdirAll(dstDir, 0755); err != nil {
 		return fmt.Errorf("mkdir %s: %w", dstDir, err)
+	}
+
+	// determinePaths returns the same path for cache and binding library dirs,
+	// so source and destination point at the same files. os.Create() truncates
+	// the destination first, which (when paths alias) zeroes the source mid-copy
+	// — leaving the dylib at 0 bytes and breaking cgo linking. Skip the copy
+	// when there's nothing to move.
+	absSrc, srcErr := filepath.Abs(srcDir)
+	absDst, dstErr := filepath.Abs(dstDir)
+	if srcErr == nil && dstErr == nil && absSrc == absDst {
+		return nil
 	}
 
 	// List files in source directory

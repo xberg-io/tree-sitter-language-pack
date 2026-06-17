@@ -2,7 +2,7 @@
 title: "Python API Reference"
 ---
 
-## Python API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## Python API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -534,7 +534,7 @@ result = download([])
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `names` | `list[str]` | Yes | The names |
+| `names` | `list\[str\]` | Yes | The names |
 
 **Returns:** `int`
 
@@ -749,11 +749,11 @@ Metadata for a single chunk of source code.
 | `language` | `str` | — | Language name used to parse this chunk. |
 | `chunk_index` | `int` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `total_chunks` | `int` | — | Total number of chunks the file was split into. |
-| `node_types` | `list[str]` | `[]` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `context_path` | `list[str]` | `[]` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
-| `symbols_defined` | `list[str]` | `[]` | Names of symbols defined within this chunk. |
-| `comments` | `list[CommentInfo]` | `[]` | Comments contained within this chunk. |
-| `docstrings` | `list[DocstringInfo]` | `[]` | Docstrings contained within this chunk. |
+| `node_types` | `list\[str\]` | `\[\]` | Tree-sitter node kinds that appear at the top level of this chunk. |
+| `context_path` | `list\[str\]` | `\[\]` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
+| `symbols_defined` | `list\[str\]` | `\[\]` | Names of symbols defined within this chunk. |
+| `comments` | `list\[CommentInfo\]` | `\[\]` | Comments contained within this chunk. |
+| `docstrings` | `list\[DocstringInfo\]` | `\[\]` | Docstrings contained within this chunk. |
 | `has_error_nodes` | `bool` | — | Whether this chunk contains any tree-sitter error nodes. |
 
 ---
@@ -822,8 +822,8 @@ The `kind` field determines which other fields are meaningful:
 | `kind` | `DataNodeKind` | `DataNodeKind.KEY_VALUE` | Whether this node is a key/value pair, XML element, or sequence item. |
 | `key` | `str \| None` | `None` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `None` at the document root. |
 | `value` | `str \| None` | `None` | Leaf scalar value, if any. `None` for containers (objects, arrays, XML elements with child elements). |
-| `attributes` | `list[DataAttribute]` | `[]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
-| `children` | `list[DataNode]` | `[]` | Children for nested containers and XML element bodies. |
+| `attributes` | `list\[DataAttribute\]` | `\[\]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
+| `children` | `list\[DataNode\]` | `\[\]` | Children for nested containers and XML element bodies. |
 | `span` | `Span` | — | Source span covering this node in the original source file. |
 
 ---
@@ -862,7 +862,7 @@ A docstring extracted from source code.
 | `format` | `DocstringFormat` | `DocstringFormat.PYTHON_TRIPLE_QUOTE` | The docstring format (Python, JSDoc, Rustdoc, etc.). |
 | `span` | `Span` | — | Source span covering the docstring. |
 | `associated_item` | `str \| None` | `None` | Name of the item this docstring documents. |
-| `parsed_sections` | `list[DocSection]` | `[]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
+| `parsed_sections` | `list\[DocSection\]` | `\[\]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
 
 ---
 
@@ -1009,7 +1009,7 @@ An import statement extracted from source code.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `source` | `str` | — | The module or path being imported from. |
-| `items` | `list[str]` | `[]` | Specific names imported from the source module. |
+| `items` | `list\[str\]` | `\[\]` | Specific names imported from the source module. |
 | `alias` | `str \| None` | `None` | Alias assigned to the import (e.g., `import numpy as np`). |
 | `is_wildcard` | `bool` | — | Whether this is a wildcard import (e.g., `import *` or `use foo.*`). |
 | `span` | `Span` | — | Source span covering the import statement. |
@@ -1666,8 +1666,8 @@ or passed as a dict/object from language bindings.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cache_dir` | `str \| None` | `None` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `list[str] \| None` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `groups` | `list[str] \| None` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+| `languages` | `list\[str\] \| None` | `\[\]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `list\[str\] \| None` | `\[\]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1970,14 +1970,14 @@ Fields are populated based on the `ProcessConfig` flags.
 |-------|------|---------|-------------|
 | `language` | `str` | — | The language name used to parse the source file. |
 | `metrics` | `FileMetrics` | — | File-level metrics (line counts, byte size, error count). |
-| `structure` | `list[StructureItem]` | `[]` | Top-level structural items (functions, classes, etc.). |
-| `imports` | `list[ImportInfo]` | `[]` | Import statements extracted from the source. |
-| `exports` | `list[ExportInfo]` | `[]` | Export statements extracted from the source. |
-| `comments` | `list[CommentInfo]` | `[]` | Comments extracted from the source. |
-| `docstrings` | `list[DocstringInfo]` | `[]` | Docstrings extracted from the source. |
-| `symbols` | `list[SymbolInfo]` | `[]` | Symbol definitions (variables, types, functions) extracted from the source. |
-| `diagnostics` | `list[Diagnostic]` | `[]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
-| `chunks` | `list[CodeChunk]` | `[]` | Syntax-aware code chunks produced when chunking is enabled. |
+| `structure` | `list\[StructureItem\]` | `\[\]` | Top-level structural items (functions, classes, etc.). |
+| `imports` | `list\[ImportInfo\]` | `\[\]` | Import statements extracted from the source. |
+| `exports` | `list\[ExportInfo\]` | `\[\]` | Export statements extracted from the source. |
+| `comments` | `list\[CommentInfo\]` | `\[\]` | Comments extracted from the source. |
+| `docstrings` | `list\[DocstringInfo\]` | `\[\]` | Docstrings extracted from the source. |
+| `symbols` | `list\[SymbolInfo\]` | `\[\]` | Symbol definitions (variables, types, functions) extracted from the source. |
+| `diagnostics` | `list\[Diagnostic\]` | `\[\]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
+| `chunks` | `list\[CodeChunk\]` | `\[\]` | Syntax-aware code chunks produced when chunking is enabled. |
 | `data` | `DataNode \| None` | `None` | Hierarchical data tree extracted when `config.data_extraction` is `True`. Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML, CSV, and more). `None` when `data_extraction` is `False` (the default) or when the language is not a recognised data format. See `DataNode` for the shape of the returned tree. |
 
 ---
@@ -2010,8 +2010,8 @@ A structural item (function, class, struct, etc.) in source code.
 | `name` | `str \| None` | `None` | The declared name of the item, if present. |
 | `visibility` | `str \| None` | `None` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
 | `span` | `Span` | — | Source span covering the entire item declaration. |
-| `children` | `list[StructureItem]` | `[]` | Nested structural items (e.g., methods within a class). |
-| `decorators` | `list[str]` | `[]` | Decorator or attribute names applied to the item. |
+| `children` | `list\[StructureItem\]` | `\[\]` | Nested structural items (e.g., methods within a class). |
+| `decorators` | `list\[str\]` | `\[\]` | Decorator or attribute names applied to the item. |
 | `doc_comment` | `str \| None` | `None` | Documentation comment attached to the item, if any. |
 | `signature` | `str \| None` | `None` | Full signature text of the item (e.g., function parameters and return type). |
 | `body_span` | `Span \| None` | `None` | Source span covering only the body of the item, if distinct from the declaration. |

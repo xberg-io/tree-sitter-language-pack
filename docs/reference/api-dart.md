@@ -2,7 +2,7 @@
 title: "Dart API Reference"
 ---
 
-## Dart API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## Dart API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -749,11 +749,11 @@ Metadata for a single chunk of source code.
 | `language` | `String` | — | Language name used to parse this chunk. |
 | `chunkIndex` | `int` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `totalChunks` | `int` | — | Total number of chunks the file was split into. |
-| `nodeTypes` | `List<String>` | `[]` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `contextPath` | `List<String>` | `[]` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
-| `symbolsDefined` | `List<String>` | `[]` | Names of symbols defined within this chunk. |
-| `comments` | `List<CommentInfo>` | `[]` | Comments contained within this chunk. |
-| `docstrings` | `List<DocstringInfo>` | `[]` | Docstrings contained within this chunk. |
+| `nodeTypes` | `List<String>` | `\[\]` | Tree-sitter node kinds that appear at the top level of this chunk. |
+| `contextPath` | `List<String>` | `\[\]` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
+| `symbolsDefined` | `List<String>` | `\[\]` | Names of symbols defined within this chunk. |
+| `comments` | `List<CommentInfo>` | `\[\]` | Comments contained within this chunk. |
+| `docstrings` | `List<DocstringInfo>` | `\[\]` | Docstrings contained within this chunk. |
 | `hasErrorNodes` | `bool` | — | Whether this chunk contains any tree-sitter error nodes. |
 
 ---
@@ -822,8 +822,8 @@ The `kind` field determines which other fields are meaningful:
 | `kind` | `DataNodeKind` | `DataNodeKind.KeyValue` | Whether this node is a key/value pair, XML element, or sequence item. |
 | `key` | `String?` | `null` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `null` at the document root. |
 | `value` | `String?` | `null` | Leaf scalar value, if any. `null` for containers (objects, arrays, XML elements with child elements). |
-| `attributes` | `List<DataAttribute>` | `[]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
-| `children` | `List<DataNode>` | `[]` | Children for nested containers and XML element bodies. |
+| `attributes` | `List<DataAttribute>` | `\[\]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
+| `children` | `List<DataNode>` | `\[\]` | Children for nested containers and XML element bodies. |
 | `span` | `Span` | — | Source span covering this node in the original source file. |
 
 ---
@@ -862,7 +862,7 @@ A docstring extracted from source code.
 | `format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | The docstring format (Python, JSDoc, Rustdoc, etc.). |
 | `span` | `Span` | — | Source span covering the docstring. |
 | `associatedItem` | `String?` | `null` | Name of the item this docstring documents. |
-| `parsedSections` | `List<DocSection>` | `[]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
+| `parsedSections` | `List<DocSection>` | `\[\]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
 
 ---
 
@@ -1008,7 +1008,7 @@ An import statement extracted from source code.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `source` | `String` | — | The module or path being imported from. |
-| `items` | `List<String>` | `[]` | Specific names imported from the source module. |
+| `items` | `List<String>` | `\[\]` | Specific names imported from the source module. |
 | `alias` | `String?` | `null` | Alias assigned to the import (e.g., `import numpy as np`). |
 | `isWildcard` | `bool` | — | Whether this is a wildcard import (e.g., `import *` or `use foo.*`). |
 | `span` | `Span` | — | Source span covering the import statement. |
@@ -1663,8 +1663,8 @@ or passed as a dict/object from language bindings.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cacheDir` | `String?` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `List<String>?` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `groups` | `List<String>?` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+| `languages` | `List<String>?` | `\[\]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `List<String>?` | `\[\]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1964,14 +1964,14 @@ Fields are populated based on the `ProcessConfig` flags.
 |-------|------|---------|-------------|
 | `language` | `String` | — | The language name used to parse the source file. |
 | `metrics` | `FileMetrics` | — | File-level metrics (line counts, byte size, error count). |
-| `structure` | `List<StructureItem>` | `[]` | Top-level structural items (functions, classes, etc.). |
-| `imports` | `List<ImportInfo>` | `[]` | Import statements extracted from the source. |
-| `exports` | `List<ExportInfo>` | `[]` | Export statements extracted from the source. |
-| `comments` | `List<CommentInfo>` | `[]` | Comments extracted from the source. |
-| `docstrings` | `List<DocstringInfo>` | `[]` | Docstrings extracted from the source. |
-| `symbols` | `List<SymbolInfo>` | `[]` | Symbol definitions (variables, types, functions) extracted from the source. |
-| `diagnostics` | `List<Diagnostic>` | `[]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
-| `chunks` | `List<CodeChunk>` | `[]` | Syntax-aware code chunks produced when chunking is enabled. |
+| `structure` | `List<StructureItem>` | `\[\]` | Top-level structural items (functions, classes, etc.). |
+| `imports` | `List<ImportInfo>` | `\[\]` | Import statements extracted from the source. |
+| `exports` | `List<ExportInfo>` | `\[\]` | Export statements extracted from the source. |
+| `comments` | `List<CommentInfo>` | `\[\]` | Comments extracted from the source. |
+| `docstrings` | `List<DocstringInfo>` | `\[\]` | Docstrings extracted from the source. |
+| `symbols` | `List<SymbolInfo>` | `\[\]` | Symbol definitions (variables, types, functions) extracted from the source. |
+| `diagnostics` | `List<Diagnostic>` | `\[\]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
+| `chunks` | `List<CodeChunk>` | `\[\]` | Syntax-aware code chunks produced when chunking is enabled. |
 | `data` | `DataNode?` | `null` | Hierarchical data tree extracted when `config.data_extraction` is `true`. Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML, CSV, and more). `null` when `data_extraction` is `false` (the default) or when the language is not a recognised data format. See `DataNode` for the shape of the returned tree. |
 
 ---
@@ -2004,8 +2004,8 @@ A structural item (function, class, struct, etc.) in source code.
 | `name` | `String?` | `null` | The declared name of the item, if present. |
 | `visibility` | `String?` | `null` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
 | `span` | `Span` | — | Source span covering the entire item declaration. |
-| `children` | `List<StructureItem>` | `[]` | Nested structural items (e.g., methods within a class). |
-| `decorators` | `List<String>` | `[]` | Decorator or attribute names applied to the item. |
+| `children` | `List<StructureItem>` | `\[\]` | Nested structural items (e.g., methods within a class). |
+| `decorators` | `List<String>` | `\[\]` | Decorator or attribute names applied to the item. |
 | `docComment` | `String?` | `null` | Documentation comment attached to the item, if any. |
 | `signature` | `String?` | `null` | Full signature text of the item (e.g., function parameters and return type). |
 | `bodySpan` | `Span?` | `null` | Source span covering only the body of the item, if distinct from the declaration. |

@@ -2,7 +2,7 @@
 title: "Elixir API Reference"
 ---
 
-## Elixir API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## Elixir API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -772,11 +772,11 @@ Metadata for a single chunk of source code.
 | `language` | `String.t()` | — | Language name used to parse this chunk. |
 | `chunk_index` | `integer()` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `total_chunks` | `integer()` | — | Total number of chunks the file was split into. |
-| `node_types` | `list(String.t())` | `[]` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `context_path` | `list(String.t())` | `[]` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
-| `symbols_defined` | `list(String.t())` | `[]` | Names of symbols defined within this chunk. |
-| `comments` | `list(CommentInfo)` | `[]` | Comments contained within this chunk. |
-| `docstrings` | `list(DocstringInfo)` | `[]` | Docstrings contained within this chunk. |
+| `node_types` | `list(String.t())` | `\[\]` | Tree-sitter node kinds that appear at the top level of this chunk. |
+| `context_path` | `list(String.t())` | `\[\]` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
+| `symbols_defined` | `list(String.t())` | `\[\]` | Names of symbols defined within this chunk. |
+| `comments` | `list(CommentInfo)` | `\[\]` | Comments contained within this chunk. |
+| `docstrings` | `list(DocstringInfo)` | `\[\]` | Docstrings contained within this chunk. |
 | `has_error_nodes` | `boolean()` | — | Whether this chunk contains any tree-sitter error nodes. |
 
 ---
@@ -845,8 +845,8 @@ The `kind` field determines which other fields are meaningful:
 | `kind` | `DataNodeKind` | `:key_value` | Whether this node is a key/value pair, XML element, or sequence item. |
 | `key` | `String.t() \| nil` | `nil` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `nil` at the document root. |
 | `value` | `String.t() \| nil` | `nil` | Leaf scalar value, if any. `nil` for containers (objects, arrays, XML elements with child elements). |
-| `attributes` | `list(DataAttribute)` | `[]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
-| `children` | `list(DataNode)` | `[]` | Children for nested containers and XML element bodies. |
+| `attributes` | `list(DataAttribute)` | `\[\]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
+| `children` | `list(DataNode)` | `\[\]` | Children for nested containers and XML element bodies. |
 | `span` | `Span` | — | Source span covering this node in the original source file. |
 
 ---
@@ -885,7 +885,7 @@ A docstring extracted from source code.
 | `format` | `DocstringFormat` | `:python_triple_quote` | The docstring format (Python, JSDoc, Rustdoc, etc.). |
 | `span` | `Span` | — | Source span covering the docstring. |
 | `associated_item` | `String.t() \| nil` | `nil` | Name of the item this docstring documents. |
-| `parsed_sections` | `list(DocSection)` | `[]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
+| `parsed_sections` | `list(DocSection)` | `\[\]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
 
 ---
 
@@ -1031,7 +1031,7 @@ An import statement extracted from source code.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `source` | `String.t()` | — | The module or path being imported from. |
-| `items` | `list(String.t())` | `[]` | Specific names imported from the source module. |
+| `items` | `list(String.t())` | `\[\]` | Specific names imported from the source module. |
 | `alias` | `String.t() \| nil` | `nil` | Alias assigned to the import (e.g., `import numpy as np`). |
 | `is_wildcard` | `boolean()` | — | Whether this is a wildcard import (e.g., `import *` or `use foo.*`). |
 | `span` | `Span` | — | Source span covering the import statement. |
@@ -1686,8 +1686,8 @@ or passed as a dict/object from language bindings.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cache_dir` | `String.t() \| nil` | `nil` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `list(String.t()) \| nil` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `groups` | `list(String.t()) \| nil` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+| `languages` | `list(String.t()) \| nil` | `\[\]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `list(String.t()) \| nil` | `\[\]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1987,14 +1987,14 @@ Fields are populated based on the `ProcessConfig` flags.
 |-------|------|---------|-------------|
 | `language` | `String.t()` | — | The language name used to parse the source file. |
 | `metrics` | `FileMetrics` | — | File-level metrics (line counts, byte size, error count). |
-| `structure` | `list(StructureItem)` | `[]` | Top-level structural items (functions, classes, etc.). |
-| `imports` | `list(ImportInfo)` | `[]` | Import statements extracted from the source. |
-| `exports` | `list(ExportInfo)` | `[]` | Export statements extracted from the source. |
-| `comments` | `list(CommentInfo)` | `[]` | Comments extracted from the source. |
-| `docstrings` | `list(DocstringInfo)` | `[]` | Docstrings extracted from the source. |
-| `symbols` | `list(SymbolInfo)` | `[]` | Symbol definitions (variables, types, functions) extracted from the source. |
-| `diagnostics` | `list(Diagnostic)` | `[]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
-| `chunks` | `list(CodeChunk)` | `[]` | Syntax-aware code chunks produced when chunking is enabled. |
+| `structure` | `list(StructureItem)` | `\[\]` | Top-level structural items (functions, classes, etc.). |
+| `imports` | `list(ImportInfo)` | `\[\]` | Import statements extracted from the source. |
+| `exports` | `list(ExportInfo)` | `\[\]` | Export statements extracted from the source. |
+| `comments` | `list(CommentInfo)` | `\[\]` | Comments extracted from the source. |
+| `docstrings` | `list(DocstringInfo)` | `\[\]` | Docstrings extracted from the source. |
+| `symbols` | `list(SymbolInfo)` | `\[\]` | Symbol definitions (variables, types, functions) extracted from the source. |
+| `diagnostics` | `list(Diagnostic)` | `\[\]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
+| `chunks` | `list(CodeChunk)` | `\[\]` | Syntax-aware code chunks produced when chunking is enabled. |
 | `data` | `DataNode \| nil` | `nil` | Hierarchical data tree extracted when `config.data_extraction` is `true`. Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML, CSV, and more). `nil` when `data_extraction` is `false` (the default) or when the language is not a recognised data format. See `DataNode` for the shape of the returned tree. |
 
 ---
@@ -2027,8 +2027,8 @@ A structural item (function, class, struct, etc.) in source code.
 | `name` | `String.t() \| nil` | `nil` | The declared name of the item, if present. |
 | `visibility` | `String.t() \| nil` | `nil` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
 | `span` | `Span` | — | Source span covering the entire item declaration. |
-| `children` | `list(StructureItem)` | `[]` | Nested structural items (e.g., methods within a class). |
-| `decorators` | `list(String.t())` | `[]` | Decorator or attribute names applied to the item. |
+| `children` | `list(StructureItem)` | `\[\]` | Nested structural items (e.g., methods within a class). |
+| `decorators` | `list(String.t())` | `\[\]` | Decorator or attribute names applied to the item. |
 | `doc_comment` | `String.t() \| nil` | `nil` | Documentation comment attached to the item, if any. |
 | `signature` | `String.t() \| nil` | `nil` | Full signature text of the item (e.g., function parameters and return type). |
 | `body_span` | `Span \| nil` | `nil` | Source span covering only the body of the item, if distinct from the declaration. |

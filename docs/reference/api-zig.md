@@ -2,7 +2,7 @@
 title: "Zig API Reference"
 ---
 
-## Zig API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## Zig API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -28,7 +28,7 @@ const result = detectLanguageFromExtension("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `ext` | `[:0]const u8` | Yes | The ext |
+| `ext` | `\[:0\]const u8` | Yes | The ext |
 
 **Returns:** `?[:0]const u8`
 
@@ -57,7 +57,7 @@ const result = detectLanguageFromPath("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `path` | `[:0]const u8` | Yes | Path to the file |
+| `path` | `\[:0\]const u8` | Yes | Path to the file |
 
 **Returns:** `?[:0]const u8`
 
@@ -98,7 +98,7 @@ const result = detectLanguageFromContent("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `content` | `[:0]const u8` | Yes | The content to process |
+| `content` | `\[:0\]const u8` | Yes | The content to process |
 
 **Returns:** `?[:0]const u8`
 
@@ -127,7 +127,7 @@ const result = getHighlightsQuery("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `language` | `[:0]const u8` | Yes | The language |
+| `language` | `\[:0\]const u8` | Yes | The language |
 
 **Returns:** `?[:0]const u8`
 
@@ -156,7 +156,7 @@ const result = getInjectionsQuery("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `language` | `[:0]const u8` | Yes | The language |
+| `language` | `\[:0\]const u8` | Yes | The language |
 
 **Returns:** `?[:0]const u8`
 
@@ -185,7 +185,7 @@ const result = getLocalsQuery("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `language` | `[:0]const u8` | Yes | The language |
+| `language` | `\[:0\]const u8` | Yes | The language |
 
 **Returns:** `?[:0]const u8`
 
@@ -214,7 +214,7 @@ const result = getTagsQuery("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `language` | `[:0]const u8` | Yes | The language |
+| `language` | `\[:0\]const u8` | Yes | The language |
 
 **Returns:** `?[:0]const u8`
 
@@ -249,7 +249,7 @@ const result = try getLanguage("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `Language`
 
@@ -285,7 +285,7 @@ const result = try getParser("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `Parser`
 
@@ -315,7 +315,7 @@ const result = detectLanguage("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `path` | `[:0]const u8` | Yes | Path to the file |
+| `path` | `\[:0\]const u8` | Yes | Path to the file |
 
 **Returns:** `?[:0]const u8`
 
@@ -367,7 +367,7 @@ const result = hasLanguage("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `bool`
 
@@ -424,7 +424,7 @@ const result = try process("value", .{});
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `source` | `[:0]const u8` | Yes | The source |
+| `source` | `\[:0\]const u8` | Yes | The source |
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
@@ -534,7 +534,7 @@ const result = try download(&[_]u8{});
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `names` | `[]const [:0]const u8` | Yes | The names |
+| `names` | `\[\]const \[:0\]const u8` | Yes | The names |
 
 **Returns:** `u64`
 
@@ -608,7 +608,7 @@ const result = try downloadGroup("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `u64`
 
@@ -746,14 +746,14 @@ Metadata for a single chunk of source code.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `language` | `[:0]const u8` | — | Language name used to parse this chunk. |
+| `language` | `\[:0\]const u8` | — | Language name used to parse this chunk. |
 | `chunkIndex` | `u64` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `totalChunks` | `u64` | — | Total number of chunks the file was split into. |
-| `nodeTypes` | `[]const [:0]const u8` | `[]` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `contextPath` | `[]const [:0]const u8` | `[]` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
-| `symbolsDefined` | `[]const [:0]const u8` | `[]` | Names of symbols defined within this chunk. |
-| `comments` | `[]const CommentInfo` | `[]` | Comments contained within this chunk. |
-| `docstrings` | `[]const DocstringInfo` | `[]` | Docstrings contained within this chunk. |
+| `nodeTypes` | `\[\]const \[:0\]const u8` | `\[\]` | Tree-sitter node kinds that appear at the top level of this chunk. |
+| `contextPath` | `\[\]const \[:0\]const u8` | `\[\]` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
+| `symbolsDefined` | `\[\]const \[:0\]const u8` | `\[\]` | Names of symbols defined within this chunk. |
+| `comments` | `\[\]const CommentInfo` | `\[\]` | Comments contained within this chunk. |
+| `docstrings` | `\[\]const DocstringInfo` | `\[\]` | Docstrings contained within this chunk. |
 | `hasErrorNodes` | `bool` | — | Whether this chunk contains any tree-sitter error nodes. |
 
 ---
@@ -764,7 +764,7 @@ A chunk of source code with rich metadata.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `content` | `[:0]const u8` | — | The raw source text of this chunk. |
+| `content` | `\[:0\]const u8` | — | The raw source text of this chunk. |
 | `startByte` | `u64` | — | Inclusive start byte offset of this chunk in the original source. |
 | `endByte` | `u64` | — | Exclusive end byte offset of this chunk in the original source. |
 | `startLine` | `u64` | — | Zero-indexed start line of this chunk. |
@@ -779,10 +779,10 @@ A comment extracted from source code.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `text` | `[:0]const u8` | — | The raw text content of the comment. |
+| `text` | `\[:0\]const u8` | — | The raw text content of the comment. |
 | `kind` | `CommentKind` | `CommentKind.Line` | The kind of comment (line, block, or doc). |
 | `span` | `Span` | — | Source span covering the comment. |
-| `associatedNode` | `[:0]const u8?` | `null` | Name of the syntax node this comment is directly associated with. |
+| `associatedNode` | `\[:0\]const u8?` | `null` | Name of the syntax node this comment is directly associated with. |
 
 ---
 
@@ -795,8 +795,8 @@ Populated only for `DataNodeKind.Element`; always empty for `KeyValue` and
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `name` | `[:0]const u8` | — | Attribute name (e.g. `"class"`, `"href"`). |
-| `value` | `[:0]const u8` | — | Attribute value as a raw string (quotes stripped). |
+| `name` | `\[:0\]const u8` | — | Attribute name (e.g. `"class"`, `"href"`). |
+| `value` | `\[:0\]const u8` | — | Attribute value as a raw string (quotes stripped). |
 | `span` | `Span` | — | Source span covering the entire `name="value"` attribute token. |
 
 ---
@@ -820,10 +820,10 @@ The `kind` field determines which other fields are meaningful:
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `kind` | `DataNodeKind` | `DataNodeKind.KeyValue` | Whether this node is a key/value pair, XML element, or sequence item. |
-| `key` | `[:0]const u8?` | `null` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `null` at the document root. |
-| `value` | `[:0]const u8?` | `null` | Leaf scalar value, if any. `null` for containers (objects, arrays, XML elements with child elements). |
-| `attributes` | `[]const DataAttribute` | `[]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
-| `children` | `[]const DataNode` | `[]` | Children for nested containers and XML element bodies. |
+| `key` | `\[:0\]const u8?` | `null` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `null` at the document root. |
+| `value` | `\[:0\]const u8?` | `null` | Leaf scalar value, if any. `null` for containers (objects, arrays, XML elements with child elements). |
+| `attributes` | `\[\]const DataAttribute` | `\[\]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
+| `children` | `\[\]const DataNode` | `\[\]` | Children for nested containers and XML element bodies. |
 | `span` | `Span` | — | Source span covering this node in the original source file. |
 
 ---
@@ -834,7 +834,7 @@ A diagnostic (syntax error, missing node, etc.) from parsing.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `message` | `[:0]const u8` | — | Human-readable description of the diagnostic. |
+| `message` | `\[:0\]const u8` | — | Human-readable description of the diagnostic. |
 | `severity` | `DiagnosticSeverity` | `DiagnosticSeverity.Error` | Severity of the diagnostic. |
 | `span` | `Span` | — | Source span where the diagnostic was detected. |
 
@@ -846,9 +846,9 @@ A section within a docstring (e.g., Args, Returns, Raises).
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `kind` | `[:0]const u8` | — | Section kind (e.g., `"args"`, `"returns"`, `"raises"`). |
-| `name` | `[:0]const u8?` | `null` | Parameter or return value name, if applicable. |
-| `description` | `[:0]const u8` | — | Description text for this section. |
+| `kind` | `\[:0\]const u8` | — | Section kind (e.g., `"args"`, `"returns"`, `"raises"`). |
+| `name` | `\[:0\]const u8?` | `null` | Parameter or return value name, if applicable. |
+| `description` | `\[:0\]const u8` | — | Description text for this section. |
 
 ---
 
@@ -858,11 +858,11 @@ A docstring extracted from source code.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `text` | `[:0]const u8` | — | The raw text of the docstring. |
+| `text` | `\[:0\]const u8` | — | The raw text of the docstring. |
 | `format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | The docstring format (Python, JSDoc, Rustdoc, etc.). |
 | `span` | `Span` | — | Source span covering the docstring. |
-| `associatedItem` | `[:0]const u8?` | `null` | Name of the item this docstring documents. |
-| `parsedSections` | `[]const DocSection` | `[]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
+| `associatedItem` | `\[:0\]const u8?` | `null` | Name of the item this docstring documents. |
+| `parsedSections` | `\[\]const DocSection` | `\[\]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
 
 ---
 
@@ -892,7 +892,7 @@ const result = try DownloadManager.new("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `version` | `[:0]const u8` | Yes | The version |
+| `version` | `\[:0\]const u8` | Yes | The version |
 
 **Returns:** `DownloadManager`
 
@@ -978,7 +978,7 @@ An export statement extracted from source code.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `name` | `[:0]const u8` | — | The exported name. |
+| `name` | `\[:0\]const u8` | — | The exported name. |
 | `kind` | `ExportKind` | `ExportKind.Named` | The kind of export (named, default, or re-export). |
 | `span` | `Span` | — | Source span covering the export statement. |
 
@@ -1007,9 +1007,9 @@ An import statement extracted from source code.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `source` | `[:0]const u8` | — | The module or path being imported from. |
-| `items` | `[]const [:0]const u8` | `[]` | Specific names imported from the source module. |
-| `alias` | `[:0]const u8?` | `null` | Alias assigned to the import (e.g., `import numpy as np`). |
+| `source` | `\[:0\]const u8` | — | The module or path being imported from. |
+| `items` | `\[\]const \[:0\]const u8` | `\[\]` | Specific names imported from the source module. |
+| `alias` | `\[:0\]const u8?` | `null` | Alias assigned to the import (e.g., `import numpy as np`). |
 | `isWildcard` | `bool` | — | Whether this is a wildcard import (e.g., `import *` or `use foo.*`). |
 | `span` | `Span` | — | Source span covering the import statement. |
 
@@ -1080,7 +1080,7 @@ const result = try instance.getLanguage("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `Language`
 
@@ -1146,7 +1146,7 @@ const result = instance.hasParser("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `bool`
 
@@ -1173,7 +1173,7 @@ const result = instance.hasLanguage("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `bool`
 
@@ -1215,7 +1215,7 @@ const result = try instance.process("value", .{});
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `source` | `[:0]const u8` | Yes | The source |
+| `source` | `\[:0\]const u8` | Yes | The source |
 | `config` | `ProcessConfig` | Yes | The configuration options |
 
 **Returns:** `ProcessResult`
@@ -1610,7 +1610,7 @@ const result = instance.childByFieldName("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** `?Node`
 
@@ -1662,9 +1662,9 @@ or passed as a dict/object from language bindings.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `cacheDir` | `[:0]const u8?` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `[]const [:0]const u8?` | `[]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `groups` | `[]const [:0]const u8?` | `[]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+| `cacheDir` | `\[:0\]const u8?` | `null` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
+| `languages` | `\[\]const \[:0\]const u8?` | `\[\]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `\[\]const \[:0\]const u8?` | `\[\]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1722,7 +1722,7 @@ try instance.setLanguage("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `name` | `[:0]const u8` | Yes | The name |
+| `name` | `\[:0\]const u8` | Yes | The name |
 
 **Returns:** No return value.
 
@@ -1749,7 +1749,7 @@ const result = instance.parse("value");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `source` | `[:0]const u8` | Yes | The source |
+| `source` | `\[:0\]const u8` | Yes | The source |
 
 **Returns:** `?Tree`
 
@@ -1774,7 +1774,7 @@ const result = instance.parseBytes("data");
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `source` | `[]const u8` | Yes | The source |
+| `source` | `\[\]const u8` | Yes | The source |
 
 **Returns:** `?Tree`
 
@@ -1834,7 +1834,7 @@ Controls which analysis features are enabled and whether chunking is performed.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `language` | `[:0]const u8` | — | Language name (required). |
+| `language` | `\[:0\]const u8` | — | Language name (required). |
 | `structure` | `bool` | `true` | Extract structural items (functions, classes, etc.). Default: true. |
 | `imports` | `bool` | `true` | Extract import statements. Default: true. |
 | `exports` | `bool` | `true` | Extract export statements. Default: true. |
@@ -1962,16 +1962,16 @@ Fields are populated based on the `ProcessConfig` flags.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `language` | `[:0]const u8` | — | The language name used to parse the source file. |
+| `language` | `\[:0\]const u8` | — | The language name used to parse the source file. |
 | `metrics` | `FileMetrics` | — | File-level metrics (line counts, byte size, error count). |
-| `structure` | `[]const StructureItem` | `[]` | Top-level structural items (functions, classes, etc.). |
-| `imports` | `[]const ImportInfo` | `[]` | Import statements extracted from the source. |
-| `exports` | `[]const ExportInfo` | `[]` | Export statements extracted from the source. |
-| `comments` | `[]const CommentInfo` | `[]` | Comments extracted from the source. |
-| `docstrings` | `[]const DocstringInfo` | `[]` | Docstrings extracted from the source. |
-| `symbols` | `[]const SymbolInfo` | `[]` | Symbol definitions (variables, types, functions) extracted from the source. |
-| `diagnostics` | `[]const Diagnostic` | `[]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
-| `chunks` | `[]const CodeChunk` | `[]` | Syntax-aware code chunks produced when chunking is enabled. |
+| `structure` | `\[\]const StructureItem` | `\[\]` | Top-level structural items (functions, classes, etc.). |
+| `imports` | `\[\]const ImportInfo` | `\[\]` | Import statements extracted from the source. |
+| `exports` | `\[\]const ExportInfo` | `\[\]` | Export statements extracted from the source. |
+| `comments` | `\[\]const CommentInfo` | `\[\]` | Comments extracted from the source. |
+| `docstrings` | `\[\]const DocstringInfo` | `\[\]` | Docstrings extracted from the source. |
+| `symbols` | `\[\]const SymbolInfo` | `\[\]` | Symbol definitions (variables, types, functions) extracted from the source. |
+| `diagnostics` | `\[\]const Diagnostic` | `\[\]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
+| `chunks` | `\[\]const CodeChunk` | `\[\]` | Syntax-aware code chunks produced when chunking is enabled. |
 | `data` | `DataNode?` | `null` | Hierarchical data tree extracted when `config.data_extraction` is `true`. Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML, CSV, and more). `null` when `data_extraction` is `false` (the default) or when the language is not a recognised data format. See `DataNode` for the shape of the returned tree. |
 
 ---
@@ -2001,13 +2001,13 @@ A structural item (function, class, struct, etc.) in source code.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `kind` | `StructureKind` | `StructureKind.Function` | The kind of structural item. |
-| `name` | `[:0]const u8?` | `null` | The declared name of the item, if present. |
-| `visibility` | `[:0]const u8?` | `null` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
+| `name` | `\[:0\]const u8?` | `null` | The declared name of the item, if present. |
+| `visibility` | `\[:0\]const u8?` | `null` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
 | `span` | `Span` | — | Source span covering the entire item declaration. |
-| `children` | `[]const StructureItem` | `[]` | Nested structural items (e.g., methods within a class). |
-| `decorators` | `[]const [:0]const u8` | `[]` | Decorator or attribute names applied to the item. |
-| `docComment` | `[:0]const u8?` | `null` | Documentation comment attached to the item, if any. |
-| `signature` | `[:0]const u8?` | `null` | Full signature text of the item (e.g., function parameters and return type). |
+| `children` | `\[\]const StructureItem` | `\[\]` | Nested structural items (e.g., methods within a class). |
+| `decorators` | `\[\]const \[:0\]const u8` | `\[\]` | Decorator or attribute names applied to the item. |
+| `docComment` | `\[:0\]const u8?` | `null` | Documentation comment attached to the item, if any. |
+| `signature` | `\[:0\]const u8?` | `null` | Full signature text of the item (e.g., function parameters and return type). |
 | `bodySpan` | `Span?` | `null` | Source span covering only the body of the item, if distinct from the declaration. |
 
 ---
@@ -2018,11 +2018,11 @@ A symbol (variable, function, type, etc.) extracted from source code.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `name` | `[:0]const u8` | — | The name of the symbol. |
+| `name` | `\[:0\]const u8` | — | The name of the symbol. |
 | `kind` | `SymbolKind` | `SymbolKind.Variable` | The kind of symbol (variable, function, class, etc.). |
 | `span` | `Span` | — | Source span covering the symbol definition. |
-| `typeAnnotation` | `[:0]const u8?` | `null` | Explicit type annotation, if present in the source. |
-| `doc` | `[:0]const u8?` | `null` | Documentation comment associated with this symbol. |
+| `typeAnnotation` | `\[:0\]const u8?` | `null` | Explicit type annotation, if present in the source. |
+| `doc` | `\[:0\]const u8?` | `null` | Documentation comment associated with this symbol. |
 
 ---
 
@@ -2225,7 +2225,7 @@ Covered by `tests/wire_format.rs`.
 | `Trait` | A trait definition. |
 | `Impl` | An impl block (Rust) or similar implementation block. |
 | `Namespace` | A namespace declaration. |
-| `Other` | A language-specific construct that does not fit any standard category. — Fields: `0`: `[:0]const u8` |
+| `Other` | A language-specific construct that does not fit any standard category. — Fields: `0`: `\[:0\]const u8` |
 
 ---
 
@@ -2264,7 +2264,7 @@ NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 | `Rustdoc` | Rust `///` or `//!` doc comment. |
 | `GoDoc` | Go doc comment (a comment block immediately preceding a declaration). |
 | `JavaDoc` | Java Javadoc block comment (opens with two stars, closes with star-slash). |
-| `Other` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `[:0]const u8` |
+| `Other` | A language-specific docstring format not covered by the standard variants. — Fields: `0`: `\[:0\]const u8` |
 
 ---
 
@@ -2305,7 +2305,7 @@ NOT add `#[serde(tag = "...")]`. Covered by `tests/wire_format.rs`.
 | `Interface` | An interface definition. |
 | `Enum` | An enum definition. |
 | `Module` | A module declaration. |
-| `Other` | A symbol kind not covered by the standard variants. — Fields: `0`: `[:0]const u8` |
+| `Other` | A symbol kind not covered by the standard variants. — Fields: `0`: `\[:0\]const u8` |
 
 ---
 

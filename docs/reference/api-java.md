@@ -2,7 +2,7 @@
 title: "Java API Reference"
 ---
 
-## Java API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## Java API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -750,7 +750,7 @@ Metadata for a single chunk of source code.
 | `chunkIndex` | `long` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `totalChunks` | `long` | — | Total number of chunks the file was split into. |
 | `nodeTypes` | `List<String>` | `Collections.emptyList()` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `contextPath` | `List<String>` | `Collections.emptyList()` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
+| `contextPath` | `List<String>` | `Collections.emptyList()` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
 | `symbolsDefined` | `List<String>` | `Collections.emptyList()` | Names of symbols defined within this chunk. |
 | `comments` | `List<CommentInfo>` | `Collections.emptyList()` | Comments contained within this chunk. |
 | `docstrings` | `List<DocstringInfo>` | `Collections.emptyList()` | Docstrings contained within this chunk. |
@@ -1774,7 +1774,7 @@ var result = instance.parseBytes("data".getBytes());
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `source` | `byte[]` | Yes | The source |
+| `source` | `byte\[\]` | Yes | The source |
 
 **Returns:** `Optional<Tree>`
 

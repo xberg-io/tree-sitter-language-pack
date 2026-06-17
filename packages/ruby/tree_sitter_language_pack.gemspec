@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "tree_sitter_language_pack"
-  spec.version = "1.9.0.pre.rc.53"
+  spec.version = "1.9.0.pre.rc.54"
   spec.authors       = ["Kreuzberg Team"]
   spec.summary       = "Pre-compiled tree-sitter grammars for 306 programming languages"
   spec.description   = "Pre-compiled tree-sitter grammars for 306 programming languages"

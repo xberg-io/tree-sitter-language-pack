@@ -2,7 +2,7 @@
 title: "Go API Reference"
 ---
 
-## Go API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## Go API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -550,7 +550,7 @@ if err != nil {
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `Names` | `[]string` | Yes | The names |
+| `Names` | `\[\]string` | Yes | The names |
 
 **Returns:** `int`
 
@@ -779,11 +779,11 @@ Metadata for a single chunk of source code.
 | `Language` | `string` | — | Language name used to parse this chunk. |
 | `ChunkIndex` | `int` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `TotalChunks` | `int` | — | Total number of chunks the file was split into. |
-| `NodeTypes` | `[]string` | `nil` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `ContextPath` | `[]string` | `nil` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
-| `SymbolsDefined` | `[]string` | `nil` | Names of symbols defined within this chunk. |
-| `Comments` | `[]CommentInfo` | `nil` | Comments contained within this chunk. |
-| `Docstrings` | `[]DocstringInfo` | `nil` | Docstrings contained within this chunk. |
+| `NodeTypes` | `\[\]string` | `nil` | Tree-sitter node kinds that appear at the top level of this chunk. |
+| `ContextPath` | `\[\]string` | `nil` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
+| `SymbolsDefined` | `\[\]string` | `nil` | Names of symbols defined within this chunk. |
+| `Comments` | `\[\]CommentInfo` | `nil` | Comments contained within this chunk. |
+| `Docstrings` | `\[\]DocstringInfo` | `nil` | Docstrings contained within this chunk. |
 | `HasErrorNodes` | `bool` | — | Whether this chunk contains any tree-sitter error nodes. |
 
 ---
@@ -852,8 +852,8 @@ The `kind` field determines which other fields are meaningful:
 | `Kind` | `DataNodeKind` | `DataNodeKind.KeyValue` | Whether this node is a key/value pair, XML element, or sequence item. |
 | `Key` | `*string` | `nil` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `nil` at the document root. |
 | `Value` | `*string` | `nil` | Leaf scalar value, if any. `nil` for containers (objects, arrays, XML elements with child elements). |
-| `Attributes` | `[]DataAttribute` | `nil` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
-| `Children` | `[]DataNode` | `nil` | Children for nested containers and XML element bodies. |
+| `Attributes` | `\[\]DataAttribute` | `nil` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
+| `Children` | `\[\]DataNode` | `nil` | Children for nested containers and XML element bodies. |
 | `Span` | `Span` | — | Source span covering this node in the original source file. |
 
 ---
@@ -892,7 +892,7 @@ A docstring extracted from source code.
 | `Format` | `DocstringFormat` | `DocstringFormat.PythonTripleQuote` | The docstring format (Python, JSDoc, Rustdoc, etc.). |
 | `Span` | `Span` | — | Source span covering the docstring. |
 | `AssociatedItem` | `*string` | `nil` | Name of the item this docstring documents. |
-| `ParsedSections` | `[]DocSection` | `nil` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
+| `ParsedSections` | `\[\]DocSection` | `nil` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
 
 ---
 
@@ -1046,7 +1046,7 @@ An import statement extracted from source code.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `Source` | `string` | — | The module or path being imported from. |
-| `Items` | `[]string` | `nil` | Specific names imported from the source module. |
+| `Items` | `\[\]string` | `nil` | Specific names imported from the source module. |
 | `Alias` | `*string` | `nil` | Alias assigned to the import (e.g., `import numpy as np`). |
 | `IsWildcard` | `bool` | — | Whether this is a wildcard import (e.g., `import *` or `use foo.*`). |
 | `Span` | `Span` | — | Source span covering the import statement. |
@@ -1707,8 +1707,8 @@ or passed as a dict/object from language bindings.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `CacheDir` | `*string` | `nil` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `Languages` | `*[]string` | `nil` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `Groups` | `*[]string` | `nil` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+| `Languages` | `*\[\]string` | `nil` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `Groups` | `*\[\]string` | `nil` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -1820,7 +1820,7 @@ result := instance.ParseBytes([]byte("data"))
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `Source` | `[]byte` | Yes | The source |
+| `Source` | `\[\]byte` | Yes | The source |
 
 **Returns:** `*Tree`
 
@@ -2010,14 +2010,14 @@ Fields are populated based on the `ProcessConfig` flags.
 |-------|------|---------|-------------|
 | `Language` | `string` | — | The language name used to parse the source file. |
 | `Metrics` | `FileMetrics` | — | File-level metrics (line counts, byte size, error count). |
-| `Structure` | `[]StructureItem` | `nil` | Top-level structural items (functions, classes, etc.). |
-| `Imports` | `[]ImportInfo` | `nil` | Import statements extracted from the source. |
-| `Exports` | `[]ExportInfo` | `nil` | Export statements extracted from the source. |
-| `Comments` | `[]CommentInfo` | `nil` | Comments extracted from the source. |
-| `Docstrings` | `[]DocstringInfo` | `nil` | Docstrings extracted from the source. |
-| `Symbols` | `[]SymbolInfo` | `nil` | Symbol definitions (variables, types, functions) extracted from the source. |
-| `Diagnostics` | `[]Diagnostic` | `nil` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
-| `Chunks` | `[]CodeChunk` | `nil` | Syntax-aware code chunks produced when chunking is enabled. |
+| `Structure` | `\[\]StructureItem` | `nil` | Top-level structural items (functions, classes, etc.). |
+| `Imports` | `\[\]ImportInfo` | `nil` | Import statements extracted from the source. |
+| `Exports` | `\[\]ExportInfo` | `nil` | Export statements extracted from the source. |
+| `Comments` | `\[\]CommentInfo` | `nil` | Comments extracted from the source. |
+| `Docstrings` | `\[\]DocstringInfo` | `nil` | Docstrings extracted from the source. |
+| `Symbols` | `\[\]SymbolInfo` | `nil` | Symbol definitions (variables, types, functions) extracted from the source. |
+| `Diagnostics` | `\[\]Diagnostic` | `nil` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
+| `Chunks` | `\[\]CodeChunk` | `nil` | Syntax-aware code chunks produced when chunking is enabled. |
 | `Data` | `*DataNode` | `nil` | Hierarchical data tree extracted when `config.data_extraction` is `true`. Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML, CSV, and more). `nil` when `data_extraction` is `false` (the default) or when the language is not a recognised data format. See `DataNode` for the shape of the returned tree. |
 
 ---
@@ -2050,8 +2050,8 @@ A structural item (function, class, struct, etc.) in source code.
 | `Name` | `*string` | `nil` | The declared name of the item, if present. |
 | `Visibility` | `*string` | `nil` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
 | `Span` | `Span` | — | Source span covering the entire item declaration. |
-| `Children` | `[]StructureItem` | `nil` | Nested structural items (e.g., methods within a class). |
-| `Decorators` | `[]string` | `nil` | Decorator or attribute names applied to the item. |
+| `Children` | `\[\]StructureItem` | `nil` | Nested structural items (e.g., methods within a class). |
+| `Decorators` | `\[\]string` | `nil` | Decorator or attribute names applied to the item. |
 | `DocComment` | `*string` | `nil` | Documentation comment attached to the item, if any. |
 | `Signature` | `*string` | `nil` | Full signature text of the item (e.g., function parameters and return type). |
 | `BodySpan` | `*Span` | `nil` | Source span covering only the body of the item, if distinct from the declaration. |

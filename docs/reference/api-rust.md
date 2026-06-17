@@ -2,7 +2,7 @@
 title: "Rust API Reference"
 ---
 
-## Rust API Reference <span class="version-badge">v1.9.0-rc.53</span>
+## Rust API Reference <span class="version-badge">v1.9.0-rc.54</span>
 
 ### Functions
 
@@ -836,11 +836,11 @@ Metadata for a single chunk of source code.
 | `language` | `String` | — | Language name used to parse this chunk. |
 | `chunk_index` | `usize` | — | Zero-indexed position of this chunk within the file's chunk list. |
 | `total_chunks` | `usize` | — | Total number of chunks the file was split into. |
-| `node_types` | `Vec<String>` | `vec![]` | Tree-sitter node kinds that appear at the top level of this chunk. |
-| `context_path` | `Vec<String>` | `vec![]` | Hierarchical path of enclosing structural items (e.g., `["MyClass", "my_method"]`). |
-| `symbols_defined` | `Vec<String>` | `vec![]` | Names of symbols defined within this chunk. |
-| `comments` | `Vec<CommentInfo>` | `vec![]` | Comments contained within this chunk. |
-| `docstrings` | `Vec<DocstringInfo>` | `vec![]` | Docstrings contained within this chunk. |
+| `node_types` | `Vec<String>` | `vec!\[\]` | Tree-sitter node kinds that appear at the top level of this chunk. |
+| `context_path` | `Vec<String>` | `vec!\[\]` | Hierarchical path of enclosing structural items (e.g., `\["MyClass", "my_method"\]`). |
+| `symbols_defined` | `Vec<String>` | `vec!\[\]` | Names of symbols defined within this chunk. |
+| `comments` | `Vec<CommentInfo>` | `vec!\[\]` | Comments contained within this chunk. |
+| `docstrings` | `Vec<DocstringInfo>` | `vec!\[\]` | Docstrings contained within this chunk. |
 | `has_error_nodes` | `bool` | — | Whether this chunk contains any tree-sitter error nodes. |
 
 ---
@@ -909,8 +909,8 @@ The `kind` field determines which other fields are meaningful:
 | `kind` | `DataNodeKind` | `DataNodeKind::KeyValue` | Whether this node is a key/value pair, XML element, or sequence item. |
 | `key` | `Option<String>` | `Default::default()` | Key, attribute name, tag name, or positional index (`"0"`, `"1"`, …). `None` at the document root. |
 | `value` | `Option<String>` | `Default::default()` | Leaf scalar value, if any. `None` for containers (objects, arrays, XML elements with child elements). |
-| `attributes` | `Vec<DataAttribute>` | `vec![]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
-| `children` | `Vec<DataNode>` | `vec![]` | Children for nested containers and XML element bodies. |
+| `attributes` | `Vec<DataAttribute>` | `vec!\[\]` | Attributes on element-shape nodes (XML `STag` attributes). Empty for all other kinds. |
+| `children` | `Vec<DataNode>` | `vec!\[\]` | Children for nested containers and XML element bodies. |
 | `span` | `Span` | — | Source span covering this node in the original source file. |
 
 ---
@@ -949,7 +949,7 @@ A docstring extracted from source code.
 | `format` | `DocstringFormat` | `DocstringFormat::PythonTripleQuote` | The docstring format (Python, JSDoc, Rustdoc, etc.). |
 | `span` | `Span` | — | Source span covering the docstring. |
 | `associated_item` | `Option<String>` | `Default::default()` | Name of the item this docstring documents. |
-| `parsed_sections` | `Vec<DocSection>` | `vec![]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
+| `parsed_sections` | `Vec<DocSection>` | `vec!\[\]` | Parsed sections of the docstring (Args, Returns, Raises, etc.). |
 
 ---
 
@@ -1095,7 +1095,7 @@ An import statement extracted from source code.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `source` | `String` | — | The module or path being imported from. |
-| `items` | `Vec<String>` | `vec![]` | Specific names imported from the source module. |
+| `items` | `Vec<String>` | `vec!\[\]` | Specific names imported from the source module. |
 | `alias` | `Option<String>` | `Default::default()` | Alias assigned to the import (e.g., `import numpy as np`). |
 | `is_wildcard` | `bool` | — | Whether this is a wildcard import (e.g., `import *` or `use foo::*`). |
 | `span` | `Span` | — | Source span covering the import statement. |
@@ -1750,8 +1750,8 @@ or passed as a dict/object from language bindings.
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `cache_dir` | `Option<PathBuf>` | `Default::default()` | Override default cache directory. Default: `~/.cache/tree-sitter-language-pack/v{version}/libs/` |
-| `languages` | `Option<Vec<String>>` | `vec![]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
-| `groups` | `Option<Vec<String>>` | `vec![]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
+| `languages` | `Option<Vec<String>>` | `vec!\[\]` | Languages to pre-download on init. Each entry is a language name (e.g. `"python"`, `"rust"`). |
+| `groups` | `Option<Vec<String>>` | `vec!\[\]` | Language groups to pre-download (e.g. `"web"`, `"systems"`, `"scripting"`). |
 
 ---
 
@@ -2051,14 +2051,14 @@ Fields are populated based on the `ProcessConfig` flags.
 |-------|------|---------|-------------|
 | `language` | `String` | — | The language name used to parse the source file. |
 | `metrics` | `FileMetrics` | — | File-level metrics (line counts, byte size, error count). |
-| `structure` | `Vec<StructureItem>` | `vec![]` | Top-level structural items (functions, classes, etc.). |
-| `imports` | `Vec<ImportInfo>` | `vec![]` | Import statements extracted from the source. |
-| `exports` | `Vec<ExportInfo>` | `vec![]` | Export statements extracted from the source. |
-| `comments` | `Vec<CommentInfo>` | `vec![]` | Comments extracted from the source. |
-| `docstrings` | `Vec<DocstringInfo>` | `vec![]` | Docstrings extracted from the source. |
-| `symbols` | `Vec<SymbolInfo>` | `vec![]` | Symbol definitions (variables, types, functions) extracted from the source. |
-| `diagnostics` | `Vec<Diagnostic>` | `vec![]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
-| `chunks` | `Vec<CodeChunk>` | `vec![]` | Syntax-aware code chunks produced when chunking is enabled. |
+| `structure` | `Vec<StructureItem>` | `vec!\[\]` | Top-level structural items (functions, classes, etc.). |
+| `imports` | `Vec<ImportInfo>` | `vec!\[\]` | Import statements extracted from the source. |
+| `exports` | `Vec<ExportInfo>` | `vec!\[\]` | Export statements extracted from the source. |
+| `comments` | `Vec<CommentInfo>` | `vec!\[\]` | Comments extracted from the source. |
+| `docstrings` | `Vec<DocstringInfo>` | `vec!\[\]` | Docstrings extracted from the source. |
+| `symbols` | `Vec<SymbolInfo>` | `vec!\[\]` | Symbol definitions (variables, types, functions) extracted from the source. |
+| `diagnostics` | `Vec<Diagnostic>` | `vec!\[\]` | Parse diagnostics (syntax errors, missing nodes) from tree-sitter. |
+| `chunks` | `Vec<CodeChunk>` | `vec!\[\]` | Syntax-aware code chunks produced when chunking is enabled. |
 | `data` | `Option<DataNode>` | `Default::default()` | Hierarchical data tree extracted when `config.data_extraction` is `true`. Populated for supported data-format languages (JSON, YAML, TOML, properties, HCL, INI, XML, CSV, and more). `None` when `data_extraction` is `false` (the default) or when the language is not a recognised data format. See `DataNode` for the shape of the returned tree. |
 
 ---
@@ -2091,8 +2091,8 @@ A structural item (function, class, struct, etc.) in source code.
 | `name` | `Option<String>` | `Default::default()` | The declared name of the item, if present. |
 | `visibility` | `Option<String>` | `Default::default()` | Visibility modifier (e.g., `"pub"`, `"public"`, `"private"`). |
 | `span` | `Span` | — | Source span covering the entire item declaration. |
-| `children` | `Vec<StructureItem>` | `vec![]` | Nested structural items (e.g., methods within a class). |
-| `decorators` | `Vec<String>` | `vec![]` | Decorator or attribute names applied to the item. |
+| `children` | `Vec<StructureItem>` | `vec!\[\]` | Nested structural items (e.g., methods within a class). |
+| `decorators` | `Vec<String>` | `vec!\[\]` | Decorator or attribute names applied to the item. |
 | `doc_comment` | `Option<String>` | `Default::default()` | Documentation comment attached to the item, if any. |
 | `signature` | `Option<String>` | `Default::default()` | Full signature text of the item (e.g., function parameters and return type). |
 | `body_span` | `Option<Span>` | `Default::default()` | Source span covering only the body of the item, if distinct from the declaration. |

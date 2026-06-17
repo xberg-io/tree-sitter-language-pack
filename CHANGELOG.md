@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0-rc.54] - 2026-06-17
+
+### Changed
+
+- **Bumped `alef` pin 0.25.20 → 0.25.24.** Regenerated all bindings via `task alef:generate`. Picks up alef 0.25.21–0.25.24: dart e2e setEnv robustness, swift `already_declared` opaque-handle class triples, java PMD/palantir-java-format compliance, C FFI e2e download_ffi.sh derives FFI_PKG_NAME from `lib_name` (was hardcoded), kotlin-android per-file ktfmt invocation, plus the rc.53 → rc.54 structural fixes below.
+
+### Fixed
+
+- **Java loader RID alignment (rc.53 regression).** `NativeLib.resolveNativesRid()` previously emitted `osx-aarch64`/`linux-aarch64` (a JNA/LWJGL-style convention) while the published JAR's `natives/<rid>/…` directory is named via `go_java_platform()` (`macos-arm64`, `linux-aarch64`, `windows-x86_64`). Result: every macOS-arm64 client failed with `UnsatisfiedLinkError` because `natives/osx-aarch64/libts_pack_core_ffi.dylib` does not exist (it's at `natives/macos-arm64/`). Loader template now matches `go_java_platform()` naming.
+- **Elixir download NIFs unregistered in precompiled binary (rc.53 regression).** The rustler NIF crate `Cargo.toml` had no `[features]` table — only a `[lints.rust] check-cfg` reference to `download`. Default precompiled CI builds therefore stripped the download/cache/init/configure NIFs from the cdylib, producing `:nif_not_loaded` errors on every `TreeSitterLanguagePack.Native.download/*`, `cache_dir/0`, `clean_cache/0`, `init/0`, `configure/1`, `downloaded_languages/0` call (10/450 errors at rc.53). Template now emits canonical `[features] default = ["config", "download", "serde"]` block forwarding to the core crate, mirroring the magnus fix from alef 0.25.19.
+- **Node vitest first-load timeouts.** `smoke_devicetree` and `smoke_ocamllex` exceeded the default 30 s test timeout on first load. Raised `testTimeout` to 60 s, `hookTimeout` to 120 s.
+- **C FFI E2E 404 race in `ci-e2e.yaml`.** `e2e/c/download_ffi.sh` pinned the FFI tarball URL to the current workspace version; on main pushes before the matching tag was created, the curl 404'd because the GitHub Release for that version didn't exist yet. Script now honours `ALEF_FFI_LOCAL_DIR` env override to skip the network fetch and consume pre-staged headers/libs. `ci-e2e.yaml/test-c-ffi` is now `needs: build-ffi` and stages the locally-built artifact via the override.
+
 ## [1.9.0-rc.53] - 2026-06-16
 
 ### Changed

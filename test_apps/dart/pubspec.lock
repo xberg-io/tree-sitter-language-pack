@@ -365,10 +365,10 @@ packages:
     dependency: "direct main"
     description:
       name: tree_sitter_language_pack
-      sha256: "0cde58129eaf15b35a09d5eeffeaea870aeffb7eb435e70c50fd8b200ecdb2a8"
+      sha256: "459b4286f66659978fabadc37d83ddde9cd7838b0725a0fd625d68fd66492887"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.0-rc.51"
+    version: "1.9.0-rc.53"
   typed_data:
     dependency: transitive
     description:

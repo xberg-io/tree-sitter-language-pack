@@ -1335,7 +1335,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.ffi == 'true' ||
              needs.changes.outputs.core == 'true')
-        needs: [changes, clone-vendors, build-e2e-bundles]
+        needs: [changes, clone-vendors, build-e2e-bundles, build-ffi]
         runs-on: ubuntu-latest
         timeout-minutes: 30
         env:
@@ -1365,6 +1365,20 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
+
+            - name: Download FFI artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  name: ffi-ubuntu-latest
+                  path: ffi-artifacts
+
+            - name: Stage FFI for e2e
+              shell: bash
+              run: |
+                  mkdir -p test_apps/c/ffi/include test_apps/c/ffi/lib
+                  cp ffi-artifacts/target/release/libts_pack_core_ffi.* test_apps/c/ffi/lib/ 2>/dev/null || true
+                  cp -r ffi-artifacts/crates/ts-pack-core-ffi/include/* test_apps/c/ffi/include/ 2>/dev/null || true
+                  echo "ALEF_FFI_LOCAL_DIR=$PWD/test_apps/c/ffi" >> "$GITHUB_ENV"
 
             - name: Setup Rust
               uses: kreuzberg-dev/actions/setup-rust@v1
