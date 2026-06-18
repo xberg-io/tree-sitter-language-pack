@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@kreuzberg/tree-sitter-language-pack':
-        specifier: ^1.9.0-rc.54
-        version: 1.9.0-rc.54
+        specifier: ^1.9.0
+        version: 1.9.0
       '@types/node':
         specifier: ^22.10.2
         version: 22.19.21
@@ -32,46 +32,46 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@kreuzberg/tree-sitter-language-pack-darwin-arm64@1.9.0-rc.54':
-    resolution: {integrity: sha512-ROo2NsMbwCtmXEITQ0n5c6F/U3FYMRWag0EUpGjvBmtQGptbLVaaIIuS2AJM+yT5VhmzJJJWZiKFfggGsYshnA==}
+  '@kreuzberg/tree-sitter-language-pack-darwin-arm64@1.9.0':
+    resolution: {integrity: sha512-9Jd2G80GnWcAJnjfbNVUCBhcNaOBqF/2+6IMqnCWqhl82ZK4fQz+MGoXT1uaspZKVmZAO4nKh8ZvTdfcoeXd/w==}
     engines: {node: '>= 18'}
     cpu: [arm64]
     os: [darwin]
 
-  '@kreuzberg/tree-sitter-language-pack-darwin-x64@1.9.0-rc.54':
-    resolution: {integrity: sha512-REyjvDKYE9fnlY+rQBhRkH3RWzXaRWamEeNZ+8wwqTIYc2DTt8J3oneKlU0vTTZ9MKi+YL9IJg5o08WJoZLJSg==}
+  '@kreuzberg/tree-sitter-language-pack-darwin-x64@1.9.0':
+    resolution: {integrity: sha512-ufwjIPQ1RN6fELgf29UF5HXVhO18MHOndyhUSDKxq7IZHeJLXzYrA7NMBIPe2JZwwfsK2ArD6Kec0Ks86WIsJw==}
     engines: {node: '>= 18'}
     cpu: [x64]
     os: [darwin]
 
-  '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu@1.9.0-rc.54':
-    resolution: {integrity: sha512-2dnPF9TCoePxfOIEU78LOkc7NlWbyU12I4FfnvzKu7PUO1XGejiMTk6ImBf8v5G+rOypfp0LcbBcb4jGgxSAdg==}
+  '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu@1.9.0':
+    resolution: {integrity: sha512-d/YfbmJhUQsyCD3a3PeenLUzj22WU5af0f/paMwCCWGopRMPl5o4OixoUwS7mdsPgJi9nGzY5UZ020buCKB1vQ==}
     engines: {node: '>= 18'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu@1.9.0-rc.54':
-    resolution: {integrity: sha512-Fs2XWuALoVJL88Fugp3kh8WWM+IqUICrC3XjyndweD9d4xYlIcZ4m9nJTYd6FMgS7tbBWjX4yJ8HxDd0WLDJmg==}
+  '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu@1.9.0':
+    resolution: {integrity: sha512-j3sNet7YZFpIrYNToyqJar6IF5Tgc51p9mYE2AINQ0MUo8FARH8v9J0j0hl6wP/CKJSMNXbJufYNb2Q1Fzt1aA==}
     engines: {node: '>= 18'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc@1.9.0-rc.54':
-    resolution: {integrity: sha512-SLoSl0aCAK3miF1nsf+F1/Zd4wEt0clCLx2yGBXmV5BFhztqVM7d4QIOihi8huO4sLkMgiR3vfxQpY1M0jELtQ==}
+  '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc@1.9.0':
+    resolution: {integrity: sha512-paOYlmM8FVjAbqEQtD6xh7kF3lQqu3T59M18tkXOkCA/gcBvtmKNk6gnFaCE32wFOgdo9IyUs0hieVrDpKm8LA==}
     engines: {node: '>= 18'}
     cpu: [arm64]
     os: [win32]
 
-  '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc@1.9.0-rc.54':
-    resolution: {integrity: sha512-HwCtrXkeElTqlDR2H7+BURatCjqkBDCeUIc8a9i2pNpLKOIzGVrO+UzkY7ElhsTsJszR4cWJEjSJ6jIUUh1Uqw==}
+  '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc@1.9.0':
+    resolution: {integrity: sha512-BPcPPOGluO1KvaG1/Au5xaMZgNDj2URSkkKrG0w6p6cjW42JqmICc3r+4ejy7ScGRuxkdGLtS6lDWxoOXptsAg==}
     engines: {node: '>= 18'}
     cpu: [x64]
     os: [win32]
 
-  '@kreuzberg/tree-sitter-language-pack@1.9.0-rc.54':
-    resolution: {integrity: sha512-oKY8KviAZTq61xmc0YWW33dCHjKSZ1m6W0edF0clP7kf85qVKG62rsOW6VhU0iXFCwm+49iHyFSlWXpOgSVPJg==}
+  '@kreuzberg/tree-sitter-language-pack@1.9.0':
+    resolution: {integrity: sha512-iI2cyhfYJUzAvv3kDPDDG841WzQEYpDPg4r2a+EdBc21hwI9SeGpVKlmRCZLxrn070IOVFR7cO1LD0qyr1H1iw==}
     engines: {node: '>= 18'}
 
   '@napi-rs/wasm-runtime@1.1.5':
@@ -515,32 +515,32 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@kreuzberg/tree-sitter-language-pack-darwin-arm64@1.9.0-rc.54':
+  '@kreuzberg/tree-sitter-language-pack-darwin-arm64@1.9.0':
     optional: true
 
-  '@kreuzberg/tree-sitter-language-pack-darwin-x64@1.9.0-rc.54':
+  '@kreuzberg/tree-sitter-language-pack-darwin-x64@1.9.0':
     optional: true
 
-  '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu@1.9.0-rc.54':
+  '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu@1.9.0':
     optional: true
 
-  '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu@1.9.0-rc.54':
+  '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu@1.9.0':
     optional: true
 
-  '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc@1.9.0-rc.54':
+  '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc@1.9.0':
     optional: true
 
-  '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc@1.9.0-rc.54':
+  '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc@1.9.0':
     optional: true
 
-  '@kreuzberg/tree-sitter-language-pack@1.9.0-rc.54':
+  '@kreuzberg/tree-sitter-language-pack@1.9.0':
     optionalDependencies:
-      '@kreuzberg/tree-sitter-language-pack-darwin-arm64': 1.9.0-rc.54
-      '@kreuzberg/tree-sitter-language-pack-darwin-x64': 1.9.0-rc.54
-      '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu': 1.9.0-rc.54
-      '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu': 1.9.0-rc.54
-      '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc': 1.9.0-rc.54
-      '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc': 1.9.0-rc.54
+      '@kreuzberg/tree-sitter-language-pack-darwin-arm64': 1.9.0
+      '@kreuzberg/tree-sitter-language-pack-darwin-x64': 1.9.0
+      '@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu': 1.9.0
+      '@kreuzberg/tree-sitter-language-pack-linux-x64-gnu': 1.9.0
+      '@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc': 1.9.0
+      '@kreuzberg/tree-sitter-language-pack-win32-x64-msvc': 1.9.0
 
   '@napi-rs/wasm-runtime@1.1.5(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:

@@ -6,7 +6,7 @@
 
     <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
     <artifactId>tree-sitter-language-pack</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1</version>
     <packaging>jar</packaging>
 
     <name>tree-sitter-language-pack</name>
@@ -433,7 +433,7 @@
                         <configuration>
                             <publishingServerId>ossrh</publishingServerId>
                             <autoPublish>true</autoPublish>
-                            <waitUntil>published</waitUntil>
+                            <waitUntil>validated</waitUntil>
                             <waitMaxTime>7200</waitMaxTime>
                         </configuration>
                     </plugin>

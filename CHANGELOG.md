@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-06-18
+
+### Fixed
+
+- Swift: restored the public `getLanguage(name:)` function in the `TreeSitterLanguagePack`
+  module. An alef 0.25.38 codegen regression added opaque types to the Swift forwarder
+  exclusion set, dropping `get_language` (the only free function returning the opaque
+  `Language` type) from the generated public API in v1.9.0. Regenerated against alef 0.25.43.
+
 ## [1.9.0] - 2026-06-18
 
 ### Changed
