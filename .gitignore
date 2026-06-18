@@ -75,9 +75,13 @@ e2e/c/build/
 e2e/c/test_*
 e2e/swift_e2e/.build/
 
+# Gradle local cache (machine-local build state, never committed)
+packages/kotlin-android/.gradle/
+
 # IDE / OS
 .DS_store
 .idea/
+.basemind/
 .run
 *.bak
 *.Cache
