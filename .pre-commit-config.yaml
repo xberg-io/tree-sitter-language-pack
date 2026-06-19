@@ -61,6 +61,7 @@ repos:
           - id: gh-actions-updater
 
           - id: shellcheck
+            exclude: ^packages/kotlin-android/gradlew$
 
           - id: markdownlint-rumdl-strict
             exclude: ^(docs/reference/.*|packages/.*/README\.md|crates/.*/README\.md|README\.md|CHANGELOG\.md)$
@@ -118,7 +119,12 @@ repos:
             files: ^packages/java/src/main/.*\.java$
 
           - id: detekt
-          - id: ktlint
+            files: ^packages/kotlin-android/.*\.kts?$
+            args: [--build-upon-default-config]
+          # NOTE: ktlint is intentionally NOT run on alef-generated kotlin-android.
+          # ktfmt (--kotlinlang-style) is the canonical formatter (matches alef:format);
+          # ktlint's always-format mode conflicts with ktfmt (blank-line-after-brace) and
+          # mangles alef's `///` doc comments into `// /`. detekt covers static analysis.
           - id: rubocop-lint
             files: ^packages/ruby/.*\.(rb|rbs)$
             exclude: ^packages/ruby/ext/
@@ -202,6 +208,9 @@ repos:
             exclude: ^(e2e/|test_apps/)
           - id: palantir-java-format
           - id: ktfmt
+            files: ^packages/kotlin-android/.*\.kts?$
+            args:
+                - --kotlinlang-style
           - id: rubocop
             files: ^packages/ruby/.*\.rb$
             exclude: ^packages/ruby/ext/

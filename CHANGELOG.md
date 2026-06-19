@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **chore(precommit,alef): standardize kotlin-android formatting on ktfmt --kotlinlang-style.** Drop the conflicting prek ktlint hook, scope detekt/ktfmt to `packages/kotlin-android`, add `--kotlinlang-style` to ktfmt, switch `alef.toml` kotlin format/check from gradle-ktlintFormat to ktfmt so alef and prek agree, and exclude the vendored Gradle wrapper from shellcheck. detekt remains for static analysis. (`.pre-commit-config.yaml`, `alef.toml`)
+
 ### Added
 
 - **Host-native `Language` passthrough across the C-ABI binding family (#143).** `get_language`

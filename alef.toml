@@ -497,9 +497,9 @@ format = "cd packages/dart && dart format ."
 check = "cd packages/dart && dart analyze"
 
 [crates.lint.kotlin_android]
-precondition = "command -v gradle >/dev/null 2>&1"
-format = "cd packages/kotlin-android && gradle ktlintFormat --no-daemon"
-check = "cd packages/kotlin-android && gradle ktlintCheck --no-daemon"
+precondition = "command -v ktfmt >/dev/null 2>&1"
+format = "find packages/kotlin-android \\( -name build -o -name .gradle \\) -prune -o \\( -name '*.kt' -o -name '*.kts' \\) -type f -print0 | xargs -0 ktfmt --kotlinlang-style"
+check = "find packages/kotlin-android \\( -name build -o -name .gradle \\) -prune -o \\( -name '*.kt' -o -name '*.kts' \\) -type f -print0 | xargs -0 ktfmt --kotlinlang-style --dry-run --set-exit-if-changed"
 
 [crates.lint.swift]
 precondition = "command -v swift >/dev/null 2>&1"
