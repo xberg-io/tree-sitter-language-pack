@@ -160,3 +160,5 @@ e2e/c/ffi/
 .github/commands/
 .github/skills/
 # END ai-rulez
+packages/zig/zig-pkg/
+e2e/zig/zig-pkg/

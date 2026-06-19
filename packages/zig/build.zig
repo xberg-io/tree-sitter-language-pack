@@ -40,6 +40,13 @@ pub fn build(b: *std.Build) void {
     test_module.addIncludePath(.{ .cwd_relative = ffi_include });
     test_module.linkSystemLibrary("ts_pack_core_ffi", .{});
 
+    const tree_sitter_dep = b.dependency("tree_sitter", .{
+        .target = target,
+        .optimize = optimize,
+    });
+    module.addImport("tree_sitter", tree_sitter_dep.module("tree_sitter"));
+    test_module.addImport("tree_sitter", tree_sitter_dep.module("tree_sitter"));
+
     const tests = b.addTest(.{
         .root_module = test_module,
     });
