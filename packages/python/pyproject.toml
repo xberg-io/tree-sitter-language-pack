@@ -19,6 +19,9 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
 ]
+dependencies = [
+  "tree-sitter>=0.23",
+]
 urls.repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
 
 [dependency-groups]

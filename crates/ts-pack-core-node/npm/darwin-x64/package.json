@@ -1,25 +1,15 @@
 {
-	"name": "@kreuzberg/tree-sitter-language-pack-darwin-x64",
-	"version": "1.9.1",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/kreuzberg-dev/tree-sitter-language-pack.git"
-	},
-	"files": [
-		"ts-pack-core-node.darwin-x64.node"
-	],
-	"os": [
-		"darwin"
-	],
-	"cpu": [
-		"x64"
-	],
-	"main": "ts-pack-core-node.darwin-x64.node",
-	"publishConfig": {
-		"access": "public"
-	},
-	"engines": {
-		"node": ">= 18"
-	}
+  "name": "@kreuzberg/tree-sitter-language-pack-darwin-x64",
+  "version": "1.9.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kreuzberg-dev/tree-sitter-language-pack.git"
+  },
+  "main": "ts-pack-core-node.darwin-x64.node",
+  "files": ["ts-pack-core-node.darwin-x64.node"],
+  "os": ["darwin"],
+  "cpu": ["x64"],
+  "engines": { "node": ">= 18" },
+  "publishConfig": { "access": "public" }
 }

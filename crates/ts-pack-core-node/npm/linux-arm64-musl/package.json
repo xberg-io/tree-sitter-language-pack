@@ -1,28 +1,16 @@
 {
-	"name": "@kreuzberg/tree-sitter-language-pack-linux-arm64-musl",
-	"version": "1.9.1",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/kreuzberg-dev/tree-sitter-language-pack.git"
-	},
-	"files": [
-		"ts-pack-core-node.linux-arm64-musl.node"
-	],
-	"os": [
-		"linux"
-	],
-	"cpu": [
-		"arm64"
-	],
-	"libc": [
-		"musl"
-	],
-	"main": "ts-pack-core-node.linux-arm64-musl.node",
-	"publishConfig": {
-		"access": "public"
-	},
-	"engines": {
-		"node": ">= 18"
-	}
+  "name": "@kreuzberg/tree-sitter-language-pack-linux-arm64-musl",
+  "version": "1.9.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kreuzberg-dev/tree-sitter-language-pack.git"
+  },
+  "main": "ts-pack-core-node.linux-arm64-musl.node",
+  "files": ["ts-pack-core-node.linux-arm64-musl.node"],
+  "os": ["linux"],
+  "cpu": ["arm64"],
+  "libc": ["musl"],
+  "engines": { "node": ">= 18" },
+  "publishConfig": { "access": "public" }
 }

@@ -2817,6 +2817,7 @@ dependencies = [
  "serde_json",
  "tempfile",
  "tokio",
+ "tree-sitter",
  "tree-sitter-language-pack",
 ]
 

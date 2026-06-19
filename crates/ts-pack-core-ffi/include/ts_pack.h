@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 /* Opaque type forward declarations */
+typedef struct TSLanguage TSLanguage;
 /**
  * A byte range â start (inclusive) to end (exclusive).
  */
@@ -136,7 +137,6 @@ typedef struct TS_PACKFileMetrics TS_PACKFileMetrics;
  * An import statement extracted from source code.
  */
 typedef struct TS_PACKImportInfo TS_PACKImportInfo;
-typedef struct TS_PACKLanguage TS_PACKLanguage;
 /**
  * Thread-safe registry of tree-sitter language parsers.
  *
@@ -1942,13 +1942,6 @@ uintptr_t ts_pack_download_manager_download_all_best_effort(const TS_PACKDownloa
 int32_t ts_pack_download_manager_clean_cache(const TS_PACKDownloadManager *this_);
 
 /**
- * Free a `Language` handle.
- * # Safety
- * Pointer must have been returned by this library, or be null.
- */
-void ts_pack_language_free(TS_PACKLanguage *ptr);
-
-/**
  * Convert an integer to a `DataNodeKind` variant. Returns -1 on invalid input.
  * # Safety
  * Caller must ensure all pointer arguments are valid or null.
@@ -2448,7 +2441,7 @@ uintptr_t ts_pack_get_tags_query_len(const char *_language);
  * # Ok::<(), tree_sitter_language_pack::Error>(())
  * \endcode
  */
-TS_PACKLanguage *ts_pack_get_language(const char *name);
+const TS_PACKTSLanguage *ts_pack_get_language(const char *name);
 
 /**
  * Get a `Parser` pre-configured for the given language.

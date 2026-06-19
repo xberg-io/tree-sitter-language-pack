@@ -3,7 +3,12 @@
     .version = "1.9.1",
     .fingerprint = 0x6f52c41163f42c8c,
     .minimum_zig_version = "0.16.0",
-    .dependencies = .{},
+    .dependencies = .{
+        .tree_sitter = .{
+            .url = "https://github.com/tree-sitter/zig-tree-sitter/archive/refs/tags/v0.26.0.tar.gz",
+            .hash = "tree_sitter-0.26.0-8heIf3CaAQDeVTQc0DMSBhbQAEx5aF-dTen4_LPxMgrv",
+        },
+    },
     .paths = .{
         "build.zig",
         "build.zig.zon",

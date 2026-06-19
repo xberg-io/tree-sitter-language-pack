@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.25.43"
+alef_version = "0.25.49"
 languages = [
   "python",
   "node",
@@ -134,7 +134,14 @@ features = ["serde", "config", "download"]
 [crates.python]
 module_name = "_native"
 pip_name = "tree-sitter-language-pack"
+pip_dependencies = ["tree-sitter>=0.23"]
 release_gil = true
+
+# `get_language` returns the standalone `tree-sitter` package's `Language` via a
+# PyCapsule named "tree_sitter.Language", so callers can pass it to
+# `tree_sitter.Parser(...)` and the standalone `Query`/`QueryCursor` APIs.
+[crates.python.capsule_types]
+Language = "tree_sitter.Language"
 
 [crates.python.stubs]
 output = "packages/python/tree_sitter_language_pack/"
@@ -145,6 +152,15 @@ output = "packages/python/tree_sitter_language_pack/"
 [crates.node]
 package_name = "@kreuzberg/tree-sitter-language-pack"
 crate_dir = "crates/ts-pack-core-node"
+
+# `getLanguage` returns a node-tree-sitter `Language`: the raw TSLanguage pointer
+# is wrapped in a type-tagged napi `External` and attached as the `language`
+# property, matching the layout node-tree-sitter's `Parser.setLanguage` consumes.
+[crates.node.capsule_types.Language]
+type = "Language"
+from_module = "tree-sitter"
+property_name = "language"
+type_tag = { lower = "0x8AF2E5212AD58ABF", upper = "0xD5006CAD83ABBA16" }
 
 [crates.ruby]
 gem_name = "tree_sitter_language_pack"
@@ -220,16 +236,52 @@ prefix = "ts_pack"
 header_name = "ts_pack.h"
 lib_name = "ts_pack_core_ffi"
 
+# Foundation for host-native `Language` passthrough across the C-ABI family.
+# A function returning `Language` returns the tree-sitter runtime's raw grammar
+# pointer (`const TSLanguage *`) from `value.into_raw()` instead of an opaque
+# alef handle; each C-ABI binding wraps that pointer in its ecosystem's native
+# `Language`. Defaults match the `tree-sitter` crate exactly.
+[crates.ffi.capsule_types.Language]
+into_raw_type = "tree_sitter::ffi::TSLanguage"
+c_return_type = "TSLanguage"
+# `package`/`package_version` make `scaffold_ffi` add a direct `tree-sitter`
+# dependency on the FFI crate so the capsule shim can name `into_raw_type`.
+package = "tree-sitter"
+package_version = "0.26"
+
 [crates.go]
 module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
 package_name = "tspack"
 
+# `GetLanguage` returns a `*tree_sitter.Language` from the go-tree-sitter
+# runtime, ready to pass to `tree_sitter.NewParser().SetLanguage(...)`.
+[crates.go.capsule_types.Language]
+host_type = "*tree_sitter.Language"
+package = "github.com/tree-sitter/go-tree-sitter"
+package_version = "v0.24.0"
+
 [crates.java]
 package = "dev.kreuzberg.treesitterlanguagepack"
+
+# `getLanguage` returns a jtreesitter `Language` (Panama FFM, JDK 23+) built
+# from the raw grammar `MemorySegment`, usable with jtreesitter's `Parser`.
+[crates.java.capsule_types.Language]
+host_type = "io.github.treesitter.jtreesitter.Language"
+package = "io.github.tree-sitter:jtreesitter"
+package_version = "0.26.0"
+construct_expr = "new io.github.treesitter.jtreesitter.Language({ptr})"
 
 [crates.csharp]
 namespace = "TreeSitterLanguagePack"
 project_file = "packages/csharp/TreeSitterLanguagePack/TreeSitterLanguagePack.csproj"
+
+# `GetLanguage` returns a TreeSitter.DotNet `Language` wrapping the raw grammar
+# `IntPtr`, usable with that package's `Parser`.
+[crates.csharp.capsule_types.Language]
+host_type = "TreeSitter.Language"
+package = "TreeSitter.DotNet"
+package_version = "1.3.0"
+construct_expr = "new TreeSitter.Language({ptr})"
 
 [crates.dart]
 pubspec_name = "tree_sitter_language_pack"
@@ -248,9 +300,25 @@ package = "dev.kreuzberg.tslp.android"
 # `<crate>-jni/Cargo.toml` lists `features = ["serde"]` on the umbrella dep.
 features = ["serde"]
 
+# `getLanguage` returns a ktreesitter `Language` (JNI, JDK 17+) built from the
+# raw grammar pointer (passed as a `Long`), usable with ktreesitter's `Parser`.
+[crates.kotlin_android.capsule_types.Language]
+host_type = "io.github.treesitter.ktreesitter.Language"
+package = "io.github.tree-sitter:ktreesitter"
+package_version = "0.25.0"
+construct_expr = "io.github.treesitter.ktreesitter.Language({ptr})"
+
 [crates.swift]
 module_name = "TreeSitterLanguagePack"
 package_name = "TreeSitterLanguagePack"
+
+# `getLanguage` returns a SwiftTreeSitter `Language` built from the raw grammar
+# `OpaquePointer`, usable with SwiftTreeSitter's `Parser`.
+[crates.swift.capsule_types.Language]
+host_type = "SwiftTreeSitter.Language"
+package = "https://github.com/tree-sitter/swift-tree-sitter"
+package_version = "0.25.0"
+construct_expr = "SwiftTreeSitter.Language(OpaquePointer({ptr}))"
 
 [crates.zig]
 module_name = "tree_sitter_language_pack"
@@ -281,6 +349,15 @@ languages = [
   "nim",
   "norg",
 ]
+
+# `getLanguage` returns a zig-tree-sitter `*const tree_sitter.Language` built
+# from the raw grammar pointer via `Language.fromRaw(@ptrCast(...))`.
+# `package_version` carries the Zig package content hash emitted as `.hash` in
+# build.zig.zon (computed via `zig fetch` on the tarball URL), not a tag.
+[crates.zig.capsule_types.Language]
+host_type = "?*const tree_sitter.Language"
+package = "https://github.com/tree-sitter/zig-tree-sitter/archive/refs/tags/v0.26.0.tar.gz"
+package_version = "tree_sitter-0.26.0-8heIf3CaAQDeVTQc0DMSBhbQAEx5aF-dTen4_LPxMgrv"
 
 [crates.output]
 python = "crates/ts-pack-core-py/src/"
@@ -593,6 +670,14 @@ result_fields = [
   "diagnostics",
   "chunks",
 ]
+
+# `e2e/node/tests/capsule_passthrough.test.ts` imports the upstream
+# `tree-sitter` npm package to verify FFI capsule type-tag passthrough between
+# our `Language` object and tree-sitter's native module. Without this entry
+# `alef e2e generate` strips the devDependency from `e2e/node/package.json` on
+# every regen.
+[crates.e2e.harness_extras.node]
+dev_dependencies = { "tree-sitter" = "^0.25.0" }
 
 [crates.e2e.fields_c_types]
 "process_result.metrics" = "FileMetrics"

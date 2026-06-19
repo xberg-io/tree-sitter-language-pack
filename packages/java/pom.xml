@@ -88,6 +88,11 @@
             <version>4.0.0-M1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.tree-sitter</groupId>
+            <artifactId>jtreesitter</artifactId>
+            <version>0.26.0</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Host-native `Language` passthrough across the C-ABI binding family (#143).** `get_language`
+  now returns each ecosystem's native tree-sitter `Language` instead of an opaque alef handle, so
+  the result drops straight into the host runtime's parser: Go (`*tree_sitter.Language` via
+  `go-tree-sitter`), Zig (`?*const tree_sitter.Language` via `zig-tree-sitter`), Java
+  (`jtreesitter.Language`), C# (`TreeSitter.Language`), Kotlin Android (`ktreesitter.Language`),
+  and Swift (`SwiftTreeSitter.Language`) — joining the existing Python and Node passthrough. Each
+  binding gained a dependency on its host tree-sitter runtime, injected into the generated manifest.
+  Configured via `[crates.*.capsule_types.Language]` in `alef.toml`; regenerated against alef 0.25.49.
+
+### Changed
+
+- **Regenerated all bindings against alef 0.25.49.** The C FFI crate now takes a direct
+  `tree-sitter` dependency so the capsule shim can name `tree_sitter::ffi::TSLanguage` (the pointee
+  it casts `value.into_raw()` to), and the zig `build.zig.zon` carries the resolved `zig-tree-sitter`
+  content hash.
+
 ## [1.9.1] - 2026-06-18
 
 ### Fixed

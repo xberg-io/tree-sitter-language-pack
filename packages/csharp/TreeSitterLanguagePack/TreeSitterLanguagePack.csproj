@@ -33,4 +33,8 @@
   <ItemGroup>
     <Compile Include="../src/**/*.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TreeSitter.DotNet" Version="1.3.0" />
+  </ItemGroup>
 </Project>
