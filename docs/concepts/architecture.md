@@ -125,6 +125,25 @@ The WebAssembly package is the exception: it uses a curated static parser subset
 
 ---
 
+## ABI Compatibility
+
+All 306 bundled grammars are compiled at tree-sitter **ABI version 14**, with one exception: Perl uses ABI 15 (no upstream ABI 14 grammar available).
+
+ABI 14 is accepted by tree-sitter runtimes spanning versions 0.21 through 0.26, and by the following host tree-sitter packages (used via host-native Language passthrough):
+
+- **Python**: `tree-sitter` >=0.23
+- **Node.js**: `tree-sitter` latest (matches node-tree-sitter's embedded tree-sitter version)
+- **Go**: `go-tree-sitter` v0.24.0+
+- **Java**: `jtreesitter` 0.26.0+
+- **C#**: `TreeSitter.DotNet` 1.3.0+
+- **Kotlin/Android**: `ktreesitter` 0.25.0+
+- **Swift**: `SwiftTreeSitter` 0.25.0+
+- **Zig**: `zig-tree-sitter` v0.26.0+
+
+This wide compatibility window ensures the language pack works across a broad ecosystem of tree-sitter consumers without requiring version pinning or ecosystem-specific grammar patches.
+
+---
+
 ## Repository Layout
 
 ```text

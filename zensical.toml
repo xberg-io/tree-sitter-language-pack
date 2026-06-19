@@ -34,6 +34,7 @@ nav = [
 
   { "Concepts" = [
     { "Architecture" = "concepts/architecture.md" },
+    { "Language Passthrough" = "concepts/language-passthrough.md" },
     { "Download Model" = "concepts/download-model.md" },
     { "Code Intelligence" = "concepts/code-intelligence.md" },
   ] },

@@ -42,6 +42,10 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
   Split source at natural boundaries (functions, classes, blocks) so chunks stay semantically intact for embeddings and prompt windows.
 
+- :material-link-box:{ .lg .middle } **Host-Native Language Interop**
+
+  In Python, Node.js, Go, Java, C#, Kotlin, Swift, and Zig, `get_language()` returns your ecosystem's native `Language` type — drop it directly into your parser without intermediate translation layers.
+
 - :material-translate:{ .lg .middle } **15 Language Surfaces + CLI**
 
   The same Rust core ships as a PyPI wheel, an npm module, a crate, a Go module, a Maven JAR, an Android AAR (Maven), a NuGet package, a gem, a Composer package, a Hex package, a pub.dev package, a SwiftPM package, a Zig tarball, a C FFI library, a WASM module, and a static-binary CLI.
@@ -155,9 +159,9 @@ Tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev)
 
 - :material-puzzle-outline:{ .lg .middle } **Concepts**
 
-  Architecture, download model, and the code-intelligence pipeline.
+  Architecture, download model, ABI compatibility, and language passthrough interop.
 
-  [:octicons-arrow-right-24: Architecture](concepts/architecture.md)
+  [:octicons-arrow-right-24: Architecture](concepts/architecture.md) · [:octicons-arrow-right-24: Language Passthrough](concepts/language-passthrough.md)
 
 - :material-api:{ .lg .middle } **API Reference**
 

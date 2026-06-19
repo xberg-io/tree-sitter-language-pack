@@ -242,9 +242,10 @@ The `process()` function returns structured analysis including functions, classe
 
 | Feature                    | Description                                                                |
 | -------------------------- | -------------------------------------------------------------------------- |
-| **306 Languages**          | Pre-compiled parsers for 306 programming languages                         |
+| **306 Languages**          | Pre-compiled parsers for 306 programming languages at ABI 14 (backwards compatible with tree-sitter 0.21–0.26) |
 | **Code Intelligence**       | Extract functions, classes, imports, docstrings, symbols from source       |
 | **Data Extraction**         | Hierarchical key-value trees from 17 config/data formats (JSON, YAML, TOML, properties, XML, CSV, …) |
+| **Host-Native Language API** | `get_language()` returns native `Language` objects in Python, Node.js, Go, Java, C#, Kotlin, Swift, and Zig — use directly with each ecosystem's parser |
 | **On-Demand Downloads**    | Parsers are downloaded on-demand and cached locally for fast reuse         |
 | **Selective Installation** | Download only the languages you need; unused parsers never downloaded      |
 | **Polyglot Bindings**      | Native bindings across 15 languages — Rust, Python, Node.js, WebAssembly, Go, Java, C#, PHP, Ruby, Elixir, Dart, Kotlin, Swift, Zig, and C/C++ |
