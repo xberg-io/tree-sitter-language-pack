@@ -76,7 +76,7 @@ A comprehensive collection of tree-sitter language parsers with polyglot binding
 
 ## Overview
 
-**tree-sitter-language-pack** bundles 306 tree-sitter language parsers into a single package with native bindings for multiple programming languages. Ship syntax analysis in your application without managing individual parser dependencies.
+**tree-sitter-language-pack** bundles 306 tree-sitter language parsers into a single package with native bindings across 15 languages. Ship syntax analysis in your application without managing individual parser dependencies.
 
 ## Architecture
 
@@ -247,7 +247,7 @@ The `process()` function returns structured analysis including functions, classe
 | **Data Extraction**         | Hierarchical key-value trees from 17 config/data formats (JSON, YAML, TOML, properties, XML, CSV, …) |
 | **On-Demand Downloads**    | Parsers are downloaded on-demand and cached locally for fast reuse         |
 | **Selective Installation** | Download only the languages you need; unused parsers never downloaded      |
-| **Polyglot Bindings**      | Native bindings for Rust, Python, Node.js, Go, Java, Elixir, and C/C++     |
+| **Polyglot Bindings**      | Native bindings across 15 languages — Rust, Python, Node.js, WebAssembly, Go, Java, C#, PHP, Ruby, Elixir, Dart, Kotlin, Swift, Zig, and C/C++ |
 | **Automatic Caching**      | Downloaded parsers cached in platform-specific directories for offline use |
 | **CLI Tool**               | `ts-pack download` to pre-download parsers for offline/CI/Docker use       |
 
@@ -268,6 +268,9 @@ This pack includes 306 languages. See the [full language list](docs/languages.md
 - [WebAssembly](crates/ts-pack-core-wasm/README.md) -- WebAssembly bindings for tree-sitter-language-pack. Includes a curated subset of 30 languages optimized for browser and edge runtimes. For all 306 languages, use native bindings (Python, Node.js, etc.).
 - [PHP](packages/php/README.md) -- PHP extension via ext-php-rs with on-demand parser downloads.
 - [.NET (C#)](packages/csharp/README.md) -- .NET P/Invoke bindings with on-demand parser downloads.
+- [Dart / Flutter](packages/dart/README.md) -- Dart and Flutter bindings via flutter_rust_bridge with isolate-safe Future APIs.
+- [Swift](packages/swift/README.md) -- Swift bindings via swift-bridge for macOS, iOS, and Linux with async/await.
+- [Zig](packages/zig/README.md) -- Zig bindings over the C FFI with idiomatic error sets and explicit ownership.
 - [C/C++ (FFI)](crates/ts-pack-core-ffi/README.md) -- C-compatible FFI bindings for tree-sitter-language-pack. Use from any language with C interop.
 - [CLI](crates/ts-pack-cli/README.md) -- Command-line tool for managing tree-sitter language parsers with download utilities.
 

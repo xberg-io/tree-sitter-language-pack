@@ -126,7 +126,7 @@ console.log(tree.rootNode.toString());
 - **On-demand download + cache** — parsers fetched at first use; subsequent runs hit the local cache.
 - **Code intelligence** — extract functions, classes, imports, exports, symbols, docstrings, and diagnostics with one API.
 - **Syntax-aware chunking** — semantic chunks for RAG/LLM pipelines.
-- **Polyglot bindings** — Rust core with native bindings for Python, TypeScript, Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly via [alef](https://github.com/kreuzberg-dev/alef).
+- **Polyglot bindings** — native APIs across 15 languages: Rust, Python, TypeScript/Node.js, Go, Java, C#, Ruby, PHP, Elixir, WebAssembly, Dart, Kotlin, Swift, Zig, and C/C++ via [alef](https://github.com/kreuzberg-dev/alef).
 
 ## Documentation
 
