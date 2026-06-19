@@ -1454,9 +1454,9 @@ public func getTagsQuery(language: String) -> String? {
 /// assert_eq!(tree.root_node().kind(), "module");
 /// # Ok::<(), tree_sitter_language_pack::Error>(())
 /// ```
-public func getLanguage(name: String) -> SwiftTreeSitter.Language? {
-let cLang = RustBridge.getLanguage(name)
-    guard let cLang = cLang else { return nil }
+public func getLanguage(name: String) throws -> SwiftTreeSitter.Language {
+let cLang = try RustBridge.getLanguage(name)
+    guard let cLang = cLang else { throw NSError(domain: "alef.capsule", code: 1, userInfo: [NSLocalizedDescriptionKey: "Capsule function returned nil: getLanguage"]) }
     return SwiftTreeSitter.Language(OpaquePointer(cLang))}
 /// Get a [`Parser`] pre-configured for the given language.
 ///

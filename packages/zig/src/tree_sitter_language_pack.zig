@@ -735,11 +735,14 @@ pub fn get_tags_query(language: []const u8) error{OutOfMemory}!?[]u8 {
 ///
 /// Returns `Error.LanguageNotFound` if the language is not recognized,
 /// or `Error.Download` if auto-download fails.
-pub fn get_language(name: []const u8) error{OutOfMemory}!?*const tree_sitter.Language {
+pub fn get_language(name: []const u8) Error!?*const tree_sitter.Language {
     const name_z = try std.fmt.allocPrintSentinel(
         std.heap.c_allocator, "{s}", .{name}, 0);
     defer std.heap.c_allocator.free(name_z);
     const _result = c.ts_pack_get_language(name_z);
+    if (c.ts_pack_last_error_code() != 0) {
+        return _error_with_message(Error);
+    }
     if (_result == null) return null;
     return tree_sitter.Language.fromRaw(@ptrCast(_result));
 }

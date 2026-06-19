@@ -926,15 +926,15 @@ func GetTagsQuery(language string) *string {
 //	let tree = parser.parse("x = 1")/* error: parse failed");
 //	assert_eq!(tree.root_node().kind(), "module");
 //	# Ok::<(), tree_sitter_language_pack::Error>(())
-func GetLanguage(name string) *tree_sitter.Language {
+func GetLanguage(name string) (*tree_sitter.Language, error) {
 	cName := C.CString(name)
 	defer C.free(unsafe.Pointer(cName))
 
 	cLang := C.ts_pack_get_language(cName)
-	if cLang == nil {
-		return nil
+	if err := lastError(); err != nil {
+		return nil, err
 	}
-	return tree_sitter.NewLanguage(unsafe.Pointer(cLang))
+	return tree_sitter.NewLanguage(unsafe.Pointer(cLang)), nil
 }
 
 // GetParser get a [`Parser`] pre-configured for the given language.

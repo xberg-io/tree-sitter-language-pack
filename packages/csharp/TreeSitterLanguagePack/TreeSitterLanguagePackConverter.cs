@@ -203,6 +203,10 @@ public static class TreeSitterLanguagePackConverter
             {
                 throw GetLastError();
             }
+            if (NativeMethods.LastErrorCode() != 0)
+            {
+                throw GetLastError();
+            }
             return new TreeSitter.Language(nativeResult);
         }
     /// <summary>

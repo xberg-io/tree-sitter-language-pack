@@ -164,7 +164,7 @@ object TreeSitterLanguagePack {
     fun getLanguage(name: String): io.github.treesitter.ktreesitter.Language {
         val cLangPtr = TreeSitterLanguagePackBridge.nativeGetLanguage(name)
         if (cLangPtr == 0L) {
-            throw IllegalArgumentException("Grammar not found")
+            throw TreeSitterLanguagePackBridgeException("Function failed")
         }
         return io.github.treesitter.ktreesitter.Language(cLangPtr)
     }
