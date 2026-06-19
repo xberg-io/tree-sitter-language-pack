@@ -137,6 +137,7 @@ typedef struct TS_PACKFileMetrics TS_PACKFileMetrics;
  * An import statement extracted from source code.
  */
 typedef struct TS_PACKImportInfo TS_PACKImportInfo;
+typedef struct TS_PACKLanguage TS_PACKLanguage;
 /**
  * Thread-safe registry of tree-sitter language parsers.
  *
@@ -1940,6 +1941,13 @@ uintptr_t ts_pack_download_manager_download_all_best_effort(const TS_PACKDownloa
  * freed with the appropriate free function.
  */
 int32_t ts_pack_download_manager_clean_cache(const TS_PACKDownloadManager *this_);
+
+/**
+ * Free a `Language` handle.
+ * # Safety
+ * Pointer must have been returned by this library, or be null.
+ */
+void ts_pack_language_free(TS_PACKLanguage *ptr);
 
 /**
  * Convert an integer to a `DataNodeKind` variant. Returns -1 on invalid input.

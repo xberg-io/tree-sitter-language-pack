@@ -4499,6 +4499,19 @@ pub unsafe extern "C" fn ts_pack_download_manager_clean_cache(
     }
 }
 
+/// Free a `Language` handle.
+/// # Safety
+/// Pointer must have been returned by this library, or be null.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn ts_pack_language_free(ptr: *mut tree_sitter_language_pack::Language) {
+    if !ptr.is_null() {
+        // SAFETY: ptr was allocated by Box::into_raw; caller ensures no aliases.
+        unsafe {
+            drop(Box::from_raw(ptr));
+        }
+    }
+}
+
 /// Convert an integer to a `DataNodeKind` variant. Returns -1 on invalid input.
 /// # Safety
 /// Caller must ensure all pointer arguments are valid or null.
