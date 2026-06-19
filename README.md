@@ -78,6 +78,10 @@ A comprehensive collection of tree-sitter language parsers with polyglot binding
 
 **tree-sitter-language-pack** bundles 306 tree-sitter language parsers into a single package with native bindings across 15 languages. Ship syntax analysis in your application without managing individual parser dependencies.
 
+> Do you need to parse code? → use **tree-sitter**.
+> Across *lots* of languages? → use a **language pack**.
+> And from a *non-C ecosystem* with one dependency? → that's the narrow slot where **this** pack specifically "makes it easy."
+
 ## Architecture
 
 ```text
