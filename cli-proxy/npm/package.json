@@ -1,7 +1,7 @@
 {
   "name": "ts-pack-cli",
-  "version": "0.1.0",
-  "description": "CLI proxy for ts-pack \u2014 downloads and runs the native ts-pack binary from GitHub releases.",
+  "version": "0.0.1",
+  "description": "CLI proxy for ts-pack — downloads and runs the native ts-pack binary from GitHub releases.",
   "type": "module",
   "license": "MIT",
   "author": "Na'aman Hirschfeld",
@@ -12,9 +12,6 @@
   },
   "bin": {
     "ts-pack": "./bin/ts-pack.js"
-  },
-  "scripts": {
-    "postinstall": "node install.js"
   },
   "files": [
     "bin/",
