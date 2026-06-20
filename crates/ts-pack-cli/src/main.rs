@@ -4,6 +4,8 @@
 //! run the code-intelligence pipeline, manage the cache, generate shell completions,
 //! and scaffold project configuration.
 
+mod commands;
+
 use clap::{CommandFactory, Parser, Subcommand};
 use std::io::{self, Read, Write};
 use std::path::PathBuf;
@@ -119,6 +121,9 @@ enum Commands {
         /// Shell to generate completions for
         shell: clap_complete::Shell,
     },
+    /// Start the MCP (Model Context Protocol) server
+    #[cfg(feature = "mcp")]
+    Mcp(commands::mcp::McpArgs),
 }
 
 #[derive(Clone, clap::ValueEnum)]
@@ -388,6 +393,15 @@ fn run() -> Result<(), String> {
             let mut cmd = Cli::command();
             let bin_name = cmd.get_name().to_string();
             clap_complete::generate(shell, &mut cmd, bin_name, &mut io::stdout());
+        }
+
+        #[cfg(feature = "mcp")]
+        Commands::Mcp(args) => {
+            tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .build()
+                .map_err(|e| format!("Failed to build Tokio runtime: {e}"))?
+                .block_on(commands::mcp::run(args))?;
         }
     }
 
