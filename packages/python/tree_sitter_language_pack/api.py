@@ -65,7 +65,7 @@ def _to_rust_process_config(value: ProcessConfig | dict[str, Any] | str | None) 
         value = ProcessConfig(**value)
     if value is None:
         return None
-    value = cast(ProcessConfig, value)
+    value = cast("ProcessConfig", value)
     return _rust.ProcessConfig(
         language=value.language,
         structure=value.structure,
@@ -94,7 +94,7 @@ def _to_rust_pack_config(value: PackConfig | dict[str, Any] | str | None) -> _ru
         value = PackConfig(**value)
     if value is None:
         return None
-    value = cast(PackConfig, value)
+    value = cast("PackConfig", value)
     return _rust.PackConfig(
         cache_dir=value.cache_dir,
         languages=value.languages,
