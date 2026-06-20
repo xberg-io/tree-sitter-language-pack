@@ -1,8 +1,7 @@
 {
-  "name": "ts-pack-cli",
+  "name": "@kreuzberg/ts-pack-cli",
   "version": "0.0.1",
   "description": "CLI proxy for ts-pack — downloads and runs the native ts-pack binary from GitHub releases.",
-  "type": "module",
   "license": "MIT",
   "author": "Na'aman Hirschfeld",
   "repository": {
@@ -11,13 +10,17 @@
     "directory": "cli-proxy/npm"
   },
   "bin": {
-    "ts-pack": "./bin/ts-pack.js"
+    "ts-pack": "bin/ts-pack.js"
   },
   "files": [
     "bin/",
     "install.js"
   ],
+  "type": "module",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
