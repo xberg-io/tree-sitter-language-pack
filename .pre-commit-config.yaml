@@ -14,7 +14,7 @@ repos:
             stages:
                 - commit-msg
     - repo: https://github.com/kreuzberg-dev/pre-commit-hooks
-      rev: v2.2.0
+      rev: v2.3.0
       hooks:
           # Alef verification
           - id: alef-verify
@@ -38,6 +38,7 @@ repos:
 
           # Linters and checks
           - id: ai-rulez-generate
+          - id: ai-rulez-validate
 
           - id: check-merge-conflict
           - id: check-added-large-files
@@ -125,6 +126,8 @@ repos:
           # ktfmt (--kotlinlang-style) is the canonical formatter (matches alef:format);
           # ktlint's always-format mode conflicts with ktfmt (blank-line-after-brace) and
           # mangles alef's `///` doc comments into `// /`. detekt covers static analysis.
+          - id: kotlin-dokka
+
           - id: rubocop-lint
             files: ^packages/ruby/.*\.(rb|rbs)$
             exclude: ^packages/ruby/ext/
@@ -151,7 +154,15 @@ repos:
             files: ^packages/elixir/
           - id: ex-doc-coverage
 
+          - id: air-check
+            files: ^packages/r/.*\.[Rr]$
+          - id: lintr
+            files: ^packages/r/.*\.[Rr]$
+          - id: roxygen2-check
+            files: ^packages/r/R/.*\.R$
+
           - id: swiftlint
+          - id: swift-doc-coverage
           - id: dart-analyze
           - id: dart-doc-lint
             files: ^packages/dart/lib/.*\.dart$
@@ -224,6 +235,8 @@ repos:
                 - --config=packages/php/php-cs-fixer.php
           - id: mix-format
             files: ^packages/elixir/
+          - id: air-format
+            files: ^packages/r/.*\.[Rr]$
           - id: swift-format
             # alef emits Package.swift with a single-line URL;
             # swift-format wraps to next-line, breaking the `git diff --exit-code`
