@@ -19,6 +19,8 @@ pub fn build(b: *std.Build) void {
     tree_sitter_language_pack_module.addIncludePath(.{ .cwd_relative = ffi_include });
     tree_sitter_language_pack_module.linkSystemLibrary("ts_pack_core_ffi", .{});
     tree_sitter_language_pack_module.addRPath(.{ .cwd_relative = ffi_path_abs });
+    const tree_sitter_dep = b.dependency("tree_sitter", .{ .target = target, .optimize = optimize });
+    tree_sitter_language_pack_module.addImport("tree_sitter", tree_sitter_dep.module("tree_sitter"));
 
     const data_extraction_module = b.createModule(.{
         .root_source_file = b.path("src/data_extraction_test.zig"),
