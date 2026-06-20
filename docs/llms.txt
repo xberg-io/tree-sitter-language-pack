@@ -6,7 +6,7 @@
 
 - [Installation](https://docs.tree-sitter-language-pack.kreuzberg.dev/getting-started/installation/): Install for Python, TypeScript, Rust, Go, Java, C#, Ruby, PHP, Elixir, WebAssembly, or the `ts-pack` CLI.
 - [Quick Start](https://docs.tree-sitter-language-pack.kreuzberg.dev/getting-started/quickstart/): Parse your first file and run code intelligence in minutes.
-- AI Coding Assistants: Install the plugin with `/plugin marketplace add kreuzberg-dev/plugins` then `/plugin install tree-sitter-language-pack@kreuzberg` — ships agent skills plus an MCP server, works with Claude Code, Codex, Cursor, Gemini, Copilot, and opencode.
+- [AI Coding Assistants](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/ai-coding-assistants/): Install the plugin into Claude Code, Codex, Cursor, Gemini, Factory Droid, GitHub Copilot, or opencode.
 
 ## Concepts
 

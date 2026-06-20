@@ -25,6 +25,7 @@ nav = [
       { "Extraction Queries" = "guides/extraction.md" },
     ] },
     { "CLI" = "guides/cli.md" },
+    { "AI Coding Assistants" = "guides/ai-coding-assistants.md" },
     { "Deployment" = [
       { "Docker" = "guides/docker.md" },
       { "Building from Source" = "guides/building.md" },

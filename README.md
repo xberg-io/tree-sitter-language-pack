@@ -11,11 +11,11 @@
   <a href="https://pypi.org/project/tree-sitter-language-pack/">
     <img src="https://img.shields.io/pypi/v/tree-sitter-language-pack?label=Python&color=007ec6" alt="Python">
   </a>
-  <a href="https://www.npmjs.com/package/@kreuzberg-dev/tree-sitter-language-pack">
-    <img src="https://img.shields.io/npm/v/@kreuzberg-dev/tree-sitter-language-pack?label=Node.js&color=007ec6" alt="Node.js">
+  <a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack">
+    <img src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6" alt="Node.js">
   </a>
-  <a href="https://www.npmjs.com/package/@kreuzberg-dev/tree-sitter-language-pack-wasm">
-    <img src="https://img.shields.io/npm/v/@kreuzberg-dev/tree-sitter-language-pack-wasm?label=WASM&color=007ec6" alt="WASM">
+  <a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack-wasm">
+    <img src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack-wasm?label=WASM&color=007ec6" alt="WASM">
   </a>
   <a href="https://central.sonatype.com/artifact/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack">
     <img src="https://img.shields.io/maven-central/v/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6" alt="Java">
@@ -107,15 +107,15 @@ See [Python README](packages/python/README.md) for full documentation.
 ### Node.js
 
 ```sh
-npm install @kreuzberg-dev/tree-sitter-language-pack
+npm install @kreuzberg/tree-sitter-language-pack
 ```
 
 ```sh
-pnpm add @kreuzberg-dev/tree-sitter-language-pack
+pnpm add @kreuzberg/tree-sitter-language-pack
 ```
 
 ```sh
-yarn add @kreuzberg-dev/tree-sitter-language-pack
+yarn add @kreuzberg/tree-sitter-language-pack
 ```
 
 See [Node.js README](crates/ts-pack-core-node/README.md) for full documentation.
@@ -163,15 +163,15 @@ See [Ruby README](packages/ruby/README.md) for full documentation.
 ### WebAssembly
 
 ```sh
-npm install @kreuzberg-dev/tree-sitter-language-pack-wasm
+npm install @kreuzberg/tree-sitter-language-pack-wasm
 ```
 
 ```sh
-pnpm add @kreuzberg-dev/tree-sitter-language-pack-wasm
+pnpm add @kreuzberg/tree-sitter-language-pack-wasm
 ```
 
 ```sh
-yarn add @kreuzberg-dev/tree-sitter-language-pack-wasm
+yarn add @kreuzberg/tree-sitter-language-pack-wasm
 ```
 
 See [WebAssembly README](crates/ts-pack-core-wasm/README.md) for full documentation.
@@ -244,6 +244,79 @@ Join our [Discord community](https://discord.gg/xt9WY3GnKR) for questions and di
 - [liter-llm](https://github.com/kreuzberg-dev/liter-llm) — universal LLM API client with native bindings for 14 languages and 143 providers.
 - [alef](https://github.com/kreuzberg-dev/alef) — the polyglot binding generator that produces all per-language bindings.
 - [Discord](https://discord.gg/xt9WY3GnKR) — community, roadmap, announcements.
+
+## AI Coding Assistants
+
+Install the tree-sitter-language-pack plugin from the [`kreuzberg-dev/plugins`](https://github.com/kreuzberg-dev/plugins) marketplace. It ships the tree-sitter-language-pack agent skills (parse and extract code intelligence from 300+ languages) and works with every major coding agent — expand your harness below.
+
+<details open>
+<summary><strong>Claude Code</strong></summary>
+
+```text
+/plugin marketplace add kreuzberg-dev/plugins
+/plugin install tree-sitter-language-pack@kreuzberg
+```
+
+</details>
+
+<details>
+<summary><strong>Codex CLI</strong></summary>
+
+```text
+/plugins add https://github.com/kreuzberg-dev/plugins
+```
+
+Then search for `tree-sitter-language-pack` and select **Install Plugin**.
+</details>
+
+<details>
+<summary><strong>Cursor</strong></summary>
+
+Settings → Plugins → Add from URL → `https://github.com/kreuzberg-dev/plugins`, then select **tree-sitter-language-pack**.
+</details>
+
+<details>
+<summary><strong>Gemini CLI</strong></summary>
+
+```text
+gemini extensions install https://github.com/kreuzberg-dev/plugins
+```
+
+</details>
+
+<details>
+<summary><strong>Factory Droid</strong></summary>
+
+```text
+droid plugin marketplace add https://github.com/kreuzberg-dev/plugins
+droid plugin install tree-sitter-language-pack@kreuzberg
+```
+
+</details>
+
+<details>
+<summary><strong>GitHub Copilot CLI</strong></summary>
+
+```text
+copilot plugin marketplace add https://github.com/kreuzberg-dev/plugins
+copilot plugin install tree-sitter-language-pack@kreuzberg
+```
+
+</details>
+
+<details>
+<summary><strong>opencode</strong></summary>
+
+Add the package to `opencode.json`:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["@kreuzberg/opencode-tree-sitter-language-pack"]
+}
+```
+
+</details>
 
 ## License
 
