@@ -72,29 +72,15 @@
   </a>
 </div>
 
-A comprehensive collection of tree-sitter language parsers with polyglot bindings
+This package `tree-sitter-language-pack` (TSLP for short) is a comprehensive collection of permissively licensed [tree-sitter](https://tree-sitter.github.io/tree-sitter/) languages and parsers.
 
-## Overview
+## Why and What?
 
-**tree-sitter-language-pack** bundles 306 tree-sitter language parsers into a single package with native bindings across 15 languages. Ship syntax analysis in your application without managing individual parser dependencies.
+The tree-sitter library  allows users to generate parsers from grammers for any programming languagues, with a performant C based engine underneath. With the advant of agentic tooling, processing, inspecting and analyzing code becomes an even more critical - which was the imperative for creating this particular library. 
 
-## Architecture
+This library is the most comprehensive collection of tree-sitter grammers currently available. The core library is written in Rust and it has polyglot bindings for 15 other programming languages. It also has a CLI tool and MCP server, which are primarily useful when needing to process code or search through it in the shell. 
 
-```text
-tree-sitter-language-pack/
-├── crates/
-│   ├── ts-pack-core/       # Rust core library
-│   ├── ts-pack-python/     # Python (maturin/PyO3) bindings
-│   ├── ts-pack-node/       # Node.js (NAPI-RS) bindings
-│   ├── ts-pack-java/       # Java (Panama FFI) bindings
-│   ├── ts-pack-elixir/     # Elixir (Rustler NIF) bindings
-│   ├── ts-pack-ffi/        # C-compatible FFI library
-│   └── ts-pack-cli/        # CLI tool
-├── packages/
-│   └── go/v1/              # Go (cgo) bindings
-├── grammars/               # Tree-sitter grammar sources
-└── scripts/                # Build and maintenance scripts
-```
+Grammers are build as part of GH publish into multi-platform binaries, and are downloaded dynamically on demand. This allows keeping the package small while offer 300+ grammers. 
 
 ## Quick Start
 
@@ -219,37 +205,6 @@ cargo install ts-pack-cli
 ```
 
 See [CLI README](crates/ts-pack-cli/README.md) for full documentation.
-
-## Core API
-
-All bindings expose a unified `process()` function for extracting structured intelligence from source code:
-
-| Language | Function                                             |
-| -------- | ---------------------------------------------------- |
-| Rust     | `ts_pack_core::process(source, &config)`             |
-| Python   | `process(source, ProcessConfig(...))`                |
-| Node.js  | `process(source, { language: '...' })`               |
-| Go       | `registry.Process(source, config)`                   |
-| Java     | `registry.process(source, configJson)`               |
-| Ruby     | `TreeSitterLanguagePack.process(source, configJson)` |
-| Elixir   | `TreeSitterLanguagePack.process(source, configJson)` |
-| WASM     | `process(source, { language: '...' })`               |
-| C FFI    | `ts_pack_process(registry, source, len, configJson)` |
-
-The `process()` function returns structured analysis including functions, classes, imports, comments, and optionally chunked source segments.
-
-## Features
-
-| Feature                    | Description                                                                |
-| -------------------------- | -------------------------------------------------------------------------- |
-| **306 Languages**          | Pre-compiled parsers for 306 programming languages                         |
-| **Code Intelligence**       | Extract functions, classes, imports, docstrings, symbols from source       |
-| **Data Extraction**         | Hierarchical key-value trees from 17 config/data formats (JSON, YAML, TOML, properties, XML, CSV, …) |
-| **On-Demand Downloads**    | Parsers are downloaded on-demand and cached locally for fast reuse         |
-| **Selective Installation** | Download only the languages you need; unused parsers never downloaded      |
-| **Polyglot Bindings**      | Native bindings across 15 languages — Rust, Python, Node.js, WebAssembly, Go, Java, C#, PHP, Ruby, Elixir, Dart, Kotlin, Swift, Zig, and C/C++ |
-| **Automatic Caching**      | Downloaded parsers cached in platform-specific directories for offline use |
-| **CLI Tool**               | `ts-pack download` to pre-download parsers for offline/CI/Docker use       |
 
 ## Supported Languages
 
