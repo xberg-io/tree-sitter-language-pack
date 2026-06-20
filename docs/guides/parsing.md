@@ -141,6 +141,7 @@ These return the ecosystem's native `Language` type, ready to use with that ecos
 | Kotlin Android | `io.github.treesitter.ktreesitter.Language` | `Parser(...).setLanguage(lang)` | Throws the binding's bridge exception   |
 | Swift   | `SwiftTreeSitter.Language`            | `Parser().setLanguage(lang)`        | Throws `TreeSitterLanguagePackError`           |
 | Zig     | `?*const tree_sitter.Language`        | `Parser.setLanguage(lang)`          | Returns a Zig error (`Error!…`)                |
+| C FFI   | `const TSLanguage *` (borrowed)       | `ts_parser_set_language(parser, lang)` | Returns `NULL` (do not `free` the result)   |
 
 ### Opaque-handle bindings
 
@@ -151,9 +152,8 @@ These return an opaque handle specific to this package. Use the higher-level `pr
 | Ruby    | opaque handle   | Use this package's `Parser` wrapper or `process()`                            |
 | PHP     | opaque handle   | Use this package's extension API; `talbergs/php-tree-sitter` FFI not exposed |
 | Elixir  | opaque handle   | Use this package's NIF wrapper; `ResourceArc<T>` is NIF-private              |
-| Dart    | opaque handle   | Use this package's generated parser wrapper                                   |
+| Dart    | opaque handle   | `flutter_rust_bridge` marshals Rust types as Arc-counted opaque proxies and never exposes the raw `const TSLanguage *` passthrough needs, and there is no maintained Dart tree-sitter package to construct from it — use the generated parser wrapper |
 | WASM    | opaque handle   | Use this package's wrapper; `web-tree-sitter` runs in separate WASM memory   |
-| C FFI   | opaque handle   | Use the exported FFI parser functions and handles                             |
 
 ## Next steps
 

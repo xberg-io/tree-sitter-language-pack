@@ -154,11 +154,12 @@ e2e/c/ffi/
 
  .ai-rulez/.generated-manifest.json
 
+packages/zig/zig-pkg/
+e2e/zig/zig-pkg/
+
 # BEGIN ai-rulez (DO NOT EDIT - managed by ai-rulez)
 .agents/
 .github/agents/
 .github/commands/
 .github/skills/
 # END ai-rulez
-packages/zig/zig-pkg/
-e2e/zig/zig-pkg/

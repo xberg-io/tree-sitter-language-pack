@@ -44,7 +44,7 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 - :material-link-box:{ .lg .middle } **Host-Native Language Interop**
 
-  In Python, Node.js, Go, Java, C#, Kotlin, Swift, and Zig, `get_language()` returns your ecosystem's native `Language` type — drop it directly into your parser without intermediate translation layers.
+  In Python, Node.js, Go, Java, C#, Kotlin, Swift, Zig, and C, `get_language()` returns your ecosystem's native `Language` type (the bare `const TSLanguage *` in C) — drop it directly into your parser without intermediate translation layers.
 
 - :material-translate:{ .lg .middle } **15 Language Surfaces + CLI**
 

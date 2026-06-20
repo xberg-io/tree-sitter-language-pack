@@ -139,6 +139,7 @@ ABI 14 is accepted by tree-sitter runtimes spanning versions 0.21 through 0.26, 
 - **Kotlin/Android**: `ktreesitter` 0.25.0+
 - **Swift**: `SwiftTreeSitter` 0.25.0+
 - **Zig**: `zig-tree-sitter` v0.26.0+
+- **C**: `libtree-sitter` (any ABI 14-compatible runtime; `get_language()` returns the bare `const TSLanguage *`)
 
 This wide compatibility window ensures the language pack works across a broad ecosystem of tree-sitter consumers without requiring version pinning or ecosystem-specific grammar patches.
 
