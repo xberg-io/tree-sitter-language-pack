@@ -4,4 +4,4 @@ allowBuilds:
   esbuild: true
   tree-sitter: true
 minimumReleaseAgeExclude:
-  - '@kreuzberg/tree-sitter-language-pack-wasm@1.10.2'
+  - '@kreuzberg/tree-sitter-language-pack-wasm@1.10.3'

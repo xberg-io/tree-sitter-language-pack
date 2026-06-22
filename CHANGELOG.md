@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.3] - 2026-06-22
+
+### Changed
+
+- **Regenerated all bindings with alef 0.26.0.** Picks up alef's sync-versions byte-stability fix:
+  `sync-versions` no longer rewrites externally-formatted scaffold/manifest files (this repo formats
+  via external tools with `[workspace.format] enabled = false`), and it preserves external SwiftPM
+  dependency pins instead of clobbering them with the workspace version. This clears the CI
+  version-sync freshness gate.
+- **Updated dependencies within their current major versions** (Rust crates, PHP dev tooling, pnpm
+  toolchain pin).
+
 ## [1.10.2] - 2026-06-22
 
 ### Fixed
