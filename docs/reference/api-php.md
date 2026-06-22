@@ -2,7 +2,7 @@
 title: "PHP API Reference"
 ---
 
-## PHP API Reference <span class="version-badge">v1.10.3</span>
+## PHP API Reference <span class="version-badge">v1.10.4</span>
 
 ### Functions
 

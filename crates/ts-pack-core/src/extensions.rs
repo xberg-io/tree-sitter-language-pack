@@ -32,8 +32,32 @@ pub fn detect_language_from_extension(ext: &str) -> Option<&'static str> {
 /// assert_eq!(detect_language_from_path("Makefile"), None);
 /// ```
 pub fn detect_language_from_path(path: &str) -> Option<&'static str> {
+    let file_name = std::path::Path::new(path).file_name()?.to_str()?;
+    // Compound (multi-dot) extensions the single-extension table cannot express
+    // (the generated table forbids dotted keys), checked before the trailing
+    // single-extension fallback so `foo.app.src` maps to Erlang rather than `src`.
+    if let Some(lang) = detect_compound_extension(file_name) {
+        return Some(lang);
+    }
     let ext = std::path::Path::new(path).extension()?.to_str()?;
     detect_language_from_extension(ext)
+}
+
+/// Multi-dot extension suffixes that map to a language, matched case-insensitively
+/// against the full file name. The generated extension table only holds single,
+/// dot-free keys, so compound extensions live here.
+const COMPOUND_EXTENSIONS: &[(&str, &str)] = &[
+    // Erlang application resource template (`<name>.app.src`) — Erlang term syntax.
+    (".app.src", "erlang"),
+];
+
+/// Match a file name against the [`COMPOUND_EXTENSIONS`] suffix table.
+fn detect_compound_extension(file_name: &str) -> Option<&'static str> {
+    let lower = file_name.to_ascii_lowercase();
+    COMPOUND_EXTENSIONS
+        .iter()
+        .find(|(suffix, _)| lower.ends_with(suffix))
+        .map(|(_, lang)| *lang)
 }
 
 /// Detect language name from file content using the shebang line (`#!`).
@@ -182,6 +206,17 @@ mod tests {
         assert_eq!(detect_language_from_path("README.md"), Some("markdown"));
         assert_eq!(detect_language_from_path("app.test.tsx"), Some("tsx"));
         assert_eq!(detect_language_from_path("Cargo.toml"), Some("toml"));
+    }
+
+    #[test]
+    fn test_compound_extension_app_src_is_erlang() {
+        // `.app.src` is an Erlang application resource template (Erlang term syntax);
+        // single-extension lookup would otherwise see only `src`.
+        assert_eq!(detect_language_from_path("myapp.app.src"), Some("erlang"));
+        assert_eq!(detect_language_from_path("rel/foo/foo.app.src"), Some("erlang"));
+        assert_eq!(detect_language_from_path("FOO.APP.SRC"), Some("erlang"));
+        // Plain `.src` remains unmapped (not a known single extension).
+        assert_eq!(detect_language_from_path("notes.src"), None);
     }
 
     #[test]

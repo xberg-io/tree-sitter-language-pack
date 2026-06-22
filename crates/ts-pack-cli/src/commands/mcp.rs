@@ -45,6 +45,8 @@ pub struct ProcessParams {
     pub source: String,
     /// Language name (e.g. `"rust"`). Required.
     pub language: String,
+    /// Enable every analysis feature. Overrides the individual flags below when true.
+    pub all: Option<bool>,
     /// Extract structural items (functions, classes). Default: true.
     pub structure: Option<bool>,
     /// Extract import statements. Default: true.
@@ -97,23 +99,19 @@ pub struct DownloadParams {
     pub languages: Option<Vec<String>>,
     /// Download all available languages.
     pub all: Option<bool>,
-    /// Download a named group (e.g. `"web"`, `"systems"`).
-    pub group: Option<String>,
-}
-
-/// Parameters for the `cache` tool.
-#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
-pub struct CacheParams {
-    /// Action to perform: `"dir"` (default) or `"clean"`.
-    pub action: Option<String>,
+    /// Named groups to download (e.g. `"web"`, `"systems"`, `"scripting"`, `"data"`, `"jvm"`, `"functional"`).
+    pub groups: Option<Vec<String>>,
+    /// Clean the cache before downloading for a fresh fetch. Default: false.
+    pub fresh: Option<bool>,
 }
 
 // ── Server struct ─────────────────────────────────────────────────────────────
 
 use rmcp::{
-    ServerHandler,
+    RoleServer, ServerHandler,
     handler::server::{router::tool::ToolRouter, wrapper::Parameters},
     model::*,
+    service::RequestContext,
     tool, tool_handler, tool_router,
 };
 
@@ -140,7 +138,12 @@ impl TsPackMcp {
     /// Returns the syntax tree as an S-expression or JSON.
     #[tool(
         description = "Parse source code with a tree-sitter grammar. Returns the syntax tree as sexp or JSON.",
-        annotations(title = "Parse", read_only_hint = true, idempotent_hint = true)
+        annotations(
+            title = "Parse",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = false
+        )
     )]
     fn parse(&self, Parameters(params): Parameters<ParseParams>) -> Result<CallToolResult, rmcp::ErrorData> {
         use tree_sitter_language_pack::get_parser;
@@ -176,13 +179,22 @@ impl TsPackMcp {
     /// diagnostics, and/or chunks. Returns JSON.
     #[tool(
         description = "Run the code-intelligence pipeline on source code. Extracts structure, imports, exports, symbols, and more.",
-        annotations(title = "Process", read_only_hint = true, idempotent_hint = true)
+        annotations(
+            title = "Process",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = false
+        )
     )]
     fn process(&self, Parameters(params): Parameters<ProcessParams>) -> Result<CallToolResult, rmcp::ErrorData> {
         use tree_sitter_language_pack::{ProcessConfig, process};
 
         let mut config = ProcessConfig::new(params.language);
 
+        // Mirror the CLI `--all` flag: enable every analysis feature via the builder.
+        if params.all.unwrap_or(false) {
+            config = config.all();
+        }
         if let Some(v) = params.structure {
             config.structure = v;
         }
@@ -223,7 +235,12 @@ impl TsPackMcp {
     /// Returns the detected language name or `null` when detection fails.
     #[tool(
         description = "Detect the language for a file path or source content. Returns the detected language name.",
-        annotations(title = "Detect Language", read_only_hint = true, idempotent_hint = true)
+        annotations(
+            title = "Detect Language",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = false
+        )
     )]
     fn detect_language(
         &self,
@@ -251,7 +268,13 @@ impl TsPackMcp {
     /// Pass `source` = `"available"` (default), `"downloaded"`, or `"manifest"`.
     #[tool(
         description = "List languages. source: 'available' (default), 'downloaded', or 'manifest'. Optional substring filter.",
-        annotations(title = "List Languages", read_only_hint = true, idempotent_hint = true)
+        // `open_world_hint = true`: the `manifest` source fetches the remote download manifest.
+        annotations(
+            title = "List Languages",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = true
+        )
     )]
     fn list_languages(
         &self,
@@ -288,7 +311,12 @@ impl TsPackMcp {
     /// Returns whether the language is known, downloaded, and its cache path.
     #[tool(
         description = "Show whether a language is known, downloaded, and its cache path.",
-        annotations(title = "Language Info", read_only_hint = true, idempotent_hint = true)
+        annotations(
+            title = "Language Info",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = false
+        )
     )]
     fn info(&self, Parameters(params): Parameters<InfoParams>) -> Result<CallToolResult, rmcp::ErrorData> {
         use tree_sitter_language_pack::{cache_dir, downloaded_languages, has_language};
@@ -313,20 +341,40 @@ impl TsPackMcp {
     /// Set `all: true` to download everything, `group` to download a named group,
     /// or pass `languages` with a list of names.
     #[tool(
-        description = "Download parser libraries. Pass languages list, group name, or all=true.",
-        annotations(title = "Download", destructive_hint = false)
+        description = "Download parser libraries from the remote registry. Pass languages list, groups, or all=true. \
+                       Set fresh=true to clean the cache first.",
+        // Network fetch: `open_world_hint = true`. Additive to the cache (re-downloading is a no-op),
+        // so `destructive_hint = false` and `idempotent_hint = true`. The `fresh` option performs an
+        // explicit, opt-in cache clean before downloading.
+        annotations(
+            title = "Download",
+            read_only_hint = false,
+            destructive_hint = false,
+            idempotent_hint = true,
+            open_world_hint = true
+        )
     )]
     fn download(&self, Parameters(params): Parameters<DownloadParams>) -> Result<CallToolResult, rmcp::ErrorData> {
-        use tree_sitter_language_pack::{download, download_all, download_group};
+        use tree_sitter_language_pack::{clean_cache, download, download_all, download_group};
+
+        if params.fresh.unwrap_or(false) {
+            clean_cache().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
+        }
 
         let count = if params.all.unwrap_or(false) {
             download_all().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?
-        } else if let Some(ref group) = params.group {
-            download_group(group).map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?
+        } else if let Some(ref groups) = params.groups
+            && !groups.is_empty()
+        {
+            let mut last = 0;
+            for group in groups {
+                last = download_group(group).map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
+            }
+            last
         } else if let Some(ref languages) = params.languages {
             if languages.is_empty() {
                 return Err(rmcp::ErrorData::invalid_params(
-                    "Provide at least one language name, a group, or set all=true",
+                    "Provide at least one language name, one or more groups, or set all=true",
                     None,
                 ));
             }
@@ -334,7 +382,7 @@ impl TsPackMcp {
             download(&refs).map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?
         } else {
             return Err(rmcp::ErrorData::invalid_params(
-                "Provide languages, group, or all=true",
+                "Provide languages, groups, or all=true",
                 None,
             ));
         };
@@ -347,49 +395,205 @@ impl TsPackMcp {
         Ok(CallToolResult::success(vec![Content::text(response)]))
     }
 
-    /// Query or manage the parser cache.
-    ///
-    /// Use `action = "dir"` (default) to return the cache directory path,
-    /// or `action = "clean"` to delete all cached parser libraries.
+    /// Return the effective parser cache directory.
     #[tool(
-        description = "Query or manage the parser cache. action: 'dir' (default) returns the path; 'clean' deletes cached parsers.",
-        annotations(title = "Cache")
+        description = "Return the effective parser cache directory path.",
+        annotations(
+            title = "Cache Directory",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = false
+        )
     )]
-    fn cache(&self, Parameters(params): Parameters<CacheParams>) -> Result<CallToolResult, rmcp::ErrorData> {
+    fn cache_dir(&self) -> Result<CallToolResult, rmcp::ErrorData> {
+        use tree_sitter_language_pack::cache_dir;
+
+        let dir = cache_dir().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
+        let response = serde_json::to_string_pretty(&serde_json::json!({ "cache_dir": dir })).unwrap_or_default();
+        Ok(CallToolResult::success(vec![Content::text(response)]))
+    }
+
+    /// Delete all cached parser libraries.
+    #[tool(
+        description = "Delete all cached parser libraries from the cache directory.",
+        // Local filesystem deletion: destructive but idempotent (clearing twice yields the same state)
+        // and no network access.
+        annotations(
+            title = "Clean Cache",
+            read_only_hint = false,
+            destructive_hint = true,
+            idempotent_hint = true,
+            open_world_hint = false
+        )
+    )]
+    fn clean_cache(&self) -> Result<CallToolResult, rmcp::ErrorData> {
         use tree_sitter_language_pack::{cache_dir, clean_cache};
 
-        let action = params.action.as_deref().unwrap_or("dir");
+        clean_cache().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
+        let dir = cache_dir().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
+        let response = serde_json::to_string_pretty(&serde_json::json!({
+            "cache_dir": dir,
+            "status": "cleared",
+        }))
+        .unwrap_or_default();
+        Ok(CallToolResult::success(vec![Content::text(response)]))
+    }
+}
 
-        let response = match action {
-            "clean" => {
-                clean_cache().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
-                let dir = cache_dir().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
-                serde_json::to_string_pretty(&serde_json::json!({
-                    "action": "clean",
-                    "cache_dir": dir,
-                    "status": "cleared",
-                }))
-                .unwrap_or_default()
+/// Context-free implementations of the resource/prompt/completion capabilities.
+///
+/// The `ServerHandler` trait methods are thin delegators to these so the logic
+/// is unit-testable without constructing a live `RequestContext`.
+impl TsPackMcp {
+    const LANGUAGE_URI_PREFIX: &'static str = "ts-pack://language/";
+
+    fn list_resources_inner(&self) -> ListResourcesResult {
+        let mut available = RawResource::new("ts-pack://languages", "available-languages");
+        available.title = Some("Available languages".to_string());
+        available.description = Some("Every language available to this build of the pack.".to_string());
+        available.mime_type = Some("application/json".to_string());
+
+        let mut downloaded = RawResource::new("ts-pack://languages/downloaded", "downloaded-languages");
+        downloaded.title = Some("Downloaded languages".to_string());
+        downloaded.description = Some("Languages whose parser libraries are already cached locally.".to_string());
+        downloaded.mime_type = Some("application/json".to_string());
+
+        ListResourcesResult::with_all_items(vec![available.no_annotation(), downloaded.no_annotation()])
+    }
+
+    fn list_resource_templates_inner(&self) -> ListResourceTemplatesResult {
+        let template = RawResourceTemplate {
+            uri_template: "ts-pack://language/{name}".to_string(),
+            name: "language-info".to_string(),
+            title: Some("Language info".to_string()),
+            description: Some("Per-language status: known, downloaded, and cache directory.".to_string()),
+            mime_type: Some("application/json".to_string()),
+            icons: None,
+        };
+        ListResourceTemplatesResult::with_all_items(vec![template.no_annotation()])
+    }
+
+    fn read_resource_inner(&self, uri: &str) -> Result<ReadResourceResult, rmcp::ErrorData> {
+        use tree_sitter_language_pack::{available_languages, cache_dir, downloaded_languages, has_language};
+
+        let json = match uri {
+            "ts-pack://languages" => {
+                let langs = available_languages();
+                serde_json::json!({ "count": langs.len(), "languages": langs })
+            }
+            "ts-pack://languages/downloaded" => {
+                let langs = downloaded_languages();
+                serde_json::json!({ "count": langs.len(), "languages": langs })
+            }
+            other if other.starts_with(Self::LANGUAGE_URI_PREFIX) => {
+                let name = &other[Self::LANGUAGE_URI_PREFIX.len()..];
+                let cache = cache_dir().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
+                serde_json::json!({
+                    "language": name,
+                    "known": has_language(name),
+                    "downloaded": downloaded_languages().iter().any(|l| l == name),
+                    "cache_dir": cache,
+                })
             }
             _ => {
-                let dir = cache_dir().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
-                serde_json::to_string_pretty(&serde_json::json!({
-                    "action": "dir",
-                    "cache_dir": dir,
-                }))
-                .unwrap_or_default()
+                return Err(rmcp::ErrorData::invalid_params(
+                    format!("Unknown resource URI: {uri}"),
+                    None,
+                ));
             }
         };
 
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        let text = serde_json::to_string_pretty(&json).unwrap_or_default();
+        Ok(ReadResourceResult::new(vec![
+            ResourceContents::text(text, uri).with_mime_type("application/json"),
+        ]))
+    }
+
+    fn list_prompts_inner(&self) -> ListPromptsResult {
+        let prompt = Prompt::new(
+            "analyze-code",
+            Some("Analyze a source file's structure, imports, exports, and symbols using the pack's tools."),
+            Some(vec![
+                PromptArgument::new("language")
+                    .with_description("Language name (supports completion).")
+                    .with_required(true),
+                PromptArgument::new("focus")
+                    .with_description("Optional area to emphasize, e.g. 'security' or 'public API'.")
+                    .with_required(false),
+            ]),
+        );
+        ListPromptsResult::with_all_items(vec![prompt])
+    }
+
+    fn get_prompt_inner(&self, name: &str, arguments: Option<JsonObject>) -> Result<GetPromptResult, rmcp::ErrorData> {
+        if name != "analyze-code" {
+            return Err(rmcp::ErrorData::invalid_params(format!("Unknown prompt: {name}"), None));
+        }
+
+        let args = arguments.unwrap_or_default();
+        let language = args
+            .get("language")
+            .and_then(|v| v.as_str())
+            .unwrap_or("the file's language");
+        let focus = args.get("focus").and_then(|v| v.as_str()).unwrap_or("");
+
+        let mut text = format!(
+            "Analyze the following {language} source file. Call the 'process' tool with all=true to extract \
+             its structure, imports, exports, symbols, and diagnostics, then summarize the design, key \
+             entry points, and any issues."
+        );
+        if !focus.is_empty() {
+            text.push_str(&format!(" Pay particular attention to: {focus}."));
+        }
+
+        let message = PromptMessage::new_text(PromptMessageRole::User, text);
+        Ok(GetPromptResult::new(vec![message]).with_description("Code analysis workflow"))
+    }
+
+    fn complete_inner(
+        &self,
+        reference: &Reference,
+        argument: &ArgumentInfo,
+    ) -> Result<CompleteResult, rmcp::ErrorData> {
+        use tree_sitter_language_pack::available_languages;
+
+        let completes_language = match reference {
+            Reference::Prompt(prompt) => prompt.name == "analyze-code" && argument.name == "language",
+            Reference::Resource(resource) => {
+                resource.uri.starts_with(Self::LANGUAGE_URI_PREFIX) && argument.name == "name"
+            }
+        };
+        if !completes_language {
+            return Ok(CompleteResult::default());
+        }
+
+        let prefix = argument.value.as_str();
+        let mut values: Vec<String> = available_languages()
+            .into_iter()
+            .filter(|lang| lang.starts_with(prefix))
+            .collect();
+        let total = values.len() as u32;
+        values.truncate(CompletionInfo::MAX_VALUES);
+        let has_more = (values.len() as u32) < total;
+
+        let completion = CompletionInfo::with_pagination(values, Some(total), has_more)
+            .map_err(|e| rmcp::ErrorData::internal_error(e, None))?;
+        Ok(CompleteResult::new(completion))
     }
 }
 
 #[tool_handler]
 impl ServerHandler for TsPackMcp {
     fn get_info(&self) -> ServerInfo {
-        let mut capabilities = ServerCapabilities::default();
-        capabilities.tools = Some(ToolsCapability::default());
+        // Advertise every capability this server implements: tools, readable
+        // resources (the language catalog + per-language templates), prompts, and
+        // argument completions for language names.
+        let capabilities = ServerCapabilities::builder()
+            .enable_tools()
+            .enable_resources()
+            .enable_prompts()
+            .enable_completions()
+            .build();
 
         let server_info = Implementation::new("ts-pack-mcp", env!("CARGO_PKG_VERSION"))
             .with_title("Tree-Sitter Language Pack MCP Server")
@@ -408,9 +612,66 @@ impl ServerHandler for TsPackMcp {
                  Use 'detect_language' to identify a language from a file path or source snippet. \
                  Use 'list_languages' to see available, downloaded, or manifest languages. \
                  Use 'info' to check whether a specific language is downloaded. \
-                 Use 'download' to fetch parser libraries (by name, group, or all). \
-                 Use 'cache' to query the cache directory or clean all cached parsers.",
+                 Use 'download' to fetch parser libraries (by name, groups, or all; fresh=true to re-fetch). \
+                 Use 'cache_dir' to query the cache directory and 'clean_cache' to delete all cached parsers. \
+                 Read 'ts-pack://languages' or the 'ts-pack://language/{name}' template for the catalog. \
+                 Use the 'analyze-code' prompt for a ready-made analysis workflow.",
             )
+    }
+
+    /// List the readable resources: the available and downloaded language catalogs.
+    async fn list_resources(
+        &self,
+        _request: Option<PaginatedRequestParams>,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<ListResourcesResult, rmcp::ErrorData> {
+        Ok(self.list_resources_inner())
+    }
+
+    /// Expose the per-language resource template `ts-pack://language/{name}`.
+    async fn list_resource_templates(
+        &self,
+        _request: Option<PaginatedRequestParams>,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<ListResourceTemplatesResult, rmcp::ErrorData> {
+        Ok(self.list_resource_templates_inner())
+    }
+
+    /// Read a resource: the language catalogs or a single `ts-pack://language/{name}` entry.
+    async fn read_resource(
+        &self,
+        request: ReadResourceRequestParams,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<ReadResourceResult, rmcp::ErrorData> {
+        self.read_resource_inner(&request.uri)
+    }
+
+    /// List the available prompts.
+    async fn list_prompts(
+        &self,
+        _request: Option<PaginatedRequestParams>,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<ListPromptsResult, rmcp::ErrorData> {
+        Ok(self.list_prompts_inner())
+    }
+
+    /// Render the `analyze-code` prompt with the supplied arguments.
+    async fn get_prompt(
+        &self,
+        request: GetPromptRequestParams,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<GetPromptResult, rmcp::ErrorData> {
+        self.get_prompt_inner(&request.name, request.arguments)
+    }
+
+    /// Complete language-name arguments for the `analyze-code` prompt and the
+    /// `ts-pack://language/{name}` resource template.
+    async fn complete(
+        &self,
+        request: CompleteRequestParams,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<CompleteResult, rmcp::ErrorData> {
+        self.complete_inner(&request.r#ref, &request.argument)
     }
 }
 
@@ -490,7 +751,8 @@ mod tests {
             "list_languages",
             "info",
             "download",
-            "cache",
+            "cache_dir",
+            "clean_cache",
         ] {
             assert!(router.has_route(name), "Expected tool '{name}' to be registered");
         }
@@ -503,8 +765,147 @@ mod tests {
 
         assert_eq!(info.server_info.name, "ts-pack-mcp");
         assert_eq!(info.server_info.version, env!("CARGO_PKG_VERSION"));
-        assert!(info.capabilities.tools.is_some());
+        assert!(info.capabilities.tools.is_some(), "tools capability advertised");
+        assert!(info.capabilities.resources.is_some(), "resources capability advertised");
+        assert!(info.capabilities.prompts.is_some(), "prompts capability advertised");
+        assert!(
+            info.capabilities.completions.is_some(),
+            "completions capability advertised"
+        );
         assert!(info.instructions.is_some());
+    }
+
+    #[test]
+    fn test_list_resources_exposes_catalogs() {
+        let server = TsPackMcp::new();
+        let result = server.list_resources_inner();
+        let uris: Vec<&str> = result.resources.iter().map(|r| r.uri.as_str()).collect();
+        assert!(
+            uris.contains(&"ts-pack://languages"),
+            "available catalog resource present"
+        );
+        assert!(
+            uris.contains(&"ts-pack://languages/downloaded"),
+            "downloaded catalog resource present"
+        );
+    }
+
+    #[test]
+    fn test_list_resource_templates_exposes_language_template() {
+        let server = TsPackMcp::new();
+        let result = server.list_resource_templates_inner();
+        assert!(
+            result
+                .resource_templates
+                .iter()
+                .any(|t| t.uri_template == "ts-pack://language/{name}"),
+            "per-language template present"
+        );
+    }
+
+    #[test]
+    fn test_read_resource_available_languages() {
+        let server = TsPackMcp::new();
+        let result = server
+            .read_resource_inner("ts-pack://languages")
+            .expect("read should succeed");
+        let ResourceContents::TextResourceContents { text, .. } = &result.contents[0] else {
+            panic!("expected text contents");
+        };
+        let parsed: serde_json::Value = serde_json::from_str(text).expect("valid JSON");
+        // The CLI's dependency has no statically-compiled grammars, so the catalog may be empty
+        // in unit tests; assert the shape and the count/array consistency instead.
+        let count = parsed["count"].as_u64().expect("count is a number");
+        let languages = parsed["languages"].as_array().expect("languages is an array");
+        assert_eq!(count as usize, languages.len(), "count matches the array length");
+    }
+
+    #[test]
+    fn test_read_resource_language_template() {
+        let server = TsPackMcp::new();
+        let result = server
+            .read_resource_inner("ts-pack://language/python")
+            .expect("read should succeed");
+        let ResourceContents::TextResourceContents { text, .. } = &result.contents[0] else {
+            panic!("expected text contents");
+        };
+        let parsed: serde_json::Value = serde_json::from_str(text).expect("valid JSON");
+        assert_eq!(parsed["language"], "python");
+        assert!(parsed["known"].is_boolean());
+    }
+
+    #[test]
+    fn test_read_resource_unknown_uri_errors() {
+        let server = TsPackMcp::new();
+        assert!(server.read_resource_inner("ts-pack://nope").is_err());
+    }
+
+    #[test]
+    fn test_list_prompts_exposes_analyze_code() {
+        let server = TsPackMcp::new();
+        let result = server.list_prompts_inner();
+        assert!(result.prompts.iter().any(|p| p.name == "analyze-code"));
+    }
+
+    #[test]
+    fn test_get_prompt_renders_language_and_focus() {
+        let server = TsPackMcp::new();
+        let mut args = serde_json::Map::new();
+        args.insert("language".to_string(), serde_json::json!("rust"));
+        args.insert("focus".to_string(), serde_json::json!("security"));
+        let result = server
+            .get_prompt_inner("analyze-code", Some(args))
+            .expect("render should succeed");
+        let PromptMessageContent::Text { text } = &result.messages[0].content else {
+            panic!("expected text message");
+        };
+        assert!(text.contains("rust"), "language interpolated");
+        assert!(text.contains("security"), "focus interpolated");
+    }
+
+    #[test]
+    fn test_get_prompt_unknown_errors() {
+        let server = TsPackMcp::new();
+        assert!(server.get_prompt_inner("nope", None).is_err());
+    }
+
+    #[test]
+    fn test_complete_language_prefix() {
+        let server = TsPackMcp::new();
+        let reference = Reference::Resource(ResourceReference {
+            uri: "ts-pack://language/{name}".to_string(),
+        });
+        let argument = ArgumentInfo {
+            name: "name".to_string(),
+            value: "py".to_string(),
+        };
+        let result = server
+            .complete_inner(&reference, &argument)
+            .expect("complete should succeed");
+        // The catalog may be empty in unit tests (no statically-compiled grammars), so assert the
+        // filter invariant and that pagination metadata is populated rather than specific languages.
+        assert!(
+            result.completion.values.iter().all(|v| v.starts_with("py")),
+            "all completions match the prefix"
+        );
+        assert!(result.completion.total.is_some(), "completion reports a total count");
+    }
+
+    #[test]
+    fn test_complete_ignores_unrelated_reference() {
+        let server = TsPackMcp::new();
+        let reference = Reference::for_prompt("other");
+        let argument = ArgumentInfo {
+            name: "language".to_string(),
+            value: "py".to_string(),
+        };
+        let result = server
+            .complete_inner(&reference, &argument)
+            .expect("complete should succeed");
+        assert!(
+            result.completion.values.is_empty(),
+            "no completions for unrelated prompt"
+        );
     }
 
     #[test]
@@ -537,18 +938,15 @@ mod tests {
     }
 
     #[test]
-    fn test_cache_dir_action() {
+    fn test_cache_dir_returns_path() {
         let server = TsPackMcp::new();
-        let result = server.cache(Parameters(CacheParams {
-            action: Some("dir".to_string()),
-        }));
+        let result = server.cache_dir();
         assert!(result.is_ok());
         let call = result.unwrap();
         if let Some(content) = call.content.first()
             && let rmcp::model::RawContent::Text(text) = &content.raw
         {
             let parsed: serde_json::Value = serde_json::from_str(&text.text).expect("Should be valid JSON");
-            assert_eq!(parsed["action"], "dir");
             assert!(parsed["cache_dir"].is_string());
         }
     }
@@ -577,7 +975,8 @@ mod tests {
         let result = server.download(Parameters(DownloadParams {
             languages: None,
             all: None,
-            group: None,
+            groups: None,
+            fresh: None,
         }));
         assert!(result.is_err());
     }

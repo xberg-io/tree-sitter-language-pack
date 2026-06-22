@@ -159,7 +159,56 @@ cargo install ts-pack-cli
 brew install kreuzberg-dev/tap/ts-pack
 ```
 
+Or run without a persistent install (the proxy package fetches the native binary):
+
+```sh
+npx @kreuzberg/ts-pack-cli parse <file>
+uvx --from ts-pack-cli ts-pack parse <file>
+```
+
 See [CLI README](crates/ts-pack-cli/README.md) for full documentation.
+
+</details>
+
+<details>
+<summary><strong>MCP Server</strong></summary>
+
+The CLI bundles an MCP server for integration with AI agents. Start it with:
+
+```sh
+ts-pack mcp
+```
+
+The server runs over stdio by default. For HTTP transport:
+
+```sh
+ts-pack mcp --transport http --host 127.0.0.1 --port 8011
+```
+
+Register with Claude Code:
+
+```sh
+claude mcp add ts-pack -- ts-pack mcp
+```
+
+Or add to your Claude Desktop config at `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "ts-pack": {
+      "command": "ts-pack",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+The MCP server exposes 8 tools: `parse`, `process`, `detect_language`, `list_languages`, `info`, `download`, `cache_dir`, and `clean_cache`. It also provides resources for the available language catalog and a prompt for code analysis.
+
+The marketplace plugin from [`kreuzberg-dev/plugins`](https://github.com/kreuzberg-dev/plugins) auto-registers the server — see [AI Coding Assistants](#ai-coding-assistants) below to install it instead of manual registration.
+
+For detailed setup, transport options, and tool reference, see the [MCP Server guide](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/mcp-server/).
 
 </details>
 

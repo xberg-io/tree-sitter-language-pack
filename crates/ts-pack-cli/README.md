@@ -111,6 +111,52 @@ ts-pack clone
 - `--verbose` / `-v` -- enable verbose output
 - `--help` -- show help for any command
 
+## MCP Server
+
+The CLI includes an MCP server for integration with AI agents and IDEs. Start it with:
+
+```sh
+ts-pack mcp
+```
+
+The server runs over stdio by default. For HTTP transport (remote agents or team setups):
+
+```sh
+ts-pack mcp --transport http --host 127.0.0.1 --port 8011
+```
+
+### Options
+
+- `--transport <stdio|http>` -- transport mode (default: `stdio`)
+- `--host <addr>` -- bind address for HTTP transport (default: `127.0.0.1`)
+- `--port <u16>` -- port for HTTP transport (default: `8011`)
+- `--config <path>` -- optional language-pack.toml config file
+
+### Tools
+
+The MCP server exposes 8 tools:
+
+- **`parse`** — render syntax tree as S-expression or JSON
+- **`process`** — extract code intelligence (structure, imports, exports, symbols, docstrings, comments, diagnostics, chunking)
+- **`detect_language`** — identify language from file path or source code
+- **`list_languages`** — enumerate available, downloaded, or manifest languages with optional filtering
+- **`info`** — get status of a specific language (available, downloaded, etc.)
+- **`download`** — fetch parsers (list, groups, all, or fresh)
+- **`cache_dir`** — retrieve the local cache directory
+- **`clean_cache`** — delete cached parsers
+
+### Resources
+
+- `ts-pack://languages` — available language catalog
+- `ts-pack://languages/downloaded` — user-downloaded parsers
+- `ts-pack://language/{name}` — per-language status (template resource)
+
+### Prompt
+
+- **`analyze-code`** — analyze source code with language detection and code intelligence extraction
+
+For detailed setup and IDE configuration, see the [MCP Server guide](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/mcp-server/).
+
 For full documentation, see [kreuzberg.dev](https://docs.tree-sitter-language-pack.kreuzberg.dev).
 
 ## License

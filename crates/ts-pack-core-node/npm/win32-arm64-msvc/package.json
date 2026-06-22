@@ -1,6 +1,6 @@
 {
 	"name": "@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc",
-	"version": "1.10.3",
+	"version": "1.10.4",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

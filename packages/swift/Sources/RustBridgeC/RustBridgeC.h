@@ -747,7 +747,7 @@ void* __swift_bridge__$get_highlights_query(void* language);
 void* __swift_bridge__$get_injections_query(void* language);
 void* __swift_bridge__$get_locals_query(void* language);
 void* __swift_bridge__$get_tags_query(void* language);
-struct __private__ResultPtrAndPtr __swift_bridge__$get_language(void* name);
+uintptr_t __swift_bridge__$get_language(void* name);
 struct __private__ResultPtrAndPtr __swift_bridge__$get_parser(void* name);
 void* __swift_bridge__$detect_language(void* path);
 void* __swift_bridge__$available_languages(void);
@@ -825,6 +825,7 @@ void* __swift_bridge__$__alef_phantom_vec_download_manager(void);
 typedef enum __swift_bridge__$ResultUIntAndString$Tag {__swift_bridge__$ResultUIntAndString$ResultOk, __swift_bridge__$ResultUIntAndString$ResultErr} __swift_bridge__$ResultUIntAndString$Tag;
 union __swift_bridge__$ResultUIntAndString$Fields {uintptr_t ok; void* err;};
 typedef struct __swift_bridge__$ResultUIntAndString{__swift_bridge__$ResultUIntAndString$Tag tag; union __swift_bridge__$ResultUIntAndString$Fields payload;} __swift_bridge__$ResultUIntAndString;
+
 
 
 #endif /* RUST_BRIDGE_C_H */

@@ -1179,6 +1179,14 @@ jobs:
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
+            # The capsule passthrough makes getLanguage() return a host-native
+            # jtreesitter Language, which dlopens the standalone tree-sitter C
+            # runtime (libtree-sitter) at init. Build it into target/release next
+            # to libts_pack_core_ffi.so so the E2E tests resolve it on
+            # java.library.path (mirrors the ci-e2e.yaml test-java job).
+            - name: Build libtree-sitter runtime for jtreesitter
+              run: python scripts/ci/build_libtree_sitter.py
+
             - name: Build Java jar
               working-directory: packages/java
               run: mvn package -DskipTests

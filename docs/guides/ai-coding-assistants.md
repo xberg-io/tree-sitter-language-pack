@@ -6,6 +6,8 @@ description: "Install the tree-sitter-language-pack plugin into Claude Code, Cod
 
 The tree-sitter-language-pack plugin ships the tree-sitter-language-pack agent skills — parse and extract code intelligence from 300+ languages — directly inside your coding agent. It is published in the [`kreuzberg-dev/plugins`](https://github.com/kreuzberg-dev/plugins) marketplace and works with every major coding harness.
 
+For advanced users who prefer manual MCP registration over the plugin, the CLI exposes a raw MCP server. See the [MCP Server guide](mcp-server.md) for stdio and HTTP transport setup with any compatible IDE.
+
 ## Installing
 
 Pick your harness below.

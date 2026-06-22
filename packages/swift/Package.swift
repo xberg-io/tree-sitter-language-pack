@@ -51,7 +51,10 @@ let package = Package(
       ]
     ),
     .target(
-      name: "TreeSitterLanguagePack", dependencies: ["RustBridge", "SwiftTreeSitter"],
+      name: "TreeSitterLanguagePack",
+      dependencies: [
+        "RustBridge", .product(name: "SwiftTreeSitter", package: "swift-tree-sitter"),
+      ],
       path: "Sources/TreeSitterLanguagePack",
       exclude: ["LICENSE"]),
     .testTarget(

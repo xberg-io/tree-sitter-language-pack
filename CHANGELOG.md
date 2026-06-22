@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.4] - 2026-06-22
+
+### Added
+
+- **`ts-pack mcp` server now exposes MCP resources, prompts, and argument completions** in addition
+  to its tools. Resources serve the language catalog (`ts-pack://languages`,
+  `ts-pack://languages/downloaded`) and a per-language template (`ts-pack://language/{name}`); a
+  ready-made `analyze-code` prompt drives a structure/imports/symbols analysis workflow; and
+  language-name arguments autocomplete against the available-language catalog.
+
+### Changed
+
+- **`ts-pack mcp` tools are now fully aligned with the CLI and carry accurate rmcp annotations.**
+  The `download` tool takes `groups` (multiple) and `fresh` like `ts-pack download`; `process` gains
+  the `all` flag; the combined `cache` tool is split into `cache_dir` (read-only) and `clean_cache`
+  (destructive), mirroring the CLI. Every tool now declares correct `open_world_hint`,
+  `read_only_hint`, `destructive_hint`, and `idempotent_hint` values.
+- **The CLI ships the MCP server by default.** `mcp` is now a default feature of `ts-pack-cli`, so
+  `ts-pack mcp` is present in every distribution — `cargo install ts-pack-cli`, the prebuilt release
+  binary, Homebrew, and the `@kreuzberg/ts-pack-cli` / `ts-pack-cli` npx/uvx proxies. Previously the
+  feature was opt-in and absent from shipped binaries, which also broke the marketplace plugin
+  launcher that invokes `ts-pack mcp`.
+
+### Fixed
+
+- **Host-native `get_language()` passthrough now works for Swift, Kotlin-Android, and Java.** The
+  capsule passthrough (#143) returns the ecosystem's native `Language`, but the bindings did not wire
+  the host-runtime dependency: Swift generated an uncompilable forwarder (wrong return type, missing
+  `import SwiftTreeSitter`); Kotlin-Android declared `ktreesitter` as `implementation`, hiding the
+  `Language` type from callers' compile classpath; and Java's `jtreesitter` (Panama FFM) dlopens the
+  standalone `libtree-sitter` runtime, which CI and the test harness did not provision. Fixed via
+  alef 0.26.1 (Swift/Kotlin codegen) plus `libtree-sitter` provisioning in CI and the Java test
+  harness. Zig already wired its `tree_sitter` module correctly.
+- **`.app.src` files now map to Erlang.** The application-resource template is Erlang term syntax,
+  but single-extension lookup only saw `src`. A compound-extension table now resolves `*.app.src` to
+  the Erlang grammar.
+
 ## [1.10.3] - 2026-06-22
 
 ### Changed

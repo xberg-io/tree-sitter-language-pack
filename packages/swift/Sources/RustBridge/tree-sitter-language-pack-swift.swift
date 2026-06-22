@@ -148,8 +148,8 @@ public func getLocalsQuery<GenericIntoRustString: IntoRustString>(_ language: Ge
 public func getTagsQuery<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString) -> RustString {
     RustString(ptr: __swift_bridge__$get_tags_query({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }()))
 }
-public func getLanguage<GenericIntoRustString: IntoRustString>(_ name: GenericIntoRustString) throws -> Language {
-    try { let val = __swift_bridge__$get_language({ let rustString = name.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return Language(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+public func getLanguage<GenericIntoRustString: IntoRustString>(_ name: GenericIntoRustString) -> UInt {
+    __swift_bridge__$get_language({ let rustString = name.intoRustString(); rustString.isOwned = false; return rustString.ptr }())
 }
 public func getParser<GenericIntoRustString: IntoRustString>(_ name: GenericIntoRustString) throws -> Parser {
     try { let val = __swift_bridge__$get_parser({ let rustString = name.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return Parser(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()

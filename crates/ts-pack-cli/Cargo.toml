@@ -11,6 +11,10 @@ name = "ts-pack"
 path = "src/main.rs"
 
 [features]
+# The MCP server ships in every build of the CLI so `ts-pack mcp` is always
+# available (cargo install, prebuilt release, brew, npx/uvx proxy). The plugin
+# launcher (kreuzberg-dev/plugins) and the published binaries rely on this.
+default = ["mcp"]
 mcp = [
     "dep:rmcp",
     "dep:tokio",
@@ -34,7 +38,7 @@ serde_json = { workspace = true }
 tokio = { workspace = true, optional = true }
 tracing = { workspace = true, optional = true }
 tracing-subscriber = { workspace = true, optional = true }
-tree-sitter-language-pack = { path = "../ts-pack-core", version = "1.10.3", features = [
+tree-sitter-language-pack = { path = "../ts-pack-core", version = "1.10.4", features = [
     "download",
     "config",
     "serde",

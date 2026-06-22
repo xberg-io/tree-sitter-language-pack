@@ -32,6 +32,16 @@ ts-pack list | wc -l   # → 306
 
 </div>
 
+### Run the MCP Server
+
+The CLI bundles an MCP server for AI agents:
+
+```bash
+ts-pack mcp
+```
+
+See the [MCP Server guide](../guides/mcp-server.md) for integration with Claude Code, Cursor, VS Code, and other tools.
+
 ---
 
 ## Language Bindings
