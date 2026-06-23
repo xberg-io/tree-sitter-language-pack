@@ -104,7 +104,7 @@ Pre-compiled tree-sitter grammars for 306 programming languages with Java bindin
 <dependency>
   <groupId>dev.kreuzberg</groupId>
   <artifactId>tree-sitter-language-pack</artifactId>
-  <version>1.10.5</version>
+  <version>1.10.6</version>
 </dependency>
 ```
 

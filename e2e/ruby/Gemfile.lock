@@ -1,7 +1,7 @@
 PATH
   remote: ../../packages/ruby
   specs:
-    tree_sitter_language_pack (1.10.5)
+    tree_sitter_language_pack (1.10.6)
       rb_sys (~> 0.9)
       sorbet-runtime (~> 0.5)
 
@@ -109,7 +109,7 @@ CHECKSUMS
   rubocop-rspec (3.9.0)
   ruby-progressbar (1.13.0)
   sorbet-runtime (0.6.13228)
-  tree_sitter_language_pack (1.10.5)
+  tree_sitter_language_pack (1.10.6)
   unicode-display_width (3.2.0)
   unicode-emoji (4.2.0)
   uri (1.1.1)
