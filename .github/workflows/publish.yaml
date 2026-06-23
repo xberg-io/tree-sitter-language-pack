@@ -205,12 +205,23 @@ jobs:
                   }
                 ]
 
-    # ─── Clone vendors ────────────────────────────────────────────────
-    clone-vendors:
-        name: Clone vendors
+    # ─── Clone vendors (sharded) ──────────────────────────────────────
+    # The ~306-grammar clone+generate is split across parallel shards so no
+    # single job runs long enough to be reaped by hosted-runner reclamation
+    # (exit 143). Each shard caches independently and a cold shard finishes in
+    # ~5 min — well under the window where full cold clones were getting killed.
+    clone-vendors-shard:
+        name: Clone vendors (shard ${{ matrix.shard }})
         needs: prepare
         runs-on: ubuntu-latest
-        timeout-minutes: 30
+        timeout-minutes: 20
+        strategy:
+            fail-fast: false
+            matrix:
+                shard: [0, 1, 2, 3]
+        env:
+            TSLP_SHARD_INDEX: ${{ matrix.shard }}
+            TSLP_SHARD_COUNT: 4
         steps:
             - name: Checkout
               uses: actions/checkout@v6
@@ -240,9 +251,9 @@ jobs:
               uses: actions/cache@v5
               with:
                   path: parsers
-                  key: parsers-${{ hashFiles('sources/language_definitions.json') }}
+                  key: parsers-shard${{ matrix.shard }}of4-${{ hashFiles('sources/language_definitions.json') }}
                   restore-keys: |
-                      parsers-
+                      parsers-shard${{ matrix.shard }}of4-
 
             - name: Clone vendors
               run: |
@@ -250,6 +261,29 @@ jobs:
                   uv run --script scripts/clone_vendors.py
 
             - name: Upload parsers
+              uses: actions/upload-artifact@v7
+              with:
+                  name: language-parsers-shard-${{ matrix.shard }}
+                  path: parsers
+                  retention-days: 3
+
+    # ─── Merge shard artifacts into a single language-parsers artifact ──
+    # Keeps the `clone-vendors` job name and `language-parsers` artifact so every
+    # downstream consumer remains unchanged.
+    clone-vendors:
+        name: Clone vendors
+        needs: [prepare, clone-vendors-shard]
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - name: Download shard parsers
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: language-parsers-shard-*
+                  merge-multiple: true
+                  path: parsers
+
+            - name: Upload merged parsers
               uses: actions/upload-artifact@v7
               with:
                   name: language-parsers

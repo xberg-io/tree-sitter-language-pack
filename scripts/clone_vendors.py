@@ -48,6 +48,13 @@ GENERATE_CONCURRENCY = int(os.environ.get("TSLP_GENERATE_CONCURRENCY", "3"))
 
 CACHE_MANIFEST_FILE = parsers_directory / ".cache_manifest.json"
 
+# Sharding lets CI split the ~306-grammar clone+generate across parallel jobs so
+# no single job runs long enough to be reaped by hosted-runner reclamation
+# (exit 143). A shard takes the strided slice sorted_names[index::count]; striding
+# (not contiguous chunks) spreads alphabetically-clustered heavy grammars evenly.
+SHARD_INDEX = int(os.environ.get("TSLP_SHARD_INDEX", "0"))
+SHARD_COUNT = int(os.environ.get("TSLP_SHARD_COUNT", "1"))
+
 COMMON_RE_PATTERN = re.compile(r"\.\.[/\\](?:\.\.[/\\])*common[/\\]")
 
 
@@ -145,6 +152,27 @@ def get_language_definitions() -> tuple[dict[str, LanguageDict], list[str]]:
 
     language_names = list(language_definitions.keys())
     return language_definitions, language_names
+
+
+def _apply_shard(language_names: list[str]) -> list[str]:
+    """Return the subset of language names assigned to this shard.
+
+    Partitioning is deterministic: names are sorted, then a strided slice
+    ``sorted_names[SHARD_INDEX::SHARD_COUNT]`` is taken. The union of all shards
+    equals the full set and shards are pairwise disjoint.
+
+    Raises:
+        ValueError: If the shard configuration is invalid.
+    """
+    if SHARD_COUNT < 1:
+        raise ValueError(f"TSLP_SHARD_COUNT must be >= 1, got {SHARD_COUNT}")
+    if not 0 <= SHARD_INDEX < SHARD_COUNT:
+        raise ValueError(f"TSLP_SHARD_INDEX must be in [0, {SHARD_COUNT}), got {SHARD_INDEX}")
+    if SHARD_COUNT == 1:
+        return language_names
+    shard = sorted(language_names)[SHARD_INDEX::SHARD_COUNT]
+    print(f"Shard {SHARD_INDEX + 1}/{SHARD_COUNT}: {len(shard)} of {len(language_names)} language(s)")
+    return shard
 
 
 # ---------------------------------------------------------------------------
@@ -388,6 +416,7 @@ async def main() -> None:
     parsers_directory.mkdir(exist_ok=True, parents=True)
 
     language_definitions, language_names = get_language_definitions()
+    language_names = _apply_shard(language_names)
     manifest = _load_cache_manifest()
 
     # Partition languages into cached (skip) and stale (need processing)
