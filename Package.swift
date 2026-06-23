@@ -17,6 +17,9 @@ let package = Package(
   products: [
     .library(name: "TreeSitterLanguagePack", targets: ["TreeSitterLanguagePack"])
   ],
+  dependencies: [
+    .package(url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.25.0"),
+  ],
   targets: [
     // RustBridgeC: C headers target. Swift files in RustBridge import this to
     // access C types (RustStr, etc.) produced by swift-bridge.
@@ -33,7 +36,7 @@ let package = Package(
     // sibling RustBridge target below and link against this binary.
     .binaryTarget(
       name: "RustBridgeBinary",
-      url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.10.6/TreeSitterLanguagePack-rs.artifactbundle.zip",
+      url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.10.7/TreeSitterLanguagePack-rs.artifactbundle.zip",
       checksum: "__ALEF_SWIFT_CHECKSUM__"
     ),
     // RustBridge: Swift wrapper module owning the swift-bridge generated
@@ -55,7 +58,7 @@ let package = Package(
     ),
     .target(
       name: "TreeSitterLanguagePack",
-      dependencies: ["RustBridge", "RustBridgeC"],
+      dependencies: ["RustBridge", "RustBridgeC", .product(name: "SwiftTreeSitter", package: "swift-tree-sitter")],
       path: "packages/swift/Sources/TreeSitterLanguagePack"
     ),
   ]
