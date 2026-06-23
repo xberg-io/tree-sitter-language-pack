@@ -222,6 +222,12 @@ jobs:
         env:
             TSLP_SHARD_INDEX: ${{ matrix.shard }}
             TSLP_SHARD_COUNT: 4
+            # Serialize generation: heavy grammars (systemverilog, verilog, vhdl)
+            # peak at several GB each, so concurrent generates OOM the runner —
+            # surfacing as exit 143 "runner received a shutdown signal". Clones
+            # stay parallel (CLONE_CONCURRENCY); only the memory-heavy generate
+            # step is bounded to one at a time.
+            TSLP_GENERATE_CONCURRENCY: 1
         steps:
             - name: Checkout
               uses: actions/checkout@v6
