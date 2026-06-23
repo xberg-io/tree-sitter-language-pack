@@ -139,19 +139,19 @@ The MCP server exposes 8 tools for parsing, analysis, and management:
 === "Parsing & Analysis"
 
     **`parse`**
-    
+
     Render the syntax tree as S-expression or JSON.
-    
+
     | Parameter | Type | Description |
     |-----------|------|-------------|
     | `source` | string | Source code to parse |
     | `language` | string | Language name (e.g., `python`, `rust`) |
     | `format` | string | Output format: `sexp` or `json` (default: `sexp`) |
-    
+
     **`process`**
-    
+
     Extract code intelligence: structure, imports, exports, symbols, docstrings, comments, diagnostics, and optionally chunk for LLMs.
-    
+
     | Parameter | Type | Description |
     |-----------|------|-------------|
     | `source` | string | Source code to analyze |
@@ -159,11 +159,11 @@ The MCP server exposes 8 tools for parsing, analysis, and management:
     | `all` | boolean | Extract all intelligence fields (default: false) |
     | `chunk_size` | integer | Split output into chunks for LLMs (optional) |
     | `chunk_overlap` | integer | Overlap between chunks in tokens (optional) |
-    
+
     **`detect_language`**
-    
+
     Identify language from file path or source code.
-    
+
     | Parameter | Type | Description |
     |-----------|------|-------------|
     | `path` | string | File path (e.g., `main.rs`) — optional |
@@ -172,26 +172,26 @@ The MCP server exposes 8 tools for parsing, analysis, and management:
 === "Languages & Discovery"
 
     **`list_languages`**
-    
+
     Enumerate available, downloaded, or manifest languages.
-    
+
     | Parameter | Type | Description |
     |-----------|------|-------------|
     | `filter` | string | One of: `available` (default), `downloaded`, `manifest` |
     | `query` | string | Filter by name or pattern (optional) |
-    
+
     **`info`**
-    
+
     Get status of a specific language (available, downloaded, extensions, aliases).
-    
+
     | Parameter | Type | Description |
     |-----------|------|-------------|
     | `name` | string | Language name (e.g., `python`) |
-    
+
     **`download`**
-    
+
     Fetch language parsers for offline use.
-    
+
     | Parameter | Type | Description |
     |-----------|------|-------------|
     | `languages` | array | List of language names — optional |
@@ -201,15 +201,15 @@ The MCP server exposes 8 tools for parsing, analysis, and management:
 === "Cache & Configuration"
 
     **`cache_dir`**
-    
+
     Retrieve the local cache directory where parsers are stored.
-    
+
     Returns: path to the cache (e.g., `~/.ts-pack-cache`)
-    
+
     **`clean_cache`**
-    
+
     Delete cached parsers.
-    
+
     | Parameter | Type | Description |
     |-----------|------|-------------|
     | `all` | boolean | Delete all cached parsers (default: false) |
