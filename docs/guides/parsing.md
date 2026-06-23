@@ -143,6 +143,20 @@ These return the ecosystem's native `Language` type, ready to use with that ecos
 | Zig     | `?*const tree_sitter.Language`        | `Parser.setLanguage(lang)`          | Returns a Zig error (`Error!…`)                |
 | C FFI   | `const TSLanguage *` (borrowed)       | `ts_parser_set_language(parser, lang)` | Returns `NULL` (do not `free` the result)   |
 
+On a passthrough binding the handle is the ecosystem's own `Language`, so it drops straight into existing tree-sitter code — add this package as a grammar source without touching the rest of your parsing setup. In Python, `get_language()` returns a real `tree_sitter.Language` (a `PyCapsule`-backed object) that the upstream `tree_sitter.Parser` accepts directly:
+
+```python
+import tree_sitter
+from tree_sitter_language_pack import get_language
+
+language = get_language("python")  # a tree_sitter.Language
+parser = tree_sitter.Parser(language)
+tree = parser.parse(b"def f(x):\n    return x + 1\n")
+print(tree.root_node.type)  # "module"
+```
+
+This restores the pre-1.9 ability to pass the handle to a separately installed `tree_sitter` (or `tree-sitter` on npm). If you do not already depend on the ecosystem library, prefer `get_parser(name)` — it returns a ready-to-use parser with no second dependency.
+
 ### Opaque-handle bindings
 
 These return an opaque handle specific to this package. Use the higher-level `process()` function or this package's `getParser()`/`get_parser()` method rather than reaching for the ecosystem's tree-sitter library.
