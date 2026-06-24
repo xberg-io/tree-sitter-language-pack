@@ -5,9 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.10.8] - 2026-06-24
 
 ### Fixed
+
+- **wasm32 builds no longer OOM on pathologically large grammars.** Compiling the bundled grammars
+  to `wasm32` previously included every `parser.c`, but a few are huge *generated* sources (e.g.
+  `abl` at ~130 MB) that need 18-25 GB＋ of clang RAM at *any* optimization level — a single one
+  OOMs standard ≤16 GB CI runners (serialization via `CARGO_BUILD_JOBS=1` cannot help when one file
+  alone exceeds the budget). `build.rs` now skips any grammar whose `parser.c` exceeds a size limit
+  on wasm32 (default 40 MB, configurable via `TSLP_WASM_MAX_PARSER_BYTES`; `0` disables the gate),
+  emitting a `cargo:warning` per skipped grammar plus a summary. Skipped grammars are absent from
+  `STATIC_LANGUAGES` (no dangling FFI symbol) and degrade gracefully at runtime. The 40 MB default
+  keeps every common language (including the ~40 MB `sql` grammar) and excludes only the handful of
+  unbuildable outliers (`abl`, `systemverilog`, `razor`, `fsharp`, `verilog`, `gnuplot`, `latex`).
+  (`crates/ts-pack-core/build.rs`)
 
 - **Swift publish now creates the `release/swift/<version>` branch carrying the substituted
   XCFramework checksum.** The alef-generated Swift e2e/test-app pins

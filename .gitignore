@@ -150,6 +150,9 @@ e2e/zig/.zig-cache/
 test_apps/zig/.zig-cache/
 test_apps/zig/zig-pkg/
 test_apps/swift_e2e/Package.resolved
+# Root Package.resolved is a local SPM resolution artifact for the published root
+# manifest — not consumed downstream (SPM ignores a dependency's Package.resolved).
+/Package.resolved
 # swift-bridge generated sources MUST be tracked: SPM consumers checking out
 # the git tag don't run cargo build, so without these files in the tree the
 # RustString type defined here is missing → ZSwiftPluginHelpers.swift won't

@@ -327,6 +327,29 @@ fn apply_wasm32_optimizations(build: &mut cc::Build) {
     }
 }
 
+/// Default upper bound (bytes) for a grammar's `parser.c` when compiling to wasm32.
+///
+/// A handful of grammars ship pathologically large *generated* `parser.c` files (e.g. `abl` at
+/// ~130 MB). Compiling one of those to wasm32 needs 18-25 GB＋ of clang RAM at *any* optimization
+/// level (the cost is in parsing/IR-building the giant single-function source, not optimization),
+/// which OOMs standard ≤16 GB CI runners — `CARGO_BUILD_JOBS=1` cannot help because a single file
+/// already exceeds the budget. 40 MB keeps every common language (including the ~40 MB `sql`
+/// grammar) while excluding only the unbuildable outliers.
+const DEFAULT_WASM_MAX_PARSER_BYTES: u64 = 40 * 1024 * 1024;
+
+/// Resolve the wasm32 `parser.c` size limit. Returns `None` (gate disabled) only when
+/// `TSLP_WASM_MAX_PARSER_BYTES=0`. Any unparsable value falls back to the default.
+fn wasm_parser_size_limit() -> Option<u64> {
+    match env::var("TSLP_WASM_MAX_PARSER_BYTES") {
+        Ok(raw) => match raw.trim().parse::<u64>() {
+            Ok(0) => None,
+            Ok(limit) => Some(limit),
+            Err(_) => Some(DEFAULT_WASM_MAX_PARSER_BYTES),
+        },
+        Err(_) => Some(DEFAULT_WASM_MAX_PARSER_BYTES),
+    }
+}
+
 /// Apply wasi-sysroot includes to a cc::Build for wasm32 targets.
 ///
 /// Use `-isystem` to add the wasm32-wasi include dir which has stdlib.h etc.
@@ -1065,6 +1088,7 @@ fn main() {
     println!("cargo:rerun-if-env-changed=TSLP_LANGUAGES");
     println!("cargo:rerun-if-env-changed=PROJECT_ROOT");
     println!("cargo:rerun-if-env-changed=TSLP_LINK_MODE");
+    println!("cargo:rerun-if-env-changed=TSLP_WASM_MAX_PARSER_BYTES");
 
     let project_root = find_project_root();
 
@@ -1121,12 +1145,38 @@ fn main() {
     let mut static_compiled = Vec::new();
     let mut dynamic_compiled = Vec::new();
     let mut failed = Vec::new();
+    let mut skipped_wasm: Vec<String> = Vec::new();
+
+    // On wasm32, exclude grammars whose generated parser.c is too large to compile within
+    // runner memory (see DEFAULT_WASM_MAX_PARSER_BYTES). The gate runs before compilation so a
+    // single 130 MB outlier (e.g. abl) cannot OOM the build; skipped grammars are simply absent
+    // from STATIC_LANGUAGES (no dangling FFI symbol) and degrade gracefully at runtime.
+    let wasm_size_limit = if target_arch == "wasm32" {
+        wasm_parser_size_limit()
+    } else {
+        None
+    };
 
     for name in &selected {
         let parser_dir = parsers_dir.join(name);
-        if !parser_dir.join("src/parser.c").exists() {
+        let parser_c = parser_dir.join("src/parser.c");
+        if !parser_c.exists() {
             println!("cargo:warning=Parser sources not found for '{}', skipping", name);
             failed.push(name.clone());
+            continue;
+        }
+
+        if let Some(limit) = wasm_size_limit
+            && let Ok(size) = fs::metadata(&parser_c).map(|m| m.len())
+            && size > limit
+        {
+            println!(
+                "cargo:warning=wasm32: skipping grammar '{}' — parser.c is {} MB (limit {} MB); too large to compile to wasm32 within runner memory. Override with TSLP_WASM_MAX_PARSER_BYTES (0 disables the gate).",
+                name,
+                size / (1024 * 1024),
+                limit / (1024 * 1024),
+            );
+            skipped_wasm.push(name.clone());
             continue;
         }
 
@@ -1176,6 +1226,14 @@ fn main() {
         if !ok {
             failed.push(name.clone());
         }
+    }
+
+    if !skipped_wasm.is_empty() {
+        println!(
+            "cargo:warning=wasm32: skipped {} oversized grammar(s) (excluded from the wasm build): {}. Set TSLP_WASM_MAX_PARSER_BYTES=0 to force-compile them on a high-memory builder.",
+            skipped_wasm.len(),
+            skipped_wasm.join(", "),
+        );
     }
 
     if !failed.is_empty() {
