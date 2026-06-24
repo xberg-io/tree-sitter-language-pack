@@ -60,7 +60,7 @@
 
 ## Documentation
 
-- **[Documentation](https://docs.tree-sitter-language-pack.kreuzberg.dev)** -- Full docs and API reference
+- **[Documentation](https://docs.tree-sitter-language-pack.xberg.io)** -- Full docs and API reference
 - **[GitHub Repository](https://github.com/xberg-io/tree-sitter-language-pack)** -- Source, issues, and discussions
 
 ## Part of Kreuzberg.dev

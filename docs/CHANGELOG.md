@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI: WASM E2E tests — missing tsconfig.json files caused vitest ENOENT
 - CI: CLI smoke tests — added clone-vendors job so parsers are available
 - Publish: npm tag computed once in prepare job (Kreuzberg pattern: rc/alpha/beta → `next`, stable → `latest`)
-- README badges: reordered to match Kreuzberg, license badge `.svg`, docs link to kreuzberg.dev
+- README badges: reordered to match Kreuzberg, license badge `.svg`, docs link to xberg.io
 
 ### Removed
 
@@ -243,7 +243,7 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Node.js package renamed to `@kreuzberg/tree-sitter-language-pack`
 - Java groupId changed from `io.github.tree-sitter` to `dev.kreuzberg`
 - Go module path updated to `github.com/xberg-io/tree-sitter-language-pack/go`
-- README branding updated with kreuzberg.dev banner and Discord community link
+- README branding updated with xberg.io banner and Discord community link
 
 ### Removed
 

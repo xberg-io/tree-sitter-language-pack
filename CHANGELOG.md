@@ -360,7 +360,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Hierarchical data extraction for 17 data-format languages (#136).** Set `data_extraction = true` on `ProcessConfig` to extract a nested `DataNode` tree preserving the original document's hierarchy. Covers JSON, HJSON, JSON5, TOML, properties, Cue, HCL, HOCON, KDL, YAML, INI, EditorConfig, PO, Nginx, Caddy (key-value pairs); XML and DTD (element shape); and CSV/PSV (sequence shape). See [docs/guides/intelligence.md#data-extraction](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/intelligence/#data-extraction).
+- **Hierarchical data extraction for 17 data-format languages (#136).** Set `data_extraction = true` on `ProcessConfig` to extract a nested `DataNode` tree preserving the original document's hierarchy. Covers JSON, HJSON, JSON5, TOML, properties, Cue, HCL, HOCON, KDL, YAML, INI, EditorConfig, PO, Nginx, Caddy (key-value pairs); XML and DTD (element shape); and CSV/PSV (sequence shape). See [docs/guides/intelligence.md#data-extraction](https://docs.tree-sitter-language-pack.xberg.io/guides/intelligence/#data-extraction).
 
 - **JNI is a first-class test-apps target for Kotlin Android host-JVM.** The kotlin_android test app's host-JVM gradle tests now satisfy `Language::Jni` in `alef test-apps run`, enabling CI/CD verification without Android emulator. Requires alef 0.24.14+.
 

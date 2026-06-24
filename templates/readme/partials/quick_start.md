@@ -39,5 +39,5 @@ const tree = parser.parse("def hello(): pass");
 ```
 
 {% else %}
-See the [language guide](https://docs.tree-sitter-language-pack.kreuzberg.dev) for `{{ language }}`-specific usage.
+See the [language guide](https://docs.tree-sitter-language-pack.xberg.io) for `{{ language }}`-specific usage.
 {% endif %}

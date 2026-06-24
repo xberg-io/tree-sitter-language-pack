@@ -97,11 +97,11 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 ### Part of Kreuzberg.dev
 
-Tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev) team, the same people behind a family of Rust-core, polyglot-bindings libraries.
+Tree-sitter-language-pack is built by the [xberg.io](https://xberg.io) team, the same people behind a family of Rust-core, polyglot-bindings libraries.
 
 <div class="grid cards kreuzberg-ecosystem-grid" markdown>
 
-- :material-file-document-multiple-outline:{ .lg .middle } **[Kreuzberg](https://docs.kreuzberg.dev/)**
+- :material-file-document-multiple-outline:{ .lg .middle } **[Kreuzberg](https://docs.xberg.io/)**
 
   Document intelligence for 90+ formats — PDF, Office, images, HTML, email — with optional OCR.
 
@@ -109,21 +109,21 @@ Tree-sitter-language-pack is built by the [kreuzberg.dev](https://kreuzberg.dev)
 
   Managed document extraction API. Same engine as the open-source library, hosted.
 
-- :material-language-html5:{ .lg .middle } **[html-to-markdown](https://docs.html-to-markdown.kreuzberg.dev/)**
+- :material-language-html5:{ .lg .middle } **[html-to-markdown](https://docs.html-to-markdown.xberg.io/)**
 
   Fast HTML to Markdown conversion with the same Rust-core, polyglot-bindings shape.
 
-- :material-spider-web:{ .lg .middle } **[kreuzcrawl](https://docs.kreuzcrawl.kreuzberg.dev/)**
+- :material-spider-web:{ .lg .middle } **[kreuzcrawl](https://docs.kreuzcrawl.xberg.io/)**
 
   Polite, resumable web crawler that hands pages to html-to-markdown or Kreuzberg for extraction.
 
-- :material-robot-outline:{ .lg .middle } **[liter-llm](https://docs.liter-llm.kreuzberg.dev/)**
+- :material-robot-outline:{ .lg .middle } **[liter-llm](https://docs.liter-llm.xberg.io/)**
 
   Universal LLM API client: one surface across many providers, proxy and MCP servers included.
 
 - :fontawesome-brands-discord:{ .lg .middle } **[Discord](https://discord.gg/xt9WY3GnKR)**
 
-  Join the community for questions, design discussions, and announcements across all kreuzberg.dev projects.
+  Join the community for questions, design discussions, and announcements across all xberg.io projects.
 
 </div>
 

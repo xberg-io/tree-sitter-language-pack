@@ -1,8 +1,8 @@
 [project]
 site_name = "tree-sitter-language-pack"
 site_description = "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, chunking, and bindings for Python, Node.js, Rust, Go, Java, Ruby, Elixir, PHP, and WebAssembly."
-site_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
-site_author = "kreuzberg.dev"
+site_url = "https://docs.tree-sitter-language-pack.xberg.io"
+site_author = "xberg.io"
 repo_name = "xberg-io/tree-sitter-language-pack"
 repo_url = "https://github.com/xberg-io/tree-sitter-language-pack"
 edit_uri = "edit/main/docs/"

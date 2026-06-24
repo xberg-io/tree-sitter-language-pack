@@ -73,7 +73,7 @@
 	<a href="https://github.com/xberg-io/tree-sitter-language-pack/blob/main/LICENSE">
 		<img src="https://img.shields.io/badge/License-MIT-007ec6" alt="License" />
 	</a>
-	<a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
+	<a href="https://docs.tree-sitter-language-pack.xberg.io">
 		<img src="https://img.shields.io/badge/Docs-tree--sitter--language--pack-007ec6" alt="Documentation" />
 	</a>
 </div>
@@ -294,7 +294,7 @@ The MCP server exposes 8 tools: `parse`, `process`, `detect_language`, `list_lan
 
 The marketplace plugin from [`xberg-io/plugins`](https://github.com/xberg-io/plugins) auto-registers the server — see [AI Coding Assistants](#ai-coding-assistants) below to install it instead of manual registration.
 
-For detailed setup, transport options, and tool reference, see the [MCP Server guide](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/mcp-server/).
+For detailed setup, transport options, and tool reference, see the [MCP Server guide](https://docs.tree-sitter-language-pack.xberg.io/guides/mcp-server/).
 
 </details>
 
@@ -375,7 +375,7 @@ Add the package to `opencode.json`:
 
 ## Documentation
 
-Full guides, the host-native language API, data extraction, the CLI and MCP server, and the complete language list live at **[docs.tree-sitter-language-pack.kreuzberg.dev](https://docs.tree-sitter-language-pack.kreuzberg.dev)**.
+Full guides, the host-native language API, data extraction, the CLI and MCP server, and the complete language list live at **[docs.tree-sitter-language-pack.xberg.io](https://docs.tree-sitter-language-pack.xberg.io)**.
 
 ## Part of Kreuzberg.dev
 

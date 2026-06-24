@@ -73,7 +73,7 @@
 	<a href="https://github.com/xberg-io/tree-sitter-language-pack/blob/main/LICENSE">
 		<img src="https://img.shields.io/badge/License-MIT-007ec6" alt="License" />
 	</a>
-	<a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
+	<a href="https://docs.tree-sitter-language-pack.xberg.io">
 		<img src="https://img.shields.io/badge/Docs-tree--sitter--language--pack-007ec6" alt="Documentation" />
 	</a>
 </div>
@@ -106,7 +106,7 @@ composer require xberg-io/tree-sitter-language-pack
 
 ## Quick Start
 
-See the [language guide](https://docs.tree-sitter-language-pack.kreuzberg.dev) for `php`-specific usage.
+See the [language guide](https://docs.tree-sitter-language-pack.xberg.io) for `php`-specific usage.
 
 ## Features
 
@@ -118,7 +118,7 @@ See the [language guide](https://docs.tree-sitter-language-pack.kreuzberg.dev) f
 
 ## Documentation
 
-- **[Documentation](https://docs.tree-sitter-language-pack.kreuzberg.dev)** -- Full docs and API reference
+- **[Documentation](https://docs.tree-sitter-language-pack.xberg.io)** -- Full docs and API reference
 - **[GitHub Repository](https://github.com/xberg-io/tree-sitter-language-pack)** -- Source, issues, and discussions
 
 ## Part of Kreuzberg.dev

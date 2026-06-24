@@ -73,7 +73,7 @@
 	<a href="https://github.com/xberg-io/tree-sitter-language-pack/blob/main/LICENSE">
 		<img src="https://img.shields.io/badge/License-MIT-007ec6" alt="License" />
 	</a>
-	<a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
+	<a href="https://docs.tree-sitter-language-pack.xberg.io">
 		<img src="https://img.shields.io/badge/Docs-tree--sitter--language--pack-007ec6" alt="Documentation" />
 	</a>
 </div>
@@ -88,7 +88,7 @@
 	</a>
 </div>
 
-Pre-compiled tree-sitter grammars for 306 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the kreuzberg.dev ecosystem.
+Pre-compiled tree-sitter grammars for 306 programming languages, with on-demand download and caching. Polyglot core that powers every binding in the xberg.io ecosystem.
 
 ## What This Package Provides
 
@@ -124,7 +124,7 @@ println!("{}", tree.root_node().to_sexp());
 
 ## Documentation
 
-- **[Documentation](https://docs.tree-sitter-language-pack.kreuzberg.dev)** -- Full docs and API reference
+- **[Documentation](https://docs.tree-sitter-language-pack.xberg.io)** -- Full docs and API reference
 - **[GitHub Repository](https://github.com/xberg-io/tree-sitter-language-pack)** -- Source, issues, and discussions
 
 ## Part of Kreuzberg.dev

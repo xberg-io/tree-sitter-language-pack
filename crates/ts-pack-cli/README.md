@@ -36,13 +36,13 @@
   <a href="https://github.com/xberg-io/homebrew-tap">
     <img src="https://img.shields.io/badge/homebrew-ts--pack-007ec6?logo=homebrew" alt="Homebrew">
   </a>
-  <a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
+  <a href="https://docs.tree-sitter-language-pack.xberg.io">
     <img src="https://img.shields.io/badge/Docs-tree--sitter--language--pack-007ec6" alt="Docs">
   </a>
 </div>
 
 <div align="center" style="margin: 24px 0 0;">
-  <a href="https://kreuzberg.dev">
+  <a href="https://xberg.io">
     <img alt="tree-sitter-language-pack" src="https://github.com/user-attachments/assets/478a83da-237b-446b-b3a8-e564c13e00a8" />
   </a>
 </div>
@@ -155,9 +155,9 @@ The MCP server exposes 8 tools:
 
 - **`analyze-code`** — analyze source code with language detection and code intelligence extraction
 
-For detailed setup and IDE configuration, see the [MCP Server guide](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/mcp-server/).
+For detailed setup and IDE configuration, see the [MCP Server guide](https://docs.tree-sitter-language-pack.xberg.io/guides/mcp-server/).
 
-For full documentation, see [kreuzberg.dev](https://docs.tree-sitter-language-pack.kreuzberg.dev).
+For full documentation, see [xberg.io](https://docs.tree-sitter-language-pack.xberg.io).
 
 ## License
 
@@ -169,9 +169,9 @@ Part of [tree-sitter-language-pack](https://github.com/xberg-io/tree-sitter-lang
 
 ## Part of Kreuzberg, Inc
 
-- [Kreuzberg](https://docs.kreuzberg.dev) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
+- [Kreuzberg](https://docs.xberg.io) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
 - [Kreuzberg Cloud](https://docs.kreuzberg.cloud) — managed extraction API with SDKs, dashboards, and observability.
-- [kreuzcrawl](https://docs.kreuzcrawl.kreuzberg.dev) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
-- [html-to-markdown](https://docs.html-to-markdown.kreuzberg.dev) — fast, lossless HTML→Markdown engine.
-- [liter-llm](https://docs.liter-llm.kreuzberg.dev) — universal LLM API client with native bindings for 14 languages and 143 providers.
+- [kreuzcrawl](https://docs.kreuzcrawl.xberg.io) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
+- [html-to-markdown](https://docs.html-to-markdown.xberg.io) — fast, lossless HTML→Markdown engine.
+- [liter-llm](https://docs.liter-llm.xberg.io) — universal LLM API client with native bindings for 14 languages and 143 providers.
 - [Discord](https://discord.gg/xt9WY3GnKR) — community, roadmap, announcements.
