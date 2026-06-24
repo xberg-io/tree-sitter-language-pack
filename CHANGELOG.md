@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Swift publish now creates the `release/swift/<version>` branch carrying the substituted
+  XCFramework checksum.** The alef-generated Swift e2e/test-app pins
+  `.package(url: …, branch: "release/swift/<version>")` (the non-destructive layout shared with the
+  other polyglot repos), but the publish workflow only force-moved the `v<version>` tag and never
+  created that branch — so SwiftPM could not resolve the package and the Swift test-app failed with
+  an empty `TreeSitterLanguagePack` target. The checksum commit is now also pushed to
+  `refs/heads/release/swift/<version>`. (`.github/workflows/publish.yaml`)
+
 ## [1.10.4] - 2026-06-22
 
 ### Added

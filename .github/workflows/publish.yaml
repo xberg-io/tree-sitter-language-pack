@@ -2980,6 +2980,11 @@ jobs:
                   git commit -m "chore(swift): update Package.swift with checksum for v${{ needs.prepare.outputs.version }}"
                   git tag -f "${{ needs.prepare.outputs.tag }}"
                   git push origin -f "refs/tags/${{ needs.prepare.outputs.tag }}"
+                  # Also publish the checksummed commit to a release/swift/<version> branch. The
+                  # alef-generated Swift e2e/test-app pins `branch: "release/swift/<version>"`
+                  # (matching the liter-llm publish layout), so this ref must exist for SwiftPM to
+                  # resolve the package with the substituted XCFramework checksum.
+                  git push origin -f "HEAD:refs/heads/release/swift/${{ needs.prepare.outputs.version }}"
 
             - name: Download Swift artifact bundle
               uses: actions/download-artifact@v8
