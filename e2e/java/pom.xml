@@ -31,9 +31,9 @@
         <dependency>
             <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
             <artifactId>tree-sitter-language-pack</artifactId>
-            <version>1.10.8</version>
+            <version>1.10.9</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.10.8.jar</systemPath>
+            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.10.9.jar</systemPath>
         </dependency>
         <dependency>
     <groupId>io.github.tree-sitter</groupId>

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.9] - 2026-06-24
+
+### Fixed
+
+- **Kotlin/JVM: `Tree.walk()` (and other handle-returning calls) no longer crash the JVM.**
+  Opaque handle types (`Tree`, `Node`, `TreeCursor`) crossed the JNI boundary as `String`/JSON
+  while the Rust shim returned a raw `jlong`, so the JVM dereferenced a primitive as an object
+  reference and faulted with `EXCEPTION_ACCESS_VIOLATION`. Regenerated with alef 0.27.1, the
+  kotlin-android bridge now returns primitive `Long` handles (required and optional, via a `0L`
+  sentinel) and constructs the wrapper directly. Fixes #146.
+- **Python: exported exception classes are now catchable.** `get_language("unknown")` raised
+  `_native.DownloadError`, a different class object than the `DownloadError` exported from the
+  package, so `except DownloadError:` never caught it. Regenerated with alef 0.27.1, the native
+  variants derive from the native base `Error` and the package re-exports the native classes
+  (with matching type stubs), so `except DownloadError:`/`except Error:` work. Fixes #147.
+
 ## [1.10.8] - 2026-06-24
 
 ### Fixed

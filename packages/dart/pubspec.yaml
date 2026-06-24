@@ -1,6 +1,6 @@
 name: tree_sitter_language_pack
 description: Pre-compiled tree-sitter grammars for 306 programming languages
-version: 1.10.8
+version: 1.10.9
 repository: https://github.com/kreuzberg-dev/tree-sitter-language-pack
 environment:
   sdk: '>=3.11.0 <4.0.0'

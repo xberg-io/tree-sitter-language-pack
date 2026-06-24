@@ -10,7 +10,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack": "1.10.8",
+    "@kreuzberg/tree-sitter-language-pack": "^1.10.9",
     "@types/node": "^22.10.2",
     "vitest": "^4.1.5"
   }

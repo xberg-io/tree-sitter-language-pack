@@ -1,6 +1,6 @@
 {
 	"name": "@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu",
-	"version": "1.10.8",
+	"version": "1.10.9",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
