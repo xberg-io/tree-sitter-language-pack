@@ -9,7 +9,7 @@ authors:
     given-names: "Na'aman"
     email: "naaman@kreuzberg.dev"
     orcid: "https://orcid.org/0009-0000-2247-5072"
-repository-code: "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+repository-code: "https://github.com/xberg-io/tree-sitter-language-pack"
 url: "https://kreuzberg.dev"
 license: MIT
 version: 1.10.9

@@ -16,7 +16,7 @@ This guide covers building the Rust core from source — useful if you need stat
 Clone the repository:
 
 ```bash
-git clone https://github.com/kreuzberg-dev/tree-sitter-language-pack
+git clone https://github.com/xberg-io/tree-sitter-language-pack
 cd tree-sitter-language-pack
 ```
 

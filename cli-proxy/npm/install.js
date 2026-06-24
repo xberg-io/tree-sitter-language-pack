@@ -8,7 +8,7 @@ import crypto from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { spawnSync, execFileSync } from "node:child_process";
 
-const REPO = "kreuzberg-dev/tree-sitter-language-pack";
+const REPO = "xberg-io/tree-sitter-language-pack";
 const BIN_NAME = "ts-pack";
 const PKG_NAME = "ts-pack-cli";
 const VERSION_ENV = "TS_PACK_CLI_VERSION";

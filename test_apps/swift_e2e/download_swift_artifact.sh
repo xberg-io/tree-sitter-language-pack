@@ -7,7 +7,7 @@ set -euo pipefail
 # version mismatches (e.g., when upgrading from rc.49 to rc.50, the filename
 # stays the same but the URL changes and the cached zip becomes stale).
 
-ARTIFACT_URL="https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.9.0-rc.17/TreeSitterLanguagePack-rs.artifactbundle.zip"
+ARTIFACT_URL="https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v1.9.0-rc.17/TreeSitterLanguagePack-rs.artifactbundle.zip"
 ARTIFACT_FILE="TreeSitterLanguagePack-rs.artifactbundle.zip"
 PACKAGE_SWIFT="Package.swift"
 

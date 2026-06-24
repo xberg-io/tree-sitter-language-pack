@@ -31,13 +31,13 @@ gem install tree_sitter_language_pack
 {% elif language == "php" %}
 
 ```bash
-composer require kreuzberg-dev/tree-sitter-language-pack
+composer require xberg-io/tree-sitter-language-pack
 ```
 
 {% elif language == "go" %}
 
 ```bash
-go get github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go
+go get github.com/xberg-io/tree-sitter-language-pack/packages/go
 ```
 
 {% elif language == "java" %}
@@ -68,10 +68,10 @@ end
 ```
 
 {% elif language == "ffi" %}
-Download the prebuilt static/dynamic library from the [GitHub releases page](https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases) or build from source:
+Download the prebuilt static/dynamic library from the [GitHub releases page](https://github.com/xberg-io/tree-sitter-language-pack/releases) or build from source:
 
 ```bash
-git clone https://github.com/kreuzberg-dev/tree-sitter-language-pack
+git clone https://github.com/xberg-io/tree-sitter-language-pack
 cargo build --release -p tree-sitter-language-pack-ffi
 ```
 

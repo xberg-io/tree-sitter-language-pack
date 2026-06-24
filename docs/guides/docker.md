@@ -11,17 +11,17 @@ no internet access or runtime downloads.
 ## Quick start
 
 ```bash
-docker pull ghcr.io/kreuzberg-dev/tree-sitter-language-pack:latest
+docker pull ghcr.io/xberg-io/tree-sitter-language-pack:latest
 
 # Parse a file by mounting the current directory
 docker run --rm \
   -v "$(pwd):/work" -w /work \
-  ghcr.io/kreuzberg-dev/tree-sitter-language-pack:latest \
+  ghcr.io/xberg-io/tree-sitter-language-pack:latest \
   parse src/main.py
 
 # From stdin
 echo "def hello(): pass" | docker run --rm -i \
-  ghcr.io/kreuzberg-dev/tree-sitter-language-pack:latest \
+  ghcr.io/xberg-io/tree-sitter-language-pack:latest \
   parse - --language python
 ```
 
@@ -65,7 +65,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/kreuzberg-dev/tree-sitter-language-pack:latest
+      image: ghcr.io/xberg-io/tree-sitter-language-pack:latest
     steps:
       - uses: actions/checkout@v4
       - name: Extract structure

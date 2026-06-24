@@ -49,7 +49,7 @@ vars:
 
 # Preconditions for task setup:
 # - Rust toolchain (rustup) — install via https://rustup.rs
-# - alef CLI — install via cargo install --git https://github.com/kreuzberg-dev/alef
+# - alef CLI — install via cargo install --git https://github.com/xberg-io/alef
 # - prek — install via cargo install prek
 # - uv (Python package manager) — for clone_vendors.py and other Python scripts
 # - git, network access for grammar cloning

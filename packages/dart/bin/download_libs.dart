@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 const String _moduleVersion = '1.10.9';
 const String _repoUrl =
-    'https://github.com/kreuzberg-dev/tree-sitter-language-pack';
+    'https://github.com/xberg-io/tree-sitter-language-pack';
 const String _assetPrefix = 'tree-sitter-language-pack';
 const String _libStem = 'tree_sitter_language_pack';
 

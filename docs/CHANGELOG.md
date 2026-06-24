@@ -115,7 +115,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Auto-download in `get_language()` — parsers download on first use
 - `PackConfig` struct with TOML file loading and directory discovery
 - CLI redesign: `download`, `clean`, `list`, `parse`, `process`, `cache-dir`, `init`, `completions`
-- Homebrew publishing pipeline (bottles, formula update via `kreuzberg-dev/homebrew-tap`)
+- Homebrew publishing pipeline (bottles, formula update via `xberg-io/homebrew-tap`)
 - NAPI-RS multi-platform npm distribution (5 platform packages)
 - Test apps for published package validation across 12 ecosystems
 - E2E test fixtures for download API surface
@@ -239,10 +239,10 @@ Complete rewrite from Python to Rust with polyglot language bindings.
 - Parser compilation: pure Python with tree-sitter CLI → Rust `build.rs` with `cc` crate
 - Language registry: dictionary-based → typed `LanguageRegistry` with thread-safe `LazyLock` access
 - Error handling: Python exceptions → Rust `Result<T, E>` with cross-language error conversion
-- Repository moved from `Goldziher/tree-sitter-language-pack` to `kreuzberg-dev/tree-sitter-language-pack`
+- Repository moved from `Goldziher/tree-sitter-language-pack` to `xberg-io/tree-sitter-language-pack`
 - Node.js package renamed to `@kreuzberg/tree-sitter-language-pack`
 - Java groupId changed from `io.github.tree-sitter` to `dev.kreuzberg`
-- Go module path updated to `github.com/kreuzberg-dev/tree-sitter-language-pack/go`
+- Go module path updated to `github.com/xberg-io/tree-sitter-language-pack/go`
 - README branding updated with kreuzberg.dev banner and Discord community link
 
 ### Removed

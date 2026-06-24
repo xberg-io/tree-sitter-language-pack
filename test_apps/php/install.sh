@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # alef-generated installer for registry-mode PHP test_app.
-# Installs the kreuzberg-dev/tree-sitter-language-pack extension via PIE before `composer install` runs.
+# Installs the xberg-io/tree-sitter-language-pack extension via PIE before `composer install` runs.
 # Requires `php` on PATH; downloads and runs PIE if needed.
 # Version is alef-injected at generate time so the script is self-contained.
 set -euo pipefail
@@ -45,7 +45,7 @@ EXT_DIR="$(php -r 'echo ini_get("extension_dir");')"
 # PIE's `install` has no `--version` option (it parses `--version`/`-V` as
 # "print PIE's own version" and exits without installing). The target version is
 # part of the package coordinate: `vendor/package:constraint`.
-"$PIE" install "kreuzberg-dev/tree-sitter-language-pack:$VERSION" --skip-enable-extension
+"$PIE" install "xberg-io/tree-sitter-language-pack:$VERSION" --skip-enable-extension
 
 # Verify the .so/.dylib/.dll exists after install (or was already present).
 test -f "$EXT_DIR/tree_sitter_language_pack.so" || test -f "$EXT_DIR/tree_sitter_language_pack.dylib" || test -f "$EXT_DIR/tree_sitter_language_pack.dll"

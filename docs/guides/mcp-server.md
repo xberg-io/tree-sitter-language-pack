@@ -238,7 +238,7 @@ Analyzes source code by detecting its language, extracting code intelligence, an
 
 ## Using the Plugin Instead
 
-For most users, installing the tree-sitter-language-pack plugin from [`kreuzberg-dev/plugins`](https://github.com/kreuzberg-dev/plugins) is simpler than manual MCP registration. The plugin auto-registers the server and is maintained alongside the core library.
+For most users, installing the tree-sitter-language-pack plugin from [`xberg-io/plugins`](https://github.com/xberg-io/plugins) is simpler than manual MCP registration. The plugin auto-registers the server and is maintained alongside the core library.
 
 See [AI Coding Assistants](ai-coding-assistants.md) for installation steps.
 

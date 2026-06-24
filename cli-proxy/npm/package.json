@@ -6,7 +6,7 @@
 	"author": "Na'aman Hirschfeld",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/kreuzberg-dev/tree-sitter-language-pack.git",
+		"url": "git+https://github.com/xberg-io/tree-sitter-language-pack.git",
 		"directory": "cli-proxy/npm"
 	},
 	"bin": {

@@ -998,7 +998,7 @@ fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path
 
     let version = env::var("CARGO_PKG_VERSION").unwrap_or_else(|_| "unknown".to_string());
     let default_url = format!(
-        "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v{version}/parser-sources-{version}.tar.zst"
+        "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v{version}/parser-sources-{version}.tar.zst"
     );
     let url = env::var("TSLP_SOURCE_BUNDLE_URL").unwrap_or(default_url);
     let sha_url = format!("{url}.sha256");

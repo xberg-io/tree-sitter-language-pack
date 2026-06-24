@@ -7,7 +7,7 @@ description = "Pre-compiled tree-sitter grammars for 306 programming languages"
 readme = false
 keywords = ["language-pack", "parser", "syntax", "tree-sitter"]
 categories = []
-repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+repository = "https://github.com/xberg-io/tree-sitter-language-pack"
 
 # `serde_json`, `ahash`, and `tokio` are emitted unconditionally above so the
 # manifest is stable across regens (and so the C FFI codegen can pull them in

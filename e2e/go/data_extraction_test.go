@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	tspack "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+	tspack "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 )
 
 func Test_DataExtractionCaddyDirectives(t *testing.T) {

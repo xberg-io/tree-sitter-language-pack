@@ -4,7 +4,7 @@ description: "Install the tree-sitter-language-pack plugin into Claude Code, Cod
 
 # AI Coding Assistants
 
-The tree-sitter-language-pack plugin ships the tree-sitter-language-pack agent skills — parse and extract code intelligence from 300+ languages — directly inside your coding agent. It is published in the [`kreuzberg-dev/plugins`](https://github.com/kreuzberg-dev/plugins) marketplace and works with every major coding harness.
+The tree-sitter-language-pack plugin ships the tree-sitter-language-pack agent skills — parse and extract code intelligence from 300+ languages — directly inside your coding agent. It is published in the [`xberg-io/plugins`](https://github.com/xberg-io/plugins) marketplace and works with every major coding harness.
 
 For advanced users who prefer manual MCP registration over the plugin, the CLI exposes a raw MCP server. See the [MCP Server guide](mcp-server.md) for stdio and HTTP transport setup with any compatible IDE.
 
@@ -16,7 +16,7 @@ Pick your harness below.
 <summary><strong>Claude Code</strong></summary>
 
 ```text
-/plugin marketplace add kreuzberg-dev/plugins
+/plugin marketplace add xberg-io/plugins
 /plugin install tree-sitter-language-pack@kreuzberg
 ```
 
@@ -26,7 +26,7 @@ Pick your harness below.
 <summary><strong>Codex CLI</strong></summary>
 
 ```text
-/plugins add https://github.com/kreuzberg-dev/plugins
+/plugins add https://github.com/xberg-io/plugins
 ```
 
 Then search for `tree-sitter-language-pack` and select **Install Plugin**.
@@ -35,14 +35,14 @@ Then search for `tree-sitter-language-pack` and select **Install Plugin**.
 <details>
 <summary><strong>Cursor</strong></summary>
 
-Settings → Plugins → Add from URL → `https://github.com/kreuzberg-dev/plugins`, then select **tree-sitter-language-pack**.
+Settings → Plugins → Add from URL → `https://github.com/xberg-io/plugins`, then select **tree-sitter-language-pack**.
 </details>
 
 <details>
 <summary><strong>Gemini CLI</strong></summary>
 
 ```text
-gemini extensions install https://github.com/kreuzberg-dev/plugins
+gemini extensions install https://github.com/xberg-io/plugins
 ```
 
 </details>
@@ -51,7 +51,7 @@ gemini extensions install https://github.com/kreuzberg-dev/plugins
 <summary><strong>Factory Droid</strong></summary>
 
 ```text
-droid plugin marketplace add https://github.com/kreuzberg-dev/plugins
+droid plugin marketplace add https://github.com/xberg-io/plugins
 droid plugin install tree-sitter-language-pack@kreuzberg
 ```
 
@@ -61,7 +61,7 @@ droid plugin install tree-sitter-language-pack@kreuzberg
 <summary><strong>GitHub Copilot CLI</strong></summary>
 
 ```text
-copilot plugin marketplace add https://github.com/kreuzberg-dev/plugins
+copilot plugin marketplace add https://github.com/xberg-io/plugins
 copilot plugin install tree-sitter-language-pack@kreuzberg
 ```
 

@@ -1,7 +1,7 @@
 # tree-sitter-language-pack
 
 <div align="center" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0">
-	<a href="https://github.com/kreuzberg-dev/alef">
+	<a href="https://github.com/xberg-io/alef">
 		<img src="https://img.shields.io/badge/Bindings-alef%20%D7%90-007ec6" alt="Bindings" />
 	</a>
 	<!-- Language Bindings -->
@@ -29,18 +29,18 @@
 			alt="Java"
 		/>
 	</a>
-	<a href="https://pkg.go.dev/github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go">
+	<a href="https://pkg.go.dev/github.com/xberg-io/tree-sitter-language-pack/packages/go">
 		<img
-			src="https://img.shields.io/github/v/tag/kreuzberg-dev/tree-sitter-language-pack?label=Go&color=007ec6"
+			src="https://img.shields.io/github/v/tag/xberg-io/tree-sitter-language-pack?label=Go&color=007ec6"
 			alt="Go"
 		/>
 	</a>
 	<a href="https://www.nuget.org/packages/TreeSitterLanguagePack/">
 		<img src="https://img.shields.io/nuget/v/TreeSitterLanguagePack?label=C%23&color=007ec6" alt="C#" />
 	</a>
-	<a href="https://packagist.org/packages/kreuzberg-dev/tree-sitter-language-pack">
+	<a href="https://packagist.org/packages/xberg-io/tree-sitter-language-pack">
 		<img
-			src="https://img.shields.io/packagist/v/kreuzberg-dev/tree-sitter-language-pack?label=PHP&color=007ec6"
+			src="https://img.shields.io/packagist/v/xberg-io/tree-sitter-language-pack?label=PHP&color=007ec6"
 			alt="PHP"
 		/>
 	</a>
@@ -59,18 +59,18 @@
 			alt="Kotlin"
 		/>
 	</a>
-	<a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/packages/swift">
+	<a href="https://github.com/xberg-io/tree-sitter-language-pack/tree/main/packages/swift">
 		<img src="https://img.shields.io/badge/Swift-SPM-007ec6" alt="Swift" />
 	</a>
-	<a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/packages/zig">
+	<a href="https://github.com/xberg-io/tree-sitter-language-pack/tree/main/packages/zig">
 		<img src="https://img.shields.io/badge/Zig-package-007ec6" alt="Zig" />
 	</a>
-	<a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases">
+	<a href="https://github.com/xberg-io/tree-sitter-language-pack/releases">
 		<img src="https://img.shields.io/badge/C-FFI-007ec6" alt="C FFI" />
 	</a>
 
 	<!-- Project Info -->
-	<a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/blob/main/LICENSE">
+	<a href="https://github.com/xberg-io/tree-sitter-language-pack/blob/main/LICENSE">
 		<img src="https://img.shields.io/badge/License-MIT-007ec6" alt="License" />
 	</a>
 	<a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
@@ -114,7 +114,7 @@ The core is written in Rust with polyglot bindings for 15 other languages, plus 
 This pack includes 306 languages. See the [full language list](docs/languages.md) for every supported grammar with extensions and repository links.
 
 <div align="center">
-  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/stargazers">
+  <a href="https://github.com/xberg-io/tree-sitter-language-pack/stargazers">
     <img src="docs/assets/star.gif" alt="Star tree-sitter-language-pack on GitHub" width="640">
   </a>
 </div>
@@ -162,7 +162,7 @@ See [Node.js README](crates/ts-pack-core-node/README.md) for full documentation.
 <summary><strong>Go</strong></summary>
 
 ```sh
-go get github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go
+go get github.com/xberg-io/tree-sitter-language-pack/packages/go
 ```
 
 See [Go README](packages/go/README.md) for full documentation.
@@ -202,7 +202,7 @@ See [Ruby README](packages/ruby/README.md) for full documentation.
 <summary><strong>PHP</strong></summary>
 
 ```sh
-composer require kreuzberg-dev/tree-sitter-language-pack
+composer require xberg-io/tree-sitter-language-pack
 ```
 
 See [PHP README](packages/php/README.md) for full documentation.
@@ -242,7 +242,7 @@ cargo install ts-pack-cli
 ```
 
 ```sh
-brew install kreuzberg-dev/tap/ts-pack
+brew install xberg-io/tap/ts-pack
 ```
 
 Or run without a persistent install (the proxy package fetches the native binary):
@@ -292,7 +292,7 @@ Or add to your Claude Desktop config at `~/Library/Application Support/Claude/cl
 
 The MCP server exposes 8 tools: `parse`, `process`, `detect_language`, `list_languages`, `info`, `download`, `cache_dir`, and `clean_cache`. It also provides resources for the available language catalog and a prompt for code analysis.
 
-The marketplace plugin from [`kreuzberg-dev/plugins`](https://github.com/kreuzberg-dev/plugins) auto-registers the server — see [AI Coding Assistants](#ai-coding-assistants) below to install it instead of manual registration.
+The marketplace plugin from [`xberg-io/plugins`](https://github.com/xberg-io/plugins) auto-registers the server — see [AI Coding Assistants](#ai-coding-assistants) below to install it instead of manual registration.
 
 For detailed setup, transport options, and tool reference, see the [MCP Server guide](https://docs.tree-sitter-language-pack.kreuzberg.dev/guides/mcp-server/).
 
@@ -300,13 +300,13 @@ For detailed setup, transport options, and tool reference, see the [MCP Server g
 
 ### AI Coding Assistants
 
-Install the tree-sitter-language-pack plugin from the [`kreuzberg-dev/plugins`](https://github.com/kreuzberg-dev/plugins) marketplace. It ships the tree-sitter-language-pack agent skills (parse and extract code intelligence from 300+ languages) and works with every major coding agent — expand your harness below.
+Install the tree-sitter-language-pack plugin from the [`xberg-io/plugins`](https://github.com/xberg-io/plugins) marketplace. It ships the tree-sitter-language-pack agent skills (parse and extract code intelligence from 300+ languages) and works with every major coding agent — expand your harness below.
 
 <details open>
 <summary><strong>Claude Code</strong></summary>
 
 ```text
-/plugin marketplace add kreuzberg-dev/plugins
+/plugin marketplace add xberg-io/plugins
 /plugin install tree-sitter-language-pack@kreuzberg
 ```
 
@@ -316,7 +316,7 @@ Install the tree-sitter-language-pack plugin from the [`kreuzberg-dev/plugins`](
 <summary><strong>Codex CLI</strong></summary>
 
 ```text
-/plugins add https://github.com/kreuzberg-dev/plugins
+/plugins add https://github.com/xberg-io/plugins
 ```
 
 Then search for `tree-sitter-language-pack` and select **Install Plugin**.
@@ -326,7 +326,7 @@ Then search for `tree-sitter-language-pack` and select **Install Plugin**.
 <details>
 <summary><strong>Cursor</strong></summary>
 
-Settings → Plugins → Add from URL → `https://github.com/kreuzberg-dev/plugins`, then select **tree-sitter-language-pack**.
+Settings → Plugins → Add from URL → `https://github.com/xberg-io/plugins`, then select **tree-sitter-language-pack**.
 
 </details>
 
@@ -334,7 +334,7 @@ Settings → Plugins → Add from URL → `https://github.com/kreuzberg-dev/plug
 <summary><strong>Gemini CLI</strong></summary>
 
 ```text
-gemini extensions install https://github.com/kreuzberg-dev/plugins
+gemini extensions install https://github.com/xberg-io/plugins
 ```
 
 </details>
@@ -343,7 +343,7 @@ gemini extensions install https://github.com/kreuzberg-dev/plugins
 <summary><strong>Factory Droid</strong></summary>
 
 ```text
-droid plugin marketplace add https://github.com/kreuzberg-dev/plugins
+droid plugin marketplace add https://github.com/xberg-io/plugins
 droid plugin install tree-sitter-language-pack@kreuzberg
 ```
 
@@ -353,7 +353,7 @@ droid plugin install tree-sitter-language-pack@kreuzberg
 <summary><strong>GitHub Copilot CLI</strong></summary>
 
 ```text
-copilot plugin marketplace add https://github.com/kreuzberg-dev/plugins
+copilot plugin marketplace add https://github.com/xberg-io/plugins
 copilot plugin install tree-sitter-language-pack@kreuzberg
 ```
 
@@ -379,13 +379,13 @@ Full guides, the host-native language API, data extraction, the CLI and MCP serv
 
 ## Part of Kreuzberg.dev
 
-- [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
-- [Kreuzberg Cloud](https://github.com/kreuzberg-dev/kreuzberg-cloud) — managed extraction API with SDKs, dashboards, and observability.
-- [kreuzcrawl](https://github.com/kreuzberg-dev/kreuzcrawl) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
-- [html-to-markdown](https://github.com/kreuzberg-dev/html-to-markdown) — fast, lossless HTML→Markdown engine.
-- [liter-llm](https://github.com/kreuzberg-dev/liter-llm) — universal LLM API client with native bindings for 14 languages and 143 providers.
-- [tree-sitter-language-pack](https://github.com/kreuzberg-dev/tree-sitter-language-pack) — tree-sitter grammars and code-intelligence primitives.
-- [alef](https://github.com/kreuzberg-dev/alef) — the polyglot binding generator that produces every per-language binding across the 5 polyglot repos.
+- [Kreuzberg](https://github.com/xberg-io/kreuzberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
+- [Kreuzberg Cloud](https://github.com/xberg-io/kreuzberg-cloud) — managed extraction API with SDKs, dashboards, and observability.
+- [kreuzcrawl](https://github.com/xberg-io/kreuzcrawl) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
+- [html-to-markdown](https://github.com/xberg-io/html-to-markdown) — fast, lossless HTML→Markdown engine.
+- [liter-llm](https://github.com/xberg-io/liter-llm) — universal LLM API client with native bindings for 14 languages and 143 providers.
+- [tree-sitter-language-pack](https://github.com/xberg-io/tree-sitter-language-pack) — tree-sitter grammars and code-intelligence primitives.
+- [alef](https://github.com/xberg-io/alef) — the polyglot binding generator that produces every per-language binding across the 5 polyglot repos.
 
 ## Contributing
 

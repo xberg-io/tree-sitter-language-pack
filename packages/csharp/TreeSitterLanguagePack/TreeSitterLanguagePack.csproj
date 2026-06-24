@@ -9,7 +9,7 @@
     <InformationalVersion>1.10.9</InformationalVersion>
     <Description>Pre-compiled tree-sitter grammars for 306 programming languages</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/kreuzberg-dev/tree-sitter-language-pack</RepositoryUrl>
+    <RepositoryUrl>https://github.com/xberg-io/tree-sitter-language-pack</RepositoryUrl>
     <Authors>Kreuzberg Team</Authors>
     <Company>Alef Team</Company>
     <Product>TreeSitterLanguagePack</Product>

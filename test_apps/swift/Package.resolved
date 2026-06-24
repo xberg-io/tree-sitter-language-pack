@@ -4,7 +4,7 @@
     {
       "identity" : "tree-sitter-language-pack",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kreuzberg-dev/tree-sitter-language-pack.git",
+      "location" : "https://github.com/xberg-io/tree-sitter-language-pack.git",
       "state" : {
         "revision" : "f4b2c3413f4e5b68fff6a2a35f9b44d731875e3d",
         "version" : "1.9.0-rc.16"

@@ -3,7 +3,7 @@
 set -euo pipefail
 
 VERSION="${TSLP_BREW_VERSION:-1.9.0-rc.11}"
-TAP="${TSLP_BREW_TAP:-kreuzberg-dev/homebrew-tap}"
+TAP="${TSLP_BREW_TAP:-xberg-io/homebrew-tap}"
 CLI_FORMULA="${TSLP_BREW_CLI_FORMULA:-ts-pack}"
 FFI_FORMULA="${TSLP_BREW_LIB_FORMULA:-libts-pack}"
 FFI_FORMULA_QUALIFIED="$TAP/$FFI_FORMULA"

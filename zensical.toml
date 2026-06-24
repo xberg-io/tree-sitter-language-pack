@@ -3,8 +3,8 @@ site_name = "tree-sitter-language-pack"
 site_description = "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, chunking, and bindings for Python, Node.js, Rust, Go, Java, Ruby, Elixir, PHP, and WebAssembly."
 site_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
 site_author = "kreuzberg.dev"
-repo_name = "kreuzberg-dev/tree-sitter-language-pack"
-repo_url = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+repo_name = "xberg-io/tree-sitter-language-pack"
+repo_url = "https://github.com/xberg-io/tree-sitter-language-pack"
 edit_uri = "edit/main/docs/"
 copyright = "Copyright &copy; 2024-2026 Kreuzberg, inc."
 extra_css = ["css/extra.css"]
@@ -180,7 +180,7 @@ toc_depth = 3
 # Social links
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
-link = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+link = "https://github.com/xberg-io/tree-sitter-language-pack"
 name = "View on GitHub"
 
 [[project.extra.social]]
@@ -190,7 +190,7 @@ name = "View on PyPI"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/docker"
-link = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/pkgs/container/tree-sitter-language-pack"
+link = "https://github.com/xberg-io/tree-sitter-language-pack/pkgs/container/tree-sitter-language-pack"
 name = "View on GitHub Container Registry"
 
 [[project.extra.social]]

@@ -68,7 +68,7 @@ With a passthrough binding, you use the ecosystem's native parser without any wr
     ```go
     import (
         tree_sitter "github.com/tree-sitter/go-tree-sitter"
-        tspack "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+        tspack "github.com/xberg-io/tree-sitter-language-pack/packages/go"
     )
 
     // GetLanguage returns *tree_sitter.Language directly

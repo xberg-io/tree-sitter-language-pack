@@ -53,7 +53,7 @@ jobs:
     # ---------------------------------------------------------------------------
     validate:
         name: Lint & Format
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-24.04-arm
         timeout-minutes: 60
         steps:
@@ -62,24 +62,24 @@ jobs:
 
             # --- Task runner ---
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             # --- Rust ---
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             # --- Python ---
             - name: Setup Python
-              uses: kreuzberg-dev/actions/setup-python-env@v1
+              uses: xberg-io/actions/setup-python-env@v1
               with:
                   python-version: "3.13"
 
             # --- Node.js / pnpm ---
             - name: Setup Node Workspace
-              uses: kreuzberg-dev/actions/setup-node-workspace@v1
+              uses: xberg-io/actions/setup-node-workspace@v1
               with:
                   node-version: "22"
 
@@ -104,7 +104,7 @@ jobs:
 
             # --- Elixir ---
             - name: Setup Elixir
-              uses: kreuzberg-dev/actions/setup-elixir@v1
+              uses: xberg-io/actions/setup-elixir@v1
 
             # --- Ruby ---
             - name: Setup Ruby
@@ -116,7 +116,7 @@ jobs:
 
             # --- PHP ---
             - name: Setup PHP
-              uses: kreuzberg-dev/actions/setup-php@v1
+              uses: xberg-io/actions/setup-php@v1
 
             # --- C/C++ ---
             - name: Install C/C++ tools
@@ -126,7 +126,7 @@ jobs:
 
             # --- Alef ---
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             # --- Alef binding deps ---
             - name: Install binding dependencies
@@ -155,7 +155,7 @@ jobs:
     # ---------------------------------------------------------------------------
     validate-rust:
         name: Rust Validation
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         needs: [clone-vendors]
         runs-on: ubuntu-latest
         timeout-minutes: 30
@@ -170,7 +170,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   use-sccache: "false"
                   install-llvm-cov: "false"
@@ -186,7 +186,7 @@ jobs:
                   TSLP_LINK_MODE: static
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Verify binding API parity
               run: alef verify
@@ -235,7 +235,7 @@ jobs:
     # ---------------------------------------------------------------------------
     clone-vendors:
         name: Clone vendors
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:

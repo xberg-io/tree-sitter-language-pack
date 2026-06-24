@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+	"github.com/xberg-io/tree-sitter-language-pack/packages/go"
 )
 
 func main() {

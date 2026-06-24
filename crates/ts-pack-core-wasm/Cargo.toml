@@ -9,7 +9,7 @@ version = "1.10.9"
 edition = "2024"
 license = "MIT"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"
-repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+repository = "https://github.com/xberg-io/tree-sitter-language-pack"
 keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 
 [package.metadata.cargo-machete]

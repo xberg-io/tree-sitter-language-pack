@@ -1,3 +1,3 @@
-tap "kreuzberg-dev/homebrew-tap"
-brew "kreuzberg-dev/homebrew-tap/ts-pack"
-brew "kreuzberg-dev/homebrew-tap/libts-pack"
+tap "xberg-io/homebrew-tap"
+brew "xberg-io/homebrew-tap/ts-pack"
+brew "xberg-io/homebrew-tap/libts-pack"

@@ -23,9 +23,9 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 
-urls.Homepage = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
-urls.Issues = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues"
-urls.Repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack.git"
+urls.Homepage = "https://github.com/xberg-io/tree-sitter-language-pack"
+urls.Issues = "https://github.com/xberg-io/tree-sitter-language-pack/issues"
+urls.Repository = "https://github.com/xberg-io/tree-sitter-language-pack.git"
 scripts.ts-pack = "ts_pack_cli.cli:main"
 
 [tool.hatch.build.targets.wheel]

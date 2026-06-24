@@ -23,7 +23,7 @@ You'll need the following tools installed:
 brew install go-task
 
 # Clone the repository
-git clone https://github.com/kreuzberg-dev/tree-sitter-language-pack.git
+git clone https://github.com/xberg-io/tree-sitter-language-pack.git
 cd tree-sitter-language-pack
 
 # Install all language dependencies
@@ -147,7 +147,7 @@ task test:e2e
 
 ## Fixing a bug
 
-1. Check the [issue tracker](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues) — the bug may already be reported.
+1. Check the [issue tracker](https://github.com/xberg-io/tree-sitter-language-pack/issues) — the bug may already be reported.
 2. Write a **failing test** that reproduces the issue.
 3. Fix the bug in the appropriate crate.
 4. Confirm all tests pass with `task test`.
@@ -180,7 +180,7 @@ Use the **Edit** button in the page header to jump directly from any docs page t
 
 ## Code quality
 
-The project uses pre-commit hooks managed by [prek](https://github.com/kreuzberg-dev/prek):
+The project uses pre-commit hooks managed by [prek](https://github.com/xberg-io/prek):
 
 ```bash
 prek install
@@ -220,6 +220,6 @@ Keep commits **small and focused**. Each commit should represent one logical cha
 
 ## Getting help
 
-- [GitHub Discussions](https://github.com/kreuzberg-dev/tree-sitter-language-pack/discussions) — questions and design conversations
+- [GitHub Discussions](https://github.com/xberg-io/tree-sitter-language-pack/discussions) — questions and design conversations
 - [Discord](https://discord.gg/xt9WY3GnKR) — real-time chat with maintainers
-- [Issue tracker](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues) — bug reports and feature requests
+- [Issue tracker](https://github.com/xberg-io/tree-sitter-language-pack/issues) — bug reports and feature requests

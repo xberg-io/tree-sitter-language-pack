@@ -28,7 +28,7 @@ on:
 
 env:
     REGISTRY: ghcr.io
-    IMAGE_NAME: kreuzberg-dev/ts-pack
+    IMAGE_NAME: xberg-io/ts-pack
 
 concurrency:
     group: publish-docker-${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.ref || github.event.inputs.tag)) || github.ref || github.run_id }}
@@ -56,7 +56,7 @@ jobs:
 
             - name: Resolve release metadata
               id: meta
-              uses: kreuzberg-dev/actions/prepare-release-metadata@v1
+              uses: xberg-io/actions/prepare-release-metadata@v1
               with:
                   tag: ${{ inputs.tag }}
                   ref: ${{ inputs.ref }}
@@ -155,7 +155,7 @@ jobs:
                     --load .
 
             - name: Check Docker image size
-              uses: kreuzberg-dev/actions/check-docker-image-size@v1
+              uses: xberg-io/actions/check-docker-image-size@v1
               with:
                   image: ts-pack-test:local
                   warn-mb: "500"

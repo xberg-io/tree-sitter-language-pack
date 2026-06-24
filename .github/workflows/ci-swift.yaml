@@ -35,7 +35,7 @@ permissions:
 jobs:
     clone-vendors:
         name: Clone vendors
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
@@ -85,7 +85,7 @@ jobs:
 
     swift-test:
         name: Swift build + test (macos-latest)
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         needs: [clone-vendors]
         runs-on: macos-latest
         timeout-minutes: 30
@@ -96,7 +96,7 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
-            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: xberg-io/actions/setup-rust@v1
               with:
                   cache-key-prefix: ci-swift
             - name: Show Swift version

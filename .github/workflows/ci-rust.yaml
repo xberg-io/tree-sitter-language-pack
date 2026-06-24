@@ -52,7 +52,7 @@ jobs:
     # ---------------------------------------------------------------------------
     clone-vendors:
         name: Clone vendors
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
@@ -106,7 +106,7 @@ jobs:
     rust-tests:
         name: Rust Tests
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]'
         needs: [clone-vendors]
         runs-on: ubuntu-latest
@@ -126,17 +126,17 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: "rustfmt"
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Run workspace tests
               run: cargo test --locked --workspace --exclude ts-pack-core-wasm

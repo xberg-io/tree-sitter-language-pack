@@ -24,7 +24,7 @@ from urllib.error import URLError
 from urllib.parse import quote, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-REPO = "kreuzberg-dev/tree-sitter-language-pack"
+REPO = "xberg-io/tree-sitter-language-pack"
 BIN_NAME = "ts-pack"
 PKG_NAME = "ts-pack-cli"
 VERSION_ENV = "TS_PACK_CLI_VERSION"

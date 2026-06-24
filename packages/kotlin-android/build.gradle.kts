@@ -198,7 +198,7 @@ mavenPublishing {
     pom {
         name.set("tree-sitter-language-pack-android")
         description.set("Pre-compiled tree-sitter grammars for 306 programming languages")
-        url.set("https://github.com/kreuzberg-dev/tree-sitter-language-pack")
+        url.set("https://github.com/xberg-io/tree-sitter-language-pack")
         licenses {
             license {
                 name.set("MIT")
@@ -213,10 +213,10 @@ mavenPublishing {
         }
 
         scm {
-            url.set("https://github.com/kreuzberg-dev/tree-sitter-language-pack")
-            connection.set("scm:git:git://github.com/kreuzberg-dev/tree-sitter-language-pack.git")
+            url.set("https://github.com/xberg-io/tree-sitter-language-pack")
+            connection.set("scm:git:git://github.com/xberg-io/tree-sitter-language-pack.git")
             developerConnection.set(
-                "scm:git:ssh://git@github.com:kreuzberg-dev/tree-sitter-language-pack.git"
+                "scm:git:ssh://git@github.com:xberg-io/tree-sitter-language-pack.git"
             )
         }
     }

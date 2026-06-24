@@ -11,7 +11,7 @@
 
     <name>tree-sitter-language-pack</name>
     <description>Pre-compiled tree-sitter grammars for 306 programming languages</description>
-    <url>https://github.com/kreuzberg-dev/tree-sitter-language-pack</url>
+    <url>https://github.com/xberg-io/tree-sitter-language-pack</url>
 
     <licenses>
         <license>
@@ -27,9 +27,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/kreuzberg-dev/tree-sitter-language-pack.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/kreuzberg-dev/tree-sitter-language-pack.git</developerConnection>
-        <url>https://github.com/kreuzberg-dev/tree-sitter-language-pack</url>
+        <connection>scm:git:git://github.com/xberg-io/tree-sitter-language-pack.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/xberg-io/tree-sitter-language-pack.git</developerConnection>
+        <url>https://github.com/xberg-io/tree-sitter-language-pack</url>
     </scm>
 
     <properties>

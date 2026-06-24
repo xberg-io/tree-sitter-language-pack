@@ -30,7 +30,7 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - uses: kreuzberg-dev/actions/lint-docs@v1
+            - uses: xberg-io/actions/lint-docs@v1
               with:
                   working-directory: .
                   strict: "false"
@@ -52,7 +52,7 @@ jobs:
             - name: Generate supported languages table
               run: uv run --no-sync python scripts/generate_grammar_table.py
 
-            - uses: kreuzberg-dev/actions/build-docs@v1
+            - uses: xberg-io/actions/build-docs@v1
               with:
                   working-directory: .
                   strict: "true"

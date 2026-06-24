@@ -43,7 +43,7 @@ permissions:
 jobs:
     dart-test:
         name: Dart build + test (${{ matrix.os }})
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ${{ matrix.os }}
         timeout-minutes: 30
         strategy:
@@ -52,7 +52,7 @@ jobs:
                 os: [ubuntu-latest, macos-latest]
         steps:
             - uses: actions/checkout@v6
-            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: xberg-io/actions/setup-rust@v1
               with:
                   cache-key-prefix: ci-dart-${{ matrix.os }}
             - uses: dart-lang/setup-dart@v1.7.2

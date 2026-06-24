@@ -1,6 +1,6 @@
 # tree-sitter-language-pack — CLI
 
-[![Bindings](https://img.shields.io/badge/Bindings-alef%20%D7%90-007ec6)](https://github.com/kreuzberg-dev/alef)
+[![Bindings](https://img.shields.io/badge/Bindings-alef%20%D7%90-007ec6)](https://github.com/xberg-io/alef)
 
 <div align="center" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0;">
   <!-- Language Bindings -->  <a href="https://crates.io/crates/tree-sitter-language-pack">
@@ -11,29 +11,29 @@
     <img src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6" alt="Node">
   </a>  <a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack-wasm">
     <img src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack-wasm?label=WASM&color=007ec6" alt="Wasm">
-  </a>  <a href="https://central.sonatype.com/artifact/dev.kreuzberg-dev/tree-sitter-language-pack">
-    <img src="https://img.shields.io/maven-central/v/dev.kreuzberg-dev/tree-sitter-language-pack?label=Java&color=007ec6" alt="Java">
-  </a>  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/packages/go">
-    <img src="https://img.shields.io/github/v/tag/kreuzberg-dev/tree-sitter-language-pack?label=Go&color=007ec6" alt="Go">
+  </a>  <a href="https://central.sonatype.com/artifact/dev.xberg-io/tree-sitter-language-pack">
+    <img src="https://img.shields.io/maven-central/v/dev.xberg-io/tree-sitter-language-pack?label=Java&color=007ec6" alt="Java">
+  </a>  <a href="https://github.com/xberg-io/tree-sitter-language-pack/tree/main/packages/go">
+    <img src="https://img.shields.io/github/v/tag/xberg-io/tree-sitter-language-pack?label=Go&color=007ec6" alt="Go">
   </a>  <a href="https://www.nuget.org/packages/TreeSitterLanguagePack">
     <img src="https://img.shields.io/nuget/v/TreeSitterLanguagePack?label=C%23&color=007ec6" alt="Csharp">
-  </a>  <a href="https://packagist.org/packages/kreuzberg-dev/tree-sitter-language-pack">
-    <img src="https://img.shields.io/packagist/v/kreuzberg-dev/tree-sitter-language-pack?label=PHP&color=007ec6" alt="Php">
+  </a>  <a href="https://packagist.org/packages/xberg-io/tree-sitter-language-pack">
+    <img src="https://img.shields.io/packagist/v/xberg-io/tree-sitter-language-pack?label=PHP&color=007ec6" alt="Php">
   </a>  <a href="https://rubygems.org/gems/tree_sitter_language_pack">
     <img src="https://img.shields.io/gem/v/tree_sitter_language_pack?label=Ruby&color=007ec6" alt="Ruby">
   </a>  <a href="https://hex.pm/packages/tree_sitter_language_pack">
     <img src="https://img.shields.io/hexpm/v/tree_sitter_language_pack?label=Elixir&color=007ec6" alt="Elixir">
-  </a>  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/tree/main/crates/ts-pack-core-ffi">
+  </a>  <a href="https://github.com/xberg-io/tree-sitter-language-pack/tree/main/crates/ts-pack-core-ffi">
     <img src="https://img.shields.io/badge/C-FFI-007ec6" alt="Ffi">
   </a>
   <!-- Project Info -->
-  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/kreuzberg-dev/tree-sitter-language-pack/ci-rust.yaml?branch=main&label=CI&color=007ec6" alt="CI">
+  <a href="https://github.com/xberg-io/tree-sitter-language-pack/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/xberg-io/tree-sitter-language-pack/ci-rust.yaml?branch=main&label=CI&color=007ec6" alt="CI">
   </a>
-  <a href="https://github.com/kreuzberg-dev/tree-sitter-language-pack/blob/main/LICENSE">
+  <a href="https://github.com/xberg-io/tree-sitter-language-pack/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-007ec6.svg" alt="License">
   </a>
-  <a href="https://github.com/kreuzberg-dev/homebrew-tap">
+  <a href="https://github.com/xberg-io/homebrew-tap">
     <img src="https://img.shields.io/badge/homebrew-ts--pack-007ec6?logo=homebrew" alt="Homebrew">
   </a>
   <a href="https://docs.tree-sitter-language-pack.kreuzberg.dev">
@@ -66,8 +66,8 @@ Or install via Homebrew:
 Homebrew 6.0+ requires explicit trust for third-party taps. Trust once, then install:
 
 ```sh
-brew trust kreuzberg-dev/tap
-brew install kreuzberg-dev/tap/ts-pack
+brew trust xberg-io/tap
+brew install xberg-io/tap/ts-pack
 ```
 
 ## Quick Start
@@ -161,11 +161,11 @@ For full documentation, see [kreuzberg.dev](https://docs.tree-sitter-language-pa
 
 ## License
 
-MIT -- see [LICENSE](https://github.com/kreuzberg-dev/tree-sitter-language-pack/blob/main/LICENSE) for details.
+MIT -- see [LICENSE](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/LICENSE) for details.
 
 ---
 
-Part of [tree-sitter-language-pack](https://github.com/kreuzberg-dev/tree-sitter-language-pack) -- A comprehensive collection of tree-sitter language parsers with polyglot bindings.
+Part of [tree-sitter-language-pack](https://github.com/xberg-io/tree-sitter-language-pack) -- A comprehensive collection of tree-sitter language parsers with polyglot bindings.
 
 ## Part of Kreuzberg, Inc
 

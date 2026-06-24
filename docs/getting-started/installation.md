@@ -15,8 +15,8 @@ You can use it in CI pipelines, automation scripts, or to explore and experiment
 === ":fontawesome-brands-apple: Homebrew"
 
     ```bash
-    brew trust kreuzberg-dev/tap
-    brew install kreuzberg-dev/tap/ts-pack
+    brew trust xberg-io/tap
+    brew install xberg-io/tap/ts-pack
     ```
 
 === ":material-package-variant-closed: Cargo"
@@ -162,11 +162,11 @@ fn main() {
 Requires Go 1.26+. The binding uses cgo and links against the pre-compiled C FFI library.
 
 ```bash
-go get github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go
+go get github.com/xberg-io/tree-sitter-language-pack/packages/go
 ```
 
 ```go
-import tslp "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+import tslp "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 
 func main() {
     fmt.Println(tslp.LanguageCount()) // 306
@@ -308,7 +308,7 @@ composer require mlocati/php-extension-installer
 === "Composer"
 
     ```bash
-    composer require kreuzberg-dev/tree-sitter-language-pack
+    composer require xberg-io/tree-sitter-language-pack
     ```
 
 === "composer.json"
@@ -317,7 +317,7 @@ composer require mlocati/php-extension-installer
     {
         "require": {
             "mlocati/php-extension-installer": "^2.0",
-            "kreuzberg-dev/tree-sitter-language-pack": "^1.9"
+            "xberg-io/tree-sitter-language-pack": "^1.9"
         }
     }
     ```
@@ -359,7 +359,7 @@ Requires Swift 6.0+.
 
 ```swift
 .package(
-    url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack",
+    url: "https://github.com/xberg-io/tree-sitter-language-pack",
     exact: "1.9.0-rc.49"
 )
 ```

@@ -400,7 +400,7 @@ task version:sync
 
 ## Questions?
 
-- Check existing [issues](https://github.com/kreuzberg-dev/tree-sitter-language-pack/issues)
+- Check existing [issues](https://github.com/xberg-io/tree-sitter-language-pack/issues)
 - Join our [Discord community](https://discord.gg/xt9WY3GnKR)
 
 Thank you for contributing to tree-sitter-language-pack!

@@ -30,8 +30,8 @@ This guide walks you from install to parsing, code intelligence, and LLM chunkin
 === "CLI"
 
     ```bash
-    brew trust kreuzberg-dev/tap
-    brew install kreuzberg-dev/tap/ts-pack
+    brew trust xberg-io/tap
+    brew install xberg-io/tap/ts-pack
     ```
 
 !!! Tip "Other ecosystems" Go, Java, C#, Ruby, Elixir, PHP, Dart, Kotlin Android, Swift, Zig, C FFI, and WebAssembly are also supported. See [Installation](installation.md) for the full list.

@@ -19,7 +19,7 @@ use sha2::{Digest, Sha256};
 use crate::error::Error;
 use crate::pack_config::TlsRootsMode;
 
-const GITHUB_RELEASE_BASE: &str = "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download";
+const GITHUB_RELEASE_BASE: &str = "https://github.com/xberg-io/tree-sitter-language-pack/releases/download";
 const CACHE_REMOVE_RETRIES: usize = 5;
 const CACHE_REMOVE_RETRY_DELAY: Duration = Duration::from_millis(10);
 const HTTP_TIMEOUT: Duration = Duration::from_secs(60);
@@ -1273,7 +1273,7 @@ mod tests {
         let _env = EnvVarGuard::unset(MANIFEST_URL_ENV);
         assert_eq!(
             resolve_manifest_url("1.2.3"),
-            "https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v1.2.3/parsers.json"
+            "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v1.2.3/parsers.json"
         );
     }
 

@@ -68,8 +68,8 @@ Takes a release tag and optional `dry_run`. Builds the multi-arch image (amd64 +
 
 ### `validate-issues.yml`
 
-Validates the format of newly opened or edited issues using a reusable workflow from `kreuzberg-dev/actions`.
+Validates the format of newly opened or edited issues using a reusable workflow from `xberg-io/actions`.
 
 ### `validate-pr.yml`
 
-Validates the format of pull requests when opened, edited, or synchronized using a reusable workflow from `kreuzberg-dev/actions`.
+Validates the format of pull requests when opened, edited, or synchronized using a reusable workflow from `xberg-io/actions`.

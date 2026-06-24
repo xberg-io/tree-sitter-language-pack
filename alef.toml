@@ -52,7 +52,7 @@ extra_paths = [
 [workspace.citation]
 title = "tree-sitter-language-pack"
 abstract = "Tree-sitter grammars and code-intelligence primitives."
-repository-code = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+repository-code = "https://github.com/xberg-io/tree-sitter-language-pack"
 url = "https://kreuzberg.dev"
 license = "MIT"
 date-released = "2026-05-17"
@@ -85,13 +85,13 @@ replace = 'Include="TreeSitterLanguagePack" Version="{version}"'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/php/composer.json"
-search = '"kreuzberg-dev/tree-sitter-language-pack": "[^"]*"'
-replace = '"kreuzberg-dev/tree-sitter-language-pack": "{version}"'
+search = '"xberg-io/tree-sitter-language-pack": "[^"]*"'
+replace = '"xberg-io/tree-sitter-language-pack": "{version}"'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/go/go.mod"
-search = 'kreuzberg-dev/tree-sitter-language-pack/packages/go v[^\s]*'
-replace = 'kreuzberg-dev/tree-sitter-language-pack/packages/go v{version}'
+search = 'xberg-io/tree-sitter-language-pack/packages/go v[^\s]*'
+replace = 'xberg-io/tree-sitter-language-pack/packages/go v{version}'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/rust/Cargo.toml"
@@ -250,7 +250,7 @@ package = "tree-sitter"
 package_version = "0.26"
 
 [crates.go]
-module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 package_name = "tspack"
 
 # `GetLanguage` returns a `*tree_sitter.Language` from the go-tree-sitter
@@ -584,7 +584,7 @@ e2e = "cd e2e/c && make clean && make && DYLD_LIBRARY_PATH=../../target/release 
 [crates.test.kotlin_android]
 # Android-only AAR — no JVM JAR to run `gradle test` against. E2E excluded
 # because Android tests require an emulator runner (out of scope until a
-# kreuzberg-dev/actions/setup-android-emulator action exists).
+# xberg-io/actions/setup-android-emulator action exists).
 precondition = "command -v gradle >/dev/null 2>&1"
 before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p ts-pack-core-ffi"
 
@@ -766,7 +766,7 @@ module = "@kreuzberg/tree-sitter-language-pack"
 function = "process"
 
 [crates.e2e.call.overrides.go]
-module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 function = "Process"
 alias = "tspack"
 options_type = "ProcessConfig"
@@ -1131,7 +1131,7 @@ name = "@kreuzberg/tree-sitter-language-pack"
 path = "../../crates/ts-pack-core-node"
 
 [crates.e2e.packages.go]
-module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 path = "../../packages/go"
 version = "v0.0.0"
 
@@ -1148,7 +1148,7 @@ wasm = "pnpm dlx oxfmt {dir}"
 
 [crates.e2e.registry]
 output = "test_apps"
-github_repo = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+github_repo = "https://github.com/xberg-io/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
@@ -1163,7 +1163,7 @@ name = "@kreuzberg/tree-sitter-language-pack"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.go]
-module = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 version = "v1.10.9"
 
 [crates.e2e.registry.packages.java]
@@ -1192,7 +1192,7 @@ name = "tree_sitter_language_pack"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.php]
-name = "kreuzberg-dev/tree-sitter-language-pack"
+name = "xberg-io/tree-sitter-language-pack"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.zig]
@@ -1233,7 +1233,7 @@ run = "cd test_apps/kotlin_android && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,
 [crates.scaffold]
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"
 license = "MIT"
-repository = "https://github.com/kreuzberg-dev/tree-sitter-language-pack"
+repository = "https://github.com/xberg-io/tree-sitter-language-pack"
 authors = ["Kreuzberg Team"]
 keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 
@@ -1287,8 +1287,8 @@ package_manager = ["npm", "pnpm", "yarn"]
 [crates.readme.languages.go]
 template = "language_package.md"
 name = "Go"
-package_name = "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
-badge_url = "https://img.shields.io/github/v/tag/kreuzberg-dev/tree-sitter-language-pack?label=Go&color=007ec6"
+package_name = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+badge_url = "https://img.shields.io/github/v/tag/xberg-io/tree-sitter-language-pack?label=Go&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages with idiomatic Go bindings via cgo."
 package_manager = ["go"]
@@ -1305,8 +1305,8 @@ package_manager = ["maven", "gradle"]
 [crates.readme.languages.php]
 template = "language_package.md"
 name = "PHP"
-package_name = "kreuzberg-dev/tree-sitter-language-pack"
-badge_url = "https://img.shields.io/packagist/v/kreuzberg-dev/tree-sitter-language-pack?label=PHP&color=007ec6"
+package_name = "xberg-io/tree-sitter-language-pack"
+badge_url = "https://img.shields.io/packagist/v/xberg-io/tree-sitter-language-pack?label=PHP&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.kreuzberg.dev"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages with PHP bindings via ext-php-rs."
 package_manager = ["composer"]
@@ -1391,7 +1391,7 @@ template = "language_package.md"
 output_path = "packages/swift/README.md"
 package_manager = ["spm"]
 package_name = "TreeSitterLanguagePack"
-install_command = '.package(url: "https://github.com/kreuzberg-dev/tree-sitter-language-pack-swift", from: "{{ version }}")'
+install_command = '.package(url: "https://github.com/xberg-io/tree-sitter-language-pack-swift", from: "{{ version }}")'
 description = """
 Swift bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
 Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/await.

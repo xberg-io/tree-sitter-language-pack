@@ -89,7 +89,7 @@ jobs:
                   docker run --rm ts-pack:test --help | head -5
 
             - name: Check Docker image size
-              uses: kreuzberg-dev/actions/check-docker-image-size@v1
+              uses: xberg-io/actions/check-docker-image-size@v1
               with:
                   image: ts-pack:test
                   warn-mb: "500"

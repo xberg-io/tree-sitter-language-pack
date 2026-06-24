@@ -76,7 +76,7 @@ jobs:
 
             - name: Prepare release metadata
               id: meta
-              uses: kreuzberg-dev/actions/prepare-release-metadata@v1
+              uses: xberg-io/actions/prepare-release-metadata@v1
               with:
                   available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,dart,swift,zig,kotlin"
 
@@ -122,7 +122,7 @@ jobs:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
 
             - name: Validate versions
-              uses: kreuzberg-dev/actions/validate-versions@v1
+              uses: xberg-io/actions/validate-versions@v1
               with:
                   version: ${{ needs.prepare.outputs.version }}
 
@@ -130,7 +130,7 @@ jobs:
     check-registries:
         name: Check registries
         needs: prepare
-        uses: kreuzberg-dev/actions/.github/workflows/reusable-check-registries.yml@v1
+        uses: xberg-io/actions/.github/workflows/reusable-check-registries.yml@v1
         with:
             version: ${{ needs.prepare.outputs.version }}
             registries: |
@@ -173,7 +173,7 @@ jobs:
                   {
                     "name": "packagist",
                     "registry": "packagist",
-                    "package": "kreuzberg-dev/tree-sitter-language-pack"
+                    "package": "xberg-io/tree-sitter-language-pack"
                   },
                   {
                     "name": "nuget",
@@ -184,7 +184,7 @@ jobs:
                     "name": "homebrew",
                     "registry": "homebrew",
                     "package": "ts-pack",
-                    "tap-repo": "kreuzberg-dev/homebrew-tap"
+                    "tap-repo": "xberg-io/homebrew-tap"
                   },
                   {
                     "name": "pub",
@@ -195,7 +195,7 @@ jobs:
                     "name": "zig",
                     "registry": "github-release",
                     "package": "tree-sitter-language-pack-zig-v${{ needs.prepare.outputs.version }}.tar.gz",
-                    "repo": "kreuzberg-dev/tree-sitter-language-pack",
+                    "repo": "xberg-io/tree-sitter-language-pack",
                     "assets": "tree-sitter-language-pack-zig-v${{ needs.prepare.outputs.version }}.tar.gz"
                   },
                   {
@@ -322,7 +322,7 @@ jobs:
                   path: parsers
 
             - name: Pack parser sources
-              uses: kreuzberg-dev/actions/pack-source-bundle@v1
+              uses: xberg-io/actions/pack-source-bundle@v1
               with:
                   paths: |
                       parsers
@@ -339,7 +339,7 @@ jobs:
 
             - name: Upload to GitHub Release
               if: ${{ needs.prepare.outputs.dry_run != 'true' }}
-              uses: kreuzberg-dev/actions/publish-github-release@v1
+              uses: xberg-io/actions/publish-github-release@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   title: "Release ${{ needs.prepare.outputs.tag }}"
@@ -384,7 +384,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -498,10 +498,10 @@ jobs:
 
             - name: Free disk space (Linux)
               if: runner.os == 'Linux'
-              uses: kreuzberg-dev/actions/free-disk-space-linux@v1
+              uses: xberg-io/actions/free-disk-space-linux@v1
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -552,7 +552,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -564,7 +564,7 @@ jobs:
                   python-version: "3.13"
 
             - name: Build sdist
-              uses: kreuzberg-dev/actions/build-python-sdist@v1
+              uses: xberg-io/actions/build-python-sdist@v1
               with:
                   package-dir: packages/python
                   output-dir: dist
@@ -582,7 +582,7 @@ jobs:
             # codepath works end-to-end before we cut a release.
             - name: Pack a smoke source bundle
               id: smoke-bundle
-              uses: kreuzberg-dev/actions/pack-source-bundle@v1
+              uses: xberg-io/actions/pack-source-bundle@v1
               with:
                   paths: |
                       parsers
@@ -674,10 +674,10 @@ jobs:
 
             - name: Free disk space (Linux)
               if: runner.os == 'Linux'
-              uses: kreuzberg-dev/actions/free-disk-space-linux@v1
+              uses: xberg-io/actions/free-disk-space-linux@v1
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -743,7 +743,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -766,7 +766,7 @@ jobs:
                   bundle check || bundle install
 
             - name: Rewrite native dependencies
-              uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+              uses: xberg-io/actions/rewrite-native-deps@v1
               with:
                   lang: ruby
 
@@ -843,10 +843,10 @@ jobs:
                   path: parsers
 
             - name: Free disk space (Linux)
-              uses: kreuzberg-dev/actions/free-disk-space-linux@v1
+              uses: xberg-io/actions/free-disk-space-linux@v1
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   target: wasm32-unknown-unknown
                   components: ""
@@ -856,7 +856,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Install WASI SDK
-              uses: kreuzberg-dev/actions/install-wasi-sdk@v1
+              uses: xberg-io/actions/install-wasi-sdk@v1
 
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -939,7 +939,7 @@ jobs:
                   data['name'] = '@kreuzberg/tree-sitter-language-pack-wasm'
                   data['version'] = '$VERSION'
                   data['publishConfig'] = {'registry': 'https://registry.npmjs.org/', 'access': 'public'}
-                  data['repository'] = {'type': 'git', 'url': 'https://github.com/kreuzberg-dev/tree-sitter-language-pack'}
+                  data['repository'] = {'type': 'git', 'url': 'https://github.com/xberg-io/tree-sitter-language-pack'}
                   data['license'] = 'MIT'
                   # Ensure Node.js is the primary entry point
                   data['main'] = 'ts_pack_core_wasm.js'
@@ -999,14 +999,14 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   target: ${{ matrix.target }}
                   components: ""
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
-            - uses: kreuzberg-dev/actions/install-alef@v1
+            - uses: xberg-io/actions/install-alef@v1
 
             - name: Build and package Go FFI library with alef
               shell: bash
@@ -1093,14 +1093,14 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             - name: Build Java native library
-              uses: kreuzberg-dev/actions/build-java-natives@v1
+              uses: xberg-io/actions/build-java-natives@v1
               with:
                   target: ${{ matrix.target }}
                   crate-name: ts-pack-core-ffi
@@ -1137,7 +1137,7 @@ jobs:
                   cache: "maven"
 
             - name: Setup Maven
-              uses: kreuzberg-dev/actions/setup-maven@v1
+              uses: xberg-io/actions/setup-maven@v1
 
             - name: Download Java native artifacts
               uses: actions/download-artifact@v8
@@ -1147,7 +1147,7 @@ jobs:
                   merge-multiple: true
 
             - name: Stage Java native resources
-              uses: kreuzberg-dev/actions/stage-java-natives@v1
+              uses: xberg-io/actions/stage-java-natives@v1
               with:
                   artifacts-dir: artifacts/java-natives
                   resources-dir: packages/java/src/main/resources/natives
@@ -1236,7 +1236,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   target: ${{ matrix.target }}
                   components: ""
@@ -1244,7 +1244,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Rewrite native dependencies
-              uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+              uses: xberg-io/actions/rewrite-native-deps@v1
               with:
                   lang: elixir
 
@@ -1397,7 +1397,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   target: ${{ matrix.target }}
@@ -1405,7 +1405,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Setup Python
               uses: actions/setup-python@v6
@@ -1508,21 +1508,21 @@ jobs:
                   path: parsers
 
             - name: Setup PHP
-              uses: kreuzberg-dev/actions/setup-php@v1 # v1
+              uses: xberg-io/actions/setup-php@v1 # v1
               with:
                   php-version: ${{ matrix.php }}
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1 # v1
+              uses: xberg-io/actions/setup-rust@v1 # v1
               with:
                   cache-key-prefix: publish-php-${{ matrix.platform.label }}-php${{ matrix.php }}
                   toolchain: stable
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1 # v1
+              uses: xberg-io/actions/install-alef@v1 # v1
 
             - name: Build PHP extension
-              uses: kreuzberg-dev/actions/build-php-extension@v1 # v1
+              uses: xberg-io/actions/build-php-extension@v1 # v1
               with:
                   crate-name: ts-pack-core-php
                   lib-name: ts_pack_core_php
@@ -1545,7 +1545,7 @@ jobs:
                   "compiler=$compiler" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
             - name: Package PIE archive
-              uses: kreuzberg-dev/actions/package-php-pie@v1 # v1
+              uses: xberg-io/actions/package-php-pie@v1 # v1
               with:
                   php-version: ${{ matrix.php }}
                   php-ts: nts
@@ -1614,7 +1614,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -1633,7 +1633,7 @@ jobs:
                   echo "names=$LANGS" >> "$GITHUB_OUTPUT"
 
             - name: Build C# native library
-              uses: kreuzberg-dev/actions/build-csharp-natives@v1
+              uses: xberg-io/actions/build-csharp-natives@v1
               with:
                   target: ${{ matrix.target }}
                   crate-name: ts-pack-core-ffi
@@ -1741,7 +1741,7 @@ jobs:
                   import json, hashlib, os, sys, tarfile, zstandard
 
                   version = '${{ needs.prepare.outputs.version }}'
-                  base_url = 'https://github.com/kreuzberg-dev/tree-sitter-language-pack/releases/download/v' + version
+                  base_url = 'https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v' + version
 
                   # Derive the language list from what is actually inside the
                   # per-platform parser archives, not from sources/language_definitions.json.
@@ -1861,7 +1861,7 @@ jobs:
                   "
 
             - name: Upload to GitHub Release
-              uses: kreuzberg-dev/actions/publish-github-release@v1
+              uses: xberg-io/actions/publish-github-release@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   title: "Release ${{ needs.prepare.outputs.tag }}"
@@ -1911,7 +1911,7 @@ jobs:
                   path: dist/go
                   merge-multiple: true
 
-            - uses: kreuzberg-dev/actions/upload-release-assets@v1
+            - uses: xberg-io/actions/upload-release-assets@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   working-directory: dist/go
@@ -1952,7 +1952,7 @@ jobs:
                   merge-multiple: true
 
             - name: Upload to GitHub Release
-              uses: kreuzberg-dev/actions/publish-github-release@v1
+              uses: xberg-io/actions/publish-github-release@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   title: "Release ${{ needs.prepare.outputs.tag }}"
@@ -2001,7 +2001,7 @@ jobs:
                     gh release create "$TAG" --draft --title "Release $TAG"
 
             - name: Upload Elixir NIF artifacts
-              uses: kreuzberg-dev/actions/upload-release-assets@v1
+              uses: xberg-io/actions/upload-release-assets@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   working-directory: dist/elixir
@@ -2041,14 +2041,14 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             - name: Publish crates
-              uses: kreuzberg-dev/actions/publish-crates@v1
+              uses: xberg-io/actions/publish-crates@v1
               with:
                   crates: "tree-sitter-language-pack ts-pack-cli"
                   version: ${{ needs.prepare.outputs.version }}
@@ -2099,7 +2099,7 @@ jobs:
                   } >> "$GITHUB_STEP_SUMMARY"
 
             - name: Publish to PyPI
-              uses: kreuzberg-dev/actions/publish-pypi@v1
+              uses: xberg-io/actions/publish-pypi@v1
               with:
                   packages-dir: dist
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
@@ -2177,7 +2177,7 @@ jobs:
             - name: Re-check npm before publish
               if: ${{ !inputs.dry_run }}
               id: recheck
-              uses: kreuzberg-dev/actions/check-registry@v1
+              uses: xberg-io/actions/check-registry@v1
               with:
                   registry: npm
                   package: "@kreuzberg/tree-sitter-language-pack"
@@ -2185,7 +2185,7 @@ jobs:
 
             - name: Publish platform packages to npm
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/publish-npm@v1
+              uses: xberg-io/actions/publish-npm@v1
               with:
                   packages-dir: crates/ts-pack-core-node/npm
                   npm-tag: ${{ needs.prepare.outputs.npm_tag }}
@@ -2193,7 +2193,7 @@ jobs:
 
             - name: Publish main package to npm
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/publish-npm@v1
+              uses: xberg-io/actions/publish-npm@v1
               with:
                   package-dir: crates/ts-pack-core-node
                   npm-tag: ${{ needs.prepare.outputs.npm_tag }}
@@ -2245,7 +2245,7 @@ jobs:
             - name: Re-check npm before publish
               if: ${{ !inputs.dry_run }}
               id: recheck
-              uses: kreuzberg-dev/actions/check-registry@v1
+              uses: xberg-io/actions/check-registry@v1
               with:
                   registry: npm
                   package: "@kreuzberg/tree-sitter-language-pack-wasm"
@@ -2253,7 +2253,7 @@ jobs:
 
             - name: Publish to npm
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/publish-npm@v1
+              uses: xberg-io/actions/publish-npm@v1
               with:
                   package-dir: crates/ts-pack-core-wasm/pkg
                   npm-tag: ${{ needs.prepare.outputs.npm_tag }}
@@ -2262,7 +2262,7 @@ jobs:
 
             - name: Wait for npm indexing
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/wait-for-package@v1
+              uses: xberg-io/actions/wait-for-package@v1
               with:
                   registry: npm
                   package: "@kreuzberg/tree-sitter-language-pack-wasm"
@@ -2304,7 +2304,7 @@ jobs:
                   merge-multiple: true
 
             - name: Rewrite native dependencies
-              uses: kreuzberg-dev/actions/rewrite-native-deps@v1
+              uses: xberg-io/actions/rewrite-native-deps@v1
               with:
                   lang: ruby
 
@@ -2338,7 +2338,7 @@ jobs:
             - name: Re-check RubyGems before publish
               if: ${{ !inputs.dry_run }}
               id: recheck
-              uses: kreuzberg-dev/actions/check-registry@v1
+              uses: xberg-io/actions/check-registry@v1
               with:
                   registry: rubygems
                   package: tree_sitter_language_pack
@@ -2350,7 +2350,7 @@ jobs:
 
             - name: Publish gems to RubyGems
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/publish-rubygems@v1
+              uses: xberg-io/actions/publish-rubygems@v1
               with:
                   gems-dir: dist
                   dry-run: ${{ inputs.dry_run }}
@@ -2377,7 +2377,7 @@ jobs:
             - name: Re-check Maven Central before publish
               id: recheck
               if: ${{ !inputs.dry_run }}
-              uses: kreuzberg-dev/actions/check-registry@v1
+              uses: xberg-io/actions/check-registry@v1
               with:
                   registry: maven
                   package: dev.kreuzberg:tree-sitter-language-pack
@@ -2398,7 +2398,7 @@ jobs:
 
             - name: Setup Maven
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/setup-maven@v1
+              uses: xberg-io/actions/setup-maven@v1
 
             # publish-maven runs `mvn clean deploy` which wipes target/ AND rebuilds
             # the JAR from src/. The JAR with natives that build-java-package
@@ -2453,7 +2453,7 @@ jobs:
 
             - name: Publish to Maven Central
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/publish-maven@v1
+              uses: xberg-io/actions/publish-maven@v1
               with:
                   pom-file: packages/java/pom.xml
                   maven-profile: publish
@@ -2550,7 +2550,7 @@ jobs:
 
             - name: Re-check Hex.pm before publish
               id: recheck
-              uses: kreuzberg-dev/actions/check-registry@v1
+              uses: xberg-io/actions/check-registry@v1
               with:
                   registry: hex
                   package: tree_sitter_language_pack
@@ -2562,7 +2562,7 @@ jobs:
             # is not yet on crates.io).
             - name: Validate Hex tarball build (dry-run)
               if: ${{ inputs.dry_run }}
-              uses: kreuzberg-dev/actions/build-elixir-hex@v1
+              uses: xberg-io/actions/build-elixir-hex@v1
               with:
                   package-dir: packages/elixir
                   nif-crate-path: packages/elixir/native/tree_sitter_language_pack_nif
@@ -2571,7 +2571,7 @@ jobs:
 
             - name: Publish to Hex.pm
               if: ${{ !inputs.dry_run && steps.recheck.outputs.exists != 'true' }}
-              uses: kreuzberg-dev/actions/publish-hex@v1
+              uses: xberg-io/actions/publish-hex@v1
               with:
                   package-dir: packages/elixir
                   skip-docs: "true"
@@ -2614,7 +2614,7 @@ jobs:
                   merge-multiple: true
 
             - name: Upload PHP PIE packages
-              uses: kreuzberg-dev/actions/upload-release-assets@v1
+              uses: xberg-io/actions/upload-release-assets@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   working-directory: dist/php-package
@@ -2651,12 +2651,12 @@ jobs:
 
             - name: Publish to Packagist
               if: ${{ !inputs.dry_run }}
-              uses: kreuzberg-dev/actions/publish-packagist@v1
+              uses: xberg-io/actions/publish-packagist@v1
               with:
                   packagist-username: Goldziher
-                  package-name: kreuzberg-dev/tree-sitter-language-pack
+                  package-name: xberg-io/tree-sitter-language-pack
                   version: ${{ needs.prepare.outputs.version }}
-                  repository-url: https://github.com/kreuzberg-dev/tree-sitter-language-pack
+                  repository-url: https://github.com/xberg-io/tree-sitter-language-pack
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
               env:
                   PACKAGIST_API_TOKEN: ${{ secrets.PACKAGIST_API_TOKEN }}
@@ -2704,7 +2704,7 @@ jobs:
 
             - name: Publish to NuGet
               if: ${{ !inputs.dry_run }}
-              uses: kreuzberg-dev/actions/publish-nuget@v1
+              uses: xberg-io/actions/publish-nuget@v1
               with:
                   packages-dir: dist/nuget
                   dry-run: ${{ needs.prepare.outputs.dry_run }}
@@ -2744,10 +2744,10 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
-            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: xberg-io/actions/setup-rust@v1
               with:
                   target: ${{ matrix.target }}
-            - uses: kreuzberg-dev/actions/build-dart-package@v1
+            - uses: xberg-io/actions/build-dart-package@v1
               id: build
               with:
                   package-dir: packages/dart/rust
@@ -2888,8 +2888,8 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
-            - uses: kreuzberg-dev/actions/setup-rust@v1
-            - uses: kreuzberg-dev/actions/build-swift-artifactbundle@v1
+            - uses: xberg-io/actions/setup-rust@v1
+            - uses: xberg-io/actions/build-swift-artifactbundle@v1
               id: bundle
               with:
                   crate-name: tree-sitter-language-pack-swift
@@ -2924,8 +2924,8 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
-            - uses: kreuzberg-dev/actions/setup-rust@v1
-            - uses: kreuzberg-dev/actions/build-swift-package@v1
+            - uses: xberg-io/actions/setup-rust@v1
+            - uses: xberg-io/actions/build-swift-package@v1
               with:
                   package-dir: packages/swift
                   crate-name: tree-sitter-language-pack-swift
@@ -2993,7 +2993,7 @@ jobs:
                   path: dist/swift
 
             - name: Upload Swift artifact bundle to GitHub Release
-              uses: kreuzberg-dev/actions/upload-release-assets@v1
+              uses: xberg-io/actions/upload-release-assets@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   working-directory: dist/swift
@@ -3038,10 +3038,10 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
-            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: xberg-io/actions/setup-rust@v1
               with:
                   target: ${{ matrix.target }}
-            - uses: kreuzberg-dev/actions/install-alef@v1
+            - uses: xberg-io/actions/install-alef@v1
             - name: Build and package Zig FFI
               shell: bash
               run: |
@@ -3102,7 +3102,7 @@ jobs:
                   pattern: zig-ffi-*
                   path: dist/zig
                   merge-multiple: true
-            - uses: kreuzberg-dev/actions/upload-release-assets@v1
+            - uses: xberg-io/actions/upload-release-assets@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   working-directory: dist/zig
@@ -3141,12 +3141,12 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
-            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: xberg-io/actions/setup-rust@v1
               with:
                   target: ${{ matrix.target }}
                   cache-key-prefix: kotlin-android-${{ matrix.abi }}
-            - uses: kreuzberg-dev/actions/setup-android-ndk@v1
-            - uses: kreuzberg-dev/actions/build-android-natives@v1
+            - uses: xberg-io/actions/setup-android-ndk@v1
+            - uses: xberg-io/actions/build-android-natives@v1
               with:
                   crate-name: tree-sitter-language-pack-jni
                   lib-name: ts_pack_jni
@@ -3182,7 +3182,7 @@ jobs:
                     cp -v "${src}/libts_pack_jni.so" \
                           "packages/kotlin-android/src/main/jniLibs/${abi}/"
                   done
-            - uses: kreuzberg-dev/actions/publish-maven-gradle@v1
+            - uses: xberg-io/actions/publish-maven-gradle@v1
               with:
                   working-directory: packages/kotlin-android
                   gradle-task: publishAndReleaseToMavenCentral
@@ -3241,7 +3241,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   target: ${{ matrix.target }}
                   components: ""
@@ -3322,7 +3322,7 @@ jobs:
                   merge-multiple: true
 
             - name: Upload to GitHub Release
-              uses: kreuzberg-dev/actions/publish-github-release@v1
+              uses: xberg-io/actions/publish-github-release@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   title: "Release ${{ needs.prepare.outputs.tag }}"
@@ -3362,12 +3362,12 @@ jobs:
             - name: Checkout homebrew-tap
               uses: actions/checkout@v6
               with:
-                  repository: kreuzberg-dev/homebrew-tap
+                  repository: xberg-io/homebrew-tap
                   token: ${{ steps.tap-token.outputs.token }}
                   path: homebrew-tap
 
             - name: Render formulas from templates
-              uses: kreuzberg-dev/actions/publish-homebrew-source-formulas@v1
+              uses: xberg-io/actions/publish-homebrew-source-formulas@v1
               with:
                   tap-dir: ${{ github.workspace }}/homebrew-tap
                   config-file: scripts/publish/homebrew.json
@@ -3432,19 +3432,19 @@ jobs:
 
             - name: Install Homebrew (Linux)
               if: ${{ matrix.install_brew }}
-              uses: kreuzberg-dev/actions/install-homebrew-linux@v1
+              uses: xberg-io/actions/install-homebrew-linux@v1
 
             - name: Build bottles
-              uses: kreuzberg-dev/actions/homebrew-build-bottles@v1
+              uses: xberg-io/actions/homebrew-build-bottles@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   version: ${{ needs.prepare.outputs.version }}
-                  tap: kreuzberg-dev/tap
+                  tap: xberg-io/tap
                   formulas: |
                       ts-pack
                       libts-pack
                   out-dir: ${{ github.workspace }}/bottle-json
-                  github-repo: kreuzberg-dev/tree-sitter-language-pack
+                  github-repo: xberg-io/tree-sitter-language-pack
                   token: ${{ steps.app-token.outputs.token }}
 
             - name: Upload bottle JSON manifests
@@ -3482,7 +3482,7 @@ jobs:
             - name: Checkout homebrew-tap
               uses: actions/checkout@v6
               with:
-                  repository: kreuzberg-dev/homebrew-tap
+                  repository: xberg-io/homebrew-tap
                   token: ${{ steps.tap-token.outputs.token }}
                   path: homebrew-tap
 
@@ -3494,7 +3494,7 @@ jobs:
                   merge-multiple: true
 
             - name: Merge bottle DSL into formulas
-              uses: kreuzberg-dev/actions/homebrew-merge-bottles@v1
+              uses: xberg-io/actions/homebrew-merge-bottles@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   version: ${{ needs.prepare.outputs.version }}
@@ -3503,7 +3503,7 @@ jobs:
                   formulas: |
                       ts-pack
                       libts-pack
-                  github-repo: kreuzberg-dev/tree-sitter-language-pack
+                  github-repo: xberg-io/tree-sitter-language-pack
 
             - name: Commit and push bottle DSL
               working-directory: homebrew-tap
@@ -3720,7 +3720,7 @@ jobs:
               # required`, surfacing as a confusing "Finalize release: failure" on top of
               # the actual upstream failure.
               if: needs.prepare.result == 'success'
-              uses: kreuzberg-dev/actions/finalize-release@v1
+              uses: xberg-io/actions/finalize-release@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   go-module-path: ""
@@ -3842,7 +3842,7 @@ jobs:
         permissions:
             contents: write
         steps:
-            - uses: kreuzberg-dev/actions/announce-release-discord@v1
+            - uses: xberg-io/actions/announce-release-discord@v1
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -3862,7 +3862,7 @@ jobs:
             contents: read
         steps:
             - uses: actions/checkout@v6
-            - uses: kreuzberg-dev/actions/publish-npm@v1
+            - uses: xberg-io/actions/publish-npm@v1
               with:
                   package-dir: cli-proxy/npm
                   access: public

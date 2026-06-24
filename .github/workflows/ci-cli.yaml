@@ -47,7 +47,7 @@ env:
 jobs:
     clone-vendors:
         name: Clone vendors
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
@@ -95,7 +95,7 @@ jobs:
 
     build-cli:
         name: CLI Build & Test (${{ matrix.os }})
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         needs: clone-vendors
         timeout-minutes: 30
         strategy:
@@ -114,7 +114,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   cache-key-prefix: cli-${{ matrix.os }}
                   use-sccache: true

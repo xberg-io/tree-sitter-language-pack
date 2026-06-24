@@ -11,7 +11,7 @@
 set -euo pipefail
 
 VERSION="${1:?Usage: $0 <version>}"
-REPO="kreuzberg-dev/tree-sitter-language-pack"
+REPO="xberg-io/tree-sitter-language-pack"
 CHECKSUM_FILE="packages/elixir/checksum-Elixir.TreeSitterLanguagePack.Native.exs"
 
 # Targets that are built in CI (from publish.yaml build-elixir-nifs matrix)

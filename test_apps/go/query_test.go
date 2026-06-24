@@ -9,7 +9,7 @@ package e2e_test
 import (
 	"testing"
 
-	tspack "github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go"
+	tspack "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 )
 
 func Test_HighlightsNonexistentLanguage(t *testing.T) {

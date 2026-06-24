@@ -80,7 +80,7 @@ jobs:
     # ---------------------------------------------------------------------------
     clone-vendors:
         name: Clone vendors
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
@@ -133,7 +133,7 @@ jobs:
     # ---------------------------------------------------------------------------
     validate:
         name: Validate (Lint & Format)
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-24.04-arm
         timeout-minutes: 60
         steps:
@@ -142,24 +142,24 @@ jobs:
 
             # --- Task runner ---
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             # --- Rust ---
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             # --- Python ---
             - name: Setup Python
-              uses: kreuzberg-dev/actions/setup-python-env@v1
+              uses: xberg-io/actions/setup-python-env@v1
               with:
                   python-version: "3.13"
 
             # --- Node.js / pnpm ---
             - name: Setup Node Workspace
-              uses: kreuzberg-dev/actions/setup-node-workspace@v1
+              uses: xberg-io/actions/setup-node-workspace@v1
               with:
                   node-version: "22"
 
@@ -184,7 +184,7 @@ jobs:
 
             # --- Elixir ---
             - name: Setup Elixir
-              uses: kreuzberg-dev/actions/setup-elixir@v1
+              uses: xberg-io/actions/setup-elixir@v1
 
             # --- Ruby ---
             - name: Setup Ruby
@@ -196,7 +196,7 @@ jobs:
 
             # --- PHP ---
             - name: Setup PHP
-              uses: kreuzberg-dev/actions/setup-php@v1
+              uses: xberg-io/actions/setup-php@v1
 
             # --- C/C++ ---
             - name: Install C/C++ tools
@@ -206,7 +206,7 @@ jobs:
 
             # --- Alef ---
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             # --- Alef binding deps ---
             - name: Install binding dependencies
@@ -235,7 +235,7 @@ jobs:
     # ---------------------------------------------------------------------------
     validate-rust:
         name: Validate Rust & Alef
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         needs: [clone-vendors]
         runs-on: ubuntu-latest
         timeout-minutes: 30
@@ -250,7 +250,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   use-sccache: "false"
                   install-llvm-cov: "false"
@@ -266,7 +266,7 @@ jobs:
                   TSLP_LINK_MODE: static
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Verify binding API parity
               run: alef verify
@@ -315,7 +315,7 @@ jobs:
     # ---------------------------------------------------------------------------
     changes:
         name: Detect Changes
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
         timeout-minutes: 5
         outputs:
@@ -404,7 +404,7 @@ jobs:
     rust-tests:
         name: Rust Tests
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -427,17 +427,17 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: "rustfmt"
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             - name: Install Alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Run workspace tests
               run: cargo test --locked --workspace --exclude ts-pack-core-wasm
@@ -451,7 +451,7 @@ jobs:
     build-ffi:
         name: Build FFI (${{ matrix.os }})
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -478,7 +478,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -511,7 +511,7 @@ jobs:
     # ---------------------------------------------------------------------------
     build-e2e-bundles:
         name: Build e2e parser bundle (${{ matrix.label }})
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         needs: [clone-vendors]
         runs-on: ${{ matrix.os }}
         timeout-minutes: 45
@@ -534,7 +534,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "true"
@@ -593,7 +593,7 @@ jobs:
 
             - name: Cleanup Rust cache
               if: always()
-              uses: kreuzberg-dev/actions/cleanup-rust-cache@v1
+              uses: xberg-io/actions/cleanup-rust-cache@v1
 
     # ---------------------------------------------------------------------------
     # 6. build-python — Python wheels (maturin)
@@ -601,7 +601,7 @@ jobs:
     build-python:
         name: Build Python (${{ matrix.platform }})
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -632,7 +632,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -663,7 +663,7 @@ jobs:
     test-python:
         name: Test Python (${{ matrix.python-version }}, ${{ matrix.platform }})
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -730,7 +730,7 @@ jobs:
     build-node:
         name: Build Node.js (${{ matrix.platform }})
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -763,7 +763,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -795,7 +795,7 @@ jobs:
     test-node:
         name: Test Node.js (${{ matrix.platform }})
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -829,7 +829,7 @@ jobs:
               run: ./scripts/ci/prepare_e2e_manifest.sh
 
             - name: Setup Node.js workspace
-              uses: kreuzberg-dev/actions/setup-node-workspace@v1
+              uses: xberg-io/actions/setup-node-workspace@v1
               with:
                   node-version: "22"
 
@@ -855,7 +855,7 @@ jobs:
     build-wasm:
         name: Build WASM
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -877,7 +877,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   target: wasm32-unknown-unknown
                   components: ""
@@ -888,7 +888,7 @@ jobs:
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Install wasi-sdk
-              uses: kreuzberg-dev/actions/install-wasi-sdk@v1
+              uses: xberg-io/actions/install-wasi-sdk@v1
 
             - name: Build WASM (web target)
               working-directory: crates/ts-pack-core-wasm
@@ -948,7 +948,7 @@ jobs:
     test-wasm:
         name: Test WASM
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.core == 'true' ||
@@ -998,7 +998,7 @@ jobs:
     test-go:
         name: Test Go
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.go == 'true' ||
@@ -1054,7 +1054,7 @@ jobs:
             - name: Verify go.mod placement
               run: |
                   test -f packages/go/go.mod || (echo "ERROR: go.mod missing at packages/go/go.mod" && exit 1)
-                  grep -q 'module github.com/kreuzberg-dev/tree-sitter-language-pack/packages/go$' packages/go/go.mod \
+                  grep -q 'module github.com/xberg-io/tree-sitter-language-pack/packages/go$' packages/go/go.mod \
                     || (echo "ERROR: module path in go.mod is wrong" && exit 1)
 
             - name: Setup Go
@@ -1064,7 +1064,7 @@ jobs:
                   cache-dependency-path: packages/go/go.sum
 
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             - name: Run Go tests
               run: task go:test
@@ -1076,14 +1076,14 @@ jobs:
               run: task go:format:check
 
             - name: Setup Rust (for e2e generate)
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Generate Go E2E tests
               run: task go:e2e:generate
@@ -1097,7 +1097,7 @@ jobs:
     test-java:
         name: Test Java
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.java == 'true' ||
@@ -1173,7 +1173,7 @@ jobs:
                   retention-days: 7
 
             - name: Setup Rust (for alef e2e generate)
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -1213,7 +1213,7 @@ jobs:
     test-csharp:
         name: Test C# (${{ matrix.os }})
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.csharp == 'true' ||
@@ -1255,7 +1255,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "true"
@@ -1263,7 +1263,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             - name: Build FFI library
               run: cargo build --locked -p ts-pack-core-ffi --release
@@ -1310,7 +1310,7 @@ jobs:
 
             - name: Cleanup Rust cache
               if: always()
-              uses: kreuzberg-dev/actions/cleanup-rust-cache@v1
+              uses: xberg-io/actions/cleanup-rust-cache@v1
 
     # ---------------------------------------------------------------------------
     # 12. test-ruby — Ruby tests (Magnus/rake compile)
@@ -1318,7 +1318,7 @@ jobs:
     test-ruby:
         name: Test Ruby
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.ruby == 'true' ||
@@ -1353,7 +1353,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
@@ -1390,7 +1390,7 @@ jobs:
     test-php:
         name: Test PHP (${{ matrix.os }})
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.php == 'true' ||
@@ -1431,7 +1431,7 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "true"
@@ -1439,7 +1439,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             - name: Setup PHP
               uses: shivammathur/setup-php@2.37.1
@@ -1496,7 +1496,7 @@ jobs:
 
             - name: Cleanup Rust cache
               if: always()
-              uses: kreuzberg-dev/actions/cleanup-rust-cache@v1
+              uses: xberg-io/actions/cleanup-rust-cache@v1
 
     # ---------------------------------------------------------------------------
     # 14. test-elixir — Elixir NIF tests
@@ -1504,7 +1504,7 @@ jobs:
     test-elixir:
         name: Test Elixir
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.elixir == 'true' ||
@@ -1539,20 +1539,20 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             - name: Setup Elixir
-              uses: kreuzberg-dev/actions/setup-elixir@v1
+              uses: xberg-io/actions/setup-elixir@v1
               with:
                   elixir-version: "1.17"
                   otp-version: "27.2"
 
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             - name: Cache Elixir dependencies
               uses: actions/cache@v5
@@ -1587,7 +1587,7 @@ jobs:
                   TSLP_BUILD: "1"
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Generate Elixir E2E tests
               run: task elixir:e2e:generate
@@ -1604,7 +1604,7 @@ jobs:
     test-c-ffi:
         name: Test C FFI
         if: |
-            github.repository == 'kreuzberg-dev/tree-sitter-language-pack' &&
+            github.repository == 'xberg-io/tree-sitter-language-pack' &&
             github.actor != 'dependabot[bot]' &&
             (github.event_name == 'workflow_dispatch' ||
              needs.changes.outputs.ffi == 'true' ||
@@ -1641,17 +1641,17 @@ jobs:
                   path: parsers
 
             - name: Setup Rust
-              uses: kreuzberg-dev/actions/setup-rust@v1
+              uses: xberg-io/actions/setup-rust@v1
               with:
                   components: ""
                   use-sccache: "false"
                   install-llvm-cov: "false"
 
             - name: Install Task
-              uses: kreuzberg-dev/actions/install-task@v1
+              uses: xberg-io/actions/install-task@v1
 
             - name: Install alef
-              uses: kreuzberg-dev/actions/install-alef@v1
+              uses: xberg-io/actions/install-alef@v1
 
             - name: Generate C E2E tests
               run: task c:e2e:generate

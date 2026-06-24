@@ -35,7 +35,7 @@ permissions:
 jobs:
     clone-vendors:
         name: Clone vendors
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
@@ -85,7 +85,7 @@ jobs:
 
     zig-test:
         name: Zig build + test (${{ matrix.os }})
-        if: github.repository == 'kreuzberg-dev/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         needs: [clone-vendors]
         runs-on: ${{ matrix.os }}
         timeout-minutes: 30
@@ -100,12 +100,12 @@ jobs:
               with:
                   name: language-parsers
                   path: parsers
-            - uses: kreuzberg-dev/actions/setup-rust@v1
+            - uses: xberg-io/actions/setup-rust@v1
               with:
                   cache-key-prefix: ci-zig-${{ matrix.os }}
             - name: Build ts-pack-core-ffi
               run: cargo build --release --locked -p ts-pack-core-ffi
-            - uses: kreuzberg-dev/actions/setup-zig@v1
+            - uses: xberg-io/actions/setup-zig@v1
               with:
                   version: "0.16.0"
             - name: Build Zig package
