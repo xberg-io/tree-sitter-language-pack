@@ -6,6 +6,7 @@
 
 pub mod chunking;
 pub(crate) mod data_extraction;
+pub(crate) mod elixir;
 pub mod intelligence;
 pub mod types;
 

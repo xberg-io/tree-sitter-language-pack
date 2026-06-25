@@ -23,7 +23,7 @@ pub fn extract_intelligence(source: &str, language: &str, tree: &tree_sitter::Tr
     }
 }
 
-fn span_from_node(node: &tree_sitter::Node) -> Span {
+pub(super) fn span_from_node(node: &tree_sitter::Node) -> Span {
     let start = node.start_position();
     let end = node.end_position();
     Span {
@@ -36,7 +36,7 @@ fn span_from_node(node: &tree_sitter::Node) -> Span {
     }
 }
 
-fn node_text<'a>(node: &tree_sitter::Node, source: &'a str) -> &'a str {
+pub(super) fn node_text<'a>(node: &tree_sitter::Node, source: &'a str) -> &'a str {
     &source[node.start_byte()..node.end_byte()]
 }
 
@@ -189,8 +189,15 @@ pub(crate) fn extract_imports(root: &tree_sitter::Node, source: &str, language: 
     imports
 }
 
-fn collect_imports(node: &tree_sitter::Node, source: &str, language: &str, imports: &mut Vec<ImportInfo>) {
+pub(super) fn collect_imports(node: &tree_sitter::Node, source: &str, language: &str, imports: &mut Vec<ImportInfo>) {
     let kind = node.kind();
+
+    // Elixir directives are `call` nodes; the Elixir module owns that arm and
+    // signals via `true` once it has fully handled the node.
+    if language == "elixir" && kind == "call" && super::elixir::collect_import_call(node, source, language, imports) {
+        return;
+    }
+
     let is_import = match language {
         "python" => kind == "import_statement" || kind == "import_from_statement",
         "javascript" | "typescript" | "tsx" => kind == "import_statement",
@@ -283,8 +290,21 @@ fn resolve_structure_name(node: &tree_sitter::Node, source: &str) -> Option<Stri
     None
 }
 
-fn collect_structure(node: &tree_sitter::Node, source: &str, language: &str, items: &mut Vec<StructureItem>) {
+pub(super) fn collect_structure(
+    node: &tree_sitter::Node,
+    source: &str,
+    language: &str,
+    items: &mut Vec<StructureItem>,
+) {
     let kind = node.kind();
+
+    // Elixir has no dedicated definition nodes; the Elixir module owns that arm
+    // and signals via `true` once it has fully handled the node (a `quote` block
+    // to skip, or a definition `call` emitted with its body recursed).
+    if language == "elixir" && super::elixir::collect_structure_call(node, source, language, items) {
+        return;
+    }
+
     let structure_kind = match kind {
         "function_definition" | "function_declaration" | "function_item" | "arrow_function" => {
             Some(StructureKind::Function)
