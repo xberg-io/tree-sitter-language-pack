@@ -20,7 +20,7 @@ edition = "2024"
 license = "MIT"
 repository = "https://github.com/xberg-io/tree-sitter-language-pack"
 homepage = "https://xberg.io"
-authors = ["Na'aman Hirschfeld <naaman@kreuzberg.dev>"]
+authors = ["Na'aman Hirschfeld <naaman@xberg.io>"]
 description = "A comprehensive tree-sitter language pack with polyglot bindings"
 keywords = ["tree-sitter", "parser", "syntax", "language-pack", "kreuzberg"]
 

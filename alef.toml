@@ -60,7 +60,7 @@ date-released = "2026-05-17"
 [[workspace.citation.authors]]
 family-names = "Hirschfeld"
 given-names = "Na'aman"
-email = "naaman@kreuzberg.dev"
+email = "naaman@xberg.io"
 orcid = "https://orcid.org/0009-0000-2247-5072"
 
 [[workspace.sync.text_replacements]]
