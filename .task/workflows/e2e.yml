@@ -2,8 +2,8 @@ version: "3"
 
 # Canonical e2e workflow for tree-sitter-language-pack.
 #
-# Mirrors the kreuzberg-dev e2e task surface (kreuzcrawl/Taskfile.yml +
-# kreuzcrawl/.task/workflows/e2e.yml), minus the mock HTTP server: tslp
+# Mirrors the kreuzberg-dev e2e task surface (crawlberg/Taskfile.yml +
+# crawlberg/.task/workflows/e2e.yml), minus the mock HTTP server: tslp
 # tests parsers against local tree-sitter grammars only — pure CPU, no I/O.
 
 tasks:

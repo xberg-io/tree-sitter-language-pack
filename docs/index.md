@@ -113,7 +113,7 @@ Tree-sitter-language-pack is built by the [xberg.io](https://xberg.io) team, the
 
   Fast HTML to Markdown conversion with the same Rust-core, polyglot-bindings shape.
 
-- :material-spider-web:{ .lg .middle } **[kreuzcrawl](https://docs.kreuzcrawl.xberg.io/)**
+- :material-spider-web:{ .lg .middle } **[crawlberg](https://docs.crawlberg.xberg.io/)**
 
   Polite, resumable web crawler that hands pages to html-to-markdown or Kreuzberg for extraction.
 
