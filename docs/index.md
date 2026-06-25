@@ -105,7 +105,7 @@ Tree-sitter-language-pack is built by the [xberg.io](https://xberg.io) team, the
 
   Document intelligence for 90+ formats — PDF, Office, images, HTML, email — with optional OCR.
 
-- :material-cloud-outline:{ .lg .middle } **[Kreuzberg Cloud](https://docs.kreuzberg.cloud/)**
+- :material-cloud-outline:{ .lg .middle } **[Xberg Enterprise](https://enterprise.xberg.io/)**
 
   Managed document extraction API. Same engine as the open-source library, hosted.
 

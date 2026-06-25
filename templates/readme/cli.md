@@ -170,7 +170,7 @@ Part of [tree-sitter-language-pack](https://github.com/xberg-io/tree-sitter-lang
 ## Part of Kreuzberg, Inc
 
 - [Kreuzberg](https://docs.xberg.io) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
-- [Kreuzberg Cloud](https://docs.kreuzberg.cloud) — managed extraction API with SDKs, dashboards, and observability.
+- [Xberg Enterprise](https://enterprise.xberg.io) — managed extraction API with SDKs, dashboards, and observability.
 - [kreuzcrawl](https://docs.kreuzcrawl.xberg.io) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://docs.html-to-markdown.xberg.io) — fast, lossless HTML→Markdown engine.
 - [liter-llm](https://docs.liter-llm.xberg.io) — universal LLM API client with native bindings for 14 languages and 143 providers.
