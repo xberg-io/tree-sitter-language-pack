@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   those exported through the public Python API. Tests all 13 exception types across import paths
   to prevent regression of the fix that makes `except DownloadError:` work correctly.
 
+### Fixed
+
+- **CI resource exhaustion: reduce parser generation concurrency.** The "Clone vendors" step was
+  invoking `tree-sitter generate` with default concurrency of 3, causing each of the 306 grammars
+  to generate in parallel (~1 GB RSS per instance), exhausting the 7 GB RAM limit on GitHub-hosted
+  runners and triggering SIGTERM (exit 143) at ~13 minutes. Reduced defaults to 8 clone concurrency
+  (from 16) and 2 generate concurrency (from 3) to stay within resource budgets. Fixes CI, CLI,
+  Docker, E2E, Swift, Rust, and Validate workflow failures.
+
 ## [1.10.9] - 2026-06-24
 
 ### Fixed
