@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Python: regression test for exception class identity (issue #147).** Adds comprehensive test
+  coverage verifying that exception classes raised by the native module are the same objects as
+  those exported through the public Python API. Tests all 13 exception types across import paths
+  to prevent regression of the fix that makes `except DownloadError:` work correctly.
+
 ## [1.10.9] - 2026-06-24
 
 ### Fixed
