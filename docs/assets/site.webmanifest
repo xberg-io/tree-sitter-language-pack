@@ -1,6 +1,6 @@
 {
-  "name": "Xberg",
-  "short_name": "Xberg",
+  "name": "tree-sitter-language-pack",
+  "short_name": "tree-sitter-language-pack",
   "icons": [
     {
       "src": "android-chrome-192x192.png",
