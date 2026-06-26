@@ -12,5 +12,5 @@ authors:
 repository-code: "https://github.com/xberg-io/tree-sitter-language-pack"
 url: "https://xberg.io"
 license: MIT
-version: 1.10.9
+version: 1.11.0-rc.1
 date-released: 2026-05-17
