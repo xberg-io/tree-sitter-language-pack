@@ -82,7 +82,11 @@ jobs:
         name: Clone vendors
         if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
         runs-on: ubuntu-latest
-        timeout-minutes: 30
+        # Cold-cache runs regenerate all 143 generate:true grammars; monster
+        # grammars (zsh, systemverilog) are slow when generation is serialized
+        # (see TSLP_GENERATE_CONCURRENCY below), so allow extra headroom for the
+        # one run that warms the cache. Warm-cache runs finish in a few minutes.
+        timeout-minutes: 90
         steps:
             - name: Checkout
               uses: actions/checkout@v6
@@ -117,6 +121,12 @@ jobs:
                       parsers-
 
             - name: Clone vendors
+              env:
+                  # Serialize `tree-sitter generate` so each grammar gets the full
+                  # 16 GB runner. On a cold cache, generating monster grammars
+                  # (zsh, systemverilog) concurrently exhausts memory and the runner
+                  # SIGTERMs the job (exit 143). Clones stay wide (network-bound).
+                  TSLP_GENERATE_CONCURRENCY: "1"
               run: |
                   mkdir -p parsers
                   uv run --script scripts/clone_vendors.py

@@ -43,10 +43,8 @@ parsers_directory = Path(os.environ.get("TSLP_CACHE_DIR", _project_root / "parse
 # Concurrency limits. `tree-sitter generate` peaks at ~1 GB+ RSS for large
 # grammars, so a high generate fan-out OOM-kills the 7 GB CI runners; clones are
 # cheap and stay wide. Both are env-tunable for constrained environments.
-# CI defaults reduced to 8 clones (from 16) and 2 generates (from 3) to avoid
-# resource exhaustion on GitHub-hosted runners. (Issue: CI kills at ~13min with SIGTERM 143)
-CLONE_CONCURRENCY = int(os.environ.get("TSLP_CLONE_CONCURRENCY", "8"))
-GENERATE_CONCURRENCY = int(os.environ.get("TSLP_GENERATE_CONCURRENCY", "2"))
+CLONE_CONCURRENCY = int(os.environ.get("TSLP_CLONE_CONCURRENCY", "16"))
+GENERATE_CONCURRENCY = int(os.environ.get("TSLP_GENERATE_CONCURRENCY", "3"))
 
 CACHE_MANIFEST_FILE = parsers_directory / ".cache_manifest.json"
 
