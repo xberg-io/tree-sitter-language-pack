@@ -17,6 +17,8 @@ A comprehensive collection of tree-sitter language parsers with polyglot binding
 
 The core is written in Rust with polyglot bindings for 15 other languages, plus a CLI and MCP server for working with code from the shell. Grammars are built into multi-platform binaries and downloaded on demand, so the package stays small while offering 300+ parsers.
 
+When is this the right tool? Parsing code → use tree-sitter. Parsing many languages → use a language pack. Doing either from a non-C ecosystem with a single dependency → that is the gap this pack fills: it fans tree-sitter out to 15 languages behind one install.
+
 ### Features
 
 | Feature | Description |
