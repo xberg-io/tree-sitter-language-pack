@@ -30,7 +30,7 @@
 		"prepublishOnly": "npx --yes -p @napi-rs/cli@^3.6.2 napi prepublish -t npm --skip-optional-publish"
 	},
 	"devDependencies": {
-		"@napi-rs/cli": "^3.7.2"
+		"@napi-rs/cli": "^3.6.2"
 	},
 	"optionalDependencies": {
 		"@kreuzberg/tree-sitter-language-pack-darwin-arm64": "1.10.9",
