@@ -148,12 +148,12 @@ jobs:
                   {
                     "name": "npm",
                     "registry": "npm",
-                    "package": "@kreuzberg/tree-sitter-language-pack"
+                    "package": "@xberg-io/tree-sitter-language-pack"
                   },
                   {
                     "name": "npm-wasm",
                     "registry": "npm",
-                    "package": "@kreuzberg/tree-sitter-language-pack-wasm"
+                    "package": "@xberg-io/tree-sitter-language-pack-wasm"
                   },
                   {
                     "name": "rubygems",
@@ -163,7 +163,7 @@ jobs:
                   {
                     "name": "maven",
                     "registry": "maven",
-                    "package": "dev.kreuzberg:tree-sitter-language-pack"
+                    "package": "io.xberg:tree-sitter-language-pack"
                   },
                   {
                     "name": "hex",
@@ -201,7 +201,7 @@ jobs:
                   {
                     "name": "maven-kotlin-android",
                     "registry": "maven",
-                    "package": "dev.kreuzberg.tslp:tslp-android"
+                    "package": "io.xberg.tslp:tslp-android"
                   }
                 ]
 
@@ -308,7 +308,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -936,7 +936,7 @@ jobs:
                   import json
                   with open('pkg/package.json', 'r') as f:
                       data = json.load(f)
-                  data['name'] = '@kreuzberg/tree-sitter-language-pack-wasm'
+                  data['name'] = '@xberg-io/tree-sitter-language-pack-wasm'
                   data['version'] = '$VERSION'
                   data['publishConfig'] = {'registry': 'https://registry.npmjs.org/', 'access': 'public'}
                   data['repository'] = {'type': 'git', 'url': 'https://github.com/xberg-io/tree-sitter-language-pack'}
@@ -1717,7 +1717,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -1897,7 +1897,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -1937,7 +1937,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -1978,7 +1978,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -2180,7 +2180,7 @@ jobs:
               uses: xberg-io/actions/check-registry@v1
               with:
                   registry: npm
-                  package: "@kreuzberg/tree-sitter-language-pack"
+                  package: "@xberg-io/tree-sitter-language-pack"
                   version: ${{ needs.prepare.outputs.version }}
 
             - name: Publish platform packages to npm
@@ -2248,7 +2248,7 @@ jobs:
               uses: xberg-io/actions/check-registry@v1
               with:
                   registry: npm
-                  package: "@kreuzberg/tree-sitter-language-pack-wasm"
+                  package: "@xberg-io/tree-sitter-language-pack-wasm"
                   version: ${{ needs.prepare.outputs.version }}
 
             - name: Publish to npm
@@ -2265,7 +2265,7 @@ jobs:
               uses: xberg-io/actions/wait-for-package@v1
               with:
                   registry: npm
-                  package: "@kreuzberg/tree-sitter-language-pack-wasm"
+                  package: "@xberg-io/tree-sitter-language-pack-wasm"
                   version: ${{ needs.prepare.outputs.version }}
                   max-attempts: "20"
 
@@ -2380,7 +2380,7 @@ jobs:
               uses: xberg-io/actions/check-registry@v1
               with:
                   registry: maven
-                  package: dev.kreuzberg:tree-sitter-language-pack
+                  package: io.xberg:tree-sitter-language-pack
                   version: ${{ needs.prepare.outputs.version }}
 
             - name: Setup Java
@@ -2489,7 +2489,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -2860,7 +2860,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Dispatch publish-pubdev workflow
               env:
@@ -2946,7 +2946,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - uses: actions/checkout@v6
               with:
@@ -2974,8 +2974,8 @@ jobs:
 
             - name: Commit and push Package.swift
               run: |
-                  git config user.name "kreuzberg-dev-publisher[bot]"
-                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+                  git config user.name "xberg-dev-publisher[bot]"
+                  git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
                   git add Package.swift
                   git commit -m "chore(swift): update Package.swift with checksum for v${{ needs.prepare.outputs.version }}"
                   git tag -f "${{ needs.prepare.outputs.tag }}"
@@ -3092,7 +3092,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
             - uses: actions/checkout@v6
               with:
                   ref: ${{ needs.prepare.outputs.checkout_ref }}
@@ -3307,7 +3307,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -3351,7 +3351,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
                   repositories: homebrew-tap
 
             - name: Checkout source repo
@@ -3381,8 +3381,8 @@ jobs:
               env:
                   GH_TOKEN: ${{ steps.tap-token.outputs.token }}
               run: |
-                  git config user.name "kreuzberg-dev-publisher[bot]"
-                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+                  git config user.name "xberg-dev-publisher[bot]"
+                  git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
                   if git diff --quiet Formula/; then
                     echo "No formula changes; skipping commit."
                     exit 0
@@ -3423,7 +3423,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout source repo
               uses: actions/checkout@v6
@@ -3471,7 +3471,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
                   repositories: homebrew-tap
 
             - name: Checkout source repo
@@ -3510,8 +3510,8 @@ jobs:
               env:
                   GH_TOKEN: ${{ steps.tap-token.outputs.token }}
               run: |
-                  git config user.name "kreuzberg-dev-publisher[bot]"
-                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+                  git config user.name "xberg-dev-publisher[bot]"
+                  git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
                   if git diff --quiet Formula/; then
                     echo "No bottle DSL changes; skipping commit."
                     exit 0
@@ -3536,7 +3536,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6
@@ -3548,8 +3548,8 @@ jobs:
 
             - name: Configure git
               run: |
-                  git config user.name "kreuzberg-dev-publisher[bot]"
-                  git config user.email "291994444+kreuzberg-dev-publisher[bot]@users.noreply.github.com"
+                  git config user.name "xberg-dev-publisher[bot]"
+                  git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
 
             - name: Download Go FFI artifacts (all platforms)
               uses: actions/download-artifact@v8
@@ -3706,7 +3706,7 @@ jobs:
               with:
                   app-id: ${{ secrets.BOT_APP_ID }}
                   private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-                  owner: kreuzberg-dev
+                  owner: xberg-io
 
             - name: Checkout
               uses: actions/checkout@v6

@@ -48,14 +48,14 @@ const tryLoadBinding = () => {
   // Optional-dep packages are named after `napi.packageName` (npm subpackage names),
   // which inherits any scope prefix from the parent package.
   const targets = [
-    ["linux", "x64", "gnu", "./ts-pack-core-node.linux-x64-gnu.node", "@kreuzberg/tree-sitter-language-pack-linux-x64-gnu"],
-    ["linux", "arm64", "gnu", "./ts-pack-core-node.linux-arm64-gnu.node", "@kreuzberg/tree-sitter-language-pack-linux-arm64-gnu"],
-    ["linux", "x64", "musl", "./ts-pack-core-node.linux-x64-musl.node", "@kreuzberg/tree-sitter-language-pack-linux-x64-musl"],
-    ["linux", "arm64", "musl", "./ts-pack-core-node.linux-arm64-musl.node", "@kreuzberg/tree-sitter-language-pack-linux-arm64-musl"],
-    ["darwin", "x64", null, "./ts-pack-core-node.darwin-x64.node", "@kreuzberg/tree-sitter-language-pack-darwin-x64"],
-    ["darwin", "arm64", null, "./ts-pack-core-node.darwin-arm64.node", "@kreuzberg/tree-sitter-language-pack-darwin-arm64"],
-    ["win32", "x64", null, "./ts-pack-core-node.win32-x64-msvc.node", "@kreuzberg/tree-sitter-language-pack-win32-x64-msvc"],
-    ["win32", "arm64", null, "./ts-pack-core-node.win32-arm64-msvc.node", "@kreuzberg/tree-sitter-language-pack-win32-arm64-msvc"],
+    ["linux", "x64", "gnu", "./ts-pack-core-node.linux-x64-gnu.node", "@xberg-io/tree-sitter-language-pack-linux-x64-gnu"],
+    ["linux", "arm64", "gnu", "./ts-pack-core-node.linux-arm64-gnu.node", "@xberg-io/tree-sitter-language-pack-linux-arm64-gnu"],
+    ["linux", "x64", "musl", "./ts-pack-core-node.linux-x64-musl.node", "@xberg-io/tree-sitter-language-pack-linux-x64-musl"],
+    ["linux", "arm64", "musl", "./ts-pack-core-node.linux-arm64-musl.node", "@xberg-io/tree-sitter-language-pack-linux-arm64-musl"],
+    ["darwin", "x64", null, "./ts-pack-core-node.darwin-x64.node", "@xberg-io/tree-sitter-language-pack-darwin-x64"],
+    ["darwin", "arm64", null, "./ts-pack-core-node.darwin-arm64.node", "@xberg-io/tree-sitter-language-pack-darwin-arm64"],
+    ["win32", "x64", null, "./ts-pack-core-node.win32-x64-msvc.node", "@xberg-io/tree-sitter-language-pack-win32-x64-msvc"],
+    ["win32", "arm64", null, "./ts-pack-core-node.win32-arm64-msvc.node", "@xberg-io/tree-sitter-language-pack-win32-arm64-msvc"],
   ];
 
   for (const [plat, a, abi, localPath, optionalDep] of targets) {

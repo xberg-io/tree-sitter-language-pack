@@ -14,10 +14,10 @@
     <img src="https://img.shields.io/crates/v/tree-sitter-language-pack?label=Rust&color=007ec6" alt="Rust">
   </a>  <a href="https://pypi.org/project/tree-sitter-language-pack/">
     <img src="https://img.shields.io/pypi/v/tree-sitter-language-pack?label=Python&color=007ec6" alt="Python">
-  </a>  <a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack">
-    <img src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6" alt="Node">
-  </a>  <a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack-wasm">
-    <img src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack-wasm?label=WASM&color=007ec6" alt="Wasm">
+  </a>  <a href="https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack">
+    <img src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack?label=Node.js&color=007ec6" alt="Node">
+  </a>  <a href="https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack-wasm">
+    <img src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack-wasm?label=WASM&color=007ec6" alt="Wasm">
   </a>  <a href="https://central.sonatype.com/artifact/dev.xberg-io/tree-sitter-language-pack">
     <img src="https://img.shields.io/maven-central/v/dev.xberg-io/tree-sitter-language-pack?label=Java&color=007ec6" alt="Java">
   </a>  <a href="https://github.com/xberg-io/tree-sitter-language-pack/tree/main/packages/go">
@@ -174,9 +174,9 @@ MIT -- see [LICENSE](https://github.com/xberg-io/tree-sitter-language-pack/blob/
 
 Part of [tree-sitter-language-pack](https://github.com/xberg-io/tree-sitter-language-pack) -- A comprehensive collection of tree-sitter language parsers with polyglot bindings.
 
-## Part of Kreuzberg, Inc
+## Part of Xberg
 
-- [Kreuzberg](https://docs.xberg.io) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
+- [Xberg](https://docs.xberg.io) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
 - [Xberg Enterprise](https://enterprise.xberg.io) — managed extraction API with SDKs, dashboards, and observability.
 - [crawlberg](https://docs.crawlberg.xberg.io) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://docs.html-to-markdown.xberg.io) — fast, lossless HTML→Markdown engine.

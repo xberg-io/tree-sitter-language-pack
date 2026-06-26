@@ -100,7 +100,7 @@ cache_dir = ".cache/tree-sitter"
 === "Node.js"
 
     ```typescript
-    import { init, configure, PackConfig } from "@kreuzberg/tree-sitter-language-pack";
+    import { init, configure, PackConfig } from "@xberg-io/tree-sitter-language-pack";
 
     await init({ languages: ["python", "javascript", "rust"] });
     await init({ groups: ["web"] });

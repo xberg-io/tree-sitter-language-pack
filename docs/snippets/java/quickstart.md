@@ -1,6 +1,6 @@
 ```java title="Java"
-import dev.kreuzberg.treesitterlanguagepack.PackConfig;
-import dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack;
+import io.xberg.treesitterlanguagepack.PackConfig;
+import io.xberg.treesitterlanguagepack.TreeSitterLanguagePack;
 
 import java.util.List;
 import java.util.Optional;

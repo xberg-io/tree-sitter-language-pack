@@ -1,8 +1,8 @@
 ```java title="Java"
-import dev.kreuzberg.treesitterlanguagepack.ProcessConfig;
-import dev.kreuzberg.treesitterlanguagepack.ProcessResult;
-import dev.kreuzberg.treesitterlanguagepack.StructureItem;
-import dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack;
+import io.xberg.treesitterlanguagepack.ProcessConfig;
+import io.xberg.treesitterlanguagepack.ProcessResult;
+import io.xberg.treesitterlanguagepack.StructureItem;
+import io.xberg.treesitterlanguagepack.TreeSitterLanguagePack;
 
 class Main {
     public static void main(String[] args) throws Exception {

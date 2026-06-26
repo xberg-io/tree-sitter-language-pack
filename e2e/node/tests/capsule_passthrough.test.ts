@@ -3,7 +3,7 @@
 // package accepts directly — i.e. host-native Language passthrough (#143).
 import Parser from "tree-sitter";
 import { describe, expect, it } from "vitest";
-import { getLanguage } from "@kreuzberg/tree-sitter-language-pack";
+import { getLanguage } from "@xberg-io/tree-sitter-language-pack";
 
 describe("capsule Language passthrough", () => {
 	it("returns a Language usable by upstream tree-sitter Parser.setLanguage", () => {

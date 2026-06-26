@@ -18,21 +18,21 @@
 	<a href="https://pypi.org/project/tree-sitter-language-pack/">
 		<img src="https://img.shields.io/pypi/v/tree-sitter-language-pack?label=Python&color=007ec6" alt="Python" />
 	</a>
-	<a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack">
+	<a href="https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack">
 		<img
-			src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6"
+			src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack?label=Node.js&color=007ec6"
 			alt="Node.js"
 		/>
 	</a>
-	<a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack-wasm">
+	<a href="https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack-wasm">
 		<img
-			src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack-wasm?label=WASM&color=007ec6"
+			src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack-wasm?label=WASM&color=007ec6"
 			alt="WASM"
 		/>
 	</a>
-	<a href="https://central.sonatype.com/artifact/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack">
+	<a href="https://central.sonatype.com/artifact/io.xberg.treesitterlanguagepack/tree-sitter-language-pack">
 		<img
-			src="https://img.shields.io/maven-central/v/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6"
+			src="https://img.shields.io/maven-central/v/io.xberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6"
 			alt="Java"
 		/>
 	</a>
@@ -60,9 +60,9 @@
 	<a href="https://pub.dev/packages/tree_sitter_language_pack">
 		<img src="https://img.shields.io/pub/v/tree_sitter_language_pack?label=Dart&color=007ec6" alt="Dart" />
 	</a>
-	<a href="https://central.sonatype.com/artifact/dev.kreuzberg.tslp.android/tree-sitter-language-pack-android">
+	<a href="https://central.sonatype.com/artifact/io.xberg.tslp.android/tree-sitter-language-pack-android">
 		<img
-			src="https://img.shields.io/maven-central/v/dev.kreuzberg.tslp.android/tree-sitter-language-pack-android?label=Kotlin&color=007ec6"
+			src="https://img.shields.io/maven-central/v/io.xberg.tslp.android/tree-sitter-language-pack-android?label=Kotlin&color=007ec6"
 			alt="Kotlin"
 		/>
 	</a>
@@ -103,7 +103,7 @@ Pre-compiled tree-sitter grammars for 306 programming languages, with on-demand 
 - **Code intelligence primitives** — parse trees, functions, classes, imports, exports, symbols, docstrings, diagnostics, and syntax-aware chunks.
 - **Shared cache model** — parsers are fetched and cached once, then reused by every call in the process.
 - **Same catalog as every binding** — Rust, Python, Node.js, Go, Java, PHP, Ruby, .NET, Elixir, WASM, Dart, Kotlin Android, Swift, Zig, and C FFI use the same grammar set.
-- **Rust crate** — canonical API used by the other bindings and by Kreuzberg code intelligence.
+- **Rust crate** — canonical API used by the other bindings and by Xberg code intelligence.
 
 ## Installation
 
@@ -134,9 +134,9 @@ println!("{}", tree.root_node().to_sexp());
 - **[Documentation](https://docs.tree-sitter-language-pack.xberg.io)** -- Full docs and API reference
 - **[GitHub Repository](https://github.com/xberg-io/tree-sitter-language-pack)** -- Source, issues, and discussions
 
-## Part of Kreuzberg.dev
+## Part of Xberg
 
-- [Kreuzberg](https://github.com/xberg-io/kreuzberg) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
+- [Xberg](https://github.com/xberg-io/xberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
 - [Xberg Enterprise](https://github.com/xberg-io/xberg-enterprise) — managed extraction API with SDKs, dashboards, and observability.
 - [crawlberg](https://github.com/xberg-io/crawlberg) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://github.com/xberg-io/html-to-markdown) — fast, lossless HTML→Markdown engine.

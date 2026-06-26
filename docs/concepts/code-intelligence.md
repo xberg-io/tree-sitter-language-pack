@@ -32,7 +32,7 @@ All intelligence extraction is opt-in via `ProcessConfig`. Enable what you need:
 === "Node.js"
 
     ```typescript
-    import { process } from "@kreuzberg/tree-sitter-language-pack";
+    import { process } from "@xberg-io/tree-sitter-language-pack";
 
     const result = await process(source, {
       language: "typescript",

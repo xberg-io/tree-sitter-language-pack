@@ -21,7 +21,7 @@ print(tree.root_node.sexp())
 {% elif language in ["typescript", "node"] %}
 
 ```typescript
-import { getParser } from "@kreuzberg/tree-sitter-language-pack";
+import { getParser } from "@xberg-io/tree-sitter-language-pack";
 
 const parser = getParser("python");
 const tree = parser.parse("def hello(): pass");
@@ -31,7 +31,7 @@ console.log(tree.rootNode.toString());
 {% elif language == "wasm" %}
 
 ```typescript
-import init, { getParser } from "@kreuzberg/tree-sitter-language-pack-wasm";
+import init, { getParser } from "@xberg-io/tree-sitter-language-pack-wasm";
 
 await init();
 const parser = getParser("python");

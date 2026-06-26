@@ -22,7 +22,7 @@
   {% elif language == "python" %}
 - **Python package** — wheels for parser loading and code-intelligence pipelines.
   {% elif language == "rust" %}
-- **Rust crate** — canonical API used by the other bindings and by Kreuzberg code intelligence.
+- **Rust crate** — canonical API used by the other bindings and by Xberg code intelligence.
   {% elif language == "go" %}
 - **Go module** — cgo-backed access to the shared parser pack.
   {% elif language == "java" %}
@@ -70,9 +70,9 @@
 - **[Documentation](https://docs.tree-sitter-language-pack.xberg.io)** -- Full docs and API reference
 - **[GitHub Repository](https://github.com/xberg-io/tree-sitter-language-pack)** -- Source, issues, and discussions
 
-## Part of Kreuzberg.dev
+## Part of Xberg
 
-- [Kreuzberg](https://github.com/xberg-io/kreuzberg) — document intelligence: text, tables, metadata from 90+ formats with optional OCR.
+- [Xberg](https://github.com/xberg-io/xberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
 - [Xberg Enterprise](https://github.com/xberg-io/xberg-enterprise) — managed extraction API with SDKs, dashboards, and observability.
 - [crawlberg](https://github.com/xberg-io/crawlberg) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://github.com/xberg-io/html-to-markdown) — fast, lossless HTML→Markdown engine.

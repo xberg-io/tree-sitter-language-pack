@@ -1,5 +1,5 @@
 {
-	"name": "@kreuzberg/tree-sitter-language-pack-wasm",
+	"name": "@xberg-io/tree-sitter-language-pack-wasm",
 	"version": "1.10.9",
 	"private": false,
 	"description": "Pre-compiled tree-sitter grammars for 306 programming languages",

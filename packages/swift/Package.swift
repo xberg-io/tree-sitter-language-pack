@@ -51,8 +51,9 @@ let package = Package(
           "-L\(rustTargetDir)/debug",
           // Runtime search paths: the FFI dylib's install_name is @rpath/lib...dylib, so the
           // consumer (and any test bundle linking this target) needs an LC_RPATH to dlopen it.
-          "-Wl,-rpath,\(rustTargetDir)/release",
-          "-Wl,-rpath,\(rustTargetDir)/debug",
+          // swiftc rejects `-Wl,-rpath,<p>`; the driver-native spelling is `-Xlinker -rpath -Xlinker <p>`.
+          "-Xlinker", "-rpath", "-Xlinker", "\(rustTargetDir)/release",
+          "-Xlinker", "-rpath", "-Xlinker", "\(rustTargetDir)/debug",
         ]),
         .linkedLibrary("tree_sitter_language_pack_swift"),
         .linkedLibrary("ts_pack_core_ffi"),

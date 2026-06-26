@@ -10,7 +10,7 @@
     <Description>Pre-compiled tree-sitter grammars for 306 programming languages</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/xberg-io/tree-sitter-language-pack</RepositoryUrl>
-    <Authors>Kreuzberg Team</Authors>
+    <Authors>Na&apos;aman Hirschfeld</Authors>
     <Company>Alef Team</Company>
     <Product>TreeSitterLanguagePack</Product>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

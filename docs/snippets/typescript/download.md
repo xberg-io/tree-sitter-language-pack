@@ -4,7 +4,7 @@ import {
   download,
   downloadedLanguages,
   manifestLanguages,
-} from "@kreuzberg/tree-sitter-language-pack";
+} from "@xberg-io/tree-sitter-language-pack";
 
 // Pre-download specific languages
 const count = download(["python", "javascript", "rust"]);

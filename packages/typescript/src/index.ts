@@ -32,7 +32,7 @@ export {
 	languageCount,
 	manifestLanguages,
 	process,
-} from "@kreuzberg/tree-sitter-language-pack";
+} from "@xberg-io/tree-sitter-language-pack";
 
 export type {
 	ByteRange,
@@ -57,4 +57,4 @@ export type {
 	StructureKind,
 	SymbolInfo,
 	SymbolKind,
-} from "@kreuzberg/tree-sitter-language-pack";
+} from "@xberg-io/tree-sitter-language-pack";

@@ -1,14 +1,14 @@
 {
   "devDependencies": {
-    "@kreuzberg/tree-sitter-language-pack": "workspace:*",
     "@types/node": "^22.10.2",
+    "@xberg-io/tree-sitter-language-pack": "workspace:*",
     "tree-sitter": "^0.25.0",
     "vitest": "^4.1.5"
   },
   "engines": {
     "node": "^22 || ^24"
   },
-  "name": "@kreuzberg/tree-sitter-language-pack-e2e-typescript",
+  "name": "@xberg-io/tree-sitter-language-pack-e2e-typescript",
   "private": true,
   "scripts": {
     "test": "vitest run"

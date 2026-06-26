@@ -26,8 +26,8 @@ exclude = [
   "/raw/main/",
 
   # Docs site self-references (404 until deployed)
-  "docs\\.tree-sitter-language-pack\\.kreuzberg\\.dev",
-  "docs\\.kreuzberg\\.dev",
+  "docs\\.tree-sitter-language-pack\\.xberg\\.io",
+  "docs\\.xberg\\.io",
 
   # PyPI project pages (rate-limited)
   "pypi\\.org/project/",

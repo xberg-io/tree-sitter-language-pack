@@ -51,7 +51,7 @@ With a passthrough binding, you use the ecosystem's native parser without any wr
 
     ```typescript
     import TreeSitter from "tree-sitter";
-    import * as tslp from "@kreuzberg/tree-sitter-language-pack";
+    import * as tslp from "@xberg-io/tree-sitter-language-pack";
 
     // getLanguage returns tree-sitter npm package Language
     const pythonLang = tslp.getLanguage("python");
@@ -90,7 +90,7 @@ With a passthrough binding, you use the ecosystem's native parser without any wr
     ```java
     import io.github.treesitter.jtreesitter.Language;
     import io.github.treesitter.jtreesitter.Parser;
-    import dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack;
+    import io.xberg.treesitterlanguagepack.TreeSitterLanguagePack;
 
     // getLanguage returns jtreesitter Language directly
     Language pythonLang = TreeSitterLanguagePack.getLanguage("python");

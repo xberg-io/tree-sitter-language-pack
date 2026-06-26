@@ -68,7 +68,7 @@ You can override it programmatically:
 === "Node.js"
 
     ```typescript
-    import { configure } from "@kreuzberg/tree-sitter-language-pack";
+    import { configure } from "@xberg-io/tree-sitter-language-pack";
 
     configure({ cacheDir: "/custom/path" });
     ```
@@ -162,7 +162,7 @@ For production, CI, or offline environments, download parsers explicitly rather 
 === "Node.js"
 
     ```typescript
-    import { download, downloadAll, init } from "@kreuzberg/tree-sitter-language-pack";
+    import { download, downloadAll, init } from "@xberg-io/tree-sitter-language-pack";
 
     // Download specific languages
     await download(["python", "javascript", "typescript", "rust"]);

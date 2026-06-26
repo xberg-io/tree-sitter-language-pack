@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
+    <groupId>io.xberg.treesitterlanguagepack</groupId>
     <artifactId>tree-sitter-language-pack</artifactId>
     <version>1.10.9</version>
     <packaging>jar</packaging>
@@ -22,7 +22,7 @@
 
     <developers>
         <developer>
-            <name>Kreuzberg Team</name>
+            <name>Na&apos;aman Hirschfeld</name>
         </developer>
     </developers>
 

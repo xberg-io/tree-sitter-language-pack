@@ -10,12 +10,12 @@ readme = "README.md"
 keywords = [
   "ast",
   "code",
-  "kreuzberg",
   "parser",
   "parsing",
   "syntax",
   "text-processing",
   "tree-sitter",
+  "xberg",
 ]
 license = "MIT"
 authors = [ { name = "Na'aman Hirschfeld", email = "naaman@xberg.io" } ]

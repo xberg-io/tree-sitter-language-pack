@@ -63,7 +63,7 @@ Here's what a typical result looks like:
 === "Node.js"
 
     ```typescript
-    import { process } from "@kreuzberg/tree-sitter-language-pack";
+    import { process } from "@xberg-io/tree-sitter-language-pack";
 
     const result = await process(source, {
       language: "typescript",

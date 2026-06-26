@@ -4,7 +4,7 @@ import {
   getParser,
   hasLanguage,
   languageCount,
-} from "@kreuzberg/tree-sitter-language-pack-wasm";
+} from "@xberg-io/tree-sitter-language-pack-wasm";
 
 console.log(`${languageCount()} languages available`);
 console.log(`Python available: ${hasLanguage("python")}`);

@@ -1,6 +1,6 @@
 ```kotlin title="Kotlin (Android)"
-import dev.kreuzberg.tslp.android.TreeSitterLanguagePack
-import dev.kreuzberg.tslp.android.ProcessConfig
+import io.xberg.tslp.android.TreeSitterLanguagePack
+import io.xberg.tslp.android.ProcessConfig
 
 suspend fun analyzeCode(source: String) {
     val config = ProcessConfig(

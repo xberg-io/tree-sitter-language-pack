@@ -46,7 +46,7 @@ Set `chunk_max_size` in `ProcessConfig` to enable chunking:
 === "Node.js"
 
     ```typescript
-    import { process } from "@kreuzberg/tree-sitter-language-pack";
+    import { process } from "@xberg-io/tree-sitter-language-pack";
     import { readFileSync } from "fs";
 
     const source = readFileSync("src/service.ts", "utf8");

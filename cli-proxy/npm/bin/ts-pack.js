@@ -45,7 +45,7 @@ function printUnavailable() {
 	process.stderr.write(
 		`${BIN_NAME} is not available for your platform yet. Install it with:\n` +
 			`  brew install xberg-io/tap/ts-pack\n` +
-			`  or use the Kreuzberg plugin:  /plugin marketplace add xberg-io/plugins\n`,
+			`  or use the Xberg plugin:  /plugin marketplace add xberg-io/plugins\n`,
 	);
 }
 

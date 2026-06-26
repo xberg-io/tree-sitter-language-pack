@@ -15,7 +15,7 @@
 		},
 		"terminology": {
 			"defaultTerms": false,
-			"terms": ["Kreuzberg", "tree-sitter"]
+			"terms": ["Xberg", "tree-sitter"]
 		},
 		"no-zero-width-spaces": true,
 		"@textlint-rule/no-invalid-control-character": true,

@@ -18,7 +18,7 @@ This guide walks you from install to parsing, code intelligence, and LLM chunkin
 === "Node.js"
 
     ```bash
-    npm install @kreuzberg/tree-sitter-language-pack
+    npm install @xberg-io/tree-sitter-language-pack
     ```
 
 === "Rust"
@@ -123,7 +123,7 @@ Parsers download automatically on first use. For **production, CI, Docker, or of
 === "Node.js"
 
     ```typescript
-    import { downloadAll } from "@kreuzberg/tree-sitter-language-pack";
+    import { downloadAll } from "@xberg-io/tree-sitter-language-pack";
 
     await downloadAll();
     ```
@@ -161,7 +161,7 @@ Groups bundle related languages: `web`, `systems`, `scripting`, `data`, `jvm`, `
 === "Node.js"
 
     ```typescript
-    import { init } from "@kreuzberg/tree-sitter-language-pack";
+    import { init } from "@xberg-io/tree-sitter-language-pack";
 
     await init({ groups: ["web", "data"] });
     ```
@@ -414,7 +414,7 @@ Split code at natural boundaries so language models receive coherent, complete u
 === "Node.js"
 
     ```typescript
-    import { process } from "@kreuzberg/tree-sitter-language-pack";
+    import { process } from "@xberg-io/tree-sitter-language-pack";
     import { readFileSync } from "fs";
 
     const source = readFileSync("large_module.ts", "utf8");

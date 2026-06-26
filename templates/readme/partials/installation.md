@@ -13,13 +13,13 @@ pip install tree-sitter-language-pack
 {% elif language in ["typescript", "node"] %}
 
 ```bash
-npm install @kreuzberg/tree-sitter-language-pack
+npm install @xberg-io/tree-sitter-language-pack
 ```
 
 {% elif language == "wasm" %}
 
 ```bash
-npm install @kreuzberg/tree-sitter-language-pack-wasm
+npm install @xberg-io/tree-sitter-language-pack-wasm
 ```
 
 {% elif language == "ruby" %}
@@ -44,7 +44,7 @@ go get github.com/xberg-io/tree-sitter-language-pack/packages/go
 
 ```xml
 <dependency>
-  <groupId>dev.kreuzberg</groupId>
+  <groupId>io.xberg</groupId>
   <artifactId>tree-sitter-language-pack</artifactId>
   <version>{{ version }}</version>
 </dependency>

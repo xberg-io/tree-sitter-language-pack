@@ -4,7 +4,7 @@ import {
   availableLanguages,
   hasLanguage,
   languageCount,
-} from "@kreuzberg/tree-sitter-language-pack-wasm";
+} from "@xberg-io/tree-sitter-language-pack-wasm";
 
 console.log(`Has Python: ${hasLanguage("python")}`);
 console.log(`Has Rust: ${hasLanguage("rust")}`);

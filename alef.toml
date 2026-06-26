@@ -65,13 +65,13 @@ orcid = "https://orcid.org/0009-0000-2247-5072"
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/node/package.json"
-search = '"@kreuzberg/tree-sitter-language-pack": "[^"]*"'
-replace = '"@kreuzberg/tree-sitter-language-pack": "{version}"'
+search = '"@xberg-io/tree-sitter-language-pack": "[^"]*"'
+replace = '"@xberg-io/tree-sitter-language-pack": "{version}"'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/wasm/package.json"
-search = '"@kreuzberg/tree-sitter-language-pack-wasm": "[^"]*"'
-replace = '"@kreuzberg/tree-sitter-language-pack-wasm": "{version}"'
+search = '"@xberg-io/tree-sitter-language-pack-wasm": "[^"]*"'
+replace = '"@xberg-io/tree-sitter-language-pack-wasm": "{version}"'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/java/pom.xml"
@@ -150,7 +150,7 @@ output = "packages/python/tree_sitter_language_pack/"
 "._supported_languages" = ["SupportedLanguage"]
 
 [crates.node]
-package_name = "@kreuzberg/tree-sitter-language-pack"
+package_name = "@xberg-io/tree-sitter-language-pack"
 crate_dir = "crates/ts-pack-core-node"
 
 # `getLanguage` returns a node-tree-sitter `Language`: the raw TSLanguage pointer
@@ -262,7 +262,7 @@ package_version = "v0.24.0"
 construct_expr = "tree_sitter.NewLanguage(unsafe.Pointer({ptr}))"
 
 [crates.java]
-package = "dev.kreuzberg.treesitterlanguagepack"
+package = "io.xberg.treesitterlanguagepack"
 
 # `getLanguage` returns a jtreesitter `Language` (Panama FFM, JDK 23+) built
 # from the raw grammar `MemorySegment`, usable with jtreesitter's `Parser`.
@@ -294,7 +294,7 @@ style = "frb"
 # package directly (Kotlin/Java interop is total). Panama FFM is unavailable
 # on Android (max JDK 17), which is why Android needs its own JNI-based
 # package with bundled .so files.
-package = "dev.kreuzberg.tslp.android"
+package = "io.xberg.tslp.android"
 # JNI shim depends on serde-derived (de)serialization of DTOs (`ProcessConfig`,
 # `ProcessResult`, `Point`, `ByteRange`, ...). The umbrella crate gates those
 # derives behind the `serde` feature; enable it here so the scaffold-emitted
@@ -376,7 +376,7 @@ csharp = "packages/csharp/"
 elixir = "packages/elixir/native/tree_sitter_language_pack_nif/src/"
 wasm = "crates/ts-pack-core-wasm/src/"
 dart = "packages/dart/lib/src/"
-kotlin_android = "packages/kotlin-android/src/main/kotlin/dev/kreuzberg/tslp/android/"
+kotlin_android = "packages/kotlin-android/src/main/kotlin/io/xberg/tslp/android/"
 swift = "packages/swift/Sources/TreeSitterLanguagePack/"
 zig = "packages/zig/src/"
 
@@ -762,7 +762,7 @@ module = "tree_sitter_language_pack"
 function = "process"
 
 [crates.e2e.call.overrides.node]
-module = "@kreuzberg/tree-sitter-language-pack"
+module = "@xberg-io/tree-sitter-language-pack"
 function = "process"
 
 [crates.e2e.call.overrides.go]
@@ -772,7 +772,7 @@ alias = "tspack"
 options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.java]
-class = "dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack"
+class = "io.xberg.treesitterlanguagepack.TreeSitterLanguagePack"
 options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.csharp]
@@ -1127,7 +1127,7 @@ name = "tree-sitter-language-pack"
 path = "../../packages/python"
 
 [crates.e2e.packages.node]
-name = "@kreuzberg/tree-sitter-language-pack"
+name = "@xberg-io/tree-sitter-language-pack"
 path = "../../crates/ts-pack-core-node"
 
 [crates.e2e.packages.go]
@@ -1159,7 +1159,7 @@ name = "tree-sitter-language-pack"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.node]
-name = "@kreuzberg/tree-sitter-language-pack"
+name = "@xberg-io/tree-sitter-language-pack"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.go]
@@ -1167,7 +1167,7 @@ module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 version = "v1.10.9"
 
 [crates.e2e.registry.packages.java]
-group_id = "dev.kreuzberg.treesitterlanguagepack"
+group_id = "io.xberg.treesitterlanguagepack"
 artifact_id = "tree-sitter-language-pack"
 version = "1.10.9"
 
@@ -1184,7 +1184,7 @@ name = "tree-sitter-language-pack-ffi"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.wasm]
-name = "@kreuzberg/tree-sitter-language-pack-wasm"
+name = "@xberg-io/tree-sitter-language-pack-wasm"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.elixir]
@@ -1218,7 +1218,7 @@ name = "tree_sitter_language_pack"
 version = "1.10.9"
 
 [crates.e2e.registry.packages.kotlin_android]
-name = "dev.kreuzberg:tree-sitter-language-pack-android"
+name = "io.xberg:tree-sitter-language-pack-android"
 version = "1.10.9"
 
 # JNI test app reuses the kotlin_android Gradle scaffold (`buildHostJni` +
@@ -1234,7 +1234,7 @@ run = "cd test_apps/kotlin_android && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"
 license = "MIT"
 repository = "https://github.com/xberg-io/tree-sitter-language-pack"
-authors = ["Kreuzberg Team"]
+authors = ["Na'aman Hirschfeld"]
 keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 
 [crates.scaffold.cargo]
@@ -1278,8 +1278,8 @@ package_manager = ["pip"]
 template = "language_package.md"
 output_path = "crates/ts-pack-core-node/README.md"
 name = "TypeScript / Node.js"
-package_name = "@kreuzberg/tree-sitter-language-pack"
-badge_url = "https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6"
+package_name = "@xberg-io/tree-sitter-language-pack"
+badge_url = "https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack?label=Node.js&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.xberg.io"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages with TypeScript types."
 package_manager = ["npm", "pnpm", "yarn"]
@@ -1296,8 +1296,8 @@ package_manager = ["go"]
 [crates.readme.languages.java]
 template = "language_package.md"
 name = "Java"
-package_name = "dev.kreuzberg:tree-sitter-language-pack"
-badge_url = "https://img.shields.io/maven-central/v/dev.kreuzberg/tree-sitter-language-pack?label=Java&color=007ec6"
+package_name = "io.xberg:tree-sitter-language-pack"
+badge_url = "https://img.shields.io/maven-central/v/io.xberg/tree-sitter-language-pack?label=Java&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.xberg.io"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages with Java bindings via Panama FFM."
 package_manager = ["maven", "gradle"]
@@ -1342,8 +1342,8 @@ package_manager = ["hex", "mix"]
 template = "language_package.md"
 output_path = "crates/ts-pack-core-wasm/README.md"
 name = "WebAssembly"
-package_name = "@kreuzberg/tree-sitter-language-pack-wasm"
-badge_url = "https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack-wasm?label=WASM&color=007ec6"
+package_name = "@xberg-io/tree-sitter-language-pack-wasm"
+badge_url = "https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack-wasm?label=WASM&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.xberg.io"
 description = "Pre-compiled tree-sitter grammars in a WebAssembly bundle for browsers, Deno, and edge runtimes."
 package_manager = ["npm", "pnpm", "yarn"]
@@ -1375,14 +1375,14 @@ name = "Kotlin (Android)"
 template = "language_package.md"
 output_path = "packages/kotlin-android/README.md"
 package_manager = ["gradle", "maven"]
-package_name = "dev.kreuzberg.tslp:tslp-android"
+package_name = "io.xberg.tslp:tslp-android"
 install_command = """
-implementation("dev.kreuzberg.tslp:tslp-android:{{ version }}")
+implementation("io.xberg.tslp:tslp-android:{{ version }}")
 """
 description = """
 Android (AAR) bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.
 JNI-based with bundled per-ABI native libraries and a coroutine-friendly Kotlin facade.
-JVM consumers should use the canonical `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack` Java artifact directly.
+JVM consumers should use the canonical `io.xberg.treesitterlanguagepack:tree-sitter-language-pack` Java artifact directly.
 """
 
 [crates.readme.languages.swift]

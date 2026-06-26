@@ -18,21 +18,21 @@
 	<a href="https://pypi.org/project/tree-sitter-language-pack/">
 		<img src="https://img.shields.io/pypi/v/tree-sitter-language-pack?label=Python&color=007ec6" alt="Python" />
 	</a>
-	<a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack">
+	<a href="https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack">
 		<img
-			src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack?label=Node.js&color=007ec6"
+			src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack?label=Node.js&color=007ec6"
 			alt="Node.js"
 		/>
 	</a>
-	<a href="https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack-wasm">
+	<a href="https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack-wasm">
 		<img
-			src="https://img.shields.io/npm/v/@kreuzberg/tree-sitter-language-pack-wasm?label=WASM&color=007ec6"
+			src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack-wasm?label=WASM&color=007ec6"
 			alt="WASM"
 		/>
 	</a>
-	<a href="https://central.sonatype.com/artifact/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack">
+	<a href="https://central.sonatype.com/artifact/io.xberg.treesitterlanguagepack/tree-sitter-language-pack">
 		<img
-			src="https://img.shields.io/maven-central/v/dev.kreuzberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6"
+			src="https://img.shields.io/maven-central/v/io.xberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6"
 			alt="Java"
 		/>
 	</a>
@@ -60,9 +60,9 @@
 	<a href="https://pub.dev/packages/tree_sitter_language_pack">
 		<img src="https://img.shields.io/pub/v/tree_sitter_language_pack?label=Dart&color=007ec6" alt="Dart" />
 	</a>
-	<a href="https://central.sonatype.com/artifact/dev.kreuzberg.tslp.android/tree-sitter-language-pack-android">
+	<a href="https://central.sonatype.com/artifact/io.xberg.tslp.android/tree-sitter-language-pack-android">
 		<img
-			src="https://img.shields.io/maven-central/v/dev.kreuzberg.tslp.android/tree-sitter-language-pack-android?label=Kotlin&color=007ec6"
+			src="https://img.shields.io/maven-central/v/io.xberg.tslp.android/tree-sitter-language-pack-android?label=Kotlin&color=007ec6"
 			alt="Kotlin"
 		/>
 	</a>
@@ -160,7 +160,7 @@ See [Python README](packages/python/README.md) for full documentation.
 <summary><strong>Node.js</strong></summary>
 
 ```sh
-npm install @kreuzberg/tree-sitter-language-pack
+npm install @xberg-io/tree-sitter-language-pack
 ```
 
 See [Node.js README](crates/ts-pack-core-node/README.md) for full documentation.
@@ -181,7 +181,7 @@ See [Go README](packages/go/README.md) for full documentation.
 <details>
 <summary><strong>Java</strong></summary>
 
-Available on Maven Central as `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack`. See [Java README](packages/java/README.md) for the dependency snippet and current version.
+Available on Maven Central as `io.xberg.treesitterlanguagepack:tree-sitter-language-pack`. See [Java README](packages/java/README.md) for the dependency snippet and current version.
 
 </details>
 
@@ -229,7 +229,7 @@ Add `{:tree_sitter_language_pack, "~> 1.0"}` to your `mix.exs` dependencies. See
 <summary><strong>WebAssembly</strong></summary>
 
 ```sh
-npm install @kreuzberg/tree-sitter-language-pack-wasm
+npm install @xberg-io/tree-sitter-language-pack-wasm
 ```
 
 See [WebAssembly README](crates/ts-pack-core-wasm/README.md) for full documentation.
@@ -257,7 +257,7 @@ brew install xberg-io/tap/ts-pack
 Or run without a persistent install (the proxy package fetches the native binary):
 
 ```sh
-npx @kreuzberg/ts-pack-cli parse <file>
+npx @xberg-io/ts-pack-cli parse <file>
 uvx --from ts-pack-cli ts-pack parse <file>
 ```
 
@@ -316,7 +316,7 @@ Install the tree-sitter-language-pack plugin from the [`xberg-io/plugins`](https
 
 ```text
 /plugin marketplace add xberg-io/plugins
-/plugin install tree-sitter-language-pack@kreuzberg
+/plugin install tree-sitter-language-pack@xberg-io
 ```
 
 </details>
@@ -353,7 +353,7 @@ gemini extensions install https://github.com/xberg-io/plugins
 
 ```text
 droid plugin marketplace add https://github.com/xberg-io/plugins
-droid plugin install tree-sitter-language-pack@kreuzberg
+droid plugin install tree-sitter-language-pack@xberg-io
 ```
 
 </details>
@@ -363,7 +363,7 @@ droid plugin install tree-sitter-language-pack@kreuzberg
 
 ```text
 copilot plugin marketplace add https://github.com/xberg-io/plugins
-copilot plugin install tree-sitter-language-pack@kreuzberg
+copilot plugin install tree-sitter-language-pack@xberg-io
 ```
 
 </details>
@@ -376,7 +376,7 @@ Add the package to `opencode.json`:
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["@kreuzberg/opencode-tree-sitter-language-pack"]
+  "plugin": ["@xberg-io/opencode-tree-sitter-language-pack"]
 }
 ```
 
@@ -386,9 +386,9 @@ Add the package to `opencode.json`:
 
 Full guides, the host-native language API, data extraction, the CLI and MCP server, and the complete language list live at **[docs.tree-sitter-language-pack.xberg.io](https://docs.tree-sitter-language-pack.xberg.io)**.
 
-## Part of Kreuzberg.dev
+## Part of Xberg
 
-- [Kreuzberg](https://github.com/xberg-io/kreuzberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
+- [Xberg](https://github.com/xberg-io/xberg) — document intelligence: text, tables, metadata from 91+ formats with optional OCR.
 - [Xberg Enterprise](https://github.com/xberg-io/xberg-enterprise) — managed extraction API with SDKs, dashboards, and observability.
 - [crawlberg](https://github.com/xberg-io/crawlberg) — web crawling and scraping with HTML→Markdown and headless-Chrome fallback.
 - [html-to-markdown](https://github.com/xberg-io/html-to-markdown) — fast, lossless HTML→Markdown engine.

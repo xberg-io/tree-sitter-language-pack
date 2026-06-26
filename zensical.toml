@@ -195,7 +195,7 @@ name = "View on GitHub Container Registry"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/npm"
-link = "https://www.npmjs.com/package/@kreuzberg/tree-sitter-language-pack"
+link = "https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack"
 name = "View on npm"
 
 [[project.extra.social]]

@@ -17,7 +17,7 @@ Pick your harness below.
 
 ```text
 /plugin marketplace add xberg-io/plugins
-/plugin install tree-sitter-language-pack@kreuzberg
+/plugin install tree-sitter-language-pack@xberg-io
 ```
 
 </details>
@@ -52,7 +52,7 @@ gemini extensions install https://github.com/xberg-io/plugins
 
 ```text
 droid plugin marketplace add https://github.com/xberg-io/plugins
-droid plugin install tree-sitter-language-pack@kreuzberg
+droid plugin install tree-sitter-language-pack@xberg-io
 ```
 
 </details>
@@ -62,7 +62,7 @@ droid plugin install tree-sitter-language-pack@kreuzberg
 
 ```text
 copilot plugin marketplace add https://github.com/xberg-io/plugins
-copilot plugin install tree-sitter-language-pack@kreuzberg
+copilot plugin install tree-sitter-language-pack@xberg-io
 ```
 
 </details>
@@ -75,7 +75,7 @@ Add the package to `opencode.json`:
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["@kreuzberg/opencode-tree-sitter-language-pack"]
+  "plugin": ["@xberg-io/opencode-tree-sitter-language-pack"]
 }
 ```
 

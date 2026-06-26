@@ -8,7 +8,7 @@ importers:
 
   .:
     devDependencies:
-      '@kreuzberg/tree-sitter-language-pack-wasm':
+      '@xberg-io/tree-sitter-language-pack-wasm':
         specifier: file:../../crates/ts-pack-core-wasm/pkg/nodejs
         version: ts-pack-core-wasm@file:../../crates/ts-pack-core-wasm/pkg/nodejs
       rollup:

@@ -1,6 +1,7 @@
 {
-	"name": "@kreuzberg/tree-sitter-language-pack-darwin-arm64",
+	"name": "@xberg-io/tree-sitter-language-pack-darwin-arm64",
 	"version": "1.10.9",
+	"description": "Pre-compiled tree-sitter grammars for 306 programming languages",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

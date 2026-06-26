@@ -7,11 +7,11 @@ plugins {
     id("com.android.library") version "9.2.1"
 }
 
-group = "dev.kreuzberg.tslp.android"
+group = "io.xberg.tslp.android"
 version = "0.1.0"
 
 android {
-    namespace = "dev.kreuzberg.tslp.android.e2e"
+    namespace = "io.xberg.tslp.android.e2e"
     compileSdk = 35
 
     defaultConfig {
@@ -47,7 +47,7 @@ kotlin {
 
 dependencies {
     // Published Android AAR from Maven Central (verifies artifact resolution)
-    implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.10.9")
+    implementation("io.xberg.tslp.android:tree-sitter-language-pack-android:1.10.9")
     // Jackson for JSON assertion helpers
     testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.18.2")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
@@ -80,7 +80,7 @@ dependencies {
 tasks.register("verifyAarPublished") {
     description = "Verify the published Android AAR contains jni and classes.jar"
     doLast {
-        val aarCoord = "dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.10.9"
+        val aarCoord = "io.xberg.tslp.android:tree-sitter-language-pack-android:1.10.9"
         val (groupId, artifactId, version) = run {
             val parts = aarCoord.split(':')
             Triple(parts[0], parts[1], parts[2])

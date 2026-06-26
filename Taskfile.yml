@@ -328,7 +328,7 @@ tasks:
         cmds:
             - alef docs
 
-    # E2E aggregator tasks (canonical kreuzberg-dev surface).
+    # E2E aggregator tasks (canonical xberg surface).
     e2e:generate:
         desc: Generate E2E tests for all languages from fixtures
         cmds:

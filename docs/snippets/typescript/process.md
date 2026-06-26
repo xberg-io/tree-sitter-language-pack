@@ -1,5 +1,5 @@
 ```typescript title="Node.js"
-import { process } from "@kreuzberg/tree-sitter-language-pack";
+import { process } from "@xberg-io/tree-sitter-language-pack";
 
 const result = process(
   `

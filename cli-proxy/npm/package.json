@@ -1,5 +1,5 @@
 {
-	"name": "@kreuzberg/ts-pack-cli",
+	"name": "@xberg-io/ts-pack-cli",
 	"version": "0.0.1",
 	"description": "CLI proxy for ts-pack — downloads and runs the native ts-pack binary from GitHub releases.",
 	"license": "MIT",

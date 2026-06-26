@@ -1,6 +1,6 @@
 ```kotlin title="Kotlin (Android)"
-import dev.kreuzberg.tslp.android.TreeSitterLanguagePack
-import dev.kreuzberg.tslp.android.PackConfig
+import io.xberg.tslp.android.TreeSitterLanguagePack
+import io.xberg.tslp.android.PackConfig
 import android.app.Application
 import java.nio.file.Paths
 

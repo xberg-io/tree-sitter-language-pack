@@ -59,19 +59,19 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 | Language                 | Install                                                                                                        | API Reference                                    |
 | :----------------------- | :------------------------------------------------------------------------------------------------------------- | :----------------------------------------------- |
 | **Python**               | `pip install tree-sitter-language-pack`                                                                        | [API Reference](reference/api-python.md)         |
-| **TypeScript / Node.js** | `npm install @kreuzberg/tree-sitter-language-pack`                                                             | [API Reference](reference/api-typescript.md)     |
+| **TypeScript / Node.js** | `npm install @xberg-io/tree-sitter-language-pack`                                                             | [API Reference](reference/api-typescript.md)     |
 | **Rust**                 | `cargo add tree-sitter-language-pack`                                                                          | [API Reference](reference/api-rust.md)           |
 | **Go**                   | `go get github.com/xberg-io/tree-sitter-language-pack/packages/go`                                        | [API Reference](reference/api-go.md)             |
-| **Java**                 | Maven Central `dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack`                                 | [API Reference](reference/api-java.md)           |
+| **Java**                 | Maven Central `io.xberg.treesitterlanguagepack:tree-sitter-language-pack`                                 | [API Reference](reference/api-java.md)           |
 | **C#**                   | `dotnet add package TreeSitterLanguagePack`                                                                    | [API Reference](reference/api-csharp.md)         |
 | **Ruby**                 | `gem install tree_sitter_language_pack`                                                                        | [API Reference](reference/api-ruby.md)           |
 | **PHP**                  | `composer require xberg-io/tree-sitter-language-pack`                                                     | [API Reference](reference/api-php.md)            |
 | **Elixir**               | `{:tree_sitter_language_pack, "~> 1.9"}`                                                                       | [API Reference](reference/api-elixir.md)         |
 | **Dart / Flutter**       | `dart pub add tree_sitter_language_pack`                                                                       | [API Reference](reference/api-dart.md)           |
-| **Kotlin (Android)**     | `implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.49")`                  | [API Reference](reference/api-kotlin-android.md) |
+| **Kotlin (Android)**     | `implementation("io.xberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.49")`                  | [API Reference](reference/api-kotlin-android.md) |
 | **Swift**                | `.package(url: "https://github.com/xberg-io/tree-sitter-language-pack", exact: "1.9.0-rc.49")`           | [API Reference](reference/api-swift.md)          |
 | **Zig**                  | `zig fetch --save <release tarball url>`                                                                       | [API Reference](reference/api-zig.md)            |
-| **WebAssembly**          | `npm install @kreuzberg/tree-sitter-language-pack-wasm`                                                        | [API Reference](reference/api-wasm.md)           |
+| **WebAssembly**          | `npm install @xberg-io/tree-sitter-language-pack-wasm`                                                        | [API Reference](reference/api-wasm.md)           |
 | **C (FFI)**              | Shared library + header                                                                                        | [API Reference](reference/api-c.md)              |
 | **CLI**                  | `curl -fsSL https://raw.githubusercontent.com/xberg-io/tree-sitter-language-pack/main/install.sh \| bash` | [CLI Guide](guides/cli.md)                       |
 
@@ -95,13 +95,13 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 
 ---
 
-### Part of Kreuzberg.dev
+### Part of Xberg
 
 Tree-sitter-language-pack is built by the [xberg.io](https://xberg.io) team, the same people behind a family of Rust-core, polyglot-bindings libraries.
 
-<div class="grid cards kreuzberg-ecosystem-grid" markdown>
+<div class="grid cards xberg-ecosystem-grid" markdown>
 
-- :material-file-document-multiple-outline:{ .lg .middle } **[Kreuzberg](https://docs.xberg.io/)**
+- :material-file-document-multiple-outline:{ .lg .middle } **[Xberg](https://docs.xberg.io/)**
 
   Document intelligence for 90+ formats — PDF, Office, images, HTML, email — with optional OCR.
 
@@ -115,7 +115,7 @@ Tree-sitter-language-pack is built by the [xberg.io](https://xberg.io) team, the
 
 - :material-spider-web:{ .lg .middle } **[crawlberg](https://docs.crawlberg.xberg.io/)**
 
-  Polite, resumable web crawler that hands pages to html-to-markdown or Kreuzberg for extraction.
+  Polite, resumable web crawler that hands pages to html-to-markdown or Xberg for extraction.
 
 - :material-robot-outline:{ .lg .middle } **[liter-llm](https://docs.liter-llm.xberg.io/)**
 

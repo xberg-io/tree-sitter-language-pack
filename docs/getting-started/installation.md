@@ -106,25 +106,25 @@ Requires Node.js 18+. Pre-built binaries for Linux (x64, arm64), macOS (x64, arm
 === "npm"
 
     ```bash
-    npm install @kreuzberg/tree-sitter-language-pack
+    npm install @xberg-io/tree-sitter-language-pack
     ```
 
 === "pnpm"
 
     ```bash
-    pnpm add @kreuzberg/tree-sitter-language-pack
+    pnpm add @xberg-io/tree-sitter-language-pack
     ```
 
 === "Yarn"
 
     ```bash
-    yarn add @kreuzberg/tree-sitter-language-pack
+    yarn add @xberg-io/tree-sitter-language-pack
     ```
 
 Verify:
 
 ```javascript
-const tslp = require("@kreuzberg/tree-sitter-language-pack");
+const tslp = require("@xberg-io/tree-sitter-language-pack");
 console.log(tslp.languageCount()); // 306
 ```
 
@@ -183,7 +183,7 @@ Requires JDK 25+ (uses Panama FFM API).
 
     ```xml
     <dependency>
-        <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
+        <groupId>io.xberg.treesitterlanguagepack</groupId>
         <artifactId>tree-sitter-language-pack</artifactId>
         <version>1.9.0-rc.49</version>
     </dependency>
@@ -193,7 +193,7 @@ Requires JDK 25+ (uses Panama FFM API).
 
     ```kotlin
     dependencies {
-        implementation("dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack:1.9.0-rc.49")
+        implementation("io.xberg.treesitterlanguagepack:tree-sitter-language-pack:1.9.0-rc.49")
     }
     ```
 
@@ -201,14 +201,14 @@ Requires JDK 25+ (uses Panama FFM API).
 
     ```groovy
     dependencies {
-        implementation 'dev.kreuzberg.treesitterlanguagepack:tree-sitter-language-pack:1.9.0-rc.49'
+        implementation 'io.xberg.treesitterlanguagepack:tree-sitter-language-pack:1.9.0-rc.49'
     }
     ```
 
 Verify:
 
 ```java
-import dev.kreuzberg.treesitterlanguagepack.TreeSitterLanguagePack;
+import io.xberg.treesitterlanguagepack.TreeSitterLanguagePack;
 
 public class Main {
     public static void main(String[] args) {
@@ -346,7 +346,7 @@ dart pub add tree_sitter_language_pack
 Requires Android minSdk 21 and Java 17 bytecode.
 
 ```kotlin
-implementation("dev.kreuzberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.49")
+implementation("io.xberg.tslp.android:tree-sitter-language-pack-android:1.9.0-rc.49")
 ```
 
 This is an Android AAR. Kotlin/JVM users should use the Java artifact.
@@ -391,14 +391,14 @@ Use from any JavaScript environment — browsers, Deno, and Cloudflare Workers.
 === "npm"
 
     ```bash
-    npm install @kreuzberg/tree-sitter-language-pack-wasm
+    npm install @xberg-io/tree-sitter-language-pack-wasm
     ```
 
 === "CDN (browser)"
 
     ```html
     <script type="module">
-      import { availableLanguages, parseString } from "https://cdn.jsdelivr.net/npm/@kreuzberg/tree-sitter-language-pack-wasm/+esm";
+      import { availableLanguages, parseString } from "https://cdn.jsdelivr.net/npm/@xberg-io/tree-sitter-language-pack-wasm/+esm";
       console.log(availableLanguages());
     </script>
     ```
@@ -406,7 +406,7 @@ Use from any JavaScript environment — browsers, Deno, and Cloudflare Workers.
 === "Deno"
 
     ```typescript
-    import { availableLanguages, parseString } from "npm:@kreuzberg/tree-sitter-language-pack-wasm";
+    import { availableLanguages, parseString } from "npm:@xberg-io/tree-sitter-language-pack-wasm";
     console.log(availableLanguages());
     ```
 

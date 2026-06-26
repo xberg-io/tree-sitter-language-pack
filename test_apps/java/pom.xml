@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
+    <groupId>io.xberg.treesitterlanguagepack</groupId>
     <artifactId>tree-sitter-language-pack-e2e-java</artifactId>
     <version>0.1.0</version>
 
@@ -29,7 +29,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>dev.kreuzberg.treesitterlanguagepack</groupId>
+            <groupId>io.xberg.treesitterlanguagepack</groupId>
             <artifactId>tree-sitter-language-pack</artifactId>
             <version>1.10.9</version>
         </dependency>
