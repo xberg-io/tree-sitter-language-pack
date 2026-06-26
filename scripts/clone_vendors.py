@@ -45,6 +45,12 @@ parsers_directory = Path(os.environ.get("TSLP_CACHE_DIR", _project_root / "parse
 # cheap and stay wide. Both are env-tunable for constrained environments.
 CLONE_CONCURRENCY = int(os.environ.get("TSLP_CLONE_CONCURRENCY", "16"))
 GENERATE_CONCURRENCY = int(os.environ.get("TSLP_GENERATE_CONCURRENCY", "3"))
+# Per-grammar `tree-sitter generate` timeout (seconds). A few grammars can hang
+# or thrash for many minutes on a bad revision, silently stalling the whole run
+# until the CI runner reaps it (exit 143). On timeout we abandon generation and
+# fall back to the grammar's committed src/parser.c (moved by move_src_folder).
+# 0 disables the timeout. Default 8 min covers the slowest healthy grammars.
+GENERATE_TIMEOUT = int(os.environ.get("TSLP_GENERATE_TIMEOUT", "480"))
 
 CACHE_MANIFEST_FILE = parsers_directory / ".cache_manifest.json"
 
@@ -300,8 +306,20 @@ async def handle_generate(
             cmd = ["tree-sitter", "generate", "--abi", str(abi_version)]
 
         try:
-            await run_process(cmd, cwd=str(target_dir), check=False)
+            run = run_process(cmd, cwd=str(target_dir), check=False)
+            if GENERATE_TIMEOUT > 0:
+                await asyncio.wait_for(run, timeout=GENERATE_TIMEOUT)
+            else:
+                await run
             print(f"Generated {language_name} parser successfully")
+        except (TimeoutError, asyncio.TimeoutError):
+            # Abandon a hung/thrashing generate and fall back to the committed
+            # src/parser.c so one bad grammar can't stall the whole CI run.
+            print(
+                f"WARNING: tree-sitter generate for {language_name} timed out after "
+                f"{GENERATE_TIMEOUT}s; falling back to committed parser.c",
+                flush=True,
+            )
         except Exception as e:
             raise RuntimeError(f"failed to clone {language_name} due to an exception: {e}") from e
 

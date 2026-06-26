@@ -91,6 +91,19 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v6
 
+            # A few monster grammars (lean, zsh, systemverilog) peak above the
+            # 16 GB runner RAM during `tree-sitter generate`. Add swap on the large
+            # /mnt volume so they spill to disk instead of OOM-killing the job
+            # (exit 143). Slower, but the run completes and warms the parser cache.
+            - name: Add swap space
+              run: |
+                  sudo swapoff -a || true
+                  sudo fallocate -l 12G /mnt/swapfile
+                  sudo chmod 600 /mnt/swapfile
+                  sudo mkswap /mnt/swapfile
+                  sudo swapon /mnt/swapfile
+                  free -h
+
             - name: Setup Node.js
               uses: actions/setup-node@v6
               with:

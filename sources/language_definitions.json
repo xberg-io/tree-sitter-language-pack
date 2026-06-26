@@ -956,7 +956,7 @@
 		"extensions": ["lean"],
 		"generate": true,
 		"repo": "https://github.com/Julian/tree-sitter-lean",
-		"rev": "dc5997b2744595eeb389e1ed9c4f5e727c5b655e"
+		"rev": "463a9d8a509c935f4e10854b5078bbe2839b274c"
 	},
 	"ledger": {
 		"abi_version": 14,
