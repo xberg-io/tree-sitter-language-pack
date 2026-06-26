@@ -7,13 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- **Python: regression test for exception class identity (issue #147).** Adds comprehensive test
-  coverage verifying that exception classes raised by the native module are the same objects as
-  those exported through the public Python API. Tests all 13 exception types across import paths
-  to prevent regression of the fix that makes `except DownloadError:` work correctly.
-
 ### Fixed
 
 - **CI resource exhaustion: reduce parser generation concurrency.** The "Clone vendors" step was
