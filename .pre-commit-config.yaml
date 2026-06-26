@@ -14,7 +14,7 @@ repos:
             stages:
                 - commit-msg
     - repo: https://github.com/xberg-io/pre-commit-hooks
-      rev: v2.3.0
+      rev: v3.0.0
       hooks:
           # Alef verification
           - id: alef-verify
@@ -96,11 +96,11 @@ repos:
           - id: golangci-lint
             exclude: ^(e2e/|test_apps/)
             env:
-                KREUZBERG_GO_MOD_DIRS: packages/go
+                XBERG_GO_MOD_DIRS: packages/go
           - id: govulncheck
             exclude: ^(e2e/|test_apps/)
             env:
-                KREUZBERG_GO_MOD_DIRS: packages/go
+                XBERG_GO_MOD_DIRS: packages/go
           - id: godoc-lint
 
           - id: checkstyle
