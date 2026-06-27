@@ -103,7 +103,7 @@ Available on Maven Central as `io.xberg.treesitterlanguagepack:tree-sitter-langu
 <summary><strong>C#</strong></summary>
 
 ```sh
-dotnet add package TreeSitterLanguagePack
+dotnet add package XbergIo.TreeSitterLanguagePack
 ```
 
 See [.NET README](packages/csharp/README.md) for full documentation.

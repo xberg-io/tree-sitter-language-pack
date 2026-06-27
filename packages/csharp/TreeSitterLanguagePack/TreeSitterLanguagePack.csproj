@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>TreeSitterLanguagePack</RootNamespace>
-    <PackageId>TreeSitterLanguagePack</PackageId>
+    <PackageId>XbergIo.TreeSitterLanguagePack</PackageId>
     <Version>1.11.0-rc.2</Version>
     <AssemblyVersion>1.11.0.0</AssemblyVersion>
     <FileVersion>1.11.0.0</FileVersion>

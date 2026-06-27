@@ -42,8 +42,8 @@
 			alt="Go"
 		/>
 	</a>
-	<a href="https://www.nuget.org/packages/TreeSitterLanguagePack/">
-		<img src="https://img.shields.io/nuget/v/TreeSitterLanguagePack?label=C%23&color=007ec6" alt="C#" />
+	<a href="https://www.nuget.org/packages/XbergIo.TreeSitterLanguagePack/">
+		<img src="https://img.shields.io/nuget/v/XbergIo.TreeSitterLanguagePack?label=C%23&color=007ec6" alt="C#" />
 	</a>
 	<a href="https://packagist.org/packages/xberg-io/tree-sitter-language-pack">
 		<img

@@ -63,7 +63,7 @@ A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-si
 | **Rust**                 | `cargo add tree-sitter-language-pack`                                                                          | [API Reference](reference/api-rust.md)           |
 | **Go**                   | `go get github.com/xberg-io/tree-sitter-language-pack/packages/go`                                        | [API Reference](reference/api-go.md)             |
 | **Java**                 | Maven Central `io.xberg.treesitterlanguagepack:tree-sitter-language-pack`                                 | [API Reference](reference/api-java.md)           |
-| **C#**                   | `dotnet add package TreeSitterLanguagePack`                                                                    | [API Reference](reference/api-csharp.md)         |
+| **C#**                   | `dotnet add package XbergIo.TreeSitterLanguagePack`                                                                    | [API Reference](reference/api-csharp.md)         |
 | **Ruby**                 | `gem install tree_sitter_language_pack`                                                                        | [API Reference](reference/api-ruby.md)           |
 | **PHP**                  | `composer require xberg-io/tree-sitter-language-pack`                                                     | [API Reference](reference/api-php.md)            |
 | **Elixir**               | `{:tree_sitter_language_pack, "~> 1.9"}`                                                                       | [API Reference](reference/api-elixir.md)         |

@@ -224,7 +224,7 @@ public class Main {
 Requires .NET 10.
 
 ```bash
-dotnet add package TreeSitterLanguagePack --version 1.9.0-rc.49
+dotnet add package XbergIo.TreeSitterLanguagePack --version 1.9.0-rc.49
 ```
 
 Verify:

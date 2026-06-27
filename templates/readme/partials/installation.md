@@ -53,7 +53,7 @@ go get github.com/xberg-io/tree-sitter-language-pack/packages/go
 {% elif language == "csharp" %}
 
 ```bash
-dotnet add package TreeSitterLanguagePack
+dotnet add package XbergIo.TreeSitterLanguagePack
 ```
 
 {% elif language == "elixir" %}

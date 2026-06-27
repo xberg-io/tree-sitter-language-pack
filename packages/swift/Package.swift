@@ -1,6 +1,6 @@
+import Foundation
 // swift-tools-version: 6.0
 import PackageDescription
-import Foundation
 
 // NOTE: Run `cargo build -p tree-sitter-language-pack-swift` and then rerun `alef generate`
 // before `swift build`. Alef materializes the swift-bridge Swift/C outputs into
@@ -22,7 +22,7 @@ let package = Package(
     .library(name: "TreeSitterLanguagePack", targets: ["TreeSitterLanguagePack"])
   ],
   dependencies: [
-    .package(url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.25.0"),
+    .package(url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.25.0")
   ],
   targets: [
     // RustBridgeC: pure C/headers target. Swift files in RustBridge import this
@@ -63,7 +63,10 @@ let package = Package(
       ]
     ),
     .target(
-      name: "TreeSitterLanguagePack", dependencies: ["RustBridge", .product(name: "SwiftTreeSitter", package: "swift-tree-sitter")],
+      name: "TreeSitterLanguagePack",
+      dependencies: [
+        "RustBridge", .product(name: "SwiftTreeSitter", package: "swift-tree-sitter"),
+      ],
       path: "Sources/TreeSitterLanguagePack",
       exclude: ["LICENSE"]),
     .testTarget(

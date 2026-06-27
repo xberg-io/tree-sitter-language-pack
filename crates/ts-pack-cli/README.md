@@ -22,8 +22,8 @@
     <img src="https://img.shields.io/maven-central/v/dev.xberg-io/tree-sitter-language-pack?label=Java&color=007ec6" alt="Java">
   </a>  <a href="https://github.com/xberg-io/tree-sitter-language-pack/tree/main/packages/go">
     <img src="https://img.shields.io/github/v/tag/xberg-io/tree-sitter-language-pack?label=Go&color=007ec6" alt="Go">
-  </a>  <a href="https://www.nuget.org/packages/TreeSitterLanguagePack">
-    <img src="https://img.shields.io/nuget/v/TreeSitterLanguagePack?label=C%23&color=007ec6" alt="Csharp">
+  </a>  <a href="https://www.nuget.org/packages/XbergIo.TreeSitterLanguagePack">
+    <img src="https://img.shields.io/nuget/v/XbergIo.TreeSitterLanguagePack?label=C%23&color=007ec6" alt="Csharp">
   </a>  <a href="https://packagist.org/packages/xberg-io/tree-sitter-language-pack">
     <img src="https://img.shields.io/packagist/v/xberg-io/tree-sitter-language-pack?label=PHP&color=007ec6" alt="Php">
   </a>  <a href="https://rubygems.org/gems/tree_sitter_language_pack">
