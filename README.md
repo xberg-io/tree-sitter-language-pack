@@ -115,7 +115,7 @@ When is this the right tool? Parsing code → use tree-sitter. Parsing many lang
 | **Host-native language API** | `get_language()` returns native `Language` objects in Python, Node.js, Go, Java, C#, Kotlin, Swift, Zig, and C |
 | **On-demand downloads** | Parsers are fetched on first use and cached locally for fast, offline reuse |
 | **Selective installation** | Download only the languages you need; unused parsers are never downloaded |
-| **Polyglot bindings** | Native bindings across 15 languages plus a C ABI for everything else |
+| **Polyglot bindings** | Native bindings across 15 languages, including a C ABI for everything else |
 | **CLI & MCP server** | `ts-pack download` to pre-fetch parsers; MCP integration for AI agents |
 
 ### Supported Languages
@@ -233,6 +233,42 @@ npm install @xberg-io/tree-sitter-language-pack-wasm
 ```
 
 See [WebAssembly README](crates/ts-pack-core-wasm/README.md) for full documentation.
+
+</details>
+
+<details>
+<summary><strong>Dart / Flutter</strong></summary>
+
+```sh
+dart pub add tree_sitter_language_pack
+```
+
+See [Dart README](packages/dart/README.md) for full documentation.
+
+</details>
+
+<details>
+<summary><strong>Kotlin (Android)</strong></summary>
+
+Available on Maven Central as `io.xberg.tslp.android:tree-sitter-language-pack-android`. See [Kotlin Android README](packages/kotlin-android/README.md) for the dependency snippet and current version.
+
+</details>
+
+<details>
+<summary><strong>Swift</strong></summary>
+
+Available via Swift Package Manager. See [Swift README](packages/swift/README.md) for the SwiftPM package URL and current version.
+
+</details>
+
+<details>
+<summary><strong>Zig</strong></summary>
+
+```sh
+zig fetch --save <release tarball url>
+```
+
+See [Zig README](packages/zig/README.md) for full documentation.
 
 </details>
 

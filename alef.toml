@@ -1221,7 +1221,7 @@ name = "tree_sitter_language_pack"
 version = "1.11.0"
 
 [crates.e2e.registry.packages.kotlin_android]
-name = "io.xberg:tree-sitter-language-pack-android"
+name = "io.xberg.tslp.android:tree-sitter-language-pack-android"
 version = "1.11.0"
 
 # JNI test app reuses the kotlin_android Gradle scaffold (`buildHostJni` +
@@ -1299,8 +1299,8 @@ package_manager = ["go"]
 [crates.readme.languages.java]
 template = "language_package.md"
 name = "Java"
-package_name = "io.xberg:tree-sitter-language-pack"
-badge_url = "https://img.shields.io/maven-central/v/io.xberg/tree-sitter-language-pack?label=Java&color=007ec6"
+package_name = "io.xberg.treesitterlanguagepack:tree-sitter-language-pack"
+badge_url = "https://img.shields.io/maven-central/v/io.xberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.xberg.io"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages with Java bindings via Panama FFM."
 package_manager = ["maven", "gradle"]
@@ -1378,9 +1378,9 @@ name = "Kotlin (Android)"
 template = "language_package.md"
 output_path = "packages/kotlin-android/README.md"
 package_manager = ["gradle", "maven"]
-package_name = "io.xberg.tslp:tslp-android"
+package_name = "io.xberg.tslp.android:tree-sitter-language-pack-android"
 install_command = """
-implementation("io.xberg.tslp:tslp-android:{{ version }}")
+implementation("io.xberg.tslp.android:tree-sitter-language-pack-android:{{ version }}")
 """
 description = """
 Android (AAR) bindings for **tree-sitter-language-pack** — 306 pre-compiled tree-sitter grammars.

@@ -44,7 +44,7 @@ go get github.com/xberg-io/tree-sitter-language-pack/packages/go
 
 ```xml
 <dependency>
-  <groupId>io.xberg</groupId>
+  <groupId>io.xberg.treesitterlanguagepack</groupId>
   <artifactId>tree-sitter-language-pack</artifactId>
   <version>{{ version }}</version>
 </dependency>

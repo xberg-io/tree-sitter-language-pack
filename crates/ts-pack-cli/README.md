@@ -18,8 +18,8 @@
     <img src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack?label=Node.js&color=007ec6" alt="Node">
   </a>  <a href="https://www.npmjs.com/package/@xberg-io/tree-sitter-language-pack-wasm">
     <img src="https://img.shields.io/npm/v/@xberg-io/tree-sitter-language-pack-wasm?label=WASM&color=007ec6" alt="Wasm">
-  </a>  <a href="https://central.sonatype.com/artifact/dev.xberg-io/tree-sitter-language-pack">
-    <img src="https://img.shields.io/maven-central/v/dev.xberg-io/tree-sitter-language-pack?label=Java&color=007ec6" alt="Java">
+  </a>  <a href="https://central.sonatype.com/artifact/io.xberg.treesitterlanguagepack/tree-sitter-language-pack">
+    <img src="https://img.shields.io/maven-central/v/io.xberg.treesitterlanguagepack/tree-sitter-language-pack?label=Java&color=007ec6" alt="Java">
   </a>  <a href="https://github.com/xberg-io/tree-sitter-language-pack/tree/main/packages/go">
     <img src="https://img.shields.io/github/v/tag/xberg-io/tree-sitter-language-pack?label=Go&color=007ec6" alt="Go">
   </a>  <a href="https://www.nuget.org/packages/XbergIo.TreeSitterLanguagePack">
@@ -73,8 +73,8 @@ Or install via Homebrew:
 Homebrew 6.0+ requires explicit trust for third-party taps. Trust once, then install:
 
 ```sh
-brew trust xberg-io/tap
-brew install xberg-io/tap/ts-pack
+brew trust xberg-io/homebrew-tap
+brew install xberg-io/homebrew-tap/ts-pack
 ```
 
 ## Quick Start

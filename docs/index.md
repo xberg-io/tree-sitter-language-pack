@@ -1,11 +1,11 @@
 ---
 title: tree-sitter-language-pack
-description: "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, syntax-aware chunking, and polyglot bindings for Python, TypeScript, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, and WebAssembly."
+description: "tree-sitter-language-pack — 306 tree-sitter parsers with code intelligence, syntax-aware chunking, and polyglot bindings for Python, TypeScript, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, WebAssembly, and C/C++ (FFI)."
 ---
 
 ## Tree-sitter-language-pack
 
-A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammars behind one parsing and code-intelligence API. Parsers download on demand and cache locally, so the install footprint stays small. Native bindings ship for Python, TypeScript / Node.js, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, and WebAssembly, plus the standalone `ts-pack` CLI.
+A Rust core that bundles 306 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammars behind one parsing and code-intelligence API. Parsers download on demand and cache locally, so the install footprint stays small. Native bindings ship for Python, TypeScript / Node.js, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, WebAssembly, and C/C++ (FFI), plus the standalone `ts-pack` CLI.
 
 <div class="hero-badges" markdown>
 

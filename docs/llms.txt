@@ -1,10 +1,10 @@
 # tree-sitter-language-pack
 
-> A Rust core that bundles 306 tree-sitter grammars behind one parsing and code-intelligence API, with native bindings for Python, TypeScript / Node.js, Rust, Go, Java, C#, Ruby, PHP, Elixir, and WebAssembly, plus the `ts-pack` CLI. Parsers download on demand and cache locally.
+> A Rust core that bundles 306 tree-sitter grammars behind one parsing and code-intelligence API, with native bindings for Python, TypeScript / Node.js, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, WebAssembly, and C/C++ (FFI), plus the `ts-pack` CLI. Parsers download on demand and cache locally.
 
 ## Getting Started
 
-- [Installation](https://docs.tree-sitter-language-pack.xberg.io/getting-started/installation/): Install for Python, TypeScript, Rust, Go, Java, C#, Ruby, PHP, Elixir, WebAssembly, or the `ts-pack` CLI.
+- [Installation](https://docs.tree-sitter-language-pack.xberg.io/getting-started/installation/): Install for Python, TypeScript, Rust, Go, Java, Kotlin (Android), C#, Ruby, PHP, Elixir, Dart, Swift, Zig, WebAssembly, C/C++ (FFI), or the `ts-pack` CLI.
 - [Quick Start](https://docs.tree-sitter-language-pack.xberg.io/getting-started/quickstart/): Parse your first file and run code intelligence in minutes.
 - [AI Coding Assistants](https://docs.tree-sitter-language-pack.xberg.io/guides/ai-coding-assistants/): Install the plugin into Claude Code, Codex, Cursor, Gemini, Factory Droid, GitHub Copilot, or opencode.
 

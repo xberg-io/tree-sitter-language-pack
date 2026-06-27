@@ -109,7 +109,7 @@ Pre-compiled tree-sitter grammars for 306 programming languages with Java bindin
 
 ```xml
 <dependency>
-  <groupId>io.xberg</groupId>
+  <groupId>io.xberg.treesitterlanguagepack</groupId>
   <artifactId>tree-sitter-language-pack</artifactId>
   <version>1.11.0</version>
 </dependency>
