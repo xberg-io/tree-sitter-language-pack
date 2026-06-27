@@ -17,8 +17,8 @@ description: "CLI reference for ts-pack — download parsers, parse source code,
 === "Homebrew (macOS / Linux)"
 
     ```bash
-    brew trust xberg-io/tap
-    brew install xberg-io/tap/ts-pack
+    brew tap xberg-io/homebrew-tap
+    brew install xberg-io/homebrew-tap/ts-pack
     ```
 
 Verify the install:

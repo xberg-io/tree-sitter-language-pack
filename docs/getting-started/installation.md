@@ -15,8 +15,8 @@ You can use it in CI pipelines, automation scripts, or to explore and experiment
 === ":fontawesome-brands-apple: Homebrew"
 
     ```bash
-    brew trust xberg-io/tap
-    brew install xberg-io/tap/ts-pack
+    brew tap xberg-io/homebrew-tap
+    brew install xberg-io/homebrew-tap/ts-pack
     ```
 
 === ":material-package-variant-closed: Cargo"
