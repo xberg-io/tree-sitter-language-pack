@@ -2,7 +2,7 @@
 title: "Go API Reference"
 ---
 
-## Go API Reference <span class="version-badge">v1.11.0-rc.2</span>
+## Go API Reference <span class="version-badge">v1.11.0</span>
 
 ### Functions
 
