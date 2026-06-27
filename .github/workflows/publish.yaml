@@ -3439,7 +3439,7 @@ jobs:
               with:
                   tag: ${{ needs.prepare.outputs.tag }}
                   version: ${{ needs.prepare.outputs.version }}
-                  tap: xberg-io/tap
+                  tap: xberg-io/homebrew-tap
                   formulas: |
                       ts-pack
                       libts-pack
