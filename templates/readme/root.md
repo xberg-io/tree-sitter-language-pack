@@ -165,7 +165,8 @@ cargo install ts-pack-cli
 ```
 
 ```sh
-brew install xberg-io/tap/ts-pack
+brew tap xberg-io/homebrew-tap
+brew install xberg-io/homebrew-tap/ts-pack
 ```
 
 Or run without a persistent install (the proxy package fetches the native binary):

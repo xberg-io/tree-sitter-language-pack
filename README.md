@@ -251,6 +251,7 @@ cargo install ts-pack-cli
 ```
 
 ```sh
+brew tap xberg-io/homebrew-tap
 brew install xberg-io/homebrew-tap/ts-pack
 ```
 
@@ -258,7 +259,7 @@ Or run without a persistent install (the proxy package fetches the native binary
 
 ```sh
 npx @xberg-io/ts-pack-cli parse <file>
-uvx --from @xberg-io/ts-pack-cli ts-pack parse <file>
+uvx --from ts-pack-cli ts-pack parse <file>
 ```
 
 See [CLI README](crates/ts-pack-cli/README.md) for full documentation.

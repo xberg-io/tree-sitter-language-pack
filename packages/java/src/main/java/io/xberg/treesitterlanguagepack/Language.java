@@ -8,25 +8,24 @@ import java.lang.foreign.MemorySegment;
 
 @SuppressWarnings("PMD")
 public class Language implements AutoCloseable {
-  private final MemorySegment handle;
+    private final MemorySegment handle;
 
-  Language(MemorySegment handle) {
-    this.handle = handle;
-  }
-
-  MemorySegment handle() {
-    return this.handle;
-  }
-
-  @Override
-  @SuppressWarnings("PMD.AvoidCatchingGenericException")
-  public void close() {
-    if (handle != null && !handle.equals(MemorySegment.NULL)) {
-      try {
-        NativeLib.TS_PACK_LANGUAGE_FREE.invoke(handle);
-      } catch (Throwable e) {
-        throw new RuntimeException("Failed to free Language: " + e.getMessage(), e);
-      }
+    Language(MemorySegment handle) {
+        this.handle = handle;
     }
-  }
+
+    MemorySegment handle() {
+        return this.handle;
+    }
+    @Override
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    public void close() {
+        if (handle != null && !handle.equals(MemorySegment.NULL)) {
+            try {
+                NativeLib.TS_PACK_LANGUAGE_FREE.invoke(handle);
+            } catch (Throwable e) {
+                throw new RuntimeException("Failed to free Language: " + e.getMessage(), e);
+            }
+        }
+    }
 }

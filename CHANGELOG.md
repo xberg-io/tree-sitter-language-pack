@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (from 16) and 2 generate concurrency (from 3) to stay within resource budgets. Fixes CI, CLI,
   Docker, E2E, Swift, Rust, and Validate workflow failures.
 
+## [1.11.0-rc.2] - 2026-06-27
+
 ## [1.10.9] - 2026-06-24
 
 ### Fixed

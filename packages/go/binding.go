@@ -21,10 +21,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"runtime"
 	"unsafe"
-
-	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 )
 
 // lastError retrieves the last error from the FFI layer.

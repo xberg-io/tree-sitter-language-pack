@@ -1,38 +1,38 @@
 {
-	"name": "@xberg-io/tree-sitter-language-pack-wasm",
-	"version": "1.11.0-rc.1",
-	"private": false,
-	"description": "Pre-compiled tree-sitter grammars for 306 programming languages",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/xberg-io/tree-sitter-language-pack",
-		"directory": "crates/ts-pack-core-wasm"
-	},
-	"files": [
-		"pkg",
-		"*.wasm",
-		"*.d.ts",
-		"README.md"
-	],
-	"type": "module",
-	"main": "pkg/nodejs/ts_pack_core_wasm.js",
-	"module": "pkg/web/ts_pack_core_wasm.js",
-	"types": "pkg/nodejs/ts_pack_core_wasm.d.ts",
-	"publishConfig": {
-		"access": "public"
-	},
-	"scripts": {
-		"build": "wasm-pack build --target nodejs --out-dir pkg/nodejs",
-		"build:ci": "wasm-pack build --release --target nodejs --out-dir pkg/nodejs",
-		"build:wasm:web": "wasm-pack build --release --target web --out-dir pkg/web",
-		"build:wasm:bundler": "wasm-pack build --release --target bundler --out-dir pkg/bundler",
-		"build:wasm:nodejs": "wasm-pack build --release --target nodejs --out-dir pkg/nodejs",
-		"build:wasm:deno": "wasm-pack build --release --target deno --out-dir pkg/deno",
-		"build:all": "npm run build:wasm:web && npm run build:wasm:bundler && npm run build:wasm:nodejs && npm run build:wasm:deno && find pkg -name .gitignore -delete",
-		"test": "vitest run",
-		"test:watch": "vitest watch",
-		"test:coverage": "vitest run --coverage",
-		"clean": "rm -rf pkg dist"
-	}
+  "name": "@xberg-io/tree-sitter-language-pack-wasm",
+  "version": "1.11.0-rc.2",
+  "private": false,
+  "description": "Pre-compiled tree-sitter grammars for 306 programming languages",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xberg-io/tree-sitter-language-pack",
+    "directory": "crates/ts-pack-core-wasm"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "files": [
+    "pkg",
+    "*.wasm",
+    "*.d.ts",
+    "README.md"
+  ],
+  "main": "pkg/nodejs/ts_pack_core_wasm.js",
+  "module": "pkg/web/ts_pack_core_wasm.js",
+  "types": "pkg/nodejs/ts_pack_core_wasm.d.ts",
+  "scripts": {
+    "build": "wasm-pack build --target nodejs --out-dir pkg/nodejs",
+    "build:ci": "wasm-pack build --release --target nodejs --out-dir pkg/nodejs",
+    "build:wasm:web": "wasm-pack build --release --target web --out-dir pkg/web",
+    "build:wasm:bundler": "wasm-pack build --release --target bundler --out-dir pkg/bundler",
+    "build:wasm:nodejs": "wasm-pack build --release --target nodejs --out-dir pkg/nodejs",
+    "build:wasm:deno": "wasm-pack build --release --target deno --out-dir pkg/deno",
+    "build:all": "npm run build:wasm:web && npm run build:wasm:bundler && npm run build:wasm:nodejs && npm run build:wasm:deno && find pkg -name .gitignore -delete",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rm -rf pkg dist"
+  }
 }

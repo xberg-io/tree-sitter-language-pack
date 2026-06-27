@@ -8,7 +8,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
-const String _moduleVersion = '1.11.0-rc.1';
+const String _moduleVersion = '1.11.0-rc.2';
 const String _repoUrl = 'https://github.com/xberg-io/tree-sitter-language-pack';
 const String _assetPrefix = 'tree-sitter-language-pack';
 const String _libStem = 'tree_sitter_language_pack';
@@ -40,8 +40,7 @@ Future<void> _run() async {
 
   // Use the package root (where pubspec.yaml lives) as base
   final packageRoot = _packageRoot();
-  final libDir =
-      '$packageRoot${Platform.pathSeparator}lib${Platform.pathSeparator}src${Platform.pathSeparator}native${Platform.pathSeparator}$osName-$arch';
+  final libDir = '$packageRoot${Platform.pathSeparator}lib${Platform.pathSeparator}src${Platform.pathSeparator}native${Platform.pathSeparator}$osName-$arch';
   final libPath = '$libDir${Platform.pathSeparator}${_libFilename()}';
 
   return (libDir, libPath);
@@ -118,9 +117,7 @@ Future<void> _downloadAndExtractLibrary(String cacheDir) async {
   // Download tarball
   final response = await http.get(Uri.parse(downloadUrl));
   if (response.statusCode != 200) {
-    throw Exception(
-      'HTTP ${response.statusCode}: Failed to download $downloadUrl',
-    );
+    throw Exception('HTTP ${response.statusCode}: Failed to download $downloadUrl');
   }
 
   // Extract tarball to cache directory

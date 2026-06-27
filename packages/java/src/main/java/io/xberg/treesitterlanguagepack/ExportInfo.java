@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package io.xberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -17,47 +17,52 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public record ExportInfo(
     @JsonProperty("name") String name,
     @JsonProperty("kind") ExportKind kind,
-    @JsonProperty("span") Span span) {
-  /** Creates a new Builder for constructing instances of this record. */
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  /** Jackson builder for ExportInfo deserialization. */
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String name;
-    private ExportKind kind;
-    private Span span;
-
-    /** Sets the name field. */
-    @JsonProperty("name")
-    public Builder withName(final String value) {
-      this.name = value;
-      return this;
+    @JsonProperty("span") Span span
+) {
+    /** Creates a new Builder for constructing instances of this record. */
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the kind field. */
-    @JsonProperty("kind")
-    public Builder withKind(final ExportKind value) {
-      this.kind = value;
-      return this;
-    }
+    // CPD-OFF
+    /** Jackson builder for ExportInfo deserialization. */
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+        private String name;
+        private ExportKind kind;
+        private Span span;
 
-    /** Constructs a ExportInfo instance from the builder's current state. */
-    public ExportInfo build() {
-      return new ExportInfo(name, kind, span);
+        /** Sets the name field. */
+        @JsonProperty("name")
+        public Builder withName(final String value) {
+            this.name = value;
+            return this;
+        }
+
+        /** Sets the kind field. */
+        @JsonProperty("kind")
+        public Builder withKind(final ExportKind value) {
+            this.kind = value;
+            return this;
+        }
+
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Constructs a ExportInfo instance from the builder's current state. */
+        public ExportInfo build() {
+            return new ExportInfo(
+                name,
+                kind,
+                span
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

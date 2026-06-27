@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package io.xberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -20,47 +20,52 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public record DataAttribute(
     @JsonProperty("name") String name,
     @JsonProperty("value") String value,
-    @JsonProperty("span") Span span) {
-  /** Creates a new Builder for constructing instances of this record. */
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  /** Jackson builder for DataAttribute deserialization. */
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String name;
-    private String value;
-    private Span span;
-
-    /** Sets the name field. */
-    @JsonProperty("name")
-    public Builder withName(final String value) {
-      this.name = value;
-      return this;
+    @JsonProperty("span") Span span
+) {
+    /** Creates a new Builder for constructing instances of this record. */
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the value field. */
-    @JsonProperty("value")
-    public Builder withValue(final String value) {
-      this.value = value;
-      return this;
-    }
+    // CPD-OFF
+    /** Jackson builder for DataAttribute deserialization. */
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+        private String name;
+        private String value;
+        private Span span;
 
-    /** Constructs a DataAttribute instance from the builder's current state. */
-    public DataAttribute build() {
-      return new DataAttribute(name, value, span);
+        /** Sets the name field. */
+        @JsonProperty("name")
+        public Builder withName(final String value) {
+            this.name = value;
+            return this;
+        }
+
+        /** Sets the value field. */
+        @JsonProperty("value")
+        public Builder withValue(final String value) {
+            this.value = value;
+            return this;
+        }
+
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Constructs a DataAttribute instance from the builder's current state. */
+        public DataAttribute build() {
+            return new DataAttribute(
+                name,
+                value,
+                span
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

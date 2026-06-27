@@ -112,7 +112,7 @@ Add to `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:tree_sitter_language_pack, "~> 1.11.0-rc.1"}
+    {:tree_sitter_language_pack, "~> 1.11.0-rc.2"}
   ]
 end
 ```

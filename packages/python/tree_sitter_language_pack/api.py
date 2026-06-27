@@ -13,16 +13,11 @@ from tree_sitter import Language
 
 _E = TypeVar("_E")
 
-
 def _pascal_to_snake(value: str) -> str:
     """Convert PascalCase/camelCase to snake_case (AtxClosed -> atx_closed)."""
     out_chars: list[str] = []
     for index, ch in enumerate(value):
-        if (
-            ch.isupper()
-            and index > 0
-            and (value[index - 1].islower() or (index + 1 < len(value) and value[index + 1].islower()))
-        ):
+        if ch.isupper() and index > 0 and (value[index - 1].islower() or (index + 1 < len(value) and value[index + 1].islower())):
             out_chars.append("_")
         out_chars.append(ch.lower())
     return "".join(out_chars)

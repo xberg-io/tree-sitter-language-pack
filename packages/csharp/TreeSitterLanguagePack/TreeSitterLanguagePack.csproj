@@ -3,10 +3,10 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>TreeSitterLanguagePack</RootNamespace>
     <PackageId>TreeSitterLanguagePack</PackageId>
-    <Version>1.11.0-rc.1</Version>
+    <Version>1.11.0-rc.2</Version>
     <AssemblyVersion>1.11.0.0</AssemblyVersion>
     <FileVersion>1.11.0.0</FileVersion>
-    <InformationalVersion>1.11.0-rc.1</InformationalVersion>
+    <InformationalVersion>1.11.0-rc.2</InformationalVersion>
     <Description>Pre-compiled tree-sitter grammars for 306 programming languages</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/xberg-io/tree-sitter-language-pack</RepositoryUrl>

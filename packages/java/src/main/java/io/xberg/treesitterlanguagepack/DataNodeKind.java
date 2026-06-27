@@ -23,48 +23,49 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @SuppressWarnings("PMD")
 public enum DataNodeKind {
-  /**
-   * A key/value pair or mapping (json/toml/properties/yaml/hcl/cue/kdl pair,
-   * or a wrapper "object"/"mapping" container).
-   */
-  KeyValue("keyvalue"),
-  /**
-   * An XML element with a tag name in {@code key} and attributes in {@code attributes}.
-   */
-  Element("element"),
-  /**
-   * A positional sequence item (JSON array element, YAML block sequence item,
-   * CSV/PSV row or cell).
-   */
-  Sequence("sequence");
+    /**
+     * A key/value pair or mapping (json/toml/properties/yaml/hcl/cue/kdl pair,
+     * or a wrapper "object"/"mapping" container).
+     */
+    KeyValue("keyvalue"),
+    /**
+     * An XML element with a tag name in {@code key} and attributes in {@code attributes}.
+     */
+    Element("element"),
+    /**
+     * A positional sequence item (JSON array element, YAML block sequence item,
+     * CSV/PSV row or cell).
+     */
+    Sequence("sequence");
 
-  /** The string value. */
-  private final String value;
 
-  DataNodeKind(final String value) {
-    this.value = value;
-  }
+    /** The string value. */
+    private final String value;
 
-  /** Returns the string value. */
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  /** Creates an instance from a string value. */
-  @JsonCreator
-  public static DataNodeKind fromValue(final String value) {
-    for (DataNodeKind e : values()) {
-      if (e.value.equalsIgnoreCase(value)) {
-        return e;
-      }
+    DataNodeKind(final String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unknown DataNodeKind value: " + value);
-  }
 
-  /** Returns the wire-format string value (matches JSON serialization). */
-  @Override
-  public String toString() {
-    return value;
-  }
+    /** Returns the string value. */
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    /** Creates an instance from a string value. */
+    @JsonCreator
+    public static DataNodeKind fromValue(final String value) {
+        for (DataNodeKind e : values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown DataNodeKind value: " + value);
+    }
+
+    /** Returns the wire-format string value (matches JSON serialization). */
+    @Override
+    public String toString() {
+        return value;
+    }
 }

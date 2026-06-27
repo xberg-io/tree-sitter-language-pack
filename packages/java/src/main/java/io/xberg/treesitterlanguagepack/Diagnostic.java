@@ -4,8 +4,8 @@
 // To verify freshness: alef verify --exit-code
 package io.xberg.treesitterlanguagepack;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -17,47 +17,52 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public record Diagnostic(
     @JsonProperty("message") String message,
     @JsonProperty("severity") DiagnosticSeverity severity,
-    @JsonProperty("span") Span span) {
-  /** Creates a new Builder for constructing instances of this record. */
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  // CPD-OFF
-  /** Jackson builder for Diagnostic deserialization. */
-  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-  public static final class Builder {
-
-    private String message;
-    private DiagnosticSeverity severity;
-    private Span span;
-
-    /** Sets the message field. */
-    @JsonProperty("message")
-    public Builder withMessage(final String value) {
-      this.message = value;
-      return this;
+    @JsonProperty("span") Span span
+) {
+    /** Creates a new Builder for constructing instances of this record. */
+    public static Builder builder() {
+        return new Builder();
     }
 
-    /** Sets the severity field. */
-    @JsonProperty("severity")
-    public Builder withSeverity(final DiagnosticSeverity value) {
-      this.severity = value;
-      return this;
-    }
+    // CPD-OFF
+    /** Jackson builder for Diagnostic deserialization. */
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+    public static final class Builder {
 
-    /** Sets the span field. */
-    @JsonProperty("span")
-    public Builder withSpan(final Span value) {
-      this.span = value;
-      return this;
-    }
+        private String message;
+        private DiagnosticSeverity severity;
+        private Span span;
 
-    /** Constructs a Diagnostic instance from the builder's current state. */
-    public Diagnostic build() {
-      return new Diagnostic(message, severity, span);
+        /** Sets the message field. */
+        @JsonProperty("message")
+        public Builder withMessage(final String value) {
+            this.message = value;
+            return this;
+        }
+
+        /** Sets the severity field. */
+        @JsonProperty("severity")
+        public Builder withSeverity(final DiagnosticSeverity value) {
+            this.severity = value;
+            return this;
+        }
+
+        /** Sets the span field. */
+        @JsonProperty("span")
+        public Builder withSpan(final Span value) {
+            this.span = value;
+            return this;
+        }
+
+        /** Constructs a Diagnostic instance from the builder's current state. */
+        public Diagnostic build() {
+            return new Diagnostic(
+                message,
+                severity,
+                span
+            );
+        }
     }
-  }
-  // CPD-ON
+    // CPD-ON
 }

@@ -1,6 +1,6 @@
 .{
     .name = .tree_sitter_language_pack,
-    .version = "1.11.0-rc.1",
+    .version = "1.11.0-rc.2",
     .fingerprint = 0x6f52c41163f42c8c,
     .minimum_zig_version = "0.16.0",
     .dependencies = .{

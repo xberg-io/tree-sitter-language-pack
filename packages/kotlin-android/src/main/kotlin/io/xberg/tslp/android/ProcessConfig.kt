@@ -54,9 +54,10 @@ data class ProcessConfig(
     /**
      * Extract hierarchical key/value data tree from data-format files. Default: false.
      *
-     * When `true`, `ProcessResult.data` is populated with a `DataNode` tree for supported
-     * languages: JSON, YAML, TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV,
-     * PO, nginx config, Caddy config, XML, and DTD.
+     * When `true`, `ProcessResult.data` is populated
+     * with a `DataNode` tree for supported languages: JSON, YAML,
+     * TOML, `.properties`, HCL/HOCON, INI, editorconfig, KDL, CUE, CSV, PSV, PO,
+     * nginx config, Caddy config, XML, and DTD.
      *
      * For languages outside this set the field is left as `null`.
      */

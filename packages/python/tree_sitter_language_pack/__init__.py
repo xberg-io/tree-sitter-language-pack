@@ -4,7 +4,7 @@
 # To verify freshness: alef verify --exit-code
 """Public API for _native.
 
-Version: 1.11.0-rc.1
+Version: 1.11.0-rc.2
 """
 
 from ._native import (
@@ -157,4 +157,4 @@ __all__ = [
     "process",
 ]
 
-__version__ = "1.11.0-rc.1"
+__version__ = "1.11.0-rc.2"

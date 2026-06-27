@@ -3,7 +3,6 @@
 
 package io.xberg.tslp.android
 
-class TreeSitterLanguagePackBridgeException(message: String?, cause: Throwable?) :
-    RuntimeException(message, cause) {
+class TreeSitterLanguagePackBridgeException(message: String?, cause: Throwable?) : RuntimeException(message, cause) {
     constructor(message: String?) : this(message, null)
 }

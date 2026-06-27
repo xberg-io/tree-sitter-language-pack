@@ -30,8 +30,8 @@ package io.xberg.tslp.android
 /**
  * Byte and line/column range in source code.
  *
- * Represents both byte offsets (for slicing) and human-readable line/column positions (for display
- * and diagnostics).
+ * Represents both byte offsets (for slicing) and human-readable line/column
+ * positions (for display and diagnostics).
  */
 data class Span(
     /** Inclusive start byte offset in the source. */

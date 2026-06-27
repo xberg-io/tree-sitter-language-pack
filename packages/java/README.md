@@ -111,7 +111,7 @@ Pre-compiled tree-sitter grammars for 306 programming languages with Java bindin
 <dependency>
   <groupId>io.xberg</groupId>
   <artifactId>tree-sitter-language-pack</artifactId>
-  <version>1.11.0-rc.1</version>
+  <version>1.11.0-rc.2</version>
 </dependency>
 ```
 

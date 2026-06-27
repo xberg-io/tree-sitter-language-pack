@@ -94,7 +94,6 @@ class Span:
 
 class ProcessResult(TypedDict, total=False):
     """Complete analysis result from processing a source file."""
-
     language: str
 
     """The language name used to parse the source file."""
@@ -128,7 +127,6 @@ class ProcessResult(TypedDict, total=False):
     data: DataNode | None
 
     """Hierarchical data tree extracted when `config.data_extraction` is `true`."""
-
 
 @dataclass(frozen=True, slots=True)
 class FileMetrics:
@@ -444,7 +442,6 @@ class PackConfig:
 
 class Parser(TypedDict, total=False):
     """A tree-sitter parser configured for one language at a time."""
-
 
 @dataclass(frozen=True, slots=True)
 class ProcessConfig:

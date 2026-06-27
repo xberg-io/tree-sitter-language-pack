@@ -4,7 +4,7 @@ requires = [ "maturin>=1,<2" ]
 
 [project]
 name = "tree-sitter-language-pack"
-version = "1.11.0rc1"
+version = "1.11.0rc2"
 description = "Pre-compiled tree-sitter grammars for 306 programming languages"
 keywords = [ "language-pack", "parser", "syntax", "tree-sitter" ]
 license = "MIT"
