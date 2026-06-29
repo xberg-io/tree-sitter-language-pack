@@ -47,8 +47,8 @@ tree_sitter_language_pack = { version = "1.11.0", path = "../../../crates/ts-pac
     "serde",
 ], package = "tree-sitter-language-pack" }
 
-[lints.rust]
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }
-
 [build-dependencies]
 swift-bridge-build = "0.1.59"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

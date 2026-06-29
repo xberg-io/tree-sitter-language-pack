@@ -14,47 +14,46 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @SuppressWarnings("PMD")
 public enum ExportKind {
-    /**
-     * A named export (e.g., {@code export { foo }}).
-     */
-    Named("named"),
-    /**
-     * A default export (e.g., {@code export default foo}).
-     */
-    Default("default"),
-    /**
-     * A re-export from another module (e.g., {@code export { foo } from 'bar'}).
-     */
-    ReExport("reexport");
+  /**
+   * A named export (e.g., {@code export { foo }}).
+   */
+  Named("named"),
+  /**
+   * A default export (e.g., {@code export default foo}).
+   */
+  Default("default"),
+  /**
+   * A re-export from another module (e.g., {@code export { foo } from 'bar'}).
+   */
+  ReExport("reexport");
 
+  /** The string value. */
+  private final String value;
 
-    /** The string value. */
-    private final String value;
+  ExportKind(final String value) {
+    this.value = value;
+  }
 
-    ExportKind(final String value) {
-        this.value = value;
+  /** Returns the string value. */
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  /** Creates an instance from a string value. */
+  @JsonCreator
+  public static ExportKind fromValue(final String value) {
+    for (ExportKind e : values()) {
+      if (e.value.equalsIgnoreCase(value)) {
+        return e;
+      }
     }
+    throw new IllegalArgumentException("Unknown ExportKind value: " + value);
+  }
 
-    /** Returns the string value. */
-    @JsonValue
-    public String getValue() {
-        return value;
-    }
-
-    /** Creates an instance from a string value. */
-    @JsonCreator
-    public static ExportKind fromValue(final String value) {
-        for (ExportKind e : values()) {
-            if (e.value.equalsIgnoreCase(value)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("Unknown ExportKind value: " + value);
-    }
-
-    /** Returns the wire-format string value (matches JSON serialization). */
-    @Override
-    public String toString() {
-        return value;
-    }
+  /** Returns the wire-format string value (matches JSON serialization). */
+  @Override
+  public String toString() {
+    return value;
+  }
 }

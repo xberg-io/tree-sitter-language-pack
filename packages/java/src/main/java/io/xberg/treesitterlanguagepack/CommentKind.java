@@ -15,47 +15,46 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @SuppressWarnings("PMD")
 public enum CommentKind {
-    /**
-     * A single-line comment (e.g., {@code // ...} or {@code # ...}).
-     */
-    Line("line"),
-    /**
-     * A block or multi-line comment using slash-star delimiters.
-     */
-    Block("block"),
-    /**
-     * A documentation comment such as {@code /// ...} or slash-double-star block.
-     */
-    Doc("doc");
+  /**
+   * A single-line comment (e.g., {@code // ...} or {@code # ...}).
+   */
+  Line("line"),
+  /**
+   * A block or multi-line comment using slash-star delimiters.
+   */
+  Block("block"),
+  /**
+   * A documentation comment such as {@code /// ...} or slash-double-star block.
+   */
+  Doc("doc");
 
+  /** The string value. */
+  private final String value;
 
-    /** The string value. */
-    private final String value;
+  CommentKind(final String value) {
+    this.value = value;
+  }
 
-    CommentKind(final String value) {
-        this.value = value;
+  /** Returns the string value. */
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  /** Creates an instance from a string value. */
+  @JsonCreator
+  public static CommentKind fromValue(final String value) {
+    for (CommentKind e : values()) {
+      if (e.value.equalsIgnoreCase(value)) {
+        return e;
+      }
     }
+    throw new IllegalArgumentException("Unknown CommentKind value: " + value);
+  }
 
-    /** Returns the string value. */
-    @JsonValue
-    public String getValue() {
-        return value;
-    }
-
-    /** Creates an instance from a string value. */
-    @JsonCreator
-    public static CommentKind fromValue(final String value) {
-        for (CommentKind e : values()) {
-            if (e.value.equalsIgnoreCase(value)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("Unknown CommentKind value: " + value);
-    }
-
-    /** Returns the wire-format string value (matches JSON serialization). */
-    @Override
-    public String toString() {
-        return value;
-    }
+  /** Returns the wire-format string value (matches JSON serialization). */
+  @Override
+  public String toString() {
+    return value;
+  }
 }

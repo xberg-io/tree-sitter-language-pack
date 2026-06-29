@@ -23,5 +23,5 @@ end
 # under TreeSitterLanguagePack by this point.
 TreeSitterLanguagePack.constants.each do |const_name|
   value = TreeSitterLanguagePack.const_get(const_name)
-  ::Object.const_set(const_name, value) if value.is_a?(Module) && !::Object.const_defined?(const_name)
+  Object.const_set(const_name, value) if value.is_a?(Module) && !Object.const_defined?(const_name)
 end

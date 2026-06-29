@@ -8,6 +8,7 @@
 Use this skill when working with tree-sitter-language-pack generated language APIs, data types, configuration, or error surfaces.
 
 Generated reference pages:
+
 - docs/reference/api-python.md
 - docs/reference/api-typescript.md
 - docs/reference/api-ruby.md

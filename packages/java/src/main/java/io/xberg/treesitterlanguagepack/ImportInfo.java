@@ -4,11 +4,11 @@
 // To verify freshness: alef verify --exit-code
 package io.xberg.treesitterlanguagepack;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -21,71 +21,70 @@ public record ImportInfo(
     @Nullable @JsonProperty("items") List<String> items,
     @Nullable @JsonProperty("alias") String alias,
     @JsonProperty("is_wildcard") boolean isWildcard,
-    @JsonProperty("span") Span span
-) {
-    /** Creates a new Builder for constructing instances of this record. */
-    public static Builder builder() {
-        return new Builder();
+    @JsonProperty("span") Span span) {
+  /** Creates a new Builder for constructing instances of this record. */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  // CPD-OFF
+  /** Jackson builder for ImportInfo deserialization. */
+  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+  public static final class Builder {
+
+    private String source;
+
+    @Nullable
+    private List<String> items;
+
+    @Nullable
+    private String alias;
+
+    @JsonProperty("is_wildcard")
+    private boolean isWildcard;
+
+    private Span span;
+
+    /** Sets the source field. */
+    @JsonProperty("source")
+    public Builder withSource(final String value) {
+      this.source = value;
+      return this;
     }
 
-    // CPD-OFF
-    /** Jackson builder for ImportInfo deserialization. */
-    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-    public static final class Builder {
-
-        private String source;
-        @Nullable private List<String> items;
-        @Nullable private String alias;
-        @JsonProperty("is_wildcard")
-        private boolean isWildcard;
-        private Span span;
-
-        /** Sets the source field. */
-        @JsonProperty("source")
-        public Builder withSource(final String value) {
-            this.source = value;
-            return this;
-        }
-
-        /** Sets the items field. */
-        @JsonProperty("items")
-        public Builder withItems(final @Nullable List<String> value) {
-            this.items = value;
-            return this;
-        }
-
-        /** Sets the alias field. */
-        @JsonProperty("alias")
-        public Builder withAlias(final @Nullable String value) {
-            this.alias = value;
-            return this;
-        }
-
-        /** Sets the isWildcard field. */
-        @JsonProperty("is_wildcard")
-        public Builder withIsWildcard(final boolean value) {
-            this.isWildcard = value;
-            return this;
-        }
-
-        /** Sets the span field. */
-        @JsonProperty("span")
-        public Builder withSpan(final Span value) {
-            this.span = value;
-            return this;
-        }
-
-        /** Constructs a ImportInfo instance from the builder's current state. */
-        public ImportInfo build() {
-            return new ImportInfo(
-                source,
-                items,
-                alias,
-                isWildcard,
-                span
-            );
-        }
+    /** Sets the items field. */
+    @JsonProperty("items")
+    public Builder withItems(final @Nullable List<String> value) {
+      this.items = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the alias field. */
+    @JsonProperty("alias")
+    public Builder withAlias(final @Nullable String value) {
+      this.alias = value;
+      return this;
+    }
+
+    /** Sets the isWildcard field. */
+    @JsonProperty("is_wildcard")
+    public Builder withIsWildcard(final boolean value) {
+      this.isWildcard = value;
+      return this;
+    }
+
+    /** Sets the span field. */
+    @JsonProperty("span")
+    public Builder withSpan(final Span value) {
+      this.span = value;
+      return this;
+    }
+
+    /** Constructs a ImportInfo instance from the builder's current state. */
+    public ImportInfo build() {
+      return new ImportInfo(source, items, alias, isWildcard, span);
+    }
+  }
+  // CPD-ON
 }

@@ -11,7 +11,7 @@ Use this skill when integrating tree-sitter-language-pack through Model Context 
 - `clean_cache`: Delete all cached parser libraries from the cache directory.
 - `detect_language`: Detect the language for a file path or source content. Returns the detected language name.
 - `download`: Download parser libraries from the remote registry. Pass languages list, groups, or all=true. \
-                       Set fresh=true to clean the cache first.
+  Set fresh=true to clean the cache first.
 - `info`: Show whether a language is known, downloaded, and its cache path.
 - `list_languages`: List languages. source: 'available' (default), 'downloaded', or 'manifest'. Optional substring filter.
 - `parse`: Parse source code with a tree-sitter grammar. Returns the syntax tree as sexp or JSON.

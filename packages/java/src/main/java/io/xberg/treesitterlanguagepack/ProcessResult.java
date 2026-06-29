@@ -4,11 +4,11 @@
 // To verify freshness: alef verify --exit-code
 package io.xberg.treesitterlanguagepack;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -44,124 +44,140 @@ public record ProcessResult(
     @Nullable @JsonProperty("symbols") List<SymbolInfo> symbols,
     @Nullable @JsonProperty("diagnostics") List<Diagnostic> diagnostics,
     @Nullable @JsonProperty("chunks") List<CodeChunk> chunks,
-    @Nullable @JsonProperty("data") DataNode data
-) {
-    /** Creates a new Builder for constructing instances of this record. */
-    public static Builder builder() {
-        return new Builder();
+    @Nullable @JsonProperty("data") DataNode data) {
+  /** Creates a new Builder for constructing instances of this record. */
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  // CPD-OFF
+  /** Jackson builder for ProcessResult deserialization. */
+  @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
+  @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
+  public static final class Builder {
+
+    private String language;
+    private FileMetrics metrics;
+
+    @Nullable
+    private List<StructureItem> structure;
+
+    @Nullable
+    private List<ImportInfo> imports;
+
+    @Nullable
+    private List<ExportInfo> exports;
+
+    @Nullable
+    private List<CommentInfo> comments;
+
+    @Nullable
+    private List<DocstringInfo> docstrings;
+
+    @Nullable
+    private List<SymbolInfo> symbols;
+
+    @Nullable
+    private List<Diagnostic> diagnostics;
+
+    @Nullable
+    private List<CodeChunk> chunks;
+
+    @Nullable
+    private DataNode data;
+
+    /** Sets the language field. */
+    @JsonProperty("language")
+    public Builder withLanguage(final String value) {
+      this.language = value;
+      return this;
     }
 
-    // CPD-OFF
-    /** Jackson builder for ProcessResult deserialization. */
-    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonPOJOBuilder(withPrefix = "with", buildMethodName = "build")
-    public static final class Builder {
-
-        private String language;
-        private FileMetrics metrics;
-        @Nullable private List<StructureItem> structure;
-        @Nullable private List<ImportInfo> imports;
-        @Nullable private List<ExportInfo> exports;
-        @Nullable private List<CommentInfo> comments;
-        @Nullable private List<DocstringInfo> docstrings;
-        @Nullable private List<SymbolInfo> symbols;
-        @Nullable private List<Diagnostic> diagnostics;
-        @Nullable private List<CodeChunk> chunks;
-        @Nullable private DataNode data;
-
-        /** Sets the language field. */
-        @JsonProperty("language")
-        public Builder withLanguage(final String value) {
-            this.language = value;
-            return this;
-        }
-
-        /** Sets the metrics field. */
-        @JsonProperty("metrics")
-        public Builder withMetrics(final FileMetrics value) {
-            this.metrics = value;
-            return this;
-        }
-
-        /** Sets the structure field. */
-        @JsonProperty("structure")
-        public Builder withStructure(final @Nullable List<StructureItem> value) {
-            this.structure = value;
-            return this;
-        }
-
-        /** Sets the imports field. */
-        @JsonProperty("imports")
-        public Builder withImports(final @Nullable List<ImportInfo> value) {
-            this.imports = value;
-            return this;
-        }
-
-        /** Sets the exports field. */
-        @JsonProperty("exports")
-        public Builder withExports(final @Nullable List<ExportInfo> value) {
-            this.exports = value;
-            return this;
-        }
-
-        /** Sets the comments field. */
-        @JsonProperty("comments")
-        public Builder withComments(final @Nullable List<CommentInfo> value) {
-            this.comments = value;
-            return this;
-        }
-
-        /** Sets the docstrings field. */
-        @JsonProperty("docstrings")
-        public Builder withDocstrings(final @Nullable List<DocstringInfo> value) {
-            this.docstrings = value;
-            return this;
-        }
-
-        /** Sets the symbols field. */
-        @JsonProperty("symbols")
-        public Builder withSymbols(final @Nullable List<SymbolInfo> value) {
-            this.symbols = value;
-            return this;
-        }
-
-        /** Sets the diagnostics field. */
-        @JsonProperty("diagnostics")
-        public Builder withDiagnostics(final @Nullable List<Diagnostic> value) {
-            this.diagnostics = value;
-            return this;
-        }
-
-        /** Sets the chunks field. */
-        @JsonProperty("chunks")
-        public Builder withChunks(final @Nullable List<CodeChunk> value) {
-            this.chunks = value;
-            return this;
-        }
-
-        /** Sets the data field. */
-        @JsonProperty("data")
-        public Builder withData(final @Nullable DataNode value) {
-            this.data = value;
-            return this;
-        }
-
-        /** Constructs a ProcessResult instance from the builder's current state. */
-        public ProcessResult build() {
-            return new ProcessResult(
-                language,
-                metrics,
-                structure,
-                imports,
-                exports,
-                comments,
-                docstrings,
-                symbols,
-                diagnostics,
-                chunks,
-                data
-            );
-        }
+    /** Sets the metrics field. */
+    @JsonProperty("metrics")
+    public Builder withMetrics(final FileMetrics value) {
+      this.metrics = value;
+      return this;
     }
-    // CPD-ON
+
+    /** Sets the structure field. */
+    @JsonProperty("structure")
+    public Builder withStructure(final @Nullable List<StructureItem> value) {
+      this.structure = value;
+      return this;
+    }
+
+    /** Sets the imports field. */
+    @JsonProperty("imports")
+    public Builder withImports(final @Nullable List<ImportInfo> value) {
+      this.imports = value;
+      return this;
+    }
+
+    /** Sets the exports field. */
+    @JsonProperty("exports")
+    public Builder withExports(final @Nullable List<ExportInfo> value) {
+      this.exports = value;
+      return this;
+    }
+
+    /** Sets the comments field. */
+    @JsonProperty("comments")
+    public Builder withComments(final @Nullable List<CommentInfo> value) {
+      this.comments = value;
+      return this;
+    }
+
+    /** Sets the docstrings field. */
+    @JsonProperty("docstrings")
+    public Builder withDocstrings(final @Nullable List<DocstringInfo> value) {
+      this.docstrings = value;
+      return this;
+    }
+
+    /** Sets the symbols field. */
+    @JsonProperty("symbols")
+    public Builder withSymbols(final @Nullable List<SymbolInfo> value) {
+      this.symbols = value;
+      return this;
+    }
+
+    /** Sets the diagnostics field. */
+    @JsonProperty("diagnostics")
+    public Builder withDiagnostics(final @Nullable List<Diagnostic> value) {
+      this.diagnostics = value;
+      return this;
+    }
+
+    /** Sets the chunks field. */
+    @JsonProperty("chunks")
+    public Builder withChunks(final @Nullable List<CodeChunk> value) {
+      this.chunks = value;
+      return this;
+    }
+
+    /** Sets the data field. */
+    @JsonProperty("data")
+    public Builder withData(final @Nullable DataNode value) {
+      this.data = value;
+      return this;
+    }
+
+    /** Constructs a ProcessResult instance from the builder's current state. */
+    public ProcessResult build() {
+      return new ProcessResult(
+          language,
+          metrics,
+          structure,
+          imports,
+          exports,
+          comments,
+          docstrings,
+          symbols,
+          diagnostics,
+          chunks,
+          data);
+    }
+  }
+  // CPD-ON
 }

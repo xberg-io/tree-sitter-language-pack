@@ -11,83 +11,89 @@ import java.lang.foreign.MemorySegment;
  */
 @SuppressWarnings("PMD")
 public class Tree implements AutoCloseable {
-    private final MemorySegment handle;
+  private final MemorySegment handle;
 
-    Tree(MemorySegment handle) {
-        this.handle = handle;
-    }
+  Tree(MemorySegment handle) {
+    this.handle = handle;
+  }
 
-    MemorySegment handle() {
-        return this.handle;
+  MemorySegment handle() {
+    return this.handle;
+  }
+  /**
+   * Return the root Node of this tree.
+   */
+  public Node rootNode() throws TreeSitterLanguagePackRsException {
+    try {
+      // CPD-OFF — FFI opaque-handle return, no JSON deserialization needed.
+      // The returned pointer is owned by the new wrapper, which frees it in
+      // close(); freeing it here would leave the wrapper holding a dangling
+      // handle (use-after-free on the next native call).
+      MemorySegment resultPtr =
+          (MemorySegment) NativeLib.TS_PACK_TREE_ROOT_NODE.invoke(this.handle);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastFfiError();
+        return null;
+      }
+      return new Node(resultPtr);
+      // CPD-ON
+    } catch (TreeSitterLanguagePackRsException ex) {
+      throw ex;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("rootNode: failed", e);
     }
-    /**
-     * Return the root Node of this tree.
-     */
-    public Node rootNode() throws TreeSitterLanguagePackRsException {
-        try {
-            // CPD-OFF — FFI opaque-handle return, no JSON deserialization needed.
-            // The returned pointer is owned by the new wrapper, which frees it in
-            // close(); freeing it here would leave the wrapper holding a dangling
-            // handle (use-after-free on the next native call).
-            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_TREE_ROOT_NODE.invoke(this.handle);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastFfiError();
-                return null;
-            }
-            return new Node(resultPtr);
-            // CPD-ON
-        } catch (TreeSitterLanguagePackRsException ex) {
-            throw ex;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("rootNode: failed", e);
-        }
+  }
+  /**
+   * Return a TreeCursor positioned at the root.
+   */
+  public TreeCursor walk() throws TreeSitterLanguagePackRsException {
+    try {
+      // CPD-OFF — FFI opaque-handle return, no JSON deserialization needed.
+      // The returned pointer is owned by the new wrapper, which frees it in
+      // close(); freeing it here would leave the wrapper holding a dangling
+      // handle (use-after-free on the next native call).
+      MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_TREE_WALK.invoke(this.handle);
+      if (resultPtr.equals(MemorySegment.NULL)) {
+        checkLastFfiError();
+        return null;
+      }
+      return new TreeCursor(resultPtr);
+      // CPD-ON
+    } catch (TreeSitterLanguagePackRsException ex) {
+      throw ex;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("walk: failed", e);
     }
-    /**
-     * Return a TreeCursor positioned at the root.
-     */
-    public TreeCursor walk() throws TreeSitterLanguagePackRsException {
-        try {
-            // CPD-OFF — FFI opaque-handle return, no JSON deserialization needed.
-            // The returned pointer is owned by the new wrapper, which frees it in
-            // close(); freeing it here would leave the wrapper holding a dangling
-            // handle (use-after-free on the next native call).
-            MemorySegment resultPtr = (MemorySegment) NativeLib.TS_PACK_TREE_WALK.invoke(this.handle);
-            if (resultPtr.equals(MemorySegment.NULL)) {
-                checkLastFfiError();
-                return null;
-            }
-            return new TreeCursor(resultPtr);
-            // CPD-ON
-        } catch (TreeSitterLanguagePackRsException ex) {
-            throw ex;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("walk: failed", e);
-        }
-    }
-    @Override
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    public void close() {
-        if (handle != null && !handle.equals(MemorySegment.NULL)) {
-            try {
-                NativeLib.TS_PACK_TREE_FREE.invoke(handle);
-            } catch (Throwable e) {
-                throw new RuntimeException("Failed to free Tree: " + e.getMessage(), e);
-            }
-        }
-    }
+  }
 
-    // CPD-OFF — generated FFI boilerplate, identical across all opaque types by design.
-    private static void checkLastFfiError() throws TreeSitterLanguagePackRsException {
-        try {
-            int code = (int)(long) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
-            if (code == 0) { return; }
-            MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
-            String msg = ctxPtr.equals(MemorySegment.NULL) ? "unknown" : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
-            throw new TreeSitterLanguagePackRsException(code, msg);
-        } catch (TreeSitterLanguagePackRsException e) {
-            throw e;
-        } catch (Throwable e) {
-            throw new TreeSitterLanguagePackRsException("failed to read last error", e);
-        }
-    }    // CPD-ON
+  @Override
+  @SuppressWarnings("PMD.AvoidCatchingGenericException")
+  public void close() {
+    if (handle != null && !handle.equals(MemorySegment.NULL)) {
+      try {
+        NativeLib.TS_PACK_TREE_FREE.invoke(handle);
+      } catch (Throwable e) {
+        throw new RuntimeException("Failed to free Tree: " + e.getMessage(), e);
+      }
+    }
+  }
+
+  // CPD-OFF — generated FFI boilerplate, identical across all opaque types by design.
+  private static void checkLastFfiError() throws TreeSitterLanguagePackRsException {
+    try {
+      int code = (int) (long) NativeLib.TS_PACK_LAST_ERROR_CODE.invoke();
+      if (code == 0) {
+        return;
+      }
+      MemorySegment ctxPtr = (MemorySegment) NativeLib.TS_PACK_LAST_ERROR_CONTEXT.invoke();
+      String msg = ctxPtr.equals(MemorySegment.NULL)
+          ? "unknown"
+          : ctxPtr.reinterpret(Long.MAX_VALUE).getString(0);
+      throw new TreeSitterLanguagePackRsException(code, msg);
+    } catch (TreeSitterLanguagePackRsException e) {
+      throw e;
+    } catch (Throwable e) {
+      throw new TreeSitterLanguagePackRsException("failed to read last error", e);
+    }
+  } // CPD-ON
 }

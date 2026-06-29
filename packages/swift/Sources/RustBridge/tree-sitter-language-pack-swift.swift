@@ -3408,6 +3408,3 @@ extension Language: Vectorizable {
         __swift_bridge__$Vec_Language$len(vecPtr)
     }
 }
-
-
-
