@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	moduleVersion = "1.11.0"
+	moduleVersion = "1.11.1"
 	repoURL       = "https://github.com/xberg-io/tree-sitter-language-pack"
 	assetPrefix   = "tree-sitter-language-pack"
 )

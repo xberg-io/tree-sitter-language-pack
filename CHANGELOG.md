@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.1] - 2026-06-29
+
+### Fixed
+
+- **python**: `get_language()` (and other download failures) now surface the public exception type
+  in tracebacks — `tree_sitter_language_pack.DownloadError` instead of `_native.DownloadError`
+  (#147). Regenerated against alef 0.30.1.
+- **java**: generate `ByteArraySerializer.java` so the generated `ObjectMapper` compiles for every
+  package (alef 0.30.1).
+- **docs**: correct stale "300+" language counts to "306".
+
 ## [1.11.0] - 2026-06-27
 
 Stable release promoting 1.11.0-rc.2 (fully published). Version synced across all manifests.

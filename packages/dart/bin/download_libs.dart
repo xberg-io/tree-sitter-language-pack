@@ -8,7 +8,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
-const String _moduleVersion = '1.11.0';
+const String _moduleVersion = '1.11.1';
 const String _repoUrl = 'https://github.com/xberg-io/tree-sitter-language-pack';
 const String _assetPrefix = 'tree-sitter-language-pack';
 const String _libStem = 'tree_sitter_language_pack';
