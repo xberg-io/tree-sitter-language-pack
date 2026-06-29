@@ -167,12 +167,6 @@ e2e/c/ffi/
 packages/zig/zig-pkg/
 e2e/zig/zig-pkg/
 
-# BEGIN ai-rulez (DO NOT EDIT - managed by ai-rulez)
-.agents/
-.github/agents/
-.github/commands/
-.github/skills/
-# END ai-rulez
 
 # Alef-generated skills are source-controlled; other agent-local state stays ignored.
 !.codex/
@@ -213,3 +207,8 @@ e2e/zig/zig-pkg/
 !.github/skills/cli/SKILL.md
 !.github/skills/mcp/
 !.github/skills/mcp/SKILL.md
+
+# BEGIN ai-rulez (DO NOT EDIT - managed by ai-rulez)
+.github/agents/
+.github/commands/
+# END ai-rulez

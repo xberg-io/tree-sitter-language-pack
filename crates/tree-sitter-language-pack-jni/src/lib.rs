@@ -112,7 +112,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::detect_language_from_extension(&ext);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]
@@ -134,7 +134,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::detect_language_from_path(&path);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]
@@ -156,7 +156,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::detect_language_from_content(&content);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]
@@ -178,7 +178,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::get_highlights_query(&language);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]
@@ -200,7 +200,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::get_injections_query(&language);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]
@@ -222,7 +222,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::get_locals_query(&language);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]
@@ -244,7 +244,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::get_tags_query(&language);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]
@@ -316,7 +316,7 @@ pub unsafe extern "system" fn Java_io_xberg_tslp_android_TreeSitterLanguagePackB
     let v = core_crate::detect_language(&path);
     match v {
         None => std::ptr::null_mut(),
-        Some(s) => string_to_jstring(env, &s),
+        Some(s) => string_to_jstring(env, s),
     }
 }
 #[unsafe(no_mangle)]

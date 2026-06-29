@@ -12,7 +12,8 @@ fn main() {
     {
         let header_path = "include/ts_pack.h";
         let mut header = std::fs::read_to_string(header_path).expect("read generated header");
-        for (prefixed, bare) in [("TS_PACKTSLanguage", "TSLanguage")] {
+        {
+            let (prefixed, bare) = ("TS_PACKTSLanguage", "TSLanguage");
             header = header.replace(prefixed, bare);
         }
         std::fs::write(header_path, header).expect("write patched header");

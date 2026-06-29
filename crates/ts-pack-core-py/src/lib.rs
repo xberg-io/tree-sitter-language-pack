@@ -2671,7 +2671,7 @@ pub fn detect_language(py: Python<'_>, path: String) -> Option<String> {
 #[pyfunction]
 #[pyo3(signature = ())]
 pub fn available_languages(py: Python<'_>) -> Vec<String> {
-    py.detach(|| tree_sitter_language_pack::available_languages())
+    py.detach(tree_sitter_language_pack::available_languages)
 }
 
 #[pyfunction]
@@ -2683,7 +2683,7 @@ pub fn has_language(py: Python<'_>, name: String) -> bool {
 #[pyfunction]
 #[pyo3(signature = ())]
 pub fn language_count(py: Python<'_>) -> usize {
-    py.detach(|| tree_sitter_language_pack::language_count())
+    py.detach(tree_sitter_language_pack::language_count)
 }
 
 #[allow(clippy::missing_errors_doc)]
@@ -2731,7 +2731,7 @@ pub fn download(py: Python<'_>, names: Vec<String>) -> PyResult<usize> {
 #[pyfunction]
 #[pyo3(signature = ())]
 pub fn download_all(py: Python<'_>) -> PyResult<usize> {
-    py.detach(|| tree_sitter_language_pack::download_all())
+    py.detach(tree_sitter_language_pack::download_all)
         .map_err(|e| pyo3::exceptions::PyRuntimeError::new_err(e.to_string()))
 }
 
@@ -2747,21 +2747,21 @@ pub fn download_group(py: Python<'_>, name: String) -> PyResult<usize> {
 #[pyfunction]
 #[pyo3(signature = ())]
 pub fn manifest_languages(py: Python<'_>) -> PyResult<Vec<String>> {
-    py.detach(|| tree_sitter_language_pack::manifest_languages())
+    py.detach(tree_sitter_language_pack::manifest_languages)
         .map_err(|e| pyo3::exceptions::PyRuntimeError::new_err(e.to_string()))
 }
 
 #[pyfunction]
 #[pyo3(signature = ())]
 pub fn downloaded_languages(py: Python<'_>) -> Vec<String> {
-    py.detach(|| tree_sitter_language_pack::downloaded_languages())
+    py.detach(tree_sitter_language_pack::downloaded_languages)
 }
 
 #[allow(clippy::missing_errors_doc)]
 #[pyfunction]
 #[pyo3(signature = ())]
 pub fn clean_cache(py: Python<'_>) -> PyResult<()> {
-    py.detach(|| tree_sitter_language_pack::clean_cache())
+    py.detach(tree_sitter_language_pack::clean_cache)
         .map_err(|e| pyo3::exceptions::PyRuntimeError::new_err(e.to_string()))
 }
 
@@ -2769,7 +2769,7 @@ pub fn clean_cache(py: Python<'_>) -> PyResult<()> {
 #[pyfunction]
 #[pyo3(signature = ())]
 pub fn cache_dir(py: Python<'_>) -> PyResult<String> {
-    py.detach(|| tree_sitter_language_pack::cache_dir())
+    py.detach(tree_sitter_language_pack::cache_dir)
         .map_err(|e| pyo3::exceptions::PyRuntimeError::new_err(e.to_string()))
 }
 
