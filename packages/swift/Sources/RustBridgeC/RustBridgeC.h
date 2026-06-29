@@ -6,7 +6,7 @@
 // `cargo build -p tree-sitter-language-pack-swift` via swift_bridge_build.
 
 #include <stdint.h>
-#include <stdbool.h>
+#include <stdbool.h> 
 typedef struct RustStr { uint8_t* const start; uintptr_t len; } RustStr;
 typedef struct __private__FfiSlice { void* const start; uintptr_t len; } __private__FfiSlice;
 void* __swift_bridge__null_pointer(void);

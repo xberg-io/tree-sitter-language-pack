@@ -123,7 +123,7 @@ See the [language guide](https://docs.tree-sitter-language-pack.xberg.io) for `e
 
 ## Features
 
-- **300+ languages** — pre-compiled tree-sitter grammars covering every major programming language and many minor ones.
+- **306 languages** — pre-compiled tree-sitter grammars covering every major programming language and many minor ones.
 - **On-demand download + cache** — parsers fetched at first use; subsequent runs hit the local cache.
 - **Code intelligence** — extract functions, classes, imports, exports, symbols, docstrings, and diagnostics with one API.
 - **Syntax-aware chunking** — semantic chunks for RAG/LLM pipelines.

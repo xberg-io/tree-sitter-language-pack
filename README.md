@@ -101,7 +101,7 @@ A comprehensive collection of tree-sitter language parsers with polyglot binding
 
 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) generates fast, incremental parsers from grammars for any programming language. As agentic tooling makes processing, inspecting, and analyzing code ever more critical, tree-sitter-language-pack bundles the most comprehensive collection of grammars available behind a single API.
 
-The core is written in Rust with polyglot bindings for 15 other languages, plus a CLI and MCP server for working with code from the shell. Grammars are built into multi-platform binaries and downloaded on demand, so the package stays small while offering 300+ parsers.
+The core is written in Rust with polyglot bindings for 15 other languages, plus a CLI and MCP server for working with code from the shell. Grammars are built into multi-platform binaries and downloaded on demand, so the package stays small while offering 306 parsers.
 
 When is this the right tool? Parsing code → use tree-sitter. Parsing many languages → use a language pack. Doing either from a non-C ecosystem with a single dependency → that is the gap this pack fills: it fans tree-sitter out to 15 languages behind one install.
 
@@ -346,7 +346,7 @@ For detailed setup, transport options, and tool reference, see the [MCP Server g
 
 ### AI Coding Assistants
 
-Install the tree-sitter-language-pack plugin from the [`xberg-io/plugins`](https://github.com/xberg-io/plugins) marketplace. It ships the tree-sitter-language-pack agent skills (parse and extract code intelligence from 300+ languages) and works with every major coding agent — expand your harness below.
+Install the tree-sitter-language-pack plugin from the [`xberg-io/plugins`](https://github.com/xberg-io/plugins) marketplace. It ships the tree-sitter-language-pack agent skills (parse and extract code intelligence from 306 languages) and works with every major coding agent — expand your harness below.
 
 <details open>
 <summary><strong>Claude Code</strong></summary>

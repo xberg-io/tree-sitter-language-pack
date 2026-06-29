@@ -1,8 +1,9 @@
 use std::path::Path;
 
 fn main() {
-    // Re-run whenever any Rust source changes.
+    // Re-run whenever any Rust source changes or FRB config changes.
     println!("cargo:rerun-if-changed=src");
+    println!("cargo:rerun-if-changed=flutter_rust_bridge.yaml");
 
     // Optional FRB codegen: regenerate flutter_rust_bridge artifacts when the
     // tool is on PATH. Missing tool is not fatal — committed generated sources
