@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-06-29
+
+### Added
+
+- **prefetch**: `prefetch(&[&str])` downloads (if needed) and loads every requested grammar in one
+  pass, so a subsequent parallel workload only parses. It probes real on-disk loadability rather
+  than `has_language`, fixing a short-circuit where known-but-not-downloaded grammars were skipped.
+- **query cache** (Rust): `get_query(language, QueryKind) -> Result<Option<Arc<Query>>>` compiles a
+  bundled `.scm` query once and caches the `Arc<Query>` process-wide (negative results cached too).
+  Rust-only — bindings continue to expose the raw query-string accessors.
+- **indents & folds queries**: `get_indents_query` / `get_folds_query` now expose the bundled
+  `indents.scm` / `folds.scm` (harvested from the grammar bundle alongside the existing kinds);
+  `QueryKind` gains `Indents` and `Folds`.
+
+### Changed
+
+- **performance**: `get_language` now takes a lock-free fast path for statically-compiled and
+  already-loaded dynamic grammars; the global load mutex guards only the not-yet-loaded dynamic
+  library path. Removes per-call mutex contention on the hot parse path.
+
 ## [1.11.1] - 2026-06-29
 
 ### Fixed

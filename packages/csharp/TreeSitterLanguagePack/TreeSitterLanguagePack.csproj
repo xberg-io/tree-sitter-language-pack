@@ -3,7 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>TreeSitterLanguagePack</RootNamespace>
     <PackageId>XbergIo.TreeSitterLanguagePack</PackageId>
-    <Version>1.11.1</Version>
+    <Version>1.12.0</Version>
     <AssemblyVersion>1.11.1.0</AssemblyVersion>
     <FileVersion>1.11.1.0</FileVersion>
     <InformationalVersion>1.11.1</InformationalVersion>
