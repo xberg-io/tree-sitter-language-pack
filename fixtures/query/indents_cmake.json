@@ -1,0 +1,15 @@
+{
+	"id": "indents_query_cmake",
+	"description": "get_indents_query returns non-empty string for cmake",
+	"category": "query",
+	"tags": ["query", "indents"],
+	"call": "indents",
+	"input": {
+		"language": "cmake"
+	},
+	"assertions": [
+		{
+			"type": "not_empty"
+		}
+	]
+}

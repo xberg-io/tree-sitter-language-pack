@@ -28,6 +28,8 @@ When is this the right tool? Parsing code → use tree-sitter. Parsing many lang
 | **Data extraction** | Hierarchical key-value trees from 17 config/data formats (JSON, YAML, TOML, XML, CSV, …) |
 | **Host-native language API** | `get_language()` returns native `Language` objects in Python, Node.js, Go, Java, C#, Kotlin, Swift, Zig, and C |
 | **On-demand downloads** | Parsers are fetched on first use and cached locally for fast, offline reuse |
+| **Prefetch & warming** | `prefetch()` loads (and downloads) every grammar you need up front, so hot loops only parse |
+| **Bundled queries** | `highlights`, `injections`, `locals`, `tags`, `indents`, and `folds` `.scm` queries per language, with a process-wide compiled-query cache (Rust) |
 | **Selective installation** | Download only the languages you need; unused parsers are never downloaded |
 | **Polyglot bindings** | Native bindings across 15 languages, including a C ABI for everything else |
 | **CLI & MCP server** | `ts-pack download` to pre-fetch parsers; MCP integration for AI agents |

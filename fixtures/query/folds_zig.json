@@ -1,0 +1,15 @@
+{
+	"id": "folds_query_zig",
+	"description": "get_folds_query returns non-empty string for zig",
+	"category": "query",
+	"tags": ["query", "folds"],
+	"call": "folds",
+	"input": {
+		"language": "zig"
+	},
+	"assertions": [
+		{
+			"type": "not_empty"
+		}
+	]
+}

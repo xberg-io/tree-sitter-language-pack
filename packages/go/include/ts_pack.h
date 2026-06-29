@@ -2441,6 +2441,60 @@ char *ts_pack_get_tags_query(const char *language);
 uintptr_t ts_pack_get_tags_query_len(const char *_language);
 
 /**
+ * Get the indents query for a language, if bundled.
+ *
+ * Returns the contents of `indents.scm` (used for auto-indentation) as a static
+ * string, or `None` if no indents query is bundled for this language.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ * \code
+ * use tree_sitter_language_pack::get_indents_query;
+ *
+ * let query = get_indents_query("objc");
+ * // Returns None for languages without bundled indents queries
+ * let missing = get_indents_query("nonexistent_lang");
+ * assert!(missing.is_none());
+ * \endcode
+ */
+char *ts_pack_get_indents_query(const char *language);
+
+/**
+ * Return the byte length of the C string most recently returned by `ts_pack_get_indents_query` on this
+ * thread. Returns 0 when the primary call returned null or failed before producing a string. Enables
+ * safe slice construction in Zig and Java FFM Panama without a NUL-scan.
+ * \note SAFETY: Pointer arguments are ignored and are present only to keep the companion ABI aligned
+ * with `ts_pack_get_indents_query`.
+ */
+uintptr_t ts_pack_get_indents_query_len(const char *_language);
+
+/**
+ * Get the folds query for a language, if bundled.
+ *
+ * Returns the contents of `folds.scm` (used for code folding) as a static string,
+ * or `None` if no folds query is bundled for this language.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ * \code
+ * use tree_sitter_language_pack::get_folds_query;
+ *
+ * let query = get_folds_query("rust");
+ * // Returns None for languages without bundled folds queries
+ * let missing = get_folds_query("nonexistent_lang");
+ * assert!(missing.is_none());
+ * \endcode
+ */
+char *ts_pack_get_folds_query(const char *language);
+
+/**
+ * Return the byte length of the C string most recently returned by `ts_pack_get_folds_query` on this
+ * thread. Returns 0 when the primary call returned null or failed before producing a string. Enables
+ * safe slice construction in Zig and Java FFM Panama without a NUL-scan.
+ * \note SAFETY: Pointer arguments are ignored and are present only to keep the companion ABI aligned
+ * with `ts_pack_get_folds_query`.
+ */
+uintptr_t ts_pack_get_folds_query_len(const char *_language);
+
+/**
  * Get a tree-sitter `Language` by name using the global registry.
  *
  * Resolves language aliases (e.g., `"shell"` maps to `"bash"`).
@@ -2646,6 +2700,27 @@ int32_t ts_pack_configure(const TS_PACKPackConfig *config);
  * \endcode
  */
 uintptr_t ts_pack_download(const char *names);
+
+/**
+ * Prefetch grammars: download any not already loadable from disk, then load every
+ * requested language into the process registry so a subsequent hot loop only parses.
+ *
+ * Unlike `download()`, this does not trust in-memory availability â it downloads
+ * whenever a grammar is not actually loadable from disk (fixing the case where a
+ * known-but-not-downloaded grammar is reported present), then resolves and caches
+ * every requested language. Call it once, up front, before a parallel workload.
+ * \note Returns `Error.Download` if a required grammar cannot be fetched, or
+ * `Error.LanguageNotFound` if a requested name is unknown.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ * \code
+ * use tree_sitter_language_pack::prefetch;
+ *
+ * prefetch(&["rust", "python", "go"])?;
+ * # Ok::<(), tree_sitter_language_pack::Error>(())
+ * \endcode
+ */
+int32_t ts_pack_prefetch(const char *languages);
 
 /**
  * Download all available languages from the remote manifest.

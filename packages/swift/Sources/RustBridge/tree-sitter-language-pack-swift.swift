@@ -148,6 +148,12 @@ public func getLocalsQuery<GenericIntoRustString: IntoRustString>(_ language: Ge
 public func getTagsQuery<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString) -> RustString {
     RustString(ptr: __swift_bridge__$get_tags_query({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }()))
 }
+public func getIndentsQuery<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString) -> RustString {
+    RustString(ptr: __swift_bridge__$get_indents_query({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }()))
+}
+public func getFoldsQuery<GenericIntoRustString: IntoRustString>(_ language: GenericIntoRustString) -> RustString {
+    RustString(ptr: __swift_bridge__$get_folds_query({ let rustString = language.intoRustString(); rustString.isOwned = false; return rustString.ptr }()))
+}
 public func getLanguage<GenericIntoRustString: IntoRustString>(_ name: GenericIntoRustString) -> UInt {
     __swift_bridge__$get_language({ let rustString = name.intoRustString(); rustString.isOwned = false; return rustString.ptr }())
 }
@@ -168,6 +174,9 @@ public func languageCount() -> UInt {
 }
 public func process<GenericIntoRustString: IntoRustString>(_ source: GenericIntoRustString, _ config: ProcessConfig) throws -> ProcessResult {
     try { let val = __swift_bridge__$process({ let rustString = source.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), {config.isOwned = false; return config.ptr;}()); if val.is_ok { return ProcessResult(ptr: val.ok_or_err!) } else { throw RustString(ptr: val.ok_or_err!) } }()
+}
+public func prefetch<GenericIntoRustString: IntoRustString>(_ languages: RustVec<GenericIntoRustString>) throws -> () {
+    try { let val = __swift_bridge__$prefetch({ let val = languages; val.isOwned = false; return val.ptr }()); if val != nil { throw RustString(ptr: val!) } else { return } }()
 }
 public func init_(_ config: PackConfig) throws -> () {
     try { let val = __swift_bridge__$init_({config.isOwned = false; return config.ptr;}()); if val != nil { throw RustString(ptr: val!) } else { return } }()

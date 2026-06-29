@@ -70,6 +70,20 @@ Future<String?> getLocalsQuery({required String language}) =>
 Future<String?> getTagsQuery({required String language}) =>
     RustLib.instance.api.crateGetTagsQuery(language: language);
 
+/// Get the indents query for a language, if bundled.
+///
+/// Returns the contents of `indents.scm` (used for auto-indentation) as a static
+/// string, or `null` if no indents query is bundled for this language.
+Future<String?> getIndentsQuery({required String language}) =>
+    RustLib.instance.api.crateGetIndentsQuery(language: language);
+
+/// Get the folds query for a language, if bundled.
+///
+/// Returns the contents of `folds.scm` (used for code folding) as a static string,
+/// or `null` if no folds query is bundled for this language.
+Future<String?> getFoldsQuery({required String language}) =>
+    RustLib.instance.api.crateGetFoldsQuery(language: language);
+
 /// Get a tree-sitter `Language` by name using the global registry.
 ///
 /// Resolves language aliases (e.g., `"shell"` maps to `"bash"`).
@@ -172,6 +186,21 @@ Future<void> configure({required PackConfig config}) =>
 /// the download fails.
 Future<PlatformInt64> download({required List<String> names}) =>
     RustLib.instance.api.crateDownload(names: names);
+
+/// Prefetch grammars: download any not already loadable from disk, then load every
+/// requested language into the process registry so a subsequent hot loop only parses.
+///
+/// Unlike `download()`, this does not trust in-memory availability — it downloads
+/// whenever a grammar is not actually loadable from disk (fixing the case where a
+/// known-but-not-downloaded grammar is reported present), then resolves and caches
+/// every requested language. Call it once, up front, before a parallel workload.
+///
+/// **Errors:**
+///
+/// Returns `Error.Download` if a required grammar cannot be fetched, or
+/// `Error.LanguageNotFound` if a requested name is unknown.
+Future<void> prefetch({required List<String> languages}) =>
+    RustLib.instance.api.cratePrefetch(languages: languages);
 
 /// Download all available languages from the remote manifest.
 ///

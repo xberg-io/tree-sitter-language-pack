@@ -709,12 +709,14 @@ fn generate_extensions_lookup(definitions: &BTreeMap<String, LanguageDefinition>
     writeln!(af, "}}").unwrap();
 }
 
-/// Generate bundled highlight/injection/locals/tags query functions from parsers/{lang}/queries/*.scm.
+/// Generate bundled highlight/injection/locals/tags/indents/folds query functions from
+/// parsers/{lang}/queries/*.scm.
 ///
-/// Scans the parsers directory for query files and generates a Rust source file with four
+/// Scans the parsers directory for query files and generates a Rust source file with six
 /// match functions: `get_highlights_query_impl`, `get_injections_query_impl`,
-/// `get_locals_query_impl`, and `get_tags_query_impl`. Only languages that actually have the
-/// relevant .scm file on disk at build time are included.
+/// `get_locals_query_impl`, `get_tags_query_impl`, `get_indents_query_impl`, and
+/// `get_folds_query_impl`. Only languages that actually have the relevant .scm file on disk
+/// at build time are included.
 ///
 /// Query overlay files in `query-overlays/{lang}/{file}` (relative to the project root) take
 /// precedence over the vendored `parsers/{lang}/queries/{file}` files. This allows adding or
@@ -763,6 +765,8 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
     let mut injections: Vec<String> = Vec::new();
     let mut locals: Vec<String> = Vec::new();
     let mut tags: Vec<String> = Vec::new();
+    let mut indents: Vec<String> = Vec::new();
+    let mut folds: Vec<String> = Vec::new();
 
     for lang in definitions.keys() {
         if let Some(p) = effective_query_path(lang, "highlights.scm") {
@@ -779,6 +783,14 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
         }
         if let Some(p) = effective_query_path(lang, "tags.scm") {
             tags.push(lang.clone());
+            println!("cargo:rerun-if-changed={}", p.display());
+        }
+        if let Some(p) = effective_query_path(lang, "indents.scm") {
+            indents.push(lang.clone());
+            println!("cargo:rerun-if-changed={}", p.display());
+        }
+        if let Some(p) = effective_query_path(lang, "folds.scm") {
+            folds.push(lang.clone());
             println!("cargo:rerun-if-changed={}", p.display());
         }
     }
@@ -822,6 +834,8 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
     gen_query_fn(&mut f, "get_injections_query_impl", &injections, "injections.scm");
     gen_query_fn(&mut f, "get_locals_query_impl", &locals, "locals.scm");
     gen_query_fn(&mut f, "get_tags_query_impl", &tags, "tags.scm");
+    gen_query_fn(&mut f, "get_indents_query_impl", &indents, "indents.scm");
+    gen_query_fn(&mut f, "get_folds_query_impl", &folds, "folds.scm");
 }
 
 /// Probe whether the parsers tree at `root` looks populated for the requested

@@ -1,0 +1,15 @@
+{
+	"id": "folds_query_unknown_language",
+	"description": "get_folds_query returns empty for unknown language",
+	"category": "query",
+	"tags": ["query", "folds"],
+	"call": "folds",
+	"input": {
+		"language": "nonexistent_xyz"
+	},
+	"assertions": [
+		{
+			"type": "is_empty"
+		}
+	]
+}

@@ -1,8 +1,6 @@
 use ahash::{AHashMap, AHashSet};
 #[cfg(feature = "dynamic-loading")]
 use std::path::PathBuf;
-#[cfg(not(feature = "dynamic-loading"))]
-use std::sync::Mutex;
 #[cfg(feature = "dynamic-loading")]
 use std::sync::{Arc, Mutex};
 use tree_sitter::Language;
@@ -12,6 +10,9 @@ use crate::error::Error;
 // Include the build.rs-generated language table
 include!(concat!(env!("OUT_DIR"), "/registry_generated.rs"));
 
+// Serializes only the not-yet-loaded dynamic-library *mutation* path; the static
+// fast path and the already-loaded dynamic read are lock-free.
+#[cfg(feature = "dynamic-loading")]
 static LANGUAGE_LOAD_LOCK: Mutex<()> = Mutex::new(());
 
 /// Alternative names that resolve to an existing grammar.
@@ -361,18 +362,28 @@ impl LanguageRegistry {
     /// Returns [`Error::LanguageNotFound`] if the name (after alias resolution)
     /// does not match any known grammar.
     pub fn get_language(&self, name: &str) -> Result<Language, Error> {
-        let _guard = LANGUAGE_LOAD_LOCK
-            .lock()
-            .map_err(|e| Error::LockPoisoned(e.to_string()))?;
         let name = resolve_alias(name);
-        // Try static first
+
+        // Lock-free static fast path: `static_lookup` is built once in `new()` and
+        // never mutated, and `AHashMap::get(&self)` performs no interior mutation,
+        // so concurrent reads are data-race-free without any lock.
         if let Some(loader) = self.static_lookup.get(name) {
             return Ok(loader());
         }
 
         #[cfg(feature = "dynamic-loading")]
         {
-            // Try already-loaded dynamic (read lock)
+            // Already-loaded dynamic grammars: guarded by the loader's own RwLock,
+            // so this read also needs no outer lock.
+            if let Some(lang) = self.dynamic_loader.get_cached(name)? {
+                return Ok(lang);
+            }
+
+            // Mutation path only: serialize loads of not-yet-loaded libraries.
+            let _guard = LANGUAGE_LOAD_LOCK
+                .lock()
+                .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+            // Double-check under the lock — another thread may have loaded it.
             if let Some(lang) = self.dynamic_loader.get_cached(name)? {
                 return Ok(lang);
             }

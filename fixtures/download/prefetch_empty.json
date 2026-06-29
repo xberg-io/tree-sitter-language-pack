@@ -1,0 +1,19 @@
+{
+	"id": "prefetch_empty_list",
+	"description": "prefetch([]) is a no-op that succeeds",
+	"category": "download",
+	"tags": ["download", "prefetch"],
+	"call": "prefetch",
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Prefetch feature requires network access and is not available in static builds"
+	},
+	"input": {
+		"languages": []
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}

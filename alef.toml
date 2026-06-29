@@ -451,9 +451,12 @@ functions = [
   "get_injections_query",
   "get_locals_query",
   "get_tags_query",
+  "get_indents_query",
+  "get_folds_query",
   "process",
   "init",
   "configure",
+  "prefetch",
   "download",
   "download_all",
   "download_group",
@@ -967,6 +970,36 @@ result_is_pointer = true
 function = "ts_pack_get_tags_query"
 raw_c_result_type = "char*"
 
+[crates.e2e.calls.indents]
+function = "get_indents_query"
+module = "tree_sitter_language_pack"
+result_var = "result"
+result_is_simple = true
+result_is_option = true
+args = [{ name = "language", field = "language", type = "string" }]
+
+[crates.e2e.calls.indents.overrides.go]
+result_is_pointer = true
+
+[crates.e2e.calls.indents.overrides.c]
+function = "ts_pack_get_indents_query"
+raw_c_result_type = "char*"
+
+[crates.e2e.calls.folds]
+function = "get_folds_query"
+module = "tree_sitter_language_pack"
+result_var = "result"
+result_is_simple = true
+result_is_option = true
+args = [{ name = "language", field = "language", type = "string" }]
+
+[crates.e2e.calls.folds.overrides.go]
+result_is_pointer = true
+
+[crates.e2e.calls.folds.overrides.c]
+function = "ts_pack_get_folds_query"
+raw_c_result_type = "char*"
+
 [crates.e2e.calls.language_count]
 function = "language_count"
 module = "tree_sitter_language_pack"
@@ -1126,6 +1159,22 @@ args = []
 
 [crates.e2e.calls.clean_cache.overrides.c]
 function = "ts_pack_clean_cache"
+raw_c_result_type = "int32_t"
+
+[crates.e2e.calls.prefetch]
+function = "prefetch"
+module = "tree_sitter_language_pack"
+result_var = "result"
+returns_result = true
+returns_void = true
+args = [{ name = "languages", field = "languages", type = "json_object", element_type = "String", vec_inner_is_ref = true }]
+
+[crates.e2e.calls.prefetch.overrides.go]
+function = "Prefetch"
+result_is_pointer = false
+
+[crates.e2e.calls.prefetch.overrides.c]
+function = "ts_pack_prefetch"
 raw_c_result_type = "int32_t"
 
 [crates.e2e.calls.cache_dir]

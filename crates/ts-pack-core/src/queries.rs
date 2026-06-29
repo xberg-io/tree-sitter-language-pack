@@ -1,4 +1,4 @@
-//! Bundled tree-sitter highlight, injection, locals, and tags queries.
+//! Bundled tree-sitter highlight, injection, locals, tags, indents, and folds queries.
 //!
 //! Queries are embedded from `parsers/{lang}/queries/*.scm` at build time.
 //! Not all languages have queries — returns `None` for languages without bundled queries.
@@ -80,4 +80,42 @@ pub fn get_locals_query(language: &str) -> Option<&'static str> {
 /// ```
 pub fn get_tags_query(language: &str) -> Option<&'static str> {
     get_tags_query_impl(language)
+}
+
+/// Get the indents query for a language, if bundled.
+///
+/// Returns the contents of `indents.scm` (used for auto-indentation) as a static
+/// string, or `None` if no indents query is bundled for this language.
+///
+/// # Example
+///
+/// ```
+/// use tree_sitter_language_pack::get_indents_query;
+///
+/// let query = get_indents_query("objc");
+/// // Returns None for languages without bundled indents queries
+/// let missing = get_indents_query("nonexistent_lang");
+/// assert!(missing.is_none());
+/// ```
+pub fn get_indents_query(language: &str) -> Option<&'static str> {
+    get_indents_query_impl(language)
+}
+
+/// Get the folds query for a language, if bundled.
+///
+/// Returns the contents of `folds.scm` (used for code folding) as a static string,
+/// or `None` if no folds query is bundled for this language.
+///
+/// # Example
+///
+/// ```
+/// use tree_sitter_language_pack::get_folds_query;
+///
+/// let query = get_folds_query("rust");
+/// // Returns None for languages without bundled folds queries
+/// let missing = get_folds_query("nonexistent_lang");
+/// assert!(missing.is_none());
+/// ```
+pub fn get_folds_query(language: &str) -> Option<&'static str> {
+    get_folds_query_impl(language)
 }

@@ -57,6 +57,8 @@ pub mod parsing;
 /// Configuration for the `process()` pipeline (which analysis features to enable).
 pub mod process_config;
 pub(crate) mod queries;
+/// Process-wide cache of compiled tree-sitter queries (`Arc<Query>`), keyed by language + kind.
+pub mod query_cache;
 /// Thread-safe language registry mapping names to compiled tree-sitter parsers.
 pub mod registry;
 pub(crate) mod text_splitter;
@@ -84,7 +86,10 @@ pub use intel::types::{
 pub use pack_config::{PackConfig, TlsRootsMode};
 pub use parsing::{ByteRange, Node, Parser, Point, Tree, TreeCursor};
 pub use process_config::ProcessConfig;
-pub use queries::{get_highlights_query, get_injections_query, get_locals_query, get_tags_query};
+pub use queries::{
+    get_folds_query, get_highlights_query, get_indents_query, get_injections_query, get_locals_query, get_tags_query,
+};
+pub use query_cache::{QueryKind, get_query};
 pub use registry::LanguageRegistry;
 pub use tree_sitter::Language;
 
@@ -132,9 +137,15 @@ static DOWNLOAD_CACHE_LOCK: Mutex<()> = Mutex::new(());
 pub fn get_language(name: &str) -> Result<Language, Error> {
     #[cfg(feature = "download")]
     {
+        // Lock-free probe first (static + already-loaded dynamic): only take the
+        // global download lock on an actual miss.
+        if let Ok(lang) = REGISTRY.get_language(name) {
+            return Ok(lang);
+        }
         let _cache_guard = DOWNLOAD_CACHE_LOCK
             .lock()
             .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+        // Double-check under the lock — another thread may have downloaded it.
         if let Ok(lang) = REGISTRY.get_language(name) {
             return Ok(lang);
         }
@@ -470,6 +481,75 @@ fn download_inner(names: &[&str]) -> Result<usize, Error> {
     dm.ensure_languages(&unavailable)?;
     let unique: std::collections::BTreeSet<&str> = names.iter().copied().collect();
     Ok(unique.len())
+}
+
+/// Prefetch grammars: download any not already loadable from disk, then load every
+/// requested language into the process registry so a subsequent hot loop only parses.
+///
+/// Unlike [`download()`], this does not trust in-memory availability — it downloads
+/// whenever a grammar is not actually loadable from disk (fixing the case where a
+/// known-but-not-downloaded grammar is reported present), then resolves and caches
+/// every requested language. Call it once, up front, before a parallel workload.
+///
+/// # Errors
+///
+/// Returns [`Error::Download`] if a required grammar cannot be fetched, or
+/// [`Error::LanguageNotFound`] if a requested name is unknown.
+///
+/// # Example
+///
+/// ```no_run
+/// use tree_sitter_language_pack::prefetch;
+///
+/// prefetch(&["rust", "python", "go"])?;
+/// # Ok::<(), tree_sitter_language_pack::Error>(())
+/// ```
+#[cfg(feature = "download")]
+pub fn prefetch(languages: &[&str]) -> Result<(), Error> {
+    let _cache_guard = DOWNLOAD_CACHE_LOCK
+        .lock()
+        .map_err(|e| Error::LockPoisoned(e.to_string()))?;
+    ensure_cache_registered()?;
+
+    let resolved: Vec<&str> = languages.iter().map(|n| crate::registry::resolve_alias(n)).collect();
+
+    // Probe real on-disk loadability (the registry method never downloads); only the
+    // genuinely missing get fetched. This deliberately avoids `has_language`, which
+    // reports known-but-not-downloaded grammars as present.
+    let needs_download: Vec<&str> = resolved
+        .iter()
+        .copied()
+        .filter(|name| REGISTRY.get_language(name).is_err())
+        .collect();
+
+    if !needs_download.is_empty() {
+        let cache_dir = effective_cache_dir()?;
+        let dm = DownloadManager::with_cache_dir(env!("CARGO_PKG_VERSION"), cache_dir);
+        dm.ensure_languages(&needs_download)?;
+    }
+
+    // Load every requested grammar into the process registry cache.
+    for name in &resolved {
+        REGISTRY.get_language(name)?;
+    }
+    Ok(())
+}
+
+/// Prefetch grammars by loading each into the registry.
+///
+/// Without the `download` feature there is no network step — every requested
+/// language must already be statically compiled or present on disk.
+///
+/// # Errors
+///
+/// Returns [`Error::LanguageNotFound`] if a requested language is not available.
+#[cfg(not(feature = "download"))]
+pub fn prefetch(languages: &[&str]) -> Result<(), Error> {
+    for raw in languages {
+        let name = crate::registry::resolve_alias(raw);
+        REGISTRY.get_language(name)?;
+    }
+    Ok(())
 }
 
 /// Download all available languages from the remote manifest.

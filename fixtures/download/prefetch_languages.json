@@ -1,0 +1,19 @@
+{
+	"id": "prefetch_languages",
+	"description": "prefetch(['python']) downloads and loads parser",
+	"category": "download",
+	"tags": ["download", "prefetch"],
+	"call": "prefetch",
+	"skip": {
+		"languages": ["wasm"],
+		"reason": "Prefetch feature requires network access and is not available in static builds"
+	},
+	"input": {
+		"languages": ["python"]
+	},
+	"assertions": [
+		{
+			"type": "not_error"
+		}
+	]
+}
