@@ -3286,6 +3286,7 @@ dependencies = [
  "criterion",
  "dirs",
  "fd-lock",
+ "getrandom 0.2.17",
  "insta",
  "libloading 0.9.0",
  "memchr",

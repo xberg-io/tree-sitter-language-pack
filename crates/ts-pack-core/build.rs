@@ -1303,8 +1303,16 @@ fn main() {
 
     if !failed.is_empty() {
         // Persist the failure list so CI tooling can inspect it after the panic.
+        // Create the directory to ensure the write succeeds even if OUT_DIR is in an unusual state.
+        let _ = fs::create_dir_all(&out_dir);
         let failed_path = out_dir.join("failed_languages.txt");
-        fs::write(&failed_path, failed.join("\n") + "\n").expect("Failed to write failed_languages.txt");
+        if let Err(e) = fs::write(&failed_path, failed.join("\n") + "\n") {
+            eprintln!(
+                "WARNING: Failed to write {} for CI inspection: {}",
+                failed_path.display(),
+                e
+            );
+        }
         let allow_failures = env::var("TSLP_ALLOW_FAILED_GRAMMARS").ok().is_some_and(|v| v == "1");
         let message = format!(
             "FAILED to compile {} grammar(s): {}. Published artifacts must not advertise grammars that fail to build — fix the grammar pin or remove the entry from sources/language_definitions.json. Set TSLP_ALLOW_FAILED_GRAMMARS=1 for local debugging only.",

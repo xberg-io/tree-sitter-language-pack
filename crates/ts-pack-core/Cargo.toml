@@ -47,6 +47,12 @@ zstd = { workspace = true, optional = true }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 libloading = { workspace = true, optional = true }
 
+# getrandom needs wasm_js feature on wasm32 to provide CSPRNG via JavaScript Math.random().
+# Needed because build-dependencies (ureq for downloading parser sources) transitively
+# depend on getrandom but don't enable it by default for wasm32-unknown-unknown.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom = { version = "0.2", features = ["js"] }
+
 [build-dependencies]
 cc = { workspace = true }
 serde = { workspace = true }
