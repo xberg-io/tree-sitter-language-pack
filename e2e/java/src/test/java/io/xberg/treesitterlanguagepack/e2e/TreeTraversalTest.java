@@ -31,7 +31,7 @@ public class TreeTraversalTest {
         assertNotNull(parser, "getParser(\"python\") must not return null");
 
         try (Tree tree = parser.parse("myvar = 10").orElseThrow();
-             TreeCursor cursor = tree.walk()) {
+            TreeCursor cursor = tree.walk()) {
             assertNotNull(cursor, "tree.walk() must not return null");
 
             try (Node cursorNode = cursor.node()) {
@@ -52,7 +52,7 @@ public class TreeTraversalTest {
         Parser parser = TreeSitterLanguagePack.getParser("python");
 
         try (Tree tree = parser.parse("myvar = 10").orElseThrow();
-             Node root = tree.rootNode()) {
+            Node root = tree.rootNode()) {
             assertEquals("module", root.kind());
             assertTrue(root.childCount() >= 1, "module must have children");
 
@@ -77,7 +77,7 @@ public class TreeTraversalTest {
         Parser parser = TreeSitterLanguagePack.getParser("python");
 
         try (Tree tree = parser.parse("x = 1").orElseThrow();
-             Node root = tree.rootNode()) {
+            Node root = tree.rootNode()) {
             String sexp = root.toSexp();
             assertNotNull(sexp, "toSexp() must not return null");
             assertTrue(sexp.startsWith("("),
@@ -97,7 +97,7 @@ public class TreeTraversalTest {
         Parser parser = TreeSitterLanguagePack.getParser("python");
 
         try (Tree tree = parser.parse("x = 1").orElseThrow();
-             Node root = tree.rootNode()) {
+            Node root = tree.rootNode()) {
             String kind = root.kind();
             assertNotNull(kind, "kind() must not return null");
             assertFalse(kind.startsWith("\""),

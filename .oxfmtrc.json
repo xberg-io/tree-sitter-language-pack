@@ -1,28 +1,28 @@
 {
-	"printWidth": 120,
-	"useTabs": true,
-	"tabWidth": 4,
-	"semi": true,
-	"singleQuote": false,
-	"trailingComma": "all",
-	"ignorePatterns": [
-		"**/*.md",
-		"**/*.mdx",
-		"**/dist/**",
-		"**/coverage/**",
-		"**/node_modules/**",
-		"**/pkg/**",
-		"**/.next/**",
-		"**/*.min.js"
-	],
-	"overrides": [
-		{
-			"files": ["**/*.json", "**/*.jsonc"],
-			"options": {
-				"useTabs": true,
-				"tabWidth": 4,
-				"trailingComma": "none"
-			}
-		}
-	]
+  "printWidth": 120,
+  "useTabs": true,
+  "tabWidth": 4,
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "ignorePatterns": [
+    "**/*.md",
+    "**/*.mdx",
+    "**/dist/**",
+    "**/coverage/**",
+    "**/node_modules/**",
+    "**/pkg/**",
+    "**/.next/**",
+    "**/*.min.js"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.json", "**/*.jsonc"],
+      "options": {
+        "useTabs": true,
+        "tabWidth": 4,
+        "trailingComma": "none"
+      }
+    }
+  ]
 }

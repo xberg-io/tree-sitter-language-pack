@@ -1,47 +1,47 @@
 version: "3"
 
 tasks:
-    build:ffi:
-        desc: Build FFI library for C tests
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-            TSLP_LINK_MODE: static
-            TSLP_LANGUAGES: "{{.FFI_TEST_LANGUAGES}}"
-        cmds:
-            - cargo build --locked -p ts-pack-core-ffi --release
+  build:ffi:
+    desc: Build FFI library for C tests
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+      TSLP_LINK_MODE: static
+      TSLP_LANGUAGES: "{{.FFI_TEST_LANGUAGES}}"
+    cmds:
+      - cargo build --locked -p ts-pack-core-ffi --release
 
-    build:
-        desc: Build FFI library (alias for build:ffi)
-        cmds:
-            - task: build:ffi
+  build:
+    desc: Build FFI library (alias for build:ffi)
+    cmds:
+      - task: build:ffi
 
-    test:
-        desc: Build and run C E2E tests
-        cmds:
-            - task: e2e:test
+  test:
+    desc: Build and run C E2E tests
+    cmds:
+      - task: e2e:test
 
-    clean:
-        desc: Clean C build artifacts
-        dir: e2e/c
-        cmds:
-            - rm -rf build
+  clean:
+    desc: Clean C build artifacts
+    dir: e2e/c
+    cmds:
+      - rm -rf build
 
-    e2e:generate:
-        desc: Generate C E2E tests from fixtures
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - alef e2e generate --lang c
+  e2e:generate:
+    desc: Generate C E2E tests from fixtures
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - alef e2e generate --lang c
 
-    e2e:build:
-        desc: Build C E2E tests
-        deps: [build:ffi]
-        dir: e2e/c
-        cmds:
-            - make clean
-            - make
+  e2e:build:
+    desc: Build C E2E tests
+    deps: [build:ffi]
+    dir: e2e/c
+    cmds:
+      - make clean
+      - make
 
-    e2e:test:
-        desc: Run C E2E tests
-        cmds:
-            - alef test --lang c --e2e --jobs 1
+  e2e:test:
+    desc: Run C E2E tests
+    cmds:
+      - alef test --lang c --e2e --jobs 1

@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 declare(strict_types=1);
 
 echo "=== PHP Extension Loading Verification ===\n\n";
@@ -8,17 +9,17 @@ echo "=== PHP Extension Loading Verification ===\n\n";
 $extPath = __DIR__ . '/../../target/release/libts_pack_core_php.dylib';
 echo "1. Correct library filename derived from cargo_crate_name:\n";
 echo "   Expected: libts_pack_core_php.dylib\n";
-echo "   Actual:   " . basename($extPath) . "\n";
-echo "   Status:   " . (basename($extPath) === 'libts_pack_core_php.dylib' ? "✓ PASS" : "✗ FAIL") . "\n\n";
+echo '   Actual:   ' . basename($extPath) . "\n";
+echo '   Status:   ' . (basename($extPath) === 'libts_pack_core_php.dylib' ? '✓ PASS' : '✗ FAIL') . "\n\n";
 
 // Test 2: Verify extension file exists
 echo "2. Extension file exists at expected path:\n";
 echo "   Path:     $extPath\n";
-echo "   Exists:   " . (file_exists($extPath) ? "YES ✓" : "NO ✗") . "\n\n";
+echo '   Exists:   ' . (file_exists($extPath) ? 'YES ✓' : 'NO ✗') . "\n\n";
 
 // Test 3: Verify extension loads with -n flag (bypassing php.ini)
 echo "3. Extension loads correctly when invoked with -n flag:\n";
-echo "   Extension loaded: " . (extension_loaded('ts-pack-core-php') ? "YES ✓" : "NO ✗") . "\n\n";
+echo '   Extension loaded: ' . (extension_loaded('ts-pack-core-php') ? 'YES ✓' : 'NO ✗') . "\n\n";
 
 // Test 4: Verify ProcessConfig::from_json() is available
 echo "4. ProcessConfig class has from_json() method:\n";

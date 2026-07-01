@@ -9,68 +9,68 @@ edit_uri = "edit/main/docs/"
 copyright = "Copyright &copy; 2024-2026 Kreuzberg, inc."
 extra_css = ["css/extra.css"]
 nav = [
-  { "Home" = "index.md" },
+    { "Home" = "index.md" },
 
-  { "Get Started" = [
-    { "Installation" = "getting-started/installation.md" },
-    { "Quick Start" = "getting-started/quickstart.md" },
-  ] },
-
-  { "Guides" = [
-    { "Core" = [
-      { "Parsing Code" = "guides/parsing.md" },
-      { "Code Intelligence" = "guides/intelligence.md" },
-      { "Chunking for LLMs" = "guides/chunking.md" },
-      { "Configuration" = "guides/configuration.md" },
-      { "Extraction Queries" = "guides/extraction.md" },
+    { "Get Started" = [
+        { "Installation" = "getting-started/installation.md" },
+        { "Quick Start" = "getting-started/quickstart.md" },
     ] },
-    { "CLI" = "guides/cli.md" },
-    { "MCP Server" = "guides/mcp-server.md" },
-    { "AI Coding Assistants" = "guides/ai-coding-assistants.md" },
-    { "Deployment" = [
-      { "Docker" = "guides/docker.md" },
-      { "Building from Source" = "guides/building.md" },
-      { "Performance & Benchmarks" = "guides/performance.md" },
+
+    { "Guides" = [
+        { "Core" = [
+            { "Parsing Code" = "guides/parsing.md" },
+            { "Code Intelligence" = "guides/intelligence.md" },
+            { "Chunking for LLMs" = "guides/chunking.md" },
+            { "Configuration" = "guides/configuration.md" },
+            { "Extraction Queries" = "guides/extraction.md" },
+        ] },
+        { "CLI" = "guides/cli.md" },
+        { "MCP Server" = "guides/mcp-server.md" },
+        { "AI Coding Assistants" = "guides/ai-coding-assistants.md" },
+        { "Deployment" = [
+            { "Docker" = "guides/docker.md" },
+            { "Building from Source" = "guides/building.md" },
+            { "Performance & Benchmarks" = "guides/performance.md" },
+        ] },
     ] },
-  ] },
 
-  { "Concepts" = [
-    { "Architecture" = "concepts/architecture.md" },
-    { "Language Passthrough" = "concepts/language-passthrough.md" },
-    { "Download Model" = "concepts/download-model.md" },
-    { "Code Intelligence" = "concepts/code-intelligence.md" },
-  ] },
-
-  { "Reference" = [
-    { "API" = [
-      { "Python" = "reference/api-python.md" },
-      { "TypeScript / Node.js" = "reference/api-typescript.md" },
-      { "Rust" = "reference/api-rust.md" },
-      { "Go" = "reference/api-go.md" },
-      { "Java" = "reference/api-java.md" },
-      { "Kotlin (Android)" = "reference/api-kotlin-android.md" },
-      { "C#" = "reference/api-csharp.md" },
-      { "Ruby" = "reference/api-ruby.md" },
-      { "PHP" = "reference/api-php.md" },
-      { "Elixir" = "reference/api-elixir.md" },
-      { "Dart" = "reference/api-dart.md" },
-      { "Swift" = "reference/api-swift.md" },
-      { "Zig" = "reference/api-zig.md" },
-      { "WebAssembly" = "reference/api-wasm.md" },
-      { "C / FFI" = "reference/api-c.md" },
+    { "Concepts" = [
+        { "Architecture" = "concepts/architecture.md" },
+        { "Language Passthrough" = "concepts/language-passthrough.md" },
+        { "Download Model" = "concepts/download-model.md" },
+        { "Code Intelligence" = "concepts/code-intelligence.md" },
     ] },
-    { "Languages" = "languages.md" },
-    { "Types" = "reference/types.md" },
-    { "Errors" = "reference/errors.md" },
-    { "Configuration" = "reference/configuration.md" },
-  ] },
 
-  { "More" = [
-    { "Contributing" = "contributing.md" },
-    { "CI / CD" = "contributing/ci.md" },
-    { "Changelog" = "CHANGELOG.md" },
-    { "Ecosystem" = "ecosystem.md" },
-  ] },
+    { "Reference" = [
+        { "API" = [
+            { "Python" = "reference/api-python.md" },
+            { "TypeScript / Node.js" = "reference/api-typescript.md" },
+            { "Rust" = "reference/api-rust.md" },
+            { "Go" = "reference/api-go.md" },
+            { "Java" = "reference/api-java.md" },
+            { "Kotlin (Android)" = "reference/api-kotlin-android.md" },
+            { "C#" = "reference/api-csharp.md" },
+            { "Ruby" = "reference/api-ruby.md" },
+            { "PHP" = "reference/api-php.md" },
+            { "Elixir" = "reference/api-elixir.md" },
+            { "Dart" = "reference/api-dart.md" },
+            { "Swift" = "reference/api-swift.md" },
+            { "Zig" = "reference/api-zig.md" },
+            { "WebAssembly" = "reference/api-wasm.md" },
+            { "C / FFI" = "reference/api-c.md" },
+        ] },
+        { "Languages" = "languages.md" },
+        { "Types" = "reference/types.md" },
+        { "Errors" = "reference/errors.md" },
+        { "Configuration" = "reference/configuration.md" },
+    ] },
+
+    { "More" = [
+        { "Contributing" = "contributing.md" },
+        { "CI / CD" = "contributing/ci.md" },
+        { "Changelog" = "CHANGELOG.md" },
+        { "Ecosystem" = "ecosystem.md" },
+    ] },
 ]
 
 [project.theme]
@@ -79,25 +79,25 @@ custom_dir = "docs/overrides"
 logo = "https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/docs/navbar-logo-dark.svg"
 favicon = "https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/favicon/favicon.ico"
 features = [
-  "content.code.copy",
-  "content.code.annotate",
-  "content.tabs.link",
-  "navigation.instant",
-  "navigation.instant.progress",
-  "navigation.path",
-  "navigation.prune",
-  "navigation.indexes",
-  "navigation.sections",
-  "navigation.tabs",
-  "navigation.tabs.sticky",
-  "navigation.tracking",
-  "navigation.top",
-  "search.highlight",
-  "search.share",
-  "search.suggest",
-  "toc.follow",
-  "toc.integrate",
-  "announce.dismiss",
+    "content.code.copy",
+    "content.code.annotate",
+    "content.tabs.link",
+    "navigation.instant",
+    "navigation.instant.progress",
+    "navigation.path",
+    "navigation.prune",
+    "navigation.indexes",
+    "navigation.sections",
+    "navigation.tabs",
+    "navigation.tabs.sticky",
+    "navigation.tracking",
+    "navigation.top",
+    "search.highlight",
+    "search.share",
+    "search.suggest",
+    "toc.follow",
+    "toc.integrate",
+    "announce.dismiss",
 ]
 language = "en"
 
@@ -159,9 +159,7 @@ base_path = ["docs", "."]
 check_paths = true
 
 [project.markdown_extensions.pymdownx.superfences]
-custom_fences = [
-  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
-]
+custom_fences = [{ name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }]
 
 [project.markdown_extensions.pymdownx.tabbed]
 alternate_style = true

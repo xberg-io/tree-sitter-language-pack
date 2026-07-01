@@ -6,94 +6,94 @@ root_dir = "site"
 
 # Exclude common patterns that produce false positives
 exclude = [
-  # Localhost / loopback addresses
-  "localhost",
-  "127\\.0\\.0\\.1",
-  "0\\.0\\.0\\.0",
+    # Localhost / loopback addresses
+    "localhost",
+    "127\\.0\\.0\\.1",
+    "0\\.0\\.0\\.0",
 
-  # Placeholder / example domains
-  "example\\.com",
-  "example\\.org",
+    # Placeholder / example domains
+    "example\\.com",
+    "example\\.org",
 
-  # Template variables (e.g. ${var}, {{ var }})
-  "\\$\\{",
-  "\\{\\{",
+    # Template variables (e.g. ${var}, {{ var }})
+    "\\$\\{",
+    "\\{\\{",
 
-  # GitHub edit links (require auth)
-  "/edit/main/",
+    # GitHub edit links (require auth)
+    "/edit/main/",
 
-  # GitHub raw links for new/renamed files (404 until pushed)
-  "/raw/main/",
+    # GitHub raw links for new/renamed files (404 until pushed)
+    "/raw/main/",
 
-  # Docs site self-references (404 until deployed)
-  "docs\\.tree-sitter-language-pack\\.xberg\\.io",
-  "docs\\.xberg\\.io",
+    # Docs site self-references (404 until deployed)
+    "docs\\.tree-sitter-language-pack\\.xberg\\.io",
+    "docs\\.xberg\\.io",
 
-  # PyPI project pages (rate-limited)
-  "pypi\\.org/project/",
+    # PyPI project pages (rate-limited)
+    "pypi\\.org/project/",
 
-  # crates.io (rate-limited)
-  "crates\\.io/crates/",
+    # crates.io (rate-limited)
+    "crates\\.io/crates/",
 
-  # npm (rate-limited)
-  "npmjs\\.com/package/",
+    # npm (rate-limited)
+    "npmjs\\.com/package/",
 
-  # RubyGems (rate-limited)
-  "rubygems\\.org/gems/",
+    # RubyGems (rate-limited)
+    "rubygems\\.org/gems/",
 
-  # Hex.pm (rate-limited)
-  "hex\\.pm/packages/",
+    # Hex.pm (rate-limited)
+    "hex\\.pm/packages/",
 
-  # NuGet (rate-limited)
-  "nuget\\.org/packages/",
+    # NuGet (rate-limited)
+    "nuget\\.org/packages/",
 
-  # Maven Central (rate-limited)
-  "central\\.sonatype\\.com",
+    # Maven Central (rate-limited)
+    "central\\.sonatype\\.com",
 
-  # Packagist (rate-limited)
-  "packagist\\.org/packages/",
+    # Packagist (rate-limited)
+    "packagist\\.org/packages/",
 
-  # pkg.go.dev (rate-limited)
-  "pkg\\.go\\.dev/",
+    # pkg.go.dev (rate-limited)
+    "pkg\\.go\\.dev/",
 
-  # Discord invite links (require auth)
-  "discord\\.gg/",
+    # Discord invite links (require auth)
+    "discord\\.gg/",
 
-  # GitHub container registry (may not exist yet)
-  "pkgs/container/",
+    # GitHub container registry (may not exist yet)
+    "pkgs/container/",
 
-  # GitHub releases with shell variables
-  "releases/download/v\\$",
+    # GitHub releases with shell variables
+    "releases/download/v\\$",
 
-  # Maven XML namespace (not a real URL)
-  "maven\\.apache\\.org",
+    # Maven XML namespace (not a real URL)
+    "maven\\.apache\\.org",
 
-  # PHP PEAR DTD (not a real URL)
-  "pear\\.php\\.net",
+    # PHP PEAR DTD (not a real URL)
+    "pear\\.php\\.net",
 
-  # Packagist downloads endpoint (405)
-  "packagist\\.org/downloads/",
+    # Packagist downloads endpoint (405)
+    "packagist\\.org/downloads/",
 
-  # thanks.dev (403)
-  "thanks\\.dev/",
+    # thanks.dev (403)
+    "thanks\\.dev/",
 
-  # GitHub raw content for install scripts (may not exist on branch)
-  "raw\\.githubusercontent\\.com",
+    # GitHub raw content for install scripts (may not exist on branch)
+    "raw\\.githubusercontent\\.com",
 ]
 
 # Exclude files that contain many grammar repo URLs (language definitions)
 exclude_path = [
-  "crates/ts-pack-core/language_definitions\\.json",
-  "docs/supported-languages\\.md",
-  "docs/languages\\.md",
-  ".*\\.lock$",
-  "vendor/",
-  "e2e/",
-  "parsers/",
-  "test_apps/",
-  "scripts/",
-  "examples/",
-  "tools/e2e-generator/",
+    "crates/ts-pack-core/language_definitions\\.json",
+    "docs/supported-languages\\.md",
+    "docs/languages\\.md",
+    ".*\\.lock$",
+    "vendor/",
+    "e2e/",
+    "parsers/",
+    "test_apps/",
+    "scripts/",
+    "examples/",
+    "tools/e2e-generator/",
 ]
 
 # Accept these HTTP status codes as valid

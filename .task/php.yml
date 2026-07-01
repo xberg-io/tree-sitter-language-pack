@@ -1,92 +1,84 @@
 version: "3"
 
 tasks:
-    build:
-        desc: Build PHP extension (requires php-config)
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - cargo build --release --locked --manifest-path crates/ts-pack-core-php/Cargo.toml
+  build:
+    desc: Build PHP extension (requires php-config)
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - cargo build --release --locked --manifest-path crates/ts-pack-core-php/Cargo.toml
 
-    build:dev:
-        desc: Build PHP extension in debug mode
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - cargo build --locked --manifest-path crates/ts-pack-core-php/Cargo.toml
+  build:dev:
+    desc: Build PHP extension in debug mode
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - cargo build --locked --manifest-path crates/ts-pack-core-php/Cargo.toml
 
-    test:
-        desc: Run PHP smoke test
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - php examples/php_smoke/convert.php
+  test:
+    desc: Run PHP smoke test
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - php examples/php_smoke/convert.php
 
-    format:
-        desc: Format PHP code
-        dir: packages/php
-        cmds:
-            - cmd: composer exec -- php-cs-fixer fix
-              platforms: [linux, darwin]
+  format:
+    desc: Format PHP code
+    cmds:
+      - poly fmt --fix packages/php
 
-    format:check:
-        desc: Check PHP formatting (CI)
-        dir: packages/php
-        cmds:
-            - cmd: composer exec -- php-cs-fixer fix --dry-run --diff
-              platforms: [linux, darwin]
+  format:check:
+    desc: Check PHP formatting (CI)
+    cmds:
+      - poly fmt --check packages/php
 
-    lint:
-        desc: Lint PHP code
-        dir: packages/php
-        cmds:
-            - cmd: composer exec -- phpstan analyse --memory-limit=512M
-              platforms: [linux, darwin]
+  lint:
+    desc: Lint PHP code
+    cmds:
+      - poly lint packages/php
 
-    lint:check:
-        desc: Check PHP linting without modifications (CI)
-        dir: packages/php
-        cmds:
-            - cmd: composer exec -- phpstan analyse --memory-limit=512M
-              platforms: [linux, darwin]
+  lint:check:
+    desc: Check PHP linting without modifications (CI)
+    cmds:
+      - poly lint packages/php
 
-    clean:
-        desc: Clean PHP build artifacts
-        cmds:
-            - rm -rf crates/ts-pack-core-php/vendor crates/ts-pack-core-php/target
+  clean:
+    desc: Clean PHP build artifacts
+    cmds:
+      - rm -rf crates/ts-pack-core-php/vendor crates/ts-pack-core-php/target
 
-    update:
-        desc: Update PHP dependencies within current major versions (non-breaking)
-        cmds:
-            - echo "Updating root composer.json dependencies (within-major)..."
-            - composer update -w || true
-            - echo "Updating packages/php dependencies (within-major)..."
-            - cd packages/php && composer update -w
-            - cd packages/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
-            - echo "Updating e2e/php dependencies (within-major)..."
-            - cd e2e/php && composer update -w || true
-            - cd e2e/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
+  update:
+    desc: Update PHP dependencies within current major versions (non-breaking)
+    cmds:
+      - echo "Updating root composer.json dependencies (within-major)..."
+      - composer update -w || true
+      - echo "Updating packages/php dependencies (within-major)..."
+      - cd packages/php && composer update -w
+      - cd packages/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
+      - echo "Updating e2e/php dependencies (within-major)..."
+      - cd e2e/php && composer update -w || true
+      - cd e2e/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
 
-    upgrade:
-        desc: Upgrade PHP dependencies to latest versions (cross-major / breaking)
-        cmds:
-            - echo "Upgrading root composer.json dependencies (cross-major)..."
-            - composer update --with-all-dependencies || true
-            - echo "Upgrading packages/php dependencies (cross-major)..."
-            - cd packages/php && composer update --with-all-dependencies
-            - cd packages/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
-            - echo "Upgrading e2e/php dependencies (cross-major)..."
-            - cd e2e/php && composer update --with-all-dependencies || true
-            - cd e2e/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
+  upgrade:
+    desc: Upgrade PHP dependencies to latest versions (cross-major / breaking)
+    cmds:
+      - echo "Upgrading root composer.json dependencies (cross-major)..."
+      - composer update --with-all-dependencies || true
+      - echo "Upgrading packages/php dependencies (cross-major)..."
+      - cd packages/php && composer update --with-all-dependencies
+      - cd packages/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
+      - echo "Upgrading e2e/php dependencies (cross-major)..."
+      - cd e2e/php && composer update --with-all-dependencies || true
+      - cd e2e/php && echo "Checking remaining outdated dependencies..." && composer outdated --direct || true
 
-    e2e:generate:
-        desc: Generate PHP E2E tests from fixtures
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - alef e2e generate --lang php
+  e2e:generate:
+    desc: Generate PHP E2E tests from fixtures
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - alef e2e generate --lang php
 
-    e2e:test:
-        desc: Run PHP E2E tests
-        cmds:
-            - alef test --lang php --e2e --jobs 1
+  e2e:test:
+    desc: Run PHP E2E tests
+    cmds:
+      - alef test --lang php --e2e --jobs 1

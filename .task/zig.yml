@@ -1,111 +1,111 @@
 version: "3"
 
 tasks:
-    install:
-        desc: Install Zig dependencies (build resolves zig.zon)
-        dir: packages/zig
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - zig build
+  install:
+    desc: Install Zig dependencies (build resolves zig.zon)
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - zig build
 
-    setup:
-        desc: Setup Zig environment
-        cmds:
-            - task: install
+  setup:
+    desc: Setup Zig environment
+    cmds:
+      - task: install
 
-    build:
-        desc: Build Zig package against the Rust FFI shared library
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
-            - cd packages/zig && zig build
+  build:
+    desc: Build Zig package against the Rust FFI shared library
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
+      - cd packages/zig && zig build
 
-    build:dev:
-        desc: Build Zig package in debug mode
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --locked -p ts-pack-core-ffi
-            - cd packages/zig && zig build
+  build:dev:
+    desc: Build Zig package in debug mode
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --locked -p ts-pack-core-ffi
+      - cd packages/zig && zig build
 
-    build:release:
-        desc: Build Zig package in release-fast mode
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
-            - cd packages/zig && zig build -Doptimize=ReleaseFast
+  build:release:
+    desc: Build Zig package in release-fast mode
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
+      - cd packages/zig && zig build -Doptimize=ReleaseFast
 
-    test:
-        desc: Run Zig tests against the Rust FFI shared library
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
-            - cd packages/zig && zig build test
+  test:
+    desc: Run Zig tests against the Rust FFI shared library
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
+      - cd packages/zig && zig build test
 
-    lint:
-        desc: Format Zig code
-        dir: packages/zig
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - zig fmt src
+  lint:
+    desc: Format Zig code
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - zig fmt src
 
-    lint:check:
-        desc: Check Zig code formatting
-        dir: packages/zig
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - zig fmt --check src
+  lint:check:
+    desc: Check Zig code formatting
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - zig fmt --check src
 
-    format:
-        desc: Format Zig code (alias for lint)
-        cmds:
-            - task: lint
+  format:
+    desc: Format Zig code (alias for lint)
+    cmds:
+      - task: lint
 
-    format:check:
-        desc: Check Zig formatting (alias for lint:check)
-        cmds:
-            - task: lint:check
+  format:check:
+    desc: Check Zig formatting (alias for lint:check)
+    cmds:
+      - task: lint:check
 
-    clean:
-        desc: Clean Zig build artifacts
-        dir: packages/zig
-        cmds:
-            - rm -rf zig-cache zig-out .zig-cache
+  clean:
+    desc: Clean Zig build artifacts
+    dir: packages/zig
+    cmds:
+      - rm -rf zig-cache zig-out .zig-cache
 
-    update:
-        desc: Refresh Zig dependencies within build.zig.zon constraints (non-breaking)
-        dir: packages/zig
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - echo "Refreshing Zig dependencies (within constraints in build.zig.zon)..."
-            - zig build --fetch
+  update:
+    desc: Refresh Zig dependencies within build.zig.zon constraints (non-breaking)
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - echo "Refreshing Zig dependencies (within constraints in build.zig.zon)..."
+      - zig build --fetch
 
-    upgrade:
-        desc: Refresh build.zig.zon hashes by re-fetching every declared URL
-        dir: packages/zig
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - |
-                set -e
-                URLs="$(grep "\.url" build.zig.zon | cut -d '=' -f 2 | cut -d '#' -f 1 | tr -d '"' | tr -d ',')"
-                for URL in $URLs; do
-                    echo "Updating module $URL"
-                    zig fetch --save "$URL"
-                    echo
-                done
+  upgrade:
+    desc: Refresh build.zig.zon hashes by re-fetching every declared URL
+    dir: packages/zig
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - |
+        set -e
+        URLs="$(grep "\.url" build.zig.zon | cut -d '=' -f 2 | cut -d '#' -f 1 | tr -d '"' | tr -d ',')"
+        for URL in $URLs; do
+            echo "Updating module $URL"
+            zig fetch --save "$URL"
+            echo
+        done
 
-    e2e:test:
-        desc: Run Zig e2e tests against the Rust FFI shared library
-        preconditions:
-            - sh: command -v zig >/dev/null 2>&1
-        cmds:
-            - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,bash,c,cpp,java,ruby,swift,kotlin,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
-            - cd e2e/zig && zig build test -Dffi_path=../../target/release
+  e2e:test:
+    desc: Run Zig e2e tests against the Rust FFI shared library
+    preconditions:
+      - sh: command -v zig >/dev/null 2>&1
+    cmds:
+      - TSLP_LINK_MODE=static TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,bash,c,cpp,java,ruby,swift,kotlin,mojo,nim,norg cargo build --release --locked -p ts-pack-core-ffi
+      - cd e2e/zig && zig build test -Dffi_path=../../target/release

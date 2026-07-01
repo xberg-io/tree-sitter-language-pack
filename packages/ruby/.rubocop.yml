@@ -28,12 +28,11 @@ Style/StringLiteralsInInterpolation:
 Style/Documentation:
   Enabled: false
 
-Layout/LineLength:
-  Max: 120
-  AllowedPatterns:
-    - '\A\s*#'
-  Exclude:
-    - "spec/**/*"
+# Formatting — layout, indentation, line breaks, line length — is owned by
+# rubyfmt (via poly). Disable rubocop's Layout department so the two do not
+# fight; rubocop runs for correctness/style lint only (CI, toolchain-gated).
+Layout:
+  Enabled: false
 
 Metrics/MethodLength:
   Max: 20

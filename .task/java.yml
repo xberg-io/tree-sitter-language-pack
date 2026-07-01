@@ -1,111 +1,111 @@
 version: "3"
 
 vars:
-    FFI_LIB_PATH: '{{.PROJECT_ROOT}}/target/release/libts_pack_core_ffi.{{if eq OS "darwin"}}dylib{{else if eq OS "windows"}}dll{{else}}so{{end}}'
+  FFI_LIB_PATH: '{{.PROJECT_ROOT}}/target/release/libts_pack_core_ffi.{{if eq OS "darwin"}}dylib{{else if eq OS "windows"}}dll{{else}}so{{end}}'
 
 tasks:
-    deps:
-        desc: Resolve Java/Maven dependencies
-        dir: packages/java
-        cmds:
-            - mvn dependency:resolve -q
+  deps:
+    desc: Resolve Java/Maven dependencies
+    dir: packages/java
+    cmds:
+      - mvn dependency:resolve -q
 
-    build:ffi:
-        desc: Build FFI shared library for Java
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-            TSLP_LINK_MODE: static
-            TSLP_LANGUAGES: "{{.FFI_TEST_LANGUAGES}}"
-        cmds:
-            - cargo build --locked -p ts-pack-core-ffi --release
+  build:ffi:
+    desc: Build FFI shared library for Java
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+      TSLP_LINK_MODE: static
+      TSLP_LANGUAGES: "{{.FFI_TEST_LANGUAGES}}"
+    cmds:
+      - cargo build --locked -p ts-pack-core-ffi --release
 
-    build:
-        desc: Build FFI library and Java package
-        deps: [build:ffi]
-        dir: packages/java
-        cmds:
-            - mvn package -DskipTests -q
+  build:
+    desc: Build FFI library and Java package
+    deps: [build:ffi]
+    dir: packages/java
+    cmds:
+      - mvn package -DskipTests -q
 
-    test:
-        desc: Run Java tests (requires FFI built first)
-        deps: [build:ffi]
-        dir: packages/java
-        env:
-            TSPACK_LIB_PATH: "{{.FFI_LIB_PATH}}"
-        cmds:
-            - mvn test
+  test:
+    desc: Run Java tests (requires FFI built first)
+    deps: [build:ffi]
+    dir: packages/java
+    env:
+      TSPACK_LIB_PATH: "{{.FFI_LIB_PATH}}"
+    cmds:
+      - mvn test
 
-    format:
-        desc: Format Java code
-        dir: packages/java
-        cmds:
-            - mvn com.spotify.fmt:fmt-maven-plugin:format
+  format:
+    desc: Format Java code
+    dir: packages/java
+    cmds:
+      - mvn com.spotify.fmt:fmt-maven-plugin:format
 
-    format:check:
-        desc: Check Java formatting (CI)
-        dir: packages/java
-        cmds:
-            - mvn com.spotify.fmt:fmt-maven-plugin:check
+  format:check:
+    desc: Check Java formatting (CI)
+    dir: packages/java
+    cmds:
+      - mvn com.spotify.fmt:fmt-maven-plugin:check
 
-    lint:
-        desc: Lint Java code
-        dir: packages/java
-        cmds:
-            - mvn com.spotify.fmt:fmt-maven-plugin:check
+  lint:
+    desc: Lint Java code
+    dir: packages/java
+    cmds:
+      - mvn com.spotify.fmt:fmt-maven-plugin:check
 
-    lint:check:
-        desc: Check Java linting without modifications (CI)
-        dir: packages/java
-        cmds:
-            - mvn com.spotify.fmt:fmt-maven-plugin:check
+  lint:check:
+    desc: Check Java linting without modifications (CI)
+    dir: packages/java
+    cmds:
+      - mvn com.spotify.fmt:fmt-maven-plugin:check
 
-    update:
-        desc: Update Java dependencies within current major versions (non-breaking)
-        dir: packages/java
-        vars:
-            RULES_URI: "file:///${PWD}/maven-version-rules.xml"
-        cmds:
-            - echo "Updating Java dependencies (within-major, stable releases only)..."
-            - mvn -DallowSnapshots=false -DallowMajorUpdates=false -Dmaven.version.rules={{.RULES_URI}} versions:use-next-versions -DprocessDependencies=true -DprocessParent=false -DgenerateBackupPoms=false
-            - echo "Updating plugin versions in properties (within-major)..."
-            - mvn -DallowSnapshots=false -DallowMajorUpdates=false -Dmaven.version.rules={{.RULES_URI}} versions:update-properties -DgenerateBackupPoms=false || true
-            - echo "Displaying remaining updates..."
-            - mvn -DallowSnapshots=false -Dmaven.version.rules={{.RULES_URI}} versions:display-dependency-updates
+  update:
+    desc: Update Java dependencies within current major versions (non-breaking)
+    dir: packages/java
+    vars:
+      RULES_URI: "file:///${PWD}/maven-version-rules.xml"
+    cmds:
+      - echo "Updating Java dependencies (within-major, stable releases only)..."
+      - mvn -DallowSnapshots=false -DallowMajorUpdates=false -Dmaven.version.rules={{.RULES_URI}} versions:use-next-versions -DprocessDependencies=true -DprocessParent=false -DgenerateBackupPoms=false
+      - echo "Updating plugin versions in properties (within-major)..."
+      - mvn -DallowSnapshots=false -DallowMajorUpdates=false -Dmaven.version.rules={{.RULES_URI}} versions:update-properties -DgenerateBackupPoms=false || true
+      - echo "Displaying remaining updates..."
+      - mvn -DallowSnapshots=false -Dmaven.version.rules={{.RULES_URI}} versions:display-dependency-updates
 
-    upgrade:
-        desc: Upgrade Java dependencies to latest versions (cross-major / breaking)
-        dir: packages/java
-        vars:
-            RULES_URI: "file:///${PWD}/maven-version-rules.xml"
-        cmds:
-            - echo "Upgrading Java dependencies (cross-major, stable releases only)..."
-            - mvn -DallowSnapshots=false -DallowMajorUpdates=true -Dmaven.version.rules={{.RULES_URI}} versions:use-latest-releases -DprocessDependencies=true -DprocessParent=false -DgenerateBackupPoms=false
-            - echo "Upgrading plugin versions in properties (cross-major)..."
-            - mvn -DallowSnapshots=false -DallowMajorUpdates=true -Dmaven.version.rules={{.RULES_URI}} versions:update-properties -DgenerateBackupPoms=false || true
-            - echo "Displaying final dependency updates..."
-            - mvn -DallowSnapshots=false -Dmaven.version.rules={{.RULES_URI}} versions:display-dependency-updates
-            - echo "Displaying final plugin updates..."
-            - mvn -DallowSnapshots=false -Dmaven.version.rules={{.RULES_URI}} versions:display-plugin-updates
+  upgrade:
+    desc: Upgrade Java dependencies to latest versions (cross-major / breaking)
+    dir: packages/java
+    vars:
+      RULES_URI: "file:///${PWD}/maven-version-rules.xml"
+    cmds:
+      - echo "Upgrading Java dependencies (cross-major, stable releases only)..."
+      - mvn -DallowSnapshots=false -DallowMajorUpdates=true -Dmaven.version.rules={{.RULES_URI}} versions:use-latest-releases -DprocessDependencies=true -DprocessParent=false -DgenerateBackupPoms=false
+      - echo "Upgrading plugin versions in properties (cross-major)..."
+      - mvn -DallowSnapshots=false -DallowMajorUpdates=true -Dmaven.version.rules={{.RULES_URI}} versions:update-properties -DgenerateBackupPoms=false || true
+      - echo "Displaying final dependency updates..."
+      - mvn -DallowSnapshots=false -Dmaven.version.rules={{.RULES_URI}} versions:display-dependency-updates
+      - echo "Displaying final plugin updates..."
+      - mvn -DallowSnapshots=false -Dmaven.version.rules={{.RULES_URI}} versions:display-plugin-updates
 
-    clean:
-        desc: Clean Java build artifacts
-        dir: packages/java
-        cmds:
-            - mvn clean -q
+  clean:
+    desc: Clean Java build artifacts
+    dir: packages/java
+    cmds:
+      - mvn clean -q
 
-    e2e:generate:
-        desc: Generate Java E2E tests from fixtures
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - alef e2e generate --lang java
+  e2e:generate:
+    desc: Generate Java E2E tests from fixtures
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - alef e2e generate --lang java
 
-    e2e:test:
-        desc: Run Java E2E tests
-        cmds:
-            # jtreesitter dlopen's a standalone libtree-sitter at runtime to resolve
-            # ts_parser_*/ts_node_* for the host-native Language passthrough (#143).
-            # Build it into target/release, which the generated e2e pom already puts
-            # on java.library.path.
-            - python3 {{.PROJECT_ROOT}}/scripts/ci/build_libtree_sitter.py
-            - alef test --lang java --e2e --jobs 1
+  e2e:test:
+    desc: Run Java E2E tests
+    cmds:
+      # jtreesitter dlopen's a standalone libtree-sitter at runtime to resolve
+      # ts_parser_*/ts_node_* for the host-native Language passthrough (#143).
+      # Build it into target/release, which the generated e2e pom already puts
+      # on java.library.path.
+      - python3 {{.PROJECT_ROOT}}/scripts/ci/build_libtree_sitter.py
+      - alef test --lang java --e2e --jobs 1

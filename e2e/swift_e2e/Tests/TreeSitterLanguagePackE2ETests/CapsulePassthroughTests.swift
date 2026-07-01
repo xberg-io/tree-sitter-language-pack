@@ -13,31 +13,31 @@ import SwiftTreeSitter
 /// that is usable directly with the upstream SwiftTreeSitter parser.
 final class CapsulePassthroughTests: XCTestCase {
 
-    func testPassthroughPython() throws {
-        // Parse Python code using capsule Language with upstream SwiftTreeSitter.Parser
-        let pythonLang = try TreeSitterLanguagePack.getLanguage(name: "python")
+  func testPassthroughPython() throws {
+    // Parse Python code using capsule Language with upstream SwiftTreeSitter.Parser
+    let pythonLang = try TreeSitterLanguagePack.getLanguage(name: "python")
 
-        var parser = Parser()
-        try parser.setLanguage(pythonLang)
+    var parser = Parser()
+    try parser.setLanguage(pythonLang)
 
-        let source = "def greet(name):\n    return name\n"
-        let tree = try parser.parse(source)
+    let source = "def greet(name):\n    return name\n"
+    let tree = try parser.parse(source)
 
-        let root = try XCTUnwrap(tree.rootNode)
-        XCTAssertEqual(root.nodeType, "module")
-    }
+    let root = try XCTUnwrap(tree.rootNode)
+    XCTAssertEqual(root.nodeType, "module")
+  }
 
-    func testPassthroughJavascript() throws {
-        // Parse JavaScript code using capsule Language with upstream SwiftTreeSitter.Parser
-        let jsLang = try TreeSitterLanguagePack.getLanguage(name: "javascript")
+  func testPassthroughJavascript() throws {
+    // Parse JavaScript code using capsule Language with upstream SwiftTreeSitter.Parser
+    let jsLang = try TreeSitterLanguagePack.getLanguage(name: "javascript")
 
-        var parser = Parser()
-        try parser.setLanguage(jsLang)
+    var parser = Parser()
+    try parser.setLanguage(jsLang)
 
-        let source = "const x = 1;\n"
-        let tree = try parser.parse(source)
+    let source = "const x = 1;\n"
+    let tree = try parser.parse(source)
 
-        let root = try XCTUnwrap(tree.rootNode)
-        XCTAssertEqual(root.nodeType, "program")
-    }
+    let root = try XCTUnwrap(tree.rootNode)
+    XCTAssertEqual(root.nodeType, "program")
+  }
 }

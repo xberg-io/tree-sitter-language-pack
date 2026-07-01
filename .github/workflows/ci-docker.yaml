@@ -1,142 +1,142 @@
 name: CI Docker
 
 on:
-    push:
-        branches: [main]
-        paths:
-            - "crates/ts-pack-core/**"
-            - "crates/ts-pack-cli/**"
-            - "sources/language_definitions.json"
-            - "test_apps/fixtures/all_grammars.json"
-            - "test_apps/cli/**"
-            - "docker/**"
-            - ".dockerignore"
-            - ".github/workflows/ci-docker.yaml"
-            - "Cargo.toml"
-            - "Cargo.lock"
-    pull_request:
-        branches: [main]
-        paths:
-            - "crates/ts-pack-core/**"
-            - "crates/ts-pack-cli/**"
-            - "sources/language_definitions.json"
-            - "test_apps/fixtures/all_grammars.json"
-            - "test_apps/cli/**"
-            - "docker/**"
-            - ".dockerignore"
-            - ".github/workflows/ci-docker.yaml"
-            - "Cargo.toml"
-            - "Cargo.lock"
-    workflow_run:
-        workflows: ["Publish Release"]
-        types: [completed]
-    workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core/**"
+      - "crates/ts-pack-cli/**"
+      - "sources/language_definitions.json"
+      - "test_apps/fixtures/all_grammars.json"
+      - "test_apps/cli/**"
+      - "docker/**"
+      - ".dockerignore"
+      - ".github/workflows/ci-docker.yaml"
+      - "Cargo.toml"
+      - "Cargo.lock"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core/**"
+      - "crates/ts-pack-cli/**"
+      - "sources/language_definitions.json"
+      - "test_apps/fixtures/all_grammars.json"
+      - "test_apps/cli/**"
+      - "docker/**"
+      - ".dockerignore"
+      - ".github/workflows/ci-docker.yaml"
+      - "Cargo.toml"
+      - "Cargo.lock"
+  workflow_run:
+    workflows: ["Publish Release"]
+    types: [completed]
+  workflow_dispatch:
 
 concurrency:
-    group: ci-docker-${{ github.ref }}
-    cancel-in-progress: true
+  group: ci-docker-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
-    CARGO_TERM_COLOR: always
+  CARGO_TERM_COLOR: always
 
 jobs:
-    build-and-test:
-        name: Build Docker image & test all grammars
-        runs-on: ubuntu-latest
-        timeout-minutes: 45
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
-              with:
-                  fetch-depth: 1
+  build-and-test:
+    name: Build Docker image & test all grammars
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
 
-            - name: Setup Python
-              uses: actions/setup-python@v6
-              with:
-                  python-version: "3.13"
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
 
-            - name: Install uv
-              uses: astral-sh/setup-uv@v8.2.0
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
 
-            - name: Setup Node.js (for tree-sitter-cli)
-              uses: actions/setup-node@v6
-              with:
-                  node-version: "22"
+      - name: Setup Node.js (for tree-sitter-cli)
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
 
-            - name: Install tree-sitter-cli
-              run: npm install -g tree-sitter-cli
+      - name: Install tree-sitter-cli
+        run: npm install -g tree-sitter-cli
 
-            - name: Clone grammar sources
-              run: uv run --script scripts/clone_vendors.py
+      - name: Clone grammar sources
+        run: uv run --script scripts/clone_vendors.py
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
 
-            - name: Build Docker image
-              uses: docker/build-push-action@v7
-              with:
-                  context: .
-                  file: docker/Dockerfile
-                  push: false
-                  load: true
-                  tags: ts-pack:test
-                  cache-from: type=gha,scope=ci-docker
-                  cache-to: type=gha,mode=max,scope=ci-docker
+      - name: Build Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: false
+          load: true
+          tags: ts-pack:test
+          cache-from: type=gha,scope=ci-docker
+          cache-to: type=gha,mode=max,scope=ci-docker
 
-            - name: Verify image
-              run: |
-                  docker run --rm ts-pack:test --version
-                  docker run --rm ts-pack:test --help | head -5
+      - name: Verify image
+        run: |
+          docker run --rm ts-pack:test --version
+          docker run --rm ts-pack:test --help | head -5
 
-            - name: Check Docker image size
-              uses: xberg-io/actions/check-docker-image-size@v1
-              with:
-                  image: ts-pack:test
-                  warn-mb: "500"
-                  label: ts-pack
+      - name: Check Docker image size
+        uses: xberg-io/actions/check-docker-image-size@v1
+        with:
+          image: ts-pack:test
+          warn-mb: "500"
+          label: ts-pack
 
-            - name: Test all grammars (198 languages)
-              run: |
-                  docker run --rm \
-                    -v "${{ github.workspace }}/test_apps:/tests" \
-                    --entrypoint "" \
-                    ts-pack:test \
-                    sh -c "apk add --no-cache python3 bash >/dev/null 2>&1 && TS_PACK_BIN=ts-pack bash /tests/cli/test_all_grammars.sh"
+      - name: Test all grammars (198 languages)
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}/test_apps:/tests" \
+            --entrypoint "" \
+            ts-pack:test \
+            sh -c "apk add --no-cache python3 bash >/dev/null 2>&1 && TS_PACK_BIN=ts-pack bash /tests/cli/test_all_grammars.sh"
 
-            - name: Test parse commands
-              run: |
-                  echo "def hello(): pass" | docker run --rm -i ts-pack:test parse - --language python
-                  echo "fn main() {}" | docker run --rm -i ts-pack:test parse - --language rust
-                  echo '{"key": "value"}' | docker run --rm -i ts-pack:test parse - --language json
+      - name: Test parse commands
+        run: |
+          echo "def hello(): pass" | docker run --rm -i ts-pack:test parse - --language python
+          echo "fn main() {}" | docker run --rm -i ts-pack:test parse - --language rust
+          echo '{"key": "value"}' | docker run --rm -i ts-pack:test parse - --language json
 
-            - name: Test process command
-              run: |
-                  echo "import os; def main(): pass" | docker run --rm -i ts-pack:test process - --language python --all | head -15
+      - name: Test process command
+        run: |
+          echo "import os; def main(): pass" | docker run --rm -i ts-pack:test process - --language python --all | head -15
 
-            - name: Extract binary for artifact
-              run: |
-                  mkdir -p dist
-                  docker cp "$(docker create --name tmp ts-pack:test):/usr/local/bin/ts-pack" dist/ts-pack
-                  docker rm tmp
-                  cd dist && tar -czf ts-pack-linux-x86_64-musl.tar.gz ts-pack
-                  ls -lh ts-pack-linux-x86_64-musl.tar.gz
-                  file ts-pack
+      - name: Extract binary for artifact
+        run: |
+          mkdir -p dist
+          docker cp "$(docker create --name tmp ts-pack:test):/usr/local/bin/ts-pack" dist/ts-pack
+          docker rm tmp
+          cd dist && tar -czf ts-pack-linux-x86_64-musl.tar.gz ts-pack
+          ls -lh ts-pack-linux-x86_64-musl.tar.gz
+          file ts-pack
 
-            - name: Upload binary artifact
-              uses: actions/upload-artifact@v7
-              with:
-                  name: ts-pack-linux-x86_64-musl
-                  path: dist/ts-pack-linux-x86_64-musl.tar.gz
-                  retention-days: 14
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ts-pack-linux-x86_64-musl
+          path: dist/ts-pack-linux-x86_64-musl.tar.gz
+          retention-days: 14
 
-            - name: Save Docker image
-              run: |
-                  docker save ts-pack:test | gzip > dist/ts-pack-docker-image.tar.gz
-                  ls -lh dist/ts-pack-docker-image.tar.gz
+      - name: Save Docker image
+        run: |
+          docker save ts-pack:test | gzip > dist/ts-pack-docker-image.tar.gz
+          ls -lh dist/ts-pack-docker-image.tar.gz
 
-            - name: Upload Docker image artifact
-              uses: actions/upload-artifact@v7
-              with:
-                  name: ts-pack-docker-image
-                  path: dist/ts-pack-docker-image.tar.gz
-                  retention-days: 7
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ts-pack-docker-image
+          path: dist/ts-pack-docker-image.tar.gz
+          retention-days: 7

@@ -25,11 +25,7 @@ description = "A comprehensive tree-sitter language pack with polyglot bindings"
 keywords = ["tree-sitter", "parser", "syntax", "language-pack", "xberg"]
 
 [workspace.dependencies]
-ahash = { version = "0.8", default-features = false, features = [
-    "std",
-    "compile-time-rng",
-    "serde",
-] }
+ahash = { version = "0.8", default-features = false, features = ["std", "compile-time-rng", "serde"] }
 axum = { version = "0.8", features = ["macros"] }
 cbindgen = "0.29"
 cc = "1"

@@ -6,110 +6,110 @@ version: "3"
 # is run separately because alef does not yet manage the brew tap.
 
 tasks:
-    all:
-        desc: Run every test_app (alef-driven, all languages, plus homebrew)
-        cmds:
-            - task: alef
-            - task: homebrew
+  all:
+    desc: Run every test_app (alef-driven, all languages, plus homebrew)
+    cmds:
+      - task: alef
+      - task: homebrew
 
-    alef:
-        desc: Run all alef-driven test_apps sequentially
-        cmds:
-            - alef test-apps run -j 1
+  alef:
+    desc: Run all alef-driven test_apps sequentially
+    cmds:
+      - alef test-apps run -j 1
 
-    alef:parallel:
-        desc: Run all alef-driven test_apps in parallel (faster, noisier)
-        cmds:
-            - alef test-apps run
+  alef:parallel:
+    desc: Run all alef-driven test_apps in parallel (faster, noisier)
+    cmds:
+      - alef test-apps run
 
-    rust:
-        desc: Run Rust test_app via alef
-        cmds:
-            - alef test-apps run --lang rust
+  rust:
+    desc: Run Rust test_app via alef
+    cmds:
+      - alef test-apps run --lang rust
 
-    python:
-        desc: Run Python test_app via alef
-        cmds:
-            - alef test-apps run --lang python
+  python:
+    desc: Run Python test_app via alef
+    cmds:
+      - alef test-apps run --lang python
 
-    node:
-        desc: Run Node.js test_app via alef
-        cmds:
-            - alef test-apps run --lang node
+  node:
+    desc: Run Node.js test_app via alef
+    cmds:
+      - alef test-apps run --lang node
 
-    wasm:
-        desc: Run WASM test_app via alef
-        cmds:
-            - alef test-apps run --lang wasm
+  wasm:
+    desc: Run WASM test_app via alef
+    cmds:
+      - alef test-apps run --lang wasm
 
-    ruby:
-        desc: Run Ruby test_app via alef
-        cmds:
-            - alef test-apps run --lang ruby
+  ruby:
+    desc: Run Ruby test_app via alef
+    cmds:
+      - alef test-apps run --lang ruby
 
-    go:
-        desc: Run Go test_app via alef
-        cmds:
-            - alef test-apps run --lang go
+  go:
+    desc: Run Go test_app via alef
+    cmds:
+      - alef test-apps run --lang go
 
-    java:
-        desc: Run Java test_app via alef
-        cmds:
-            - alef test-apps run --lang java
+  java:
+    desc: Run Java test_app via alef
+    cmds:
+      - alef test-apps run --lang java
 
-    elixir:
-        desc: Run Elixir test_app via alef
-        cmds:
-            - alef test-apps run --lang elixir
+  elixir:
+    desc: Run Elixir test_app via alef
+    cmds:
+      - alef test-apps run --lang elixir
 
-    php:
-        desc: Run PHP test_app via alef
-        cmds:
-            - alef test-apps run --lang php
+  php:
+    desc: Run PHP test_app via alef
+    cmds:
+      - alef test-apps run --lang php
 
-    csharp:
-        desc: Run C# test_app via alef
-        cmds:
-            - alef test-apps run --lang csharp
+  csharp:
+    desc: Run C# test_app via alef
+    cmds:
+      - alef test-apps run --lang csharp
 
-    c:
-        desc: Run C test_app via alef
-        cmds:
-            - alef test-apps run --lang c
+  c:
+    desc: Run C test_app via alef
+    cmds:
+      - alef test-apps run --lang c
 
-    dart:
-        desc: Run Dart test_app via alef
-        cmds:
-            - alef test-apps run --lang dart
+  dart:
+    desc: Run Dart test_app via alef
+    cmds:
+      - alef test-apps run --lang dart
 
-    kotlin-android:
-        desc: Run Kotlin Android test_app via alef
-        cmds:
-            - alef test-apps run --lang kotlin_android
+  kotlin-android:
+    desc: Run Kotlin Android test_app via alef
+    cmds:
+      - alef test-apps run --lang kotlin_android
 
-    swift:
-        desc: Run Swift test_app via alef
-        cmds:
-            - alef test-apps run --lang swift
+  swift:
+    desc: Run Swift test_app via alef
+    cmds:
+      - alef test-apps run --lang swift
 
-    zig:
-        desc: Run Zig test_app via alef
-        cmds:
-            - alef test-apps run --lang zig
+  zig:
+    desc: Run Zig test_app via alef
+    cmds:
+      - alef test-apps run --lang zig
 
-    homebrew:
-        desc: Run Homebrew CLI + FFI smoke test (not yet alef-managed)
-        dir: test_apps/homebrew
-        cmds:
-            - TSLP_BREW_VERSION=$(grep -m 1 'version = ' ../../Cargo.toml | sed 's/version = "\(.*\)"/\1/') bash run_tests.sh
+  homebrew:
+    desc: Run Homebrew CLI + FFI smoke test (not yet alef-managed)
+    dir: test_apps/homebrew
+    cmds:
+      - TSLP_BREW_VERSION=$(grep -m 1 'version = ' ../../Cargo.toml | sed 's/version = "\(.*\)"/\1/') bash run_tests.sh
 
-    # Legacy aliases — kept so existing invocations don't break.
-    smoke:
-        desc: Alias for test-apps:all (alef-driven full run + homebrew)
-        cmds:
-            - task: all
+  # Legacy aliases — kept so existing invocations don't break.
+  smoke:
+    desc: Alias for test-apps:all (alef-driven full run + homebrew)
+    cmds:
+      - task: all
 
-    comprehensive:
-        desc: Alias for test-apps:all (alef-driven full run + homebrew)
-        cmds:
-            - task: all
+  comprehensive:
+    desc: Alias for test-apps:all (alef-driven full run + homebrew)
+    cmds:
+      - task: all

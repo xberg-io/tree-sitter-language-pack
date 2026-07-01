@@ -52,7 +52,7 @@ body {
 
 /* Classic overlapping-pages copy icon (Material “content copy”); theme default is Lucide clipboard-copy. */
 :root {
-  --md-code-copy-icon: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="black" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>');
+  --md-code-copy-icon: url("data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path fill=\"black\" d=\"M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z\"/></svg>");
   --md-clipboard-icon: var(--md-code-copy-icon);
 }
 
@@ -1355,21 +1355,9 @@ div.md-footer-meta__inner.md-grid {
   font-weight: 500;
 }
 
-[data-md-color-scheme="slate"]
-  .md-nav--lifted
-  > .md-nav__list
-  > .md-nav__item--active
-  > .md-nav__link,
-[data-md-color-scheme="slate"]
-  .md-nav--lifted
-  > .md-nav__list
-  > .md-nav__item--active
-  > label.md-nav__link,
-[data-md-color-scheme="slate"]
-  .md-nav--lifted
-  > .md-nav__list
-  > .md-nav__item--active
-  > a.md-nav__link {
+[data-md-color-scheme="slate"] .md-nav--lifted > .md-nav__list > .md-nav__item--active > .md-nav__link,
+[data-md-color-scheme="slate"] .md-nav--lifted > .md-nav__list > .md-nav__item--active > label.md-nav__link,
+[data-md-color-scheme="slate"] .md-nav--lifted > .md-nav__list > .md-nav__item--active > a.md-nav__link {
   background: linear-gradient(90deg, rgba(88, 251, 218, 0.25) 0%, rgba(88, 251, 218, 0.05) 100%);
   color: #00e0c2;
   font-weight: 500;
@@ -1588,13 +1576,7 @@ nav.md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav__link {
   color: #44475a;
 }
 
-nav.md-nav--secondary
-  > .md-nav__list
-  > .md-nav__item
-  > .md-nav
-  > .md-nav__list
-  > .md-nav__item
-  > .md-nav__link {
+nav.md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav > .md-nav__list > .md-nav__item > .md-nav__link {
   padding-left: 1rem;
 }
 
@@ -1643,11 +1625,7 @@ nav.md-path .md-path__link {
   background-color: #00e0c2;
 }
 
-[data-md-color-scheme="slate"]
-  .md-typeset
-  .task-list-control
-  [type="checkbox"]:checked
-  + .task-list-indicator::before {
+[data-md-color-scheme="slate"] .md-typeset .task-list-control [type="checkbox"]:checked + .task-list-indicator::before {
   background-color: #00e0c2;
 }
 
@@ -2073,12 +2051,7 @@ body:has(.full-width-iframe) article {
   background-color: var(--md-default-bg-color--dark, #f2f2f4) !important;
 }
 
-[data-md-color-scheme="default"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child {
+[data-md-color-scheme="default"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child {
   color: var(--kb-text);
 }
 
@@ -2127,47 +2100,19 @@ body:has(.full-width-iframe) article {
   fill: var(--kb-text);
 }
 
-[data-md-color-scheme="default"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .twemoji,
-[data-md-color-scheme="default"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .emojione,
-[data-md-color-scheme="default"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .middle {
+[data-md-color-scheme="default"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .twemoji,
+[data-md-color-scheme="default"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .emojione,
+[data-md-color-scheme="default"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .middle {
   color: var(--kb-text);
 }
 
+[data-md-color-scheme="default"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .twemoji svg,
 [data-md-color-scheme="default"]
   .md-typeset
   .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
+  > ul > li > p:first-child
   .twemoji
-  svg,
-[data-md-color-scheme="default"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .twemoji
-  svg
-  path {
+  svg path {
   fill: var(--kb-text);
 }
 
@@ -2182,47 +2127,14 @@ body:has(.full-width-iframe) article {
   fill: #ffffff;
 }
 
-[data-md-color-scheme="slate"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .twemoji,
-[data-md-color-scheme="slate"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .emojione,
-[data-md-color-scheme="slate"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .middle {
+[data-md-color-scheme="slate"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .twemoji,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .emojione,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .middle {
   color: #ffffff;
 }
 
-[data-md-color-scheme="slate"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .twemoji
-  svg,
-[data-md-color-scheme="slate"]
-  .md-typeset
-  .grid.cards:not(.install-cards)
-  > ul
-  > li
-  > p:first-child
-  .twemoji
-  svg
-  path {
+[data-md-color-scheme="slate"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .twemoji svg,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards:not(.install-cards) > ul > li > p:first-child .twemoji svg path {
   fill: #ffffff;
 }
 

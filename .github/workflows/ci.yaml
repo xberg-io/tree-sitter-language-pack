@@ -1,1683 +1,1673 @@
 name: CI
 
 on:
-    push:
-        branches: [main]
-        paths:
-            - "crates/**"
-            - "packages/**"
-            - "e2e/**"
-            - "fixtures/**"
-            - "sources/**"
-            - "scripts/**"
-            - "docs/snippets/**"
-            - "docs/reference/**"
-            - ".github/workflows/ci.yaml"
-            - ".github/actions/**"
-            - ".pre-commit-config.yaml"
-            - ".golangci.yml"
-            - ".cargo/config.toml"
-            - "rust-toolchain.toml"
-            - "Cargo.toml"
-            - "Cargo.lock"
-            - "Taskfile.yml"
-            - ".task/**"
-            - "pyproject.toml"
-            - ".clang-format"
-            - "alef.toml"
-            - "package.json"
-            - "pnpm-lock.yaml"
-            - "pnpm-workspace.yaml"
-    pull_request:
-        branches: [main]
-        paths:
-            - "crates/**"
-            - "packages/**"
-            - "e2e/**"
-            - "fixtures/**"
-            - "sources/**"
-            - "scripts/**"
-            - "docs/snippets/**"
-            - "docs/reference/**"
-            - ".github/workflows/ci.yaml"
-            - ".github/actions/**"
-            - ".pre-commit-config.yaml"
-            - ".golangci.yml"
-            - ".cargo/config.toml"
-            - "rust-toolchain.toml"
-            - "Cargo.toml"
-            - "Cargo.lock"
-            - "Taskfile.yml"
-            - ".task/**"
-            - "pyproject.toml"
-            - ".clang-format"
-            - "alef.toml"
-            - "package.json"
-            - "pnpm-lock.yaml"
-            - "pnpm-workspace.yaml"
-    workflow_run:
-        workflows: ["Publish Release"]
-        types: [completed]
-    workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "crates/**"
+      - "packages/**"
+      - "e2e/**"
+      - "fixtures/**"
+      - "sources/**"
+      - "scripts/**"
+      - "docs/snippets/**"
+      - "docs/reference/**"
+      - ".github/workflows/ci.yaml"
+      - ".github/actions/**"
+      - ".pre-commit-config.yaml"
+      - ".golangci.yml"
+      - ".cargo/config.toml"
+      - "rust-toolchain.toml"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "Taskfile.yml"
+      - ".task/**"
+      - "pyproject.toml"
+      - ".clang-format"
+      - "alef.toml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/**"
+      - "packages/**"
+      - "e2e/**"
+      - "fixtures/**"
+      - "sources/**"
+      - "scripts/**"
+      - "docs/snippets/**"
+      - "docs/reference/**"
+      - ".github/workflows/ci.yaml"
+      - ".github/actions/**"
+      - ".pre-commit-config.yaml"
+      - ".golangci.yml"
+      - ".cargo/config.toml"
+      - "rust-toolchain.toml"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "Taskfile.yml"
+      - ".task/**"
+      - "pyproject.toml"
+      - ".clang-format"
+      - "alef.toml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+  workflow_run:
+    workflows: ["Publish Release"]
+    types: [completed]
+  workflow_dispatch:
 
 concurrency:
-    group: ci-${{ github.ref }}
-    cancel-in-progress: true
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
-    contents: read
+  contents: read
 
 env:
-    CARGO_TERM_COLOR: always
-    CARGO_INCREMENTAL: 0
-    CARGO_PROFILE_DEV_DEBUG: 0
-    RUST_BACKTRACE: short
-    BUILD_PROFILE: ci
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  RUST_BACKTRACE: short
+  BUILD_PROFILE: ci
 
 jobs:
-    # ---------------------------------------------------------------------------
-    # 0. Clone vendors (shared prerequisite for most jobs)
-    # ---------------------------------------------------------------------------
-    clone-vendors:
-        name: Clone vendors
-        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-        runs-on: ubuntu-latest
-        # Cold-cache runs regenerate all 143 generate:true grammars; monster
-        # grammars (zsh, systemverilog) are slow when generation is serialized
-        # (see TSLP_GENERATE_CONCURRENCY below), so allow extra headroom for the
-        # one run that warms the cache. Warm-cache runs finish in a few minutes.
-        timeout-minutes: 90
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+  # ---------------------------------------------------------------------------
+  # 0. Clone vendors (shared prerequisite for most jobs)
+  # ---------------------------------------------------------------------------
+  clone-vendors:
+    name: Clone vendors
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    # Cold-cache runs regenerate all 143 generate:true grammars; monster
+    # grammars (zsh, systemverilog) are slow when generation is serialized
+    # (see TSLP_GENERATE_CONCURRENCY below), so allow extra headroom for the
+    # one run that warms the cache. Warm-cache runs finish in a few minutes.
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            # A few monster grammars (lean, zsh, systemverilog) peak above the
-            # 16 GB runner RAM during `tree-sitter generate`. Add swap on the large
-            # /mnt volume so they spill to disk instead of OOM-killing the job
-            # (exit 143). Slower, but the run completes and warms the parser cache.
-            - name: Add swap space
-              run: |
-                  sudo swapoff -a || true
-                  sudo fallocate -l 12G /mnt/swapfile
-                  sudo chmod 600 /mnt/swapfile
-                  sudo mkswap /mnt/swapfile
-                  sudo swapon /mnt/swapfile
-                  free -h
+      # A few monster grammars (lean, zsh, systemverilog) peak above the
+      # 16 GB runner RAM during `tree-sitter generate`. Add swap on the large
+      # /mnt volume so they spill to disk instead of OOM-killing the job
+      # (exit 143). Slower, but the run completes and warms the parser cache.
+      - name: Add swap space
+        run: |
+          sudo swapoff -a || true
+          sudo fallocate -l 12G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
-              with:
-                  node-version: "22"
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
 
-            - name: Install tree-sitter CLI
-              run: npm install -g tree-sitter-cli
+      - name: Install tree-sitter CLI
+        run: npm install -g tree-sitter-cli
 
-            - name: Install uv
-              uses: astral-sh/setup-uv@v8.2.0
-              with:
-                  enable-cache: true
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          enable-cache: true
 
-            - name: Setup Python
-              uses: actions/setup-python@v6
-              with:
-                  python-version: "3.14"
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
 
-            - name: Install Python dependencies
-              run: uv sync --no-install-project --no-install-workspace
+      - name: Install Python dependencies
+        run: uv sync --no-install-project --no-install-workspace
 
-            - name: Cache parsers
-              uses: actions/cache@v5
-              with:
-                  path: parsers
-                  key: parsers-${{ hashFiles('sources/language_definitions.json') }}
-                  restore-keys: |
-                      parsers-
+      - name: Cache parsers
+        uses: actions/cache@v5
+        with:
+          path: parsers
+          key: parsers-${{ hashFiles('sources/language_definitions.json') }}
+          restore-keys: |
+            parsers-
 
-            - name: Clone vendors
-              env:
-                  # Serialize `tree-sitter generate` so each grammar gets the full
-                  # 16 GB runner. On a cold cache, generating monster grammars
-                  # (zsh, systemverilog) concurrently exhausts memory and the runner
-                  # SIGTERMs the job (exit 143). Clones stay wide (network-bound).
-                  TSLP_GENERATE_CONCURRENCY: "1"
-              run: |
-                  mkdir -p parsers
-                  uv run --script scripts/clone_vendors.py
-
-            - name: Upload parsers
-              uses: actions/upload-artifact@v7
-              with:
-                  name: language-parsers
-                  path: parsers
-                  retention-days: 1
-
-    # ---------------------------------------------------------------------------
-    # 1. validate — Lint & Format (prek hooks)
-    # ---------------------------------------------------------------------------
-    validate:
-        name: Validate (Lint & Format)
-        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-        runs-on: ubuntu-24.04-arm
-        timeout-minutes: 60
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
-
-            # --- Task runner ---
-            - name: Install Task
-              uses: xberg-io/actions/install-task@v1
-
-            # --- Rust ---
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
-
-            # --- Python ---
-            - name: Setup Python
-              uses: xberg-io/actions/setup-python-env@v1
-              with:
-                  python-version: "3.13"
-
-            # --- Node.js / pnpm ---
-            - name: Setup Node Workspace
-              uses: xberg-io/actions/setup-node-workspace@v1
-              with:
-                  node-version: "22"
-
-            # --- Go ---
-            - name: Setup Go
-              uses: actions/setup-go@v6
-              with:
-                  go-version: "1.26"
-                  cache-dependency-path: packages/go/go.sum
-
-            - name: Install golangci-lint
-              uses: golangci/golangci-lint-action@v9
-              with:
-                  install-only: true
-
-            # --- Java ---
-            - name: Setup Java
-              uses: actions/setup-java@v5
-              with:
-                  distribution: "temurin"
-                  java-version: "25"
-
-            # --- Elixir ---
-            - name: Setup Elixir
-              uses: xberg-io/actions/setup-elixir@v1
-
-            # --- Ruby ---
-            - name: Setup Ruby
-              uses: ruby/setup-ruby@v1
-              with:
-                  ruby-version: "3.4"
-                  bundler-cache: true
-                  working-directory: packages/ruby
-
-            # --- PHP ---
-            - name: Setup PHP
-              uses: xberg-io/actions/setup-php@v1
-
-            # --- C/C++ ---
-            - name: Install C/C++ tools
-              run: |
-                  sudo apt-get update -qq
-                  sudo apt-get install -y --no-install-recommends cppcheck clang-format
-
-            # --- Alef ---
-            - name: Install alef
-              uses: xberg-io/actions/install-alef@v1
-
-            # --- Alef binding deps ---
-            - name: Install binding dependencies
-              run: alef setup
-
-            # --- Prek ---
-            - name: Run prek hooks
-              uses: j178/prek-action@v2
-              env:
-                  # cargo-check / cargo-clippy hooks compile ts-pack-core whose build.rs
-                  # downloads parser-sources from the current rc tag URL. Pre-publish
-                  # (this workflow runs before publish.yaml uploads the asset) the URL
-                  # 404s. Skip the download — these hooks only need the workspace to
-                  # type-check, not real grammar tables.
-                  TSLP_OFFLINE: "1"
-              with:
-                  # Pin prek to the version we test against locally — otherwise the
-                  # action defaults to `latest` and a newer hook version can rewrite
-                  # files (e.g. oxfmt adding semicolons to TS interface props) that
-                  # diff vs. the committed shape, failing CI on a green local run.
-                  prek-version: "0.4.4"
-                  extra-args: --all-files
-
-    # ---------------------------------------------------------------------------
-    # 2. validate-rust — Rust lint + alef checks
-    # ---------------------------------------------------------------------------
-    validate-rust:
-        name: Validate Rust & Alef
-        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-        needs: [clone-vendors]
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
-
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
-
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
-
-            - name: Check Rust formatting
-              run: cargo fmt --check
-
-            - name: Run clippy
-              run: cargo clippy --locked --workspace --exclude ts-pack-core-wasm -- -D warnings
-              env:
-                  PROJECT_ROOT: ${{ github.workspace }}
-                  TSLP_LANGUAGES: "all"
-                  TSLP_LINK_MODE: static
-
-            - name: Install alef
-              uses: xberg-io/actions/install-alef@v1
-
-            - name: Verify binding API parity
-              run: alef verify
-
-            - name: Check README freshness
-              run: |
-                  alef readme
-                  # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
-                  # blank lines and table column padding that alef emits.
-                  git diff -w --ignore-blank-lines --exit-code -- packages/*/README.md crates/*/README.md || {
-                    echo "::error::READMEs are out of date. Run 'alef readme' and commit."
-                    exit 1
-                  }
-
-            - name: Check API docs freshness
-              run: |
-                  alef docs
-                  # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
-                  # blank lines and table column padding that alef emits.
-                  git diff -w --ignore-blank-lines --exit-code -- docs/reference/ || {
-                    echo "::error::API docs are out of date. Run 'alef docs' and commit."
-                    exit 1
-                  }
-
-            - name: Check version sync
-              run: |
-                  # --skip-swift-checksum: the Linux runner can't install
-                  # aarch64-apple-darwin without Xcode/rustup target add, so the
-                  # Swift artifactbundle checksum substitution that's normally
-                  # part of sync-versions fails with E0463 on cfg-if/libc.
-                  # Skip it here; the checksum will be re-synced on rc-cut from
-                  # the macOS-equipped local environment + the publish workflow.
-                  alef sync-versions --skip-swift-checksum
-                  # Ignore whitespace-only diffs — `alef readme` (run in a previous
-                  # step) leaves rumdl-vs-alef blank-line drift in crates/*/README.md
-                  # files that's tolerated by the freshness check above but would
-                  # otherwise trip this strict diff. Real version drift will still
-                  # show up (manifest version strings have no whitespace ambiguity).
-                  git diff -w --ignore-blank-lines --exit-code -- packages/ crates/ || {
-                    echo "::error::Versions are out of sync. Run 'alef sync-versions' and commit."
-                    exit 1
-                  }
-
-    # ---------------------------------------------------------------------------
-    # 3. changes — Detect which parts of the repo changed
-    # ---------------------------------------------------------------------------
-    changes:
-        name: Detect Changes
-        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-        runs-on: ubuntu-latest
-        timeout-minutes: 5
-        outputs:
-            core: ${{ steps.filter.outputs.core }}
-            rust: ${{ steps.filter.outputs.rust }}
-            ffi: ${{ steps.filter.outputs.ffi }}
-            python: ${{ steps.filter.outputs.python }}
-            node: ${{ steps.filter.outputs.node }}
-            wasm: ${{ steps.filter.outputs.wasm }}
-            go: ${{ steps.filter.outputs.go }}
-            java: ${{ steps.filter.outputs.java }}
-            csharp: ${{ steps.filter.outputs.csharp }}
-            ruby: ${{ steps.filter.outputs.ruby }}
-            php: ${{ steps.filter.outputs.php }}
-            elixir: ${{ steps.filter.outputs.elixir }}
-            docker: ${{ steps.filter.outputs.docker }}
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
-
-            - name: Detect changes
-              uses: dorny/paths-filter@v4
-              id: filter
-              with:
-                  filters: |
-                      core:
-                        - 'crates/ts-pack-core/**'
-                        - 'Cargo.toml'
-                        - 'Cargo.lock'
-                        - 'sources/**'
-                      rust:
-                        - 'crates/ts-pack-core/**'
-                        - 'crates/ts-pack-cli/**'
-                        - 'e2e/rust/**'
-                      ffi:
-                        - 'crates/ts-pack-core-ffi/**'
-                        - 'crates/ts-pack-core/**'
-                      python:
-                        - 'crates/ts-pack-core-py/**'
-                        - 'packages/python/**'
-                        - 'e2e/python/**'
-                        - 'fixtures/**'
-                      node:
-                        - 'crates/ts-pack-core-node/**'
-                        - 'e2e/node/**'
-                        - 'fixtures/**'
-                      wasm:
-                        - 'crates/ts-pack-core-wasm/**'
-                        - 'e2e/wasm/**'
-                        - 'fixtures/**'
-                      go:
-                        - 'packages/go/**'
-                        - 'e2e/go/**'
-                        - 'crates/ts-pack-core-ffi/**'
-                        - 'fixtures/**'
-                      java:
-                        - 'packages/java/**'
-                        - 'e2e/java/**'
-                        - 'crates/ts-pack-core-ffi/**'
-                        - 'fixtures/**'
-                      csharp:
-                        - 'packages/csharp/**'
-                        - 'e2e/csharp/**'
-                        - 'crates/ts-pack-core-ffi/**'
-                        - 'fixtures/**'
-                      ruby:
-                        - 'packages/ruby/**'
-                        - 'e2e/ruby/**'
-                        - 'fixtures/**'
-                      php:
-                        - 'crates/ts-pack-core-php/**'
-                        - 'packages/php/**'
-                        - 'e2e/php/**'
-                        - 'fixtures/**'
-                      elixir:
-                        - 'packages/elixir/**'
-                        - 'e2e/elixir/**'
-                        - 'fixtures/**'
-                      docker:
-                        - 'Dockerfile*'
-                        - 'docker/**'
-
-    # ---------------------------------------------------------------------------
-    # 4. rust-tests — Core Rust unit + e2e tests
-    # ---------------------------------------------------------------------------
-    rust-tests:
-        name: Rust Tests
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.rust == 'true')
-        needs: [validate, validate-rust, changes, clone-vendors]
-        runs-on: ubuntu-latest
-        timeout-minutes: 60
+      - name: Clone vendors
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-            TSLP_LINK_MODE: static
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          # Serialize `tree-sitter generate` so each grammar gets the full
+          # 16 GB runner. On a cold cache, generating monster grammars
+          # (zsh, systemverilog) concurrently exhausts memory and the runner
+          # SIGTERMs the job (exit 143). Clones stay wide (network-bound).
+          TSLP_GENERATE_CONCURRENCY: "1"
+        run: |
+          mkdir -p parsers
+          uv run --script scripts/clone_vendors.py
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Upload parsers
+        uses: actions/upload-artifact@v7
+        with:
+          name: language-parsers
+          path: parsers
+          retention-days: 1
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: "rustfmt"
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
+  # ---------------------------------------------------------------------------
+  # 1. validate — Lint & Format (poly)
+  # ---------------------------------------------------------------------------
+  validate:
+    name: Validate (Lint & Format)
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Install Task
-              uses: xberg-io/actions/install-task@v1
+      # --- Task runner ---
+      - name: Install Task
+        uses: xberg-io/actions/install-task@v1
 
-            - name: Install Alef
-              uses: xberg-io/actions/install-alef@v1
+      # --- Rust ---
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          use-sccache: "false"
+          install-llvm-cov: "false"
 
-            - name: Run workspace tests
-              run: cargo test --locked --workspace --exclude ts-pack-core-wasm
+      # --- Python ---
+      - name: Setup Python
+        uses: xberg-io/actions/setup-python-env@v1
+        with:
+          python-version: "3.13"
 
-            - name: Run Rust E2E tests
-              run: task rust:e2e:test
+      # --- Node.js / pnpm ---
+      - name: Setup Node Workspace
+        uses: xberg-io/actions/setup-node-workspace@v1
+        with:
+          node-version: "22"
 
-    # ---------------------------------------------------------------------------
-    # 5. build-ffi — Build FFI shared/static library
-    # ---------------------------------------------------------------------------
-    build-ffi:
-        name: Build FFI (${{ matrix.os }})
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.ffi == 'true')
-        needs: [validate, validate-rust, changes, clone-vendors]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 60
-        strategy:
-            fail-fast: false
-            matrix:
-                os: [ubuntu-latest, macos-latest]
+      # --- Go ---
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.26"
+          cache-dependency-path: packages/go/go.sum
+
+      - name: Install golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          install-only: true
+
+      # --- Java ---
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: "25"
+
+      # --- Elixir ---
+      - name: Setup Elixir
+        uses: xberg-io/actions/setup-elixir@v1
+
+      # --- Ruby ---
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+          working-directory: packages/ruby
+
+      # --- PHP ---
+      - name: Setup PHP
+        uses: xberg-io/actions/setup-php@v1
+
+      # --- C/C++ ---
+      - name: Install C/C++ tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends cppcheck clang-format
+
+      # --- Alef ---
+      - name: Install alef
+        uses: xberg-io/actions/install-alef@v1
+
+      # --- Alef binding deps ---
+      - name: Install binding dependencies
+        run: alef setup
+
+      # --- Poly ---
+      - name: Install poly
+        uses: Goldziher/polylint@v0
+      - name: Check formatting
+        run: poly fmt --check .
+      - name: Lint
+        run: poly lint .
+
+  # ---------------------------------------------------------------------------
+  # 2. validate-rust — Rust lint + alef checks
+  # ---------------------------------------------------------------------------
+  validate-rust:
+    name: Validate Rust & Alef
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    needs: [clone-vendors]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Check Rust formatting
+        run: cargo fmt --check
+
+      - name: Run clippy
+        run: cargo clippy --locked --workspace --exclude ts-pack-core-wasm -- -D warnings
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-            TSLP_LINK_MODE: static
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PROJECT_ROOT: ${{ github.workspace }}
+          TSLP_LANGUAGES: "all"
+          TSLP_LINK_MODE: static
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Install alef
+        uses: xberg-io/actions/install-alef@v1
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
+      - name: Verify binding API parity
+        run: alef verify
 
-            - name: Build FFI library
-              run: cargo build --release --locked -p ts-pack-core-ffi
+      - name: Check README freshness
+        run: |
+          alef readme
+          # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
+          # blank lines and table column padding that alef emits.
+          git diff -w --ignore-blank-lines --exit-code -- packages/*/README.md crates/*/README.md || {
+            echo "::error::READMEs are out of date. Run 'alef readme' and commit."
+            exit 1
+          }
 
-            - name: Upload FFI artifacts
-              uses: actions/upload-artifact@v7
-              with:
-                  name: ffi-${{ matrix.os }}
-                  path: |
-                      target/release/libts_pack_core_ffi.a
-                      target/release/libts_pack_core_ffi.so
-                      target/release/libts_pack_core_ffi.dylib
-                      crates/ts-pack-core-ffi/include/
-                  retention-days: 7
+      - name: Check API docs freshness
+        run: |
+          alef docs
+          # Ignore whitespace-only diffs — markdown formatter (rumdl) collapses
+          # blank lines and table column padding that alef emits.
+          git diff -w --ignore-blank-lines --exit-code -- docs/reference/ || {
+            echo "::error::API docs are out of date. Run 'alef docs' and commit."
+            exit 1
+          }
 
-    # ---------------------------------------------------------------------------
-    # 5.5. build-e2e-bundles — Compile parsers + emit a local manifest
-    #
-    # Pre-publish, the workspace version (e.g. v1.9.0-rc.21) has no GitHub
-    # release yet, so the runtime's network fetch of `parsers.json` 404s.
-    # This job builds the parsers from cloned vendors, packages them as a
-    # tar.zst bundle, and emits a `parsers.json` manifest whose platform URL
-    # points at the bundle via `file://`. Downstream test jobs export
-    # `TREE_SITTER_LANGUAGE_PACK_MANIFEST_URL` so the runtime resolves
-    # manifest + bundle from disk instead of the network.
-    # ---------------------------------------------------------------------------
-    build-e2e-bundles:
-        name: Build e2e parser bundle (${{ matrix.label }})
-        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-        needs: [clone-vendors]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 45
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - os: ubuntu-latest
-                      label: linux-x86_64
-                    - os: macos-latest
-                      label: macos-arm64
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+      - name: Check version sync
+        run: |
+          # --skip-swift-checksum: the Linux runner can't install
+          # aarch64-apple-darwin without Xcode/rustup target add, so the
+          # Swift artifactbundle checksum substitution that's normally
+          # part of sync-versions fails with E0463 on cfg-if/libc.
+          # Skip it here; the checksum will be re-synced on rc-cut from
+          # the macOS-equipped local environment + the publish workflow.
+          alef sync-versions --skip-swift-checksum
+          # Ignore whitespace-only diffs — `alef readme` (run in a previous
+          # step) leaves rumdl-vs-alef blank-line drift in crates/*/README.md
+          # files that's tolerated by the freshness check above but would
+          # otherwise trip this strict diff. Real version drift will still
+          # show up (manifest version strings have no whitespace ambiguity).
+          git diff -w --ignore-blank-lines --exit-code -- packages/ crates/ || {
+            echo "::error::Versions are out of sync. Run 'alef sync-versions' and commit."
+            exit 1
+          }
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+  # ---------------------------------------------------------------------------
+  # 3. changes — Detect which parts of the repo changed
+  # ---------------------------------------------------------------------------
+  changes:
+    name: Detect Changes
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      core: ${{ steps.filter.outputs.core }}
+      rust: ${{ steps.filter.outputs.rust }}
+      ffi: ${{ steps.filter.outputs.ffi }}
+      python: ${{ steps.filter.outputs.python }}
+      node: ${{ steps.filter.outputs.node }}
+      wasm: ${{ steps.filter.outputs.wasm }}
+      go: ${{ steps.filter.outputs.go }}
+      java: ${{ steps.filter.outputs.java }}
+      csharp: ${{ steps.filter.outputs.csharp }}
+      ruby: ${{ steps.filter.outputs.ruby }}
+      php: ${{ steps.filter.outputs.php }}
+      elixir: ${{ steps.filter.outputs.elixir }}
+      docker: ${{ steps.filter.outputs.docker }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "true"
-                  cache-key-prefix: e2e-bundles-${{ matrix.label }}
-                  install-llvm-cov: "false"
+      - name: Detect changes
+        uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            core:
+              - 'crates/ts-pack-core/**'
+              - 'Cargo.toml'
+              - 'Cargo.lock'
+              - 'sources/**'
+            rust:
+              - 'crates/ts-pack-core/**'
+              - 'crates/ts-pack-cli/**'
+              - 'e2e/rust/**'
+            ffi:
+              - 'crates/ts-pack-core-ffi/**'
+              - 'crates/ts-pack-core/**'
+            python:
+              - 'crates/ts-pack-core-py/**'
+              - 'packages/python/**'
+              - 'e2e/python/**'
+              - 'fixtures/**'
+            node:
+              - 'crates/ts-pack-core-node/**'
+              - 'e2e/node/**'
+              - 'fixtures/**'
+            wasm:
+              - 'crates/ts-pack-core-wasm/**'
+              - 'e2e/wasm/**'
+              - 'fixtures/**'
+            go:
+              - 'packages/go/**'
+              - 'e2e/go/**'
+              - 'crates/ts-pack-core-ffi/**'
+              - 'fixtures/**'
+            java:
+              - 'packages/java/**'
+              - 'e2e/java/**'
+              - 'crates/ts-pack-core-ffi/**'
+              - 'fixtures/**'
+            csharp:
+              - 'packages/csharp/**'
+              - 'e2e/csharp/**'
+              - 'crates/ts-pack-core-ffi/**'
+              - 'fixtures/**'
+            ruby:
+              - 'packages/ruby/**'
+              - 'e2e/ruby/**'
+              - 'fixtures/**'
+            php:
+              - 'crates/ts-pack-core-php/**'
+              - 'packages/php/**'
+              - 'e2e/php/**'
+              - 'fixtures/**'
+            elixir:
+              - 'packages/elixir/**'
+              - 'e2e/elixir/**'
+              - 'fixtures/**'
+            docker:
+              - 'Dockerfile*'
+              - 'docker/**'
 
-            - name: Setup Python
-              uses: actions/setup-python@v6
-              with:
-                  python-version: "3.12"
+  # ---------------------------------------------------------------------------
+  # 4. rust-tests — Core Rust unit + e2e tests
+  # ---------------------------------------------------------------------------
+  rust-tests:
+    name: Rust Tests
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.rust == 'true')
+    needs: [validate, validate-rust, changes, clone-vendors]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Install zstd
-              shell: bash
-              run: |
-                  if command -v zstd &>/dev/null; then
-                    echo "zstd already available: $(zstd --version)"
-                  elif [[ "$RUNNER_OS" == "macOS" ]]; then
-                    brew install zstd
-                  else
-                    sudo apt-get update && sudo apt-get install -y zstd
-                  fi
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
 
-            - name: Get all language names
-              id: langs
-              shell: bash
-              run: |
-                  LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
-                  echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: "rustfmt"
+          use-sccache: "false"
+          install-llvm-cov: "false"
 
-            - name: Build all parsers
-              run: cargo build -p tree-sitter-language-pack --release
-              env:
-                  PROJECT_ROOT: ${{ github.workspace }}
-                  TSLP_LINK_MODE: dynamic
-                  TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+      - name: Install Task
+        uses: xberg-io/actions/install-task@v1
 
-            - name: Package parser binaries
-              shell: bash
-              run: |
-                  mkdir -p staging dist
-                  find target/release/build -path '*/out/libs/*' \( -name 'libtree_sitter_*.so' -o -name 'libtree_sitter_*.dylib' \) -exec cp {} staging/ \;
-                  count=$(find staging/ -maxdepth 1 -type f | wc -l)
-                  echo "Packaged $count parser libraries"
-                  if [ "$count" -eq 0 ]; then
-                    echo "ERROR: no parser libraries built" >&2
-                    exit 1
-                  fi
-                  cd staging && tar -cf - . | zstd -3 -o "../dist/parsers-${{ matrix.label }}.tar.zst"
+      - name: Install Alef
+        uses: xberg-io/actions/install-alef@v1
 
-            - name: Upload e2e parser bundle
-              uses: actions/upload-artifact@v7
-              with:
-                  name: e2e-bundles-${{ matrix.label }}
-                  path: dist/parsers-${{ matrix.label }}.tar.zst
-                  retention-days: 1
+      - name: Run workspace tests
+        run: cargo test --locked --workspace --exclude ts-pack-core-wasm
 
-            - name: Cleanup Rust cache
-              if: always()
-              uses: xberg-io/actions/cleanup-rust-cache@v1
+      - name: Run Rust E2E tests
+        run: task rust:e2e:test
 
-    # ---------------------------------------------------------------------------
-    # 6. build-python — Python wheels (maturin)
-    # ---------------------------------------------------------------------------
-    build-python:
-        name: Build Python (${{ matrix.platform }})
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.python == 'true')
-        needs: [rust-tests, changes, clone-vendors]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 60
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - os: ubuntu-latest
-                      platform: linux-x86_64
-                    - os: macos-latest
-                      platform: macos-arm64
+  # ---------------------------------------------------------------------------
+  # 5. build-ffi — Build FFI shared/static library
+  # ---------------------------------------------------------------------------
+  build-ffi:
+    name: Build FFI (${{ matrix.os }})
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.ffi == 'true')
+    needs: [validate, validate-rust, changes, clone-vendors]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Build FFI library
+        run: cargo build --release --locked -p ts-pack-core-ffi
+
+      - name: Upload FFI artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: ffi-${{ matrix.os }}
+          path: |
+            target/release/libts_pack_core_ffi.a
+            target/release/libts_pack_core_ffi.so
+            target/release/libts_pack_core_ffi.dylib
+            crates/ts-pack-core-ffi/include/
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # 5.5. build-e2e-bundles — Compile parsers + emit a local manifest
+  #
+  # Pre-publish, the workspace version (e.g. v1.9.0-rc.21) has no GitHub
+  # release yet, so the runtime's network fetch of `parsers.json` 404s.
+  # This job builds the parsers from cloned vendors, packages them as a
+  # tar.zst bundle, and emits a `parsers.json` manifest whose platform URL
+  # points at the bundle via `file://`. Downstream test jobs export
+  # `TREE_SITTER_LANGUAGE_PACK_MANIFEST_URL` so the runtime resolves
+  # manifest + bundle from disk instead of the network.
+  # ---------------------------------------------------------------------------
+  build-e2e-bundles:
+    name: Build e2e parser bundle (${{ matrix.label }})
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    needs: [clone-vendors]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux-x86_64
+          - os: macos-latest
+            label: macos-arm64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "true"
+          cache-key-prefix: e2e-bundles-${{ matrix.label }}
+          install-llvm-cov: "false"
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install zstd
+        shell: bash
+        run: |
+          if command -v zstd &>/dev/null; then
+            echo "zstd already available: $(zstd --version)"
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            brew install zstd
+          else
+            sudo apt-get update && sudo apt-get install -y zstd
+          fi
+
+      - name: Get all language names
+        id: langs
+        shell: bash
+        run: |
+          LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definitions.json')); print(','.join(sorted(d.keys())))")
+          echo "names=$LANGS" >> "$GITHUB_OUTPUT"
+
+      - name: Build all parsers
+        run: cargo build -p tree-sitter-language-pack --release
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-            TSLP_LINK_MODE: static
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PROJECT_ROOT: ${{ github.workspace }}
+          TSLP_LINK_MODE: dynamic
+          TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Package parser binaries
+        shell: bash
+        run: |
+          mkdir -p staging dist
+          find target/release/build -path '*/out/libs/*' \( -name 'libtree_sitter_*.so' -o -name 'libtree_sitter_*.dylib' \) -exec cp {} staging/ \;
+          count=$(find staging/ -maxdepth 1 -type f | wc -l)
+          echo "Packaged $count parser libraries"
+          if [ "$count" -eq 0 ]; then
+            echo "ERROR: no parser libraries built" >&2
+            exit 1
+          fi
+          cd staging && tar -cf - . | zstd -3 -o "../dist/parsers-${{ matrix.label }}.tar.zst"
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
+      - name: Upload e2e parser bundle
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-bundles-${{ matrix.label }}
+          path: dist/parsers-${{ matrix.label }}.tar.zst
+          retention-days: 1
 
-            - name: Install maturin
-              run: pip install maturin
+      - name: Cleanup Rust cache
+        if: always()
+        uses: xberg-io/actions/cleanup-rust-cache@v1
 
-            - name: Build wheel
-              # Run from packages/python so maturin picks up pyproject.toml's
-              # [tool.maturin] config (manifest-path, features, python-packages).
-              # Mirrors publish.yaml — without this the wheel ships only the .so
-              # and is not importable.
-              working-directory: packages/python
-              run: maturin build --release --out ../../dist
+  # ---------------------------------------------------------------------------
+  # 6. build-python — Python wheels (maturin)
+  # ---------------------------------------------------------------------------
+  build-python:
+    name: Build Python (${{ matrix.platform }})
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.python == 'true')
+    needs: [rust-tests, changes, clone-vendors]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux-x86_64
+          - os: macos-latest
+            platform: macos-arm64
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Upload wheel
-              uses: actions/upload-artifact@v7
-              with:
-                  name: wheel-${{ matrix.platform }}
-                  path: dist/*.whl
-                  if-no-files-found: error
-                  retention-days: 7
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
 
-    # ---------------------------------------------------------------------------
-    # 6b. test-python — Run Python E2E tests against built wheels
-    # ---------------------------------------------------------------------------
-    test-python:
-        name: Test Python (${{ matrix.python-version }}, ${{ matrix.platform }})
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.python == 'true')
-        needs: [build-python, changes, build-e2e-bundles]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 30
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - os: ubuntu-latest
-                      platform: linux-x86_64
-                      python-version: "3.10"
-                    - os: ubuntu-latest
-                      platform: linux-x86_64
-                      python-version: "3.14"
-                    - os: macos-latest
-                      platform: macos-arm64
-                      python-version: "3.14"
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Install maturin
+        run: pip install maturin
+
+      - name: Build wheel
+        # Run from packages/python so maturin picks up pyproject.toml's
+        # [tool.maturin] config (manifest-path, features, python-packages).
+        # Mirrors publish.yaml — without this the wheel ships only the .so
+        # and is not importable.
+        working-directory: packages/python
+        run: maturin build --release --out ../../dist
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: wheel-${{ matrix.platform }}
+          path: dist/*.whl
+          if-no-files-found: error
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # 6b. test-python — Run Python E2E tests against built wheels
+  # ---------------------------------------------------------------------------
+  test-python:
+    name: Test Python (${{ matrix.python-version }}, ${{ matrix.platform }})
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.python == 'true')
+    needs: [build-python, changes, build-e2e-bundles]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux-x86_64
+            python-version: "3.10"
+          - os: ubuntu-latest
+            platform: linux-x86_64
+            python-version: "3.14"
+          - os: macos-latest
+            platform: macos-arm64
+            python-version: "3.14"
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-${{ matrix.platform }}
+          path: e2e-bundles
+
+      - name: Wire e2e manifest
+        shell: bash
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PLATFORM_LABEL: ${{ matrix.platform }}
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-${{ matrix.platform }}
-                  path: e2e-bundles
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: ${{ matrix.platform }}
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+      - name: Download wheel
+        uses: actions/download-artifact@v8
+        with:
+          name: wheel-${{ matrix.platform }}
+          path: dist
 
-            - name: Setup Python
-              uses: actions/setup-python@v6
-              with:
-                  python-version: ${{ matrix.python-version }}
+      - name: Install wheel
+        shell: bash
+        run: |
+          wheel_file=$(find dist -name '*.whl' -print -quit)
+          pip install "$wheel_file" tree-sitter pytest
 
-            - name: Download wheel
-              uses: actions/download-artifact@v8
-              with:
-                  name: wheel-${{ matrix.platform }}
-                  path: dist
+      - name: Run E2E tests
+        run: cd e2e/python && pip install -e . && pytest tests/ -v
 
-            - name: Install wheel
-              shell: bash
-              run: |
-                  wheel_file=$(find dist -name '*.whl' -print -quit)
-                  pip install "$wheel_file" tree-sitter pytest
+  # ---------------------------------------------------------------------------
+  # 7. build-node — Node.js NAPI native module
+  # ---------------------------------------------------------------------------
+  build-node:
+    name: Build Node.js (${{ matrix.platform }})
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.node == 'true')
+    needs: [rust-tests, changes, clone-vendors]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            platform: linux-x64
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            platform: macos-arm64
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Run E2E tests
-              run: cd e2e/python && pip install -e . && pytest tests/ -v
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
 
-    # ---------------------------------------------------------------------------
-    # 7. build-node — Node.js NAPI native module
-    # ---------------------------------------------------------------------------
-    build-node:
-        name: Build Node.js (${{ matrix.platform }})
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.node == 'true')
-        needs: [rust-tests, changes, clone-vendors]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 60
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - os: ubuntu-latest
-                      target: x86_64-unknown-linux-gnu
-                      platform: linux-x64
-                    - os: macos-latest
-                      target: aarch64-apple-darwin
-                      platform: macos-arm64
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Install NAPI-RS CLI
+        run: npm install -g @napi-rs/cli
+
+      - name: Build native module
+        working-directory: crates/ts-pack-core-node
+        run: napi build --release --platform --target ${{ matrix.target }}
+
+      - name: Upload native module
+        uses: actions/upload-artifact@v7
+        with:
+          name: node-${{ matrix.platform }}
+          path: crates/ts-pack-core-node/*.node
+          if-no-files-found: error
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # 7b. test-node — Node.js E2E tests
+  # ---------------------------------------------------------------------------
+  test-node:
+    name: Test Node.js (${{ matrix.platform }})
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.node == 'true')
+    needs: [build-node, changes, build-e2e-bundles]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux-x64
+          - os: macos-latest
+            platform: macos-arm64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-${{ matrix.platform == 'linux-x64' && 'linux-x86_64' || 'macos-arm64' }}
+          path: e2e-bundles
+
+      - name: Wire e2e manifest
+        shell: bash
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-            TSLP_LINK_MODE: static
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PLATFORM_LABEL: ${{ matrix.platform == 'linux-x64' && 'linux-x86_64' || 'macos-arm64' }}
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Setup Node.js workspace
+        uses: xberg-io/actions/setup-node-workspace@v1
+        with:
+          node-version: "22"
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
+      - name: Download native module
+        uses: actions/download-artifact@v8
+        with:
+          name: node-${{ matrix.platform }}
+          path: crates/ts-pack-core-node/
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
-              with:
-                  node-version: "22"
+      - name: Smoke test native module
+        shell: bash
+        working-directory: crates/ts-pack-core-node
+        run: node -e "const m = require('./'); console.log('Languages:', m.availableLanguages().length)"
 
-            - name: Install NAPI-RS CLI
-              run: npm install -g @napi-rs/cli
+      - name: Run E2E tests
+        shell: bash
+        working-directory: e2e/node
+        run: npx vitest run
 
-            - name: Build native module
-              working-directory: crates/ts-pack-core-node
-              run: napi build --release --platform --target ${{ matrix.target }}
+  # ---------------------------------------------------------------------------
+  # 8. build-wasm — WebAssembly (web + node targets)
+  # ---------------------------------------------------------------------------
+  build-wasm:
+    name: Build WASM
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.wasm == 'true')
+    needs: [rust-tests, changes, clone-vendors]
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      TSLP_LANGUAGES: "python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Upload native module
-              uses: actions/upload-artifact@v7
-              with:
-                  name: node-${{ matrix.platform }}
-                  path: crates/ts-pack-core-node/*.node
-                  if-no-files-found: error
-                  retention-days: 7
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
 
-    # ---------------------------------------------------------------------------
-    # 7b. test-node — Node.js E2E tests
-    # ---------------------------------------------------------------------------
-    test-node:
-        name: Test Node.js (${{ matrix.platform }})
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.node == 'true')
-        needs: [build-node, changes, build-e2e-bundles]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 30
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - os: ubuntu-latest
-                      platform: linux-x64
-                    - os: macos-latest
-                      platform: macos-arm64
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          target: wasm32-unknown-unknown
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-${{ matrix.platform == 'linux-x64' && 'linux-x86_64' || 'macos-arm64' }}
-                  path: e2e-bundles
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: ${{ matrix.platform == 'linux-x64' && 'linux-x86_64' || 'macos-arm64' }}
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+      - name: Install wasi-sdk
+        uses: xberg-io/actions/install-wasi-sdk@v1
 
-            - name: Setup Node.js workspace
-              uses: xberg-io/actions/setup-node-workspace@v1
-              with:
-                  node-version: "22"
-
-            - name: Download native module
-              uses: actions/download-artifact@v8
-              with:
-                  name: node-${{ matrix.platform }}
-                  path: crates/ts-pack-core-node/
-
-            - name: Smoke test native module
-              shell: bash
-              working-directory: crates/ts-pack-core-node
-              run: node -e "const m = require('./'); console.log('Languages:', m.availableLanguages().length)"
-
-            - name: Run E2E tests
-              shell: bash
-              working-directory: e2e/node
-              run: npx vitest run
-
-    # ---------------------------------------------------------------------------
-    # 8. build-wasm — WebAssembly (web + node targets)
-    # ---------------------------------------------------------------------------
-    build-wasm:
-        name: Build WASM
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.wasm == 'true')
-        needs: [rust-tests, changes, clone-vendors]
-        runs-on: ubuntu-latest
-        timeout-minutes: 120
+      - name: Build WASM (web target)
+        working-directory: crates/ts-pack-core-wasm
+        run: wasm-pack build --target web --release
         env:
-            TSLP_LANGUAGES: "python,javascript,typescript,tsx,rust,go,java,c,cpp,csharp,ruby,php,html,css,json,yaml,toml,markdown,bash,sql,lua,scala,kotlin,swift,dockerfile,vue,svelte,elixir,erlang,haskell,zig"
-            TSLP_LINK_MODE: static
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PROJECT_ROOT: ${{ github.workspace }}
+          CARGO_PROFILE_RELEASE_LTO: "false"
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Verify WASM artifacts
+        shell: bash
+        run: |
+          for FILE in \
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.js \
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.d.ts \
+            crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm_bg.wasm; do
+            if [ ! -f "$FILE" ]; then
+              echo "ERROR: Expected file missing: $FILE"
+              exit 1
+            fi
+            echo "OK: $FILE"
+          done
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  target: wasm32-unknown-unknown
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
+      - name: Upload WASM artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: wasm-pkg
+          path: |
+            crates/ts-pack-core-wasm/pkg/*.wasm
+            crates/ts-pack-core-wasm/pkg/*.js
+            crates/ts-pack-core-wasm/pkg/*.ts
+            crates/ts-pack-core-wasm/pkg/package.json
+          retention-days: 7
 
-            - name: Install wasm-pack
-              run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-            - name: Install wasi-sdk
-              uses: xberg-io/actions/install-wasi-sdk@v1
-
-            - name: Build WASM (web target)
-              working-directory: crates/ts-pack-core-wasm
-              run: wasm-pack build --target web --release
-              env:
-                  PROJECT_ROOT: ${{ github.workspace }}
-                  CARGO_PROFILE_RELEASE_LTO: "false"
-                  CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
-
-            - name: Verify WASM artifacts
-              shell: bash
-              run: |
-                  for FILE in \
-                    crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.js \
-                    crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm.d.ts \
-                    crates/ts-pack-core-wasm/pkg/ts_pack_core_wasm_bg.wasm; do
-                    if [ ! -f "$FILE" ]; then
-                      echo "ERROR: Expected file missing: $FILE"
-                      exit 1
-                    fi
-                    echo "OK: $FILE"
-                  done
-
-            - name: Upload WASM artifacts
-              uses: actions/upload-artifact@v7
-              with:
-                  name: wasm-pkg
-                  path: |
-                      crates/ts-pack-core-wasm/pkg/*.wasm
-                      crates/ts-pack-core-wasm/pkg/*.js
-                      crates/ts-pack-core-wasm/pkg/*.ts
-                      crates/ts-pack-core-wasm/pkg/package.json
-                  retention-days: 7
-
-            - name: Build WASM (Node.js target)
-              working-directory: crates/ts-pack-core-wasm
-              run: wasm-pack build --target nodejs --release --out-dir pkg/nodejs
-              env:
-                  PROJECT_ROOT: ${{ github.workspace }}
-                  CARGO_PROFILE_RELEASE_LTO: "false"
-                  CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
-
-            - name: Upload WASM Node.js artifacts
-              uses: actions/upload-artifact@v7
-              with:
-                  name: wasm-node-pkg
-                  path: |
-                      crates/ts-pack-core-wasm/pkg/nodejs/*.wasm
-                      crates/ts-pack-core-wasm/pkg/nodejs/*.js
-                      crates/ts-pack-core-wasm/pkg/nodejs/*.ts
-                      crates/ts-pack-core-wasm/pkg/nodejs/package.json
-                  retention-days: 7
-
-    # ---------------------------------------------------------------------------
-    # 8b. test-wasm — WASM E2E tests
-    # ---------------------------------------------------------------------------
-    test-wasm:
-        name: Test WASM
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.wasm == 'true')
-        needs: [build-wasm, changes, build-e2e-bundles]
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
-
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-linux-x86_64
-                  path: e2e-bundles
-
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: linux-x86_64
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
-
-            - name: Download WASM Node.js artifacts
-              uses: actions/download-artifact@v8
-              with:
-                  name: wasm-node-pkg
-                  path: crates/ts-pack-core-wasm/pkg/nodejs/
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
-              with:
-                  node-version: "22"
-
-            - name: Install E2E dependencies
-              working-directory: e2e/wasm
-              run: npm install
-
-            - name: Run E2E tests
-              working-directory: e2e/wasm
-              run: npx vitest run
-
-    # ---------------------------------------------------------------------------
-    # 9. test-go — Go tests (needs FFI)
-    # ---------------------------------------------------------------------------
-    test-go:
-        name: Test Go
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.go == 'true' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.ffi == 'true')
-        needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
+      - name: Build WASM (Node.js target)
+        working-directory: crates/ts-pack-core-wasm
+        run: wasm-pack build --target nodejs --release --out-dir pkg/nodejs
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PROJECT_ROOT: ${{ github.workspace }}
+          CARGO_PROFILE_RELEASE_LTO: "false"
+          CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-linux-x86_64
-                  path: e2e-bundles
+      - name: Upload WASM Node.js artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: wasm-node-pkg
+          path: |
+            crates/ts-pack-core-wasm/pkg/nodejs/*.wasm
+            crates/ts-pack-core-wasm/pkg/nodejs/*.js
+            crates/ts-pack-core-wasm/pkg/nodejs/*.ts
+            crates/ts-pack-core-wasm/pkg/nodejs/package.json
+          retention-days: 7
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: linux-x86_64
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+  # ---------------------------------------------------------------------------
+  # 8b. test-wasm — WASM E2E tests
+  # ---------------------------------------------------------------------------
+  test-wasm:
+    name: Test WASM
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.wasm == 'true')
+    needs: [build-wasm, changes, build-e2e-bundles]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-linux-x86_64
+          path: e2e-bundles
 
-            - name: Download FFI artifacts
-              uses: actions/download-artifact@v8
-              with:
-                  name: ffi-ubuntu-latest
-                  path: ffi-artifacts
-
-            - name: Restore FFI to expected paths
-              run: |
-                  mkdir -p target/release
-                  cp ffi-artifacts/target/release/libts_pack_core_ffi.* target/release/ 2>/dev/null || true
-                  mkdir -p crates/ts-pack-core-ffi/include
-                  cp -r ffi-artifacts/crates/ts-pack-core-ffi/include/* crates/ts-pack-core-ffi/include/ 2>/dev/null || true
-                  mkdir -p crates/ts-pack-core-ffi/target/release
-                  cp target/release/libts_pack_core_ffi.* crates/ts-pack-core-ffi/target/release/ 2>/dev/null || true
-                  mkdir -p packages/go/.lib/linux-amd64
-                  cp target/release/libts_pack_core_ffi.* packages/go/.lib/linux-amd64/ 2>/dev/null || true
-                  mkdir -p packages/go/include
-                  cp -r crates/ts-pack-core-ffi/include/* packages/go/include/ 2>/dev/null || true
-
-            - name: Verify go.mod placement
-              run: |
-                  test -f packages/go/go.mod || (echo "ERROR: go.mod missing at packages/go/go.mod" && exit 1)
-                  grep -q 'module github.com/xberg-io/tree-sitter-language-pack/packages/go$' packages/go/go.mod \
-                    || (echo "ERROR: module path in go.mod is wrong" && exit 1)
-
-            - name: Setup Go
-              uses: actions/setup-go@v6
-              with:
-                  go-version: "1.26"
-                  cache-dependency-path: packages/go/go.sum
-
-            - name: Install Task
-              uses: xberg-io/actions/install-task@v1
-
-            - name: Run Go tests
-              run: task go:test
-
-            - name: Run Go lint
-              run: task go:lint
-
-            - name: Check Go formatting
-              run: task go:format:check
-
-            - name: Setup Rust (for e2e generate)
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
-
-            - name: Install alef
-              uses: xberg-io/actions/install-alef@v1
-
-            - name: Generate Go E2E tests
-              run: task go:e2e:generate
-
-            - name: Run Go E2E tests
-              run: task go:e2e:test
-
-    # ---------------------------------------------------------------------------
-    # 10. test-java — Java tests (needs FFI)
-    # ---------------------------------------------------------------------------
-    test-java:
-        name: Test Java
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.java == 'true' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.ffi == 'true')
-        needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
+      - name: Wire e2e manifest
+        shell: bash
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-            TSLP_LINK_MODE: static
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PLATFORM_LABEL: linux-x86_64
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-linux-x86_64
-                  path: e2e-bundles
+      - name: Download WASM Node.js artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: wasm-node-pkg
+          path: crates/ts-pack-core-wasm/pkg/nodejs/
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: linux-x86_64
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Install E2E dependencies
+        working-directory: e2e/wasm
+        run: npm install
 
-            - name: Download FFI artifacts
-              uses: actions/download-artifact@v8
-              with:
-                  name: ffi-ubuntu-latest
-                  path: ffi-artifacts
+      - name: Run E2E tests
+        working-directory: e2e/wasm
+        run: npx vitest run
 
-            - name: Restore FFI to expected paths
-              run: |
-                  mkdir -p target/release
-                  cp ffi-artifacts/target/release/libts_pack_core_ffi.* target/release/ 2>/dev/null || true
-                  mkdir -p crates/ts-pack-core-ffi/include
-                  cp -r ffi-artifacts/crates/ts-pack-core-ffi/include/* crates/ts-pack-core-ffi/include/ 2>/dev/null || true
+  # ---------------------------------------------------------------------------
+  # 9. test-go — Go tests (needs FFI)
+  # ---------------------------------------------------------------------------
+  test-go:
+    name: Test Go
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.go == 'true' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.ffi == 'true')
+    needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Setup Java
-              uses: actions/setup-java@v5
-              with:
-                  distribution: "temurin"
-                  java-version: "25"
-                  cache: "maven"
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-linux-x86_64
+          path: e2e-bundles
 
-            - name: Set library paths for JNI
-              shell: bash
-              run: echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
-
-            - name: Run Java unit tests
-              working-directory: packages/java
-              run: mvn test
-              env:
-                  TSPACK_LIB_PATH: ${{ github.workspace }}/target/release/libts_pack_core_ffi.so
-
-            - name: Upload test reports
-              if: always()
-              uses: actions/upload-artifact@v7
-              with:
-                  name: java-unit-reports
-                  path: packages/java/target/surefire-reports
-                  if-no-files-found: ignore
-                  retention-days: 7
-
-            - name: Setup Rust (for alef e2e generate)
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
-
-            # The capsule passthrough makes getLanguage() return a host-native
-            # jtreesitter Language, which dlopens the standalone tree-sitter C
-            # runtime (libtree-sitter) at init. Build it into target/release next
-            # to libts_pack_core_ffi.so so the E2E tests resolve it on
-            # java.library.path (mirrors the ci-e2e.yaml test-java job).
-            - name: Build libtree-sitter runtime for jtreesitter
-              run: python scripts/ci/build_libtree_sitter.py
-
-            - name: Build Java jar
-              working-directory: packages/java
-              run: mvn package -DskipTests
-
-            - name: Run Java E2E tests
-              working-directory: e2e/java
-              run: mvn test
-              env:
-                  TSPACK_LIB_PATH: ${{ github.workspace }}/target/release/libts_pack_core_ffi.so
-                  MAVEN_OPTS: "--enable-native-access=ALL-UNNAMED -Dsun.misc.unsafe.memory.access=allow"
-
-            - name: Upload E2E test reports
-              if: always()
-              uses: actions/upload-artifact@v7
-              with:
-                  name: java-e2e-reports
-                  path: e2e/java/target/surefire-reports
-                  if-no-files-found: ignore
-                  retention-days: 7
-
-    # ---------------------------------------------------------------------------
-    # 11. test-csharp — C# tests (builds FFI locally per platform)
-    # ---------------------------------------------------------------------------
-    test-csharp:
-        name: Test C# (${{ matrix.os }})
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.csharp == 'true' ||
-             needs.changes.outputs.core == 'true' ||
-             needs.changes.outputs.ffi == 'true')
-        needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 30
-        strategy:
-            fail-fast: false
-            matrix:
-                os: [ubuntu-latest, macos-latest]
+      - name: Wire e2e manifest
+        shell: bash
         env:
-            DOTNET_VERSION: "10.0.x"
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-            TSLP_LINK_MODE: static
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PLATFORM_LABEL: linux-x86_64
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
-                  path: e2e-bundles
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: ${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+      - name: Download FFI artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: ffi-ubuntu-latest
+          path: ffi-artifacts
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Restore FFI to expected paths
+        run: |
+          mkdir -p target/release
+          cp ffi-artifacts/target/release/libts_pack_core_ffi.* target/release/ 2>/dev/null || true
+          mkdir -p crates/ts-pack-core-ffi/include
+          cp -r ffi-artifacts/crates/ts-pack-core-ffi/include/* crates/ts-pack-core-ffi/include/ 2>/dev/null || true
+          mkdir -p crates/ts-pack-core-ffi/target/release
+          cp target/release/libts_pack_core_ffi.* crates/ts-pack-core-ffi/target/release/ 2>/dev/null || true
+          mkdir -p packages/go/.lib/linux-amd64
+          cp target/release/libts_pack_core_ffi.* packages/go/.lib/linux-amd64/ 2>/dev/null || true
+          mkdir -p packages/go/include
+          cp -r crates/ts-pack-core-ffi/include/* packages/go/include/ 2>/dev/null || true
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "true"
-                  cache-key-prefix: csharp-${{ matrix.os }}
-                  install-llvm-cov: "false"
+      - name: Verify go.mod placement
+        run: |
+          test -f packages/go/go.mod || (echo "ERROR: go.mod missing at packages/go/go.mod" && exit 1)
+          grep -q 'module github.com/xberg-io/tree-sitter-language-pack/packages/go$' packages/go/go.mod \
+            || (echo "ERROR: module path in go.mod is wrong" && exit 1)
 
-            - name: Install Task
-              uses: xberg-io/actions/install-task@v1
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.26"
+          cache-dependency-path: packages/go/go.sum
 
-            - name: Build FFI library
-              run: cargo build --locked -p ts-pack-core-ffi --release
+      - name: Install Task
+        uses: xberg-io/actions/install-task@v1
 
-            - name: Setup .NET
-              uses: actions/setup-dotnet@v5
-              with:
-                  dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Run Go tests
+        run: task go:test
 
-            - name: Set library paths for .NET
-              shell: bash
-              run: |
-                  {
-                    echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}"
-                    echo "DYLD_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_LIBRARY_PATH:-}"
-                    echo "DYLD_FALLBACK_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_FALLBACK_LIBRARY_PATH:-}"
-                    echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release"
-                  } >> "$GITHUB_ENV"
+      - name: Run Go lint
+        run: task go:lint
 
-            - name: Stage native library into runtimes/
-              shell: bash
-              run: |
-                  case "${{ matrix.os }}" in
-                    macos-latest) RID=osx-arm64 ;;
-                    ubuntu-latest) RID=linux-x64 ;;
-                    *) echo "Unknown OS"; exit 1 ;;
-                  esac
-                  dest=packages/csharp/TreeSitterLanguagePack/runtimes/$RID/native
-                  mkdir -p "$dest"
-                  cp target/release/libts_pack_core_ffi.* "$dest/" 2>/dev/null || true
-                  ls -la "$dest"
+      - name: Check Go formatting
+        run: task go:format:check
 
-            - name: Build C# bindings
-              working-directory: packages/csharp
-              run: dotnet build TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release
+      - name: Setup Rust (for e2e generate)
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
 
-            - name: Run C# unit tests
-              working-directory: packages/csharp
-              run: dotnet test TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release --no-build
+      - name: Install alef
+        uses: xberg-io/actions/install-alef@v1
 
-            - name: Run C# E2E tests
-              working-directory: e2e/csharp
-              run: dotnet test -c Release
+      - name: Generate Go E2E tests
+        run: task go:e2e:generate
 
-            - name: Cleanup Rust cache
-              if: always()
-              uses: xberg-io/actions/cleanup-rust-cache@v1
+      - name: Run Go E2E tests
+        run: task go:e2e:test
 
-    # ---------------------------------------------------------------------------
-    # 12. test-ruby — Ruby tests (Magnus/rake compile)
-    # ---------------------------------------------------------------------------
-    test-ruby:
-        name: Test Ruby
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.ruby == 'true' ||
-             needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
+  # ---------------------------------------------------------------------------
+  # 10. test-java — Java tests (needs FFI)
+  # ---------------------------------------------------------------------------
+  test-java:
+    name: Test Java
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.java == 'true' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.ffi == 'true')
+    needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-linux-x86_64
+          path: e2e-bundles
+
+      - name: Wire e2e manifest
+        shell: bash
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PLATFORM_LABEL: linux-x86_64
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-linux-x86_64
-                  path: e2e-bundles
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: linux-x86_64
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+      - name: Download FFI artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: ffi-ubuntu-latest
+          path: ffi-artifacts
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Restore FFI to expected paths
+        run: |
+          mkdir -p target/release
+          cp ffi-artifacts/target/release/libts_pack_core_ffi.* target/release/ 2>/dev/null || true
+          mkdir -p crates/ts-pack-core-ffi/include
+          cp -r ffi-artifacts/crates/ts-pack-core-ffi/include/* crates/ts-pack-core-ffi/include/ 2>/dev/null || true
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: "25"
+          cache: "maven"
 
-            - name: Setup Ruby
-              uses: ruby/setup-ruby@v1
-              with:
-                  ruby-version: "3.4"
+      - name: Set library paths for JNI
+        shell: bash
+        run: echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
 
-            - name: Install Ruby dependencies
-              working-directory: packages/ruby
-              run: bundle install
-
-            - name: Build native extension
-              working-directory: packages/ruby
-              run: bundle exec rake compile
-              env:
-                  CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
-
-            - name: Run RSpec tests
-              working-directory: packages/ruby
-              run: bundle exec rspec
-
-            - name: Run Ruby E2E tests
-              working-directory: e2e/ruby
-              run: |
-                  bundle install
-                  bundle exec rspec
-
-    # ---------------------------------------------------------------------------
-    # 13. test-php — PHP extension tests
-    # ---------------------------------------------------------------------------
-    test-php:
-        name: Test PHP (${{ matrix.os }})
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.php == 'true' ||
-             needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
-        runs-on: ${{ matrix.os }}
-        timeout-minutes: 30
-        strategy:
-            fail-fast: false
-            matrix:
-                os: [ubuntu-latest, macos-latest]
+      - name: Run Java unit tests
+        working-directory: packages/java
+        run: mvn test
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          TSPACK_LIB_PATH: ${{ github.workspace }}/target/release/libts_pack_core_ffi.so
 
-            - name: Download e2e parser bundle
-              if: matrix.os == 'ubuntu-latest'
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-linux-x86_64
-                  path: e2e-bundles
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: java-unit-reports
+          path: packages/java/target/surefire-reports
+          if-no-files-found: ignore
+          retention-days: 7
 
-            - name: Wire e2e manifest
-              if: matrix.os == 'ubuntu-latest'
-              shell: bash
-              env:
-                  PLATFORM_LABEL: linux-x86_64
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+      - name: Setup Rust (for alef e2e generate)
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      # The capsule passthrough makes getLanguage() return a host-native
+      # jtreesitter Language, which dlopens the standalone tree-sitter C
+      # runtime (libtree-sitter) at init. Build it into target/release next
+      # to libts_pack_core_ffi.so so the E2E tests resolve it on
+      # java.library.path (mirrors the ci-e2e.yaml test-java job).
+      - name: Build libtree-sitter runtime for jtreesitter
+        run: python scripts/ci/build_libtree_sitter.py
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "true"
-                  cache-key-prefix: php-${{ matrix.os }}
-                  install-llvm-cov: "false"
+      - name: Build Java jar
+        working-directory: packages/java
+        run: mvn package -DskipTests
 
-            - name: Install Task
-              uses: xberg-io/actions/install-task@v1
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@2.37.1
-              with:
-                  php-version: "8.4"
-                  extensions: ffi
-                  tools: composer
-
-            - name: Export PHP build config
-              shell: bash
-              run: |
-                  PHP_CONFIG_BIN="$(command -v php-config || true)"
-                  if [ -z "$PHP_CONFIG_BIN" ]; then
-                    echo "php-config not found in PATH" >&2
-                    exit 1
-                  fi
-                  echo "PHP_CONFIG=$PHP_CONFIG_BIN" >> "$GITHUB_ENV"
-
-            - name: Export macOS PHP linker flags
-              if: matrix.os == 'macos-latest'
-              shell: bash
-              run: |
-                  EXTRA_FLAGS="-C link-arg=-Wl,-undefined,dynamic_lookup"
-                  if [ -n "${RUSTFLAGS:-}" ]; then
-                    echo "RUSTFLAGS=${RUSTFLAGS} ${EXTRA_FLAGS}" >> "$GITHUB_ENV"
-                  else
-                    echo "RUSTFLAGS=${EXTRA_FLAGS}" >> "$GITHUB_ENV"
-                  fi
-
-            - name: Build PHP extension
-              run: cargo build --release --locked --manifest-path crates/ts-pack-core-php/Cargo.toml
-
-            - name: Create PHP extension ini
-              if: matrix.os == 'ubuntu-latest'
-              run: |
-                  EXT_FILE="${{ github.workspace }}/target/release/libts_pack_core_php.so"
-                  if [ ! -f "$EXT_FILE" ]; then
-                    EXT_FILE=$(find ${{ github.workspace }}/target/release -name "*ts_pack_core_php*" | head -1)
-                  fi
-                  if [ -z "$EXT_FILE" ]; then
-                    echo "ERROR: PHP extension not found"
-                    find ${{ github.workspace }}/target/release -name "*.so" | head -10
-                    exit 1
-                  fi
-                  echo "extension=$EXT_FILE" > /tmp/ts-pack-php.ini
-                  echo "Extension: $EXT_FILE"
-
-            - name: Run PHP E2E tests
-              if: matrix.os == 'ubuntu-latest'
-              working-directory: e2e/php
-              run: |
-                  composer install --no-progress --prefer-dist
-                  php -c /tmp/ts-pack-php.ini vendor/bin/phpunit
-
-            - name: Cleanup Rust cache
-              if: always()
-              uses: xberg-io/actions/cleanup-rust-cache@v1
-
-    # ---------------------------------------------------------------------------
-    # 14. test-elixir — Elixir NIF tests
-    # ---------------------------------------------------------------------------
-    test-elixir:
-        name: Test Elixir
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.elixir == 'true' ||
-             needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
+      - name: Run Java E2E tests
+        working-directory: e2e/java
+        run: mvn test
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          TSPACK_LIB_PATH: ${{ github.workspace }}/target/release/libts_pack_core_ffi.so
+          MAVEN_OPTS: "--enable-native-access=ALL-UNNAMED -Dsun.misc.unsafe.memory.access=allow"
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-linux-x86_64
-                  path: e2e-bundles
+      - name: Upload E2E test reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: java-e2e-reports
+          path: e2e/java/target/surefire-reports
+          if-no-files-found: ignore
+          retention-days: 7
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: linux-x86_64
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+  # ---------------------------------------------------------------------------
+  # 11. test-csharp — C# tests (builds FFI locally per platform)
+  # ---------------------------------------------------------------------------
+  test-csharp:
+    name: Test C# (${{ matrix.os }})
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.csharp == 'true' ||
+       needs.changes.outputs.core == 'true' ||
+       needs.changes.outputs.ffi == 'true')
+    needs: [build-ffi, changes, clone-vendors, build-e2e-bundles]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    env:
+      DOTNET_VERSION: "10.0.x"
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
+          path: e2e-bundles
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
-
-            - name: Setup Elixir
-              uses: xberg-io/actions/setup-elixir@v1
-              with:
-                  elixir-version: "1.17"
-                  otp-version: "27.2"
-
-            - name: Install Task
-              uses: xberg-io/actions/install-task@v1
-
-            - name: Cache Elixir dependencies
-              uses: actions/cache@v5
-              with:
-                  path: |
-                      packages/elixir/deps
-                      packages/elixir/_build
-                  key: elixir-deps-${{ runner.os }}-${{ hashFiles('packages/elixir/mix.lock') }}
-                  restore-keys: |
-                      elixir-deps-${{ runner.os }}-
-
-            - name: Install Elixir dependencies
-              run: task elixir:deps
-
-            - name: Patch Rustler --cfg flag placement
-              working-directory: packages/elixir
-              run: |
-                  sed -i 's/args ++ \["--cfg", "build_#{System.system_time(:millisecond)}"\]/args ++ ["--", "--cfg", "build_#{System.system_time(:millisecond)}"]/' deps/rustler/lib/rustler/compiler.ex
-                  mix deps.compile rustler --force
-
-            - name: Compile Elixir (warnings as errors)
-              working-directory: packages/elixir
-              env:
-                  MIX_ENV: test
-                  TSLP_BUILD: "1"
-                  TREE_SITTER_LANGUAGE_PACK_BUILD: "1"
-              run: mix compile --warnings-as-errors
-
-            - name: Run Elixir tests
-              run: task elixir:test
-              env:
-                  TSLP_BUILD: "1"
-
-            - name: Install alef
-              uses: xberg-io/actions/install-alef@v1
-
-            - name: Generate Elixir E2E tests
-              run: task elixir:e2e:generate
-
-            - name: Run Elixir E2E tests
-              run: task elixir:e2e:test
-              env:
-                  TSLP_BUILD: "1"
-                  MIX_ENV: test
-
-    # ---------------------------------------------------------------------------
-    # 15. test-c-ffi — C FFI E2E tests
-    # ---------------------------------------------------------------------------
-    test-c-ffi:
-        name: Test C FFI
-        if: |
-            github.repository == 'xberg-io/tree-sitter-language-pack' &&
-            github.actor != 'dependabot[bot]' &&
-            (github.event_name == 'workflow_dispatch' ||
-             needs.changes.outputs.ffi == 'true' ||
-             needs.changes.outputs.core == 'true')
-        needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
+      - name: Wire e2e manifest
+        shell: bash
         env:
-            PROJECT_ROOT: ${{ github.workspace }}
-            TSLP_LANGUAGES: "all"
-            TSLP_LINK_MODE: static
-            LD_LIBRARY_PATH: ${{ github.workspace }}/target/release
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+          PLATFORM_LABEL: ${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
 
-            - name: Download e2e parser bundle
-              uses: actions/download-artifact@v8
-              with:
-                  name: e2e-bundles-linux-x86_64
-                  path: e2e-bundles
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
 
-            - name: Wire e2e manifest
-              shell: bash
-              env:
-                  PLATFORM_LABEL: linux-x86_64
-                  BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
-              run: ./scripts/ci/prepare_e2e_manifest.sh
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "true"
+          cache-key-prefix: csharp-${{ matrix.os }}
+          install-llvm-cov: "false"
 
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
+      - name: Install Task
+        uses: xberg-io/actions/install-task@v1
 
-            - name: Setup Rust
-              uses: xberg-io/actions/setup-rust@v1
-              with:
-                  components: ""
-                  use-sccache: "false"
-                  install-llvm-cov: "false"
+      - name: Build FFI library
+        run: cargo build --locked -p ts-pack-core-ffi --release
 
-            - name: Install Task
-              uses: xberg-io/actions/install-task@v1
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-            - name: Install alef
-              uses: xberg-io/actions/install-alef@v1
+      - name: Set library paths for .NET
+        shell: bash
+        run: |
+          {
+            echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}"
+            echo "DYLD_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_LIBRARY_PATH:-}"
+            echo "DYLD_FALLBACK_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_FALLBACK_LIBRARY_PATH:-}"
+            echo "TSPACK_FFI_DIR=${{ github.workspace }}/target/release"
+          } >> "$GITHUB_ENV"
 
-            - name: Generate C E2E tests
-              run: task c:e2e:generate
+      - name: Stage native library into runtimes/
+        shell: bash
+        run: |
+          case "${{ matrix.os }}" in
+            macos-latest) RID=osx-arm64 ;;
+            ubuntu-latest) RID=linux-x64 ;;
+            *) echo "Unknown OS"; exit 1 ;;
+          esac
+          dest=packages/csharp/TreeSitterLanguagePack/runtimes/$RID/native
+          mkdir -p "$dest"
+          cp target/release/libts_pack_core_ffi.* "$dest/" 2>/dev/null || true
+          ls -la "$dest"
 
-            - name: Build and run C E2E tests
-              run: task c:e2e:test
+      - name: Build C# bindings
+        working-directory: packages/csharp
+        run: dotnet build TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release
+
+      - name: Run C# unit tests
+        working-directory: packages/csharp
+        run: dotnet test TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release --no-build
+
+      - name: Run C# E2E tests
+        working-directory: e2e/csharp
+        run: dotnet test -c Release
+
+      - name: Cleanup Rust cache
+        if: always()
+        uses: xberg-io/actions/cleanup-rust-cache@v1
+
+  # ---------------------------------------------------------------------------
+  # 12. test-ruby — Ruby tests (Magnus/rake compile)
+  # ---------------------------------------------------------------------------
+  test-ruby:
+    name: Test Ruby
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.ruby == 'true' ||
+       needs.changes.outputs.core == 'true')
+    needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-linux-x86_64
+          path: e2e-bundles
+
+      - name: Wire e2e manifest
+        shell: bash
+        env:
+          PLATFORM_LABEL: linux-x86_64
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+
+      - name: Install Ruby dependencies
+        working-directory: packages/ruby
+        run: bundle install
+
+      - name: Build native extension
+        working-directory: packages/ruby
+        run: bundle exec rake compile
+        env:
+          CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
+
+      - name: Run RSpec tests
+        working-directory: packages/ruby
+        run: bundle exec rspec
+
+      - name: Run Ruby E2E tests
+        working-directory: e2e/ruby
+        run: |
+          bundle install
+          bundle exec rspec
+
+  # ---------------------------------------------------------------------------
+  # 13. test-php — PHP extension tests
+  # ---------------------------------------------------------------------------
+  test-php:
+    name: Test PHP (${{ matrix.os }})
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.php == 'true' ||
+       needs.changes.outputs.core == 'true')
+    needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download e2e parser bundle
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-linux-x86_64
+          path: e2e-bundles
+
+      - name: Wire e2e manifest
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        env:
+          PLATFORM_LABEL: linux-x86_64
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "true"
+          cache-key-prefix: php-${{ matrix.os }}
+          install-llvm-cov: "false"
+
+      - name: Install Task
+        uses: xberg-io/actions/install-task@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.37.1
+        with:
+          php-version: "8.4"
+          extensions: ffi
+          tools: composer
+
+      - name: Export PHP build config
+        shell: bash
+        run: |
+          PHP_CONFIG_BIN="$(command -v php-config || true)"
+          if [ -z "$PHP_CONFIG_BIN" ]; then
+            echo "php-config not found in PATH" >&2
+            exit 1
+          fi
+          echo "PHP_CONFIG=$PHP_CONFIG_BIN" >> "$GITHUB_ENV"
+
+      - name: Export macOS PHP linker flags
+        if: matrix.os == 'macos-latest'
+        shell: bash
+        run: |
+          EXTRA_FLAGS="-C link-arg=-Wl,-undefined,dynamic_lookup"
+          if [ -n "${RUSTFLAGS:-}" ]; then
+            echo "RUSTFLAGS=${RUSTFLAGS} ${EXTRA_FLAGS}" >> "$GITHUB_ENV"
+          else
+            echo "RUSTFLAGS=${EXTRA_FLAGS}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build PHP extension
+        run: cargo build --release --locked --manifest-path crates/ts-pack-core-php/Cargo.toml
+
+      - name: Create PHP extension ini
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          EXT_FILE="${{ github.workspace }}/target/release/libts_pack_core_php.so"
+          if [ ! -f "$EXT_FILE" ]; then
+            EXT_FILE=$(find ${{ github.workspace }}/target/release -name "*ts_pack_core_php*" | head -1)
+          fi
+          if [ -z "$EXT_FILE" ]; then
+            echo "ERROR: PHP extension not found"
+            find ${{ github.workspace }}/target/release -name "*.so" | head -10
+            exit 1
+          fi
+          echo "extension=$EXT_FILE" > /tmp/ts-pack-php.ini
+          echo "Extension: $EXT_FILE"
+
+      - name: Run PHP E2E tests
+        if: matrix.os == 'ubuntu-latest'
+        working-directory: e2e/php
+        run: |
+          composer install --no-progress --prefer-dist
+          php -c /tmp/ts-pack-php.ini vendor/bin/phpunit
+
+      - name: Cleanup Rust cache
+        if: always()
+        uses: xberg-io/actions/cleanup-rust-cache@v1
+
+  # ---------------------------------------------------------------------------
+  # 14. test-elixir — Elixir NIF tests
+  # ---------------------------------------------------------------------------
+  test-elixir:
+    name: Test Elixir
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.elixir == 'true' ||
+       needs.changes.outputs.core == 'true')
+    needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-linux-x86_64
+          path: e2e-bundles
+
+      - name: Wire e2e manifest
+        shell: bash
+        env:
+          PLATFORM_LABEL: linux-x86_64
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Setup Elixir
+        uses: xberg-io/actions/setup-elixir@v1
+        with:
+          elixir-version: "1.17"
+          otp-version: "27.2"
+
+      - name: Install Task
+        uses: xberg-io/actions/install-task@v1
+
+      - name: Cache Elixir dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            packages/elixir/deps
+            packages/elixir/_build
+          key: elixir-deps-${{ runner.os }}-${{ hashFiles('packages/elixir/mix.lock') }}
+          restore-keys: |
+            elixir-deps-${{ runner.os }}-
+
+      - name: Install Elixir dependencies
+        run: task elixir:deps
+
+      - name: Patch Rustler --cfg flag placement
+        working-directory: packages/elixir
+        run: |
+          sed -i 's/args ++ \["--cfg", "build_#{System.system_time(:millisecond)}"\]/args ++ ["--", "--cfg", "build_#{System.system_time(:millisecond)}"]/' deps/rustler/lib/rustler/compiler.ex
+          mix deps.compile rustler --force
+
+      - name: Compile Elixir (warnings as errors)
+        working-directory: packages/elixir
+        env:
+          MIX_ENV: test
+          TSLP_BUILD: "1"
+          TREE_SITTER_LANGUAGE_PACK_BUILD: "1"
+        run: mix compile --warnings-as-errors
+
+      - name: Run Elixir tests
+        run: task elixir:test
+        env:
+          TSLP_BUILD: "1"
+
+      - name: Install alef
+        uses: xberg-io/actions/install-alef@v1
+
+      - name: Generate Elixir E2E tests
+        run: task elixir:e2e:generate
+
+      - name: Run Elixir E2E tests
+        run: task elixir:e2e:test
+        env:
+          TSLP_BUILD: "1"
+          MIX_ENV: test
+
+  # ---------------------------------------------------------------------------
+  # 15. test-c-ffi — C FFI E2E tests
+  # ---------------------------------------------------------------------------
+  test-c-ffi:
+    name: Test C FFI
+    if: |
+      github.repository == 'xberg-io/tree-sitter-language-pack' &&
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name == 'workflow_dispatch' ||
+       needs.changes.outputs.ffi == 'true' ||
+       needs.changes.outputs.core == 'true')
+    needs: [rust-tests, changes, clone-vendors, build-e2e-bundles]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+      LD_LIBRARY_PATH: ${{ github.workspace }}/target/release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download e2e parser bundle
+        uses: actions/download-artifact@v8
+        with:
+          name: e2e-bundles-linux-x86_64
+          path: e2e-bundles
+
+      - name: Wire e2e manifest
+        shell: bash
+        env:
+          PLATFORM_LABEL: linux-x86_64
+          BUNDLE_DIR: ${{ github.workspace }}/e2e-bundles
+        run: ./scripts/ci/prepare_e2e_manifest.sh
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Install Task
+        uses: xberg-io/actions/install-task@v1
+
+      - name: Install alef
+        uses: xberg-io/actions/install-alef@v1
+
+      - name: Generate C E2E tests
+        run: task c:e2e:generate
+
+      - name: Build and run C E2E tests
+        run: task c:e2e:test

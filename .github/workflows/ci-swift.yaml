@@ -1,113 +1,113 @@
 name: CI Swift
 
 on:
-    push:
-        branches: [main]
-        paths:
-            - "crates/ts-pack-core/**"
-            - "packages/swift/**"
-            - "scripts/setup-swift-bridge.sh"
-            - ".github/workflows/ci-swift.yaml"
-    pull_request:
-        branches: [main]
-        paths:
-            - "crates/ts-pack-core/**"
-            - "packages/swift/**"
-            - "scripts/setup-swift-bridge.sh"
-            - ".github/workflows/ci-swift.yaml"
-    workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core/**"
+      - "packages/swift/**"
+      - "scripts/setup-swift-bridge.sh"
+      - ".github/workflows/ci-swift.yaml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/ts-pack-core/**"
+      - "packages/swift/**"
+      - "scripts/setup-swift-bridge.sh"
+      - ".github/workflows/ci-swift.yaml"
+  workflow_dispatch:
 
 concurrency:
-    group: ci-swift-${{ github.ref }}
-    cancel-in-progress: true
+  group: ci-swift-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
-    CARGO_TERM_COLOR: always
-    CARGO_INCREMENTAL: 0
-    CARGO_PROFILE_DEV_DEBUG: 0
-    RUST_BACKTRACE: short
-    TSLP_LINK_MODE: static
-    TSLP_LANGUAGES: mojo,nim,norg
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  RUST_BACKTRACE: short
+  TSLP_LINK_MODE: static
+  TSLP_LANGUAGES: mojo,nim,norg
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    clone-vendors:
-        name: Clone vendors
-        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-        runs-on: ubuntu-latest
-        timeout-minutes: 30
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+  clone-vendors:
+    name: Clone vendors
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
-              with:
-                  node-version: "22"
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
 
-            - name: Install tree-sitter CLI
-              run: npm install -g tree-sitter-cli
+      - name: Install tree-sitter CLI
+        run: npm install -g tree-sitter-cli
 
-            - name: Install uv
-              uses: astral-sh/setup-uv@v8.2.0
-              with:
-                  enable-cache: true
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          enable-cache: true
 
-            - name: Setup Python
-              uses: actions/setup-python@v6
-              with:
-                  python-version: "3.14"
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
 
-            - name: Install Python dependencies
-              run: uv sync --no-install-project --no-install-workspace
+      - name: Install Python dependencies
+        run: uv sync --no-install-project --no-install-workspace
 
-            - name: Cache parsers
-              uses: actions/cache@v5
-              with:
-                  path: parsers
-                  key: parsers-${{ hashFiles('sources/language_definitions.json') }}
-                  restore-keys: |
-                      parsers-
+      - name: Cache parsers
+        uses: actions/cache@v5
+        with:
+          path: parsers
+          key: parsers-${{ hashFiles('sources/language_definitions.json') }}
+          restore-keys: |
+            parsers-
 
-            - name: Clone vendors
-              run: |
-                  mkdir -p parsers
-                  uv run --script scripts/clone_vendors.py
+      - name: Clone vendors
+        run: |
+          mkdir -p parsers
+          uv run --script scripts/clone_vendors.py
 
-            - name: Upload parsers
-              uses: actions/upload-artifact@v7
-              with:
-                  name: language-parsers
-                  path: parsers
-                  retention-days: 1
+      - name: Upload parsers
+        uses: actions/upload-artifact@v7
+        with:
+          name: language-parsers
+          path: parsers
+          retention-days: 1
 
-    swift-test:
-        name: Swift build + test (macos-latest)
-        if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
-        needs: [clone-vendors]
-        runs-on: macos-latest
-        timeout-minutes: 30
-        steps:
-            - uses: actions/checkout@v6
-            - name: Download parsers
-              uses: actions/download-artifact@v8
-              with:
-                  name: language-parsers
-                  path: parsers
-            - uses: xberg-io/actions/setup-rust@v1
-              with:
-                  cache-key-prefix: ci-swift
-            - name: Show Swift version
-              run: swift --version
-            - name: Build tree-sitter-language-pack-swift Rust crate
-              run: cargo build --release --locked -p tree-sitter-language-pack-swift
-            - name: Wire swift-bridge generated sources
-              run: bash scripts/setup-swift-bridge.sh release
-            - name: Build Swift package
-              working-directory: packages/swift
-              run: swift build
-            - name: Run Swift tests
-              working-directory: packages/swift
-              run: swift test
+  swift-test:
+    name: Swift build + test (macos-latest)
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    needs: [clone-vendors]
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+      - uses: xberg-io/actions/setup-rust@v1
+        with:
+          cache-key-prefix: ci-swift
+      - name: Show Swift version
+        run: swift --version
+      - name: Build tree-sitter-language-pack-swift Rust crate
+        run: cargo build --release --locked -p tree-sitter-language-pack-swift
+      - name: Wire swift-bridge generated sources
+        run: bash scripts/setup-swift-bridge.sh release
+      - name: Build Swift package
+        working-directory: packages/swift
+        run: swift build
+      - name: Run Swift tests
+        working-directory: packages/swift
+        run: swift test

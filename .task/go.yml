@@ -1,107 +1,107 @@
 version: "3"
 
 tasks:
-    build:ffi:
-        desc: Build FFI static library for Go
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-            TSLP_LINK_MODE: '{{default "static" .TSLP_LINK_MODE}}'
-            TSLP_LANGUAGES: "{{default .FFI_TEST_LANGUAGES .TSLP_LANGUAGES}}"
-        cmds:
-            - cargo build --locked -p ts-pack-core-ffi --release
+  build:ffi:
+    desc: Build FFI static library for Go
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+      TSLP_LINK_MODE: '{{default "static" .TSLP_LINK_MODE}}'
+      TSLP_LANGUAGES: "{{default .FFI_TEST_LANGUAGES .TSLP_LANGUAGES}}"
+    cmds:
+      - cargo build --locked -p ts-pack-core-ffi --release
 
-    build:
-        desc: Build Go bindings (requires FFI built first)
-        deps: [build:ffi]
-        dir: packages/go
-        cmds:
-            - go build -tags tspack_dev ./...
+  build:
+    desc: Build Go bindings (requires FFI built first)
+    deps: [build:ffi]
+    dir: packages/go
+    cmds:
+      - go build -tags tspack_dev ./...
 
-    test:
-        desc: Run Go unit tests
-        deps: [build:ffi]
-        dir: packages/go
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - go test -tags tspack_dev -v ./...
+  test:
+    desc: Run Go unit tests
+    deps: [build:ffi]
+    dir: packages/go
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - go test -tags tspack_dev -v ./...
 
-    lint:
-        desc: Lint and vet Go code (requires FFI built first)
-        deps: [build:ffi]
-        dir: packages/go
-        cmds:
-            - go vet -tags tspack_dev ./...
+  lint:
+    desc: Lint and vet Go code (requires FFI built first)
+    deps: [build:ffi]
+    dir: packages/go
+    cmds:
+      - go vet -tags tspack_dev ./...
 
-    lint:check:
-        desc: Check Go linting without modifications (CI)
-        deps: [build:ffi]
-        dir: packages/go
-        cmds:
-            - go vet -tags tspack_dev ./...
+  lint:check:
+    desc: Check Go linting without modifications (CI)
+    deps: [build:ffi]
+    dir: packages/go
+    cmds:
+      - go vet -tags tspack_dev ./...
 
-    format:
-        desc: Format Go code
-        dir: packages/go
-        cmds:
-            - gofmt -w .
+  format:
+    desc: Format Go code
+    dir: packages/go
+    cmds:
+      - gofmt -w .
 
-    format:check:
-        desc: Check Go formatting
-        dir: packages/go
-        cmds:
-            - test -z "$(gofmt -l .)"
+  format:check:
+    desc: Check Go formatting
+    dir: packages/go
+    cmds:
+      - test -z "$(gofmt -l .)"
 
-    vendor:
-        desc: Vendor FFI artifacts into Go package for distribution
-        deps: [build:ffi]
-        cmds:
-            - python3 scripts/ci/go/vendor-ffi.py
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+  vendor:
+    desc: Vendor FFI artifacts into Go package for distribution
+    deps: [build:ffi]
+    cmds:
+      - python3 scripts/ci/go/vendor-ffi.py
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
 
-    vendor:clean:
-        desc: Remove vendored FFI artifacts from Go package
-        cmds:
-            - python3 scripts/ci/go/vendor-ffi.py --clean
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+  vendor:clean:
+    desc: Remove vendored FFI artifacts from Go package
+    cmds:
+      - python3 scripts/ci/go/vendor-ffi.py --clean
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
 
-    update:
-        desc: Update Go dependencies within current major versions (non-breaking)
-        dir: packages/go
-        cmds:
-            - echo "Updating Go dependencies (within-major)..."
-            - go get -t ./...
-            - go mod tidy
-            - echo "Refreshing golangci-lint (pinned)..."
-            - go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest || true
+  update:
+    desc: Update Go dependencies within current major versions (non-breaking)
+    dir: packages/go
+    cmds:
+      - echo "Updating Go dependencies (within-major)..."
+      - go get -t ./...
+      - go mod tidy
+      - echo "Refreshing golangci-lint (pinned)..."
+      - go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest || true
 
-    upgrade:
-        desc: Upgrade Go dependencies to latest versions (cross-major / breaking)
-        dir: packages/go
-        cmds:
-            - echo "Upgrading Go dependencies (cross-major)..."
-            - go get -u -t ./...
-            - go mod tidy
-            - echo "Refreshing golangci-lint to latest..."
-            - go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest || true
+  upgrade:
+    desc: Upgrade Go dependencies to latest versions (cross-major / breaking)
+    dir: packages/go
+    cmds:
+      - echo "Upgrading Go dependencies (cross-major)..."
+      - go get -u -t ./...
+      - go mod tidy
+      - echo "Refreshing golangci-lint to latest..."
+      - go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest || true
 
-    clean:
-        desc: Clean Go build cache
-        dir: packages/go
-        cmds:
-            - go clean -cache
+  clean:
+    desc: Clean Go build cache
+    dir: packages/go
+    cmds:
+      - go clean -cache
 
-    e2e:generate:
-        desc: Generate Go E2E tests from fixtures
-        env:
-            PROJECT_ROOT: "{{.PROJECT_ROOT}}"
-        cmds:
-            - alef e2e generate --lang go
-            - gofmt -w e2e/go/
+  e2e:generate:
+    desc: Generate Go E2E tests from fixtures
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+    cmds:
+      - alef e2e generate --lang go
+      - gofmt -w e2e/go/
 
-    e2e:test:
-        desc: Run Go E2E tests
-        cmds:
-            - alef test --lang go --e2e --jobs 1
+  e2e:test:
+    desc: Run Go E2E tests
+    cmds:
+      - alef test --lang go --e2e --jobs 1

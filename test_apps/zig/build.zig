@@ -12,17 +12,17 @@ pub fn build(b: *std.Build) void {
     const target_arch = target.result.cpu.arch;
 
     const tree_sitter_language_pack_dep_name = if (target_os == .linux and target_arch == .x86_64)
-        "tree_sitter_language_pack_x86_64_unknown_linux_gnu"
+    "tree_sitter_language_pack_x86_64_unknown_linux_gnu"
     else if (target_os == .linux and target_arch == .aarch64)
-        "tree_sitter_language_pack_aarch64_unknown_linux_gnu"
+    "tree_sitter_language_pack_aarch64_unknown_linux_gnu"
     else if (target_os == .macos and target_arch == .aarch64)
-        "tree_sitter_language_pack_aarch64_apple_darwin"
+    "tree_sitter_language_pack_aarch64_apple_darwin"
     else if (target_os == .macos and target_arch == .x86_64)
-        "tree_sitter_language_pack_x86_64_apple_darwin"
+    "tree_sitter_language_pack_x86_64_apple_darwin"
     else if (target_os == .windows and target_arch == .x86_64)
-        "tree_sitter_language_pack_x86_64_pc_windows_msvc"
+    "tree_sitter_language_pack_x86_64_pc_windows_msvc"
     else
-        @panic("unsupported target — supported: linux-{x86_64,aarch64}, macos-{arm64,x86_64}, windows-x86_64");
+    @panic("unsupported target — supported: linux-{x86_64,aarch64}, macos-{arm64,x86_64}, windows-x86_64");
 
     const tree_sitter_language_pack_dep = b.lazyDependency(tree_sitter_language_pack_dep_name, .{
         .target = target,

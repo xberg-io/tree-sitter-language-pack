@@ -1,21 +1,21 @@
 [workspace]
-alef_version = "0.30.1"
+alef_version = "0.30.2"
 languages = [
-  "python",
-  "node",
-  "ruby",
-  "php",
-  "ffi",
-  "go",
-  "java",
-  "csharp",
-  "elixir",
-  "wasm",
-  "dart",
-  "kotlin_android",
-  "swift",
-  "zig",
-  "jni",
+    "python",
+    "node",
+    "ruby",
+    "php",
+    "ffi",
+    "go",
+    "java",
+    "csharp",
+    "elixir",
+    "wasm",
+    "dart",
+    "kotlin_android",
+    "swift",
+    "zig",
+    "jni",
 ]
 
 [workspace.format]
@@ -63,11 +63,11 @@ csharp = "record"
 
 [workspace.sync]
 extra_paths = [
-  "crates/ts-pack-core-node/package.json",
-  "crates/ts-pack-core-node/npm/*/package.json",
-  "crates/ts-pack-core-py/src/pyproject.toml",
-  "packages/ruby/ext/ts_pack_core_rb/native/Cargo.toml",
-  "pyproject.toml",
+    "crates/ts-pack-core-node/package.json",
+    "crates/ts-pack-core-node/npm/*/package.json",
+    "crates/ts-pack-core-py/src/pyproject.toml",
+    "packages/ruby/ext/ts_pack_core_rb/native/Cargo.toml",
+    "pyproject.toml",
 ]
 
 [workspace.citation]
@@ -139,6 +139,27 @@ path = "packages/dart/bin/download_libs.dart"
 search = "_moduleVersion = '[^']*'"
 replace = "_moduleVersion = '{version}'"
 
+# Repo-specific poly lint/fmt overrides, merged into the alef-scaffolded poly.toml
+# on every regen so they survive re-scaffold. Ported from the pre-poly toolchain:
+# `.oxlintrc.json` ignorePatterns, `pyproject.toml [tool.ruff]` per-file-ignores, and
+# the removed `.pre-commit-config.yaml` global exclude / rumdl scope.
+[workspace.poly]
+exclude = [
+    "**/_generated/**", # oxlintrc ignorePattern: injected generated JS
+    "**/coverage/**",   # oxlintrc ignorePattern: coverage artifacts
+    "**/pkg/**",        # oxlintrc ignorePattern: wasm-pack output
+    "**/.next/**",      # oxlintrc ignorePattern: Next.js build output
+    "**/*.min.js",      # oxlintrc ignorePattern: minified vendored JS
+    "templates/**",     # hand-written jinja templates (not lintable markdown; old rumdl excluded templates/readme)
+]
+
+[workspace.poly.per-file-ignores]
+# Hand-written Python residuals. scripts/** ported from pyproject
+# `per-file-ignores."scripts/**/*.*"` (+ INP001/RUF100 surfaced by poly's ruff engine).
+# cli-proxy/** ported from `per-file-ignores."cli-proxy/**/*.py"` (+ RUF100).
+"scripts/**/*.py" = ["ASYNC", "D", "S", "T201", "INP001", "RUF100"]
+"cli-proxy/**/*.py" = ["ASYNC", "D", "PLR2004", "T201", "RUF100"]
+
 [[crates]]
 name = "tree-sitter-language-pack"
 core_import = "tree_sitter_language_pack"
@@ -202,16 +223,16 @@ crate_dir = "crates/ts-pack-core-wasm"
 # `wasm-objdump -j Import` on the bundle shows these 10 are pulled in by the
 # curated grammar set; alef emits Rust shims for each.
 env_shims = [
-  "iswspace",
-  "iswalnum",
-  "iswalpha",
-  "iswlower",
-  "iswupper",
-  "iswxdigit",
-  "towupper",
-  "towlower",
-  "memchr",
-  "strcmp",
+    "iswspace",
+    "iswalnum",
+    "iswalpha",
+    "iswlower",
+    "iswupper",
+    "iswxdigit",
+    "towupper",
+    "towlower",
+    "memchr",
+    "strcmp",
 ]
 features = ["serde", "config", "dynamic-loading"]
 # Curated grammar subset that's statically compiled into the wasm32 binary.
@@ -219,37 +240,37 @@ features = ["serde", "config", "dynamic-loading"]
 # alef's `[crates.e2e.wasm]` auto-skip path correctly elides fixtures for
 # grammars that aren't present in the wasm bundle.
 languages = [
-  "python",
-  "javascript",
-  "typescript",
-  "tsx",
-  "rust",
-  "go",
-  "java",
-  "c",
-  "cpp",
-  "csharp",
-  "ruby",
-  "php",
-  "html",
-  "css",
-  "json",
-  "yaml",
-  "toml",
-  "markdown",
-  "bash",
-  "sql",
-  "lua",
-  "scala",
-  "kotlin",
-  "swift",
-  "dockerfile",
-  "vue",
-  "svelte",
-  "elixir",
-  "erlang",
-  "haskell",
-  "zig",
+    "python",
+    "javascript",
+    "typescript",
+    "tsx",
+    "rust",
+    "go",
+    "java",
+    "c",
+    "cpp",
+    "csharp",
+    "ruby",
+    "php",
+    "html",
+    "css",
+    "json",
+    "yaml",
+    "toml",
+    "markdown",
+    "bash",
+    "sql",
+    "lua",
+    "scala",
+    "kotlin",
+    "swift",
+    "dockerfile",
+    "vue",
+    "svelte",
+    "elixir",
+    "erlang",
+    "haskell",
+    "zig",
 ]
 
 [crates.ffi]
@@ -358,24 +379,24 @@ module_name = "tree_sitter_language_pack"
 # `zig build test` runs eight test binaries in parallel against a shared
 # `~/.cache/tree-sitter-language-pack/` directory.
 languages = [
-  "python",
-  "rust",
-  "javascript",
-  "typescript",
-  "go",
-  "html",
-  "css",
-  "json",
-  "bash",
-  "c",
-  "cpp",
-  "java",
-  "ruby",
-  "swift",
-  "kotlin",
-  "mojo",
-  "nim",
-  "norg",
+    "python",
+    "rust",
+    "javascript",
+    "typescript",
+    "go",
+    "html",
+    "css",
+    "json",
+    "bash",
+    "c",
+    "cpp",
+    "java",
+    "ruby",
+    "swift",
+    "kotlin",
+    "mojo",
+    "nim",
+    "norg",
 ]
 
 # `getLanguage` returns a zig-tree-sitter `*const tree_sitter.Language` built
@@ -406,64 +427,64 @@ zig = "packages/zig/src/"
 
 [crates.include]
 types = [
-  "ProcessConfig",
-  "ProcessResult",
-  "FileMetrics",
-  "StructureItem",
-  "StructureKind",
-  "ImportInfo",
-  "ExportInfo",
-  "ExportKind",
-  "CommentInfo",
-  "CommentKind",
-  "DocstringInfo",
-  "DocstringFormat",
-  "DocSection",
-  "SymbolInfo",
-  "SymbolKind",
-  "Diagnostic",
-  "DiagnosticSeverity",
-  "CodeChunk",
-  "ChunkContext",
-  "Span",
-  "PackConfig",
-  "Error",
-  "LanguageRegistry",
-  "DownloadManager",
-  "Parser",
-  "Tree",
-  "Node",
-  "TreeCursor",
-  "Point",
-  "ByteRange",
+    "ProcessConfig",
+    "ProcessResult",
+    "FileMetrics",
+    "StructureItem",
+    "StructureKind",
+    "ImportInfo",
+    "ExportInfo",
+    "ExportKind",
+    "CommentInfo",
+    "CommentKind",
+    "DocstringInfo",
+    "DocstringFormat",
+    "DocSection",
+    "SymbolInfo",
+    "SymbolKind",
+    "Diagnostic",
+    "DiagnosticSeverity",
+    "CodeChunk",
+    "ChunkContext",
+    "Span",
+    "PackConfig",
+    "Error",
+    "LanguageRegistry",
+    "DownloadManager",
+    "Parser",
+    "Tree",
+    "Node",
+    "TreeCursor",
+    "Point",
+    "ByteRange",
 ]
 functions = [
-  "available_languages",
-  "has_language",
-  "language_count",
-  "get_language",
-  "get_parser",
-  "detect_language",
-  "detect_language_from_path",
-  "detect_language_from_extension",
-  "detect_language_from_content",
-  "get_highlights_query",
-  "get_injections_query",
-  "get_locals_query",
-  "get_tags_query",
-  "get_indents_query",
-  "get_folds_query",
-  "process",
-  "init",
-  "configure",
-  "prefetch",
-  "download",
-  "download_all",
-  "download_group",
-  "manifest_languages",
-  "downloaded_languages",
-  "clean_cache",
-  "cache_dir",
+    "available_languages",
+    "has_language",
+    "language_count",
+    "get_language",
+    "get_parser",
+    "detect_language",
+    "detect_language_from_path",
+    "detect_language_from_extension",
+    "detect_language_from_content",
+    "get_highlights_query",
+    "get_injections_query",
+    "get_locals_query",
+    "get_tags_query",
+    "get_indents_query",
+    "get_folds_query",
+    "process",
+    "init",
+    "configure",
+    "prefetch",
+    "download",
+    "download_all",
+    "download_group",
+    "manifest_languages",
+    "downloaded_languages",
+    "clean_cache",
+    "cache_dir",
 ]
 
 [crates.lint.python]
@@ -618,8 +639,8 @@ before = "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --relea
 [crates.test.swift]
 precondition = "command -v swift >/dev/null 2>&1"
 before = [
-  "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-swift",
-  "bash scripts/setup-swift-bridge.sh",
+    "TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,nim,norg cargo build --release -p tree-sitter-language-pack-swift",
+    "bash scripts/setup-swift-bridge.sh",
 ]
 command = "cd packages/swift && swift test"
 e2e = "cd packages/swift && swift test"
@@ -695,16 +716,16 @@ fields_array = ["chunks", "imports", "structure"]
 #   - the leaf C type (`file_metrics.<field> → uintptr_t`) so it emits
 #     `uintptr_t lines = ...(metrics_handle);` instead of `char* lines = ...`.
 result_fields = [
-  "language",
-  "metrics",
-  "structure",
-  "imports",
-  "exports",
-  "comments",
-  "docstrings",
-  "symbols",
-  "diagnostics",
-  "chunks",
+    "language",
+    "metrics",
+    "structure",
+    "imports",
+    "exports",
+    "comments",
+    "docstrings",
+    "symbols",
+    "diagnostics",
+    "chunks",
 ]
 
 # `e2e/node/tests/capsule_passthrough.test.ts` imports the upstream
@@ -765,19 +786,19 @@ assertion_recipes = ["chunks"]
 # assertion-recipe gate from demanding a streaming/chunks recipe for plain
 # field-name assertions (e.g. `count_min field=chunks`).
 result_fields = [
-  "chunks",
-  "comments",
-  "diagnostics",
-  "exports",
-  "imports",
-  "language",
-  "metrics",
-  "structure",
-  "symbols",
+    "chunks",
+    "comments",
+    "diagnostics",
+    "exports",
+    "imports",
+    "language",
+    "metrics",
+    "structure",
+    "symbols",
 ]
 args = [
-  { name = "source", field = "source_code", type = "string" },
-  { name = "config", field = "config", type = "json_object" },
+    { name = "source", field = "source_code", type = "string" },
+    { name = "config", field = "config", type = "json_object" },
 ]
 
 [crates.e2e.call.overrides.rust]
@@ -1167,7 +1188,9 @@ module = "tree_sitter_language_pack"
 result_var = "result"
 returns_result = true
 returns_void = true
-args = [{ name = "languages", field = "languages", type = "json_object", element_type = "String", vec_inner_is_ref = true }]
+args = [
+    { name = "languages", field = "languages", type = "json_object", element_type = "String", vec_inner_is_ref = true },
+]
 
 [crates.e2e.calls.prefetch.overrides.go]
 function = "Prefetch"

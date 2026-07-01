@@ -325,8 +325,8 @@ void ts_pack_free_string(char *ptr);
  * out-params), or be null. The len and cap values must be unchanged since the call.
  */
 void ts_pack_free_bytes(uint8_t *ptr,
-                        uintptr_t len,
-                        uintptr_t cap);
+    uintptr_t len,
+    uintptr_t cap);
 
 /**
  * Return the library version string. The pointer is static and must NOT be freed.
@@ -1421,7 +1421,7 @@ TS_PACKParser *ts_pack_parser_new(void);
  * freed with the appropriate free function.
  */
 int32_t ts_pack_parser_set_language(TS_PACKParser *this_,
-                                    const char *name);
+    const char *name);
 
 /**
  * Parse a UTF-8 source string. Returns `None` if parsing was cancelled
@@ -1430,7 +1430,7 @@ int32_t ts_pack_parser_set_language(TS_PACKParser *this_,
  * freed with the appropriate free function.
  */
 TS_PACKTree *ts_pack_parser_parse(TS_PACKParser *this_,
-                                  const char *source);
+    const char *source);
 
 /**
  * Parse a raw byte slice. Returns `None` if parsing was cancelled or
@@ -1439,8 +1439,8 @@ TS_PACKTree *ts_pack_parser_parse(TS_PACKParser *this_,
  * freed with the appropriate free function.
  */
 TS_PACKTree *ts_pack_parser_parse_bytes(TS_PACKParser *this_,
-                                        const uint8_t *source,
-                                        uintptr_t source_len);
+    const uint8_t *source,
+    uintptr_t source_len);
 
 /**
  * Reset internal state. The next call to `parse` (Self::parse) will
@@ -1594,7 +1594,7 @@ TS_PACKNode *ts_pack_node_parent(const TS_PACKNode *this_);
  * freed with the appropriate free function.
  */
 TS_PACKNode *ts_pack_node_child(const TS_PACKNode *this_,
-                                uint32_t index);
+    uint32_t index);
 
 /**
  * Total number of children (including unnamed).
@@ -1609,7 +1609,7 @@ uintptr_t ts_pack_node_child_count(const TS_PACKNode *this_);
  * freed with the appropriate free function.
  */
 TS_PACKNode *ts_pack_node_named_child(const TS_PACKNode *this_,
-                                      uint32_t index);
+    uint32_t index);
 
 /**
  * Number of named children of this node.
@@ -1624,7 +1624,7 @@ uintptr_t ts_pack_node_named_child_count(const TS_PACKNode *this_);
  * freed with the appropriate free function.
  */
 TS_PACKNode *ts_pack_node_child_by_field_name(const TS_PACKNode *this_,
-                                              const char *name);
+    const char *name);
 
 /**
  * Return the S-expression form of this node's subtree.
@@ -1790,7 +1790,7 @@ TS_PACKProcessConfig *ts_pack_process_config_default(void);
  * freed with the appropriate free function.
  */
 TS_PACKProcessConfig *ts_pack_process_config_with_chunking(TS_PACKProcessConfig *this_,
-                                                           uintptr_t max_size);
+    uintptr_t max_size);
 
 /**
  * Enable all analysis features.
@@ -1815,7 +1815,7 @@ TS_PACKProcessConfig *ts_pack_process_config_minimal(TS_PACKProcessConfig *this_
  * freed with the appropriate free function.
  */
 TS_PACKProcessConfig *ts_pack_process_config_with_data_extraction(TS_PACKProcessConfig *this_,
-                                                                  int32_t enabled);
+    int32_t enabled);
 
 /**
  * Free a `LanguageRegistry` handle.
@@ -1838,7 +1838,7 @@ TS_PACKLanguageRegistry *ts_pack_language_registry_new(void);
  * freed with the appropriate free function.
  */
 TS_PACKLanguage *ts_pack_language_registry_get_language(const TS_PACKLanguageRegistry *this_,
-                                                        const char *name);
+    const char *name);
 
 /**
  * List all available language names, sorted and deduplicated.
@@ -1875,7 +1875,7 @@ char *ts_pack_language_registry_available_languages(const TS_PACKLanguageRegistr
  * freed with the appropriate free function.
  */
 int32_t ts_pack_language_registry_has_parser(const TS_PACKLanguageRegistry *this_,
-                                             const char *name);
+    const char *name);
 
 /**
  * Check whether a language is available by name or alias.
@@ -1886,7 +1886,7 @@ int32_t ts_pack_language_registry_has_parser(const TS_PACKLanguageRegistry *this
  * freed with the appropriate free function.
  */
 int32_t ts_pack_language_registry_has_language(const TS_PACKLanguageRegistry *this_,
-                                               const char *name);
+    const char *name);
 
 /**
  * Return the total number of available languages (including aliases).
@@ -1901,8 +1901,8 @@ uintptr_t ts_pack_language_registry_language_count(const TS_PACKLanguageRegistry
  * freed with the appropriate free function.
  */
 TS_PACKProcessResult *ts_pack_language_registry_process(const TS_PACKLanguageRegistry *this_,
-                                                        const char *source,
-                                                        const TS_PACKProcessConfig *config);
+    const char *source,
+    const TS_PACKProcessConfig *config);
 
 /**
  * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
@@ -2635,7 +2635,7 @@ uintptr_t ts_pack_language_count(void);
  * \endcode
  */
 TS_PACKProcessResult *ts_pack_process(const char *source,
-                                      const TS_PACKProcessConfig *config);
+    const TS_PACKProcessConfig *config);
 
 /**
  * Initialize the language pack with the given configuration.

@@ -14,14 +14,14 @@ part 'lib.freezed.dart';
 ///
 /// Returns `null` for unrecognized extensions. The match is case-insensitive.
 Future<String?> detectLanguageFromExtension({required String ext}) =>
-    RustLib.instance.api.crateDetectLanguageFromExtension(ext: ext);
+RustLib.instance.api.crateDetectLanguageFromExtension(ext: ext);
 
 /// Detect language name from a file path.
 ///
 /// Extracts the file extension and looks it up. Returns `null` if the
 /// path has no extension or the extension is not recognized.
 Future<String?> detectLanguageFromPath({required String path}) =>
-    RustLib.instance.api.crateDetectLanguageFromPath(path: path);
+RustLib.instance.api.crateDetectLanguageFromPath(path: path);
 
 /// Detect language name from file content using the shebang line (`#!`).
 ///
@@ -40,49 +40,49 @@ Future<String?> detectLanguageFromPath({required String path}) =>
 /// Returns `null` when content does not start with `#!`, the shebang is
 /// malformed, or the interpreter is not recognised.
 Future<String?> detectLanguageFromContent({required String content}) =>
-    RustLib.instance.api.crateDetectLanguageFromContent(content: content);
+RustLib.instance.api.crateDetectLanguageFromContent(content: content);
 
 /// Get the highlights query for a language, if bundled.
 ///
 /// Returns the contents of `highlights.scm` as a static string, or `null`
 /// if no highlights query is bundled for this language.
 Future<String?> getHighlightsQuery({required String language}) =>
-    RustLib.instance.api.crateGetHighlightsQuery(language: language);
+RustLib.instance.api.crateGetHighlightsQuery(language: language);
 
 /// Get the injections query for a language, if bundled.
 ///
 /// Returns the contents of `injections.scm` as a static string, or `null`
 /// if no injections query is bundled for this language.
 Future<String?> getInjectionsQuery({required String language}) =>
-    RustLib.instance.api.crateGetInjectionsQuery(language: language);
+RustLib.instance.api.crateGetInjectionsQuery(language: language);
 
 /// Get the locals query for a language, if bundled.
 ///
 /// Returns the contents of `locals.scm` as a static string, or `null`
 /// if no locals query is bundled for this language.
 Future<String?> getLocalsQuery({required String language}) =>
-    RustLib.instance.api.crateGetLocalsQuery(language: language);
+RustLib.instance.api.crateGetLocalsQuery(language: language);
 
 /// Get the tags query for a language, if bundled.
 ///
 /// Returns the contents of `tags.scm` as a static string, or `null`
 /// if no tags query is bundled for this language.
 Future<String?> getTagsQuery({required String language}) =>
-    RustLib.instance.api.crateGetTagsQuery(language: language);
+RustLib.instance.api.crateGetTagsQuery(language: language);
 
 /// Get the indents query for a language, if bundled.
 ///
 /// Returns the contents of `indents.scm` (used for auto-indentation) as a static
 /// string, or `null` if no indents query is bundled for this language.
 Future<String?> getIndentsQuery({required String language}) =>
-    RustLib.instance.api.crateGetIndentsQuery(language: language);
+RustLib.instance.api.crateGetIndentsQuery(language: language);
 
 /// Get the folds query for a language, if bundled.
 ///
 /// Returns the contents of `folds.scm` (used for code folding) as a static string,
 /// or `null` if no folds query is bundled for this language.
 Future<String?> getFoldsQuery({required String language}) =>
-    RustLib.instance.api.crateGetFoldsQuery(language: language);
+RustLib.instance.api.crateGetFoldsQuery(language: language);
 
 /// Get a tree-sitter `Language` by name using the global registry.
 ///
@@ -95,7 +95,7 @@ Future<String?> getFoldsQuery({required String language}) =>
 /// Returns `Error.LanguageNotFound` if the language is not recognized,
 /// or `Error.Download` if auto-download fails.
 Future<Language> getLanguage({required String name}) =>
-    RustLib.instance.api.crateGetLanguage(name: name);
+RustLib.instance.api.crateGetLanguage(name: name);
 
 /// Get a `Parser` pre-configured for the given language.
 ///
@@ -107,34 +107,34 @@ Future<Language> getLanguage({required String name}) =>
 /// Returns `Error.LanguageNotFound` if the language is not recognized, or
 /// `Error.ParserSetup` if the language cannot be applied to the parser.
 Future<Parser> getParser({required String name}) =>
-    RustLib.instance.api.crateGetParser(name: name);
+RustLib.instance.api.crateGetParser(name: name);
 
 /// Detect language name from a file path or extension.
 ///
 /// This compatibility alias matches the pre-Alef Python binding API.
 Future<String?> detectLanguage({required String path}) =>
-    RustLib.instance.api.crateDetectLanguage(path: path);
+RustLib.instance.api.crateDetectLanguage(path: path);
 
 /// List all available language names (sorted, deduplicated, includes aliases).
 ///
 /// Returns names of both statically compiled and dynamically loadable languages,
 /// plus any configured aliases.
 Future<List<String>> availableLanguages() =>
-    RustLib.instance.api.crateAvailableLanguages();
+RustLib.instance.api.crateAvailableLanguages();
 
 /// Check if a language is available by name or alias.
 ///
 /// Returns `true` if the language can be loaded (statically compiled,
 /// dynamically available, or a known alias for one of these).
 Future<bool> hasLanguage({required String name}) =>
-    RustLib.instance.api.crateHasLanguage(name: name);
+RustLib.instance.api.crateHasLanguage(name: name);
 
 /// Return the number of available languages.
 ///
 /// Includes statically compiled languages, dynamically loadable languages,
 /// and aliases.
 Future<PlatformInt64> languageCount() =>
-    RustLib.instance.api.crateLanguageCount();
+RustLib.instance.api.crateLanguageCount();
 
 /// Process source code and extract file intelligence using the global registry.
 ///
@@ -160,7 +160,7 @@ Future<ProcessResult> process({
 ///
 /// Returns an error if configuration cannot be applied or if downloads fail.
 Future<void> init({required PackConfig config}) =>
-    RustLib.instance.api.crateInit(config: config);
+RustLib.instance.api.crateInit(config: config);
 
 /// Apply download configuration without downloading anything.
 ///
@@ -173,7 +173,7 @@ Future<void> init({required PackConfig config}) =>
 ///
 /// Returns an error if the lock cannot be acquired.
 Future<void> configure({required PackConfig config}) =>
-    RustLib.instance.api.crateConfigure(config: config);
+RustLib.instance.api.crateConfigure(config: config);
 
 /// Download specific languages to the local cache.
 ///
@@ -185,7 +185,7 @@ Future<void> configure({required PackConfig config}) =>
 /// Returns an error if any language is not available in the manifest or if
 /// the download fails.
 Future<PlatformInt64> download({required List<String> names}) =>
-    RustLib.instance.api.crateDownload(names: names);
+RustLib.instance.api.crateDownload(names: names);
 
 /// Prefetch grammars: download any not already loadable from disk, then load every
 /// requested language into the process registry so a subsequent hot loop only parses.
@@ -200,7 +200,7 @@ Future<PlatformInt64> download({required List<String> names}) =>
 /// Returns `Error.Download` if a required grammar cannot be fetched, or
 /// `Error.LanguageNotFound` if a requested name is unknown.
 Future<void> prefetch({required List<String> languages}) =>
-    RustLib.instance.api.cratePrefetch(languages: languages);
+RustLib.instance.api.cratePrefetch(languages: languages);
 
 /// Download all available languages from the remote manifest.
 ///
@@ -231,7 +231,7 @@ Future<PlatformInt64> downloadAll() => RustLib.instance.api.crateDownloadAll();
 /// Returns an error if the manifest cannot be fetched, the group is unknown,
 /// or any constituent language fails to download.
 Future<PlatformInt64> downloadGroup({required String name}) =>
-    RustLib.instance.api.crateDownloadGroup(name: name);
+RustLib.instance.api.crateDownloadGroup(name: name);
 
 /// Return all language names available in the remote manifest (306).
 ///
@@ -243,14 +243,14 @@ Future<PlatformInt64> downloadGroup({required String name}) =>
 ///
 /// Returns an error if the manifest cannot be fetched.
 Future<List<String>> manifestLanguages() =>
-    RustLib.instance.api.crateManifestLanguages();
+RustLib.instance.api.crateManifestLanguages();
 
 /// Return languages that are already downloaded and cached locally.
 ///
 /// Does not perform any network requests. Returns an empty list if the
 /// cache directory does not exist or cannot be read.
 Future<List<String>> downloadedLanguages() =>
-    RustLib.instance.api.crateDownloadedLanguages();
+RustLib.instance.api.crateDownloadedLanguages();
 
 /// Delete all cached parser shared libraries.
 ///
@@ -273,61 +273,61 @@ Future<void> cleanCache() => RustLib.instance.api.crateCleanCache();
 Future<String> cacheDir() => RustLib.instance.api.crateCacheDir();
 
 Future<DataAttribute> createDataAttributeFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateDataAttributeFromJson(json: json);
+RustLib.instance.api.crateCreateDataAttributeFromJson(json: json);
 
 Future<DataNode> createDataNodeFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateDataNodeFromJson(json: json);
+RustLib.instance.api.crateCreateDataNodeFromJson(json: json);
 
 Future<Span> createSpanFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateSpanFromJson(json: json);
+RustLib.instance.api.crateCreateSpanFromJson(json: json);
 
 Future<ProcessResult> createProcessResultFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateProcessResultFromJson(json: json);
+RustLib.instance.api.crateCreateProcessResultFromJson(json: json);
 
 Future<FileMetrics> createFileMetricsFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateFileMetricsFromJson(json: json);
+RustLib.instance.api.crateCreateFileMetricsFromJson(json: json);
 
 Future<StructureItem> createStructureItemFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateStructureItemFromJson(json: json);
+RustLib.instance.api.crateCreateStructureItemFromJson(json: json);
 
 Future<CommentInfo> createCommentInfoFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateCommentInfoFromJson(json: json);
+RustLib.instance.api.crateCreateCommentInfoFromJson(json: json);
 
 Future<DocstringInfo> createDocstringInfoFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateDocstringInfoFromJson(json: json);
+RustLib.instance.api.crateCreateDocstringInfoFromJson(json: json);
 
 Future<DocSection> createDocSectionFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateDocSectionFromJson(json: json);
+RustLib.instance.api.crateCreateDocSectionFromJson(json: json);
 
 Future<ImportInfo> createImportInfoFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateImportInfoFromJson(json: json);
+RustLib.instance.api.crateCreateImportInfoFromJson(json: json);
 
 Future<ExportInfo> createExportInfoFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateExportInfoFromJson(json: json);
+RustLib.instance.api.crateCreateExportInfoFromJson(json: json);
 
 Future<SymbolInfo> createSymbolInfoFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateSymbolInfoFromJson(json: json);
+RustLib.instance.api.crateCreateSymbolInfoFromJson(json: json);
 
 Future<Diagnostic> createDiagnosticFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateDiagnosticFromJson(json: json);
+RustLib.instance.api.crateCreateDiagnosticFromJson(json: json);
 
 Future<CodeChunk> createCodeChunkFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateCodeChunkFromJson(json: json);
+RustLib.instance.api.crateCreateCodeChunkFromJson(json: json);
 
 Future<ChunkContext> createChunkContextFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateChunkContextFromJson(json: json);
+RustLib.instance.api.crateCreateChunkContextFromJson(json: json);
 
 Future<PackConfig> createPackConfigFromJson({required String json}) =>
-    RustLib.instance.api.crateCreatePackConfigFromJson(json: json);
+RustLib.instance.api.crateCreatePackConfigFromJson(json: json);
 
 Future<Point> createPointFromJson({required String json}) =>
-    RustLib.instance.api.crateCreatePointFromJson(json: json);
+RustLib.instance.api.crateCreatePointFromJson(json: json);
 
 Future<ByteRange> createByteRangeFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateByteRangeFromJson(json: json);
+RustLib.instance.api.crateCreateByteRangeFromJson(json: json);
 
 Future<ProcessConfig> createProcessConfigFromJson({required String json}) =>
-    RustLib.instance.api.crateCreateProcessConfigFromJson(json: json);
+RustLib.instance.api.crateCreateProcessConfigFromJson(json: json);
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DownloadManager>>
 abstract class DownloadManager implements RustOpaqueInterface {
@@ -339,7 +339,7 @@ abstract class DownloadManager implements RustOpaqueInterface {
 
   // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   static Future<DownloadManager> newInstance({required String version}) =>
-      RustLib.instance.api.crateDownloadManagerNew(version: version);
+  RustLib.instance.api.crateDownloadManagerNew(version: version);
 }
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Language>>
@@ -350,7 +350,7 @@ abstract class LanguageRegistry implements RustOpaqueInterface {
   Future<List<String>> availableLanguages();
 
   static Future<LanguageRegistry> default_() =>
-      RustLib.instance.api.crateLanguageRegistryDefault();
+  RustLib.instance.api.crateLanguageRegistryDefault();
 
   Future<Language> getLanguage({required String name});
 
@@ -362,7 +362,7 @@ abstract class LanguageRegistry implements RustOpaqueInterface {
 
   // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   static Future<LanguageRegistry> newInstance() =>
-      RustLib.instance.api.crateLanguageRegistryNew();
+  RustLib.instance.api.crateLanguageRegistryNew();
 
   Future<ProcessResult> process({
     required String source,
@@ -466,11 +466,11 @@ class ByteRange {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ByteRange &&
-          runtimeType == other.runtimeType &&
-          start == other.start &&
-          end == other.end;
+  identical(this, other) ||
+  other is ByteRange &&
+  runtimeType == other.runtimeType &&
+  start == other.start &&
+  end == other.end;
 }
 
 /// Metadata for a single chunk of source code.
@@ -516,30 +516,30 @@ class ChunkContext {
 
   @override
   int get hashCode =>
-      language.hashCode ^
-      chunkIndex.hashCode ^
-      totalChunks.hashCode ^
-      nodeTypes.hashCode ^
-      contextPath.hashCode ^
-      symbolsDefined.hashCode ^
-      comments.hashCode ^
-      docstrings.hashCode ^
-      hasErrorNodes.hashCode;
+  language.hashCode ^
+  chunkIndex.hashCode ^
+  totalChunks.hashCode ^
+  nodeTypes.hashCode ^
+  contextPath.hashCode ^
+  symbolsDefined.hashCode ^
+  comments.hashCode ^
+  docstrings.hashCode ^
+  hasErrorNodes.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ChunkContext &&
-          runtimeType == other.runtimeType &&
-          language == other.language &&
-          chunkIndex == other.chunkIndex &&
-          totalChunks == other.totalChunks &&
-          nodeTypes == other.nodeTypes &&
-          contextPath == other.contextPath &&
-          symbolsDefined == other.symbolsDefined &&
-          comments == other.comments &&
-          docstrings == other.docstrings &&
-          hasErrorNodes == other.hasErrorNodes;
+  identical(this, other) ||
+  other is ChunkContext &&
+  runtimeType == other.runtimeType &&
+  language == other.language &&
+  chunkIndex == other.chunkIndex &&
+  totalChunks == other.totalChunks &&
+  nodeTypes == other.nodeTypes &&
+  contextPath == other.contextPath &&
+  symbolsDefined == other.symbolsDefined &&
+  comments == other.comments &&
+  docstrings == other.docstrings &&
+  hasErrorNodes == other.hasErrorNodes;
 }
 
 /// A chunk of source code with rich metadata.
@@ -573,24 +573,24 @@ class CodeChunk {
 
   @override
   int get hashCode =>
-      content.hashCode ^
-      startByte.hashCode ^
-      endByte.hashCode ^
-      startLine.hashCode ^
-      endLine.hashCode ^
-      metadata.hashCode;
+  content.hashCode ^
+  startByte.hashCode ^
+  endByte.hashCode ^
+  startLine.hashCode ^
+  endLine.hashCode ^
+  metadata.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CodeChunk &&
-          runtimeType == other.runtimeType &&
-          content == other.content &&
-          startByte == other.startByte &&
-          endByte == other.endByte &&
-          startLine == other.startLine &&
-          endLine == other.endLine &&
-          metadata == other.metadata;
+  identical(this, other) ||
+  other is CodeChunk &&
+  runtimeType == other.runtimeType &&
+  content == other.content &&
+  startByte == other.startByte &&
+  endByte == other.endByte &&
+  startLine == other.startLine &&
+  endLine == other.endLine &&
+  metadata == other.metadata;
 }
 
 /// A comment extracted from source code.
@@ -616,17 +616,17 @@ class CommentInfo {
 
   @override
   int get hashCode =>
-      text.hashCode ^ kind.hashCode ^ span.hashCode ^ associatedNode.hashCode;
+  text.hashCode ^ kind.hashCode ^ span.hashCode ^ associatedNode.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CommentInfo &&
-          runtimeType == other.runtimeType &&
-          text == other.text &&
-          kind == other.kind &&
-          span == other.span &&
-          associatedNode == other.associatedNode;
+  identical(this, other) ||
+  other is CommentInfo &&
+  runtimeType == other.runtimeType &&
+  text == other.text &&
+  kind == other.kind &&
+  span == other.span &&
+  associatedNode == other.associatedNode;
 }
 
 /// The kind of a comment found in source code.
@@ -669,12 +669,12 @@ class DataAttribute {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DataAttribute &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          value == other.value &&
-          span == other.span;
+  identical(this, other) ||
+  other is DataAttribute &&
+  runtimeType == other.runtimeType &&
+  name == other.name &&
+  value == other.value &&
+  span == other.span;
 }
 
 /// A node in the hierarchical data tree produced by data-format extraction.
@@ -736,24 +736,24 @@ class DataNode {
 
   @override
   int get hashCode =>
-      kind.hashCode ^
-      key.hashCode ^
-      value.hashCode ^
-      attributes.hashCode ^
-      children.hashCode ^
-      span.hashCode;
+  kind.hashCode ^
+  key.hashCode ^
+  value.hashCode ^
+  attributes.hashCode ^
+  children.hashCode ^
+  span.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DataNode &&
-          runtimeType == other.runtimeType &&
-          kind == other.kind &&
-          key == other.key &&
-          value == other.value &&
-          attributes == other.attributes &&
-          children == other.children &&
-          span == other.span;
+  identical(this, other) ||
+  other is DataNode &&
+  runtimeType == other.runtimeType &&
+  kind == other.kind &&
+  key == other.key &&
+  value == other.value &&
+  attributes == other.attributes &&
+  children == other.children &&
+  span == other.span;
 }
 
 /// The kind of a data node extracted from a data-format file.
@@ -803,12 +803,12 @@ class Diagnostic {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Diagnostic &&
-          runtimeType == other.runtimeType &&
-          message == other.message &&
-          severity == other.severity &&
-          span == other.span;
+  identical(this, other) ||
+  other is Diagnostic &&
+  runtimeType == other.runtimeType &&
+  message == other.message &&
+  severity == other.severity &&
+  span == other.span;
 }
 
 /// Severity level of a diagnostic produced during parsing.
@@ -844,12 +844,12 @@ class DocSection {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DocSection &&
-          runtimeType == other.runtimeType &&
-          kind == other.kind &&
-          name == other.name &&
-          description == other.description;
+  identical(this, other) ||
+  other is DocSection &&
+  runtimeType == other.runtimeType &&
+  kind == other.kind &&
+  name == other.name &&
+  description == other.description;
 }
 
 @freezed
@@ -858,7 +858,7 @@ sealed class DocstringFormat with _$DocstringFormat {
 
   /// Python triple-quoted string docstring (`"""..."""`).
   const factory DocstringFormat.pythonTripleQuote() =
-      DocstringFormat_PythonTripleQuote;
+  DocstringFormat_PythonTripleQuote;
 
   /// JavaScript/TypeScript JSDoc block comment (opens with two stars, closes
   /// with star-slash).
@@ -876,7 +876,7 @@ sealed class DocstringFormat with _$DocstringFormat {
 
   /// A language-specific docstring format not covered by the standard variants.
   const factory DocstringFormat.other({required String field0}) =
-      DocstringFormat_Other;
+  DocstringFormat_Other;
 }
 
 /// A docstring extracted from source code.
@@ -906,22 +906,22 @@ class DocstringInfo {
 
   @override
   int get hashCode =>
-      text.hashCode ^
-      format.hashCode ^
-      span.hashCode ^
-      associatedItem.hashCode ^
-      parsedSections.hashCode;
+  text.hashCode ^
+  format.hashCode ^
+  span.hashCode ^
+  associatedItem.hashCode ^
+  parsedSections.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DocstringInfo &&
-          runtimeType == other.runtimeType &&
-          text == other.text &&
-          format == other.format &&
-          span == other.span &&
-          associatedItem == other.associatedItem &&
-          parsedSections == other.parsedSections;
+  identical(this, other) ||
+  other is DocstringInfo &&
+  runtimeType == other.runtimeType &&
+  text == other.text &&
+  format == other.format &&
+  span == other.span &&
+  associatedItem == other.associatedItem &&
+  parsedSections == other.parsedSections;
 }
 
 @freezed
@@ -930,21 +930,21 @@ sealed class Error with _$Error {
 
   /// The requested language name (or alias) was not found in the registry.
   const factory Error.languageNotFound({required String field0}) =
-      Error_LanguageNotFound;
+  Error_LanguageNotFound;
 
   /// A dynamic shared library could not be loaded at runtime.
   const factory Error.dynamicLoad({required String field0}) = Error_DynamicLoad;
 
   /// The tree-sitter language function returned a null pointer for the given language name.
   const factory Error.nullLanguagePointer({required String field0}) =
-      Error_NullLanguagePointer;
+  Error_NullLanguagePointer;
 
   /// The language could not be applied to the parser (e.g., ABI version mismatch).
   const factory Error.parserSetup({required String field0}) = Error_ParserSetup;
 
   /// An internal `RwLock` or `Mutex` was poisoned by a previous panic.
   const factory Error.lockPoisoned({required String field0}) =
-      Error_LockPoisoned;
+  Error_LockPoisoned;
 
   /// A configuration file or value was invalid or could not be applied.
   const factory Error.config({required String field0}) = Error_Config;
@@ -957,7 +957,7 @@ sealed class Error with _$Error {
 
   /// A byte range was invalid (e.g., end before start, or out of bounds).
   const factory Error.invalidRange({required String field0}) =
-      Error_InvalidRange;
+  Error_InvalidRange;
 
   /// A parser download from GitHub releases failed.
   const factory Error.download({required String field0}) = Error_Download;
@@ -995,12 +995,12 @@ class ExportInfo {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ExportInfo &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          kind == other.kind &&
-          span == other.span;
+  identical(this, other) ||
+  other is ExportInfo &&
+  runtimeType == other.runtimeType &&
+  name == other.name &&
+  kind == other.kind &&
+  span == other.span;
 }
 
 /// The kind of an export statement found in source code.
@@ -1056,28 +1056,28 @@ class FileMetrics {
 
   @override
   int get hashCode =>
-      totalLines.hashCode ^
-      codeLines.hashCode ^
-      commentLines.hashCode ^
-      blankLines.hashCode ^
-      totalBytes.hashCode ^
-      nodeCount.hashCode ^
-      errorCount.hashCode ^
-      maxDepth.hashCode;
+  totalLines.hashCode ^
+  codeLines.hashCode ^
+  commentLines.hashCode ^
+  blankLines.hashCode ^
+  totalBytes.hashCode ^
+  nodeCount.hashCode ^
+  errorCount.hashCode ^
+  maxDepth.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is FileMetrics &&
-          runtimeType == other.runtimeType &&
-          totalLines == other.totalLines &&
-          codeLines == other.codeLines &&
-          commentLines == other.commentLines &&
-          blankLines == other.blankLines &&
-          totalBytes == other.totalBytes &&
-          nodeCount == other.nodeCount &&
-          errorCount == other.errorCount &&
-          maxDepth == other.maxDepth;
+  identical(this, other) ||
+  other is FileMetrics &&
+  runtimeType == other.runtimeType &&
+  totalLines == other.totalLines &&
+  codeLines == other.codeLines &&
+  commentLines == other.commentLines &&
+  blankLines == other.blankLines &&
+  totalBytes == other.totalBytes &&
+  nodeCount == other.nodeCount &&
+  errorCount == other.errorCount &&
+  maxDepth == other.maxDepth;
 }
 
 /// An import statement extracted from source code.
@@ -1107,22 +1107,22 @@ class ImportInfo {
 
   @override
   int get hashCode =>
-      source.hashCode ^
-      items.hashCode ^
-      alias.hashCode ^
-      isWildcard.hashCode ^
-      span.hashCode;
+  source.hashCode ^
+  items.hashCode ^
+  alias.hashCode ^
+  isWildcard.hashCode ^
+  span.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ImportInfo &&
-          runtimeType == other.runtimeType &&
-          source == other.source &&
-          items == other.items &&
-          alias == other.alias &&
-          isWildcard == other.isWildcard &&
-          span == other.span;
+  identical(this, other) ||
+  other is ImportInfo &&
+  runtimeType == other.runtimeType &&
+  source == other.source &&
+  items == other.items &&
+  alias == other.alias &&
+  isWildcard == other.isWildcard &&
+  span == other.span;
 }
 
 /// Configuration for the tree-sitter language pack.
@@ -1163,12 +1163,12 @@ class PackConfig {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PackConfig &&
-          runtimeType == other.runtimeType &&
-          cacheDir == other.cacheDir &&
-          languages == other.languages &&
-          groups == other.groups;
+  identical(this, other) ||
+  other is PackConfig &&
+  runtimeType == other.runtimeType &&
+  cacheDir == other.cacheDir &&
+  languages == other.languages &&
+  groups == other.groups;
 }
 
 /// A source position — row + column, zero-indexed.
@@ -1186,11 +1186,11 @@ class Point {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Point &&
-          runtimeType == other.runtimeType &&
-          row == other.row &&
-          column == other.column;
+  identical(this, other) ||
+  other is Point &&
+  runtimeType == other.runtimeType &&
+  row == other.row &&
+  column == other.column;
 }
 
 /// Configuration for the `process()` function.
@@ -1274,32 +1274,32 @@ class ProcessConfig {
 
   @override
   int get hashCode =>
-      language.hashCode ^
-      structure.hashCode ^
-      imports.hashCode ^
-      exports.hashCode ^
-      comments.hashCode ^
-      docstrings.hashCode ^
-      symbols.hashCode ^
-      diagnostics.hashCode ^
-      chunkMaxSize.hashCode ^
-      dataExtraction.hashCode;
+  language.hashCode ^
+  structure.hashCode ^
+  imports.hashCode ^
+  exports.hashCode ^
+  comments.hashCode ^
+  docstrings.hashCode ^
+  symbols.hashCode ^
+  diagnostics.hashCode ^
+  chunkMaxSize.hashCode ^
+  dataExtraction.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ProcessConfig &&
-          runtimeType == other.runtimeType &&
-          language == other.language &&
-          structure == other.structure &&
-          imports == other.imports &&
-          exports == other.exports &&
-          comments == other.comments &&
-          docstrings == other.docstrings &&
-          symbols == other.symbols &&
-          diagnostics == other.diagnostics &&
-          chunkMaxSize == other.chunkMaxSize &&
-          dataExtraction == other.dataExtraction;
+  identical(this, other) ||
+  other is ProcessConfig &&
+  runtimeType == other.runtimeType &&
+  language == other.language &&
+  structure == other.structure &&
+  imports == other.imports &&
+  exports == other.exports &&
+  comments == other.comments &&
+  docstrings == other.docstrings &&
+  symbols == other.symbols &&
+  diagnostics == other.diagnostics &&
+  chunkMaxSize == other.chunkMaxSize &&
+  dataExtraction == other.dataExtraction;
 }
 
 /// Complete analysis result from processing a source file.
@@ -1376,34 +1376,34 @@ class ProcessResult {
 
   @override
   int get hashCode =>
-      language.hashCode ^
-      metrics.hashCode ^
-      structure.hashCode ^
-      imports.hashCode ^
-      exports.hashCode ^
-      comments.hashCode ^
-      docstrings.hashCode ^
-      symbols.hashCode ^
-      diagnostics.hashCode ^
-      chunks.hashCode ^
-      data.hashCode;
+  language.hashCode ^
+  metrics.hashCode ^
+  structure.hashCode ^
+  imports.hashCode ^
+  exports.hashCode ^
+  comments.hashCode ^
+  docstrings.hashCode ^
+  symbols.hashCode ^
+  diagnostics.hashCode ^
+  chunks.hashCode ^
+  data.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ProcessResult &&
-          runtimeType == other.runtimeType &&
-          language == other.language &&
-          metrics == other.metrics &&
-          structure == other.structure &&
-          imports == other.imports &&
-          exports == other.exports &&
-          comments == other.comments &&
-          docstrings == other.docstrings &&
-          symbols == other.symbols &&
-          diagnostics == other.diagnostics &&
-          chunks == other.chunks &&
-          data == other.data;
+  identical(this, other) ||
+  other is ProcessResult &&
+  runtimeType == other.runtimeType &&
+  language == other.language &&
+  metrics == other.metrics &&
+  structure == other.structure &&
+  imports == other.imports &&
+  exports == other.exports &&
+  comments == other.comments &&
+  docstrings == other.docstrings &&
+  symbols == other.symbols &&
+  diagnostics == other.diagnostics &&
+  chunks == other.chunks &&
+  data == other.data;
 }
 
 /// Byte and line/column range in source code.
@@ -1440,24 +1440,24 @@ class Span {
 
   @override
   int get hashCode =>
-      startByte.hashCode ^
-      endByte.hashCode ^
-      startLine.hashCode ^
-      startColumn.hashCode ^
-      endLine.hashCode ^
-      endColumn.hashCode;
+  startByte.hashCode ^
+  endByte.hashCode ^
+  startLine.hashCode ^
+  startColumn.hashCode ^
+  endLine.hashCode ^
+  endColumn.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Span &&
-          runtimeType == other.runtimeType &&
-          startByte == other.startByte &&
-          endByte == other.endByte &&
-          startLine == other.startLine &&
-          startColumn == other.startColumn &&
-          endLine == other.endLine &&
-          endColumn == other.endColumn;
+  identical(this, other) ||
+  other is Span &&
+  runtimeType == other.runtimeType &&
+  startByte == other.startByte &&
+  endByte == other.endByte &&
+  startLine == other.startLine &&
+  startColumn == other.startColumn &&
+  endLine == other.endLine &&
+  endColumn == other.endColumn;
 }
 
 /// A structural item (function, class, struct, etc.) in source code.
@@ -1503,30 +1503,30 @@ class StructureItem {
 
   @override
   int get hashCode =>
-      kind.hashCode ^
-      name.hashCode ^
-      visibility.hashCode ^
-      span.hashCode ^
-      children.hashCode ^
-      decorators.hashCode ^
-      docComment.hashCode ^
-      signature.hashCode ^
-      bodySpan.hashCode;
+  kind.hashCode ^
+  name.hashCode ^
+  visibility.hashCode ^
+  span.hashCode ^
+  children.hashCode ^
+  decorators.hashCode ^
+  docComment.hashCode ^
+  signature.hashCode ^
+  bodySpan.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StructureItem &&
-          runtimeType == other.runtimeType &&
-          kind == other.kind &&
-          name == other.name &&
-          visibility == other.visibility &&
-          span == other.span &&
-          children == other.children &&
-          decorators == other.decorators &&
-          docComment == other.docComment &&
-          signature == other.signature &&
-          bodySpan == other.bodySpan;
+  identical(this, other) ||
+  other is StructureItem &&
+  runtimeType == other.runtimeType &&
+  kind == other.kind &&
+  name == other.name &&
+  visibility == other.visibility &&
+  span == other.span &&
+  children == other.children &&
+  decorators == other.decorators &&
+  docComment == other.docComment &&
+  signature == other.signature &&
+  bodySpan == other.bodySpan;
 }
 
 @freezed
@@ -1565,7 +1565,7 @@ sealed class StructureKind with _$StructureKind {
 
   /// A language-specific construct that does not fit any standard category.
   const factory StructureKind.other({required String field0}) =
-      StructureKind_Other;
+  StructureKind_Other;
 }
 
 /// A symbol (variable, function, type, etc.) extracted from source code.
@@ -1595,22 +1595,22 @@ class SymbolInfo {
 
   @override
   int get hashCode =>
-      name.hashCode ^
-      kind.hashCode ^
-      span.hashCode ^
-      typeAnnotation.hashCode ^
-      doc.hashCode;
+  name.hashCode ^
+  kind.hashCode ^
+  span.hashCode ^
+  typeAnnotation.hashCode ^
+  doc.hashCode;
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SymbolInfo &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          kind == other.kind &&
-          span == other.span &&
-          typeAnnotation == other.typeAnnotation &&
-          doc == other.doc;
+  identical(this, other) ||
+  other is SymbolInfo &&
+  runtimeType == other.runtimeType &&
+  name == other.name &&
+  kind == other.kind &&
+  span == other.span &&
+  typeAnnotation == other.typeAnnotation &&
+  doc == other.doc;
 }
 
 @freezed

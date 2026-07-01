@@ -81,7 +81,4 @@ duplicated_attributes = "allow"
 
 [lints.rust]
 unsafe_code = "allow"
-unexpected_cfgs = { level = "warn", check-cfg = [
-    'cfg(alef)',
-    'cfg(feature, values("test-internals"))',
-] }
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(alef)', 'cfg(feature, values("test-internals"))'] }

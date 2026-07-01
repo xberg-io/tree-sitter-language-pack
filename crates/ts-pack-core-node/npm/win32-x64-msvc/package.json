@@ -1,25 +1,15 @@
 {
-	"name": "@xberg-io/tree-sitter-language-pack-win32-x64-msvc",
-	"version": "1.12.1",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/xberg-io/tree-sitter-language-pack.git"
-	},
-	"files": [
-		"ts-pack-core-node.win32-x64-msvc.node"
-	],
-	"os": [
-		"win32"
-	],
-	"cpu": [
-		"x64"
-	],
-	"main": "ts-pack-core-node.win32-x64-msvc.node",
-	"publishConfig": {
-		"access": "public"
-	},
-	"engines": {
-		"node": ">= 22"
-	}
+  "name": "@xberg-io/tree-sitter-language-pack-win32-x64-msvc",
+  "version": "1.12.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xberg-io/tree-sitter-language-pack.git"
+  },
+  "main": "ts-pack-core-node.win32-x64-msvc.node",
+  "files": ["ts-pack-core-node.win32-x64-msvc.node"],
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "engines": { "node": ">= 22" },
+  "publishConfig": { "access": "public" }
 }

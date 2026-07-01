@@ -1,46 +1,38 @@
 {
-	"name": "xberg-io/tree-sitter-language-pack",
-	"description": "Pre-compiled tree-sitter grammars for 306 programming languages",
-	"license": "MIT",
-	"type": "php-ext",
-	"require": {
-		"php": ">=8.2"
-	},
-	"require-dev": {
-		"phpstan/phpstan": "^2.1",
-		"friendsofphp/php-cs-fixer": "^3.95",
-		"phpunit/phpunit": "^13.1"
-	},
-	"autoload": {
-		"psr-4": {
-			"Tree\\Sitter\\Language\\Pack\\": "src/"
-		}
-	},
-	"scripts": {
-		"phpstan": "php -d detect_unicode=0 vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=512M",
-		"format": "php vendor/bin/php-cs-fixer fix --quiet",
-		"format:check": "php vendor/bin/php-cs-fixer fix --dry-run --quiet",
-		"test": "php vendor/bin/phpunit",
-		"lint": "@phpstan",
-		"lint:fix": "php vendor/bin/php-cs-fixer fix --quiet && php -d detect_unicode=0 vendor/bin/phpstan --configuration=phpstan.neon --memory-limit=512M"
-	},
-	"php-ext": {
-		"extension-name": "tree_sitter_language_pack",
-		"support-zts": true,
-		"support-nts": true,
-		"download-url-method": "pre-packaged-binary"
-	},
-	"keywords": [
-		"language-pack",
-		"parser",
-		"syntax",
-		"tree-sitter"
-	],
-	"extra": {
-		"pie": {
-			"binary": {
-				"url-template": "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/{Version}/php_tree_sitter_language_pack-{Version}_php{PhpVersion}-{Arch}-{OSLower}-{Libc}-{TSMode}.tgz"
-			}
-		}
-	}
+  "name": "xberg-io/tree-sitter-language-pack",
+  "description": "Pre-compiled tree-sitter grammars for 306 programming languages",
+  "license": "MIT",
+  "type": "php-ext",
+  "require": {
+    "php": ">=8.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^13.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tree\\Sitter\\Language\\Pack\\": "src/"
+    }
+  },
+  "scripts": {
+    "format": "poly fmt --fix",
+    "format:check": "poly fmt --check",
+    "test": "php vendor/bin/phpunit",
+    "lint": "poly lint",
+    "lint:fix": "poly lint --fix && poly fmt --fix"
+  },
+  "php-ext": {
+    "extension-name": "tree_sitter_language_pack",
+    "support-zts": true,
+    "support-nts": true,
+    "download-url-method": "pre-packaged-binary"
+  },
+  "keywords": ["language-pack", "parser", "syntax", "tree-sitter"],
+  "extra": {
+    "pie": {
+      "binary": {
+        "url-template": "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/{Version}/php_tree_sitter_language_pack-{Version}_php{PhpVersion}-{Arch}-{OSLower}-{Libc}-{TSMode}.tgz"
+      }
+    }
+  }
 }
