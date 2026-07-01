@@ -170,7 +170,7 @@ impl TsPackMcp {
             _ => tree.root_node().to_sexp(),
         };
 
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 
     /// Run the code-intelligence pipeline on source code.
@@ -227,7 +227,7 @@ impl TsPackMcp {
             process(&params.source, &config).map_err(|e| rmcp::ErrorData::invalid_params(e.to_string(), None))?;
 
         let response = serde_json::to_string_pretty(&result).unwrap_or_default();
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 
     /// Detect the language for a file path or source content.
@@ -260,7 +260,7 @@ impl TsPackMcp {
         }))
         .unwrap_or_default();
 
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 
     /// List available, downloaded, or manifest languages.
@@ -303,7 +303,7 @@ impl TsPackMcp {
         }))
         .unwrap_or_default();
 
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 
     /// Show information about a specific language.
@@ -333,7 +333,7 @@ impl TsPackMcp {
         }))
         .unwrap_or_default();
 
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 
     /// Download parser libraries for specific languages, a group, or all.
@@ -392,7 +392,7 @@ impl TsPackMcp {
         }))
         .unwrap_or_default();
 
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 
     /// Return the effective parser cache directory.
@@ -410,7 +410,7 @@ impl TsPackMcp {
 
         let dir = cache_dir().map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
         let response = serde_json::to_string_pretty(&serde_json::json!({ "cache_dir": dir })).unwrap_or_default();
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 
     /// Delete all cached parser libraries.
@@ -436,7 +436,7 @@ impl TsPackMcp {
             "status": "cleared",
         }))
         .unwrap_or_default();
-        Ok(CallToolResult::success(vec![Content::text(response)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(response)]))
     }
 }
 
@@ -448,29 +448,25 @@ impl TsPackMcp {
     const LANGUAGE_URI_PREFIX: &'static str = "ts-pack://language/";
 
     fn list_resources_inner(&self) -> ListResourcesResult {
-        let mut available = RawResource::new("ts-pack://languages", "available-languages");
-        available.title = Some("Available languages".to_string());
-        available.description = Some("Every language available to this build of the pack.".to_string());
-        available.mime_type = Some("application/json".to_string());
+        let available = Resource::new("ts-pack://languages", "available-languages")
+            .with_title("Available languages")
+            .with_description("Every language available to this build of the pack.")
+            .with_mime_type("application/json");
 
-        let mut downloaded = RawResource::new("ts-pack://languages/downloaded", "downloaded-languages");
-        downloaded.title = Some("Downloaded languages".to_string());
-        downloaded.description = Some("Languages whose parser libraries are already cached locally.".to_string());
-        downloaded.mime_type = Some("application/json".to_string());
+        let downloaded = Resource::new("ts-pack://languages/downloaded", "downloaded-languages")
+            .with_title("Downloaded languages")
+            .with_description("Languages whose parser libraries are already cached locally.")
+            .with_mime_type("application/json");
 
-        ListResourcesResult::with_all_items(vec![available.no_annotation(), downloaded.no_annotation()])
+        ListResourcesResult::with_all_items(vec![available, downloaded])
     }
 
     fn list_resource_templates_inner(&self) -> ListResourceTemplatesResult {
-        let template = RawResourceTemplate {
-            uri_template: "ts-pack://language/{name}".to_string(),
-            name: "language-info".to_string(),
-            title: Some("Language info".to_string()),
-            description: Some("Per-language status: known, downloaded, and cache directory.".to_string()),
-            mime_type: Some("application/json".to_string()),
-            icons: None,
-        };
-        ListResourceTemplatesResult::with_all_items(vec![template.no_annotation()])
+        let template = ResourceTemplate::new("ts-pack://language/{name}", "language-info")
+            .with_title("Language info")
+            .with_description("Per-language status: known, downloaded, and cache directory.")
+            .with_mime_type("application/json");
+        ListResourceTemplatesResult::with_all_items(vec![template])
     }
 
     fn read_resource_inner(&self, uri: &str) -> Result<ReadResourceResult, rmcp::ErrorData> {
@@ -546,7 +542,7 @@ impl TsPackMcp {
             text.push_str(&format!(" Pay particular attention to: {focus}."));
         }
 
-        let message = PromptMessage::new_text(PromptMessageRole::User, text);
+        let message = PromptMessage::new_text(Role::User, text);
         Ok(GetPromptResult::new(vec![message]).with_description("Code analysis workflow"))
     }
 
@@ -562,6 +558,7 @@ impl TsPackMcp {
             Reference::Resource(resource) => {
                 resource.uri.starts_with(Self::LANGUAGE_URI_PREFIX) && argument.name == "name"
             }
+            _ => false,
         };
         if !completes_language {
             return Ok(CompleteResult::default());
@@ -856,9 +853,10 @@ mod tests {
         let result = server
             .get_prompt_inner("analyze-code", Some(args))
             .expect("render should succeed");
-        let PromptMessageContent::Text { text } = &result.messages[0].content else {
+        let ContentBlock::Text(text_content) = &result.messages[0].content else {
             panic!("expected text message");
         };
+        let text = &text_content.text;
         assert!(text.contains("rust"), "language interpolated");
         assert!(text.contains("security"), "focus interpolated");
     }
@@ -872,13 +870,8 @@ mod tests {
     #[test]
     fn test_complete_language_prefix() {
         let server = TsPackMcp::new();
-        let reference = Reference::Resource(ResourceReference {
-            uri: "ts-pack://language/{name}".to_string(),
-        });
-        let argument = ArgumentInfo {
-            name: "name".to_string(),
-            value: "py".to_string(),
-        };
+        let reference = Reference::for_resource("ts-pack://language/{name}");
+        let argument = ArgumentInfo::new("name", "py");
         let result = server
             .complete_inner(&reference, &argument)
             .expect("complete should succeed");
@@ -895,10 +888,7 @@ mod tests {
     fn test_complete_ignores_unrelated_reference() {
         let server = TsPackMcp::new();
         let reference = Reference::for_prompt("other");
-        let argument = ArgumentInfo {
-            name: "language".to_string(),
-            value: "py".to_string(),
-        };
+        let argument = ArgumentInfo::new("language", "py");
         let result = server
             .complete_inner(&reference, &argument)
             .expect("complete should succeed");
@@ -927,10 +917,8 @@ mod tests {
         }));
         assert!(result.is_ok());
         let call = result.unwrap();
-        if let Some(content) = call.content.first()
-            && let rmcp::model::RawContent::Text(text) = &content.raw
-        {
-            let parsed: serde_json::Value = serde_json::from_str(&text.text).expect("Should be valid JSON");
+        if let Some(ContentBlock::Text(text_content)) = call.content.first() {
+            let parsed: serde_json::Value = serde_json::from_str(&text_content.text).expect("Should be valid JSON");
             assert_eq!(parsed["filter"], "python");
             assert_eq!(parsed["source"], "available");
             assert!(parsed["count"].is_number());
@@ -943,10 +931,8 @@ mod tests {
         let result = server.cache_dir();
         assert!(result.is_ok());
         let call = result.unwrap();
-        if let Some(content) = call.content.first()
-            && let rmcp::model::RawContent::Text(text) = &content.raw
-        {
-            let parsed: serde_json::Value = serde_json::from_str(&text.text).expect("Should be valid JSON");
+        if let Some(ContentBlock::Text(text_content)) = call.content.first() {
+            let parsed: serde_json::Value = serde_json::from_str(&text_content.text).expect("Should be valid JSON");
             assert!(parsed["cache_dir"].is_string());
         }
     }
@@ -960,10 +946,8 @@ mod tests {
         }));
         assert!(result.is_ok());
         let call = result.unwrap();
-        if let Some(content) = call.content.first()
-            && let rmcp::model::RawContent::Text(text) = &content.raw
-        {
-            let parsed: serde_json::Value = serde_json::from_str(&text.text).expect("Should be valid JSON");
+        if let Some(ContentBlock::Text(text_content)) = call.content.first() {
+            let parsed: serde_json::Value = serde_json::from_str(&text_content.text).expect("Should be valid JSON");
             // Python should be detected from .py extension
             assert_eq!(parsed["language"], "python");
         }

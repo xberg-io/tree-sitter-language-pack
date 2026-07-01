@@ -207,7 +207,7 @@ pub(super) fn collect_structure_call(
     // recurse into the body (a `do_block` or a compact `do:` keyword value)
     // for nested items. Leaf kinds (`defstruct`) carry no body - their
     // arguments are field defaults, so skip the body descent to avoid
-    // mis-reading a `do:` field default as a body.
+    // misreading a `do:` field default as a body.
     if let Some((sk, name, visibility, has_body)) = elixir_definition(node, source) {
         let body = if has_body {
             elixir_definition_body(node, source)

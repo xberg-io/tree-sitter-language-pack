@@ -211,7 +211,7 @@ jobs:
 
             # --- Ruby ---
             - name: Setup Ruby
-              uses: ruby/setup-ruby@v1.310.0
+              uses: ruby/setup-ruby@v1
               with:
                   ruby-version: "3.4"
                   bundler-cache: true
@@ -1383,7 +1383,7 @@ jobs:
                   install-llvm-cov: "false"
 
             - name: Setup Ruby
-              uses: ruby/setup-ruby@v1.310.0
+              uses: ruby/setup-ruby@v1
               with:
                   ruby-version: "3.4"
 

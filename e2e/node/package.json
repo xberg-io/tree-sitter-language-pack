@@ -1,9 +1,9 @@
 {
   "devDependencies": {
-    "@types/node": "^22.10.2",
+    "@types/node": "^26.0.1",
     "@xberg-io/tree-sitter-language-pack": "workspace:*",
     "tree-sitter": "^0.25.0",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.9"
   },
   "engines": {
     "node": ">= 22"

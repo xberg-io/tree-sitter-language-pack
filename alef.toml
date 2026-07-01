@@ -290,7 +290,7 @@ package = "io.xberg.treesitterlanguagepack"
 [crates.java.capsule_types.Language]
 host_type = "io.github.treesitter.jtreesitter.Language"
 package = "io.github.tree-sitter:jtreesitter"
-package_version = "0.26.0"
+package_version = "0.26.1"
 construct_expr = "new io.github.treesitter.jtreesitter.Language({ptr})"
 
 [crates.csharp]
@@ -724,7 +724,7 @@ dev_dependencies = { "tree-sitter" = "^0.25.0" }
 dependencies = { "github.com/tree-sitter/go-tree-sitter" = "v0.24.0" }
 
 [crates.e2e.harness_extras.java]
-dev_dependencies = { "io.github.tree-sitter:jtreesitter" = "0.26.0" }
+dev_dependencies = { "io.github.tree-sitter:jtreesitter" = "0.26.1" }
 
 [crates.e2e.harness_extras.csharp]
 dependencies = { "TreeSitter.DotNet" = "1.3.0" }
@@ -1225,52 +1225,52 @@ github_repo = "https://github.com/xberg-io/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.node]
 name = "@xberg-io/tree-sitter-language-pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.go]
 module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
-version = "v1.12.0"
+version = "v1.12.1"
 
 [crates.e2e.registry.packages.java]
 group_id = "io.xberg.treesitterlanguagepack"
 artifact_id = "tree-sitter-language-pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.wasm]
 name = "@xberg-io/tree-sitter-language-pack-wasm"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.php]
 name = "xberg-io/tree-sitter-language-pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "1.12.0"
+version = "1.12.1"
 # Per-platform hashes — alef publish only produces per-platform zig tarballs
 # (no generic-name tarball). Placeholders trigger network auto-fetch at regen
 # time via `zig fetch <url>`, resolving to the real published hash.
@@ -1284,15 +1284,15 @@ version = "1.12.0"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "1.12.0"
+version = "1.12.1"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "io.xberg.tslp.android:tree-sitter-language-pack-android"
-version = "1.12.0"
+version = "1.12.1"
 
 # JNI test app reuses the kotlin_android Gradle scaffold (`buildHostJni` +
 # `copyHostJni` → JUnit tests loading the JNI cdylib via JNA on the host JVM).

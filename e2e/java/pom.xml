@@ -31,14 +31,14 @@
         <dependency>
             <groupId>io.xberg.treesitterlanguagepack</groupId>
             <artifactId>tree-sitter-language-pack</artifactId>
-            <version>1.12.0</version>
+            <version>1.12.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.12.0.jar</systemPath>
+            <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.12.1.jar</systemPath>
         </dependency>
         <dependency>
     <groupId>io.github.tree-sitter</groupId>
     <artifactId>jtreesitter</artifactId>
-    <version>0.26.0</version>
+    <version>0.26.1</version>
     <scope>test</scope>
     </dependency>
 
