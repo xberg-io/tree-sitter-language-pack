@@ -1316,7 +1316,6 @@ keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 template_dir = "templates/readme"
 snippets_dir = "docs/snippets"
 discord_url = "https://discord.gg/xt9WY3GnKR"
-banner_url = "https://github.com/user-attachments/assets/478a83da-237b-446b-b3a8-e564c13e00a8"
 
 [crates.readme.targets.root]
 template = "root.md"
