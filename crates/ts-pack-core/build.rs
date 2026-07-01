@@ -350,6 +350,38 @@ fn wasm_parser_size_limit() -> Option<u64> {
     }
 }
 
+/// Grammars whose external scanners cannot be compiled/linked for
+/// `wasm32-unknown-unknown` and are skipped on that target by default.
+///
+/// Each depends on host libc/libc++ facilities that wasi-libc does not provide
+/// freestanding:
+/// - `gitcommit`, `perl` — `<wctype.h>` (`iswcntrl`/`iswspace`) needs locale
+///   tables absent on wasm32; `perl` also calls `fprintf(stderr, …)` in a DEBUG
+///   macro (no stderr on wasm32).
+/// - `mojo`, `nim` — C++ `<cwctype>` (`std::iswspace`) fails to link against
+///   wasi-libc's C++ wctype/locale layer.
+/// - `norg` — C++ `<regex>` + `<locale>` + `<iostream>`, none available on wasm32.
+///
+/// These are niche grammars; dropping them from the wasm bundle degrades
+/// gracefully (absent from `STATIC_LANGUAGES`, no dangling FFI symbol). Override
+/// the set with `TSLP_WASM_SKIP_GRAMMARS` (comma-separated; empty disables the
+/// skip). Mirrors the `TSLP_WASM_MAX_PARSER_BYTES` size-gate pattern.
+const DEFAULT_WASM_SKIP_GRAMMARS: [&str; 5] = ["gitcommit", "mojo", "nim", "norg", "perl"];
+
+/// Resolve the wasm32 grammar skip-list. Returns the default set unless
+/// `TSLP_WASM_SKIP_GRAMMARS` is set, in which case its comma-separated entries
+/// replace the default (an empty/whitespace value disables the skip entirely).
+fn wasm_skip_grammars() -> Vec<String> {
+    match env::var("TSLP_WASM_SKIP_GRAMMARS") {
+        Ok(raw) => raw
+            .split(',')
+            .map(|s| s.trim().to_string())
+            .filter(|s| !s.is_empty())
+            .collect(),
+        Err(_) => DEFAULT_WASM_SKIP_GRAMMARS.iter().map(|s| s.to_string()).collect(),
+    }
+}
+
 /// Apply wasi-sysroot includes to a cc::Build for wasm32 targets.
 ///
 /// Use `-isystem` to add the wasm32-wasi include dir which has stdlib.h etc.
@@ -1171,12 +1203,31 @@ fn main() {
         None
     };
 
+    // On wasm32, exclude grammars whose external scanners cannot compile/link
+    // against wasi-libc (wctype/locale, C++ <regex>/<locale>/<iostream>, stderr).
+    // See DEFAULT_WASM_SKIP_GRAMMARS. Skipped grammars are absent from
+    // STATIC_LANGUAGES (no dangling FFI symbol) and degrade gracefully at runtime.
+    let wasm_skip = if target_arch == "wasm32" {
+        wasm_skip_grammars()
+    } else {
+        Vec::new()
+    };
+
     for name in &selected {
         let parser_dir = parsers_dir.join(name);
         let parser_c = parser_dir.join("src/parser.c");
         if !parser_c.exists() {
             println!("cargo:warning=Parser sources not found for '{}', skipping", name);
             failed.push(name.clone());
+            continue;
+        }
+
+        if wasm_skip.iter().any(|g| g == name) {
+            println!(
+                "cargo:warning=wasm32: skipping grammar '{}' — its external scanner is not wasm32-compatible (wctype/locale or C++ stdlib). Override with TSLP_WASM_SKIP_GRAMMARS.",
+                name,
+            );
+            skipped_wasm.push(name.clone());
             continue;
         }
 
