@@ -76,8 +76,8 @@ nav = [
 [project.theme]
 name = "material"
 custom_dir = "docs/overrides"
-logo = "assets/logo.svg"
-favicon = "assets/favicon.ico"
+logo = "https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/docs/navbar-logo-dark.svg"
+favicon = "https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/favicon/favicon.ico"
 features = [
   "content.code.copy",
   "content.code.annotate",

@@ -26,21 +26,21 @@ body {
 
 :root > * {
   /* Primary ink for body copy, inline code, and command text in light mode */
-  --kb-text: #26203a;
+  --kb-text: #06111e;
   --kb-brand-ink: var(--kb-text);
   --kb-brand-green: #00e0c2;
 
-  --md-primary-fg-color: #323040;
-  --md-primary-fg-color--light: #4a4858;
-  --md-primary-fg-color--dark: #1a1926;
+  --md-primary-fg-color: #06111e;
+  --md-primary-fg-color--light: #0d1f33;
+  --md-primary-fg-color--dark: #040a12;
 
   --md-accent-fg-color: #7b5cff;
   --md-accent-fg-color-opposite: #00e0c2;
   --md-typeset-a-color: #7b5cff;
 
-  --md-default-fg-color: #323040;
-  --md-default-fg-color--light: #323040;
-  --md-default-fg-color--dark: #323040;
+  --md-default-fg-color: #06111e;
+  --md-default-fg-color--light: #06111e;
+  --md-default-fg-color--dark: #06111e;
 
   --md-default-bg-color: #ffffff;
   --md-default-bg-color--light: #ffffff;
@@ -57,9 +57,9 @@ body {
 }
 
 :root[data-md-color-scheme="slate"] > * {
-  --md-primary-fg-color: #323040;
-  --md-primary-fg-color--light: #4a4858;
-  --md-primary-fg-color--dark: #1a1926;
+  --md-primary-fg-color: #06111e;
+  --md-primary-fg-color--light: #0d1f33;
+  --md-primary-fg-color--dark: #040a12;
 
   --md-accent-fg-color: #00e0c2;
   --md-accent-fg-color-opposite: #2ebbff;

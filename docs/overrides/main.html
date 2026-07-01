@@ -65,12 +65,12 @@
 />
 <meta property="og:url" content="{{ page.canonical_url }}" />
 <meta property="og:site_name" content="{{ config.site_name }}" />
-<meta property="og:image" content="{{ config.site_url }}assets/og-image.png" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/social/open-graph-card.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<link rel="apple-touch-icon" sizes="180x180" href="{{ config.site_url }}assets/apple-touch-icon.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="{{ config.site_url }}assets/favicon-32x32.png" />
-<link rel="manifest" href="{{ config.site_url }}assets/site.webmanifest" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/favicon/apple-touch-icon-180x180.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/favicon/favicon-32x32.png" />
+<link rel="manifest" href="https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/favicon/site.webmanifest" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta
@@ -81,7 +81,7 @@
   name="twitter:description"
   content="{% if page and page.meta and page.meta.description %}{{ page.meta.description }}{% else %}{{ config.site_description }}{% endif %}"
 />
-<meta name="twitter:image" content="{{ config.site_url }}assets/og-image.png" />
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/social/open-graph-card.png" />
 {% endblock %} {# Match Material: `.md-content` wraps article; `data-md-component="content"` stays
 on the wrapper for theme JS. #} {% block container %}
 <div class="md-content" data-md-component="content">
@@ -91,7 +91,7 @@ on the wrapper for theme JS. #} {% block container %}
     <div class="hero-banner">
       <a href="https://xberg.io/" title="Xberg">
         <img
-          src="{{ 'assets/docs_top_banner.svg' | url }}"
+          src="https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/docs/navbar-logo-dark.svg"
           alt="Xberg"
           width="800"
           height="200"
@@ -118,7 +118,7 @@ on the wrapper for theme JS. #} {% block container %}
     <div class="cloud-banner">
       <a href="https://xberg.io/" title="Xberg">
         <img
-          src="{{ 'assets/docs_bottom_banner.svg' | url }}"
+          src="https://cdn.jsdelivr.net/gh/xberg-io/assets@v1/docs/footer-logo-light.svg"
           alt="Xberg"
           width="800"
           height="200"
