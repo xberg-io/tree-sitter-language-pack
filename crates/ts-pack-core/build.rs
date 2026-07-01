@@ -361,12 +361,15 @@ fn wasm_parser_size_limit() -> Option<u64> {
 /// - `mojo`, `nim` — C++ `<cwctype>` (`std::iswspace`) fails to link against
 ///   wasi-libc's C++ wctype/locale layer.
 /// - `norg` — C++ `<regex>` + `<locale>` + `<iostream>`, none available on wasm32.
+/// - `tmux` — its ~30 MB generated `parser.c` is under the size gate but still
+///   overruns the wasm32 clang backend during codegen (fails to compile), so it
+///   is skipped explicitly rather than by the byte-size heuristic.
 ///
 /// These are niche grammars; dropping them from the wasm bundle degrades
 /// gracefully (absent from `STATIC_LANGUAGES`, no dangling FFI symbol). Override
 /// the set with `TSLP_WASM_SKIP_GRAMMARS` (comma-separated; empty disables the
 /// skip). Mirrors the `TSLP_WASM_MAX_PARSER_BYTES` size-gate pattern.
-const DEFAULT_WASM_SKIP_GRAMMARS: [&str; 5] = ["gitcommit", "mojo", "nim", "norg", "perl"];
+const DEFAULT_WASM_SKIP_GRAMMARS: [&str; 6] = ["gitcommit", "mojo", "nim", "norg", "perl", "tmux"];
 
 /// Resolve the wasm32 grammar skip-list. Returns the default set unless
 /// `TSLP_WASM_SKIP_GRAMMARS` is set, in which case its comma-separated entries
