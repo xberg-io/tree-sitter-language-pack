@@ -750,7 +750,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.310.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
           bundler: none
@@ -2290,7 +2290,7 @@ jobs:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.310.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
           bundler: none
@@ -2502,7 +2502,7 @@ jobs:
         # rejects the current Let's Encrypt YR2 intermediate cert chain
         # used by hex.pm (TLS key_usage_mismatch). Lift back to current
         # once hex.pm or LE rotate the chain.
-        uses: erlef/setup-elixir@v1.24.0
+        uses: erlef/setup-elixir@v1
         with:
           elixir-version: "1.16"
           otp-version: "26.2"

@@ -7,7 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.12.2] - 2026-07-02
+## [1.12.3] - 2026-07-02
+
+### Fixed
+
+- **python**: `get_parser()` now returns the installed `tree_sitter.Parser` instead of a vendored
+  parser class. On Python 3.14 the vendored parser produced unusable trees — nodes exposed no
+  `type`/`children` and `parse(bytes)` raised `TypeError` — while nothing failed at construction, so
+  the breakage was silent. `get_parser(name)` now builds `tree_sitter.Parser(get_language(name))`,
+  mirroring `get_language()` and working across Python versions. Fixes
+  [#157](https://github.com/xberg-io/tree-sitter-language-pack/issues/157).
+
+### Changed
+
+- **deps**: upgrade dependencies to their latest versions across every language binding (Rust, Python,
+  Node, Ruby, PHP, Go, Java, C#, Elixir, WASM, Dart, Swift, Zig, Kotlin-Android) and refresh grammar
+  revisions and GitHub Actions pins. On `wasm32`, `getrandom` moves to 0.4 with the `wasm_js` feature.
+- Regenerated all bindings with alef 0.30.10, which corrects the generated Python `get_parser` return
+  annotation (previously an invalid `_rust.Parser` that broke import on Python < 3.14).
 
 ### Fixed
 

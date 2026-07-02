@@ -47,16 +47,16 @@ kotlin {
 
 dependencies {
     // Published Android AAR from Maven Central (verifies artifact resolution)
-    implementation("io.xberg.tslp.android:tree-sitter-language-pack-android:1.12.1")
+    implementation("io.xberg.tslp.android:tree-sitter-language-pack-android:1.12.3")
     // Jackson for JSON assertion helpers
-    testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.18.2")
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
-    testImplementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.2")
+    testImplementation("com.fasterxml.jackson.core:jackson-annotations:2.19.0")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.19.0")
+    testImplementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.19.0")
 
     // jackson-module-kotlin registers constructors/properties for Kotlin data
     // classes, which have no default constructor and cannot be deserialized by
     // plain Jackson without this module.
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.19.0")
 
     // jspecify for null-safety annotations on wrapped types
     testImplementation("org.jspecify:jspecify:1.0.0")
@@ -80,7 +80,7 @@ dependencies {
 tasks.register("verifyAarPublished") {
     description = "Verify the published Android AAR contains jni and classes.jar"
     doLast {
-        val aarCoord = "io.xberg.tslp.android:tree-sitter-language-pack-android:1.12.1"
+        val aarCoord = "io.xberg.tslp.android:tree-sitter-language-pack-android:1.12.3"
         val (groupId, artifactId, version) = run {
             val parts = aarCoord.split(':')
             Triple(parts[0], parts[1], parts[2])

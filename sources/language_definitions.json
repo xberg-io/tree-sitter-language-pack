@@ -446,7 +446,7 @@
   "elixir": {
     "extensions": ["ex", "exs"],
     "repo": "https://github.com/elixir-lang/tree-sitter-elixir",
-    "rev": "7937d3b4d65fa574163cfa59394515d3c1cf16f4"
+    "rev": "c4f9f5a15ddad8635ba59a5b99c2e9124e74ad91"
   },
   "elm": {
     "abi_version": 14,
@@ -548,7 +548,7 @@
     "extensions": ["fs", "fsx"],
     "generate": true,
     "repo": "https://github.com/ionide/tree-sitter-fsharp",
-    "rev": "5480cb95c6028608bf4e8953e100b8416d1641dc"
+    "rev": "97205752445ac9c6566a768d97b21bc1078ae321"
   },
   "fsharp_signature": {
     "abi_version": 14,
@@ -557,7 +557,7 @@
     "extensions": ["fsi"],
     "generate": true,
     "repo": "https://github.com/ionide/tree-sitter-fsharp",
-    "rev": "5480cb95c6028608bf4e8953e100b8416d1641dc"
+    "rev": "97205752445ac9c6566a768d97b21bc1078ae321"
   },
   "func": {
     "extensions": ["fc"],
@@ -652,7 +652,7 @@
     "extensions": ["gp", "gnuplot", "plt"],
     "generate": true,
     "repo": "https://github.com/dpezto/tree-sitter-gnuplot",
-    "rev": "072c737e981729e0e6f53fcf3ec9b1612f98fca0"
+    "rev": "20a98295a52caa5f474839838a800d250e8fe1f4"
   },
   "go": {
     "abi_version": 14,
@@ -956,7 +956,7 @@
     "extensions": ["lean"],
     "generate": true,
     "repo": "https://github.com/Julian/tree-sitter-lean",
-    "rev": "463a9d8a509c935f4e10854b5078bbe2839b274c"
+    "rev": "dc5997b2744595eeb389e1ed9c4f5e727c5b655e"
   },
   "ledger": {
     "abi_version": 14,
@@ -1139,7 +1139,7 @@
     "extensions": ["nu"],
     "generate": true,
     "repo": "https://github.com/nushell/tree-sitter-nu",
-    "rev": "348b787d8b0409091d85fe9d4eb007fe9f3406bb"
+    "rev": "d694570aa26b53d0d642460a0430e8aa07dcbea0"
   },
   "objc": {
     "ambiguous": {
@@ -1209,7 +1209,7 @@
     "branch": "release",
     "extensions": ["pl", "pm"],
     "repo": "https://github.com/tree-sitter-perl/tree-sitter-perl",
-    "rev": "5849695e3f1ebb8cef5b4bda85f65822871aa105"
+    "rev": "0390ac6f4e26f5805c9d7d9b950685436faa6359"
   },
   "pgn": {
     "abi_version": 14,
@@ -1597,7 +1597,7 @@
     "directory": "tree-sitter-superhtml",
     "extensions": ["shtml"],
     "repo": "https://github.com/kristoff-it/superhtml",
-    "rev": "3e37d8b00b211ac1591766cfb0ea3efd2845bff2"
+    "rev": "2b047c0a92260cd8cff784820dd2b825bc9419b3"
   },
   "svelte": {
     "branch": "master",
@@ -1909,13 +1909,13 @@
     "directory": "tree-sitter-ziggy",
     "extensions": ["ziggy"],
     "repo": "https://github.com/kristoff-it/ziggy",
-    "rev": "c314f768d5802605275fe9df54318ad2136e51ed"
+    "rev": "9de3861482ae53225bd6ce8087770db57e1325d5"
   },
   "ziggy_schema": {
     "directory": "tree-sitter-ziggy-schema",
     "extensions": [],
     "repo": "https://github.com/kristoff-it/ziggy",
-    "rev": "c314f768d5802605275fe9df54318ad2136e51ed"
+    "rev": "9de3861482ae53225bd6ce8087770db57e1325d5"
   },
   "zsh": {
     "abi_version": 14,
