@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.2] - 2026-07-02
+
+### Fixed
+
+- **wasm**: skip the `tmux` grammar on `wasm32`. Its generated `parser.c` is ~30MB — under
+  `TSLP_WASM_MAX_PARSER_BYTES` (40MB) so the size gate doesn't catch it, but it still overruns the
+  clang wasm backend during codegen. Added to `DEFAULT_WASM_SKIP_GRAMMARS` so the wasm build is clean;
+  it degrades gracefully (absent from `STATIC_LANGUAGES`).
+- **wasm**: enable the `getrandom` `js` feature for `wasm32-unknown-unknown`. Build-dependencies
+  (ureq) transitively depend on `getrandom`, which requires the `js` feature on that target; without
+  it wasm32 builds failed with "the wasm\*-unknown-unknown targets are not supported by default".
+- **build**: `build.rs` now reports `failed_languages.txt` write errors separately (via `eprintln`)
+  and always surfaces the underlying grammar compilation error even when the write fails.
+
 ## [1.12.0] - 2026-06-29
 
 ### Added
