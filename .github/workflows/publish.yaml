@@ -2205,6 +2205,11 @@ jobs:
           path: dist/go
           merge-multiple: true
 
+      - name: Prepare Go installer archive aliases and checksums
+        env:
+          RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
+        run: python3 scripts/prepare_go_release_assets.py dist/go tree-sitter-language-pack "$RELEASE_VERSION"
+
       - uses: xberg-io/actions/upload-release-assets@v1
         with:
           tag: ${{ needs.prepare.outputs.tag }}
@@ -2213,6 +2218,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           assets: |
             **/*.tar.gz
+            **/*.tar.gz.sha256
             **/*.zip
 
   upload-c-ffi-release:

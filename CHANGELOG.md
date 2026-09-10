@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Publish every native NuGet runtime package required by the managed package's runtime graph.
 - Upload Dart native archives and checksums required by the generated package downloader.
+- Publish Go installer archive aliases and their required SHA256 sidecars.
 
 ## [1.17.0] - 2026-09-09
 
