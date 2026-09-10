@@ -22,13 +22,17 @@ on:
         required: false
         type: string
         default: "all"
+      nuget_runtime_run_id:
+        description: "Recover missing NuGet runtime packages from an existing release run; skip other targets"
+        required: false
+        type: string
   release:
     types: [published]
   repository_dispatch:
     types: [publish-release]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.inputs.tag || github.event.release.tag_name || github.run_id }}-${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true' && 'dryrun' || 'real' }}
+  group: ${{ github.workflow }}-${{ (inputs.nuget_runtime_run_id && format('nuget-runtimes-{0}', inputs.nuget_runtime_run_id)) || github.event.inputs.tag || github.event.release.tag_name || github.run_id }}-${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run == 'true' && 'dryrun' || 'real' }}
   cancel-in-progress: false
 
 env:
@@ -40,6 +44,112 @@ permissions:
   contents: read
 
 jobs:
+  recover-nuget-runtimes:
+    name: Recover missing NuGet runtime packages
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.nuget_runtime_run_id != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - name: Validate original release run
+        id: source
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_RUN_ID: ${{ inputs.nuget_runtime_run_id }}
+          EXPECTED_TAG: ${{ inputs.tag }}
+        run: |
+          [[ "$RELEASE_RUN_ID" =~ ^[0-9]+$ ]]
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RELEASE_RUN_ID}" > release-run.json
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+
+          with open('release-run.json') as source:
+              run = json.load(source)
+          if run['repository']['full_name'] != os.environ['GITHUB_REPOSITORY']:
+              raise SystemExit('Source run repository differs')
+          tag = os.environ['EXPECTED_TAG']
+          if not re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+', tag):
+              raise SystemExit('Recovery requires an explicit stable release tag')
+          if (run['path'], run['event'], run['head_branch']) != ('.github/workflows/publish.yaml', 'release', tag):
+              raise SystemExit('Source must be the original Publish Release event for the requested tag')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write(f"sha={run['head_sha']}\n")
+          PY
+
+      - name: Check out current recovery tooling
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.workflow_sha }}
+
+      - name: Check out original release source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          path: release-source
+
+      - name: Verify immutable release source and version
+        id: version
+        shell: bash
+        working-directory: release-source
+        env:
+          EXPECTED_TAG: ${{ inputs.tag }}
+          EXPECTED_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          git fetch --depth=1 origin "refs/tags/${EXPECTED_TAG}:refs/tags/${EXPECTED_TAG}"
+          [[ "$(git rev-parse "${EXPECTED_TAG}^{commit}")" == "$EXPECTED_SHA" ]]
+          python3 - <<'PY'
+          import os
+          import tomllib
+
+          with open('Cargo.toml', 'rb') as manifest:
+              version = tomllib.load(manifest)['workspace']['package']['version']
+          if f'v{version}' != os.environ['EXPECTED_TAG']:
+              raise SystemExit('Release tag and source version differ')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write(f'version={version}\n')
+          PY
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          pattern: csharp-natives-*
+          path: release-source/artifacts/csharp-natives
+          merge-multiple: true
+          run-id: ${{ inputs.nuget_runtime_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Pack only missing runtime package candidates
+        shell: bash
+        working-directory: release-source
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          for dir in artifacts/csharp-natives/runtimes/*/; do
+            rid="$(basename "$dir")"
+            mkdir -p "packages/csharp/TreeSitterLanguagePack/runtimes/${rid}/native"
+            cp -v "${dir}native/"* "packages/csharp/TreeSitterLanguagePack/runtimes/${rid}/native/"
+          done
+          # Every concrete RID is packed, and RequireRuntimeAssets rejects a missing artifact.
+          # This directory deliberately contains no managed package.
+          bash "$GITHUB_WORKSPACE/scripts/publish/csharp/pack-runtimes.sh" "$VERSION" dist/nuget-runtimes
+
+      - uses: xberg-io/actions/publish-nuget@v1
+        if: ${{ !inputs.dry_run }}
+        with:
+          packages-dir: release-source/dist/nuget-runtimes
+          expected-version: ${{ steps.version.outputs.version }}
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
   prepare:
     name: Prepare release
     # This workflow publishes the release object itself, which re-enters it through
@@ -50,8 +160,9 @@ jobs:
     # re-run, so it would ADMIT a duplicate when someone re-runs the bot's own recursive run.
     # `actor` is pinned to whoever initiated the original run and survives re-runs. ~keep
     if: >-
-      github.event_name != 'release' ||
-      github.actor != 'xberg-dev-publisher[bot]'
+      !inputs.nuget_runtime_run_id &&
+      (github.event_name != 'release' ||
+      github.actor != 'xberg-dev-publisher[bot]')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
@@ -1861,13 +1972,21 @@ jobs:
 
       - name: Build and pack NuGet
         working-directory: packages/csharp/TreeSitterLanguagePack
-        run: dotnet pack TreeSitterLanguagePack.csproj -c Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          rids=$(jq -er '.runtimes | to_entries[] | select(.value["XbergIo.TreeSitterLanguagePack"] != null) | .key' runtime.json)
+          while IFS= read -r rid; do
+            dotnet pack ../TreeSitterLanguagePack.Runtime/TreeSitterLanguagePack.Runtime.csproj -c Release \
+              -p:PublishedRID="$rid" --output ../../../dist/nuget
+          done <<< "$rids"
+          dotnet pack TreeSitterLanguagePack.csproj -c Release --output ../../../dist/nuget
 
       - name: Upload NuGet package
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: nuget-packages
-          path: packages/csharp/TreeSitterLanguagePack/bin/Release/*.nupkg
+          path: dist/nuget/*.nupkg
           retention-days: 14
 
   upload-parser-binaries:
