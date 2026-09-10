@@ -22,7 +22,7 @@ if [[ "$LANG_COUNT" -lt 1 ]]; then
 fi
 
 # List with filter
-"$BIN" list --filter python | grep -q "python"
+"$BIN" list --filter python | grep "python" > /dev/null
 
 # Info for a known language
 "$BIN" info python > /dev/null
