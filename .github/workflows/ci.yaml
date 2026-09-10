@@ -83,7 +83,9 @@ jobs:
           python-version: "3.14"
           install-command: "uv sync --no-install-project --no-install-workspace"
       - name: Test NuGet packing workflow
-        run: uv run --no-sync python scripts/ci/test_nuget_pack.py
+        run: |
+          uv run --no-sync python scripts/ci/test_nuget_pack.py
+          uv run --no-sync python scripts/ci/test_dart_release_assets.py
 
   clone-vendors:
     name: Clone vendors
