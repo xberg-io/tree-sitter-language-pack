@@ -5282,6 +5282,7 @@ jobs:
         if: always() && needs.prepare.outputs.dry_run != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           TAG: ${{ needs.prepare.outputs.tag }}
           CHECK_RESULTS: ${{ needs.check-registries.outputs.results }}
           RESULT_PREPARE: ${{ needs.prepare.result }}
