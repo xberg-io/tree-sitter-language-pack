@@ -32,8 +32,8 @@ github.com/tree-sitter/tree-sitter-ruby v0.23.1 h1:T/NKHUA+iVbHM440hFx+lzVOzS4dV
 github.com/tree-sitter/tree-sitter-ruby v0.23.1/go.mod h1:kUS4kCCQloFcdX6sdpr8p6r2rogbM6ZjTox5ZOQy8cA=
 github.com/tree-sitter/tree-sitter-rust v0.23.2 h1:6AtoooCW5GqNrRpfnvl0iUhxTAZEovEmLKDbyHlfw90=
 github.com/tree-sitter/tree-sitter-rust v0.23.2/go.mod h1:hfeGWic9BAfgTrc7Xf6FaOAguCFJRo3RBbs7QJ6D7MI=
-github.com/xberg-io/tree-sitter-language-pack/packages/go v1.16.1 h1:TyUdeyC7OuYZtuqk5Zi4m32kG9S3O3+2v9zdwJee9i0=
-github.com/xberg-io/tree-sitter-language-pack/packages/go v1.16.1/go.mod h1:elmEHB132S8m85Rafgt1JV3Z5IM8lxYSobmRGT8TRSg=
+github.com/xberg-io/tree-sitter-language-pack/packages/go v1.17.0 h1:gvt1cmt2mzfggK2fIVlaEyloI6w/vkxrclorH1vD4nc=
+github.com/xberg-io/tree-sitter-language-pack/packages/go v1.17.0/go.mod h1:elmEHB132S8m85Rafgt1JV3Z5IM8lxYSobmRGT8TRSg=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
