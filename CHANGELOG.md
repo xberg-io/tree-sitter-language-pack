@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Publish every native NuGet runtime package required by the managed package's runtime graph.
+- Upload Dart native archives and checksums required by the generated package downloader.
+
 ## [1.17.0] - 2026-09-09
 
 ### Changed
