@@ -16,7 +16,11 @@
       "default": "./index.js"
     }
   },
-  "files": ["index.js", "index.d.ts", "*.node"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node"
+  ],
   "optionalDependencies": {
     "@xberg-io/tree-sitter-language-pack-darwin-arm64": "1.17.0",
     "@xberg-io/tree-sitter-language-pack-darwin-x64": "1.17.0",
@@ -53,6 +57,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.8.6"
+    "@napi-rs/cli": "^3.9.0"
   }
 }
