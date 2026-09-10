@@ -5137,7 +5137,7 @@ jobs:
       - trigger-pubdev
       - publish-zig
       - publish-kotlin-android
-    if: always() && (github.event_name != 'release' || github.actor != 'xberg-dev-publisher[bot]')
+    if: always() && !inputs.nuget_runtime_run_id && (github.event_name != 'release' || github.actor != 'xberg-dev-publisher[bot]')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

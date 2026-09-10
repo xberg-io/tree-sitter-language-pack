@@ -120,6 +120,10 @@ class NugetRecoveryWorkflowTests(unittest.TestCase):
             )
             return result.returncode, output.read_text() if output.exists() else ""
 
+    def test_full_release_aggregate_is_skipped_during_recovery(self) -> None:
+        workflow = yaml.safe_load((ROOT / ".github/workflows/publish.yaml").read_text())
+        assert "!inputs.nuget_runtime_run_id" in workflow["jobs"]["release-finalize"]["if"]
+
     def test_recovery_respects_dry_run(self) -> None:
         publish = next(step for step in self.recovery["steps"] if "publish-nuget@" in step.get("uses", ""))
         assert publish["if"] == "${{ !inputs.dry_run }}"
