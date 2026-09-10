@@ -1786,9 +1786,17 @@ jobs:
           path: parsers
 
       - name: Setup PHP
+        if: matrix.platform.label != 'macos-x86_64' || matrix.php == '8.5'
         uses: xberg-io/actions/setup-php@v1
         with:
           php-version: ${{ matrix.php }}
+
+      - name: Build PHP development tools on Intel macOS
+        if: matrix.platform.label == 'macos-x86_64' && matrix.php != '8.5'
+        shell: bash
+        env:
+          PHP_SERIES: ${{ matrix.php }}
+        run: bash scripts/ci/build-php-source.sh "$PHP_SERIES" "$RUNNER_TEMP/php-$PHP_SERIES"
 
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
