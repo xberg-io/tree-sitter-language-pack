@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.85.11"
+alef_version = "0.85.15"
 languages = [
   "python",
   "node",
@@ -1239,7 +1239,7 @@ languages = [
 ]
 
 [crates.e2e.harness_extras.node]
-dev_dependencies = { "tree-sitter" = "^0.25.0" }
+dev_dependencies = { "tree-sitter" = "^0.25.1" }
 
 [crates.e2e.harness_extras.go]
 dependencies = { "github.com/tree-sitter/go-tree-sitter" = "v0.25.0" }
