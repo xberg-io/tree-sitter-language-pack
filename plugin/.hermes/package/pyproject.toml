@@ -4,7 +4,7 @@ build-backend = 'hatchling.build'
 
 [project]
 name = 'tree-sitter-language-pack-hermes-plugin'
-version = '1.17.0'
+version = '1.18.0'
 description = 'Parse and extract code intelligence from 371 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking.'
 requires-python = '>=3.11'
 keywords = ['tree-sitter', 'code-intelligence', 'parsing', 'chunking', 'static-analysis']

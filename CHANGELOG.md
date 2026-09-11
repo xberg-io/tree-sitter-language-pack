@@ -7,11 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.18.0] - 2026-09-11
+
+### Changed
+
+- Refreshed 22 grammar pins to their upstream latest: `al`, `blade`, `cfml`, `dotenv`,
+  `gitcommit`, `javadoc`, `kcl`, `kdl`, `lean`, `magik`, `mlir`, `nix`, `ocaml`,
+  `ocaml_interface`, `perl`, `proto`, `sas`, `sql`, `swift`, `sysml` and `t32`. `abl` is no
+  longer held back: upstream now defines the `outer_join` node its `highlights.scm`
+  references, so it compiles for the first time since the hold was taken. `cuda` is now the
+  one deliberate hold -- upstream's committed `parser.c` grew past the regeneration
+  threshold, so a bump would ship it as-is at ABI 15 and drop the injections and tags
+  queries the grammar only receives while being regenerated.
+- Re-derived the `ocaml_interface` highlights overlay from upstream's reworked query.
+  tree-sitter-ocaml declares one shared `queries/highlights.scm` for all three of its
+  grammars, but that query matches `(shebang)`, which only the implementation grammar
+  defines; the overlay is upstream's file with that alternative removed, and it had drifted
+  behind their block-access rework.
+- Regenerated bindings, fixtures, documentation and release workflows with Alef 0.85.15.
+  C# `contains` assertions now compare a JSON-serialized value instead of
+  `Convert.ToString`, which reported a type name rather than content for tagged unions such
+  as `StructureKind`. The PHP e2e runner exports the verified extension path so processes it
+  spawns under `-n` load the same build.
+- Upgraded `rmcp` to 3.3.
+- Retained tree-sitter 0.26 and the `tree-sitter-language` 0.1.7 pin. tree-sitter 0.27
+  requires `tree-sitter-language` 0.1.8 and removed its `Package.swift`, so SwiftTreeSitter
+  cannot follow it; the upgrade also changes this crate's public API, since `Language` is
+  re-exported. (#189)
+
 ### Fixed
 
 - Publish every native NuGet runtime package required by the managed package's runtime graph.
 - Upload Dart native archives and checksums required by the generated package downloader.
 - Publish Go installer archive aliases and their required SHA256 sidecars.
+- Recorded the node e2e harness's `tree-sitter` floor in `alef.toml` and realigned
+  `test_apps/node`'s lockfile with its regenerated manifest, which disagreed and broke
+  `pnpm install --frozen-lockfile`. Realigned the generated Go e2e module pin, which the
+  version sync leaves behind.
 
 ## [1.17.0] - 2026-09-09
 
