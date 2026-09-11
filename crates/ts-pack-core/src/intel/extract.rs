@@ -69,10 +69,32 @@ impl Wanted {
 /// [`super::walk::MAX_TREE_DEPTH`] the results are truncated and a WARN is
 /// emitted; no error is returned.
 pub(crate) fn extract_all(root: &Node<'_>, source: &str, language: &str, wanted: Wanted, out: &mut ProcessResult) {
-    let mut collector = Collector::new(source, language, wanted);
+    // ~keep SQL, Just, Dockerfile, C and Cedar declarations are read by their own
+    // ~keep adapters (`super::sql`, `super::just`, `super::dockerfile`, `super::c`,
+    // ~keep `super::cedar`): their grammars share node names with the generic arms
+    // ~keep while meaning something else (a plpgsql DECLARE variable is a
+    // ~keep `function_declaration`; a C prototype is a `declaration` the generic
+    // ~keep arms never see), so the language-neutral structure and symbol
+    // ~keep matchers must not see them.
+    let declarative = matches!(language, "sql" | "just" | "dockerfile" | "c" | "cedar");
+    let generic = Wanted {
+        structure: wanted.structure && !declarative,
+        symbols: wanted.symbols && !declarative,
+        ..wanted
+    };
+    let mut collector = Collector::new(source, language, generic);
     let truncated = walk_bounded(root, |node, depth| collector.visit(node, depth));
     warn_if_truncated(truncated, "intel::extract", language);
     collector.finish(out);
+    if wanted.structure && declarative {
+        out.structure = match language {
+            "sql" => super::sql::structure(root, source),
+            "just" => super::just::structure(root, source),
+            "c" => super::c::structure(root, source),
+            "cedar" => super::cedar::structure(root, source),
+            _ => super::dockerfile::structure(root, source),
+        };
+    }
     // ~keep Counts are reported once here, after the walk: a per-node event would
     // ~keep reintroduce the per-node cost this single-pass design exists to remove.
     tracing::debug!(

@@ -4,13 +4,18 @@
 //! It analyzes source code to extract structure, imports, exports, comments,
 //! docstrings, symbols, and diagnostics.
 
+pub(crate) mod c;
+pub(crate) mod cedar;
 pub mod chunking;
 pub(crate) mod data_extraction;
+pub(crate) mod dockerfile;
 pub(crate) mod elixir;
 pub(crate) mod extract;
 pub mod intelligence;
+pub(crate) mod just;
 #[cfg(test)]
 mod legacy;
+pub(crate) mod sql;
 #[cfg(test)]
 mod test_support;
 pub mod types;

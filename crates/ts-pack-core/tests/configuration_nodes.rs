@@ -2,7 +2,7 @@
 #![allow(clippy::unwrap_used, clippy::expect_used)] // ~keep: a failed setup step in a test must abort loudly
 #![allow(clippy::print_stdout)] // ~keep: the deep-key probe reports to its parent process on stdout
 
-use tree_sitter_language_pack::{DataNode, ProcessConfig, process};
+use tree_sitter_language_pack::{DataNode, DataNodeKind, ProcessConfig, process};
 
 fn data(source: &str, language: &str) -> DataNode {
     process(source, &ProcessConfig::new(language).with_data_extraction(true))
@@ -223,5 +223,200 @@ fn toml_deep_dotted_key_survives_a_two_mebibyte_stack() {
         output.status.success() && stdout.contains(TOML_DEEP_KEY_SENTINEL),
         "the deep dotted key probe did not survive (status {:?})\nstdout:\n{stdout}\nstderr:\n{stderr}",
         output.status
+    );
+}
+
+#[test]
+fn plist_dict_entries_are_keyed_by_their_key_text_and_arrays_by_position() {
+    let source = "\
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<array>
+  <dict>
+    <key>BundleIsRelocatable</key>
+    <false/>
+    <key>BundleOverwriteAction</key>
+    <string>upgrade</string>
+    <key>Paths</key>
+    <array>
+      <string>one</string>
+      <string>two</string>
+    </array>
+  </dict>
+</array>
+</plist>
+";
+    let root = data(source, "xml");
+    assert_eq!(root.children.len(), 1);
+    let item = &root.children[0];
+    assert_eq!(item.key.as_deref(), Some("0"));
+    assert_eq!(item.kind, DataNodeKind::Sequence);
+    assert_eq!(item.value, None);
+    assert_eq!((item.span.start_line, item.span.end_line), (4, 14));
+    let entries: Vec<(Option<&str>, Option<&str>, usize, usize)> = item
+        .children
+        .iter()
+        .map(|entry| {
+            (
+                entry.key.as_deref(),
+                entry.value.as_deref(),
+                entry.span.start_line,
+                entry.span.end_line,
+            )
+        })
+        .collect();
+    assert_eq!(
+        entries,
+        vec![
+            (Some("BundleIsRelocatable"), Some("false"), 5, 6),
+            (Some("BundleOverwriteAction"), Some("upgrade"), 7, 8),
+            (Some("Paths"), None, 9, 13),
+        ]
+    );
+    let paths = &item.children[2].children;
+    assert_eq!(paths.len(), 2);
+    assert_eq!(paths[1].key.as_deref(), Some("1"));
+    assert_eq!(paths[1].value.as_deref(), Some("two"));
+}
+
+#[test]
+fn xml_that_is_not_a_plist_keeps_its_element_paths() {
+    let root = data("<plist-like><key>Name</key></plist-like>\n", "xml");
+    assert_eq!(root.children[0].key.as_deref(), Some("plist-like"));
+    assert_eq!(root.children[0].children[0].key.as_deref(), Some("key"));
+}
+
+/// A text run is not one node: an entity reference, a character reference and
+/// a CDATA section each split it, and CDATA hangs below a `CDSect` rather
+/// than beside the text. Reading the first child alone truncated a key at its
+/// first `&` and read a CDATA value as empty.
+#[test]
+fn plist_text_survives_entities_character_references_and_cdata() {
+    let source = "\
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<plist version=\"1.0\">
+<dict>
+  <key>A&amp;B</key>
+  <string>left&amp;right</string>
+  <key>Cdata</key>
+  <string><![CDATA[raw <tag> & text]]></string>
+  <key>Mixed</key>
+  <string>before<![CDATA[ middle ]]>after</string>
+  <key>Numeric</key>
+  <string>a&#65;b&#x42;c</string>
+  <key>Unknown</key>
+  <string>x&nbsp;y</string>
+</dict>
+</plist>
+";
+    let root = data(source, "xml");
+    let entries: Vec<(Option<&str>, Option<&str>)> = root
+        .children
+        .iter()
+        .map(|entry| (entry.key.as_deref(), entry.value.as_deref()))
+        .collect();
+    assert_eq!(
+        entries,
+        vec![
+            // The key keeps the whole run, so it is not renamed to "A".
+            (Some("A&B"), Some("left&right")),
+            (Some("Cdata"), Some("raw <tag> & text")),
+            (Some("Mixed"), Some("before middle after")),
+            (Some("Numeric"), Some("aAbBc")),
+            // An entity this reader cannot resolve without the DTD is kept as
+            // written rather than dropped, which would lose text silently.
+            (Some("Unknown"), Some("x&nbsp;y")),
+        ]
+    );
+}
+
+/// Whitespace inside a property list `<string>` is part of the value, so it
+/// is carried; a `<key>` and the scalars an XML writer may indent onto their
+/// own line are names and still trim.
+#[test]
+fn plist_string_values_keep_their_whitespace_and_keys_do_not() {
+    let source = "\
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<plist version=\"1.0\">
+<dict>
+  <key>  Padded Key  </key>
+  <string>  padded value  </string>
+  <key>Number</key>
+  <integer>
+    42
+  </integer>
+</dict>
+</plist>
+";
+    let root = data(source, "xml");
+    let entries: Vec<(Option<&str>, Option<&str>)> = root
+        .children
+        .iter()
+        .map(|entry| (entry.key.as_deref(), entry.value.as_deref()))
+        .collect();
+    assert_eq!(
+        entries,
+        vec![
+            (Some("Padded Key"), Some("  padded value  ")),
+            (Some("Number"), Some("42")),
+        ]
+    );
+}
+
+/// The same truncation lived a second time, inlined, in the generic XML
+/// reader, where the maintainer's review did not reach it.
+#[test]
+fn generic_xml_element_text_survives_entities_and_cdata() {
+    let root = data("<r><a>one&amp;two</a><b><![CDATA[cdata body]]></b></r>\n", "xml");
+    let element = &root.children[0];
+    let values: Vec<(Option<&str>, Option<&str>)> = element
+        .children
+        .iter()
+        .map(|child| (child.key.as_deref(), child.value.as_deref()))
+        .collect();
+    assert_eq!(
+        values,
+        vec![(Some("a"), Some("one&two")), (Some("b"), Some("cdata body"))]
+    );
+}
+
+#[test]
+fn dotenv_assignments_are_keyed_scalars_with_values_as_written() {
+    let source = "\
+# comment KEY=IGNORED
+PLAIN=value
+export EXPORTED=1
+EMPTY=
+PLACEHOLDER=${OTHER}
+MULTI=\"line one
+line two\"
+DUP=1
+DUP=2
+";
+    let root = data(source, "dotenv");
+    let entries: Vec<(Option<&str>, Option<&str>, usize, usize)> = root
+        .children
+        .iter()
+        .map(|entry| {
+            (
+                entry.key.as_deref(),
+                entry.value.as_deref(),
+                entry.span.start_line,
+                entry.span.end_line,
+            )
+        })
+        .collect();
+    assert_eq!(
+        entries,
+        vec![
+            (Some("PLAIN"), Some("value"), 1, 1),
+            (Some("EXPORTED"), Some("1"), 2, 2),
+            (Some("EMPTY"), Some(""), 3, 3),
+            (Some("PLACEHOLDER"), Some("${OTHER}"), 4, 4),
+            (Some("MULTI"), Some("\"line one\nline two\""), 5, 6),
+            (Some("DUP"), Some("1"), 7, 7),
+            (Some("DUP"), Some("2"), 8, 8),
+        ]
     );
 }
