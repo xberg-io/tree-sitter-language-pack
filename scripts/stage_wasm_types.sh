@@ -31,6 +31,26 @@ if command -v rustup >/dev/null 2>&1; then
   rustup target add wasm32-unknown-unknown >/dev/null
 fi
 
+# Populate the three grammars here rather than leaving it to build.rs. build.rs only reaches
+# upstream once `parsers/` misses, and each of its local-clone runners dies first:
+# clone_vendors.py hard-exits without the `tree-sitter` CLI (the validate job never installs
+# it), and the bare-python fallbacks die on `ModuleNotFoundError: anyio`, since anyio lives in
+# the `dev` dependency group. It then falls through to downloading
+# `parser-sources-<version>.tar.zst`, which by construction does not exist yet on a release
+# commit -- that 404 is what failed all 511 wasm snippets on the 1.18.0 gate. Doing it here
+# uses the session's own resolved environment and leaves `parsers/` populated, so build.rs
+# returns at its first check and never goes to the network. TSLP_OFFLINE is deliberately NOT
+# the fix: this build needs mojo, nim and norg to have a real parser.c before build.rs's wasm
+# skip check runs. The CLI pin tracks the one used across the workflows. ~keep
+if ! command -v tree-sitter >/dev/null 2>&1; then
+  npm install --global tree-sitter-cli@0.26.11
+fi
+
+(
+  cd "$ROOT"
+  TSLP_LANGUAGES=mojo,nim,norg uv run --no-sync scripts/clone_vendors.py
+)
+
 (
   cd "$CRATE_DIR"
   PROJECT_ROOT="$ROOT" TSLP_LANGUAGES=mojo,nim,norg TSLP_LINK_MODE=static \

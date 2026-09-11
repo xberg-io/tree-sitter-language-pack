@@ -1217,12 +1217,18 @@ async def main() -> None:
     for name in to_process:
         manifest[name] = _language_cache_key(language_definitions[name])
 
-    for stale in set(manifest) - set(language_names):
-        del manifest[stale]
-        stale_dir = parsers_directory / stale
-        if stale_dir.exists():
-            rmtree(stale_dir)
-            print(f"Removed stale parser: {stale}")
+    # The stale sweep compares the manifest against the languages this run resolved, which only
+    # describes the whole tree on an unfiltered run. Under TSLP_LANGUAGES that set is a subset,
+    # so sweeping against it deletes every grammar outside the filter: refreshing three grammars
+    # pruned a populated tree from 371 entries down to 3. A filtered run owns only its own
+    # entries and leaves the rest of the manifest alone. ~keep
+    if not LANGUAGES_FILTER:
+        for stale in set(manifest) - set(language_names):
+            del manifest[stale]
+            stale_dir = parsers_directory / stale
+            if stale_dir.exists():
+                rmtree(stale_dir)
+                print(f"Removed stale parser: {stale}")
 
     _save_cache_manifest(manifest)
     print(f"Cache manifest updated ({len(manifest)} entries)")
