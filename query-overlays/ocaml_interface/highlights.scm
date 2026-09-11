@@ -133,14 +133,18 @@
   (class_name)
   (class_type_name)
   (type_constructor)
+  (block_access_type)
 ] @type
 
 (
-  (type_constructor) @type.builtin
+  [(type_constructor)] @type.builtin
   (#match? @type.builtin "^(int|char|bytes|string|float|float32|bool|unit|exn|eff|continuation|array|floatarray|iarray|list|option|nativeint|int(8|16|32|64)|lazy_t|extension_constructor|lexing_position|atomic_loc|or_null|idx_imm|idx_mut|nativeint#|int(8|16|32|64)#|float#|float32#|int(8|16|32|64)x(8|16|32|64)#|float(16|32|64)x(8|16|32)#|char#|bool#|unit#)$")
 )
 
-(block_access ["idx_imm" "idx_mut"] @type.builtin)
+(
+  (block_access_type) @type.builtin
+  (#match? @type.builtin "^(idx_imm|idx_mut)$")
+)
 
 [(constructor_name) (tag)] @constructor
 
