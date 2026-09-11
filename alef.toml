@@ -322,8 +322,8 @@ replace = "release/swift/{version}"
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/php/install.sh"
-search = "1:-[0-9.]+"
-replace = "1:-{version}"
+search = "PINNED_VERSION='[0-9][0-9.]*'"
+replace = "PINNED_VERSION='{version}'"
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/wasm/pnpm-workspace.yaml"

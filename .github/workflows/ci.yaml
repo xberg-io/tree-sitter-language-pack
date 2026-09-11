@@ -86,7 +86,7 @@ jobs:
         run: |
           uv run --no-sync python scripts/ci/test_nuget_pack.py
           uv run --no-sync python scripts/ci/test_release_repository.py
-          uv run --no-sync python scripts/ci/test_php_recovery.py
+          uv run --no-sync python scripts/ci/test_php_source_builder.py
           uv run --no-sync python scripts/ci/test_dart_release_assets.py
           uv run --no-sync python -m pytest scripts/ci/test_go_release_assets.py
 
