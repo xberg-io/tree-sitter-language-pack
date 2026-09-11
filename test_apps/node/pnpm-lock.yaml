@@ -12,8 +12,8 @@ importers:
         specifier: ^26.4.0
         version: 26.5.0
       '@xberg-io/tree-sitter-language-pack':
-        specifier: 1.17.0
-        version: 1.17.0
+        specifier: 1.18.0
+        version: 1.18.0
       vitest:
         specifier: ^5.0.0
         version: 5.0.0(@types/node@26.5.0)(vite@8.2.2(@types/node@26.5.0))
@@ -158,60 +158,60 @@ packages:
   '@vitest/spy@5.0.0':
     resolution: {integrity: sha512-uy+luWBAPw9XfthoHi5AkfHUnuPYEESjl0p/r+meoBnU8bxg5GDQ3Ey8MjcJ6sqahkL4PFyrvfMJJBw7LbU06g==}
 
-  '@xberg-io/tree-sitter-language-pack-darwin-arm64@1.17.0':
-    resolution: {integrity: sha512-civqlS08Y482HQaaFeXdeC59EpE2Ik4W1GK30nE2qbd5ulq5V258bpex6Ov4TDZy60XLxZ8BEhWYArcuNSpW+w==}
+  '@xberg-io/tree-sitter-language-pack-darwin-arm64@1.18.0':
+    resolution: {integrity: sha512-L/Bf/AyPnLCRCxYzR93W/uRyze38fi4Jm09KLSLOdElJYus2ywRMJ+hJiF/i0XADDgdVnaNwXz7UnKE4KR7UtA==}
     engines: {node: '>= 22'}
     cpu: [arm64]
     os: [darwin]
 
-  '@xberg-io/tree-sitter-language-pack-darwin-x64@1.17.0':
-    resolution: {integrity: sha512-xCDMsoqNSOrec+AaMO4tEfZKt6IUPkkwk7zSLI0JYHXLpIJt4D39km0FqzZqpFIoJp61tvWrW2jS51bPRfcsKw==}
+  '@xberg-io/tree-sitter-language-pack-darwin-x64@1.18.0':
+    resolution: {integrity: sha512-7DPvX2PPRU3adBJgWOxZqsTNBdmPFj2a1ul/bHajnTOxcYFJnHfrywV2k6KtgF410C4GvPHPUNlUwjeECgyTSw==}
     engines: {node: '>= 22'}
     cpu: [x64]
     os: [darwin]
 
-  '@xberg-io/tree-sitter-language-pack-linux-arm64-gnu@1.17.0':
-    resolution: {integrity: sha512-Lxhl6toweFCDRonSrGHBeCzbSDQfA7TbVquh4p3Nb8ZtdUV8kS0XUKyW6aY6DB6X8tombX2h8AwH5iFvx4prFg==}
+  '@xberg-io/tree-sitter-language-pack-linux-arm64-gnu@1.18.0':
+    resolution: {integrity: sha512-BG6baYHEHpjO0f9O6wloF46RyahG7T+3G1CAYE/CtOY/KyQLWCjUzNXCk+bvcQhs61+/Mq0yTj9KyhQSGaZiIA==}
     engines: {node: '>= 22'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@xberg-io/tree-sitter-language-pack-linux-arm64-musl@1.17.0':
-    resolution: {integrity: sha512-a6uQq2N5rB5OyHbfOhBv8Sfz+JbIo9/F+YnERNQxxpLDqoiDcLnLmlZc0DPLdeUmwogfRLXM4g7IQFglgS8EmA==}
+  '@xberg-io/tree-sitter-language-pack-linux-arm64-musl@1.18.0':
+    resolution: {integrity: sha512-KqdfZO4/KxiRuZ0OU2KD4XGHIq3g54nSOC6nSU1aJjrZj4OsPIDZ4TYGWWTZ1Xt8KadSEkaN7MoPruqmMKRe6A==}
     engines: {node: '>= 22'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@xberg-io/tree-sitter-language-pack-linux-x64-gnu@1.17.0':
-    resolution: {integrity: sha512-O0gxinx7wCOf6ZACCpYkdtg0ebePWC7EC1UuOIuvN1VBbSLzT9Dklc3PvcrRXw4iTg3WacdSMEEmmGH0SzJK/A==}
+  '@xberg-io/tree-sitter-language-pack-linux-x64-gnu@1.18.0':
+    resolution: {integrity: sha512-A3xkj/vgUftbOVaLxOJKLpL8SYW/0FHDizMPSRl2GRdsND6dvkxgfenJoSEdh11M2EKLz5nqU0WTiKHAHRrCZw==}
     engines: {node: '>= 22'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@xberg-io/tree-sitter-language-pack-linux-x64-musl@1.17.0':
-    resolution: {integrity: sha512-XRYDzIoC7oAptANq+EUIZsOIPFynlYPtrt4fbRb9vfXidE7LONNiHtfnfvk7c9/LE0w5XuNCXNzwXlg0DX+yxA==}
+  '@xberg-io/tree-sitter-language-pack-linux-x64-musl@1.18.0':
+    resolution: {integrity: sha512-P3dNZcPRLvQSvI35G3knKhtsmbbUTlP6Jf4jQ2qR4JIDgo4RJmJ5QOEALFmYB/Xrjizkr1IKew9FpRX8A/LQVw==}
     engines: {node: '>= 22'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@xberg-io/tree-sitter-language-pack-win32-arm64-msvc@1.17.0':
-    resolution: {integrity: sha512-IRd76UMtlkHv+uXTYZTGCWCtbmPUTKCohrJCcLwLEsBjjtmTo4/0dVq4mxuql16dqf86z9SEn1tjJWOv/jAutw==}
+  '@xberg-io/tree-sitter-language-pack-win32-arm64-msvc@1.18.0':
+    resolution: {integrity: sha512-/CajaGI9o6+fouaqwwvptg5VEF6TVWsnEMacijF1QYkMJSmUEKz91oJ+eKGLRrdBK/HKN7Sb7sI+qTr0CvePIw==}
     engines: {node: '>= 22'}
     cpu: [arm64]
     os: [win32]
 
-  '@xberg-io/tree-sitter-language-pack-win32-x64-msvc@1.17.0':
-    resolution: {integrity: sha512-4q0B25QnbTk7rv9RFMFcfbzoaLPPRDRaRRT/ukAXIPyyWoCQ5wneXXnIx5Os7jY+GezETDXw/qFs6cNm8Rco/Q==}
+  '@xberg-io/tree-sitter-language-pack-win32-x64-msvc@1.18.0':
+    resolution: {integrity: sha512-fip8v4qH0kQ0ZFEsb+UqXatQ7LoGHYFVHWNuucVKRgxi1r+DnjuGjb4cCVYDkFYlBwMNdB3IULP6Ji2mwUs9rw==}
     engines: {node: '>= 22'}
     cpu: [x64]
     os: [win32]
 
-  '@xberg-io/tree-sitter-language-pack@1.17.0':
-    resolution: {integrity: sha512-/qn7qAa/NIk2WVtokdiBPe6rScH2Ltx1Ho9tZP2JN7MVDbD9VjtWAD+HAVqW42UChq0uNSQnAetjbbEhimJ3BQ==}
+  '@xberg-io/tree-sitter-language-pack@1.18.0':
+    resolution: {integrity: sha512-uN8lvnWWHuRDR45tmjlvJ83JPfMm8NnnOMPFqpav6wNpCefLhknPJ3YztUQ9yCh8QNWeK0Ez5EZchVIw91ckCw==}
     engines: {node: '>= 22'}
 
   assertion-error@2.0.1:
@@ -553,40 +553,40 @@ snapshots:
 
   '@vitest/spy@5.0.0': {}
 
-  '@xberg-io/tree-sitter-language-pack-darwin-arm64@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-darwin-arm64@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack-darwin-x64@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-darwin-x64@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack-linux-arm64-gnu@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-linux-arm64-gnu@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack-linux-arm64-musl@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-linux-arm64-musl@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack-linux-x64-gnu@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-linux-x64-gnu@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack-linux-x64-musl@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-linux-x64-musl@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack-win32-arm64-msvc@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-win32-arm64-msvc@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack-win32-x64-msvc@1.17.0':
+  '@xberg-io/tree-sitter-language-pack-win32-x64-msvc@1.18.0':
     optional: true
 
-  '@xberg-io/tree-sitter-language-pack@1.17.0':
+  '@xberg-io/tree-sitter-language-pack@1.18.0':
     optionalDependencies:
-      '@xberg-io/tree-sitter-language-pack-darwin-arm64': 1.17.0
-      '@xberg-io/tree-sitter-language-pack-darwin-x64': 1.17.0
-      '@xberg-io/tree-sitter-language-pack-linux-arm64-gnu': 1.17.0
-      '@xberg-io/tree-sitter-language-pack-linux-arm64-musl': 1.17.0
-      '@xberg-io/tree-sitter-language-pack-linux-x64-gnu': 1.17.0
-      '@xberg-io/tree-sitter-language-pack-linux-x64-musl': 1.17.0
-      '@xberg-io/tree-sitter-language-pack-win32-arm64-msvc': 1.17.0
-      '@xberg-io/tree-sitter-language-pack-win32-x64-msvc': 1.17.0
+      '@xberg-io/tree-sitter-language-pack-darwin-arm64': 1.18.0
+      '@xberg-io/tree-sitter-language-pack-darwin-x64': 1.18.0
+      '@xberg-io/tree-sitter-language-pack-linux-arm64-gnu': 1.18.0
+      '@xberg-io/tree-sitter-language-pack-linux-arm64-musl': 1.18.0
+      '@xberg-io/tree-sitter-language-pack-linux-x64-gnu': 1.18.0
+      '@xberg-io/tree-sitter-language-pack-linux-x64-musl': 1.18.0
+      '@xberg-io/tree-sitter-language-pack-win32-arm64-msvc': 1.18.0
+      '@xberg-io/tree-sitter-language-pack-win32-x64-msvc': 1.18.0
 
   assertion-error@2.0.1: {}
 
