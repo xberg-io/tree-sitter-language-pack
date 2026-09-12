@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   older runtime. The grammar ABI is unchanged -- both 0.26 and 0.27 are
   `TREE_SITTER_LANGUAGE_VERSION` 15 with a minimum compatible version of 13 -- so every bundled
   grammar loads exactly as before and no regeneration is implied.
+- Consumers that also depend on `tree-sitter` directly must move to 0.27 in the same step. The
+  `tree-sitter` crate declares `links = "tree-sitter"`, and Cargo permits only one package per
+  `links` value in a dependency graph, so pairing this release with a 0.26 pin fails to resolve
+  rather than failing to compile. Nothing this crate exports changed: the requirement is a
+  dependency floor, not a break in its own API.
 - Replaced the 0.26 WASM integration, which used a separate non-thread-safe allocator and an
   incomplete libc. 0.27 supplies its own WASM libc and forwards C allocation to the Rust
   application's global allocator.
