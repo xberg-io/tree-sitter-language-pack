@@ -1756,7 +1756,7 @@ path = "../../crates/ts-pack-core-node"
 [crates.e2e.packages.go]
 module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 path = "../../packages/go"
-version = "v1.18.0"
+version = "v1.19.0"
 
 [crates.e2e.packages.elixir]
 name = "tree_sitter_language_pack"

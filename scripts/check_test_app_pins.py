@@ -79,6 +79,15 @@ PINS: tuple[Pin, ...] = (
         r'Include="XbergIo\.TreeSitterLanguagePack"\s+Version="([^"]*)"',
     ),
     Pin("go", "test_apps/go/go.mod", r"xberg-io/tree-sitter-language-pack/packages/go v([^\s]+)"),
+    # ~keep Not a test app, but the same drift with an extra hop. `alef e2e generate` copies this
+    # literal into `e2e/go/go.mod`, and it runs LAST in `version:sync` -- after the sync step that
+    # had already written the new version there -- so a stale value here silently reverts the pin
+    # every release. 1.19.0 shipped with `e2e/go/go.mod` still naming 1.18.0 for exactly this
+    # reason. Nothing else derives this key, so it is only ever as fresh as the last hand-edit.
+    # The `replace` directive beside it makes the version cosmetic for the e2e run, which is why
+    # the drift never failed a build and went unnoticed. This checker runs before
+    # `alef e2e generate`, so fixing it here is what makes the generated file come out right.
+    Pin("go_e2e", "alef.toml", r'(?ms)^\[crates\.e2e\.packages\.go\][^\[]*?^version = "v([0-9][0-9.]*)"'),
     Pin("rust", "test_apps/rust/Cargo.toml", r'package = "tree-sitter-language-pack", version = "([^"]*)"'),
     Pin("ruby", "test_apps/ruby/Gemfile", r"gem 'tree_sitter_language_pack', '([^']*)'"),
     Pin("python", "test_apps/python/pyproject.toml", r'tree-sitter-language-pack==([^"]+)"'),
