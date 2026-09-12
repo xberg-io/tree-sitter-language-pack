@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Patched an indent-stack underflow in the vendored `agda` external scanner. `VEC_POP` is a bare
+  `len--` and `VEC_BACK` reads `data[len - 1]`, so the dedent loop could drain the stack, wrap
+  `len` to `UINT32_MAX` and dereference the buffer plus 16 GiB. 1023 or more repeated `'`
+  characters -- or NUL bytes -- crash the parser with `SIGBUS`. The same scanner also seeded its
+  column-0 sentinel only when `deserialize` was called with a NULL buffer, while tree-sitter
+  resets a scanner with a non-NULL inline buffer of length 0, leaving the following scan to read
+  `data[-1]`. A survey of all 186 vendored scanners found both defects only in `agda`.
+
 ## [1.19.0] - 2026-09-12
 
 ### Changed

@@ -1,0 +1,39 @@
+--- a/src/scanner.c
++++ b/src/scanner.c
+@@ -202,8 +202,18 @@ bool tree_sitter_agda_external_scanner_scan(void *payload, TSLexer *lexer,
+                                 QUEUE_PUSH(scanner->tokens, INDENT);
+                             }
+                         } else if (dedent) {
+-                            VEC_POP(scanner->indents);
+-                            while (indent_length < VEC_BACK(scanner->indents)) {
++                            // VEC_POP is a bare `len--` and VEC_BACK reads `data[len - 1]`,
++                            // so draining the stack wraps `len` to UINT32_MAX and the next
++                            // iteration dereferences `data` plus 16 GiB -- SIGBUS, not a
++                            // diagnosable overflow. The base entry is the column-0 sentinel
++                            // and must survive; the EOF branch above already guards its pop
++                            // with `len > 1`, so this is the same invariant stated twice.
++                            // 1023 repeated `'` characters reach here with one entry left. ~keep
++                            if (scanner->indents.len > 1) {
++                                VEC_POP(scanner->indents);
++                            }
++                            while (scanner->indents.len > 1 &&
++                                   indent_length < VEC_BACK(scanner->indents)) {
+                                 VEC_POP(scanner->indents);
+                                 scanner->queued_dedent_count++;
+                             }
+@@ -258,9 +268,12 @@ void tree_sitter_agda_external_scanner_deserialize(void *payload,
+     VEC_CLEAR(scanner->indents);
+ 
+     if (length == 0) {
+-        if (buffer == NULL) {
+-            VEC_PUSH(scanner->indents, 0);
+-        }
++        // The column-0 entry is a sentinel the scan path reads unconditionally through
++        // VEC_BACK, so it has to exist for every empty state -- not only the NULL-buffer
++        // one. tree-sitter resets a scanner by calling deserialize with the inline
++        // `short_data` array and length 0, which is a non-NULL pointer, so the original
++        // guard left `indents` empty and the next scan read `data[-1]`. ~keep
++        VEC_PUSH(scanner->indents, 0);
+         return;
+     }
+ 
