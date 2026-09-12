@@ -10,6 +10,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.19.0] - 2026-09-12
+
+### Changed
+
+- Upgraded the tree-sitter runtime to 0.27, moving `tree-sitter-language` to 0.1.8 in the same
+  step. The two pins are not independent: 0.27 requires `tree-sitter-language` ^0.1.8, and 0.1.8
+  relocates the 0.26 WASM shims under `wasm/unsupported/` so they no longer compile against the
+  older runtime. The grammar ABI is unchanged -- both 0.26 and 0.27 are
+  `TREE_SITTER_LANGUAGE_VERSION` 15 with a minimum compatible version of 13 -- so every bundled
+  grammar loads exactly as before and no regeneration is implied.
+- Replaced the 0.26 WASM integration, which used a separate non-thread-safe allocator and an
+  incomplete libc. 0.27 supplies its own WASM libc and forwards C allocation to the Rust
+  application's global allocator.
+
+### Fixed
+
+- `Node::child_count` now returns tree-sitter's `u32` widened to the `usize` this crate has always
+  declared, rather than failing to compile against the new runtime.
+
 ## [1.18.0] - 2026-09-11
 
 ### Changed
