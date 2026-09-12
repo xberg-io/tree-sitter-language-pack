@@ -31,6 +31,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Swift binaries again link a single tree-sitter C runtime. SwiftPM builds tree-sitter 0.25.10 for
+  SwiftTreeSitter as loose object files, while this package's Rust staticlib carries the 0.27
+  runtime in one archive member. Archive members load only to resolve an undefined symbol, and
+  0.27's new `ts_language_is_parseable` was the first symbol SwiftPM's copy could not supply --
+  pulling the member in and colliding on 253 other runtime symbols at link time. The C bridge now
+  provides a weak definition, so the member stays unreferenced and yields to any future SwiftPM
+  runtime that exports the symbol itself (#189).
+- `wasm32` builds now find their headers under either wasi-sysroot include layout. wasi-libc
+  renamed `include/wasm32-wasi` to `include/wasm32-wasip1`, and probing only the former meant a
+  sysroot that existed but used the newer name contributed no include flag at all, failing every
+  grammar with `'stdlib.h' file not found`. Toolchains whose clang supplies its own sysroot were
+  unaffected, which is why this surfaced only in local builds.
 - `Node::child_count` now returns tree-sitter's `u32` widened to the `usize` this crate has always
   declared, rather than failing to compile against the new runtime.
 
