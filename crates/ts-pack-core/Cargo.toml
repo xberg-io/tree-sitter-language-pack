@@ -6,8 +6,9 @@ license.workspace = true
 repository.workspace = true
 description = "Core library for tree-sitter language pack - provides compiled parsers for 371 languages"
 
-# ~keep This direct dependency constrains tree-sitter's WASM C shims: 0.1.8 rejects
-# ~keep tree-sitter 0.26, which is required by our published Swift static libraries.
+# ~keep This direct dependency supplies tree-sitter's WASM C shims and moves in lockstep with
+# ~keep the runtime: 0.1.8 relocated the 0.26 shims under wasm/unsupported/ so they fail to
+# ~keep compile against it, and 0.27 requires ^0.1.8. Downgrading either pin alone will not build.
 [package.metadata.cargo-machete]
 ignored = ["tree-sitter-language"]
 

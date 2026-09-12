@@ -375,7 +375,7 @@ impl Node {
     /// Total number of children (including unnamed).
     #[must_use]
     pub fn child_count(&self) -> usize {
-        self.raw.child_count()
+        self.raw.child_count() as usize
     }
 
     /// Return the i-th named child of this node, if any.

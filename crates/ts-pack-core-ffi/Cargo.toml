@@ -38,7 +38,7 @@ ahash = "0.8"
 serde = "1"
 serde_json = "1"
 tokio = { version = "1", features = ["full"] }
-tree-sitter = "0.26"
+tree-sitter = "0.27"
 tree-sitter-language-pack = { path = "../ts-pack-core", version = "1.18.0", features = ["serde", "config", "download"] }
 
 [build-dependencies]
