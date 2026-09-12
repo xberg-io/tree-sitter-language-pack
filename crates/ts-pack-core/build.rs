@@ -644,6 +644,15 @@ fn apply_wasm32_sysroot(build: &mut cc::Build) {
         return;
     }
 
+    // ~keep tree-sitter 0.27 links its own wasm libc, but that libc is a documented *subset*:
+    // `src/wasm-stdlib/imports.txt` enumerates what a scanner may import, and `assert` is not on
+    // it ("Wasm language modules are compiled without a C standard library"). A scanner that keeps
+    // its `assert()` calls therefore emits an unresolved `__assert_fail`, which rust-lld turns
+    // into an `env` module import rather than a link error -- the module then loads nowhere, and
+    // every wasm test dies with `Cannot find module 'env'`. Compiling the asserts out is the only
+    // resolution available on this target; native builds keep them.
+    build.define("NDEBUG", None);
+
     let Some(sysroot) = find_wasi_sysroot() else {
         println!(
             "cargo:warning=wasm32 target detected but no wasi-sysroot found. \

@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `links` value in a dependency graph, so pairing this release with a 0.26 pin fails to resolve
   rather than failing to compile. Nothing this crate exports changed: the requirement is a
   dependency floor, not a break in its own API.
+- Grammar scanners now compile with `NDEBUG` on `wasm32`. 0.27's WASM libc is a documented subset
+  that excludes `assert`, so a scanner keeping its assertions emitted an unresolved `__assert_fail`.
+  That became an `env` module import rather than a link error, and the package then failed to load
+  at runtime with `Cannot find module 'env'`. Native builds keep their assertions.
 - Dropped this crate's own WASM libc shims (`memchr`, `strcmp`, `iswalnum` and friends) now that
   0.27 defines them. Keeping both made the two definitions collide at link time, which broke the
   WASM package under the split-codegen-unit settings the release build uses.
