@@ -1122,6 +1122,11 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
           CARGO_PROFILE_RELEASE_LTO: "false"
           CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "16"
+          # ~keep Without TSLP_LANGUAGES the crate compiles ZERO grammars, so this job built an
+          # empty artifact and every wasm grammar-compilation break surfaced only in publish.yaml,
+          # which does set it. That blind spot hid a dead wasi-sysroot include probe. Keep a
+          # scanner-bearing subset here; publish.yaml still builds the full 31.
+          TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,yaml,bash"
 
       - name: Verify WASM artifacts
         shell: bash
