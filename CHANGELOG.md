@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   column-0 sentinel only when `deserialize` was called with a NULL buffer, while tree-sitter
   resets a scanner with a non-NULL inline buffer of length 0, leaving the following scan to read
   `data[-1]`. A survey of all 186 vendored scanners found both defects only in `agda`.
+- The nightly sanitizer sweep now reports a finding it cannot attribute to a sanitizer exit code.
+  UBSan raises `SIGABRT` where `abort_on_error` defaults to 1 and prints
+  `ERROR: UndefinedBehaviorSanitizer`, neither of which the previous detector matched, so a crash
+  of exactly the shape above could pass the gate. Any parse killed by a signal now counts.
+- Bounded each parse in that sweep with a timeout. One pathological input previously ran for more
+  than ten minutes, and a job killed at its 120-minute limit reports nothing at all. A timeout is
+  recorded and warned about but does not fail the gate -- it is a performance problem, not a
+  memory-safety one.
+- Scoped the sanitizer environment in that sweep to the `ts-pack` invocation. As a step-level
+  `env:` it also applied to the shell, `python3`, `find`, `grep` and `tee`, each running
+  uninstrumented with the runtime `LD_PRELOAD`ed into it and `exitcode=42` in force, so a
+  diagnosis raised in any helper would have been reported as a scanner finding.
 
 ## [1.19.0] - 2026-09-12
 

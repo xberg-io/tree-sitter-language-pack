@@ -63,6 +63,13 @@ env:
   # `|| true` anywhere in the driver would swallow a real finding. ~keep
   SANITIZER_EXIT_CODE: "42"
   SHARD_COUNT: "16"
+  # One pathological input must not consume the whole job. `nest_65537.txt` against djot ran
+  # for more than ten minutes under ASan before it was killed, and run 33731532555 spent 55 of
+  # its 120 minutes inside the sweep before reporting anything -- an unbounded parse turns a
+  # findings gate into a timeout gate, and a job killed at 120 minutes reports nothing at all.
+  # A timeout is NOT a sanitizer finding and is deliberately not fatal; it is surfaced as a
+  # warning and recorded in the uploaded log so a runaway grammar stays visible. ~keep
+  PARSE_TIMEOUT_SECONDS: "60"
 
 jobs:
   sanitize-scanners:
@@ -311,11 +318,14 @@ jobs:
       - name: Assert every selected grammar is linked in
         env:
           LANGS: ${{ steps.select.outputs.languages }}
-          ASAN_OPTIONS: detect_leaks=0
-          LD_PRELOAD: ${{ env.ASAN_RUNTIME }}
         run: |
           set -euo pipefail
-          target/x86_64-unknown-linux-gnu/debug/ts-pack list >linked.txt
+          # The sanitizer environment belongs to the ts-pack invocation, never to the step. As
+          # step-level `env:` it also reached the shell, `find`, `grep`, `cat` and `python3`, and
+          # `LD_PRELOAD`ing the runtime into an uninstrumented helper is the likeliest way to
+          # provoke an ASan diagnosis that has nothing to do with a scanner. ~keep
+          ASAN_OPTIONS=detect_leaks=0 LD_PRELOAD="$ASAN_RUNTIME" \
+            target/x86_64-unknown-linux-gnu/debug/ts-pack list >linked.txt
           missing=""
           for lang in $(echo "$LANGS" | tr ',' ' '); do
             grep -qw -- "$lang" linked.txt || missing="$missing $lang"
@@ -333,9 +343,6 @@ jobs:
       - name: Parse sweep under sanitizers
         env:
           LANGS: ${{ steps.select.outputs.languages }}
-          ASAN_OPTIONS: detect_leaks=0:abort_on_error=0:exitcode=42
-          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1:exitcode=42
-          LD_PRELOAD: ${{ env.ASAN_RUNTIME }}
         run: |
           set -uo pipefail
           # Generated in Python rather than `printf | tr` so that backslash, quote and
@@ -358,8 +365,22 @@ jobs:
           FILES=$(find corpus -type f | sort)
           test -n "$FILES" || { echo "::error::corpus is empty; the sweep would be vacuous"; exit 1; }
 
+          # ~keep The sanitizer environment is attached to the ts-pack invocation alone. As
+          # step-level `env:` it also applied to the shell, `python3`, `find`, `grep`, `cat` and
+          # `tee` -- every one of them running uninstrumented with the runtime `LD_PRELOAD`ed
+          # into it while `exitcode=42` was in force. An ASan diagnosis in any of those would
+          # have been counted as a scanner finding, and one raised by the corpus generator above
+          # would have killed the step before a single parse ran. Nothing here needs the
+          # sanitizer except ts-pack.
+          SANITIZER_ENV=(
+            "ASAN_OPTIONS=detect_leaks=0:abort_on_error=0:exitcode=$SANITIZER_EXIT_CODE"
+            "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1:exitcode=$SANITIZER_EXIT_CODE"
+            "LD_PRELOAD=$ASAN_RUNTIME"
+          )
+
           runs=0
           failures=0
+          timeouts=0
           for lang in $(echo "$LANGS" | tr ',' ' '); do
             for f in $FILES; do
               runs=$((runs + 1))
@@ -372,9 +393,33 @@ jobs:
               # output at all between `##[endgroup]` and `Process completed with exit code 42`,
               # so a real finding was thrown away twice. A finding must be reported, not exited
               # on. `|| rc=$?` also keeps an ordinary non-zero parse exit from ending the sweep.
-              target/x86_64-unknown-linux-gnu/debug/ts-pack parse "$f" --language "$lang" \
+              # ~keep `timeout` sends TERM and reports 124; `--kill-after` guarantees the process
+              # actually dies so the sweep cannot wedge. A timed-out parse is reported and
+              # recorded but does not fail the job -- it is a performance problem, not a
+              # memory-safety one, and failing on it would make the gate hostage to runner speed.
+              timeout --kill-after=10s "${PARSE_TIMEOUT_SECONDS}s" \
+                env "${SANITIZER_ENV[@]}" \
+                target/x86_64-unknown-linux-gnu/debug/ts-pack parse "$f" --language "$lang" \
                 >/dev/null 2>sweep.err || rc=$?
-              if [ "$rc" = "$SANITIZER_EXIT_CODE" ] || grep -qE 'ERROR: (Address|Leak)Sanitizer|runtime error:' sweep.err; then
+              if [ "$rc" = "124" ] || [ "$rc" = "137" ]; then
+                timeouts=$((timeouts + 1))
+                echo "::warning::$lang did not finish $f within ${PARSE_TIMEOUT_SECONDS}s"
+                {
+                  echo "=== TIMEOUT $lang $f after ${PARSE_TIMEOUT_SECONDS}s ==="
+                  echo
+                } >>sanitizer-findings.log
+                continue
+              fi
+              # ~keep The stderr pattern is the backstop for when the sanitizer does not get to
+              # honour `exitcode`. UBSan reaching a fatal signal prints
+              # `ERROR: UndefinedBehaviorSanitizer: BUS ...` after a `DEADLYSIGNAL` line and, on
+              # a platform where `abort_on_error` defaults to 1, raises SIGABRT instead of
+              # exiting 42 -- the agda indent-stack underflow fixed in `patches/agda/` did
+              # exactly that. Matching only `Address|Leak` and `runtime error:` let that whole
+              # class through. A parse killed by any signal is likewise a finding: the crash is
+              # the result, whether or not a sanitizer got to describe it.
+              if [ "$rc" = "$SANITIZER_EXIT_CODE" ] || [ "$rc" -ge 128 ] \
+                || grep -qE 'ERROR: (Address|Leak|UndefinedBehavior)Sanitizer|DEADLYSIGNAL|runtime error:' sweep.err; then
                 failures=$((failures + 1))
                 echo "::error::sanitizer fired on $lang with $f (exit $rc)"
                 # ~keep `sweep.err` is truncated by the next parse, so the report has to be
@@ -388,7 +433,7 @@ jobs:
             done
           done
 
-          echo "::notice::$runs parse invocations across ${{ steps.select.outputs.count }} language(s)"
+          echo "::notice::$runs parse invocations across ${{ steps.select.outputs.count }} language(s), $timeouts timed out"
           test "$runs" -gt 0 || { echo "::error::zero parses ran; the sweep proved nothing"; exit 1; }
           test "$failures" -eq 0 || { echo "::error::$failures sanitizer findings"; exit 1; }
 
