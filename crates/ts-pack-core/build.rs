@@ -624,9 +624,19 @@ fn wasm_skip_grammars() -> Vec<String> {
     }
 }
 
+/// Target-triple subdirectories under a wasi-sysroot's `include/`, newest layout first.
+///
+/// ~keep wasi-libc renamed `wasm32-wasi` to `wasm32-wasip1` (wasi-sdk 22+; current Homebrew
+/// `wasi-libc` ships only the `p1`/`p2`/`p3` spellings). Probing a single hardcoded name meant a
+/// sysroot that existed but used the newer layout added no include flag at all, and every grammar
+/// then failed with `'stdlib.h' file not found`. `p2`/`p3` target the component model and are
+/// deliberately not probed. Toolchains whose clang already knows its own sysroot — the wasi-sdk
+/// used in CI — compile fine with no match here, which is why this stayed invisible.
+const WASI_INCLUDE_SUBDIRS: [&str; 2] = ["include/wasm32-wasi", "include/wasm32-wasip1"];
+
 /// Apply wasi-sysroot includes to a cc::Build for wasm32 targets.
 ///
-/// Use `-isystem` to add the wasm32-wasi include dir which has stdlib.h etc.
+/// Use `-isystem` to add the wasi include dir which has stdlib.h etc.
 /// Avoid `--sysroot` which pulls in wasi/api.h through stdio.h and fails
 /// for wasm32-unknown-unknown targets.
 fn apply_wasm32_sysroot(build: &mut cc::Build) {
@@ -634,18 +644,31 @@ fn apply_wasm32_sysroot(build: &mut cc::Build) {
         return;
     }
 
-    if let Some(sysroot) = find_wasi_sysroot() {
-        let wasi_include = sysroot.join("include/wasm32-wasi");
-        if wasi_include.exists() {
+    let Some(sysroot) = find_wasi_sysroot() else {
+        println!(
+            "cargo:warning=wasm32 target detected but no wasi-sysroot found. \
+             Install wasi-libc (brew install wasi-libc) or set WASI_SYSROOT env var."
+        );
+        return;
+    };
+
+    let wasi_include = WASI_INCLUDE_SUBDIRS
+        .iter()
+        .map(|d| sysroot.join(d))
+        .find(|p| p.exists());
+
+    match wasi_include {
+        Some(include) => {
             // ~keep Define __wasi__ only for parser C compilation so wasi/api.h guards pass.
             build.define("__wasi__", None);
-            build.flag(format!("-isystem{}", wasi_include.display()));
+            build.flag(format!("-isystem{}", include.display()));
         }
-    } else {
-        eprintln!(
-            "wasm32 target detected but no wasi-sysroot found. \
-                  Install wasi-libc (brew install wasi-libc) or set WASI_SYSROOT env var."
-        );
+        None => println!(
+            "cargo:warning=wasi-sysroot at {} has none of {:?}; compiling parsers without its \
+             headers. A clang that does not supply its own sysroot will fail on <stdlib.h>.",
+            sysroot.display(),
+            WASI_INCLUDE_SUBDIRS
+        ),
     }
 }
 
