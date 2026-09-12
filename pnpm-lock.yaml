@@ -164,28 +164,28 @@ importers:
         version: 3.9.0(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@26.5.0)
     optionalDependencies:
       '@xberg-io/tree-sitter-language-pack-darwin-arm64':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/darwin-arm64
       '@xberg-io/tree-sitter-language-pack-darwin-x64':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/darwin-x64
       '@xberg-io/tree-sitter-language-pack-linux-arm64-gnu':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/linux-arm64-gnu
       '@xberg-io/tree-sitter-language-pack-linux-arm64-musl':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/linux-arm64-musl
       '@xberg-io/tree-sitter-language-pack-linux-x64-gnu':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/linux-x64-gnu
       '@xberg-io/tree-sitter-language-pack-linux-x64-musl':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/linux-x64-musl
       '@xberg-io/tree-sitter-language-pack-win32-arm64-msvc':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/win32-arm64-msvc
       '@xberg-io/tree-sitter-language-pack-win32-x64-msvc':
-        specifier: 1.18.0
+        specifier: 1.19.0
         version: link:npm/win32-x64-msvc
 
   crates/ts-pack-core-node/npm/darwin-arm64: {}
