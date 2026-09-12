@@ -796,18 +796,14 @@ app_name = "tree_sitter_language_pack"
 
 [crates.wasm]
 crate_dir = "crates/ts-pack-core-wasm"
-env_shims = [
-  "iswspace",
-  "iswalnum",
-  "iswalpha",
-  "iswlower",
-  "iswupper",
-  "iswxdigit",
-  "towupper",
-  "towlower",
-  "memchr",
-  "strcmp",
-]
+# ~keep Empty since tree-sitter 0.27. 0.27 ships its own wasm libc under `src/wasm-stdlib/`
+# and compiles it into `lib.o` for every `wasm32-unknown-*` target, so the runtime rlib now
+# defines all ten of these strongly. Emitting our own `#[no_mangle]` copies makes the two
+# collide at link time ("duplicate symbol: memchr"). The collision only appears when rustc
+# happens to emit the shim module into a codegen unit -- a full-LTO local build elides the
+# unreferenced private module and links clean -- so this reproduces on CI's
+# `CARGO_PROFILE_RELEASE_LTO=false` + 16-codegen-unit build and hides locally.
+env_shims = []
 features = ["serde", "config", "dynamic-loading"]
 # ~keep The download family is intentionally absent from the wasm target: it sits behind
 # ts-pack-core-wasm's opt-in `download` feature, which the doc-snippet and e2e sessions do

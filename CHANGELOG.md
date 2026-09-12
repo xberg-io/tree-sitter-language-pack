@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `links` value in a dependency graph, so pairing this release with a 0.26 pin fails to resolve
   rather than failing to compile. Nothing this crate exports changed: the requirement is a
   dependency floor, not a break in its own API.
+- Dropped this crate's own WASM libc shims (`memchr`, `strcmp`, `iswalnum` and friends) now that
+  0.27 defines them. Keeping both made the two definitions collide at link time, which broke the
+  WASM package under the split-codegen-unit settings the release build uses.
 - Replaced the 0.26 WASM integration, which used a separate non-thread-safe allocator and an
   incomplete libc. 0.27 supplies its own WASM libc and forwards C allocation to the Rust
   application's global allocator.
