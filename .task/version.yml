@@ -20,6 +20,12 @@ tasks:
       # refuses to rewrite a file carrying no alef provenance marker and only WARNs -- so
       # those pins silently stayed up to six releases behind. This owns them locally. ~keep
       - python3 scripts/check_test_app_pins.py --fix
+      # ~keep `alef sync-versions` rewrites the workspace package.json files but not
+      # pnpm-lock.yaml, so the lockfile keeps the previous release's version specifiers and
+      # every `pnpm install --frozen-lockfile` fails until someone refreshes it by hand --
+      # 1.18.0 and 1.19.0 each needed a follow-up commit for exactly this. The workspace
+      # entries are `link:` deps, so this resolves offline and touches only those specifiers.
+      - pnpm install --lockfile-only
       # ~keep `alef sync-versions` rewrites MANIFESTS ONLY. Everything generated from the
       # version -- README install snippets, test-app installers, e2e download scripts, stubs,
       # scaffolding -- is produced by separate subcommands, so a bump that stops at
