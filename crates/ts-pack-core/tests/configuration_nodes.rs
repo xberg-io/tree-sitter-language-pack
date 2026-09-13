@@ -6,7 +6,7 @@ use tree_sitter_language_pack::{DataNode, DataNodeKind, ProcessConfig, process};
 
 fn data(source: &str, language: &str) -> DataNode {
     process(source, &ProcessConfig::new(language).with_data_extraction(true))
-        .expect("valid configuration must parse")
+        .expect("real grammar required; build with TSLP_LANGUAGES=dotenv,hcl,json,terraform,toml,xml,yaml")
         .data
         .expect("supported configuration must expose data")
 }
