@@ -70,6 +70,13 @@ env:
   # A timeout is NOT a sanitizer finding and is deliberately not fatal; it is surfaced as a
   # warning and recorded in the uploaded log so a runaway grammar stays visible. ~keep
   PARSE_TIMEOUT_SECONDS: "60"
+  # The sweep must finish inside the job, because a job killed at `timeout-minutes` reports
+  # nothing at all -- not the findings it already had, not how far it got. Six consecutive
+  # nightlies (34577516647, 34453796352, 34327798645, 34202851483, 34100254692, 34020477760)
+  # died exactly that way, every one of them in this step after all twelve preceding steps had
+  # passed. 90 minutes leaves ~30 for checkout, clone, generate and the ASan build inside the
+  # 120-minute job. Exhausting it is reported, not silently tolerated. ~keep
+  SWEEP_BUDGET_SECONDS: "5400"
 
 jobs:
   sanitize-scanners:
@@ -143,14 +150,26 @@ jobs:
           print(','.join(names[shard::count]))
           " "$SHARD" "$SHARD_COUNT")
             test -n "$ROTATED" || { echo "::error::shard $SHARD of $SHARD_COUNT is empty"; exit 1; }
-            # `sort -u` here is load-bearing, not cosmetic: PATCHED is a fixed set and
-            # ROTATED is a day-of-year shard of the whole registry, so on any day the
-            # shard happens to land on a patched grammar, the naive concatenation
-            # duplicates that language in TSLP_LANGUAGES. build.rs then emits two
-            # `extern "C" { fn tree_sitter_<name>() }` blocks for the same symbol and
-            # the build dies with E0428 — which language duplicates changes daily with
-            # the shard, so it looked nondeterministic until traced here. ~keep
-            LANGS=$(echo "$PATCHED,$ROTATED" | tr ',' '\n' | sort -u | paste -sd, -)
+            # ~keep Deduplicating is load-bearing, not cosmetic: PATCHED is a fixed set and
+            # ROTATED is a day-of-year shard of the whole registry, so on any day the shard
+            # happens to land on a patched grammar, a naive concatenation duplicates that
+            # language in TSLP_LANGUAGES. build.rs then emits two
+            # `extern "C" { fn tree_sitter_<name>() }` blocks for the same symbol and the build
+            # dies with E0428 — which language duplicates changes daily with the shard, so it
+            # looked nondeterministic until traced here.
+            #
+            # ~keep The *order* is then rotated by day-of-year, which matters because the sweep
+            # below stops when it runs out of budget: under a fixed alphabetical order the same
+            # tail would be dropped every night and those languages would never be swept at all.
+            # Rotating the starting point moves the truncation point instead, so a language cut
+            # short today is near the front tomorrow.
+            LANGS=$(python3 -c "
+          import sys
+          names = sorted(set(sys.argv[1].split(',')) | set(sys.argv[2].split(',')))
+          day = int(sys.argv[3])
+          offset = day % len(names)
+          print(','.join(names[offset:] + names[:offset]))
+          " "$PATCHED" "$ROTATED" "$(( 10#$(date -u +%j) ))")
           else
             MODE=regression
             LANGS="$PATCHED"
@@ -381,7 +400,18 @@ jobs:
           runs=0
           failures=0
           timeouts=0
+          skipped=0
+          unswept=""
+          deadline=$(( $(date +%s) + SWEEP_BUDGET_SECONDS ))
           for lang in $(echo "$LANGS" | tr ',' ' '); do
+            # ~keep The budget is checked per language rather than per file so a language is
+            # either swept in full or recorded as unswept -- a half-swept language reported as
+            # covered is the failure mode this whole job exists to avoid.
+            if [ "$(date +%s)" -ge "$deadline" ]; then
+              skipped=$((skipped + 1))
+              unswept="$unswept $lang"
+              continue
+            fi
             for f in $FILES; do
               runs=$((runs + 1))
               rc=0
@@ -433,7 +463,15 @@ jobs:
             done
           done
 
-          echo "::notice::$runs parse invocations across ${{ steps.select.outputs.count }} language(s), $timeouts timed out"
+          swept=$(( ${{ steps.select.outputs.count }} - skipped ))
+          echo "::notice::$runs parse invocations across $swept of ${{ steps.select.outputs.count }} language(s), $timeouts timed out"
+          # ~keep Truncated coverage is stated out loud and written to the uploaded log. A sweep
+          # that quietly covered two thirds of its shard reads exactly like one that covered all
+          # of it, and that is indistinguishable from a gate that proves nothing.
+          if [ "$skipped" -gt 0 ]; then
+            echo "::warning::sweep budget of ${SWEEP_BUDGET_SECONDS}s exhausted; $skipped language(s) not swept:$unswept"
+            echo "=== UNSWEPT after ${SWEEP_BUDGET_SECONDS}s:$unswept ===" >>sanitizer-findings.log
+          fi
           test "$runs" -gt 0 || { echo "::error::zero parses ran; the sweep proved nothing"; exit 1; }
           test "$failures" -eq 0 || { echo "::error::$failures sanitizer findings"; exit 1; }
 
