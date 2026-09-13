@@ -32,6 +32,14 @@ tasks:
       - bash scripts/setup-swift-bridge.sh debug
       - cd packages/swift && swift build
 
+  # ~keep `setup-swift-bridge.sh` regenerates Sources/RustBridgeC/RustBridgeC.h,
+  # Sources/RustBridge/SwiftBridgeCore.swift and
+  # Sources/RustBridge/tree-sitter-language-pack-swift.swift from swift-bridge, and swift-bridge
+  # writes them WITHOUT the `alef:hash:` line alef stamps on them. Committing after a Swift build
+  # therefore lands three unstamped files and `alef verify` fails in CI with "Stale bindings
+  # detected" while everything passes locally -- 1.19.1 lost a CI cycle to exactly that. Build
+  # Swift to test it, then run `alef generate --skip-compile` before committing so the files go in
+  # stamped.
   build:release:
     desc: Build Swift package in release mode
     preconditions:
