@@ -3969,6 +3969,16 @@ jobs:
           # alef-generated Swift e2e/test-app pins `branch: "release/swift/<version>"`
           # (matching the liter-llm publish layout), so this ref must exist for SwiftPM to
           # resolve the package with the substituted XCFramework checksum.
+          #
+          # ~keep The branch and the tag pushed just above name the SAME commit -- `git tag -f`
+          # moved the tag onto this checksummed commit before either push. A superseded
+          # release/swift/<version> branch is therefore fully redundant: everything it holds
+          # stays reachable through v<version>, and a consumer pinned to the branch can move to
+          # `exact: "<version>"` with no other change. Branches for releases older than the
+          # current one are pruned by hand (eight were removed on 2026-09-13); this is not
+          # automated because deleting the previous release's branch the moment a new one
+          # publishes would break external consumers who pinned it, which is their call to make
+          # and not this workflow's.
           git push origin -f "HEAD:refs/heads/release/swift/${{ needs.prepare.outputs.version }}"
 
       - name: Download Swift artifact bundle

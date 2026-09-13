@@ -12,6 +12,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **The nightly sanitizer sweep now finishes inside its job.** Six consecutive nightlies were
+  killed at the 120-minute job limit, every one of them inside the parse sweep after all twelve
+  preceding steps had passed -- so the job reported neither its findings nor how far it got. The
+  sweep now runs against a 90-minute budget checked between languages, states in the summary how
+  many languages it actually swept, and warns with the names of any it did not reach. The day's
+  language order is also rotated by day-of-year, so a truncated sweep no longer drops the same
+  alphabetical tail every night.
+- **Dynamically loaded grammars are ABI-checked at load time.** `load_from_dir` called
+  `Language::from_raw` on a downloaded parser with only a null check, so an incompatible grammar
+  was accepted and failed later at `ts_parser_set_language` -- or, just outside the compatible
+  range, parsed wrongly. The ABI version is now compared against the linked runtime's
+  `MIN_COMPATIBLE_LANGUAGE_VERSION..=LANGUAGE_VERSION` and rejected with both versions named. The
+  bounds are read from the runtime, so a runtime upgrade moves them rather than leaving a stale
+  literal behind.
+
+### Changed
+
+- Removed the eight superseded `release/swift/<version>` branches. `publish.yaml` moves the
+  release tag onto the same checksummed commit it pushes the branch to, so each branch named a
+  commit already reachable through `v<version>`; a consumer pinned to one can switch to
+  `exact: "<version>"` with no other change. `release/swift/1.19.0` is retained.
+
+### Fixed
+
 - Patched an indent-stack underflow in the vendored `agda` external scanner. `VEC_POP` is a bare
   `len--` and `VEC_BACK` reads `data[len - 1]`, so the dedent loop could drain the stack, wrap
   `len` to `UINT32_MAX` and dereference the buffer plus 16 GiB. 1023 or more repeated `'`
