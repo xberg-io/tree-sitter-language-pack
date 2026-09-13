@@ -30,6 +30,14 @@ the post-publish job in `publish.yaml`, which runs only after the upload succeed
 not the release window, it is a missing artifact, and staying quiet about it would leave the
 hashes stale for another release. Every other caller wants the default.
 
+The same digests live in a second place: `[crates.e2e.registry.packages.zig.platform_hashes]` in
+`alef.toml`, which is what alef substitutes when it generates a Zig manifest. Nothing populated
+that table, so it carried five `STALE_HASH_REGENERATE` placeholders from the day it was written.
+Alef reacts to a placeholder by omitting the `.hash` line entirely, which is the whole reason
+`test_apps/zig/build.zig.zon` had to be declared `user_owned` -- the declaration exists to stop a
+regeneration deleting hashes this script had just computed. Keeping both in step here is what
+eventually lets that declaration come out.
+
 Usage:
     python3 scripts/sync_zig_zon_hashes.py          # verify every hash against its tarball
     python3 scripts/sync_zig_zon_hashes.py --fix    # rewrite every hash from `zig fetch`
@@ -47,6 +55,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ZON = ROOT / "test_apps" / "zig" / "build.zig.zon"
+ALEF_TOML = ROOT / "alef.toml"
+
+# ~keep The target triple is carried in the asset filename and nowhere else in the manifest, so
+# it is the only thing that can attribute a computed digest to a `platform_hashes` key.
+TRIPLE_FROM_URL = re.compile(r"-zig-v[0-9][0-9.]*-(?P<triple>[a-z0-9_]+-[a-z0-9_]+-[a-z0-9_-]+)\.tar\.gz$")
+
+PLATFORM_HASHES_SECTION = re.compile(
+    r"(?P<head>^\[crates\.e2e\.registry\.packages\.zig\.platform_hashes\]\n)(?P<body>(?:\"[^\"]+\" = \"[^\"]+\"\n)+)",
+    re.M,
+)
 
 # ~keep Captures the `.url`/`.hash` pair of one dependency. They are adjacent in every manifest
 # alef generates, and pairing them positionally is what lets a hash be attributed to the tarball
@@ -99,6 +117,30 @@ def fetch_hash(url: str, probe: Path, cache: Path) -> str:
     return result.stdout.strip()
 
 
+def alef_platform_hashes() -> dict[str, str]:
+    """Return the `platform_hashes` table as it stands in `alef.toml`."""
+    match = PLATFORM_HASHES_SECTION.search(ALEF_TOML.read_text(encoding="utf-8"))
+    if match is None:
+        return {}
+    return dict(re.findall(r'"([^"]+)" = "([^"]+)"', match.group("body")))
+
+
+def rewrite_alef_platform_hashes(computed: dict[str, str]) -> None:
+    """Replace the `platform_hashes` table with `computed`, keeping the file's key order.
+
+    Rewritten as a whole table rather than key by key: the placeholder value is identical across
+    all five keys, so a value-keyed replace would rewrite every one of them with whichever digest
+    happened to be substituted first. ~keep
+    """
+    text = ALEF_TOML.read_text(encoding="utf-8")
+    match = PLATFORM_HASHES_SECTION.search(text)
+    if match is None:
+        return
+    existing = dict(re.findall(r'"([^"]+)" = "([^"]+)"', match.group("body")))
+    body = "".join(f'"{triple}" = "{computed.get(triple, value)}"\n' for triple, value in existing.items())
+    ALEF_TOML.write_text(text[: match.start("body")] + body + text[match.end("body") :], encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--fix", action="store_true", help="rewrite each hash from `zig fetch` instead of reporting")
@@ -124,6 +166,7 @@ def main() -> int:
     stale: list[tuple[str, str, str]] = []
     pending: list[str] = []
     replacements: dict[str, str] = {}
+    computed_by_triple: dict[str, str] = {}
 
     with tempfile.TemporaryDirectory() as scratch:
         probe = Path(scratch) / "probe"
@@ -144,6 +187,9 @@ def main() -> int:
             except FetchError as exc:
                 print(f"{asset}: {exc}", file=sys.stderr)
                 return 2
+            triple = TRIPLE_FROM_URL.search(url)
+            if triple is not None:
+                computed_by_triple[triple.group("triple")] = actual
             if actual != declared:
                 stale.append((asset, declared, actual))
                 replacements[declared] = actual
@@ -165,7 +211,14 @@ def main() -> int:
             )
             return 2
 
-    if not stale:
+    declared_in_alef = alef_platform_hashes()
+    alef_stale = [
+        (triple, declared_in_alef[triple], actual)
+        for triple, actual in computed_by_triple.items()
+        if triple in declared_in_alef and declared_in_alef[triple] != actual
+    ]
+
+    if not stale and not alef_stale:
         checked = len(dependencies) - len(pending)
         print(f"all {checked} zig package hashes match the tarballs their URLs name")
         return 0
@@ -176,11 +229,20 @@ def main() -> int:
         ZON.write_text(text, encoding="utf-8")
         for asset, declared, actual in stale:
             print(f"fixed  {asset}\n         {declared}\n      -> {actual}")
+        if alef_stale:
+            rewrite_alef_platform_hashes(computed_by_triple)
+            for triple, declared, actual in alef_stale:
+                print(f"fixed  alef.toml [{triple}]\n         {declared}\n      -> {actual}")
         return 0
 
-    print(f"\n{ZON.relative_to(ROOT)}: {len(stale)} hash(es) do not match the tarball the URL names:\n")
-    for asset, declared, actual in stale:
-        print(f"  {asset}\n    declared: {declared}\n    actual:   {actual}")
+    if stale:
+        print(f"\n{ZON.relative_to(ROOT)}: {len(stale)} hash(es) do not match the tarball the URL names:\n")
+        for asset, declared, actual in stale:
+            print(f"  {asset}\n    declared: {declared}\n    actual:   {actual}")
+    if alef_stale:
+        print(f"\nalef.toml [crates.e2e.registry.packages.zig.platform_hashes]: {len(alef_stale)} stale:\n")
+        for triple, declared, actual in alef_stale:
+            print(f"  {triple}\n    declared: {declared}\n    actual:   {actual}")
     print(
         "\n`zig build` in test_apps/zig fails with a hash mismatch until these are regenerated.\n"
         "Run `python3 scripts/sync_zig_zon_hashes.py --fix` and commit. Never hand-edit a hash."
