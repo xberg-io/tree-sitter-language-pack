@@ -7,25 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-- **The nightly sanitizer sweep now finishes inside its job.** Six consecutive nightlies were
-  killed at the 120-minute job limit, every one of them inside the parse sweep after all twelve
-  preceding steps had passed -- so the job reported neither its findings nor how far it got. The
-  sweep now runs against a 90-minute budget checked between languages, states in the summary how
-  many languages it actually swept, and warns with the names of any it did not reach. The day's
-  language order is also rotated by day-of-year, so a truncated sweep no longer drops the same
-  alphabetical tail every night.
-- **Dynamically loaded grammars are ABI-checked at load time.** `load_from_dir` called
-  `Language::from_raw` on a downloaded parser with only a null check, so an incompatible grammar
-  was accepted and failed later at `ts_parser_set_language` -- or, just outside the compatible
-  range, parsed wrongly. The ABI version is now compared against the linked runtime's
-  `MIN_COMPATIBLE_LANGUAGE_VERSION..=LANGUAGE_VERSION` and rejected with both versions named. The
-  bounds are read from the runtime, so a runtime upgrade moves them rather than leaving a stale
-  literal behind.
+## [1.19.1] - 2026-09-13
 
 ### Changed
 
+- Regenerated every binding with Alef 0.86.1 (from 0.85.15). The Swift package gains real value
+  types: `DataNode`, `ProcessResult` and `StructureItem` were `typealias`es to opaque Rust handles
+  and are now `Codable, Sendable, Hashable` structs with typed properties, carried across the FFI
+  boundary as JSON rather than as `Vec<OpaqueType>`, which swift-bridge expresses poorly.
+
+  **Swift callers must update accessor calls to property reads**: `result.language()` becomes
+  `result.language`, and it is already a `String` rather than a `RustString` needing
+  `.toString()`. The same applies to every field of those three types, and their collection
+  fields are now typed -- `result.imports` is `[ImportInfo]`, not an opaque sequence. Nothing
+  else in the Swift surface moved, and the other fourteen bindings are unaffected.
+
+  The
+  generated Node and WASM e2e suites also stop reading `FormatMetadata` as an externally tagged
+  union: serde tags it internally, so the variant payload's fields are siblings of `format_type`
+  rather than nested under it, and the assertion now has no fallback that would let a binding
+  regress to the old shape quietly.
 - Removed the eight superseded `release/swift/<version>` branches. `publish.yaml` moves the
   release tag onto the same checksummed commit it pushes the branch to, so each branch named a
   commit already reachable through `v<version>`; a consumer pinned to one can switch to
@@ -40,18 +41,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   column-0 sentinel only when `deserialize` was called with a NULL buffer, while tree-sitter
   resets a scanner with a non-NULL inline buffer of length 0, leaving the following scan to read
   `data[-1]`. A survey of all 186 vendored scanners found both defects only in `agda`.
-- The nightly sanitizer sweep now reports a finding it cannot attribute to a sanitizer exit code.
-  UBSan raises `SIGABRT` where `abort_on_error` defaults to 1 and prints
-  `ERROR: UndefinedBehaviorSanitizer`, neither of which the previous detector matched, so a crash
-  of exactly the shape above could pass the gate. Any parse killed by a signal now counts.
-- Bounded each parse in that sweep with a timeout. One pathological input previously ran for more
-  than ten minutes, and a job killed at its 120-minute limit reports nothing at all. A timeout is
-  recorded and warned about but does not fail the gate -- it is a performance problem, not a
-  memory-safety one.
-- Scoped the sanitizer environment in that sweep to the `ts-pack` invocation. As a step-level
-  `env:` it also applied to the shell, `python3`, `find`, `grep` and `tee`, each running
-  uninstrumented with the runtime `LD_PRELOAD`ed into it and `exitcode=42` in force, so a
-  diagnosis raised in any helper would have been reported as a scanner finding.
+- Dynamically loaded grammars are ABI-checked at load time. `load_from_dir` called
+  `Language::from_raw` on a downloaded parser with only a null check, so an incompatible grammar
+  was accepted and failed later at `ts_parser_set_language` -- or, just outside the compatible
+  range, parsed wrongly. The ABI version is now compared against the linked runtime's
+  `MIN_COMPATIBLE_LANGUAGE_VERSION..=LANGUAGE_VERSION` and rejected with both versions named. The
+  bounds are read from the runtime, so a runtime upgrade moves them rather than leaving a stale
+  literal behind.
+- `scripts/sync_zig_zon_hashes.py` now maintains `alef.toml`'s
+  `[crates.e2e.registry.packages.zig.platform_hashes]` alongside `test_apps/zig/build.zig.zon`.
+  Nothing had ever populated that table, so it carried five `STALE_HASH_REGENERATE` placeholders;
+  Alef responds to a placeholder by omitting the `.hash` line entirely, which is the only reason
+  the manifest had to be declared `user_owned` in the first place. The five real digests are in
+  place and the gate now fails on drift in either file.
+- The nightly sanitizer sweep finishes inside its job. Six consecutive nightlies were killed at
+  the 120-minute limit, every one inside the parse sweep after all twelve preceding steps had
+  passed, so the job reported neither its findings nor how far it got. The sweep now runs against
+  a 90-minute budget checked between languages, states how many languages it swept, names any it
+  did not reach, and bounds each parse with a timeout -- one pathological input had been running
+  over ten minutes. The day's language order rotates by day-of-year so a truncated sweep stops
+  dropping the same alphabetical tail every night.
+- That sweep also reports a finding it cannot attribute to a sanitizer exit code. UBSan raises
+  `SIGABRT` where `abort_on_error` defaults to 1 and prints `ERROR: UndefinedBehaviorSanitizer`,
+  neither of which the previous detector matched, so the `agda` crash above was exactly the shape
+  it let through; any parse killed by a signal now counts. Its sanitizer environment is scoped to
+  the `ts-pack` invocation as well -- as a step-level `env:` it also reached the shell, `python3`,
+  `find`, `grep` and `tee`, each running uninstrumented with the runtime `LD_PRELOAD`ed into it
+  and `exitcode=42` in force, so a diagnosis raised in a helper would have been reported as a
+  scanner finding.
 
 ## [1.19.0] - 2026-09-12
 

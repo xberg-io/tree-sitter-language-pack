@@ -133,7 +133,7 @@ final class ParsingTests: XCTestCase {
         let configObj = try TreeSitterLanguagePack.processConfigFromJson("{\"language\":\"nim\"}")
         let result = try TreeSitterLanguagePack.process(source: "echo \"hello\"", config: configObj)
 
-        XCTAssertEqual(result.language().toString(), "nim")
+        XCTAssertEqual(result.language, "nim")
     }
 
     // No structure-extraction test: crates/ts-pack-core/src/intel/intelligence.rs

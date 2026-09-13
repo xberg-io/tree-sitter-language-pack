@@ -63,7 +63,7 @@ TRIPLE_FROM_URL = re.compile(r"-zig-v[0-9][0-9.]*-(?P<triple>[a-z0-9_]+-[a-z0-9_
 
 PLATFORM_HASHES_SECTION = re.compile(
     r"(?P<head>^\[crates\.e2e\.registry\.packages\.zig\.platform_hashes\]\n)(?P<body>(?:\"[^\"]+\" = \"[^\"]+\"\n)+)",
-    re.M,
+    re.MULTILINE,
 )
 
 # ~keep Captures the `.url`/`.hash` pair of one dependency. They are adjacent in every manifest
@@ -139,6 +139,43 @@ def rewrite_alef_platform_hashes(computed: dict[str, str]) -> None:
     existing = dict(re.findall(r'"([^"]+)" = "([^"]+)"', match.group("body")))
     body = "".join(f'"{triple}" = "{computed.get(triple, value)}"\n' for triple, value in existing.items())
     ALEF_TOML.write_text(text[: match.start("body")] + body + text[match.end("body") :], encoding="utf-8")
+
+
+def report_stale(stale: list[tuple[str, str, str]], alef_stale: list[tuple[str, str, str]]) -> int:
+    """Print every mismatch and return the gate's exit code."""
+    if stale:
+        print(f"\n{ZON.relative_to(ROOT)}: {len(stale)} hash(es) do not match the tarball the URL names:\n")
+        for asset, declared, actual in stale:
+            print(f"  {asset}\n    declared: {declared}\n    actual:   {actual}")
+    if alef_stale:
+        print(f"\nalef.toml [crates.e2e.registry.packages.zig.platform_hashes]: {len(alef_stale)} stale:\n")
+        for triple, declared, actual in alef_stale:
+            print(f"  {triple}\n    declared: {declared}\n    actual:   {actual}")
+    print(
+        "\n`zig build` in test_apps/zig fails with a hash mismatch until these are regenerated.\n"
+        "Run `python3 scripts/sync_zig_zon_hashes.py --fix` and commit. Never hand-edit a hash."
+    )
+    return 1
+
+
+def write_fixes(
+    text: str,
+    replacements: dict[str, str],
+    stale: list[tuple[str, str, str]],
+    alef_stale: list[tuple[str, str, str]],
+    computed_by_triple: dict[str, str],
+) -> int:
+    """Rewrite both files from the computed digests and report what moved."""
+    for declared, actual in replacements.items():
+        text = text.replace(f'"{declared}"', f'"{actual}"')
+    ZON.write_text(text, encoding="utf-8")
+    for asset, declared, actual in stale:
+        print(f"fixed  {asset}\n         {declared}\n      -> {actual}")
+    if alef_stale:
+        rewrite_alef_platform_hashes(computed_by_triple)
+        for triple, declared, actual in alef_stale:
+            print(f"fixed  alef.toml [{triple}]\n         {declared}\n      -> {actual}")
+    return 0
 
 
 def main() -> int:
@@ -224,30 +261,9 @@ def main() -> int:
         return 0
 
     if args.fix:
-        for declared, actual in replacements.items():
-            text = text.replace(f'"{declared}"', f'"{actual}"')
-        ZON.write_text(text, encoding="utf-8")
-        for asset, declared, actual in stale:
-            print(f"fixed  {asset}\n         {declared}\n      -> {actual}")
-        if alef_stale:
-            rewrite_alef_platform_hashes(computed_by_triple)
-            for triple, declared, actual in alef_stale:
-                print(f"fixed  alef.toml [{triple}]\n         {declared}\n      -> {actual}")
-        return 0
+        return write_fixes(text, replacements, stale, alef_stale, computed_by_triple)
 
-    if stale:
-        print(f"\n{ZON.relative_to(ROOT)}: {len(stale)} hash(es) do not match the tarball the URL names:\n")
-        for asset, declared, actual in stale:
-            print(f"  {asset}\n    declared: {declared}\n    actual:   {actual}")
-    if alef_stale:
-        print(f"\nalef.toml [crates.e2e.registry.packages.zig.platform_hashes]: {len(alef_stale)} stale:\n")
-        for triple, declared, actual in alef_stale:
-            print(f"  {triple}\n    declared: {declared}\n    actual:   {actual}")
-    print(
-        "\n`zig build` in test_apps/zig fails with a hash mismatch until these are regenerated.\n"
-        "Run `python3 scripts/sync_zig_zon_hashes.py --fix` and commit. Never hand-edit a hash."
-    )
-    return 1
+    return report_stale(stale, alef_stale)
 
 
 if __name__ == "__main__":

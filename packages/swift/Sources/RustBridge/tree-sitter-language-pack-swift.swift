@@ -1,6 +1,4 @@
-// swift-format-ignore-file
 import RustBridgeC
-
 public func downloadManagerInstalledLanguages(_ client: DownloadManagerRef) -> RustVec<RustString> {
     RustVec(ptr: __swift_bridge__$download_manager_installed_languages(client.ptr))
 }
@@ -411,7 +409,7 @@ public func __alef_phantom_vec_download_manager() -> RustVec<DownloadManager> {
 }
 
 public class ByteRange: ByteRangeRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -434,7 +432,7 @@ public class ByteRangeRefMut: ByteRangeRef {
     }
 }
 public class ByteRangeRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -500,7 +498,7 @@ extension ByteRange: Vectorizable {
 
 
 public class ChunkContext: ChunkContextRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -523,7 +521,7 @@ public class ChunkContextRefMut: ChunkContextRef {
     }
 }
 public class ChunkContextRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -617,7 +615,7 @@ extension ChunkContext: Vectorizable {
 
 
 public class CodeChunk: CodeChunkRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -640,7 +638,7 @@ public class CodeChunkRefMut: CodeChunkRef {
     }
 }
 public class CodeChunkRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -722,7 +720,7 @@ extension CodeChunk: Vectorizable {
 
 
 public class CommentInfo: CommentInfoRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -745,7 +743,7 @@ public class CommentInfoRefMut: CommentInfoRef {
     }
 }
 public class CommentInfoRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -819,7 +817,7 @@ extension CommentInfo: Vectorizable {
 
 
 public class DataAttribute: DataAttributeRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -842,7 +840,7 @@ public class DataAttributeRefMut: DataAttributeRef {
     }
 }
 public class DataAttributeRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -912,7 +910,7 @@ extension DataAttribute: Vectorizable {
 
 
 public class DataNode: DataNodeRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -935,7 +933,7 @@ public class DataNodeRefMut: DataNodeRef {
     }
 }
 public class DataNodeRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -954,11 +952,11 @@ extension DataNodeRef {
         { let val = __swift_bridge__$DataNode$value(ptr); if val != nil { return RustString(ptr: val!) } else { return nil } }()
     }
 
-    public func attributes() -> RustVec<DataAttribute> {
+    public func attributes() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$DataNode$attributes(ptr))
     }
 
-    public func children() -> RustVec<DataNode> {
+    public func children() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$DataNode$children(ptr))
     }
 
@@ -1017,7 +1015,7 @@ extension DataNode: Vectorizable {
 
 
 public class Diagnostic: DiagnosticRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1040,7 +1038,7 @@ public class DiagnosticRefMut: DiagnosticRef {
     }
 }
 public class DiagnosticRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1110,7 +1108,7 @@ extension Diagnostic: Vectorizable {
 
 
 public class DocSection: DocSectionRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1133,7 +1131,7 @@ public class DocSectionRefMut: DocSectionRef {
     }
 }
 public class DocSectionRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1203,7 +1201,7 @@ extension DocSection: Vectorizable {
 
 
 public class DocstringInfo: DocstringInfoRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1226,7 +1224,7 @@ public class DocstringInfoRefMut: DocstringInfoRef {
     }
 }
 public class DocstringInfoRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1304,7 +1302,7 @@ extension DocstringInfo: Vectorizable {
 
 
 public class DownloadManager: DownloadManagerRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1322,7 +1320,7 @@ public class DownloadManagerRefMut: DownloadManagerRef {
     }
 }
 public class DownloadManagerRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1379,7 +1377,7 @@ extension DownloadManager: Vectorizable {
 
 
 public class ExportInfo: ExportInfoRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1402,7 +1400,7 @@ public class ExportInfoRefMut: ExportInfoRef {
     }
 }
 public class ExportInfoRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1472,7 +1470,7 @@ extension ExportInfo: Vectorizable {
 
 
 public class FileMetrics: FileMetricsRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1495,7 +1493,7 @@ public class FileMetricsRefMut: FileMetricsRef {
     }
 }
 public class FileMetricsRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1585,7 +1583,7 @@ extension FileMetrics: Vectorizable {
 
 
 public class ImportInfo: ImportInfoRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1608,7 +1606,7 @@ public class ImportInfoRefMut: ImportInfoRef {
     }
 }
 public class ImportInfoRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1686,7 +1684,7 @@ extension ImportInfo: Vectorizable {
 
 
 public class LanguageRegistry: LanguageRegistryRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1704,7 +1702,7 @@ public class LanguageRegistryRefMut: LanguageRegistryRef {
     }
 }
 public class LanguageRegistryRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1761,7 +1759,7 @@ extension LanguageRegistry: Vectorizable {
 
 
 public class Node: NodeRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1779,7 +1777,7 @@ public class NodeRefMut: NodeRef {
     }
 }
 public class NodeRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1836,7 +1834,7 @@ extension Node: Vectorizable {
 
 
 public class PackConfig: PackConfigRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1854,7 +1852,7 @@ public class PackConfigRefMut: PackConfigRef {
     }
 }
 public class PackConfigRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1924,7 +1922,7 @@ extension PackConfig: Vectorizable {
 
 
 public class Parser: ParserRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -1942,7 +1940,7 @@ public class ParserRefMut: ParserRef {
     }
 }
 public class ParserRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -1999,7 +1997,7 @@ extension Parser: Vectorizable {
 
 
 public class Point: PointRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2022,7 +2020,7 @@ public class PointRefMut: PointRef {
     }
 }
 public class PointRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2088,7 +2086,7 @@ extension Point: Vectorizable {
 
 
 public class ProcessConfig: ProcessConfigRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2111,7 +2109,7 @@ public class ProcessConfigRefMut: ProcessConfigRef {
     }
 }
 public class ProcessConfigRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2217,7 +2215,7 @@ extension ProcessConfig: Vectorizable {
 
 
 public class ProcessResult: ProcessResultRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2240,7 +2238,7 @@ public class ProcessResultRefMut: ProcessResultRef {
     }
 }
 public class ProcessResultRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2255,35 +2253,35 @@ extension ProcessResultRef {
         FileMetrics(ptr: __swift_bridge__$ProcessResult$metrics(ptr))
     }
 
-    public func structure() -> RustVec<StructureItem> {
+    public func structure() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$structure(ptr))
     }
 
-    public func imports() -> RustVec<ImportInfo> {
+    public func imports() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$imports(ptr))
     }
 
-    public func exports() -> RustVec<ExportInfo> {
+    public func exports() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$exports(ptr))
     }
 
-    public func comments() -> RustVec<CommentInfo> {
+    public func comments() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$comments(ptr))
     }
 
-    public func docstrings() -> RustVec<DocstringInfo> {
+    public func docstrings() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$docstrings(ptr))
     }
 
-    public func symbols() -> RustVec<SymbolInfo> {
+    public func symbols() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$symbols(ptr))
     }
 
-    public func diagnostics() -> RustVec<Diagnostic> {
+    public func diagnostics() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$diagnostics(ptr))
     }
 
-    public func chunks() -> RustVec<CodeChunk> {
+    public func chunks() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$ProcessResult$chunks(ptr))
     }
 
@@ -2342,7 +2340,7 @@ extension ProcessResult: Vectorizable {
 
 
 public class Span: SpanRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2365,7 +2363,7 @@ public class SpanRefMut: SpanRef {
     }
 }
 public class SpanRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2447,7 +2445,7 @@ extension Span: Vectorizable {
 
 
 public class StructureItem: StructureItemRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2470,7 +2468,7 @@ public class StructureItemRefMut: StructureItemRef {
     }
 }
 public class StructureItemRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2493,7 +2491,7 @@ extension StructureItemRef {
         Span(ptr: __swift_bridge__$StructureItem$span(ptr))
     }
 
-    public func children() -> RustVec<StructureItem> {
+    public func children() -> RustVec<RustString> {
         RustVec(ptr: __swift_bridge__$StructureItem$children(ptr))
     }
 
@@ -2564,7 +2562,7 @@ extension StructureItem: Vectorizable {
 
 
 public class SymbolInfo: SymbolInfoRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2587,7 +2585,7 @@ public class SymbolInfoRefMut: SymbolInfoRef {
     }
 }
 public class SymbolInfoRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2665,7 +2663,7 @@ extension SymbolInfo: Vectorizable {
 
 
 public class Tree: TreeRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2683,7 +2681,7 @@ public class TreeRefMut: TreeRef {
     }
 }
 public class TreeRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2740,7 +2738,7 @@ extension Tree: Vectorizable {
 
 
 public class TreeCursor: TreeCursorRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2758,7 +2756,7 @@ public class TreeCursorRefMut: TreeCursorRef {
     }
 }
 public class TreeCursorRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2815,7 +2813,7 @@ extension TreeCursor: Vectorizable {
 
 
 public class CommentKind: CommentKindRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2833,7 +2831,7 @@ public class CommentKindRefMut: CommentKindRef {
     }
 }
 public class CommentKindRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2895,7 +2893,7 @@ extension CommentKind: Vectorizable {
 
 
 public class DataNodeKind: DataNodeKindRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2913,7 +2911,7 @@ public class DataNodeKindRefMut: DataNodeKindRef {
     }
 }
 public class DataNodeKindRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -2975,7 +2973,7 @@ extension DataNodeKind: Vectorizable {
 
 
 public class DiagnosticSeverity: DiagnosticSeverityRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -2993,7 +2991,7 @@ public class DiagnosticSeverityRefMut: DiagnosticSeverityRef {
     }
 }
 public class DiagnosticSeverityRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -3055,7 +3053,7 @@ extension DiagnosticSeverity: Vectorizable {
 
 
 public class DocstringFormat: DocstringFormatRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -3073,7 +3071,7 @@ public class DocstringFormatRefMut: DocstringFormatRef {
     }
 }
 public class DocstringFormatRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -3135,7 +3133,7 @@ extension DocstringFormat: Vectorizable {
 
 
 public class ExportKind: ExportKindRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -3153,7 +3151,7 @@ public class ExportKindRefMut: ExportKindRef {
     }
 }
 public class ExportKindRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -3215,7 +3213,7 @@ extension ExportKind: Vectorizable {
 
 
 public class StructureKind: StructureKindRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -3233,7 +3231,7 @@ public class StructureKindRefMut: StructureKindRef {
     }
 }
 public class StructureKindRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -3295,7 +3293,7 @@ extension StructureKind: Vectorizable {
 
 
 public class SymbolKind: SymbolKindRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -3313,7 +3311,7 @@ public class SymbolKindRefMut: SymbolKindRef {
     }
 }
 public class SymbolKindRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -3375,7 +3373,7 @@ extension SymbolKind: Vectorizable {
 
 
 public class Language: LanguageRefMut {
-    public var isOwned: Bool = true
+    var isOwned: Bool = true
 
     public override init(ptr: UnsafeMutableRawPointer) {
         super.init(ptr: ptr)
@@ -3393,7 +3391,7 @@ public class LanguageRefMut: LanguageRef {
     }
 }
 public class LanguageRef {
-    public var ptr: UnsafeMutableRawPointer
+    var ptr: UnsafeMutableRawPointer
 
     public init(ptr: UnsafeMutableRawPointer) {
         self.ptr = ptr
@@ -3447,3 +3445,6 @@ extension Language: Vectorizable {
         __swift_bridge__$Vec_Language$len(vecPtr)
     }
 }
+
+
+
