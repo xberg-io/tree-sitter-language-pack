@@ -1,5 +1,11 @@
 #include "RustBridgeC.h"
 
+// ~keep `NULL` comes from <stddef.h>, and nothing else here pulls it in: RustBridgeC.h
+// includes only <stdbool.h> and <stdint.h>. Apple clang happens to reach it transitively,
+// so the omission compiles on macOS and fails on Linux with "use of undeclared identifier
+// 'NULL'" -- which is where the doc-snippet validator builds this package.
+#include <stddef.h>
+
 // ~keep anchor TU so XCBuild emits RustBridgeC.o (issue #449)
 void tree_sitter_language_pack_swift_rust_bridge_c_anchor(void) {}
 
