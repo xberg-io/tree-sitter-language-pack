@@ -952,11 +952,11 @@ extension DataNodeRef {
         { let val = __swift_bridge__$DataNode$value(ptr); if val != nil { return RustString(ptr: val!) } else { return nil } }()
     }
 
-    public func attributes() -> RustVec<RustString> {
+    public func attributes() -> RustVec<DataAttribute> {
         RustVec(ptr: __swift_bridge__$DataNode$attributes(ptr))
     }
 
-    public func children() -> RustVec<RustString> {
+    public func children() -> RustVec<DataNode> {
         RustVec(ptr: __swift_bridge__$DataNode$children(ptr))
     }
 
@@ -2253,35 +2253,35 @@ extension ProcessResultRef {
         FileMetrics(ptr: __swift_bridge__$ProcessResult$metrics(ptr))
     }
 
-    public func structure() -> RustVec<RustString> {
+    public func structure() -> RustVec<StructureItem> {
         RustVec(ptr: __swift_bridge__$ProcessResult$structure(ptr))
     }
 
-    public func imports() -> RustVec<RustString> {
+    public func imports() -> RustVec<ImportInfo> {
         RustVec(ptr: __swift_bridge__$ProcessResult$imports(ptr))
     }
 
-    public func exports() -> RustVec<RustString> {
+    public func exports() -> RustVec<ExportInfo> {
         RustVec(ptr: __swift_bridge__$ProcessResult$exports(ptr))
     }
 
-    public func comments() -> RustVec<RustString> {
+    public func comments() -> RustVec<CommentInfo> {
         RustVec(ptr: __swift_bridge__$ProcessResult$comments(ptr))
     }
 
-    public func docstrings() -> RustVec<RustString> {
+    public func docstrings() -> RustVec<DocstringInfo> {
         RustVec(ptr: __swift_bridge__$ProcessResult$docstrings(ptr))
     }
 
-    public func symbols() -> RustVec<RustString> {
+    public func symbols() -> RustVec<SymbolInfo> {
         RustVec(ptr: __swift_bridge__$ProcessResult$symbols(ptr))
     }
 
-    public func diagnostics() -> RustVec<RustString> {
+    public func diagnostics() -> RustVec<Diagnostic> {
         RustVec(ptr: __swift_bridge__$ProcessResult$diagnostics(ptr))
     }
 
-    public func chunks() -> RustVec<RustString> {
+    public func chunks() -> RustVec<CodeChunk> {
         RustVec(ptr: __swift_bridge__$ProcessResult$chunks(ptr))
     }
 
@@ -2491,7 +2491,7 @@ extension StructureItemRef {
         Span(ptr: __swift_bridge__$StructureItem$span(ptr))
     }
 
-    public func children() -> RustVec<RustString> {
+    public func children() -> RustVec<StructureItem> {
         RustVec(ptr: __swift_bridge__$StructureItem$children(ptr))
     }
 

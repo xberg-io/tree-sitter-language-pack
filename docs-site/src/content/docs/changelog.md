@@ -14,22 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Regenerated every binding with Alef 0.86.1 (from 0.85.15). The Swift package gains real value
-  types: `DataNode`, `ProcessResult` and `StructureItem` were `typealias`es to opaque Rust handles
-  and are now `Codable, Sendable, Hashable` structs with typed properties, carried across the FFI
-  boundary as JSON rather than as `Vec<OpaqueType>`, which swift-bridge expresses poorly.
-
-  **Swift callers must update accessor calls to property reads**: `result.language()` becomes
-  `result.language`, and it is already a `String` rather than a `RustString` needing
-  `.toString()`. The same applies to every field of those three types, and their collection
-  fields are now typed -- `result.imports` is `[ImportInfo]`, not an opaque sequence. Nothing
-  else in the Swift surface moved, and the other fourteen bindings are unaffected.
-
-  The
-  generated Node and WASM e2e suites also stop reading `FormatMetadata` as an externally tagged
-  union: serde tags it internally, so the variant payload's fields are siblings of `format_type`
-  rather than nested under it, and the assertion now has no fallback that would let a binding
-  regress to the old shape quietly.
+- Alef stays pinned at 0.85.15. 0.86.1 rewrites the Swift binding to real value types --
+  `DataNode`, `ProcessResult` and `StructureItem` become `Codable` structs with typed properties
+  instead of `typealias`es to opaque Rust handles -- but does not update the Swift e2e suite it
+  generates alongside them, which still calls `result.language()` and `result.structure()` on
+  what are now properties. The two halves of its own output do not compile together, and `e2e/`
+  is generated with a CI freshness gate, so the mismatch cannot be patched downstream. Reported
+  upstream; the upgrade lands once the e2e emitter follows the binding emitter.
 - Removed the eight superseded `release/swift/<version>` branches. `publish.yaml` moves the
   release tag onto the same checksummed commit it pushes the branch to, so each branch named a
   commit already reachable through `v<version>`; a consumer pinned to one can switch to
