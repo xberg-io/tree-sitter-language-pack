@@ -4226,19 +4226,22 @@ jobs:
           set -euo pipefail
           git config user.name "xberg-dev-publisher[bot]"
           git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
-          if git diff --quiet -- test_apps/zig/build.zig.zon; then
+          # `--fix` rewrites the hashes in BOTH files, so both must be staged. Staging only
+          # the .zon silently discarded every alef.toml fix, leaving its platform_hashes a
+          # release behind while the job reported success. ~keep
+          if git diff --quiet -- test_apps/zig/build.zig.zon alef.toml; then
             echo "Hashes already match the published tarballs; nothing to commit."
             echo "### Zig package hashes — already current for v${VERSION}" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          git --no-pager diff -- test_apps/zig/build.zig.zon
-          git add test_apps/zig/build.zig.zon
+          git --no-pager diff -- test_apps/zig/build.zig.zon alef.toml
+          git add test_apps/zig/build.zig.zon alef.toml
           git commit --no-verify -m "chore(zig): refresh test_apps package hashes for v${VERSION}"
           git push origin HEAD:refs/heads/main
           {
             echo "### Zig package hashes — refreshed"
             echo
-            echo "\`test_apps/zig/build.zig.zon\` on \`main\` now matches the \`v${VERSION}\` tarballs."
+            echo "\`test_apps/zig/build.zig.zon\` and \`alef.toml\` on \`main\` now match the \`v${VERSION}\` tarballs."
           } >> "$GITHUB_STEP_SUMMARY"
 
       # `continue-on-error` keeps a problem here from failing the release, which also means a
