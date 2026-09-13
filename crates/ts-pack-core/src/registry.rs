@@ -222,6 +222,14 @@ mod dynamic {
     static LOADED_LIBRARIES: LazyLock<RwLock<HashMap<PathBuf, libloading::Library>>> =
         LazyLock::new(|| RwLock::new(HashMap::new()));
 
+    /// Whether a grammar's ABI version can be used by the tree-sitter runtime linked here.
+    ///
+    /// The bounds come from the runtime rather than being written down, so a runtime upgrade
+    /// moves them automatically instead of leaving a stale literal behind. ~keep
+    pub(super) fn is_supported_abi(abi: usize) -> bool {
+        (tree_sitter::MIN_COMPATIBLE_LANGUAGE_VERSION..=tree_sitter::LANGUAGE_VERSION).contains(&abi)
+    }
+
     /// Holds dynamically loaded libraries to keep them alive.
     /// The Library must outlive the Language since Language references code in the loaded library.
     pub(crate) struct DynamicLibs {
@@ -345,7 +353,26 @@ mod dynamic {
             if ptr.is_null() {
                 return Err(Error::NullLanguagePointer(name.to_string()));
             }
-            Ok(Language::from_raw(ptr))
+            let language = Language::from_raw(ptr);
+            // ~keep A downloaded grammar is the one language object this crate does not compile
+            // itself, so it is the only one whose ABI can disagree with the linked runtime. Without
+            // this check the mismatch surfaces later as a `ts_parser_set_language` failure or, for
+            // a grammar just outside the compatible range, as wrong parses -- a load-time error
+            // naming both versions is far cheaper to diagnose. `Language` is not refcounted, so
+            // returning early here leaks nothing.
+            let abi = language.abi_version();
+            if !is_supported_abi(abi) {
+                return Err(Error::DynamicLoad(format!(
+                    "Grammar '{}' in {} has ABI version {}, outside the range {}..={} supported by \
+                     the linked tree-sitter runtime",
+                    name,
+                    lib_path.display(),
+                    abi,
+                    tree_sitter::MIN_COMPATIBLE_LANGUAGE_VERSION,
+                    tree_sitter::LANGUAGE_VERSION,
+                )));
+            }
+            Ok(language)
         }
     }
 
@@ -762,6 +789,39 @@ mod tests {
         let registry = LanguageRegistry::new();
         let langs = registry.available_languages();
         langs.into_iter().next()
+    }
+
+    #[cfg(all(feature = "dynamic-loading", not(target_arch = "wasm32")))]
+    mod abi_gate {
+        use super::super::dynamic::is_supported_abi;
+
+        #[test]
+        fn should_accept_every_abi_the_linked_runtime_declares_compatible() {
+            for abi in tree_sitter::MIN_COMPATIBLE_LANGUAGE_VERSION..=tree_sitter::LANGUAGE_VERSION {
+                assert!(
+                    is_supported_abi(abi),
+                    "runtime declares {abi} compatible but the gate rejects it"
+                );
+            }
+        }
+
+        #[test]
+        fn should_reject_an_abi_below_the_minimum_compatible_version() {
+            let below = tree_sitter::MIN_COMPATIBLE_LANGUAGE_VERSION - 1;
+            assert!(
+                !is_supported_abi(below),
+                "ABI {below} is below the runtime minimum and must be rejected"
+            );
+        }
+
+        #[test]
+        fn should_reject_an_abi_above_the_runtime_version() {
+            let above = tree_sitter::LANGUAGE_VERSION + 1;
+            assert!(
+                !is_supported_abi(above),
+                "ABI {above} is newer than the runtime and must be rejected"
+            );
+        }
     }
 
     #[cfg(any(feature = "dynamic-loading", feature = "download"))]
