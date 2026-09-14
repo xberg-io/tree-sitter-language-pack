@@ -133,7 +133,7 @@ final class ParsingTests: XCTestCase {
         let configObj = try TreeSitterLanguagePack.processConfigFromJson("{\"language\":\"nim\"}")
         let result = try TreeSitterLanguagePack.process(source: "echo \"hello\"", config: configObj)
 
-        XCTAssertEqual(result.language().toString(), "nim")
+        XCTAssertEqual(result.language, "nim")
     }
 
     // Structure extraction is tested through "mojo", not "nim". `structure_kind_at()` in
@@ -159,18 +159,15 @@ final class ParsingTests: XCTestCase {
             config: configObj
         )
 
-        let items = result.structure()
-        let kinds = items.map { $0.kind().toString() }
-        let names = items.map { $0.name()?.toString() }
-
-        XCTAssertEqual(kinds.count, 2, "mojo source declaring one function and one class must yield two structure items")
-        // `StructureItem::kind()` is `serde_json::to_string(&self.0.kind)`, so a unit variant
-        // arrives as a JSON scalar — the quote characters are part of the returned string.
-        // Asserted literally rather than with `.contains("Function")` (what the generated e2e
-        // uses): the substring form also passes on `{"Other":"Function"}` and on a corrupted
-        // read, so it cannot distinguish a correct value from a wrong one. ~keep
-        XCTAssertEqual(kinds.sorted(), ["\"Class\"", "\"Function\""], "structure kinds must round-trip as serde wire tags")
-        XCTAssertEqual(names.sorted { ($0 ?? "") < ($1 ?? "") }, ["Greeter", "greet"], "structure items must carry the declared names")
+        // Asserted as the typed enum, in source order, rather than via `kind.toString()`.
+        // `StructureKind` decodes from serde's external tagging through a hand-written
+        // `init(from:)`; comparing the decoded case is what proves that decoder ran and
+        // mapped the wire tag correctly. A string comparison would also pass on
+        // `.other(field0: "Function")`, which is the exact shape a broken decoder produces. ~keep
+        XCTAssertEqual(result.structure.map(\.kind), [.function, .class],
+                       "mojo `def` then `class` must decode as Function then Class, in source order")
+        XCTAssertEqual(result.structure.map(\.name), ["greet", "Greeter"],
+                       "structure items must carry the declared names")
     }
 }
 

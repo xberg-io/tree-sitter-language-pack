@@ -10,7 +10,7 @@ description: >-
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
 Content-Hash: blake3:dd570b2c1cb806fd7004f737dadfefde3bef71ae1ba233bbaae8121d744b5f0b
-Source-Hash: blake3:b6a51b3dbbb04642a8fb67c4d86e16150f48a9e502b1c17f8b6d91c821384b95
+Source-Hash: blake3:70559811033def67b9afc84aff0b0dd18329e8b04263cffeca7336545e95ab3c
 Schema-Version: v1
 -->
 

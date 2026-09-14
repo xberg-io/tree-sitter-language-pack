@@ -10,6 +10,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.20.0] - 2026-09-14
+
+### Changed
+
+- **BREAKING (Java): enum constants are now `UPPER_SNAKE_CASE`.** `StructureKind.Function` becomes
+  `StructureKind.FUNCTION`, and likewise across `CommentKind`, `DataNodeKind`, `DiagnosticSeverity`,
+  `DocstringFormat`, `ExportKind` and `SymbolKind`. The serialized wire values are unchanged, so no
+  data migration is needed and persisted JSON stays readable; only Java source naming the old
+  identifiers has to be updated.
+- **BREAKING (Swift): `process()` returns typed value types instead of opaque Rust handles.**
+  `ProcessResult`, `StructureItem`, `DataNode` and fifteen other types are now `Codable` structs with
+  stored properties rather than `typealias`es to swift-bridge handles. Field access moves from method
+  to property syntax (`result.structure`, not `result.structure()`), collections are real Swift arrays,
+  and `StructureKind` / `SymbolKind` / `DocstringFormat` are Swift enums with associated values rather
+  than strings. Values now cross the bridge as JSON and are decoded in Swift, so `process()` is
+  `throws` on malformed input rather than returning a handle that fails on first access.
+- Regenerate all bindings, fixtures, documentation and release workflows with Alef 0.87.1 (was
+  0.85.15), lifting the hold recorded in 1.19.1. 0.86.1 promoted the Swift binding to value types but
+  left the Swift e2e suite it generates calling the old method syntax; 0.87.0 fixed that but emitted
+  enums whose `Codable` conformance could not read serde's wire format. Both are resolved in 0.87.1.
+
+### Added
+
+- Swift structure-extraction test coverage. Every test in the Swift package suite previously read only
+  scalar fields off `process()`, leaving the structure path unexercised — all seventeen passed against
+  an Alef 0.87.0 build whose `process()` threw on any source containing structure. The new test asserts
+  the decoded `StructureKind` cases and item names, which is what exercises the element decoder; nim
+  cannot cover this (its grammar uses none of the node kind names `structure_kind_at()` matches) so it
+  goes through mojo, already in the package's statically compiled language set.
+
+### Fixed
+
+- Swift enums with associated values decode serde's externally tagged wire format. Unit variants
+  serialize as a bare string (`"Function"`) and payload variants as a single-keyed object
+  (`{"Other": "macro"}`); the generated conformance previously fell through to Swift's synthesized
+  `Codable`, which expects `{"function": {}}` and matched neither form. (Alef 0.87.1)
+- Node and WebAssembly e2e suites read internally tagged `FormatMetadata` as the flattened shape serde
+  actually emits, with the sibling-field form asserted directly so a regression to the nested form
+  fails loudly instead of silently degrading to the variant name. (Alef 0.87.1)
+- The Go binding pairs native error messages with their sentinels, so callers can match with
+  `errors.Is` while still reading the detail the native layer produced. (Alef 0.87.1)
+
 ## [1.19.1] - 2026-09-13
 
 ### Changed
