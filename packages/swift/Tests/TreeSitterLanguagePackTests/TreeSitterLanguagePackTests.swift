@@ -136,13 +136,42 @@ final class ParsingTests: XCTestCase {
         XCTAssertEqual(result.language().toString(), "nim")
     }
 
-    // No structure-extraction test: crates/ts-pack-core/src/intel/intelligence.rs
-    // `structure_kind_at()` matches an exact, hardcoded set of tree-sitter node kind names
-    // (`function_definition`, `function_item`, `struct_item`, ...), and nim's grammar
-    // (parsers/nim/src/node-types.json) uses none of them — its declarations are named
-    // `declaration` / `declColonEquals`. Structure extraction is therefore unimplemented for
-    // nim and would always report an empty list; asserting that would be vacuous, so the
-    // test is omitted rather than weakened to a truthiness check.
+    // Structure extraction is tested through "mojo", not "nim". `structure_kind_at()` in
+    // crates/ts-pack-core/src/intel/intelligence.rs matches an exact, hardcoded set of
+    // tree-sitter node kind names, and nim's grammar (parsers/nim/src/node-types.json) uses
+    // none of them — its declarations are named `declaration` / `declColonEquals` — so a nim
+    // structure assertion would be vacuous. mojo is Python-derived and its
+    // parsers/mojo/src/node-types.json declares both `function_definition` and
+    // `class_definition` as named nodes (verified against the vendored grammar, not assumed),
+    // which `structure_kind_at()` maps to `Function` and `Class`. mojo is in the
+    // TSLP_LANGUAGES=mojo,nim,norg set baked into this package, so this stays offline.
+    //
+    // This test exists because every other test in this suite reads only scalar fields off
+    // `process()`. That left the whole structure path — and any per-element decoding a future
+    // binding shape introduces for it — completely unexercised: alef 0.87.0's first-class
+    // promotion made `process()` throw a DecodingError on every source containing structure,
+    // and all 17 tests here still passed. Assert on a real structure item, not just a count,
+    // so that the element representation is actually exercised. ~keep
+    func testProcessExtractsStructureItemsForMojo() throws {
+        let configObj = try TreeSitterLanguagePack.processConfigFromJson("{\"language\":\"mojo\"}")
+        let result = try TreeSitterLanguagePack.process(
+            source: "def greet():\n    pass\n\nclass Greeter:\n    pass\n",
+            config: configObj
+        )
+
+        let items = result.structure()
+        let kinds = items.map { $0.kind().toString() }
+        let names = items.map { $0.name()?.toString() }
+
+        XCTAssertEqual(kinds.count, 2, "mojo source declaring one function and one class must yield two structure items")
+        // `StructureItem::kind()` is `serde_json::to_string(&self.0.kind)`, so a unit variant
+        // arrives as a JSON scalar — the quote characters are part of the returned string.
+        // Asserted literally rather than with `.contains("Function")` (what the generated e2e
+        // uses): the substring form also passes on `{"Other":"Function"}` and on a corrupted
+        // read, so it cannot distinguish a correct value from a wrong one. ~keep
+        XCTAssertEqual(kinds.sorted(), ["\"Class\"", "\"Function\""], "structure kinds must round-trip as serde wire tags")
+        XCTAssertEqual(names.sorted { ($0 ?? "") < ($1 ?? "") }, ["Greeter", "greet"], "structure items must carry the declared names")
+    }
 }
 
 /// Error paths: unknown languages and invalid configuration must fail loudly, never
