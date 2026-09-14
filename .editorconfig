@@ -1,0 +1,43 @@
+# EditorConfig is awesome: https://EditorConfig.org
+#
+# This file configures EDITORS. It is not what poly reads.
+#
+# poly resolves formatting from poly.toml -- for shell it pipes stdin to shfmt with an explicit
+# `-i <width>`, and under that argv .editorconfig is inert by design (see poly's native_tool
+# tool_config docs). The two must therefore agree by hand: the indents below mirror poly's own
+# per-language defaults, so a human's editor and `poly fmt` produce the same bytes. Change one
+# and change the other. ~keep
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.go]
+indent_style = tab
+indent_size = 4
+
+[*.{rs,py,php,cs,java,kt,swift,dart}]
+indent_style = space
+indent_size = 4
+
+[*.{js,ts,tsx,jsx,rb,json,yml,yaml,toml,ex,exs}]
+indent_style = space
+indent_size = 2
+
+# Two-space, which is what the shell in this tree already is: measured against shfmt, the tab
+# default would rewrite almost every script while two-space leaves nearly all of them alone.
+#
+# .bats is deliberately absent. Those suites are fanned out byte-identical across five repos and
+# follow shfmt's tab default, matching the suites in xberg-io/actions; listing .bats here would
+# reformat a file that has to stay identical everywhere it lands. ~keep
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+
+# Trailing whitespace is a hard line break in Markdown.
+[*.md]
+trim_trailing_whitespace = false
