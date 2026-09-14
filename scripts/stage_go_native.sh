@@ -18,21 +18,27 @@ CRATE=ts-pack-core-ffi
 LIB_STEM=libts_pack_core_ffi
 
 case "$(uname -s)" in
-  Linux) lib_ext=so; os_label=linux ;;
-  Darwin) lib_ext=dylib; os_label=macos ;;
-  *)
-    echo "ERROR: unsupported OS $(uname -s); stage the library manually" >&2
-    exit 1
-    ;;
+Linux)
+  lib_ext=so
+  os_label=linux
+  ;;
+Darwin)
+  lib_ext=dylib
+  os_label=macos
+  ;;
+*)
+  echo "ERROR: unsupported OS $(uname -s); stage the library manually" >&2
+  exit 1
+  ;;
 esac
 
 case "$(uname -m)" in
-  x86_64 | amd64) arch_label=x86_64 ;;
-  arm64 | aarch64) arch_label=$([ "$os_label" = macos ] && echo arm64 || echo aarch64) ;;
-  *)
-    echo "ERROR: unsupported architecture $(uname -m)" >&2
-    exit 1
-    ;;
+x86_64 | amd64) arch_label=x86_64 ;;
+arm64 | aarch64) arch_label=$([ "$os_label" = macos ] && echo arm64 || echo aarch64) ;;
+*)
+  echo "ERROR: unsupported architecture $(uname -m)" >&2
+  exit 1
+  ;;
 esac
 
 PLATFORM="${os_label}-${arch_label}"

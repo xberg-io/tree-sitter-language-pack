@@ -7,7 +7,8 @@ version="${1:?release version is required}"
 output="${2:?package output directory is required}"
 
 # Use the same concrete RID graph consumers restore; #import entries are aliases.
-rids="$(python3 - <<'PY'
+rids="$(
+  python3 - <<'PY'
 import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -25,4 +26,4 @@ PY
 while IFS= read -r rid; do
   dotnet pack packages/csharp/TreeSitterLanguagePack.Runtime/TreeSitterLanguagePack.Runtime.csproj \
     -c Release "-p:Version=${version}" "-p:PublishedRID=${rid}" -o "$output"
-done <<< "$rids"
+done <<<"$rids"
