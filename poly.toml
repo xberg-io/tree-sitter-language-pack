@@ -10,6 +10,14 @@ exclude = [
   # discovery rather than from fmt alone because poly has no per-engine exclude -- and the file
   # is linted and formatted in the repo that owns it. ~keep
   "scripts/tests/lib/**",
+  # poly's catalog binds clang-format to `.java` as well as C/C++, and clang-format is a C++
+  # formatter with a rudimentary Java mode: it reflows javadoc mid-tag (`{@link\nCloseable}`),
+  # splits lambdas onto an `()` / `->` pair, and regroups string concatenation. It also ignores
+  # this repo's .clang-format when poly pipes it stdin, so it reindents to LLVM's 2 spaces
+  # against an .editorconfig that declares 4. Excluded from discovery rather than from fmt alone
+  # because poly has no per-engine exclude. Drop this once a real Java formatter is enabled --
+  # poly ships google-java-format as an opt-in builtin, but only in 2-space Google style. ~keep
+  "**/*.java",
   "**/*.freezed.dart",
   "**/*.g.dart",
   "**/*.jinja",
