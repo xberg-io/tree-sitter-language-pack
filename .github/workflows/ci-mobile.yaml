@@ -48,7 +48,7 @@ jobs:
       matrix:
         abi: [arm64-v8a, x86_64]
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: ci-mobile-android-${{ matrix.abi }}
@@ -72,7 +72,7 @@ jobs:
           - abi: x86_64
             target: x86_64-linux-android
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
       - uses: xberg-io/actions/setup-rust@v1
         with:
           target: ${{ matrix.target }}
@@ -104,7 +104,7 @@ jobs:
       matrix:
         target: [aarch64-apple-ios, aarch64-apple-ios-sim]
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
       - uses: xberg-io/actions/setup-rust@v1
         with:
           target: ${{ matrix.target }}

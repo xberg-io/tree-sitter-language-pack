@@ -83,12 +83,12 @@ jobs:
           PY
 
       - name: Check out current recovery tooling
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.workflow_sha }}
 
       - name: Check out original release source
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ steps.source.outputs.sha }}
           path: release-source
@@ -115,7 +115,7 @@ jobs:
               output.write(f'version={version}\n')
           PY
 
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+      - uses: actions/download-artifact@v8
         with:
           pattern: csharp-natives-*
           path: release-source/artifacts/csharp-natives
@@ -123,7 +123,7 @@ jobs:
           run-id: ${{ inputs.nuget_runtime_run_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
 
@@ -201,7 +201,7 @@ jobs:
       release_kotlin_android: ${{ steps.meta.outputs.release_kotlin_android }}
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
       - name: Prepare release metadata
         id: meta
         uses: xberg-io/actions/prepare-release-metadata@v1
@@ -263,7 +263,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -387,7 +387,7 @@ jobs:
       TSLP_GENERATE_TIMEOUT: "900"
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -401,7 +401,7 @@ jobs:
           free -h
 
       - name: Setup Node
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@v7
       - name: Install tree-sitter CLI
         run: npm install -g tree-sitter-cli@0.26.11
 
@@ -412,7 +412,7 @@ jobs:
           install-command: "uv sync --no-install-project --no-install-workspace"
 
       - name: Cache parsers
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        uses: actions/cache@v6
         with:
           path: parsers
           key: parsers-shard${{ matrix.shard }}of4-${{ hashFiles('sources/language_definitions.json') }}
@@ -425,7 +425,7 @@ jobs:
           uv run --script scripts/clone_vendors.py
 
       - name: Upload parsers
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: language-parsers-shard-${{ matrix.shard }}
           path: parsers
@@ -438,14 +438,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Download shard parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: language-parsers-shard-*
           merge-multiple: true
           path: parsers
 
       - name: Upload merged parsers
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: language-parsers
           path: parsers
@@ -457,7 +457,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -465,12 +465,12 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -530,12 +530,12 @@ jobs:
             label: windows-aarch64
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -568,7 +568,7 @@ jobs:
           fi
 
       - name: Setup Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -614,7 +614,7 @@ jobs:
           cd staging && tar -cf - . | zstd -19 -o "../parsers-${{ matrix.label }}.tar.zst"
 
       - name: Upload parser binaries
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: parsers-${{ matrix.label }}
           path: parsers-${{ matrix.label }}.tar.zst
@@ -644,12 +644,12 @@ jobs:
             label: windows-aarch64
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -675,7 +675,7 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
 
       - name: Upload wheel
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: python-wheel-${{ matrix.label }}
           path: dist/*.whl
@@ -694,12 +694,12 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -712,7 +712,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        uses: actions/setup-python@v7
         with:
           python-version: "3.13"
 
@@ -724,7 +724,7 @@ jobs:
           dry-run: ${{ needs.prepare.outputs.dry_run }}
 
       - name: Upload sdist
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: python-sdist
           path: dist/*.tar.gz
@@ -823,12 +823,12 @@ jobs:
             napi_target: aarch64-pc-windows-msvc
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -846,13 +846,13 @@ jobs:
 
       - name: Setup Zig
         if: matrix.musl
-        uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2.2.1
+        uses: mlugg/setup-zig@v2
         with:
           version: "0.14.1"
 
       - name: Install cargo-zigbuild
         if: matrix.musl
-        uses: taiki-e/install-action@6cd13508893c0e7eab5f273c2575d3859bd7229a # v2.86.6
+        uses: taiki-e/install-action@v2
         with:
           tool: cargo-zigbuild
 
@@ -861,7 +861,7 @@ jobs:
         run: rustup target add ${{ matrix.napi_target }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
@@ -876,7 +876,7 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
 
       - name: Upload native module
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: node-native-${{ matrix.label }}
           path: crates/ts-pack-core-node/*.node
@@ -917,12 +917,12 @@ jobs:
             ruby_platform: x86_64-darwin
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -940,7 +940,7 @@ jobs:
           lang: ruby
 
       - name: Setup Ruby 3.2
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
           bundler: none
@@ -955,7 +955,7 @@ jobs:
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
       - name: Setup Ruby 3.3
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
           bundler: none
@@ -970,7 +970,7 @@ jobs:
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
       - name: Setup Ruby 3.4
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
           bundler: none
@@ -985,7 +985,7 @@ jobs:
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
       - name: Setup Ruby 3.5
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.5"
           bundler: none
@@ -1000,7 +1000,7 @@ jobs:
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
       - name: Setup Ruby 4.0
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "4.0"
           bundler: none
@@ -1027,7 +1027,7 @@ jobs:
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
       - name: Setup Ruby 3.5 for platform gem verification
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.5"
           bundler: none
@@ -1039,7 +1039,7 @@ jobs:
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
       - name: Setup Ruby 3.4 for platform gem verification
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
           bundler: none
@@ -1051,7 +1051,7 @@ jobs:
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
       - name: Setup Ruby 3.3 for platform gem verification
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
           bundler: none
@@ -1063,7 +1063,7 @@ jobs:
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
       - name: Setup Ruby 3.2 for platform gem verification
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
           bundler: none
@@ -1104,7 +1104,7 @@ jobs:
           done
 
       - name: Upload gem artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: rubygems-${{ matrix.label }}
           path: packages/ruby/*.gem
@@ -1119,12 +1119,12 @@ jobs:
     timeout-minutes: 120
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -1230,7 +1230,7 @@ jobs:
           "
 
       - name: Upload WASM package
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: wasm-pkg
           path: crates/ts-pack-core-wasm/pkg/
@@ -1266,12 +1266,12 @@ jobs:
             target: aarch64-pc-windows-msvc
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -1316,7 +1316,7 @@ jobs:
           echo "=== Go FFI dylib install_name fixes complete ==="
 
       - name: Upload FFI artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: go-ffi-${{ matrix.label }}
           path: dist/go-ffi/
@@ -1365,12 +1365,12 @@ jobs:
             platform: windows-aarch64
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -1393,7 +1393,7 @@ jobs:
           output-dir: dist/java-ffi
 
       - name: Upload native artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: java-natives-${{ matrix.label }}
           path: dist/java-ffi
@@ -1407,12 +1407,12 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Java
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        uses: actions/setup-java@v6
         with:
           distribution: "temurin"
           java-version: "25"
@@ -1422,7 +1422,7 @@ jobs:
         uses: xberg-io/actions/setup-maven@v1
 
       - name: Download Java native artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: java-natives-*
           path: artifacts/java-natives
@@ -1476,7 +1476,7 @@ jobs:
           fi
 
       - name: Upload JAR artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: maven-packages
           path: packages/java/target/*.jar
@@ -1509,12 +1509,12 @@ jobs:
             target: x86_64-apple-darwin
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -1632,7 +1632,7 @@ jobs:
           echo "Created: dist/elixir/${ARTIFACT_HYPHEN}.tar.gz"
 
       - name: Upload NIF artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: elixir-${{ matrix.label }}
           path: dist/elixir/*.tar.gz
@@ -1669,12 +1669,12 @@ jobs:
             target: aarch64-pc-windows-msvc
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -1691,7 +1691,7 @@ jobs:
         uses: xberg-io/actions/install-alef@v1
 
       - name: Setup Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -1728,7 +1728,7 @@ jobs:
           echo "=== C FFI dylib install_name fixes complete ==="
 
       - name: Upload C FFI artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: c-ffi-${{ matrix.label }}
           path: dist/c-ffi/
@@ -1774,13 +1774,13 @@ jobs:
               label: macos-arm64
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -1842,7 +1842,7 @@ jobs:
           dry-run: ${{ needs.prepare.outputs.dry_run }}
 
       - name: Upload PHP PIE package artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: php-package-${{ matrix.platform.label }}-php${{ matrix.php }}
           path: |
@@ -1888,12 +1888,12 @@ jobs:
             rid: win-arm64
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -1906,7 +1906,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -1929,7 +1929,7 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
 
       - name: Upload native artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: csharp-natives-${{ matrix.label }}
           path: dist/csharp-ffi
@@ -1943,17 +1943,17 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0"
 
       - name: Download C# native artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: csharp-natives-*
           path: artifacts/csharp-natives
@@ -1991,7 +1991,7 @@ jobs:
           dotnet pack TreeSitterLanguagePack.csproj -c Release --output ../../../dist/nuget
 
       - name: Upload NuGet package
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: nuget-packages
           path: dist/nuget/*.nupkg
@@ -2011,7 +2011,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -2019,12 +2019,12 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parser binary artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: parsers-*
           path: dist/parsers
@@ -2194,7 +2194,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -2202,12 +2202,12 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download Go FFI artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: go-ffi-*
           path: dist/go
@@ -2242,7 +2242,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -2250,12 +2250,12 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download C FFI artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: c-ffi-*
           path: dist/c-ffi
@@ -2286,7 +2286,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -2294,12 +2294,12 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download Elixir NIF artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: elixir-*
           path: dist/elixir
@@ -2346,11 +2346,11 @@ jobs:
       PROJECT_ROOT: ${{ github.workspace }}
       TSLP_LINK_MODE: static
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2378,11 +2378,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2394,10 +2394,10 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-python
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
-      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+      - uses: astral-sh/setup-uv@v10.1.0
       # `task python:e2e:test` goes through `alef test --lang python --e2e`, whose
       # `[crates.test.python]` precondition needs `ruff` and whose `before` hook runs
       # `maturin develop` — and `maturin develop` refuses to run outside a virtualenv.
@@ -2426,11 +2426,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2465,11 +2465,11 @@ jobs:
       PROJECT_ROOT: ${{ github.workspace }}
       TSLP_LINK_MODE: static
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2503,11 +2503,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2519,7 +2519,7 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-ruby
-      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
       # `[crates.test.ruby]`'s `before` hook runs `bundle exec rake compile` in
@@ -2548,11 +2548,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2564,7 +2564,7 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-java
-      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "25"
@@ -2588,11 +2588,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,bash"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2626,11 +2626,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2642,7 +2642,7 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-php
-      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: "8.4"
           extensions: ffi
@@ -2669,11 +2669,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2685,7 +2685,7 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-csharp
-      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
       - uses: xberg-io/actions/install-task@v1
@@ -2703,11 +2703,11 @@ jobs:
       PROJECT_ROOT: ${{ github.workspace }}
       TSLP_LINK_MODE: static
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2719,7 +2719,7 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-go
-      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6.5.0
+      - uses: actions/setup-go@v7
         with:
           go-version: "1.26"
           cache-dependency-path: packages/go/go.sum
@@ -2742,11 +2742,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2782,7 +2782,7 @@ jobs:
     env:
       PROJECT_ROOT: ${{ github.workspace }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - uses: xberg-io/actions/install-task@v1
@@ -2807,11 +2807,11 @@ jobs:
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
       LD_LIBRARY_PATH: ${{ github.workspace }}/target/release
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2863,12 +2863,12 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -2905,14 +2905,14 @@ jobs:
       id-token: write
     steps:
       - name: Download all wheels
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           path: dist
           pattern: python-wheel-*
           merge-multiple: true
 
       - name: Download sdist
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: python-sdist
           path: dist
@@ -2956,12 +2956,12 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
@@ -2970,7 +2970,7 @@ jobs:
         run: npm install -g @napi-rs/cli
 
       - name: Download all native modules
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           path: crates/ts-pack-core-node/artifacts
           pattern: node-native-*
@@ -3063,18 +3063,18 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
       - name: Download WASM package
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: wasm-pkg
           path: crates/ts-pack-core-wasm/pkg
@@ -3135,19 +3135,19 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
           bundler: none
           bundler-cache: false
 
       - name: Download Ruby gem artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: rubygems-*
           path: dist
@@ -3196,7 +3196,7 @@ jobs:
 
       - name: Configure trusted publishing credentials
         if: ${{ needs.prepare.outputs.dry_run != 'true' && steps.recheck.outputs.exists != 'true' }}
-        uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
+        uses: rubygems/configure-rubygems-credentials@v2.1.0
       - name: Publish gems to RubyGems
         if: ${{ needs.prepare.outputs.dry_run != 'true' && steps.recheck.outputs.exists != 'true' }}
         uses: xberg-io/actions/publish-rubygems@v1
@@ -3221,7 +3221,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -3236,7 +3236,7 @@ jobs:
 
       - name: Setup Java
         if: ${{ needs.prepare.outputs.dry_run != 'true' && steps.recheck.outputs.exists != 'true' }}
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "25"
@@ -3253,7 +3253,7 @@ jobs:
 
       - name: Download Java native artifacts (re-stage for deploy rebuild)
         if: ${{ needs.prepare.outputs.dry_run != 'true' && steps.recheck.outputs.exists != 'true' }}
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: java-natives-*
           path: artifacts/java-natives
@@ -3330,7 +3330,7 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -3338,13 +3338,13 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
 
       - name: Setup Elixir
-        uses: erlef/setup-elixir@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        uses: erlef/setup-elixir@v1
         with:
           elixir-version: "1.16"
           otp-version: "26.2"
@@ -3433,12 +3433,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download PHP package artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: php-package-*
           path: dist/php-package
@@ -3473,7 +3473,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -3509,17 +3509,17 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0"
 
       - name: Download NuGet package
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: nuget-packages
           path: dist/nuget
@@ -3568,12 +3568,12 @@ jobs:
             label: windows-x64
             target: x86_64-pc-windows-msvc
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -3607,7 +3607,7 @@ jobs:
             echo "Error: no native library found after copy"
             exit 1
           fi
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@v7
         with:
           name: dart-native-${{ matrix.label }}
           path: dart-natives/${{ matrix.label }}/
@@ -3622,12 +3622,12 @@ jobs:
     if: ${{ needs.prepare.outputs.release_dart == 'true' && (fromJson(needs.check-registries.outputs.results).pub != 'true' || needs.prepare.outputs.force_republish == 'true') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
       - name: Download native libraries for all platforms
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: dart-native-*
           path: dart-natives
@@ -3684,7 +3684,7 @@ jobs:
 
           echo "Native library structure:"
           find "$lib_dir" -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sort
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@v7
         with:
           name: dart-package-assembled
           path: packages/dart
@@ -3707,11 +3707,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "mojo,nim,norg"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -3723,7 +3723,7 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-dart
-      - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1 # v1.8.0
+      - uses: dart-lang/setup-dart@v1
       - uses: xberg-io/actions/install-task@v1
       - name: Run Dart E2E tests
         run: task dart:e2e:test
@@ -3739,7 +3739,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -3808,12 +3808,12 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -3824,13 +3824,13 @@ jobs:
           crate-name: tree-sitter-language-pack-swift
           artifact-name: TreeSitterLanguagePack-rs
           binary-target-name: RustBridgeBinary
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@v7
         with:
           name: swift-artifactbundle
           path: ${{ steps.bundle.outputs.bundle-zip }}
           if-no-files-found: error
           retention-days: 14
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@v7
         with:
           name: swift-checksum
           path: ${{ steps.bundle.outputs.checksum-file }}
@@ -3844,12 +3844,12 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -3858,7 +3858,7 @@ jobs:
         with:
           package-dir: packages/swift
           crate-name: tree-sitter-language-pack-swift
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@v7
         with:
           name: swift-package
           path: packages/swift
@@ -3875,11 +3875,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "mojo,nim,norg"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -3904,21 +3904,21 @@ jobs:
     if: ${{ needs.prepare.outputs.release_swift == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           owner: xberg-io
 
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
           persist-credentials: true
 
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@v8
         with:
           name: swift-checksum
           path: swift-checksums
@@ -3982,7 +3982,7 @@ jobs:
           git push origin -f "HEAD:refs/heads/release/swift/${{ needs.prepare.outputs.version }}"
 
       - name: Download Swift artifact bundle
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: swift-artifactbundle
           path: dist/swift
@@ -4023,12 +4023,12 @@ jobs:
             label: windows-x64
             target: x86_64-pc-windows-msvc
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -4067,7 +4067,7 @@ jobs:
           done
           echo "=== Zig FFI dylib install_name fixes complete ==="
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@v7
         with:
           name: zig-ffi-${{ matrix.label }}
           path: dist/zig-ffi/
@@ -4084,11 +4084,11 @@ jobs:
       PROJECT_ROOT: ${{ github.workspace }}
       TSLP_LINK_MODE: static
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -4116,17 +4116,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           owner: xberg-io
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download Zig FFI tarballs
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: zig-ffi-*
           path: dist/zig
@@ -4165,7 +4165,7 @@ jobs:
     # re-checks the same hashes on whatever commit this pushes. ~keep
     continue-on-error: true
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -4175,7 +4175,7 @@ jobs:
       # `main`, not `checkout_ref`: on a real release `checkout_ref` is the tag, and a commit
       # made on that detached head could only reach `main` by force-moving the tag. The
       # refreshed manifest belongs on `main`, which is where the next release reads it. ~keep
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
@@ -4282,12 +4282,12 @@ jobs:
           - abi: x86
             target: i686-linux-android
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           submodules: recursive
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -4301,7 +4301,7 @@ jobs:
           crate-name: tree-sitter-language-pack-jni
           lib-name: ts_pack_jni
           abis: ${{ matrix.abi }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@v7
         with:
           name: kotlin-android-${{ matrix.abi }}
           path: dist/android-natives/${{ matrix.abi }}/
@@ -4318,11 +4318,11 @@ jobs:
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -4334,7 +4334,7 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-kotlin-android
-      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+      - uses: actions/setup-java@v6
         with:
           distribution: "temurin"
           java-version: "17"
@@ -4352,10 +4352,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@v8
         with:
           pattern: kotlin-android-*
           path: kotlin-android-natives
@@ -4417,12 +4417,12 @@ jobs:
             artifact: ts-pack-aarch64-pc-windows-msvc
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download parsers
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           name: language-parsers
           path: parsers
@@ -4436,7 +4436,7 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -4468,7 +4468,7 @@ jobs:
           cd staging && 7z a "../${{ matrix.artifact }}.zip" ts-pack.exe
 
       - name: Upload CLI binary
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.artifact }}
           path: |
@@ -4486,7 +4486,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -4494,12 +4494,12 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Download CLI artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: ts-pack-*
           path: dist/cli
@@ -4560,7 +4560,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: tap-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -4569,12 +4569,12 @@ jobs:
           repositories: homebrew-tap
 
       - name: Checkout source repo
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Checkout homebrew-tap
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           repository: xberg-io/homebrew-tap
           token: ${{ steps.tap-token.outputs.token }}
@@ -4640,7 +4640,7 @@ jobs:
     if: ${{ !cancelled() && needs.prepare.outputs.release_scoop == 'true' && needs.upload-cli-release.result == 'success' && needs.finalize-github-release.outputs.promoted == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+      - uses: actions/create-github-app-token@v3
         id: bucket-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -4648,18 +4648,18 @@ jobs:
           owner: xberg-io
           repositories: scoop-bucket
 
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+      - uses: actions/create-github-app-token@v3
         id: source-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           owner: xberg-io
 
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@v7
         with:
           repository: xberg-io/scoop-bucket
           token: ${{ steps.bucket-token.outputs.token }}
@@ -4743,7 +4743,7 @@ jobs:
             bottle_tag: arm64_linux
             install_brew: true
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -4751,7 +4751,7 @@ jobs:
           owner: xberg-io
 
       - name: Checkout source repo
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
@@ -4773,7 +4773,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Upload bottle JSON manifests
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: homebrew-bottle-json-${{ matrix.bottle_tag }}
           path: ${{ github.workspace }}/bottle-json/*.json
@@ -4790,7 +4790,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: tap-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -4799,19 +4799,19 @@ jobs:
           repositories: homebrew-tap
 
       - name: Checkout source repo
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Checkout homebrew-tap
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           repository: xberg-io/homebrew-tap
           token: ${{ steps.tap-token.outputs.token }}
           path: homebrew-tap
 
       - name: Download all bottle JSON manifests
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           path: ${{ github.workspace }}/bottle-json
           pattern: homebrew-bottle-json-*
@@ -4872,7 +4872,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -4880,7 +4880,7 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
@@ -4893,7 +4893,7 @@ jobs:
           git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
 
       - name: Download Go FFI artifacts (all platforms)
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@v8
         with:
           pattern: go-ffi-*
           path: tmp/go-ffi-all
@@ -5042,7 +5042,7 @@ jobs:
     outputs:
       promoted: ${{ steps.promote.outputs.promoted }}
     steps:
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -5050,7 +5050,7 @@ jobs:
           owner: xberg-io
 
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
           fetch-depth: 0
@@ -5487,7 +5487,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
       - uses: xberg-io/actions/publish-npm@v1
         with:
           package-dir: cli-proxy/npm
@@ -5516,11 +5516,11 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Setup Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
@@ -5573,11 +5573,11 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Install uv
-        uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6.8.0
+        uses: astral-sh/setup-uv@v10.1.0
         with:
           python-version: "3.13"
       # ~keep The bundle carries its own version (plugin/.ai-rulez/config.toml [plugin].version),

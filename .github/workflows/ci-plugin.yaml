@@ -50,7 +50,7 @@ jobs:
     if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
       # Pinned to the ai-rulez version that generated the committed bundles;
       # bump in lockstep. ~keep
       - name: Verify plugin bundles and version
@@ -69,7 +69,7 @@ jobs:
         # either decision. ~keep
         os: [ubuntu-latest, macos-latest]
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@v7
 
       - name: Install Bats
         uses: xberg-io/actions/install-bats@v1
