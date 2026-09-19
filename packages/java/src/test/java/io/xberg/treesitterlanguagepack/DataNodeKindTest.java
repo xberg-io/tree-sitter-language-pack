@@ -14,14 +14,14 @@ class DataNodeKindTest {
 
     @Test
     void shouldReturnWireFormatValueFromGetValue() {
-        assertEquals("KeyValue", DataNodeKind.KeyValue.getValue());
-        assertEquals("Element", DataNodeKind.Element.getValue());
-        assertEquals("Sequence", DataNodeKind.Sequence.getValue());
+        assertEquals("KeyValue", DataNodeKind.KEY_VALUE.getValue());
+        assertEquals("Element", DataNodeKind.ELEMENT.getValue());
+        assertEquals("Sequence", DataNodeKind.SEQUENCE.getValue());
     }
 
     @Test
     void shouldResolveFromValueCaseInsensitively() {
-        assertEquals(DataNodeKind.Sequence, DataNodeKind.fromValue("sequence"));
+        assertEquals(DataNodeKind.SEQUENCE, DataNodeKind.fromValue("sequence"));
     }
 
     @Test

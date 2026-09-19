@@ -14,22 +14,22 @@ class StructureKindTest {
 
     @Test
     void shouldReturnWireFormatValueFromGetValue() {
-        assertEquals("Function", StructureKind.Function.getValue());
-        assertEquals("Method", StructureKind.Method.getValue());
-        assertEquals("Class", StructureKind.Class.getValue());
-        assertEquals("Struct", StructureKind.Struct.getValue());
-        assertEquals("Interface", StructureKind.Interface.getValue());
-        assertEquals("Enum", StructureKind.Enum.getValue());
-        assertEquals("Module", StructureKind.Module.getValue());
-        assertEquals("Trait", StructureKind.Trait.getValue());
-        assertEquals("Impl", StructureKind.Impl.getValue());
-        assertEquals("Namespace", StructureKind.Namespace.getValue());
-        assertEquals("Other", StructureKind.Other.getValue());
+        assertEquals("Function", StructureKind.FUNCTION.getValue());
+        assertEquals("Method", StructureKind.METHOD.getValue());
+        assertEquals("Class", StructureKind.CLASS.getValue());
+        assertEquals("Struct", StructureKind.STRUCT.getValue());
+        assertEquals("Interface", StructureKind.INTERFACE.getValue());
+        assertEquals("Enum", StructureKind.ENUM.getValue());
+        assertEquals("Module", StructureKind.MODULE.getValue());
+        assertEquals("Trait", StructureKind.TRAIT.getValue());
+        assertEquals("Impl", StructureKind.IMPL.getValue());
+        assertEquals("Namespace", StructureKind.NAMESPACE.getValue());
+        assertEquals("Other", StructureKind.OTHER.getValue());
     }
 
     @Test
     void shouldResolveFromValueCaseInsensitively() {
-        assertEquals(StructureKind.Namespace, StructureKind.fromValue("namespace"));
+        assertEquals(StructureKind.NAMESPACE, StructureKind.fromValue("namespace"));
     }
 
     @Test

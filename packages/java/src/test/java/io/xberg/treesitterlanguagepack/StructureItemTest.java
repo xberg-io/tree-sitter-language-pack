@@ -15,11 +15,11 @@ class StructureItemTest {
     void shouldExposeAllAccessors() {
         Span bodySpan = new Span(5, 20, 1, 0, 2, 0);
         StructureItem item = new StructureItem(
-            StructureKind.Function, "main", "public", SAMPLE_SPAN, List.of(),
+            StructureKind.FUNCTION, "main", "public", SAMPLE_SPAN, List.of(),
             List.of("Override"), "runs the program", "fn main()", bodySpan
         );
 
-        assertEquals(StructureKind.Function, item.kind());
+        assertEquals(StructureKind.FUNCTION, item.kind());
         assertEquals("main", item.name());
         assertEquals("public", item.visibility());
         assertEquals(SAMPLE_SPAN, item.span());
@@ -33,7 +33,7 @@ class StructureItemTest {
     @Test
     void shouldNormalizeNullCollectionsToEmptyAndLeaveScalarOptionalsNull() {
         StructureItem item = new StructureItem(
-            StructureKind.Class, null, null, SAMPLE_SPAN, null, null, null, null, null
+            StructureKind.CLASS, null, null, SAMPLE_SPAN, null, null, null, null, null
         );
 
         assertEquals(List.of(), item.children());
@@ -48,10 +48,10 @@ class StructureItemTest {
     @Test
     void shouldSupportNestedChildrenForNamespacedStructures() {
         StructureItem method = new StructureItem(
-            StructureKind.Method, "greet", null, SAMPLE_SPAN, null, null, null, null, null
+            StructureKind.METHOD, "greet", null, SAMPLE_SPAN, null, null, null, null, null
         );
         StructureItem clazz = new StructureItem(
-            StructureKind.Class, "Greeter", null, SAMPLE_SPAN, List.of(method), null, null, null, null
+            StructureKind.CLASS, "Greeter", null, SAMPLE_SPAN, List.of(method), null, null, null, null
         );
 
         assertEquals(1, clazz.children().size());
@@ -61,13 +61,13 @@ class StructureItemTest {
     @Test
     void shouldBuildEquivalentInstanceThroughBuilder() {
         StructureItem built = StructureItem.builder()
-            .withKind(StructureKind.Trait)
+            .withKind(StructureKind.TRAIT)
             .withName("Comparable")
             .withSpan(SAMPLE_SPAN)
             .build();
 
         assertEquals(
-            new StructureItem(StructureKind.Trait, "Comparable", null, SAMPLE_SPAN, null, null, null, null, null),
+            new StructureItem(StructureKind.TRAIT, "Comparable", null, SAMPLE_SPAN, null, null, null, null, null),
             built
         );
     }
@@ -76,7 +76,7 @@ class StructureItemTest {
     void shouldRoundTripThroughJsonWithNestedChildrenAndDocComment() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         StructureItem item = new StructureItem(
-            StructureKind.Struct, "Point", "pub", SAMPLE_SPAN, null, null, "a 2D point", "struct Point", null
+            StructureKind.STRUCT, "Point", "pub", SAMPLE_SPAN, null, null, "a 2D point", "struct Point", null
         );
 
         String json = mapper.writeValueAsString(item);
