@@ -86,9 +86,9 @@ jobs:
     timeout-minutes: 120
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@v7
       - name: Setup Node.js
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
 
@@ -221,8 +221,18 @@ jobs:
           # undefined `__asan_*`/`__ubsan_*` while linking `build_script_build` (run
           # 32550410081). Scoping the flags in build.rs is the only place the split is
           # expressible on stable.
+          # ~keep `nonnull-attribute` is switched off on its own. Tree-sitter scanners
+          # serialize their state with `memcpy(buffer, array.contents, size * len)`, and an
+          # empty `Array`'s `contents` (or a lazily allocated indent stack) is NULL, so the
+          # zero-length copy passes NULL to a parameter glibc declares `__nonnull`. UBSan
+          # reports that as "null pointer passed as argument 2, which is declared to never
+          # be null" on every corpus file for koka, koto, crystal, unison, reason, idris and
+          # whichever scanner the rotating shard reaches next -- 367 findings a night with
+          # no byte ever written. Nothing about memory safety is lost: ASan and every other
+          # UBSan check stay on, and a real overflow in the same memcpy is still caught.
           TSLP_GRAMMAR_CFLAGS: >-
             -fsanitize=address,undefined
+            -fno-sanitize=nonnull-attribute
             -fno-sanitize-recover=all
             -fno-omit-frame-pointer
             -fno-common
@@ -480,7 +490,7 @@ jobs:
       # multi-frame ASan stack from. Upload it alongside the build log.
       - name: Upload build log and sanitizer findings
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@v7
         with:
           name: sanitize-build-log-${{ github.run_id }}
           path: |

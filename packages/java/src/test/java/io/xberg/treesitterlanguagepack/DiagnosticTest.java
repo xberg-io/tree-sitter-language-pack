@@ -11,10 +11,10 @@ class DiagnosticTest {
 
     @Test
     void shouldExposeMessageSeverityAndSpanAccessors() {
-        Diagnostic diagnostic = new Diagnostic("unexpected token", DiagnosticSeverity.Error, SAMPLE_SPAN);
+        Diagnostic diagnostic = new Diagnostic("unexpected token", DiagnosticSeverity.ERROR, SAMPLE_SPAN);
 
         assertEquals("unexpected token", diagnostic.message());
-        assertEquals(DiagnosticSeverity.Error, diagnostic.severity());
+        assertEquals(DiagnosticSeverity.ERROR, diagnostic.severity());
         assertEquals(SAMPLE_SPAN, diagnostic.span());
     }
 
@@ -22,17 +22,17 @@ class DiagnosticTest {
     void shouldBuildEquivalentInstanceThroughBuilder() {
         Diagnostic built = Diagnostic.builder()
             .withMessage("missing semicolon")
-            .withSeverity(DiagnosticSeverity.Warning)
+            .withSeverity(DiagnosticSeverity.WARNING)
             .withSpan(SAMPLE_SPAN)
             .build();
 
-        assertEquals(new Diagnostic("missing semicolon", DiagnosticSeverity.Warning, SAMPLE_SPAN), built);
+        assertEquals(new Diagnostic("missing semicolon", DiagnosticSeverity.WARNING, SAMPLE_SPAN), built);
     }
 
     @Test
     void shouldRoundTripThroughJsonIncludingNestedSeverityAndSpan() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        Diagnostic diagnostic = new Diagnostic("bad syntax", DiagnosticSeverity.Info, SAMPLE_SPAN);
+        Diagnostic diagnostic = new Diagnostic("bad syntax", DiagnosticSeverity.INFO, SAMPLE_SPAN);
 
         String json = mapper.writeValueAsString(diagnostic);
         Diagnostic parsed = mapper.readValue(json, Diagnostic.class);

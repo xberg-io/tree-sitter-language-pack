@@ -58,7 +58,7 @@ class ProcessResultTest {
         Span span = new Span(0, 3, 0, 0, 0, 3);
         ProcessResult result = new ProcessResult(
             "ruby", SAMPLE_METRICS,
-            List.of(new StructureItem(StructureKind.Method, "run", null, span, null, null, null, null, null)),
+            List.of(new StructureItem(StructureKind.METHOD, "run", null, span, null, null, null, null, null)),
             null, null, null, null, null, null, null, null
         );
 

@@ -14,21 +14,21 @@ class CommentKindTest {
 
     @Test
     void shouldReturnWireFormatValueFromGetValue() {
-        assertEquals("Line", CommentKind.Line.getValue());
-        assertEquals("Block", CommentKind.Block.getValue());
-        assertEquals("Doc", CommentKind.Doc.getValue());
+        assertEquals("Line", CommentKind.LINE.getValue());
+        assertEquals("Block", CommentKind.BLOCK.getValue());
+        assertEquals("Doc", CommentKind.DOC.getValue());
     }
 
     @Test
     void shouldReturnWireFormatValueFromToString() {
-        assertEquals("Line", CommentKind.Line.toString());
+        assertEquals("Line", CommentKind.LINE.toString());
     }
 
     @Test
     void shouldResolveFromValueCaseInsensitively() {
-        assertEquals(CommentKind.Block, CommentKind.fromValue("block"));
-        assertEquals(CommentKind.Block, CommentKind.fromValue("BLOCK"));
-        assertEquals(CommentKind.Block, CommentKind.fromValue("Block"));
+        assertEquals(CommentKind.BLOCK, CommentKind.fromValue("block"));
+        assertEquals(CommentKind.BLOCK, CommentKind.fromValue("BLOCK"));
+        assertEquals(CommentKind.BLOCK, CommentKind.fromValue("Block"));
     }
 
     @Test

@@ -11,24 +11,24 @@ class ExportInfoTest {
 
     @Test
     void shouldExposeNameKindAndSpanAccessors() {
-        ExportInfo export = new ExportInfo("foo", ExportKind.Named, SAMPLE_SPAN);
+        ExportInfo export = new ExportInfo("foo", ExportKind.NAMED, SAMPLE_SPAN);
 
         assertEquals("foo", export.name());
-        assertEquals(ExportKind.Named, export.kind());
+        assertEquals(ExportKind.NAMED, export.kind());
         assertEquals(SAMPLE_SPAN, export.span());
     }
 
     @Test
     void shouldBuildEquivalentInstanceThroughBuilder() {
-        ExportInfo built = ExportInfo.builder().withName("bar").withKind(ExportKind.Default).withSpan(SAMPLE_SPAN).build();
+        ExportInfo built = ExportInfo.builder().withName("bar").withKind(ExportKind.DEFAULT).withSpan(SAMPLE_SPAN).build();
 
-        assertEquals(new ExportInfo("bar", ExportKind.Default, SAMPLE_SPAN), built);
+        assertEquals(new ExportInfo("bar", ExportKind.DEFAULT, SAMPLE_SPAN), built);
     }
 
     @Test
     void shouldRoundTripThroughJsonWithReExportKind() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        ExportInfo export = new ExportInfo("baz", ExportKind.ReExport, SAMPLE_SPAN);
+        ExportInfo export = new ExportInfo("baz", ExportKind.RE_EXPORT, SAMPLE_SPAN);
 
         String json = mapper.writeValueAsString(export);
         ExportInfo parsed = mapper.readValue(json, ExportInfo.class);

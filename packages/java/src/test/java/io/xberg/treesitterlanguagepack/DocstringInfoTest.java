@@ -15,11 +15,11 @@ class DocstringInfoTest {
     void shouldExposeAllAccessors() {
         List<DocSection> sections = List.of(new DocSection("Args", "x", "an integer"));
         DocstringInfo docstring = new DocstringInfo(
-            "\"\"\"docs\"\"\"", DocstringFormat.PythonTripleQuote, SAMPLE_SPAN, "my_func", sections
+            "\"\"\"docs\"\"\"", DocstringFormat.PYTHON_TRIPLE_QUOTE, SAMPLE_SPAN, "my_func", sections
         );
 
         assertEquals("\"\"\"docs\"\"\"", docstring.text());
-        assertEquals(DocstringFormat.PythonTripleQuote, docstring.format());
+        assertEquals(DocstringFormat.PYTHON_TRIPLE_QUOTE, docstring.format());
         assertEquals(SAMPLE_SPAN, docstring.span());
         assertEquals("my_func", docstring.associatedItem());
         assertEquals(sections, docstring.parsedSections());
@@ -28,7 +28,7 @@ class DocstringInfoTest {
     @Test
     void shouldNormalizeNullParsedSectionsToEmptyAndLeaveAssociatedItemNull() {
         DocstringInfo docstring = new DocstringInfo(
-            "/** jsdoc */", DocstringFormat.JSDoc, SAMPLE_SPAN, null, null
+            "/** jsdoc */", DocstringFormat.JS_DOC, SAMPLE_SPAN, null, null
         );
 
         assertEquals(List.of(), docstring.parsedSections());
@@ -39,7 +39,7 @@ class DocstringInfoTest {
     void shouldRoundTripThroughJsonWithNestedFormatEnumAndSections() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         DocstringInfo docstring = new DocstringInfo(
-            "/// rustdoc", DocstringFormat.Rustdoc, SAMPLE_SPAN, "my_fn",
+            "/// rustdoc", DocstringFormat.RUSTDOC, SAMPLE_SPAN, "my_fn",
             List.of(new DocSection("Returns", null, "an i32"))
         );
 
