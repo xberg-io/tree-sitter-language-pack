@@ -12,9 +12,9 @@ class DataNodeTest {
 
     @Test
     void shouldExposeAllAccessorsForKeyValueNode() {
-        DataNode node = new DataNode(DataNodeKind.KeyValue, "name", "value", null, null, SAMPLE_SPAN);
+        DataNode node = new DataNode(DataNodeKind.KEY_VALUE, "name", "value", null, null, SAMPLE_SPAN);
 
-        assertEquals(DataNodeKind.KeyValue, node.kind());
+        assertEquals(DataNodeKind.KEY_VALUE, node.kind());
         assertEquals("name", node.key());
         assertEquals("value", node.value());
         assertEquals(List.of(), node.attributes());
@@ -25,9 +25,9 @@ class DataNodeTest {
     @Test
     void shouldSupportNestedElementNodeWithAttributesAndChildren() {
         DataAttribute attribute = new DataAttribute("id", "1", SAMPLE_SPAN);
-        DataNode child = new DataNode(DataNodeKind.Sequence, "0", "item", null, null, SAMPLE_SPAN);
+        DataNode child = new DataNode(DataNodeKind.SEQUENCE, "0", "item", null, null, SAMPLE_SPAN);
         DataNode parent = new DataNode(
-            DataNodeKind.Element, "ul", null, List.of(attribute), List.of(child), SAMPLE_SPAN
+            DataNodeKind.ELEMENT, "ul", null, List.of(attribute), List.of(child), SAMPLE_SPAN
         );
 
         assertEquals(List.of(attribute), parent.attributes());
@@ -38,20 +38,20 @@ class DataNodeTest {
     @Test
     void shouldBuildEquivalentInstanceThroughBuilder() {
         DataNode built = DataNode.builder()
-            .withKind(DataNodeKind.KeyValue)
+            .withKind(DataNodeKind.KEY_VALUE)
             .withKey("k")
             .withValue("v")
             .withSpan(SAMPLE_SPAN)
             .build();
 
-        assertEquals(new DataNode(DataNodeKind.KeyValue, "k", "v", null, null, SAMPLE_SPAN), built);
+        assertEquals(new DataNode(DataNodeKind.KEY_VALUE, "k", "v", null, null, SAMPLE_SPAN), built);
     }
 
     @Test
     void shouldRoundTripThroughJsonWithRecursiveChildren() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        DataNode child = new DataNode(DataNodeKind.KeyValue, "leaf", "1", null, null, SAMPLE_SPAN);
-        DataNode root = new DataNode(DataNodeKind.Element, "root", null, null, List.of(child), SAMPLE_SPAN);
+        DataNode child = new DataNode(DataNodeKind.KEY_VALUE, "leaf", "1", null, null, SAMPLE_SPAN);
+        DataNode root = new DataNode(DataNodeKind.ELEMENT, "root", null, null, List.of(child), SAMPLE_SPAN);
 
         String json = mapper.writeValueAsString(root);
         DataNode parsed = mapper.readValue(json, DataNode.class);
