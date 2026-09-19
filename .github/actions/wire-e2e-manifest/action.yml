@@ -20,7 +20,7 @@ runs:
   using: composite
   steps:
     - name: Download e2e parser bundle
-      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      uses: actions/download-artifact@v8
       with:
         name: ${{ inputs.artifact-name }}
         path: ${{ inputs.bundle-dir }}
