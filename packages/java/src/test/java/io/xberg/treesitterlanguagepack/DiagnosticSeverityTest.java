@@ -14,14 +14,14 @@ class DiagnosticSeverityTest {
 
     @Test
     void shouldReturnWireFormatValueFromGetValue() {
-        assertEquals("Error", DiagnosticSeverity.Error.getValue());
-        assertEquals("Warning", DiagnosticSeverity.Warning.getValue());
-        assertEquals("Info", DiagnosticSeverity.Info.getValue());
+        assertEquals("Error", DiagnosticSeverity.ERROR.getValue());
+        assertEquals("Warning", DiagnosticSeverity.WARNING.getValue());
+        assertEquals("Info", DiagnosticSeverity.INFO.getValue());
     }
 
     @Test
     void shouldResolveFromValueCaseInsensitively() {
-        assertEquals(DiagnosticSeverity.Warning, DiagnosticSeverity.fromValue("WARNING"));
+        assertEquals(DiagnosticSeverity.WARNING, DiagnosticSeverity.fromValue("WARNING"));
     }
 
     @Test

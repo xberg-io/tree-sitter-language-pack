@@ -14,17 +14,17 @@ class DocstringFormatTest {
 
     @Test
     void shouldReturnWireFormatValueFromGetValue() {
-        assertEquals("PythonTripleQuote", DocstringFormat.PythonTripleQuote.getValue());
-        assertEquals("JSDoc", DocstringFormat.JSDoc.getValue());
-        assertEquals("Rustdoc", DocstringFormat.Rustdoc.getValue());
-        assertEquals("GoDoc", DocstringFormat.GoDoc.getValue());
-        assertEquals("JavaDoc", DocstringFormat.JavaDoc.getValue());
-        assertEquals("Other", DocstringFormat.Other.getValue());
+        assertEquals("PythonTripleQuote", DocstringFormat.PYTHON_TRIPLE_QUOTE.getValue());
+        assertEquals("JSDoc", DocstringFormat.JS_DOC.getValue());
+        assertEquals("Rustdoc", DocstringFormat.RUSTDOC.getValue());
+        assertEquals("GoDoc", DocstringFormat.GO_DOC.getValue());
+        assertEquals("JavaDoc", DocstringFormat.JAVA_DOC.getValue());
+        assertEquals("Other", DocstringFormat.OTHER.getValue());
     }
 
     @Test
     void shouldResolveFromValueCaseInsensitively() {
-        assertEquals(DocstringFormat.JSDoc, DocstringFormat.fromValue("jsdoc"));
+        assertEquals(DocstringFormat.JS_DOC, DocstringFormat.fromValue("jsdoc"));
     }
 
     @Test

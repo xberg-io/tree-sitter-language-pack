@@ -14,14 +14,14 @@ class ExportKindTest {
 
     @Test
     void shouldReturnWireFormatValueFromGetValue() {
-        assertEquals("Named", ExportKind.Named.getValue());
-        assertEquals("Default", ExportKind.Default.getValue());
-        assertEquals("ReExport", ExportKind.ReExport.getValue());
+        assertEquals("Named", ExportKind.NAMED.getValue());
+        assertEquals("Default", ExportKind.DEFAULT.getValue());
+        assertEquals("ReExport", ExportKind.RE_EXPORT.getValue());
     }
 
     @Test
     void shouldResolveFromValueCaseInsensitively() {
-        assertEquals(ExportKind.ReExport, ExportKind.fromValue("reexport"));
+        assertEquals(ExportKind.RE_EXPORT, ExportKind.fromValue("reexport"));
     }
 
     @Test

@@ -14,20 +14,20 @@ class SymbolKindTest {
 
     @Test
     void shouldReturnWireFormatValueFromGetValue() {
-        assertEquals("Variable", SymbolKind.Variable.getValue());
-        assertEquals("Constant", SymbolKind.Constant.getValue());
-        assertEquals("Function", SymbolKind.Function.getValue());
-        assertEquals("Class", SymbolKind.Class.getValue());
-        assertEquals("Type", SymbolKind.Type.getValue());
-        assertEquals("Interface", SymbolKind.Interface.getValue());
-        assertEquals("Enum", SymbolKind.Enum.getValue());
-        assertEquals("Module", SymbolKind.Module.getValue());
-        assertEquals("Other", SymbolKind.Other.getValue());
+        assertEquals("Variable", SymbolKind.VARIABLE.getValue());
+        assertEquals("Constant", SymbolKind.CONSTANT.getValue());
+        assertEquals("Function", SymbolKind.FUNCTION.getValue());
+        assertEquals("Class", SymbolKind.CLASS.getValue());
+        assertEquals("Type", SymbolKind.TYPE.getValue());
+        assertEquals("Interface", SymbolKind.INTERFACE.getValue());
+        assertEquals("Enum", SymbolKind.ENUM.getValue());
+        assertEquals("Module", SymbolKind.MODULE.getValue());
+        assertEquals("Other", SymbolKind.OTHER.getValue());
     }
 
     @Test
     void shouldResolveFromValueCaseInsensitively() {
-        assertEquals(SymbolKind.Function, SymbolKind.fromValue("FUNCTION"));
+        assertEquals(SymbolKind.FUNCTION, SymbolKind.fromValue("FUNCTION"));
     }
 
     @Test

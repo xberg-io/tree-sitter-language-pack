@@ -13,17 +13,17 @@ class CommentInfoTest {
 
     @Test
     void shouldExposeAllAccessorsIncludingNullableAssociatedNode() {
-        CommentInfo comment = new CommentInfo("// hello", CommentKind.Line, SAMPLE_SPAN, "foo");
+        CommentInfo comment = new CommentInfo("// hello", CommentKind.LINE, SAMPLE_SPAN, "foo");
 
         assertEquals("// hello", comment.text());
-        assertEquals(CommentKind.Line, comment.kind());
+        assertEquals(CommentKind.LINE, comment.kind());
         assertEquals(SAMPLE_SPAN, comment.span());
         assertEquals("foo", comment.associatedNode());
     }
 
     @Test
     void shouldAllowNullAssociatedNode() {
-        CommentInfo comment = new CommentInfo("/* block */", CommentKind.Block, SAMPLE_SPAN, null);
+        CommentInfo comment = new CommentInfo("/* block */", CommentKind.BLOCK, SAMPLE_SPAN, null);
 
         assertNull(comment.associatedNode());
     }
@@ -32,18 +32,18 @@ class CommentInfoTest {
     void shouldBuildEquivalentInstanceThroughBuilder() {
         CommentInfo built = CommentInfo.builder()
             .withText("/// doc")
-            .withKind(CommentKind.Doc)
+            .withKind(CommentKind.DOC)
             .withSpan(SAMPLE_SPAN)
             .withAssociatedNode("bar")
             .build();
 
-        assertEquals(new CommentInfo("/// doc", CommentKind.Doc, SAMPLE_SPAN, "bar"), built);
+        assertEquals(new CommentInfo("/// doc", CommentKind.DOC, SAMPLE_SPAN, "bar"), built);
     }
 
     @Test
     void shouldRoundTripThroughJsonOmittingAbsentAssociatedNode() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        CommentInfo comment = new CommentInfo("// x", CommentKind.Line, SAMPLE_SPAN, null);
+        CommentInfo comment = new CommentInfo("// x", CommentKind.LINE, SAMPLE_SPAN, null);
 
         String json = mapper.writeValueAsString(comment);
 
