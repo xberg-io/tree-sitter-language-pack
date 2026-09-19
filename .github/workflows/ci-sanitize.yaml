@@ -221,8 +221,18 @@ jobs:
           # undefined `__asan_*`/`__ubsan_*` while linking `build_script_build` (run
           # 32550410081). Scoping the flags in build.rs is the only place the split is
           # expressible on stable.
+          # ~keep `nonnull-attribute` is switched off on its own. Tree-sitter scanners
+          # serialize their state with `memcpy(buffer, array.contents, size * len)`, and an
+          # empty `Array`'s `contents` (or a lazily allocated indent stack) is NULL, so the
+          # zero-length copy passes NULL to a parameter glibc declares `__nonnull`. UBSan
+          # reports that as "null pointer passed as argument 2, which is declared to never
+          # be null" on every corpus file for koka, koto, crystal, unison, reason, idris and
+          # whichever scanner the rotating shard reaches next -- 367 findings a night with
+          # no byte ever written. Nothing about memory safety is lost: ASan and every other
+          # UBSan check stay on, and a real overflow in the same memcpy is still caught.
           TSLP_GRAMMAR_CFLAGS: >-
             -fsanitize=address,undefined
+            -fno-sanitize=nonnull-attribute
             -fno-sanitize-recover=all
             -fno-omit-frame-pointer
             -fno-common
