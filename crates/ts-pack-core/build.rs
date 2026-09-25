@@ -16,6 +16,10 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
+#[path = "build_support/parser_cache.rs"]
+mod parser_cache;
+use parser_cache::{cached_parsers_root, parsers_root_populated};
+
 /// Workspace-relative path of the helper that clones upstream grammar sources.
 const CLONE_VENDORS_SCRIPT: &str = "scripts/clone_vendors.py";
 
@@ -1183,16 +1187,6 @@ fn generate_queries_registry(definitions: &BTreeMap<String, LanguageDefinition>,
     gen_query_fn(&mut f, "get_folds_query_impl", &folds, "folds.scm");
 }
 
-/// Probe whether the parsers tree at `root` looks populated for the requested
-/// selection. Uses the same heuristic in both the workspace and OUT_DIR cache
-/// locations.
-fn parsers_root_populated(root: &Path, selected: &[String]) -> bool {
-    match selected.first() {
-        Some(first) => root.join(first).join("src/parser.c").exists(),
-        None => root.join("python").join("src/parser.c").exists(),
-    }
-}
-
 /// Try to populate the workspace `parsers/` tree by invoking
 /// `scripts/clone_vendors.py` from `project_root`. Returns true if the script
 /// ran successfully AND the tree is populated afterwards. Returns false if no
@@ -1714,14 +1708,10 @@ fn ensure_parser_sources(parsers_dir: &Path, selected: &[String], out_dir: &Path
     }
 
     let cache_dir = out_dir.join("_parsers");
-    // ~keep Same two-probe strategy for the OUT_DIR parser-source cache.
-    let cache_populated = match selected.first() {
-        Some(first) => cache_dir.join(first).join("src/parser.c").exists(),
-        None => cache_dir.join("parsers").join("python").join("src/parser.c").exists(),
-    };
-    if cache_populated {
-        let inner = cache_dir.join("parsers");
-        return if inner.is_dir() { inner } else { cache_dir };
+    // Release bundles unpack beneath _parsers/parsers even for an explicit
+    // TSLP_LANGUAGES selection. Probe and return the same populated root.
+    if let Some(root) = cached_parsers_root(&cache_dir, selected) {
+        return root;
     }
 
     // ~keep Dev checkouts clone upstream grammars before falling back to release tarballs.
