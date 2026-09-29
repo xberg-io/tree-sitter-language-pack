@@ -586,6 +586,25 @@ pub fn download(names: &[&str]) -> Result<usize, Error> {
     Ok(count)
 }
 
+/// Select the names that are not yet loadable from disk and must therefore be
+/// fetched by [`download_inner`].
+///
+/// Keys on `registry.get_language(name).is_err()`, not `has_language`: in a
+/// download-enabled build `has_language` reports every known language as present,
+/// including one that has never been fetched, so filtering on it made `download()`
+/// a no-op that still returned the requested count. `get_language` fails with
+/// `LanguageNotFound` until the parser is actually on disk. See #201. ~keep
+#[cfg(feature = "download")]
+fn languages_needing_download<'a, I>(registry: &crate::registry::LanguageRegistry, names: I) -> Vec<&'a str>
+where
+    I: IntoIterator<Item = &'a str>,
+{
+    names
+        .into_iter()
+        .filter(|name| registry.get_language(name).is_err())
+        .collect()
+}
+
 #[cfg(feature = "download")]
 fn download_inner(names: &[&str]) -> Result<usize, Error> {
     ensure_cache_registered()?;
@@ -595,12 +614,8 @@ fn download_inner(names: &[&str]) -> Result<usize, Error> {
     // must be resolved before it reaches `ensure_languages` — otherwise it 404s as
     // an unknown language. `prefetch` already does this; `download` did not.
     let resolved: Vec<&str> = names.iter().map(|n| crate::registry::resolve_alias(n)).collect();
-    let unavailable: Vec<&str> = resolved
-        .iter()
-        .copied()
-        .filter(|name| !REGISTRY.has_language(name))
-        .collect();
-    dm.ensure_languages(&unavailable)?;
+    let needs_download = languages_needing_download(&REGISTRY, resolved.iter().copied());
+    dm.ensure_languages(&needs_download)?;
     let unique: std::collections::BTreeSet<&str> = resolved.iter().copied().collect();
     Ok(unique.len())
 }
@@ -958,6 +973,27 @@ mod tests {
         assert!(config.cache_dir.is_none());
         assert!(config.languages.is_none());
         assert!(config.groups.is_none());
+    }
+
+    #[cfg(feature = "download")]
+    #[test]
+    fn should_select_known_but_not_downloaded_languages_for_download() {
+        // ~keep Regression for #201: an empty libs dir makes `get_language` fail for a
+        // ~keep known language while `has_language` still reports it present (a download
+        // ~keep build recognises the whole manifest), which is exactly the gap that made
+        // ~keep `download([...])` a no-op. Selection must key on on-disk loadability.
+        let empty = std::env::temp_dir().join("tslp-201-nonexistent-libs");
+        let registry = LanguageRegistry::with_libs_dir(empty);
+        assert!(
+            registry.has_language("java"),
+            "a download-enabled build must report canonical manifest languages as known"
+        );
+        let selected = languages_needing_download(&registry, ["java"]);
+        assert_eq!(
+            selected,
+            vec!["java"],
+            "a known-but-not-on-disk language must be selected for download"
+        );
     }
 
     #[cfg(feature = "download")]
