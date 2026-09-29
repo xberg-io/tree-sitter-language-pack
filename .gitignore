@@ -256,4 +256,6 @@ poly.local.toml
 .prerelease/
 
 # BEGIN ai-rulez (DO NOT EDIT - managed by ai-rulez)
+.opencode/agents/
+.opencode/skills/
 # END ai-rulez
