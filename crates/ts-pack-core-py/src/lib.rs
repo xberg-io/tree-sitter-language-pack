@@ -873,7 +873,10 @@ impl LanguageRegistry {
     #[allow(clippy::missing_errors_doc)]
     pub fn get_language(&self, py: pyo3::Python<'_>, name: String) -> pyo3::PyResult<pyo3::Py<pyo3::PyAny>> {
         const TREE_SITTER_LANGUAGE_NAME: &::std::ffi::CStr = c"tree_sitter.Language";
-        let result = self.inner.get_language(&name).map_err(error_to_py_err)?;
+        let inner = Arc::clone(&self.inner);
+        // ~keep Release the GIL while the registry probes disk/dlopen; see the free-function
+        // `get_language` for why (on-demand download must not freeze other Python threads).
+        let result = py.detach(move || inner.get_language(&name)).map_err(error_to_py_err)?;
         let raw_ptr = result.into_raw();
         // SAFETY: raw_ptr is a valid pointer derived from into_raw() on a value with program lifetime.
         let capsule_ptr =
@@ -3042,7 +3045,11 @@ pub fn get_injections_query(py: Python<'_>, language: String) -> Option<String> 
 #[pyo3::prelude::pyfunction]
 pub fn get_language(py: pyo3::Python<'_>, name: String) -> pyo3::PyResult<pyo3::Py<pyo3::PyAny>> {
     const TREE_SITTER_LANGUAGE_NAME: &::std::ffi::CStr = c"tree_sitter.Language";
-    let result = tree_sitter_language_pack::get_language(&name).map_err(error_to_py_err)?;
+    // ~keep Release the GIL around the core call: on a cache miss this performs the
+    // on-demand download (up to the 60 s HTTP timeout), and holding the GIL freezes
+    // every other Python thread and the asyncio loop for its duration. `download`
+    // and `prefetch` already detach; `get_language` did not. See #203.
+    let result = py.detach(|| tree_sitter_language_pack::get_language(&name)).map_err(error_to_py_err)?;
     let raw_ptr = result.into_raw();
     // SAFETY: raw_ptr is a valid pointer derived from into_raw() on a value with program lifetime.
     let capsule_ptr = unsafe { pyo3::ffi::PyCapsule_New(raw_ptr as *mut _, TREE_SITTER_LANGUAGE_NAME.as_ptr(), None) };
