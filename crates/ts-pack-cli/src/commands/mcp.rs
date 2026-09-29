@@ -706,7 +706,7 @@ impl TsPackMcp {
 
 #[tool_handler]
 impl ServerHandler for TsPackMcp {
-    fn get_info(&self) -> ServerInfo {
+    fn get_info(&self) -> ServerConfig {
         let capabilities = ServerCapabilities::builder()
             .enable_tools()
             .enable_resources()
