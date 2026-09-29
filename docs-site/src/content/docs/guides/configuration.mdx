@@ -20,10 +20,17 @@ These are read at runtime by the downloader.
 | Variable                                 | Description                                                                                              |
 | ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `TREE_SITTER_LANGUAGE_PACK_CACHE_DIR`    | Base directory for the parser cache; overrides the platform cache directory                                |
+| `TREE_SITTER_LANGUAGE_PACK_LIBS_DIR`     | Directory of pre-staged parser libraries to load directly, bypassing the download cache                     |
 | `TREE_SITTER_LANGUAGE_PACK_MANIFEST_URL` | Override the `parsers.json` manifest URL (`http(s)://` or `file://`) for mirrors and air-gapped installs   |
 | `TREE_SITTER_LANGUAGE_PACK_TLS_ROOTS`    | `platform` (default) or `webpki` — see [TLS trust store](#tls-trust-store)                                  |
 
-The cache base is resolved in layers: `TREE_SITTER_LANGUAGE_PACK_CACHE_DIR` (when set and non-empty), else the platform cache directory, else the system temporary directory. The last resort keeps downloads working on hosts where the platform reports no cache directory (some Windows CI and conda-forge runners); it logs a `WARN` because a temp-dir cache is not guaranteed to persist between runs.
+The cache base is resolved in layers: `TREE_SITTER_LANGUAGE_PACK_CACHE_DIR` (when set and non-empty), else the platform cache directory. If neither resolves, the downloader fails closed with an error naming `TREE_SITTER_LANGUAGE_PACK_CACHE_DIR`; it does **not** fall back to the system temporary directory, which is world-writable and would let another local user plant a parser this process later `dlopen`s.
+
+### Cache ownership
+
+The cache directory must be owned by the current process's uid **or by root**, and must not be group- or other-writable. Root ownership is accepted so a read-only container image can bake the cache at image-build time and run as a non-root uid without `chown`-ing it to that uid: only root can write to a root-owned directory, and root is already trusted. OpenSSH's `StrictModes` makes the same allowance for the same reason. A directory owned by any *other* uid, or one that is group-/other-writable, is still refused with an error naming the offending uid and mode.
+
+`TREE_SITTER_LANGUAGE_PACK_LIBS_DIR` is the alternative for images that stage parser libraries outside the versioned cache: point it at the directory holding the `libtree_sitter_*.so` / `.dylib` / `*.dll` files and the loader reads them directly, with no cache-ownership check applied.
 
 ## Language-pack.toml
 

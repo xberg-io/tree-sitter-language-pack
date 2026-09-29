@@ -68,6 +68,8 @@ set rather than reusing binaries built for an older release. The platform-specif
 | macOS    | `~/Library/Caches`                      | `~/Library/Caches/tree-sitter-language-pack/v1.14.3/libs`         |
 | Windows  | `%LOCALAPPDATA%`                        | `%LOCALAPPDATA%\tree-sitter-language-pack\v1.14.3\libs`           |
 
+The cache directory must be owned by the current process's uid or by root, and must not be group- or other-writable — the load path `dlopen`s libraries from it, so a directory any other local user can write is refused. Root ownership is accepted deliberately: a read-only container image can bake the cache as root at build time and run as a non-root uid, since only root can write to it. See [Configuration § Cache ownership](/guides/configuration/#cache-ownership).
+
 You can override it programmatically:
 
 <Tabs syncKey="lang">

@@ -166,15 +166,31 @@ unsafe extern "C" {
     fn getuid() -> u32;
 }
 
-/// Verify that an existing `path` is owned by the current process's uid and is not
-/// group- or other-writable.
+/// Whether `owner_uid` is an owner this process trusts for a cache directory it
+/// dlopens a shared library out of: its own uid, or root (uid 0).
+///
+/// Root can write anywhere and is already trusted, so accepting a root-owned
+/// directory (a read-only container image whose grammar cache was baked at build
+/// time) does not widen the threat model this check exists for — no *other* local
+/// user can write to it. Every non-root, non-self uid is still refused, and the
+/// group-/other-writable check below still applies. OpenSSH's `StrictModes`
+/// accepts the same two owners for the same reason. See #202. ~keep
+#[cfg(unix)]
+fn is_trusted_cache_owner(owner_uid: u32, current_uid: u32) -> bool {
+    owner_uid == current_uid || owner_uid == 0
+}
+
+/// Verify that an existing `path` is owned by the current process's uid or by root,
+/// and is not group- or other-writable.
 ///
 /// This is the check that closes #101 H2: every directory this crate ever dlopens
 /// a shared library out of (registered as an `extra_lib_dir` in `registry.rs`), or
-/// writes an unverified manifest/bundle into, must be private to this process's
-/// user — otherwise another local user (or a process inheriting a shared, insecure
-/// `TREE_SITTER_LANGUAGE_PACK_CACHE_DIR`) can plant a payload this process will
-/// trust. ~keep
+/// writes an unverified manifest/bundle into, must not be writable by any other
+/// local user — otherwise another local user (or a process inheriting a shared,
+/// insecure `TREE_SITTER_LANGUAGE_PACK_CACHE_DIR`) can plant a payload this process
+/// will trust. Root ownership is accepted on top of self-ownership because root is
+/// already trusted and a root-owned directory is unwritable by everyone else; see
+/// [`is_trusted_cache_owner`]. See #202. ~keep
 #[cfg(unix)]
 fn verify_owner_and_perms(path: &Path) -> Result<(), Error> {
     use std::os::unix::fs::{MetadataExt, PermissionsExt};
@@ -184,10 +200,10 @@ fn verify_owner_and_perms(path: &Path) -> Result<(), Error> {
 
     // SAFETY: getuid() takes no arguments, performs no I/O, and cannot fail.
     let current_uid = unsafe { getuid() };
-    if metadata.uid() != current_uid {
+    if !is_trusted_cache_owner(metadata.uid(), current_uid) {
         return Err(Error::Download(format!(
             "Refusing to use cache directory {} because it is owned by uid {}, not the current \
-             process's uid {}. Set {CACHE_DIR_ENV} to a directory this process owns.",
+             process's uid {} or root. Set {CACHE_DIR_ENV} to a directory this process owns.",
             path.display(),
             metadata.uid(),
             current_uid
@@ -1773,6 +1789,25 @@ mod tests {
         fs::set_permissions(&target, fs::Permissions::from_mode(0o700)).expect("chmod should succeed");
 
         ensure_secure_cache_dir(&target).expect("owner-only pre-existing dir should be accepted");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn should_trust_self_and_root_owners_but_reject_every_other_uid() {
+        // ~keep Regression for #202: a build-time, root-owned, non-writable cache (read-only
+        // ~keep container image) must be accepted, while a directory owned by some *other*
+        // ~keep local user must still be refused. The uid/mode read cannot be forged in a
+        // ~keep test for the root case, so the decision is a pure function here.
+        assert!(is_trusted_cache_owner(1000, 1000), "own uid must be trusted");
+        assert!(is_trusted_cache_owner(0, 1000), "root-owned must be trusted");
+        assert!(
+            !is_trusted_cache_owner(1001, 1000),
+            "another user's uid must be refused"
+        );
+        assert!(
+            !is_trusted_cache_owner(1000, 0),
+            "non-root owner must be refused when running as root"
+        );
     }
 
     #[cfg(unix)]
