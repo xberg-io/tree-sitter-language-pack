@@ -1,0 +1,9 @@
+{
+  "groovy": {
+    "spdx": "MIT",
+    "file": "sources/notice_overrides/groovy/LICENSE",
+    "source": "https://github.com/Decodetalkers/tree-sitter-groovy/blob/679459be70d7fbac175fb19f668948d57b3825ef/LICENSE",
+    "ref": "679459be70d7fbac175fb19f668948d57b3825ef",
+    "reason": "The pinned revision a6cf8f80dd3d5246398ad4011c2e2caf995ee17f sits on the gh-pages branch, whose tree carries generated parser sources only: no LICENSE, NOTICE, manifest license, or parser-header grant. The project's MIT LICENSE on the default branch is the authoritative grant; it is committed here under sources/notice_overrides/groovy/LICENSE so the notice artifact is reproducible offline."
+  }
+}

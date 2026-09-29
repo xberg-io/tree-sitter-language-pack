@@ -507,6 +507,63 @@ jobs:
           dry-run: ${{ needs.prepare.outputs.dry_run }}
           token: ${{ steps.app-token.outputs.token }}
 
+  # Publishes the digest-pinned grammar redistribution notices alongside the parser
+  # bundles (issue #191). The committed sources/grammar_notices.json already maps every
+  # language to its pinned repo/rev/directory and retained license text, so this job
+  # re-fetches the pinned sources only to CONFIRM the committed digests still match
+  # (`--verify`), then emits the versioned JSON + Markdown notices. A digest mismatch,
+  # or any language missing a retained license text, fails the job before the release
+  # is promoted. ~keep
+  build-grammar-notices:
+    name: Build grammar redistribution notices
+    needs: [prepare, validate-versions]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          owner: xberg-io
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Setup Python environment
+        uses: xberg-io/actions/setup-python-env@v1
+        with:
+          python-version: "3.14"
+          install-command: "uv sync --no-install-project --no-install-workspace"
+
+      - name: Verify pinned digests and emit notice artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          uv run --no-sync python scripts/build_grammar_notices.py --check
+          uv run --no-sync python scripts/build_grammar_notices.py --verify --emit \
+            --version "${{ needs.prepare.outputs.version }}" --output-dir dist
+
+      - name: Upload to GitHub Release
+        if: ${{ needs.prepare.outputs.dry_run != 'true' }}
+        uses: xberg-io/actions/publish-github-release@v1
+        with:
+          # Hold the release as a draft. finalize-github-release is the only job that
+          # flips it public, and only after its asset-completeness check passes. ~keep
+          draft: "true"
+          tag: ${{ needs.prepare.outputs.tag }}
+          title: "Release ${{ needs.prepare.outputs.tag }}"
+          artifacts: |
+            dist/grammar-provenance-*.json
+            dist/grammar-provenance-*.json.sha256
+            dist/GRAMMAR_NOTICES-*.md
+            dist/GRAMMAR_NOTICES-*.md.sha256
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+          token: ${{ steps.app-token.outputs.token }}
+
   build-parser-binaries:
     name: Build parser binaries (${{ matrix.label }})
     needs: [prepare, validate-versions, clone-vendors]
@@ -5022,6 +5079,7 @@ jobs:
     needs:
       - prepare
       - validate-versions
+      - build-grammar-notices
       - upload-parser-binaries
       - upload-go-release
       - upload-c-ffi-release
@@ -5091,6 +5149,7 @@ jobs:
         if: needs.prepare.result == 'success'
         env:
           RESULT_UPLOAD_PARSERS: ${{ needs.upload-parser-binaries.result }}
+          RESULT_GRAMMAR_NOTICES: ${{ needs.build-grammar-notices.result }}
           RESULT_UPLOAD_GO: ${{ needs.upload-go-release.result }}
           RESULT_UPLOAD_C_FFI: ${{ needs.upload-c-ffi-release.result }}
           RESULT_SWIFT_MANIFEST: ${{ needs.update-swift-package-manifest.result }}
@@ -5120,6 +5179,7 @@ jobs:
           }
 
           require_success "parser-binaries" "$RESULT_UPLOAD_PARSERS"
+          require_success "grammar-notices" "$RESULT_GRAMMAR_NOTICES"
           require_success_when_enabled "cli-binaries" "$RESULT_UPLOAD_CLI" "$RELEASE_HOMEBREW"
           require_success_when_enabled "go-ffi" "$RESULT_UPLOAD_GO" "$RELEASE_GO"
           require_success_when_enabled "go-ffi-stage" "$RESULT_STAGE_GO_FFI" "$RELEASE_GO"
@@ -5154,6 +5214,7 @@ jobs:
       - validate-versions
       - check-registries
       - finalize-github-release
+      - build-grammar-notices
       - upload-parser-binaries
       - upload-go-release
       - upload-c-ffi-release

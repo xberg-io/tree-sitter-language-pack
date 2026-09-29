@@ -191,6 +191,18 @@ tasks:
     cmds:
       - uv run --no-sync python scripts/lint_grammar_licenses.py
 
+  notices:
+    desc: "Regenerate sources/grammar_notices.json from pinned grammar sources (needs network + authenticated gh)"
+    cmds:
+      - uv run --no-sync python scripts/build_grammar_notices.py --update
+
+  notices:check:
+    # Offline: validates the committed record's coverage and digests, never rewrites it.
+    # `--verify` (re-fetch upstream) belongs to the release path, not the PR gate. ~keep
+    desc: "Verify grammar notice coverage and license-text digests (offline, no writes)"
+    cmds:
+      - uv run --no-sync python scripts/build_grammar_notices.py --check
+
   check:
     desc: Run check-only validation
     cmds:
