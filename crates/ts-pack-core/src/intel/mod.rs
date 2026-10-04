@@ -292,7 +292,6 @@ mod tests {
                 chunk.start_byte,
                 chunk.end_byte,
                 &mut collector,
-                0,
             );
 
             assert_eq!(chunk.metadata.node_types, node_types, "node_types differ");

@@ -144,11 +144,11 @@ fn collect_chunk_metadata(
     chunk_end: usize,
     collector: &mut MetadataCollector<'_>,
 ) -> usize {
-    walk_bounded(root, |node, depth| {
+    walk_bounded(root, |node, _depth| {
         if is_outside_chunk(node, chunk_start, chunk_end) {
             return Descend::Skip;
         }
-        record_chunk_node(node, source, language, chunk_start, chunk_end, collector, depth);
+        record_chunk_node(node, source, language, chunk_start, chunk_end, collector);
         Descend::Children
     })
 }
@@ -198,7 +198,6 @@ pub(super) fn record_chunk_node(
     chunk_start: usize,
     chunk_end: usize,
     collector: &mut MetadataCollector<'_>,
-    _depth: usize,
 ) {
     let kind = node.kind();
 

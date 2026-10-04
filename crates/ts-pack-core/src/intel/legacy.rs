@@ -242,14 +242,13 @@ pub(super) fn collect_chunk_metadata(
     chunk_start: usize,
     chunk_end: usize,
     collector: &mut super::chunking::MetadataCollector<'_>,
-    depth: usize,
 ) {
     if node.end_byte() <= chunk_start || node.start_byte() >= chunk_end {
         return;
     }
-    super::chunking::record_chunk_node(node, source, language, chunk_start, chunk_end, collector, depth);
+    super::chunking::record_chunk_node(node, source, language, chunk_start, chunk_end, collector);
     let mut cursor = node.walk();
     for child in node.children(&mut cursor) {
-        collect_chunk_metadata(&child, source, language, chunk_start, chunk_end, collector, depth + 1);
+        collect_chunk_metadata(&child, source, language, chunk_start, chunk_end, collector);
     }
 }

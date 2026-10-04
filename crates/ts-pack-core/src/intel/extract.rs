@@ -257,6 +257,14 @@ struct OpenItem {
     children: Vec<StructureItem>,
 }
 
+/// The matched node's identity and body, as handed to [`StructureScope::push`].
+struct Opening<'tree> {
+    kind: StructureKind,
+    name: Option<String>,
+    visibility: Option<String>,
+    body: Option<Node<'tree>>,
+}
+
 /// Structure collection.
 ///
 /// The structure walk is not a uniform visit-every-node walk: a matched node
@@ -325,15 +333,16 @@ impl StructureScope {
                 return;
             }
             if let Some(definition) = elixir::definition(node, source) {
-                let body = definition.body;
                 self.push(
                     node,
                     depth,
                     source,
-                    definition.kind,
-                    definition.name,
-                    definition.visibility,
-                    body,
+                    Opening {
+                        kind: definition.kind,
+                        name: definition.name,
+                        visibility: definition.visibility,
+                        body: definition.body,
+                    },
                 );
                 return;
             }
@@ -341,21 +350,27 @@ impl StructureScope {
         if let Some(kind) = structure_kind_at(node, language) {
             let name = resolve_structure_name(node, source);
             let body = node.child_by_field_name("body");
-            self.push(node, depth, source, kind, name, None, body);
+            self.push(
+                node,
+                depth,
+                source,
+                Opening {
+                    kind,
+                    name,
+                    visibility: None,
+                    body,
+                },
+            );
         }
     }
 
-    #[allow(clippy::too_many_arguments)]
-    fn push(
-        &mut self,
-        node: &Node<'_>,
-        depth: usize,
-        source: &str,
-        kind: StructureKind,
-        name: Option<String>,
-        visibility: Option<String>,
-        body: Option<Node<'_>>,
-    ) {
+    fn push(&mut self, node: &Node<'_>, depth: usize, source: &str, opening: Opening<'_>) {
+        let Opening {
+            kind,
+            name,
+            visibility,
+            body,
+        } = opening;
         let signature = structure_signature(node, source, body.as_ref());
         self.open.push(OpenItem {
             depth,
