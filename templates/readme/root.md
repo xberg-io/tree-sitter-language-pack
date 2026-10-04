@@ -9,11 +9,11 @@
 
 {% include 'partials/badges.html' %}
 
-Parse and understand source code in 371 languages, from the language you already work in — with one dependency and no grammars to compile.
+Parse and understand source code in 372 languages, from the language you already work in — with one dependency and no grammars to compile.
 
 ## What and Why?
 
-Add one package and you can parse any of 371 languages, walk their syntax trees, pull out functions, classes, imports, and symbols, and split code into chunks an LLM can use. It works the same whether you call it from Python, Node.js, Go, Java, C#, Ruby, PHP, Elixir, and eight more, or from the shell via the CLI and MCP server.
+Add one package and you can parse any of 372 languages, walk their syntax trees, pull out functions, classes, imports, and symbols, and split code into chunks an LLM can use. It works the same whether you call it from Python, Node.js, Go, Java, C#, Ruby, PHP, Elixir, and eight more, or from the shell via the CLI and MCP server.
 
 [tree-sitter](https://tree-sitter.github.io/tree-sitter/) gives fast, incremental parsers for individual languages, but wiring up hundreds of grammars — and reaching them from a non-C ecosystem — is the hard part. tree-sitter-language-pack does that work for you: it bundles the most comprehensive set of grammars available behind a single API, ships native bindings for 15 languages, and downloads each parser on first use so the install stays small.
 
@@ -23,7 +23,7 @@ Reach for it whenever you need to process, inspect, or analyze code — building
 
 | Feature | Description |
 | ------- | ----------- |
-| **371 languages** | Pre-compiled parsers at ABI 14 (backwards compatible with tree-sitter 0.21–0.26) |
+| **372 languages** | Pre-compiled parsers at ABI 14 (backwards compatible with tree-sitter 0.21–0.26) |
 | **Code intelligence** | Extract functions, classes, imports, docstrings, and symbols from source |
 | **Data extraction** | Hierarchical key-value trees from 17 config/data formats (JSON, YAML, TOML, XML, CSV, …) |
 | **Host-native language API** | `get_language()` returns native `Language` objects in Python, Node.js, Go, Java, C#, Kotlin, Swift, Zig, and C |
@@ -36,7 +36,7 @@ Reach for it whenever you need to process, inspect, or analyze code — building
 
 ### Supported Languages
 
-This pack includes 371 languages. See the [full language list](https://docs.tree-sitter-language-pack.xberg.io/languages/) for every supported grammar with extensions and repository links.
+This pack includes 372 languages. See the [full language list](https://docs.tree-sitter-language-pack.xberg.io/languages/) for every supported grammar with extensions and repository links.
 
 ### Grammars & Bundled Queries
 
@@ -276,7 +276,7 @@ For detailed setup, transport options, and tool reference, see the [MCP Server g
 
 ### AI Coding Assistants
 
-Install the tree-sitter-language-pack plugin from [`xberg-io/tree-sitter-language-pack`](https://github.com/xberg-io/tree-sitter-language-pack). It ships the tree-sitter-language-pack agent skills (parse and extract code intelligence from 371 languages) and works with every major coding agent — expand your harness below.
+Install the tree-sitter-language-pack plugin from [`xberg-io/tree-sitter-language-pack`](https://github.com/xberg-io/tree-sitter-language-pack). It ships the tree-sitter-language-pack agent skills (parse and extract code intelligence from 372 languages) and works with every major coding agent — expand your harness below.
 
 <details open>
 <summary><strong>Claude Code</strong></summary>

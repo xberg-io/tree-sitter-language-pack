@@ -117,7 +117,7 @@ writes into sources it patches for MSVC, so patched files are recognised on late
 
 `build.rs` (in `crates/ts-pack-core/`) runs every time environment variables or source files change. It does these steps:
 
-1. **Reads `sources/language_definitions.json`** — 371 language entries, each specifying the grammar repository, revision, file extensions, and optional C symbol overrides.
+1. **Reads `sources/language_definitions.json`** — 372 language entries, each specifying the grammar repository, revision, file extensions, and optional C symbol overrides.
 
 2. **Compiles selected parsers** — when `TSLP_LANGUAGES` has a value, it invokes the system C compiler on each `parsers/<language>/src/parser.c`. The output format (static archive or shared library) follows from `TSLP_LINK_MODE`.
 

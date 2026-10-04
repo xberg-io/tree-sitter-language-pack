@@ -239,6 +239,12 @@ mod tests {
     }
 
     #[test]
+    fn should_detect_baml_from_extension() {
+        assert_eq!(detect_language_from_extension("baml"), Some("baml"));
+        assert_eq!(detect_language_from_path("baml_src/clients.baml"), Some("baml"));
+    }
+
+    #[test]
     fn test_case_insensitive() {
         assert_eq!(detect_language_from_extension("PY"), Some("python"));
         assert_eq!(detect_language_from_extension("Rs"), Some("rust"));
@@ -444,7 +450,7 @@ mod tests {
     /// Verify that ext→name detection is independent of parser availability.
     ///
     /// `detect_language_from_extension` consults the static extension table that
-    /// is generated from the full `language_definitions.json` for all 371 grammars.
+    /// is generated from the full `language_definitions.json` for all 372 grammars.
     /// It does NOT gate on whether the parser was compiled in (controlled by
     /// `TSLP_LANGUAGES` at build time). Subset FFI builds must still return the
     /// correct name for any extension in the table.

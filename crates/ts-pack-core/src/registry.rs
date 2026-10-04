@@ -675,7 +675,7 @@ impl LanguageRegistry {
     /// use tree_sitter_language_pack::{detect_language_from_extension, LanguageRegistry};
     ///
     /// let registry = LanguageRegistry::new();
-    /// // Extension detection uses the static ext table for all 371 grammars.
+    /// // Extension detection uses the static ext table for all 372 grammars.
     /// let lang = detect_language_from_extension("feature"); // always returns Some("gherkin")
     /// // Parser availability depends on what is compiled in or cached on disk.
     /// let can_parse = lang.map(|name| registry.has_parser(name)).unwrap_or(false);

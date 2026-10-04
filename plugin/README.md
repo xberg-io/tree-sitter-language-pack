@@ -1,6 +1,6 @@
 # tree-sitter-language-pack
 
-Parse and extract code intelligence from 371 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking — using the local `ts-pack` CLI in your agent.
+Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking — using the local `ts-pack` CLI in your agent.
 
 <!-- ~keep TODO: add screenshot -->
 
@@ -58,7 +58,7 @@ Rust, Ruby, Go, Java, C#, PHP, Elixir, Dart, Kotlin (Android), Swift, Zig, and W
 
 | Skill | Trigger |
 |-------|---------|
-| **tree-sitter-language-pack** | Parse and extract code intelligence from 371 languages. Use when writing code that parses source, extracts structure/imports/exports/symbols/docstrings/comments, detects a language, runs diagnostics, or chunks code for LLMs — in Rust, Python, Node.js/TypeScript, or the ts-pack CLI. |
+| **tree-sitter-language-pack** | Parse and extract code intelligence from 372 languages. Use when writing code that parses source, extracts structure/imports/exports/symbols/docstrings/comments, detects a language, runs diagnostics, or chunks code for LLMs — in Rust, Python, Node.js/TypeScript, or the ts-pack CLI. |
 | **parsing-source** | Use when the user wants a tree-sitter syntax tree for a source file — an s-expression dump or JSON tree. |
 | **extracting-code-structure** | Use when the user wants structured code metadata — functions, classes, imports, exports, symbols, docstrings, comments, or syntax diagnostics. |
 | **chunking-for-llms** | Use when splitting source code into chunks for an LLM context window without breaking syntax mid-construct. |

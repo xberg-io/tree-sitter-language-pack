@@ -115,7 +115,7 @@ Binding crates contain no parsing logic, no query definitions, and no chunking c
 
 Native packages do not compile the full parser set into the package. Instead:
 
-1. A `parsers.json` manifest (on GitHub releases) lists one bundle per target platform plus per-language metadata for all 371 grammars.
+1. A `parsers.json` manifest (on GitHub releases) lists one bundle per target platform plus per-language metadata for all 372 grammars.
 2. On first use, the matching platform bundle downloads and extracts to the local cache directory.
 3. The runtime opens the relevant grammar binary via `dlopen` / `LoadLibrary` and resolves the `tree_sitter_<language>` symbol.
 

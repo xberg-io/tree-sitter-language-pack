@@ -19,6 +19,7 @@
 | Avro | [victorhqc/tree-sitter-apache-avro](https://github.com/victorhqc/tree-sitter-apache-avro) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
 | Awk | [Beaglefoot/tree-sitter-awk](https://github.com/Beaglefoot/tree-sitter-awk) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Ballerina | [heshanpadmasiri/tree-sitter-ballerina](https://github.com/heshanpadmasiri/tree-sitter-ballerina) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Baml | [BoundaryML/baml-treesitter](https://github.com/BoundaryML/baml-treesitter) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Bash | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Bass | [vito/tree-sitter-bass](https://github.com/vito/tree-sitter-bass) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Batch | [davidevofficial/tree-sitter-batch](https://github.com/davidevofficial/tree-sitter-batch) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |

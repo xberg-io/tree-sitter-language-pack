@@ -3,13 +3,13 @@ title: "AI Coding Assistants"
 description: "Install the tree-sitter-language-pack plugin into Claude Code, Codex, Cursor, Gemini, Factory Droid, GitHub Copilot, or opencode."
 ---
 
-Give your coding agent structural understanding of any codebase — parse and extract code intelligence from 371 languages without leaving the chat.
+Give your coding agent structural understanding of any codebase — parse and extract code intelligence from 372 languages without leaving the chat.
 
 ## What this plugin does
 
 The plugin drops the tree-sitter-language-pack agent skills straight into your coding assistant. Once installed, the agent can:
 
-- Parse a file in any of 371 languages and reason over its syntax tree.
+- Parse a file in any of 372 languages and reason over its syntax tree.
 - Pull out functions, classes, imports, exports, and symbols when asked.
 - Detect a file's language, list supported languages, and manage the local parser cache.
 

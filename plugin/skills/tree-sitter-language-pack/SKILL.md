@@ -1,7 +1,7 @@
 ---
 name: tree-sitter-language-pack
 description: >-
-  Parse and extract code intelligence from 371 programming languages using
+  Parse and extract code intelligence from 372 programming languages using
   tree-sitter grammars. Use when writing code that parses source, extracts
   structure/imports/exports/symbols/docstrings/comments, detects a language,
   runs syntax diagnostics, or produces syntax-aware chunks for LLMs — in
@@ -27,12 +27,12 @@ tree-sitter-language-pack is a polyglot code parsing and analysis library
 with a high-performance Rust core and polyglot bindings for 15 languages —
 Python, Node.js/TypeScript, Ruby, Go, Java, C#, PHP, Elixir, Dart,
 Kotlin (Android), Swift, Zig, and WebAssembly, plus a C ABI and JNI. It
-compiles 371 tree-sitter grammars into efficient parsers and exposes code
+compiles 372 tree-sitter grammars into efficient parsers and exposes code
 intelligence on top of them.
 
 ## Capabilities
 
-- **Parse 371 languages** into concrete syntax trees (s-expression or JSON).
+- **Parse 372 languages** into concrete syntax trees (s-expression or JSON).
 - **Extract structure** — functions, classes, methods, modules with line
   and byte spans, child nesting, and visibility.
 - **Extract imports and exports** — statements, sources, exported kinds.

@@ -22,7 +22,7 @@ import { Content as Verify_wasm } from "../../../snippets/generated/wasm/registr
 ## Install using the CLI
 
 The `ts-pack` CLI allows you to manage parsers and run code analysis directly from your terminal.
-You can use it in CI pipelines, automation scripts, or to explore and experiment with **371 supported languages**.
+You can use it in CI pipelines, automation scripts, or to explore and experiment with **372 supported languages**.
 
 <div class="install-cli-hero" markdown>
 
@@ -69,13 +69,13 @@ ts-pack list           # language names, then a blank line and an "N language(s)
 `ts-pack list` reports the grammars this binary can parse right now — those compiled into it,
 plus any already in your download cache, plus their aliases. That differs by install method:
 
-- **Homebrew, Scoop, and `cargo binstall`** fetch the prebuilt release binary, which has all 371
-  grammars statically linked. `ts-pack list` prints 377 names (371 grammars + 6 aliases), so
+- **Homebrew, Scoop, and `cargo binstall`** fetch the prebuilt release binary, which has all 372
+  grammars statically linked. `ts-pack list` prints 378 names (372 grammars + 6 aliases), so
   `ts-pack list | wc -l` is 379 — the 377 names, a blank line, and the `377 language(s)` total.
 - **`cargo install ts-pack-cli`** compiles from source on your machine with no grammars linked
   in, so a fresh install prints `0 language(s)` until you run `ts-pack download --all`.
 
-`ts-pack list --manifest` lists all 371 downloadable grammars in either case, without touching
+`ts-pack list --manifest` lists all 372 downloadable grammars in either case, without touching
 the cache.
 :::
 
@@ -100,11 +100,11 @@ Tree-sitter-language-pack is available for every major ecosystem. All packages s
 :::caution[What `language_count()` counts]
 `language_count()` returns the parsers **available to this process right now** — grammars
 compiled into the build, grammars already in the download cache, and their aliases. It is not
-a constant `371`; that is the number of grammars in the remote manifest.
+a constant `372`; that is the number of grammars in the remote manifest.
 
 Most published packages (Python, Node.js, Go, Elixir, Zig) compile no grammars in and fetch
 them on demand, so `language_count()` starts at `0` and grows as you download. The C FFI and
-C# packages ship with all 371 linked in; the WebAssembly package ships a fixed 31-grammar
+C# packages ship with all 372 linked in; the WebAssembly package ships a fixed 31-grammar
 subset and cannot download more. The verify snippets below confirm the native library loads
 and links — they are not a grammar count.
 :::
@@ -511,4 +511,4 @@ The WASM package is a static curated subset of parsers compiled into the module.
 - [Quick Start](/getting-started/quickstart/) — parse your first file in 5 minutes
 - [Download parsers](/getting-started/quickstart/#2-download-parsers) — pre-download grammars for production, CI, or offline use
 - [Download model](/concepts/download-model/) — understand how parser caching works
-- [Languages](/languages/) — full list of 371 supported languages
+- [Languages](/languages/) — full list of 372 supported languages

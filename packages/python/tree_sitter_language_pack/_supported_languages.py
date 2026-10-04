@@ -20,6 +20,7 @@ SupportedLanguage = Literal[
     "avro",
     "awk",
     "ballerina",
+    "baml",
     "bash",
     "bass",
     "batch",

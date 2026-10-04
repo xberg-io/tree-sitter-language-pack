@@ -4,7 +4,7 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Core library for tree-sitter language pack - provides compiled parsers for 371 languages"
+description = "Core library for tree-sitter language pack - provides compiled parsers for 372 languages"
 
 # ~keep This direct dependency supplies tree-sitter's WASM C shims and moves in lockstep with
 # ~keep the runtime: 0.1.8 relocated the 0.26 shims under wasm/unsupported/ so they fail to

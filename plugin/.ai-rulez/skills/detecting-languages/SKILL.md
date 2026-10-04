@@ -9,7 +9,7 @@ description: >-
 
 # Detecting languages
 
-tree-sitter-language-pack maps a file to one of 371 supported languages.
+tree-sitter-language-pack maps a file to one of 372 supported languages.
 Detection works from a file path, a bare extension, or — via the SDK — the
 file content itself.
 

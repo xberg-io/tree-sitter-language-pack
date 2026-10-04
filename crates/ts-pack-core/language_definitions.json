@@ -1953,6 +1953,13 @@
     "repo": "https://github.com/heshanpadmasiri/tree-sitter-ballerina",
     "rev": "771a918fd214cd8759a715f4b2db032414022fc5"
   },
+  "baml": {
+    "abi_version": 14,
+    "extensions": ["baml"],
+    "generate": true,
+    "repo": "https://github.com/BoundaryML/baml-treesitter",
+    "rev": "35dc42c5a32df2c95809761728a73cb8e8f7cf1c"
+  },
   "bpftrace": {
     "extensions": ["bt"],
     "repo": "https://github.com/sgruszka/tree-sitter-bpftrace",

@@ -3,7 +3,7 @@ title: Xberg Ecosystem
 description: "How tree-sitter-language-pack fits into the Xberg family of Rust-core, polyglot-bindings open-source tools."
 ---
 
-Tree-sitter-language-pack bundles 371 tree-sitter parsers with code intelligence and chunking. It's part of the Xberg family — a set of open-source tools from the same team, each built on a fast Rust core. Explore the related projects:
+Tree-sitter-language-pack bundles 372 tree-sitter parsers with code intelligence and chunking. It's part of the Xberg family — a set of open-source tools from the same team, each built on a fast Rust core. Explore the related projects:
 
 - [Xberg](https://github.com/xberg-io/xberg) — document intelligence: text, tables, metadata from 101 formats with optional OCR.
 - [Xberg Enterprise](https://github.com/xberg-io/xberg-enterprise) — managed extraction API with SDKs, dashboards, and observability.

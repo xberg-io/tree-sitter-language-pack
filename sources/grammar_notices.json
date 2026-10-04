@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "a99c69387fb23fc5e073990c9e73435486bf695a8c2e917240168bbc11d9200e",
+  "definitions_sha256": "8df6d605e2e1862bb013b09dc681f4e023027979d759b4cbb8a3d018da2ee67d",
   "languages": {
     "abl": {
       "branch": null,
@@ -271,6 +271,22 @@
       "resolution": "github-license",
       "rev": "771a918fd214cd8759a715f4b2db032414022fc5",
       "spdx": "MIT",
+      "spdx_source": "detected"
+    },
+    "baml": {
+      "branch": null,
+      "directory": null,
+      "license_files": [
+        {
+          "path": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+        }
+      ],
+      "local": null,
+      "repo": "https://github.com/BoundaryML/baml-treesitter",
+      "resolution": "github-license",
+      "rev": "35dc42c5a32df2c95809761728a73cb8e8f7cf1c",
+      "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
     "bash": {

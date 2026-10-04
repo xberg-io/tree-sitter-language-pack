@@ -1,13 +1,13 @@
 name: CI Sanitize
 
-# ASan/UBSan coverage over the hand-written C external scanners (~184 of the 371
+# ASan/UBSan coverage over the hand-written C external scanners (~184 of the 372
 # grammars ship a `src/scanner.c`/`.cc`). This is not hypothetical: a heap buffer
 # overflow was found in 11 vendored scanners where a 256-byte input wrote 1025
 # bytes into a 1024-byte buffer. Tree-sitter's only bound there is a `ts_assert`,
 # which compiles out under NDEBUG, so a release build has no check at all.
 #
 # Scope, and why:
-#   * Instrumenting all 371 grammars on every push is not affordable — clone +
+#   * Instrumenting all 372 grammars on every push is not affordable — clone +
 #     `tree-sitter generate` alone is a 90-minute job, and ASan roughly triples
 #     C compile time. So the surface is split:
 #   * PR/push (`regression` mode): only the grammars under `patches/`, i.e. the

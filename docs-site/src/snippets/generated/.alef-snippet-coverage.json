@@ -168,6 +168,7 @@
     "c/smoke/smoke_avro.md",
     "c/smoke/smoke_awk.md",
     "c/smoke/smoke_ballerina.md",
+    "c/smoke/smoke_baml.md",
     "c/smoke/smoke_bash.md",
     "c/smoke/smoke_bass.md",
     "c/smoke/smoke_batch.md",
@@ -689,6 +690,7 @@
     "csharp/smoke/smoke_avro.md",
     "csharp/smoke/smoke_awk.md",
     "csharp/smoke/smoke_ballerina.md",
+    "csharp/smoke/smoke_baml.md",
     "csharp/smoke/smoke_bash.md",
     "csharp/smoke/smoke_bass.md",
     "csharp/smoke/smoke_batch.md",
@@ -1210,6 +1212,7 @@
     "dart/smoke/smoke_avro.md",
     "dart/smoke/smoke_awk.md",
     "dart/smoke/smoke_ballerina.md",
+    "dart/smoke/smoke_baml.md",
     "dart/smoke/smoke_bash.md",
     "dart/smoke/smoke_bass.md",
     "dart/smoke/smoke_batch.md",
@@ -1731,6 +1734,7 @@
     "elixir/smoke/smoke_avro.md",
     "elixir/smoke/smoke_awk.md",
     "elixir/smoke/smoke_ballerina.md",
+    "elixir/smoke/smoke_baml.md",
     "elixir/smoke/smoke_bash.md",
     "elixir/smoke/smoke_bass.md",
     "elixir/smoke/smoke_batch.md",
@@ -2252,6 +2256,7 @@
     "go/smoke/smoke_avro.md",
     "go/smoke/smoke_awk.md",
     "go/smoke/smoke_ballerina.md",
+    "go/smoke/smoke_baml.md",
     "go/smoke/smoke_bash.md",
     "go/smoke/smoke_bass.md",
     "go/smoke/smoke_batch.md",
@@ -2773,6 +2778,7 @@
     "java/smoke/smoke_avro.md",
     "java/smoke/smoke_awk.md",
     "java/smoke/smoke_ballerina.md",
+    "java/smoke/smoke_baml.md",
     "java/smoke/smoke_bash.md",
     "java/smoke/smoke_bass.md",
     "java/smoke/smoke_batch.md",
@@ -3284,6 +3290,7 @@
     "kotlin-android/smoke/smoke_avro.md",
     "kotlin-android/smoke/smoke_awk.md",
     "kotlin-android/smoke/smoke_ballerina.md",
+    "kotlin-android/smoke/smoke_baml.md",
     "kotlin-android/smoke/smoke_bash.md",
     "kotlin-android/smoke/smoke_bass.md",
     "kotlin-android/smoke/smoke_batch.md",
@@ -3805,6 +3812,7 @@
     "php/smoke/smoke_avro.md",
     "php/smoke/smoke_awk.md",
     "php/smoke/smoke_ballerina.md",
+    "php/smoke/smoke_baml.md",
     "php/smoke/smoke_bash.md",
     "php/smoke/smoke_bass.md",
     "php/smoke/smoke_batch.md",
@@ -4326,6 +4334,7 @@
     "python/smoke/smoke_avro.md",
     "python/smoke/smoke_awk.md",
     "python/smoke/smoke_ballerina.md",
+    "python/smoke/smoke_baml.md",
     "python/smoke/smoke_bash.md",
     "python/smoke/smoke_bass.md",
     "python/smoke/smoke_batch.md",
@@ -4847,6 +4856,7 @@
     "ruby/smoke/smoke_avro.md",
     "ruby/smoke/smoke_awk.md",
     "ruby/smoke/smoke_ballerina.md",
+    "ruby/smoke/smoke_baml.md",
     "ruby/smoke/smoke_bash.md",
     "ruby/smoke/smoke_bass.md",
     "ruby/smoke/smoke_batch.md",
@@ -5368,6 +5378,7 @@
     "rust/smoke/smoke_avro.md",
     "rust/smoke/smoke_awk.md",
     "rust/smoke/smoke_ballerina.md",
+    "rust/smoke/smoke_baml.md",
     "rust/smoke/smoke_bash.md",
     "rust/smoke/smoke_bass.md",
     "rust/smoke/smoke_batch.md",
@@ -5889,6 +5900,7 @@
     "swift/smoke/smoke_avro.md",
     "swift/smoke/smoke_awk.md",
     "swift/smoke/smoke_ballerina.md",
+    "swift/smoke/smoke_baml.md",
     "swift/smoke/smoke_bash.md",
     "swift/smoke/smoke_bass.md",
     "swift/smoke/smoke_batch.md",
@@ -6410,6 +6422,7 @@
     "typescript/smoke/smoke_avro.md",
     "typescript/smoke/smoke_awk.md",
     "typescript/smoke/smoke_ballerina.md",
+    "typescript/smoke/smoke_baml.md",
     "typescript/smoke/smoke_bash.md",
     "typescript/smoke/smoke_bass.md",
     "typescript/smoke/smoke_batch.md",
@@ -6921,6 +6934,7 @@
     "wasm/smoke/smoke_avro.md",
     "wasm/smoke/smoke_awk.md",
     "wasm/smoke/smoke_ballerina.md",
+    "wasm/smoke/smoke_baml.md",
     "wasm/smoke/smoke_bash.md",
     "wasm/smoke/smoke_bass.md",
     "wasm/smoke/smoke_batch.md",
@@ -7442,6 +7456,7 @@
     "zig/smoke/smoke_avro.md",
     "zig/smoke/smoke_awk.md",
     "zig/smoke/smoke_ballerina.md",
+    "zig/smoke/smoke_baml.md",
     "zig/smoke/smoke_bash.md",
     "zig/smoke/smoke_bass.md",
     "zig/smoke/smoke_batch.md",
@@ -9796,6 +9811,18 @@
         "language": "ffi"
       },
       "path": "c/smoke/smoke_ballerina.md",
+      "language": "c",
+      "target": "ffi",
+      "session": "ffi",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "ffi"
+      },
+      "path": "c/smoke/smoke_baml.md",
       "language": "c",
       "target": "ffi",
       "session": "ffi",
@@ -16056,6 +16083,18 @@
     },
     {
       "key": {
+        "fixture_id": "smoke_baml",
+        "language": "csharp"
+      },
+      "path": "csharp/smoke/smoke_baml.md",
+      "language": "csharp",
+      "target": "csharp",
+      "session": "csharp",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
         "fixture_id": "smoke_bash",
         "language": "csharp"
       },
@@ -22300,6 +22339,18 @@
         "language": "dart"
       },
       "path": "dart/smoke/smoke_ballerina.md",
+      "language": "dart",
+      "target": "dart",
+      "session": "dart",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "dart"
+      },
+      "path": "dart/smoke/smoke_baml.md",
       "language": "dart",
       "target": "dart",
       "session": "dart",
@@ -28560,6 +28611,18 @@
     },
     {
       "key": {
+        "fixture_id": "smoke_baml",
+        "language": "elixir"
+      },
+      "path": "elixir/smoke/smoke_baml.md",
+      "language": "elixir",
+      "target": "elixir",
+      "session": "elixir",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
         "fixture_id": "smoke_bash",
         "language": "elixir"
       },
@@ -34804,6 +34867,18 @@
         "language": "go"
       },
       "path": "go/smoke/smoke_ballerina.md",
+      "language": "go",
+      "target": "go",
+      "session": "go",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "go"
+      },
+      "path": "go/smoke/smoke_baml.md",
       "language": "go",
       "target": "go",
       "session": "go",
@@ -41064,6 +41139,18 @@
     },
     {
       "key": {
+        "fixture_id": "smoke_baml",
+        "language": "java"
+      },
+      "path": "java/smoke/smoke_baml.md",
+      "language": "java",
+      "target": "java",
+      "session": "java",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
         "fixture_id": "smoke_bash",
         "language": "java"
       },
@@ -47188,6 +47275,18 @@
         "language": "kotlin_android"
       },
       "path": "kotlin-android/smoke/smoke_ballerina.md",
+      "language": "kotlin",
+      "target": "kotlin_android",
+      "session": "kotlin_android",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "kotlin_android"
+      },
+      "path": "kotlin-android/smoke/smoke_baml.md",
       "language": "kotlin",
       "target": "kotlin_android",
       "session": "kotlin_android",
@@ -53448,6 +53547,18 @@
     },
     {
       "key": {
+        "fixture_id": "smoke_baml",
+        "language": "php"
+      },
+      "path": "php/smoke/smoke_baml.md",
+      "language": "php",
+      "target": "php",
+      "session": "php",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
         "fixture_id": "smoke_bash",
         "language": "php"
       },
@@ -59700,6 +59811,18 @@
     },
     {
       "key": {
+        "fixture_id": "smoke_baml",
+        "language": "python"
+      },
+      "path": "python/smoke/smoke_baml.md",
+      "language": "python",
+      "target": "python",
+      "session": "python",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
         "fixture_id": "smoke_bash",
         "language": "python"
       },
@@ -65944,6 +66067,18 @@
         "language": "ruby"
       },
       "path": "ruby/smoke/smoke_ballerina.md",
+      "language": "ruby",
+      "target": "ruby",
+      "session": "ruby",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "ruby"
+      },
+      "path": "ruby/smoke/smoke_baml.md",
       "language": "ruby",
       "target": "ruby",
       "session": "ruby",
@@ -72420,6 +72555,20 @@
         "language": "rust"
       },
       "path": "rust/smoke/smoke_ballerina.md",
+      "language": "rust",
+      "target": "rust",
+      "session": "rust",
+      "requires": [
+        "crate:serde_json"
+      ],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "rust"
+      },
+      "path": "rust/smoke/smoke_baml.md",
       "language": "rust",
       "target": "rust",
       "session": "rust",
@@ -79390,6 +79539,18 @@
     },
     {
       "key": {
+        "fixture_id": "smoke_baml",
+        "language": "swift"
+      },
+      "path": "swift/smoke/smoke_baml.md",
+      "language": "swift",
+      "target": "swift",
+      "session": "swift",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
         "fixture_id": "smoke_bash",
         "language": "swift"
       },
@@ -85642,6 +85803,18 @@
     },
     {
       "key": {
+        "fixture_id": "smoke_baml",
+        "language": "node"
+      },
+      "path": "typescript/smoke/smoke_baml.md",
+      "language": "typescript",
+      "target": "node",
+      "session": "node",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
         "fixture_id": "smoke_bash",
         "language": "node"
       },
@@ -91766,6 +91939,18 @@
         "language": "wasm"
       },
       "path": "wasm/smoke/smoke_ballerina.md",
+      "language": "typescript",
+      "target": "wasm",
+      "session": "wasm",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "wasm"
+      },
+      "path": "wasm/smoke/smoke_baml.md",
       "language": "typescript",
       "target": "wasm",
       "session": "wasm",
@@ -98018,6 +98203,18 @@
         "language": "zig"
       },
       "path": "zig/smoke/smoke_ballerina.md",
+      "language": "zig",
+      "target": "zig",
+      "session": "zig",
+      "requires": [],
+      "side_effect": "safe"
+    },
+    {
+      "key": {
+        "fixture_id": "smoke_baml",
+        "language": "zig"
+      },
+      "path": "zig/smoke/smoke_baml.md",
       "language": "zig",
       "target": "zig",
       "session": "zig",
@@ -111912,6 +112109,66 @@
     },
     {
       "fixture_id": "smoke_ballerina",
+      "language": "zig"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "csharp"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "dart"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "elixir"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "ffi"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "go"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "java"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "kotlin_android"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "node"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "php"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "python"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "ruby"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "rust"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "swift"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "wasm"
+    },
+    {
+      "fixture_id": "smoke_baml",
       "language": "zig"
     },
     {
@@ -143094,6 +143351,66 @@
     },
     {
       "fixture_id": "smoke_ballerina",
+      "language": "zig"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "csharp"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "dart"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "elixir"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "ffi"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "go"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "java"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "kotlin_android"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "node"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "php"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "python"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "ruby"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "rust"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "swift"
+    },
+    {
+      "fixture_id": "smoke_baml",
+      "language": "wasm"
+    },
+    {
+      "fixture_id": "smoke_baml",
       "language": "zig"
     },
     {

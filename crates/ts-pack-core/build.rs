@@ -252,7 +252,7 @@ fn selected_languages(definitions: &BTreeMap<String, LanguageDefinition>) -> Vec
 
 /// Curated wasm32 default language subset (~50 common web + mainstream languages).
 ///
-/// A full 371-grammar wasm build is impractical: the parser.c sources total ~1.7 GB,
+/// A full 372-grammar wasm build is impractical: the parser.c sources total ~1.7 GB,
 /// the resulting bundle is far too large for browsers, and the largest grammars OOM
 /// the wasm32 clang backend (see [`DEFAULT_WASM_MAX_PARSER_BYTES`]). This allowlist is
 /// the default wasm surface; override it with `TSLP_LANGUAGES` (comma-separated, or

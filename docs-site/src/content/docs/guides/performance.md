@@ -81,7 +81,7 @@ The practical effect depends on how much work happens *outside* the lock:
 So: parallelism helps when you enable real extraction work, and hurts when you do not. If you
 only need raw trees, one thread is usually the fastest configuration.
 
-Only 2 of the 371 grammars (`jsonnet` and `properties`) actually require this serialization;
+Only 2 of the 372 grammars (`jsonnet` and `properties`) actually require this serialization;
 the lock is global because it is applied before the grammar is known.
 
 ## Reading Criterion output

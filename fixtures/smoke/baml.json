@@ -1,0 +1,24 @@
+{
+  "id": "smoke_baml",
+  "description": "Smoke test: load baml and parse a simple snippet",
+  "category": "smoke",
+  "tags": [
+    "smoke"
+  ],
+  "input": {
+    "source_code": "class Person {\n  name string\n  age int\n}\n\nenum Level {\n  Junior\n  Senior\n}\n\nfunction Greet(p: Person) -> string {\n  p.name\n}\n",
+    "config": {
+      "language": "baml"
+    }
+  },
+  "assertions": [
+    {
+      "type": "not_error"
+    }
+  ],
+  "docs": {
+    "topic": "smoke",
+    "stem": "smoke_baml",
+    "title": "Smoke test: load baml and parse a simple snippet"
+  }
+}

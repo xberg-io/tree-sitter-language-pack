@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-language-pack",
   "version": "1.20.0",
-  "description": "Parse and extract code intelligence from 371 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking.",
+  "description": "Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking.",
   "author": {
     "name": "Kreuzberg, Inc.",
     "email": "contact@xberg.io",
@@ -29,8 +29,8 @@
   },
   "interface": {
     "displayName": "Tree-Sitter Language Pack",
-    "shortDescription": "Code intelligence for 371 languages with tree-sitter",
-    "longDescription": "Parse source code and extract structure, imports, exports, symbols, docstrings, and comments from 371 programming languages using tree-sitter grammars. Produces syntax trees, language detection, syntax diagnostics, and syntax-aware chunking for LLM ingestion. Runs locally via the ts-pack CLI; native bindings span 15 languages including WebAssembly, a C ABI, and JNI. Plugin ships skills covering parsing, extraction, chunking, language detection, and parser-cache management.",
+    "shortDescription": "Code intelligence for 372 languages with tree-sitter",
+    "longDescription": "Parse source code and extract structure, imports, exports, symbols, docstrings, and comments from 372 programming languages using tree-sitter grammars. Produces syntax trees, language detection, syntax diagnostics, and syntax-aware chunking for LLM ingestion. Runs locally via the ts-pack CLI; native bindings span 15 languages including WebAssembly, a C ABI, and JNI. Plugin ships skills covering parsing, extraction, chunking, language detection, and parser-cache management.",
     "developerName": "Kreuzberg, Inc.",
     "category": "developer-tools",
     "capabilities": [

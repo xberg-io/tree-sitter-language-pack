@@ -1203,7 +1203,7 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - name: Add swap (best-effort; avoid OOM during 371-grammar static link)
+      - name: Add swap (best-effort; avoid OOM during 372-grammar static link)
         shell: bash
         run: |
           # Best-effort: free runners often already have swap, and fallocate
