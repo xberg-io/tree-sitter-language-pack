@@ -8,17 +8,9 @@ pub fn build(b: *std.Build) void {
     // layout. `alef publish package --lang zig` rewrites this file for the
     // distributed tarball so consumers link the bundled lib/ and include/ dirs.
     // Override with -Dffi_path=... and -Dffi_include_path=... if your layout differs.
-    const ffi_path = b.option(
-        []const u8,
-        "ffi_path",
-        "Path to directory containing libts_pack_core_ffi.{dylib,so,dll,a}"
-    ) orelse "../../target/release";
+    const ffi_path = b.option([]const u8, "ffi_path", "Path to directory containing libts_pack_core_ffi.{dylib,so,dll,a}") orelse "../../target/release";
 
-    const ffi_include = b.option(
-        []const u8,
-        "ffi_include_path",
-        "Path to directory containing the FFI C header"
-    ) orelse "../../crates/ts-pack-core-ffi/include";
+    const ffi_include = b.option([]const u8, "ffi_include_path", "Path to directory containing the FFI C header") orelse "../../crates/ts-pack-core-ffi/include";
 
     const module = b.addModule("tree_sitter_language_pack", .{
         .root_source_file = b.path("src/tree_sitter_language_pack.zig"),

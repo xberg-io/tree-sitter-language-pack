@@ -72,7 +72,7 @@ zstd = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
-insta = { version = "1.48", features = ["json"] }
+insta = { version = "1.49", features = ["json"] }
 # ~keep typst_serialize_overflow drives the typst external-scanner C ABI directly,
 # ~keep which means resolving its symbols out of the built grammar library.
 libloading = { workspace = true }

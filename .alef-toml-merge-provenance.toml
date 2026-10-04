@@ -36,6 +36,20 @@ values = [
   "**/vendor/**",
   "**/Cargo.toml",
   "docs-site/src/snippets/generated/**",
+  "scripts/tests/lib/**",
+  "**/*.java",
+  "**/fixtures/**",
+  "docs/assets/**",
+  "docs/snippets/**",
+  "**/_generated/**",
+  "**/coverage/**",
+  "**/.next/**",
+  "**/vendored/**",
+  "**/testdata/**",
+  "**/*.diff",
+  "crates/*-dart/**",
+  "crates/*-rb/**",
+  "crates/*-rs-jni/**",
   "**/pkg/**",
   "**/*.min.js",
   "docs-site/src/snippets/**",
@@ -110,6 +124,20 @@ values = [
   "**/vendor/**",
   "**/Cargo.toml",
   "docs-site/src/snippets/generated/**",
+  "scripts/tests/lib/**",
+  "**/*.java",
+  "**/fixtures/**",
+  "docs/assets/**",
+  "docs/snippets/**",
+  "**/_generated/**",
+  "**/coverage/**",
+  "**/.next/**",
+  "**/vendored/**",
+  "**/testdata/**",
+  "**/*.diff",
+  "crates/*-dart/**",
+  "crates/*-rb/**",
+  "crates/*-rs-jni/**",
   "**/pkg/**",
   "**/*.min.js",
   "docs-site/src/snippets/**",
@@ -146,6 +174,7 @@ values = [
   "crates/*-wasm/**",
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
+  ".alef-ownership.toml",
 ]
 
 [[entries]]
@@ -174,6 +203,20 @@ values = [
   "**/vendor/**",
   "**/Cargo.toml",
   "docs-site/src/snippets/generated/**",
+  "scripts/tests/lib/**",
+  "**/*.java",
+  "**/fixtures/**",
+  "docs/assets/**",
+  "docs/snippets/**",
+  "**/_generated/**",
+  "**/coverage/**",
+  "**/.next/**",
+  "**/vendored/**",
+  "**/testdata/**",
+  "**/*.diff",
+  "crates/*-dart/**",
+  "crates/*-rb/**",
+  "crates/*-rs-jni/**",
   "**/pkg/**",
   "**/*.min.js",
   "docs-site/src/snippets/**",
@@ -238,6 +281,20 @@ values = [
   "**/vendor/**",
   "**/Cargo.toml",
   "docs-site/src/snippets/generated/**",
+  "scripts/tests/lib/**",
+  "**/*.java",
+  "**/fixtures/**",
+  "docs/assets/**",
+  "docs/snippets/**",
+  "**/_generated/**",
+  "**/coverage/**",
+  "**/.next/**",
+  "**/vendored/**",
+  "**/testdata/**",
+  "**/*.diff",
+  "crates/*-dart/**",
+  "crates/*-rb/**",
+  "crates/*-rs-jni/**",
   "**/pkg/**",
   "**/*.min.js",
   "docs-site/src/snippets/**",
@@ -844,8 +901,18 @@ values = ["file-too-long", "function-too-long"]
 
 [[entries]]
 relative_path = "poly.toml"
+key_path = "per-file-ignores.scripts/generate_grammar_table.py"
+values = ["function-too-long"]
+
+[[entries]]
+relative_path = "poly.toml"
 key_path = "per-file-ignores.scripts/sync_zig_zon_hashes.py"
 values = ["function-too-long"]
+
+[[entries]]
+relative_path = "poly.toml"
+key_path = "per-file-ignores.sources/grammar_notices.json"
+values = ["file-too-long"]
 
 [[entries]]
 relative_path = "poly.toml"

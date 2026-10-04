@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.93.1"
+alef_version = "0.103.14"
 languages = [
   "python",
   "node",
@@ -443,6 +443,31 @@ replace = '${1}{version}'
 
 [workspace.poly]
 exclude = [
+  # The vendored Bats helper is copied byte-identical from xberg-io/actions, whose shell is
+  # tab-indented; reformatting it here would break `task test:scripts:lib:check`. Excluded from
+  # discovery rather than from fmt alone because poly has no per-engine exclude -- and the file
+  # is linted and formatted in the repo that owns it. ~keep
+  "scripts/tests/lib/**",
+  # poly's catalog binds clang-format to `.java` as well as C/C++, and clang-format is a C++
+  # formatter with a rudimentary Java mode: it reflows javadoc mid-tag (`{@link\nCloseable}`),
+  # splits lambdas onto an `()` / `->` pair, and regroups string concatenation. It also ignores
+  # this repo's .clang-format when poly pipes it stdin, so it reindents to LLVM's 2 spaces
+  # against an .editorconfig that declares 4. Excluded from discovery rather than from fmt alone
+  # because poly has no per-engine exclude. Drop this once a real Java formatter is enabled --
+  # poly ships google-java-format as an opt-in builtin, but only in 2-space Google style. ~keep
+  "**/*.java",
+  "**/fixtures/**",
+  "docs/assets/**",
+  "docs/snippets/**",
+  "**/_generated/**",
+  "**/coverage/**",
+  "**/.next/**",
+  "**/vendored/**",
+  "**/testdata/**",
+  "**/*.diff",
+  "crates/*-dart/**",
+  "crates/*-rb/**",
+  "crates/*-rs-jni/**",
   "**/pkg/**",
   "**/*.min.js",
   "docs-site/src/snippets/**",
@@ -483,6 +508,9 @@ exclude = [
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
 ]
+# alef's generated ownership ledger lists every alef-owned path; at ~550 KiB it trips the
+# 500 KiB check-added-large-files guard on every regen, though it is text and diffs cleanly. ~keep
+file-safety-exclude = [".alef-ownership.toml"]
 
 [workspace.poly.uncomment]
 enabled = true
@@ -526,6 +554,14 @@ preserve-patterns = [
   "specific language governing permissions",
   "limitations under the license",
 ]
+
+# Shell is two-space in this tree. Both keys are load-bearing: without `enabled` poly runs no shell
+# formatter at all, and without `indent-width` it falls through to the language default of four and
+# reindents every script. poly resolves this from the generated poly.toml, not .editorconfig -- it
+# pipes stdin to shfmt with an explicit -i, under which .editorconfig is inert by design. ~keep
+[workspace.poly.shell-formatter]
+enabled = true
+indent-width = 2
 
 [[workspace.poly.hooks-sources]]
 id = "ai-rulez"
@@ -649,6 +685,7 @@ hooks = ["ai-rulez-validate"]
 # anything editable here. poly reports on generated files by design (only `--fix-generated`
 # gates rewriting), so regeneration would revert any edit made to silence this. ~keep
 "docs-site/src/content/docs/reference/**" = ["file-too-long"]
+"scripts/generate_grammar_table.py" = ["function-too-long"]
 "scripts/**/*.py" = ["ASYNC", "D", "S", "T201", "INP001", "RUF100"]
 "cli-proxy/**/*.py" = ["ASYNC", "D", "PLR0917", "PLR2004", "T201", "RUF100"]
 "docker/**" = ["DL3006", "DL3059"]
