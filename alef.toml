@@ -591,7 +591,6 @@ hooks = ["ai-rulez-validate"]
 "CHANGELOG.md" = ["file-too-long"]
 "alef.toml" = ["file-too-long"]
 "crates/ts-pack-cli/src/commands/mcp.rs" = ["file-too-long"]
-"crates/ts-pack-core/build.rs" = ["cyclomatic-complexity", "file-too-long", "function-too-long"]
 "crates/ts-pack-core/language_definitions.json" = ["file-too-long"]
 # Digest-pinned grammar redistribution notices (#191): a generated data file whose line count
 # grows with the number of retained license texts, not with maintainability debt. ~keep
@@ -865,7 +864,7 @@ exclude_functions = [
 # ~keep which is the identical 31-language string at all four wasm build sites:
 # ~keep `[crates.test.wasm].before` below, `.github/workflows/ci-e2e.yaml` (build-wasm),
 # ~keep `.github/workflows/ci.yaml`, and `.github/workflows/publish.yaml`.
-# ~keep Do NOT mirror `WASM_DEFAULT_LANGUAGES` in `crates/ts-pack-core/build.rs`: that
+# ~keep Do NOT mirror `WASM_DEFAULT_LANGUAGES` in `crates/ts-pack-core/build_support/definitions.rs`: that
 # ~keep constant is only build.rs's fallback for a wasm32 build that leaves `TSLP_LANGUAGES`
 # ~keep unset (the `.task/wasm.yml` path), and every e2e/CI wasm build sets it explicitly, so
 # ~keep the constant never applies there. Mirroring it is what broke this list before —

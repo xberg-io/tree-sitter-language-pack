@@ -10,7 +10,7 @@ to the grammar tree before `tree-sitter generate` and compilation.
 
 ## Where patches are applied
 
-`patch_grammar_sources` in `crates/ts-pack-core/build.rs`, called from `main` right
+`patch_grammar_sources` in `crates/ts-pack-core/build_support/patches.rs`, called from `build.rs`'s `main` right
 after `ensure_parser_sources` returns and before `apply_msvc_compat_patches`.
 
 That location is deliberate and load-bearing. `ensure_parser_sources` populates
