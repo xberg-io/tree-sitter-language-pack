@@ -10,6 +10,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.21.0] - 2026-10-04
+
+### Added
+
+- **BAML grammar** (`baml`, from BoundaryML/baml-treesitter, Apache-2.0), bringing the pack to 372
+  languages (#200). Upstream ships an ABI 15 `parser.c`; it is regenerated at ABI 14 like the rest of
+  the pack. Known limitation: the grammar rejects the documented backtick `prompt` form until
+  BoundaryML/baml#5012 is fixed upstream.
+- Parser bundles now carry the pinned licence and NOTICE text for every grammar they contain, so
+  redistributors can retain the applicable upstream notices (#191). Coverage is fail-closed: a grammar
+  with no resolvable licence text fails the build.
+- A root-owned, non-writable parser cache directory is accepted, so a grammar cache baked into a
+  read-only container image works without a `chown` (#202). Group- or other-writable directories are
+  still rejected.
+
+### Changed
+
+- Refresh 48 grammar pins to their latest upstream revisions. No grammar changed ABI or lost a query;
+  F#, F# Signature and Protocol Buffers gained `locals`/`tags` queries. `cuda` stays held: its upstream
+  `parser.c` is past the regeneration size threshold and would lose its injections and tags queries.
+- Regenerate all bindings, fixtures, documentation and workflows with Alef 0.103.14 (was 0.87.1 at
+  1.20.0). The PHP extension now builds against ext-php-rs 0.16 and the Elixir package requires
+  `rustler_precompiled ~> 0.10`. Ruby builds against magnus 0.9 and the MCP server against rmcp 3.5.
+
+### Fixed
+
+- `download([...])` fetches languages the manifest knows but the cache does not hold. It previously
+  returned the requested count without downloading anything, leaving `downloaded_languages()` empty on
+  a fresh cache (#201).
+- Python `get_language()` releases the GIL while it downloads a missing grammar, so a cache miss no
+  longer freezes every other thread and the asyncio loop for up to the HTTP timeout (#203).
+- rustls is past RUSTSEC-2026-0285 in every lock, including the Elixir NIF, Ruby extension and Rust e2e
+  locks that the earlier bump missed (#198).
+
 ## [1.20.0] - 2026-09-14
 
 ### Changed

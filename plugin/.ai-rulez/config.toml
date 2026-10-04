@@ -4,7 +4,7 @@ description = "Parse and extract code intelligence from 372 programming language
 
 [plugin]
 name = "tree-sitter-language-pack"
-version = "1.20.0"
+version = "1.21.0"
 display_name = "Tree-Sitter Language Pack"
 description = "Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking."
 homepage = "https://xberg.io"
