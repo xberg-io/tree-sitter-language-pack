@@ -841,11 +841,6 @@ values = ["file-too-long"]
 
 [[entries]]
 relative_path = "poly.toml"
-key_path = "per-file-ignores.crates/ts-pack-core/src/text_splitter.rs"
-values = ["function-too-long", "nesting-too-deep", "too-many-parameters"]
-
-[[entries]]
-relative_path = "poly.toml"
 key_path = "per-file-ignores.docker/**"
 values = ["DL3006", "DL3059"]
 

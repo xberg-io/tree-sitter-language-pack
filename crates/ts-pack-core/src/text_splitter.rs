@@ -72,16 +72,13 @@ pub fn split_code(source: &str, tree: &tree_sitter::Tree, max_chunk_size: usize)
         points.dedup();
     }
 
-    let mut chunks: Vec<(usize, usize)> = Vec::new();
-    split_recursive(
+    let splitter = Splitter {
         source,
-        0,
-        source.len(),
         max_chunk_size,
-        &split_points_by_depth,
-        0,
-        &mut chunks,
-    );
+        split_points_by_depth: &split_points_by_depth,
+    };
+    let mut chunks: Vec<(usize, usize)> = Vec::new();
+    splitter.split_recursive(0, source.len(), 0, &mut chunks);
 
     chunks
 }
@@ -117,92 +114,88 @@ fn collect_node_ranges(root: &tree_sitter::Node<'_>) -> (Vec<NodeRange>, usize) 
     (ranges, truncated)
 }
 
-/// Recursively split the region `[region_start, region_end)` of `source` into
-/// chunks of at most `max_chunk_size` bytes, preferring boundaries at
-/// `current_depth` first, then falling back to deeper depths, then line
-/// boundaries, then raw byte boundaries.
-fn split_recursive(
-    source: &str,
-    region_start: usize,
-    region_end: usize,
+/// Shared read-only state for the recursive AST-guided split.
+struct Splitter<'a> {
+    source: &'a str,
     max_chunk_size: usize,
-    split_points_by_depth: &[Vec<usize>],
-    current_depth: usize,
-    out: &mut Vec<(usize, usize)>,
-) {
-    let region_size = region_end - region_start;
+    split_points_by_depth: &'a [Vec<usize>],
+}
 
-    if region_size <= max_chunk_size {
-        if region_size > 0 {
-            out.push((region_start, region_end));
-        }
-        return;
-    }
+impl Splitter<'_> {
+    /// Recursively split the region `[region_start, region_end)` of `source` into
+    /// chunks of at most `max_chunk_size` bytes, preferring boundaries at
+    /// `current_depth` first, then falling back to deeper depths, then line
+    /// boundaries, then raw byte boundaries.
+    fn split_recursive(
+        &self,
+        region_start: usize,
+        region_end: usize,
+        current_depth: usize,
+        out: &mut Vec<(usize, usize)>,
+    ) {
+        let region_size = region_end - region_start;
 
-    if current_depth < split_points_by_depth.len() {
-        let points = &split_points_by_depth[current_depth];
-
-        let relevant: Vec<usize> = points
-            .iter()
-            .copied()
-            .filter(|&p| p > region_start && p < region_end)
-            .collect();
-
-        if !relevant.is_empty() {
-            let mut boundaries = Vec::with_capacity(relevant.len() + 2);
-            boundaries.push(region_start);
-            boundaries.extend_from_slice(&relevant);
-            boundaries.push(region_end);
-
-            let mut cursor = 0;
-            while cursor < boundaries.len() - 1 {
-                let chunk_start = boundaries[cursor];
-                let mut best_end_idx = cursor + 1;
-                for (j, &boundary) in boundaries.iter().enumerate().skip(cursor + 1) {
-                    if boundary - chunk_start <= max_chunk_size {
-                        best_end_idx = j;
-                    } else {
-                        break;
-                    }
-                }
-
-                let chunk_end = boundaries[best_end_idx];
-                if chunk_end - chunk_start <= max_chunk_size {
-                    if chunk_end > chunk_start {
-                        out.push((chunk_start, chunk_end));
-                    }
-                    cursor = best_end_idx;
-                } else {
-                    split_recursive(
-                        source,
-                        chunk_start,
-                        chunk_end,
-                        max_chunk_size,
-                        split_points_by_depth,
-                        current_depth + 1,
-                        out,
-                    );
-                    cursor = best_end_idx;
-                }
+        if region_size <= self.max_chunk_size {
+            if region_size > 0 {
+                out.push((region_start, region_end));
             }
             return;
         }
 
-        if current_depth + 1 < split_points_by_depth.len() {
-            split_recursive(
-                source,
-                region_start,
-                region_end,
-                max_chunk_size,
-                split_points_by_depth,
-                current_depth + 1,
-                out,
-            );
-            return;
+        if current_depth < self.split_points_by_depth.len() {
+            let points = &self.split_points_by_depth[current_depth];
+
+            let relevant: Vec<usize> = points
+                .iter()
+                .copied()
+                .filter(|&p| p > region_start && p < region_end)
+                .collect();
+
+            if !relevant.is_empty() {
+                let mut boundaries = Vec::with_capacity(relevant.len() + 2);
+                boundaries.push(region_start);
+                boundaries.extend_from_slice(&relevant);
+                boundaries.push(region_end);
+
+                self.merge_boundaries(&boundaries, current_depth, out);
+                return;
+            }
+
+            if current_depth + 1 < self.split_points_by_depth.len() {
+                self.split_recursive(region_start, region_end, current_depth + 1, out);
+                return;
+            }
         }
+
+        split_at_lines(self.source, region_start, region_end, self.max_chunk_size, out);
     }
 
-    split_at_lines(source, region_start, region_end, max_chunk_size, out);
+    /// Greedily merge adjacent `boundaries` into chunks of at most `max_chunk_size`
+    /// bytes, recursing one depth level deeper for any span that still does not fit.
+    fn merge_boundaries(&self, boundaries: &[usize], current_depth: usize, out: &mut Vec<(usize, usize)>) {
+        let mut cursor = 0;
+        while cursor < boundaries.len() - 1 {
+            let chunk_start = boundaries[cursor];
+            let mut best_end_idx = cursor + 1;
+            for (j, &boundary) in boundaries.iter().enumerate().skip(cursor + 1) {
+                if boundary - chunk_start <= self.max_chunk_size {
+                    best_end_idx = j;
+                } else {
+                    break;
+                }
+            }
+
+            let chunk_end = boundaries[best_end_idx];
+            if chunk_end - chunk_start <= self.max_chunk_size {
+                if chunk_end > chunk_start {
+                    out.push((chunk_start, chunk_end));
+                }
+            } else {
+                self.split_recursive(chunk_start, chunk_end, current_depth + 1, out);
+            }
+            cursor = best_end_idx;
+        }
+    }
 }
 
 /// Split a region at newline boundaries, greedily merging lines into chunks.
@@ -431,6 +424,20 @@ mod tests {
         let chunks = split_code(&source, &tree, 64);
         let joined: String = chunks.iter().map(|&(s, e)| &source[s..e]).collect();
         assert_eq!(joined, source, "chunks must still cover the entire source");
+    }
+
+    #[test]
+    fn should_merge_adjacent_statements_up_to_exactly_max_chunk_size() {
+        let source = "a = 1\nb = 2\nc = 3\n";
+        let Some(language) = crate::get_language("python").ok() else {
+            return;
+        };
+        let mut parser = tree_sitter::Parser::new();
+        parser.set_language(&language).unwrap();
+        let tree = parser.parse(source, None).unwrap();
+
+        assert_eq!(split_code(source, &tree, 12), vec![(0, 12), (12, 18)]);
+        assert_eq!(split_code(source, &tree, 11), vec![(0, 6), (6, 12), (12, 18)]);
     }
 
     #[test]
