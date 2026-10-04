@@ -90,7 +90,7 @@
 | Embeddedtemplate | [tree-sitter/tree-sitter-embedded-template](https://github.com/tree-sitter/tree-sitter-embedded-template) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Enforce | [simonvic/tree-sitter-enforce](https://github.com/simonvic/tree-sitter-enforce) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Erlang | [WhatsApp/tree-sitter-erlang](https://github.com/WhatsApp/tree-sitter-erlang) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| F# | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp) | 15 | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| F# | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp) | 15 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Facility | [FacilityApi/tree-sitter-facility](https://github.com/FacilityApi/tree-sitter-facility) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
 | Faust | [khiner/tree-sitter-faust](https://github.com/khiner/tree-sitter-faust) | 14 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Fennel | [TravonteD/tree-sitter-fennel](https://github.com/TravonteD/tree-sitter-fennel) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
@@ -102,7 +102,7 @@
 | Foam | [FoamScience/tree-sitter-foam](https://github.com/FoamScience/tree-sitter-foam) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Forth | [AlexanderBrevig/tree-sitter-forth](https://github.com/AlexanderBrevig/tree-sitter-forth) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Fortran | [stadelmanma/tree-sitter-fortran](https://github.com/stadelmanma/tree-sitter-fortran) | 15 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Fsharp Signature | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Fsharp Signature | [ionide/tree-sitter-fsharp](https://github.com/ionide/tree-sitter-fsharp) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | Func | [tree-sitter-grammars/tree-sitter-func](https://github.com/tree-sitter-grammars/tree-sitter-func) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Fusion | [jirgn/tree-sitter-fusion](https://gitlab.com/jirgn/tree-sitter-fusion) | 14 | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ |
 | Gap | [gap-system/tree-sitter-gap](https://github.com/gap-system/tree-sitter-gap) | 14 | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ |
@@ -242,7 +242,7 @@
 | Promela | [grammars/promela](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/promela) (vendored) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Promql | [MichaHoffmann/tree-sitter-promql](https://github.com/MichaHoffmann/tree-sitter-promql) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Properties | [tree-sitter-grammars/tree-sitter-properties](https://github.com/tree-sitter-grammars/tree-sitter-properties) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Protocol Buffers | [coder3101/tree-sitter-proto](https://github.com/coder3101/tree-sitter-proto) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
+| Protocol Buffers | [coder3101/tree-sitter-proto](https://github.com/coder3101/tree-sitter-proto) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
 | Prql | [PRQL/tree-sitter-prql](https://github.com/PRQL/tree-sitter-prql) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | PSV | [amaanq/tree-sitter-csv](https://github.com/amaanq/tree-sitter-csv) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Pug | [zealot128/tree-sitter-pug](https://github.com/zealot128/tree-sitter-pug) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
