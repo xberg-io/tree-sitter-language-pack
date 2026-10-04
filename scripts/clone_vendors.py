@@ -62,6 +62,31 @@ from git import Repo
 
 _project_root = Path(__file__).parent.parent
 
+# ~keep The repository-location subset of `git rev-parse --local-env-vars` (the GIT_CONFIG*
+# ones are left alone so injected config such as auth or insteadOf survives). A git hook
+# exports these for the committing repo; inherited by vendor clones they redirect every `git`
+# call there, so the pre-commit hook's build overwrote the committing repo's index.
+_REPO_LOCAL_GIT_ENV = (
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_DIR",
+    "GIT_WORK_TREE",
+    "GIT_IMPLICIT_WORK_TREE",
+    "GIT_GRAFT_FILE",
+    "GIT_INDEX_FILE",
+    "GIT_NO_REPLACE_OBJECTS",
+    "GIT_REPLACE_REF_BASE",
+    "GIT_PREFIX",
+    "GIT_SHALLOW_FILE",
+    "GIT_COMMON_DIR",
+)
+
+
+def _scrub_repo_local_git_env() -> None:
+    for name in _REPO_LOCAL_GIT_ENV:
+        os.environ.pop(name, None)
+
+
 vendor_directory = Path(os.environ.get("TSLP_VENDOR_DIR", _project_root / "vendor"))
 parsers_directory = Path(os.environ.get("TSLP_CACHE_DIR", _project_root / "parsers"))
 
@@ -775,6 +800,7 @@ async def process_repo(
 async def main() -> None:
     """Main function."""
     sys.stdout.reconfigure(line_buffering=True)
+    _scrub_repo_local_git_env()
 
     parsers_directory.mkdir(exist_ok=True, parents=True)
 
