@@ -1,0 +1,43 @@
+{
+  "mcp": {
+    "tree-sitter-language-pack": {
+      "type": "local",
+      "command": [
+        "${PLUGIN_ROOT}/scripts/mcp-launch.sh",
+        "mcp",
+        "--transport",
+        "stdio"
+      ]
+    }
+  },
+  "skills": {
+    "chunking-for-llms": {
+      "name": "chunking-for-llms",
+      "description": "Use when the user wants to split source code into chunks for an LLM context window without breaking syntax mid-construct. Covers `ts-pack process --chunk-size`, why syntax-aware splits beat fixed-byte splits, picking a size, and the chunk JSON shape."
+    },
+    "detecting-languages": {
+      "name": "detecting-languages",
+      "description": "Use when the user wants to know which programming language a file or snippet is. Covers implicit detection in `ts-pack parse`/`process`, confirming support with `ts-pack list`/`info`, and the SDK detection functions for path, extension, and raw content."
+    },
+    "extracting-code-structure": {
+      "name": "extracting-code-structure",
+      "description": "Use when the user wants structured code metadata from a source file — functions, classes, imports, exports, symbols, docstrings, comments, or syntax diagnostics. Covers `ts-pack process` feature flags, the JSON result shape, and the default feature set."
+    },
+    "managing-parsers": {
+      "name": "managing-parsers",
+      "description": "Use when the user needs to manage the tree-sitter parser cache — prefetch parsers for offline or CI runs, list what is downloaded, inspect a language, find the cache directory, or clean it. Covers `ts-pack download`, `list`, `info`, `cache-dir`, `clean`, and `init`."
+    },
+    "parsing-source": {
+      "name": "parsing-source",
+      "description": "Use when the user wants a tree-sitter syntax tree for a source file — an s-expression dump or JSON tree. Covers `ts-pack parse`, language auto-detection vs `--language`, stdin input, and reading `has_errors`."
+    },
+    "tree-sitter-language-pack": {
+      "name": "tree-sitter-language-pack",
+      "description": "Parse and extract code intelligence from 372 programming languages using tree-sitter grammars. Use when writing code that parses source, extracts structure/imports/exports/symbols/docstrings/comments, detects a language, runs syntax diagnostics, or produces syntax-aware chunks for LLMs — in Rust, Python, Node.js/TypeScript, or the ts-pack CLI. Covers installation, the CLI surface, the SDK surface, and parser-cache management."
+    },
+    "using-the-mcp-server": {
+      "name": "using-the-mcp-server",
+      "description": "Use when parsing source, extracting code structure, or detecting a language through the tree-sitter-language-pack MCP server's tools, rather than shelling out to the ts-pack CLI. Covers the tool surface, the auto-installing launcher, and when MCP beats the CLI or SDK."
+    }
+  }
+}

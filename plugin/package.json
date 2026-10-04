@@ -23,7 +23,8 @@
   "files": [
     ".opencode/",
     "assets/",
-    "README.md"
+    "README.md",
+    "scripts/"
   ],
   "dependencies": {
     "@opencode/plugin": "^2.0.20"

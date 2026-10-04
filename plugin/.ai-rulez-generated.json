@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "source_hash": "blake3:eef320fea4a5e5d25fb6b5b4c23643528d6638c45f492a7aefee13c4d0af0649",
+  "source_hash": "blake3:65b4c313444d03c530391f9172bd129f6d48cc526cc355c4f404ed65390b3cd3",
   "outputs": {
     ".claude-plugin/plugin.json": {
       "content_hash": "blake3:3922b32b150ff447712fe889a9348722920429fc2954862252cc29c438291a6e"
@@ -101,6 +101,12 @@
     ".mcp.json": {
       "content_hash": "blake3:d0ee058aa58bdfe1904a62afcf5dcd54a31fb0525850e382f16cb50f51e622bf"
     },
+    ".opencode/ai-rulez-bundle.json": {
+      "content_hash": "blake3:711000b422c5abb6dc3fd68e5e304ae3fcd43156e9d158384f53a22f7bd5d63d"
+    },
+    ".opencode/ai-rulez-content.js": {
+      "content_hash": "blake3:822c510deb007e4f72877ad42f29918d0499f210ae363e82d465a0f0331ab294"
+    },
     ".opencode/plugins/tree-sitter-language-pack.js": {
       "content_hash": "blake3:22d84b89b01d054cd550760e43b4e8fbcfed01b4118be59c11d24da2c2e2d7d5"
     },
@@ -138,7 +144,7 @@
       "content_hash": "blake3:9d15a293aab68f73becc1dcd2caa7f1fc61720ada773076d5ad1268bae6bef1c"
     },
     "package.json": {
-      "content_hash": "blake3:087617f36b267589c4c950c6d4970b1334eaba8a87dda3817e56033cc4ff94d3"
+      "content_hash": "blake3:b5d0f09b0556555e8a4db1f2ced30c5192bb0179dc5104475c1b32401b341a5b"
     },
     "skills/chunking-for-llms/SKILL.md": {
       "content_hash": "blake3:194808ab41cbfc122dee398cccb0ecad135949fb11fd3201110a2ea6f8ec3369"

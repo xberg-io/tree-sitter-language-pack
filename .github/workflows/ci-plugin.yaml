@@ -56,7 +56,7 @@ jobs:
       - name: Verify plugin bundles and version
         uses: xberg-io/actions/verify-ai-rulez-plugin@v1
         with:
-          ai-rulez-version: "4.11.0"
+          ai-rulez-version: "4.24.2"
 
   launcher-contract:
     name: Launcher contract on ${{ matrix.os }}
