@@ -589,7 +589,6 @@ hooks = ["ai-rulez-validate"]
 "CHANGELOG.md" = ["file-too-long"]
 "alef.toml" = ["file-too-long"]
 "crates/ts-pack-cli/src/commands/mcp.rs" = ["file-too-long"]
-"crates/ts-pack-cli/src/main.rs" = ["cyclomatic-complexity", "function-too-long"]
 "crates/ts-pack-core/build.rs" = ["cyclomatic-complexity", "file-too-long", "function-too-long"]
 "crates/ts-pack-core/language_definitions.json" = ["file-too-long"]
 # Digest-pinned grammar redistribution notices (#191): a generated data file whose line count
