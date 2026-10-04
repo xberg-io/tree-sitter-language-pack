@@ -13,6 +13,7 @@ on:
       - ".cargo/config.toml"
       - "sources/**"
       - "scripts/clone_vendors.py"
+      - "scripts/_vendor_*.py"
       - ".github/workflows/ci-rust.yaml"
   pull_request:
     branches: [main]
@@ -26,6 +27,7 @@ on:
       - ".cargo/config.toml"
       - "sources/**"
       - "scripts/clone_vendors.py"
+      - "scripts/_vendor_*.py"
       - ".github/workflows/ci-rust.yaml"
   workflow_dispatch:
 
