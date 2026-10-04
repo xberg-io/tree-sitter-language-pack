@@ -58,6 +58,18 @@
 #endif
 #endif
 
+/* ~keep wasm32 has no process to exit: wasi-libc's exit() is a
+ * `wasi_snapshot_preview1` proc_exit call and wasm32-unknown-unknown has no
+ * libc at all, so a scanner's `exit(1)` (new in tree-sitter-swift 171fa3b, OOM
+ * path of scanner_create) is left unresolved and rust-lld turns it into an
+ * `env.exit` import. The module then fails to load with `Cannot find module
+ * 'env'`. <stdlib.h> is included first so the real prototype is emitted before
+ * the macro exists. C only: C++ scanners would qualify it as std::exit. */
+#if defined(__wasi__) && !defined(__cplusplus)
+#include <stdlib.h>
+#define exit(code) __builtin_trap()
+#endif
+
 #include "utf8proc.h"
 
 /* ~keep Unicode range guard: utf8proc classifies out-of-range as unassigned. */
