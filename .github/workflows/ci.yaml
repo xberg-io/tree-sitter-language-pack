@@ -188,6 +188,10 @@ jobs:
       # The zig snippet session needs a real `zig` on PATH -- without it every zig snippet was
       # `Unavailable` with "zig toolchain not found" (521 of them in CI run 32520643605). ~keep
       setup-zig: true
+      # Unpinned, setup-zig took Zig 0.17.0, whose std.Build dropped `build_root`; tree-sitter
+      # 0.27.0's own build.zig still uses it, so all 522 zig snippets failed to compile. Same pin
+      # as ci-zig.yaml and ci-e2e.yaml. ~keep
+      zig-version: "0.16.0"
       # Snippet validation is the only gate that catches generated examples which no longer
       # compile against the API they document -- the class of defect that shipped a release
       # whose every e2e suite failed. ~keep
