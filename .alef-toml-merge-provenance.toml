@@ -876,17 +876,7 @@ values = ["ASYNC", "D", "S", "T201", "INP001", "RUF100"]
 
 [[entries]]
 relative_path = "poly.toml"
-key_path = "per-file-ignores.scripts/clone_vendors.py"
-values = ["file-too-long", "function-too-long"]
-
-[[entries]]
-relative_path = "poly.toml"
 key_path = "per-file-ignores.scripts/generate_grammar_table.py"
-values = ["function-too-long"]
-
-[[entries]]
-relative_path = "poly.toml"
-key_path = "per-file-ignores.scripts/sync_zig_zon_hashes.py"
 values = ["function-too-long"]
 
 [[entries]]

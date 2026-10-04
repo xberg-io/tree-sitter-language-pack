@@ -605,8 +605,6 @@ hooks = ["ai-rulez-validate"]
 "grammars/wolfram/grammar.js" = ["too-many-parameters"]
 "grammars/wolfram/src/scanner.c" = ["nesting-too-deep"]
 "grammars/xquery/grammar.js" = ["function-too-long"]
-"scripts/clone_vendors.py" = ["file-too-long", "function-too-long"]
-"scripts/sync_zig_zon_hashes.py" = ["function-too-long"]
 "sources/language_definitions.json" = ["file-too-long"]
 # --- end quality-debt baseline ---
 # Quality metrics do not apply to test code. A test function's length is its assertion

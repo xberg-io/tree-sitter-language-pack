@@ -178,7 +178,7 @@ def write_fixes(
     return 0
 
 
-def main() -> int:
+def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--fix", action="store_true", help="rewrite each hash from `zig fetch` instead of reporting")
     parser.add_argument(
@@ -186,20 +186,13 @@ def main() -> int:
         action="store_true",
         help="treat a missing release asset as a failure instead of the normal pre-publish window",
     )
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    if shutil.which("zig") is None:
-        # ~keep Never pass silently on a missing toolchain: a hash gate that cannot compute a hash
-        # has not verified anything, and reporting success here is how this drift stayed invisible.
-        print("zig is not on PATH — cannot compute package hashes", file=sys.stderr)
-        return 2
 
-    text = ZON.read_text(encoding="utf-8")
-    dependencies = list(DEPENDENCY.finditer(text))
-    if not dependencies:
-        print(f"{ZON}: no .url/.hash pairs found — the manifest format changed", file=sys.stderr)
-        return 2
-
+def _compute_hashes(
+    dependencies: list[re.Match[str]],
+) -> tuple[list[tuple[str, str, str]], list[str], dict[str, str], dict[str, str]] | None:
+    """Fetch every dependency's real hash; return None after reporting a fetch error."""
     stale: list[tuple[str, str, str]] = []
     pending: list[str] = []
     replacements: dict[str, str] = {}
@@ -223,30 +216,60 @@ def main() -> int:
                 continue
             except FetchError as exc:
                 print(f"{asset}: {exc}", file=sys.stderr)
-                return 2
+                return None
             triple = TRIPLE_FROM_URL.search(url)
             if triple is not None:
                 computed_by_triple[triple.group("triple")] = actual
             if actual != declared:
                 stale.append((asset, declared, actual))
                 replacements[declared] = actual
+    return stale, pending, replacements, computed_by_triple
+
+
+def _report_pending(pending: list[str], require_published: bool) -> int | None:
+    """Print the not-yet-published assets; return an exit code only when they must fail the gate."""
+    # ~keep Between a version bump and the publish, the URLs name assets that do not exist.
+    # That is the normal release window, not drift, so it must not fail the gate.
+    print("not published yet (expected between a version bump and its release):")
+    for entry in pending:
+        print(f"  {entry}")
+    if require_published:
+        # ~keep The caller asserted the release assets exist, so a 404 is a missing artifact
+        # rather than the release window. Writing the hashes that did resolve would produce a
+        # half-refreshed manifest, so nothing is written.
+        print(
+            f"\n--require-published: the {len(pending)} asset(s) above should already exist.\n"
+            "No hash was rewritten. Check that the release uploaded every Zig tarball.",
+            file=sys.stderr,
+        )
+        return 2
+    return None
+
+
+def main() -> int:
+    args = _parse_args()
+
+    if shutil.which("zig") is None:
+        # ~keep Never pass silently on a missing toolchain: a hash gate that cannot compute a hash
+        # has not verified anything, and reporting success here is how this drift stayed invisible.
+        print("zig is not on PATH — cannot compute package hashes", file=sys.stderr)
+        return 2
+
+    text = ZON.read_text(encoding="utf-8")
+    dependencies = list(DEPENDENCY.finditer(text))
+    if not dependencies:
+        print(f"{ZON}: no .url/.hash pairs found — the manifest format changed", file=sys.stderr)
+        return 2
+
+    computed = _compute_hashes(dependencies)
+    if computed is None:
+        return 2
+    stale, pending, replacements, computed_by_triple = computed
 
     if pending:
-        # ~keep Between a version bump and the publish, the URLs name assets that do not exist.
-        # That is the normal release window, not drift, so it must not fail the gate.
-        print("not published yet (expected between a version bump and its release):")
-        for entry in pending:
-            print(f"  {entry}")
-        if args.require_published:
-            # ~keep The caller asserted the release assets exist, so a 404 is a missing artifact
-            # rather than the release window. Writing the hashes that did resolve would produce a
-            # half-refreshed manifest, so nothing is written.
-            print(
-                f"\n--require-published: the {len(pending)} asset(s) above should already exist.\n"
-                "No hash was rewritten. Check that the release uploaded every Zig tarball.",
-                file=sys.stderr,
-            )
-            return 2
+        exit_code = _report_pending(pending, args.require_published)
+        if exit_code is not None:
+            return exit_code
 
     declared_in_alef = alef_platform_hashes()
     alef_stale = [
