@@ -50,7 +50,7 @@ class ChunkContextTest {
         ChunkContext context = new ChunkContext(
             "rust", 2, 5, List.of("struct_item"), List.of("Foo"), List.of("Foo"),
             List.of(new CommentInfo("// c", CommentKind.LINE, span, null)),
-            List.of(new DocstringInfo("/// d", DocstringFormat.RUSTDOC, span, null, null)),
+            List.of(new DocstringInfo("/// d", new DocstringFormat.Rustdoc(), span, null, null)),
             true
         );
 

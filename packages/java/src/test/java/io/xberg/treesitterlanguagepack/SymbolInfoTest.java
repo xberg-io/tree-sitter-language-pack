@@ -13,10 +13,10 @@ class SymbolInfoTest {
 
     @Test
     void shouldExposeAllAccessors() {
-        SymbolInfo symbol = new SymbolInfo("count", SymbolKind.VARIABLE, SAMPLE_SPAN, "int", "a running total");
+        SymbolInfo symbol = new SymbolInfo("count", new SymbolKind.Variable(), SAMPLE_SPAN, "int", "a running total");
 
         assertEquals("count", symbol.name());
-        assertEquals(SymbolKind.VARIABLE, symbol.kind());
+        assertEquals(new SymbolKind.Variable(), symbol.kind());
         assertEquals(SAMPLE_SPAN, symbol.span());
         assertEquals("int", symbol.typeAnnotation());
         assertEquals("a running total", symbol.doc());
@@ -24,7 +24,7 @@ class SymbolInfoTest {
 
     @Test
     void shouldAllowNullOptionalFields() {
-        SymbolInfo symbol = new SymbolInfo("Foo", SymbolKind.CLASS, SAMPLE_SPAN, null, null);
+        SymbolInfo symbol = new SymbolInfo("Foo", new SymbolKind.Class(), SAMPLE_SPAN, null, null);
 
         assertNull(symbol.typeAnnotation());
         assertNull(symbol.doc());
@@ -34,17 +34,17 @@ class SymbolInfoTest {
     void shouldBuildEquivalentInstanceThroughBuilder() {
         SymbolInfo built = SymbolInfo.builder()
             .withName("MAX")
-            .withKind(SymbolKind.CONSTANT)
+            .withKind(new SymbolKind.Constant())
             .withSpan(SAMPLE_SPAN)
             .build();
 
-        assertEquals(new SymbolInfo("MAX", SymbolKind.CONSTANT, SAMPLE_SPAN, null, null), built);
+        assertEquals(new SymbolInfo("MAX", new SymbolKind.Constant(), SAMPLE_SPAN, null, null), built);
     }
 
     @Test
     void shouldRoundTripThroughJsonUsingSnakeCaseTypeAnnotationKey() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        SymbolInfo symbol = new SymbolInfo("x", SymbolKind.VARIABLE, SAMPLE_SPAN, "float", null);
+        SymbolInfo symbol = new SymbolInfo("x", new SymbolKind.Variable(), SAMPLE_SPAN, "float", null);
 
         String json = mapper.writeValueAsString(symbol);
 
