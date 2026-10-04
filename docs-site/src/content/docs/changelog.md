@@ -24,15 +24,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A root-owned, non-writable parser cache directory is accepted, so a grammar cache baked into a
   read-only container image works without a `chown` (#202). Group- or other-writable directories are
   still rejected.
+- Python `DocstringFormat`, `StructureKind` and `SymbolKind` gain a `from_other()` factory, and the
+  unit enums are hashable. WASM classes gain `copyForTransfer()`.
 
 ### Changed
 
 - Refresh 48 grammar pins to their latest upstream revisions. No grammar changed ABI or lost a query;
   F#, F# Signature and Protocol Buffers gained `locals`/`tags` queries. `cuda` stays held: its upstream
   `parser.c` is past the regeneration size threshold and would lose its injections and tags queries.
+- **BREAKING (Java, C#): `DocstringFormat`, `StructureKind` and `SymbolKind` are sealed types, not
+  enums.** Java uses sealed interfaces with record variants and C# uses abstract records with sealed
+  record variants, so `StructureKind.FUNCTION` / `StructureKind.Function` becomes
+  `new StructureKind.Function()`. `Other` now carries its string payload, and Java's `values()`,
+  `getValue()` and case-insensitive `fromValue()` are gone, so match with pattern matching or
+  `instanceof`/`is`. The JSON wire format is unchanged. Java `ErrorException` now extends
+  `TreeSitterLanguagePackRsException`.
+- **BREAKING (Python): `cache_dir`, `clean_cache`, `configure`, `download`, `download_all`,
+  `download_group`, `init`, `manifest_groups`, `manifest_languages`, `prefetch` and `process` raise the
+  typed `tree_sitter_language_pack.Error` subclasses** (`DownloadError`, `LanguageNotFoundError`, ...)
+  instead of `RuntimeError`, matching `get_language`. `except RuntimeError:` no longer catches them.
+  The `.pyi` stubs also drop the never-present `type` attribute and TypedDict variants on the kind
+  types and tighten constructor parameter types.
+- **BREAKING (WASM): the `data` and `bodySpan` setters no longer accept `null`/`undefined`.** Use the
+  new `clearData()` and `clearBodySpan()` instead.
+- **BREAKING (PHP, Ruby type signatures):** the PHP stubs describe the kind types as classes with a
+  `type_tag` property, an `other` property and static factories, not as string constants. The Ruby RBS
+  enum classes become `enum_*` type aliases. Kotlin Android unit enums now return the wire string
+  from `toString()` (`"Line"`, not `"LINE"`).
 - Regenerate all bindings, fixtures, documentation and workflows with Alef 0.103.14 (was 0.87.1 at
-  1.20.0). The PHP extension now builds against ext-php-rs 0.16 and the Elixir package requires
-  `rustler_precompiled ~> 0.10`. Ruby builds against magnus 0.9 and the MCP server against rmcp 3.5.
+  1.20.0), which is the source of the changes above. The PHP extension now builds against ext-php-rs
+  0.16 and the Elixir package requires `rustler_precompiled ~> 0.10`. Ruby builds against magnus 0.9
+  and the MCP server against rmcp 3.5. `libc` is held at 0.2.189 because 0.2.190 breaks iOS builds
+  (rust-lang/libc#5601).
 
 ### Fixed
 
