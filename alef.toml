@@ -509,8 +509,10 @@ exclude = [
   "packages/go/include/*.h",
 ]
 # alef's generated ownership ledger lists every alef-owned path; at ~550 KiB it trips the
-# 500 KiB check-added-large-files guard on every regen, though it is text and diffs cleanly. ~keep
-file-safety-exclude = [".alef-ownership.toml"]
+# 500 KiB check-added-large-files guard on every regen, though it is text and diffs cleanly.
+# The grammar redistribution notices (#191) are generated data that grow with the number of
+# retained license texts, not a binary blob. ~keep
+file-safety-exclude = [".alef-ownership.toml", "sources/grammar_notices.json"]
 
 [workspace.poly.uncomment]
 enabled = true

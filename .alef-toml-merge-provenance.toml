@@ -175,6 +175,7 @@ values = [
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
   ".alef-ownership.toml",
+  "sources/grammar_notices.json",
 ]
 
 [[entries]]
