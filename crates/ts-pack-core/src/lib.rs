@@ -984,14 +984,31 @@ mod tests {
         // ~keep `download([...])` a no-op. Selection must key on on-disk loadability.
         let empty = std::env::temp_dir().join("tslp-201-nonexistent-libs");
         let registry = LanguageRegistry::with_libs_dir(empty);
+        let is_static = |name: &str| crate::registry::STATIC_LANGUAGES.iter().any(|&(s, _)| s == name);
+        if let Some(&(linked, _)) = crate::registry::STATIC_LANGUAGES.first() {
+            assert!(
+                languages_needing_download(&registry, [linked]).is_empty(),
+                "a statically linked language must never be selected for download"
+            );
+        }
+        // ~keep Statically linked grammars are loadable without a download, so the target
+        // ~keep must be one this build did not compile in (TSLP_LANGUAGES varies per run).
+        // ~keep A build linking every grammar has nothing left to download.
+        let Some(target) = crate::registry::KNOWN_LANGUAGES
+            .iter()
+            .copied()
+            .find(|name| !is_static(name))
+        else {
+            return;
+        };
         assert!(
-            registry.has_language("java"),
+            registry.has_language(target),
             "a download-enabled build must report canonical manifest languages as known"
         );
-        let selected = languages_needing_download(&registry, ["java"]);
+        let selected = languages_needing_download(&registry, [target]);
         assert_eq!(
             selected,
-            vec!["java"],
+            vec![target],
             "a known-but-not-on-disk language must be selected for download"
         );
     }
