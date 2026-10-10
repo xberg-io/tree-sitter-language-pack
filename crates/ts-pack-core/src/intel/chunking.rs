@@ -1,4 +1,5 @@
 use memchr::memchr_iter;
+use std::ops::Range;
 use tree_sitter::{Language, Tree};
 
 use super::intelligence::{comment_at, docstring_at};
@@ -21,32 +22,17 @@ pub fn chunk_source(
     let root = tree.root_node();
 
     let newline_positions: Vec<usize> = memchr_iter(b'\n', source.as_bytes()).collect();
-    let mut truncated = 0usize;
+    let (chunk_metadata, walk_summary) = collect_chunks_metadata(&root, source, language, &raw_chunks);
+    debug_assert!(walk_summary.visited_nodes <= root.descendant_count());
 
     let chunks: Vec<CodeChunk> = raw_chunks
         .into_iter()
+        .zip(chunk_metadata)
         .enumerate()
-        .map(|(idx, (start_byte, end_byte))| {
+        .map(|(idx, ((start_byte, end_byte), metadata))| {
             let content = &source[start_byte..end_byte];
             let start_line = newline_positions.partition_point(|&pos| pos < start_byte);
             let end_line = chunk_end_line(&newline_positions, start_byte, end_byte);
-
-            let mut node_types = Vec::new();
-            let mut symbols_defined = Vec::new();
-            let mut comments = Vec::new();
-            let mut docstrings = Vec::new();
-            let mut has_error_nodes = false;
-            let mut context_path = Vec::new();
-
-            let mut collector = MetadataCollector {
-                node_types: &mut node_types,
-                symbols: &mut symbols_defined,
-                comments: &mut comments,
-                docstrings: &mut docstrings,
-                has_errors: &mut has_error_nodes,
-                context_path: &mut context_path,
-            };
-            truncated += collect_chunk_metadata(&root, source, language, start_byte, end_byte, &mut collector);
 
             CodeChunk {
                 content: content.to_string(),
@@ -58,18 +44,18 @@ pub fn chunk_source(
                     language: language.to_string(),
                     chunk_index: idx,
                     total_chunks,
-                    node_types,
-                    context_path,
-                    symbols_defined,
-                    comments,
-                    docstrings,
-                    has_error_nodes,
+                    node_types: metadata.node_types,
+                    context_path: metadata.context_path,
+                    symbols_defined: metadata.symbols,
+                    comments: metadata.comments,
+                    docstrings: metadata.docstrings,
+                    has_error_nodes: metadata.has_errors,
                 },
             }
         })
         .collect();
 
-    warn_if_truncated(truncated, "intel::chunking", language);
+    warn_if_truncated(walk_summary.truncated_nodes, "intel::chunking", language);
     tracing::debug!(
         target: "ts_pack::intel",
         operation = "intel::chunking",
@@ -111,46 +97,82 @@ pub(super) struct MetadataCollector<'a> {
     pub(super) context_path: &'a mut Vec<String>,
 }
 
-/// Whether `node` lies entirely outside `[chunk_start, chunk_end)` and its
-/// subtree should be pruned from this chunk's walk.
-///
-/// A zero-width node (tree-sitter's synthetic `MISSING` nodes) needs an
-/// inclusive test at both boundaries: the ordinary half-open test excludes a
-/// zero-width node sitting exactly on `chunk_start` (`end_byte <=
-/// chunk_start` is trivially true when `start_byte == end_byte ==
-/// chunk_start`) as well as one sitting exactly on `chunk_end`, dropping it
-/// from *every* chunk rather than attributing it to a neighbour. Letting it
-/// belong to both chunks adjacent to the boundary is the safe direction: a
-/// caller that skips a `MISSING` node still sees `has_error_nodes` from an
-/// ordinary error node elsewhere, but a caller that needs it can never
-/// recover a node this excluded outright.
-fn is_outside_chunk(node: &tree_sitter::Node, chunk_start: usize, chunk_end: usize) -> bool {
-    if node.start_byte() == node.end_byte() {
-        return node.start_byte() < chunk_start || node.start_byte() > chunk_end;
-    }
-    node.end_byte() <= chunk_start || node.start_byte() >= chunk_end
+#[derive(Default)]
+struct ChunkMetadata {
+    node_types: Vec<String>,
+    symbols: Vec<String>,
+    comments: Vec<CommentInfo>,
+    docstrings: Vec<DocstringInfo>,
+    has_errors: bool,
+    context_path: Vec<String>,
 }
 
-/// Collect metadata for one chunk from the nodes that overlap it.
+impl ChunkMetadata {
+    fn collector(&mut self) -> MetadataCollector<'_> {
+        MetadataCollector {
+            node_types: &mut self.node_types,
+            symbols: &mut self.symbols,
+            comments: &mut self.comments,
+            docstrings: &mut self.docstrings,
+            has_errors: &mut self.has_errors,
+            context_path: &mut self.context_path,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+struct MetadataWalkSummary {
+    visited_nodes: usize,
+    truncated_nodes: usize,
+}
+
+/// Return the contiguous range of sorted chunks that overlap a node.
 ///
-/// Returns the number of nodes dropped because the tree was deeper than the
-/// traversal limit. Nodes that do not overlap the chunk prune their subtree,
-/// exactly as the previous recursive early return did.
-fn collect_chunk_metadata(
+/// ~keep Zero-width `MISSING` nodes belong to both chunks adjacent to their
+/// ~keep position. Ordinary nodes retain half-open `[start, end)` semantics.
+fn overlapping_chunk_indices(node_start: usize, node_end: usize, chunks: &[(usize, usize)]) -> Range<usize> {
+    if node_start == node_end {
+        let first = chunks.partition_point(|&(_, chunk_end)| chunk_end < node_start);
+        let end = chunks.partition_point(|&(chunk_start, _)| chunk_start <= node_start);
+        return first..end;
+    }
+
+    let first = chunks.partition_point(|&(_, chunk_end)| chunk_end <= node_start);
+    let end = chunks.partition_point(|&(chunk_start, _)| chunk_start < node_end);
+    first..end
+}
+
+fn collect_chunks_metadata(
     root: &tree_sitter::Node,
     source: &str,
     language: &str,
-    chunk_start: usize,
-    chunk_end: usize,
-    collector: &mut MetadataCollector<'_>,
-) -> usize {
-    walk_bounded(root, |node, _depth| {
-        if is_outside_chunk(node, chunk_start, chunk_end) {
+    chunks: &[(usize, usize)],
+) -> (Vec<ChunkMetadata>, MetadataWalkSummary) {
+    debug_assert!(
+        chunks
+            .windows(2)
+            .all(|pair| pair[0].0 <= pair[1].0 && pair[0].1 <= pair[1].1)
+    );
+    let mut metadata: Vec<ChunkMetadata> = (0..chunks.len()).map(|_| ChunkMetadata::default()).collect();
+    let mut visited_nodes = 0usize;
+    let truncated_nodes = walk_bounded(root, |node, _depth| {
+        visited_nodes += 1;
+        let overlapping = overlapping_chunk_indices(node.start_byte(), node.end_byte(), chunks);
+        if overlapping.is_empty() {
             return Descend::Skip;
         }
-        record_chunk_node(node, source, language, chunk_start, chunk_end, collector);
+        for chunk_index in overlapping {
+            let (chunk_start, chunk_end) = chunks[chunk_index];
+            let mut collector = metadata[chunk_index].collector();
+            record_chunk_node(node, source, language, chunk_start, chunk_end, &mut collector);
+        }
         Descend::Children
-    })
+    });
+    let summary = MetadataWalkSummary {
+        visited_nodes,
+        truncated_nodes,
+    };
+    (metadata, summary)
 }
 
 /// Node kinds whose `name` is a symbol definition.
@@ -478,14 +500,73 @@ mod tests {
         };
         assert_eq!(missing.start_byte(), missing.end_byte(), "MISSING nodes are zero-width");
         let boundary = missing.start_byte();
+        let ranges = [(0, boundary), (boundary, source.len() + 1)];
 
-        assert!(
-            !is_outside_chunk(&missing, 0, boundary),
-            "a chunk ending exactly at the MISSING node's position must still include it"
+        assert_eq!(
+            overlapping_chunk_indices(missing.start_byte(), missing.end_byte(), &ranges),
+            0..2,
+            "both chunks adjacent to a MISSING node must receive it"
         );
+    }
+
+    #[test]
+    fn should_route_a_zero_width_node_to_both_chunks_at_a_boundary() {
+        let ranges = [(0, 5), (5, 10)];
+
+        assert_eq!(overlapping_chunk_indices(5, 5, &ranges), 0..2);
+    }
+
+    #[test]
+    fn should_keep_nonzero_node_overlap_half_open_at_chunk_boundaries() {
+        let ranges = [(0, 5), (5, 10)];
+
+        assert_eq!(overlapping_chunk_indices(0, 5, &ranges), 0..1);
+        assert_eq!(overlapping_chunk_indices(5, 10, &ranges), 1..2);
+        assert_eq!(overlapping_chunk_indices(4, 6, &ranges), 0..2);
+    }
+
+    #[test]
+    fn should_visit_the_ast_once_when_routing_metadata_to_many_chunks() {
+        let source: String = (0..128)
+            .map(|index| format!("def function_{index}():\n    return {index}\n"))
+            .collect();
+        let Some((_, tree)) = parse_with(&source, "python") else {
+            return;
+        };
+        let root = tree.root_node();
+        let one_range = [(0, source.len())];
+        let many_ranges: Vec<(usize, usize)> = (0..source.len())
+            .step_by(32)
+            .map(|start| (start, (start + 32).min(source.len())))
+            .collect();
+
+        let (_, one_summary) = collect_chunks_metadata(&root, &source, "python", &one_range);
+        let (_, many_summary) = collect_chunks_metadata(&root, &source, "python", &many_ranges);
+        let expected_visits = root.descendant_count();
+        let repeated_walk_visits: usize = many_ranges
+            .iter()
+            .map(|&(chunk_start, chunk_end)| {
+                let mut visits = 0usize;
+                walk_bounded(&root, |node, _depth| {
+                    visits += 1;
+                    if node.end_byte() <= chunk_start || node.start_byte() >= chunk_end {
+                        Descend::Skip
+                    } else {
+                        Descend::Children
+                    }
+                });
+                visits
+            })
+            .sum();
+
+        assert_eq!(one_summary.visited_nodes, expected_visits);
+        assert_eq!(many_summary.visited_nodes, expected_visits);
+        assert_eq!(many_summary.truncated_nodes, one_summary.truncated_nodes);
+        assert!(many_ranges.len() > 100, "test setup must exercise many chunks");
         assert!(
-            !is_outside_chunk(&missing, boundary, source.len()),
-            "a chunk starting exactly at the MISSING node's position must still include it"
+            repeated_walk_visits > many_summary.visited_nodes * 10,
+            "the regression setup must expose repeated AST visits: {repeated_walk_visits} vs {}",
+            many_summary.visited_nodes
         );
     }
 }

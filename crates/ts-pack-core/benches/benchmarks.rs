@@ -113,6 +113,7 @@ const COLD_COMPILE_MEASUREMENT: Duration = Duration::from_secs(5);
 const THREAD_COUNTS: &[usize] = &[1, 2, 4, 8];
 /// Chunk sizes for the splitter sweep, in bytes.
 const CHUNK_SIZES: &[usize] = &[500, 1000, 4000];
+const CHUNK_SCALING_FUNCTIONS: &[usize] = &[64, 256, 1024];
 
 /// Download and load every grammar the suite uses, once per process.
 ///
@@ -375,6 +376,24 @@ fn bench_chunking(c: &mut Criterion) {
     }
 
     group.finish();
+
+    let mut scaling = c.benchmark_group("chunking_scaling");
+    scaling
+        .sample_size(HEAVY_SAMPLES)
+        .sampling_mode(SamplingMode::Flat)
+        .warm_up_time(WARM_UP)
+        .measurement_time(MEASUREMENT);
+    let config = ProcessConfig::new("python").minimal().with_chunking(128);
+    for &function_count in CHUNK_SCALING_FUNCTIONS {
+        let source: String = (0..function_count)
+            .map(|index| format!("def function_{index}():\n    return {index}\n"))
+            .collect();
+        scaling.throughput(Throughput::Bytes(source.len() as u64));
+        scaling.bench_with_input(BenchmarkId::from_parameter(function_count), &source, |b, source| {
+            b.iter(|| process(black_box(source), black_box(&config)).unwrap());
+        });
+    }
+    scaling.finish();
 }
 
 /// Wall time for `threads` workers each performing `iters` operations.
