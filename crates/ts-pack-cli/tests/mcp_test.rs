@@ -9,20 +9,7 @@
 #[cfg(feature = "mcp")]
 #[test]
 fn test_mcp_help_output() {
-    let build = std::process::Command::new("cargo")
-        .args(["build", "--bin", "ts-pack", "--features", "mcp"])
-        .status()
-        .expect("failed to run cargo build");
-    assert!(build.success(), "cargo build with mcp feature should succeed");
-
-    let target_dir = std::env::var_os("CARGO_TARGET_DIR")
-        .map(std::path::PathBuf::from)
-        .unwrap_or_else(|| std::path::PathBuf::from("target"));
-    let binary = target_dir
-        .join("debug")
-        .join(format!("ts-pack{}", std::env::consts::EXE_SUFFIX));
-
-    let output = std::process::Command::new(&binary)
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_ts-pack"))
         .args(["mcp", "--help"])
         .output()
         .expect("failed to run ts-pack mcp --help");
@@ -45,7 +32,15 @@ fn test_mcp_help_output() {
 #[test]
 fn test_mcp_subcommand_absent_without_feature() {
     let output = std::process::Command::new("cargo")
-        .args(["run", "--bin", "ts-pack", "--", "mcp", "--help"])
+        .args([
+            "run",
+            "--no-default-features",
+            "--bin",
+            "ts-pack",
+            "--",
+            "mcp",
+            "--help",
+        ])
         .output()
         .expect("failed to run ts-pack");
 
