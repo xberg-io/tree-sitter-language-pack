@@ -1,4 +1,18 @@
 [package]
+include = [
+    "/Cargo.toml",
+    "/Cargo.lock",
+    "/README.md",
+    "/LICENSE*",
+    "/src/**",
+    "/build.rs",
+    "/build_support/**",
+    "/language_definitions.json",
+    "/third_party/utf8proc/**",
+    "!/src/intel/legacy.rs",
+    "!/src/intel/test_support.rs",
+    "!/src/text_splitter/oracle_tests.rs",
+]
 authors.workspace = true
 name = "tree-sitter-language-pack"
 version.workspace = true
@@ -55,9 +69,7 @@ zstd = { workspace = true, optional = true }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 libloading = { workspace = true, optional = true }
 
-# ~keep getrandom needs wasm_js feature on wasm32 to provide CSPRNG via JavaScript Math.random().
-# ~keep Needed because build-dependencies (ureq for downloading parser sources) transitively
-# ~keep depend on getrandom but don't enable it by default for wasm32-unknown-unknown.
+# ~keep Browser targets need getrandom's wasm_js backend for transitive dependencies.
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 getrandom = { version = "0.4", features = ["wasm_js"] }
 tree-sitter-language = { workspace = true }

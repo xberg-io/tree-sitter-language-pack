@@ -1,4 +1,11 @@
 [package]
+include = [
+    "/Cargo.toml",
+    "/Cargo.lock",
+    "/README.md",
+    "/LICENSE*",
+    "/src/**",
+]
 authors.workspace = true
 name = "ts-pack-cli"
 version.workspace = true
