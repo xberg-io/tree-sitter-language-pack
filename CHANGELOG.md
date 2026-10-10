@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.21.2] - 2026-10-10
+
 ### Fixed
 
 - `split_code` no longer filters every split point of a depth level for each region it splits. The

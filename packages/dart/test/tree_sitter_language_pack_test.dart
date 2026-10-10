@@ -43,8 +43,7 @@ void main() {
       expect(
         result,
         equals('rust'),
-        reason:
-            'extension matching must be case-insensitive per documented behavior',
+        reason: 'extension matching must be case-insensitive per documented behavior',
       );
     });
 
@@ -122,8 +121,7 @@ void main() {
       expect(
         result,
         isTrue,
-        reason:
-            'nim is compiled in by task dart:build (TSLP_LANGUAGES=mojo,nim,norg)',
+        reason: 'nim is compiled in by task dart:build (TSLP_LANGUAGES=mojo,nim,norg)',
       );
     });
 

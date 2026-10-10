@@ -1151,7 +1151,7 @@ checksum = "d0af592be68c579aa78a16846bd19422978c3c52e438523d45ff5d1bff1f9d4a"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.21.1"
+version = "1.21.2"
 dependencies = [
  "ahash",
  "cc",
@@ -1175,7 +1175,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-rb"
-version = "1.21.1"
+version = "1.21.2"
 dependencies = [
  "magnus",
  "rb-sys",

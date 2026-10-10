@@ -7,7 +7,7 @@ internal: true
 # repo-root marketplace index. Version tracks core via `task version:sync`. ~keep
 
 vars:
-  AI_RULEZ: "ai-rulez"
+  AI_RULEZ: "pnpm dlx ai-rulez@4.24.2"
 
 tasks:
   generate:
