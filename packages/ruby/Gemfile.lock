@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tree_sitter_language_pack (1.21.2)
+    tree_sitter_language_pack (1.21.3)
       rb_sys (>= 0.9.130, < 0.10)
       sorbet-runtime (~> 0.6)
 
@@ -189,7 +189,7 @@ CHECKSUMS
   steep (2.1.0) sha256=1daf53573283b0e6d404a7273cca41fe5c15b14ece05167934f5ffc179e171d9
   strscan (3.1.8) sha256=aae2db611a225559f21ffbb71765c9a4e60fd262534a9ea84f4f11c7f32f679e
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
-  tree_sitter_language_pack (1.21.2)
+  tree_sitter_language_pack (1.21.3)
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
   unicode-display_width (3.3.0) sha256=4b7aa66a4b11db50f6f7e98411215cd0dd10eaecb665d36eec5bcacb3fa0b613
   unicode-emoji (4.3.0) sha256=11c02fa73290378c066bb0562cd4c87d8e1b706fbbe0059ca12746a4244de8ce

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.21.3] - 2026-10-10
+
+### Fixed
+
+- Coding-agent plugin bundles are now generated and verified from the plugin-specific configuration,
+  including the Claude marketplace manifest.
+
 ## [1.21.2] - 2026-10-10
 
 ### Fixed

@@ -2852,6 +2852,9 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
+      - uses: xberg-io/actions/setup-node-workspace@v1
+        with:
+          node-version: "22"
       - uses: xberg-io/actions/install-task@v1
       - name: Install ai-rulez
         run: pipx install ai-rulez

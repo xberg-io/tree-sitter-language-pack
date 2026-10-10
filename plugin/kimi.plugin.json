@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-language-pack",
-  "version": "1.21.2",
+  "version": "1.21.3",
   "description": "Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking.",
   "author": {
     "name": "Kreuzberg, Inc.",

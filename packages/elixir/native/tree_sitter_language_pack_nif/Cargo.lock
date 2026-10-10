@@ -1055,7 +1055,7 @@ checksum = "d0af592be68c579aa78a16846bd19422978c3c52e438523d45ff5d1bff1f9d4a"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.21.2"
+version = "1.21.3"
 dependencies = [
  "ahash",
  "cc",
@@ -1079,7 +1079,7 @@ dependencies = [
 
 [[package]]
 name = "tree_sitter_language_pack_nif"
-version = "1.21.2"
+version = "1.21.3"
 dependencies = [
  "alloc-no-stdlib",
  "alloc-stdlib",

@@ -367,7 +367,7 @@ packages:
       path: "../../packages/dart"
       relative: true
     source: path
-    version: "1.21.2"
+    version: "1.21.3"
   typed_data:
     dependency: transitive
     description:
