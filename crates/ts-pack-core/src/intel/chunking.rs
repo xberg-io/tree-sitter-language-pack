@@ -507,6 +507,12 @@ mod tests {
             0..2,
             "both chunks adjacent to a MISSING node must receive it"
         );
+        let (metadata, _) = collect_chunks_metadata(&root, source, "python", &ranges);
+        assert_eq!(metadata.len(), 2);
+        assert!(
+            metadata.iter().all(|chunk| chunk.has_errors),
+            "both chunks adjacent to a MISSING node must record its parse error"
+        );
     }
 
     #[test]
