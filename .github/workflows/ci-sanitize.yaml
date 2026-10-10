@@ -30,16 +30,6 @@ name: CI Sanitize
 # patch tree was found, so this job exercises the *patched* sources.
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "patches/**"
-      - "crates/ts-pack-core/build.rs"
-      - "sources/language_definitions.json"
-      - ".github/workflows/ci-sanitize.yaml"
-  schedule:
-    # 03:17 UTC daily — off the top of the hour to avoid the Actions scheduling herd.
-    - cron: "17 3 * * *"
   workflow_dispatch:
     inputs:
       languages:

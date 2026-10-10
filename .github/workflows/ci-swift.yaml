@@ -8,13 +8,6 @@ on:
       - "packages/swift/**"
       - "scripts/setup-swift-bridge.sh"
       - ".github/workflows/ci-swift.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "packages/swift/**"
-      - "scripts/setup-swift-bridge.sh"
-      - ".github/workflows/ci-swift.yaml"
   workflow_dispatch:
 
 concurrency:

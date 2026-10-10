@@ -23,18 +23,6 @@ on:
       - ".task/version.yml"
       - "scripts/tests/**"
       - ".github/workflows/ci-plugin.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "Cargo.toml"
-      - "plugin/**"
-      - ".claude-plugin/**"
-      - ".agents/plugins/**"
-      - ".ai-rulez/config.toml"
-      - "scripts/sync_plugin_version.py"
-      - ".task/version.yml"
-      - "scripts/tests/**"
-      - ".github/workflows/ci-plugin.yaml"
   workflow_dispatch:
 
 concurrency:

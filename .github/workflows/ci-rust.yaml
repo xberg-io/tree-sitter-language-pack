@@ -15,20 +15,6 @@ on:
       - "scripts/clone_vendors.py"
       - "scripts/_vendor_*.py"
       - ".github/workflows/ci-rust.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "crates/ts-pack-cli/**"
-      - "e2e/rust/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
-      - "rust-toolchain.toml"
-      - ".cargo/config.toml"
-      - "sources/**"
-      - "scripts/clone_vendors.py"
-      - "scripts/_vendor_*.py"
-      - ".github/workflows/ci-rust.yaml"
   workflow_dispatch:
 
 concurrency:

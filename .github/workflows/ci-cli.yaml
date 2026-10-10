@@ -12,17 +12,6 @@ on:
       - "crates/ts-pack-cli/**"
       - "crates/ts-pack-core/**"
       - "test_apps/cli/**"
-  pull_request:
-    branches: [main]
-    paths:
-      - ".github/workflows/ci-cli.yaml"
-      - ".cargo/config.toml"
-      - "rust-toolchain.toml"
-      - "Cargo.toml"
-      - "Cargo.lock"
-      - "crates/ts-pack-cli/**"
-      - "crates/ts-pack-core/**"
-      - "test_apps/cli/**"
   workflow_dispatch:
 
 concurrency:

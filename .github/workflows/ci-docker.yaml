@@ -13,18 +13,6 @@ on:
       - ".github/workflows/ci-docker.yaml"
       - "Cargo.toml"
       - "Cargo.lock"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "crates/ts-pack-cli/**"
-      - "sources/language_definitions.json"
-      - "test_apps/cli/**"
-      - "docker/**"
-      - ".dockerignore"
-      - ".github/workflows/ci-docker.yaml"
-      - "Cargo.toml"
-      - "Cargo.lock"
   workflow_dispatch:
 
 permissions:

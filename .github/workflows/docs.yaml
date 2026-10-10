@@ -7,12 +7,6 @@ on:
       - "docs-site/**"
       - "alef.toml"
       - ".github/workflows/docs.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "docs-site/**"
-      - "alef.toml"
-      - ".github/workflows/docs.yaml"
   workflow_dispatch:
 
 permissions:

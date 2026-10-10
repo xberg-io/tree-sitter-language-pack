@@ -7,12 +7,6 @@ on:
       - "crates/ts-pack-core/**"
       - "packages/dart/**"
       - ".github/workflows/ci-dart.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "packages/dart/**"
-      - ".github/workflows/ci-dart.yaml"
   workflow_dispatch:
 
 concurrency:

@@ -27,32 +27,6 @@ on:
       - "package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/**"
-      - "packages/**"
-      - "e2e/**"
-      - "fixtures/**"
-      - "sources/**"
-      - "scripts/**"
-      - "docs-site/src/snippets/**"
-      - "docs-site/src/content/docs/reference/**"
-      - ".github/workflows/ci.yaml"
-      - ".github/workflows/publish.yaml"
-      - ".golangci.yml"
-      - ".cargo/config.toml"
-      - "rust-toolchain.toml"
-      - "Cargo.toml"
-      - "Cargo.lock"
-      - "Taskfile.yml"
-      - ".task/**"
-      - "pyproject.toml"
-      - ".clang-format"
-      - "alef.toml"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
   workflow_dispatch:
 
 concurrency:

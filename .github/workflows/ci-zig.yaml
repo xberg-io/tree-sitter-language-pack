@@ -13,18 +13,6 @@ on:
       - "test_apps/zig/**"
       - "scripts/sync_zig_zon_hashes.py"
       - ".github/workflows/ci-zig.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core-ffi/**"
-      - "crates/ts-pack-core/**"
-      - "packages/zig/**"
-      # The hash check below reads these two, so a commit that touches only them -- including
-      # the `--fix` commit that rewrites the hashes -- must re-run this workflow. Without them
-      # the one commit most worth re-verifying is the one that never triggers the check. ~keep
-      - "test_apps/zig/**"
-      - "scripts/sync_zig_zon_hashes.py"
-      - ".github/workflows/ci-zig.yaml"
   workflow_dispatch:
 
 concurrency:

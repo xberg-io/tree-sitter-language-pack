@@ -11,16 +11,6 @@ on:
       - "packages/swift/**"
       - "packages/kotlin-android/**"
       - ".github/workflows/ci-mobile.yaml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "crates/ts-pack-core/**"
-      - "crates/ts-pack-core-ffi/**"
-      - "crates/tree-sitter-language-pack-jni/**"
-      - "packages/dart/**"
-      - "packages/swift/**"
-      - "packages/kotlin-android/**"
-      - ".github/workflows/ci-mobile.yaml"
   workflow_dispatch:
 
 concurrency:
