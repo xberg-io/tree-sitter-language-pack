@@ -1873,11 +1873,11 @@ name = "tree_sitter_language_pack"
 version = "1.21.3"
 
 [crates.e2e.registry.packages.zig.platform_hashes]
-"aarch64-apple-darwin" = "tree_sitter_language_pack-1.21.1-jCz0Y0MmSwBUVvxbAPqIZsX3_jkeX5XlAbR6kTj8UkIC"
-"aarch64-unknown-linux-gnu" = "tree_sitter_language_pack-1.21.1-jCz0Y7NSUQCcLLrKAXz-_zCQCvTQX9NA0mfz5rWkYr51"
-"x86_64-apple-darwin" = "tree_sitter_language_pack-1.21.1-jCz0Y4e4UACsltUCmFd1wtmprUZp0jHr54FfEckleTOP"
-"x86_64-pc-windows-msvc" = "tree_sitter_language_pack-1.21.1-jCz0Y7GvXwDGRq9Y7CytNLIW4mjyWlKmQr83ULWwCpNA"
-"x86_64-unknown-linux-gnu" = "tree_sitter_language_pack-1.21.1-jCz0Y0OCWQBJzqwrKOoTMsXuDrgHiBSbXs_kQk8AAJ1-"
+"aarch64-apple-darwin" = "tree_sitter_language_pack-1.21.3-jCz0Y0MmSwBHATjYwDtO6_4FtEE6AngEhc0zs5IBjoc4"
+"aarch64-unknown-linux-gnu" = "tree_sitter_language_pack-1.21.3-jCz0Y7NSUQALnu_W34fZA9t5jc0EhGzTrXwwmW5IO5Me"
+"x86_64-apple-darwin" = "tree_sitter_language_pack-1.21.3-jCz0Y4e4UAAdTe2bFXB5ibPMTcYsXLooppnWw-3TSoLo"
+"x86_64-pc-windows-msvc" = "tree_sitter_language_pack-1.21.3-jCz0Y7G3XwABuzC0PcESAPCSuE2yuLbcjLe5vAQRQh1e"
+"x86_64-unknown-linux-gnu" = "tree_sitter_language_pack-1.21.3-jCz0Y8OHWQBsLTyMx8oWLLMnqnOey5K4FABZoptphm2x"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
