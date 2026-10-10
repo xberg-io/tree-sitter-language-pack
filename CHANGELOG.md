@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `split_code` no longer filters every split point of a depth level for each region it splits. The
+  per-level points are sorted, so each region's boundaries are now a binary-searched slice. Splitting a
+  file with many nodes larger than `chunk_max_size` was quadratic (2.7 MB at 20-byte chunks: 10.3 s, now
+  0.08 s).
+- Chunk metadata collection checks a node's byte bounds before calling `Node::parent`, which walks down
+  from the root. Deeply nested input that overlaps many chunks no longer pays a depth-sized lookup per
+  node per chunk (1 KB of `[[[...]]]`, depth 500, 100-byte chunks: 1.7 s, now 16 ms). Output is unchanged.
+
+### Changed
+
+- `split_code` and `process` chunking now rebalance region edges. A short head or tail left over from
+  splitting an oversized unit is merged into its neighbour when the union fits `chunk_max_size`, or the
+  three chunks around it are re-cut into two at a line boundary. Output changes for such inputs: chunk
+  boundaries move and the chunk count only ever decreases (`fn a() {..}\nfn b() {}` at 36 bytes: 3 chunks
+  with a 7-byte head, now 2). Chunks that were not adjacent to a tiny chunk are untouched, and the pass is
+  linear in the source length.
+- A comment that straddles a chunk boundary is now reported in `ChunkContext::comments` of the chunk
+  containing its first byte. It previously appeared in no chunk because comments required full containment.
+  Docstrings keep the full-containment rule.
+
+### Added
+
+- Splitter test and benchmark coverage: seeded generators for many oversized siblings (Rust, Python,
+  JavaScript, C, Go, Java), large and deeply nested JSON, YAML, CSV, Markdown, TOML, single-line, CJK/emoji
+  and CRLF input (`tests/support/shapes.rs`); an oracle test that compares `split_code` with a verbatim copy
+  of the pre-index algorithm; property tests for contiguity, size, UTF-8 and line numbers; optimality tests
+  for packing, boundary quality, chunk count, orphans and metadata attribution; a `process()` scaling
+  regression test (`tests/split_scaling.rs`, run in CI via `task rust:test:split-scaling`); and a `splitting`
+  criterion bench at 1x to 8x.
+
 ## [1.21.1] - 2026-10-10
 
 ### Fixed

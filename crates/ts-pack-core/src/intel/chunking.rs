@@ -198,7 +198,10 @@ const DEFINITION_NODE_KINDS: &[&str] = &[
 /// ~keep every top-level item a *nested* node and leave `node_types` empty for a
 /// ~keep single-chunk file. It is deliberately never contained.
 fn is_contained(node: &tree_sitter::Node, chunk_start: usize, chunk_end: usize) -> bool {
-    node.parent().is_some() && node.start_byte() >= chunk_start && node.end_byte() <= chunk_end
+    // ~keep The byte bounds are checked first: `Node::parent` walks down from the root, so for the
+    // ~keep many enclosing nodes that merely overlap a chunk the cheap test must reject them
+    // ~keep before any parent lookup (this was O(depth) per node per overlapping chunk).
+    node.start_byte() >= chunk_start && node.end_byte() <= chunk_end && node.parent().is_some()
 }
 
 /// Whether `node` is one of the chunk's outermost nodes — contained in it, but
@@ -235,13 +238,20 @@ pub(super) fn record_chunk_node(
         record_definition_name(node, source, chunk_start, chunk_end, collector);
     }
 
-    if is_contained(node, chunk_start, chunk_end) {
-        if let Some(comment) = comment_at(node, source) {
-            collector.comments.push(comment);
-        }
-        if let Some(docstring) = docstring_at(node, source, language) {
-            collector.docstrings.push(docstring);
-        }
+    // ~keep A comment belongs to the chunk holding its first byte, even when it runs past the
+    // ~keep chunk end: requiring full containment dropped a boundary-straddling comment from
+    // ~keep every chunk. Exactly one chunk contains any given start byte, so it is reported once.
+    if node.start_byte() >= chunk_start
+        && node.start_byte() < chunk_end
+        && node.parent().is_some()
+        && let Some(comment) = comment_at(node, source)
+    {
+        collector.comments.push(comment);
+    }
+    if is_contained(node, chunk_start, chunk_end)
+        && let Some(docstring) = docstring_at(node, source, language)
+    {
+        collector.docstrings.push(docstring);
     }
 }
 
@@ -574,5 +584,57 @@ mod tests {
             "the regression setup must expose repeated AST visits: {repeated_walk_visits} vs {}",
             many_summary.visited_nodes
         );
+    }
+
+    #[test]
+    fn should_keep_root_out_of_containment_and_top_level_kinds() {
+        let source = "def foo():\n    pass\n\ndef bar():\n    pass\n";
+        let Some((lang, tree)) = parse_with(source, "python") else {
+            return;
+        };
+        let chunks = chunk_source(source, "python", 10000, &lang, &tree);
+        assert_eq!(chunks.len(), 1);
+        assert_eq!(chunks[0].metadata.node_types, vec!["function_definition".to_string()]);
+        assert_eq!(
+            chunks[0].metadata.symbols_defined,
+            vec!["foo".to_string(), "bar".to_string()]
+        );
+    }
+
+    #[test]
+    fn should_chunk_deeply_nested_input_without_parent_lookups_per_overlap() {
+        let depth = 500;
+        let source = format!("{}1{}", "[".repeat(depth), "]".repeat(depth));
+        let Some((lang, tree)) = parse_with(&source, "json") else {
+            return;
+        };
+        let start = std::time::Instant::now();
+        let chunks = chunk_source(&source, "json", 100, &lang, &tree);
+        let elapsed = start.elapsed();
+        assert!(chunks.len() > 1);
+        // Every enclosing node overlaps many chunks; rejecting by byte bounds before any
+        // `Node::parent` walk keeps this near-instant (the parent-first order took seconds).
+        assert!(elapsed.as_secs_f64() < 1.0, "chunking took {elapsed:?}");
+    }
+
+    #[test]
+    fn should_agree_with_the_parent_first_containment_test_for_every_node_and_range() {
+        let Some((_, tree)) = parse_with(SPLIT_CLASS_SOURCE, "python") else {
+            return;
+        };
+        let parent_first = |n: &tree_sitter::Node, s: usize, e: usize| {
+            n.parent().is_some() && n.start_byte() >= s && n.end_byte() <= e
+        };
+        let len = SPLIT_CLASS_SOURCE.len();
+        let mut cursor = tree.walk();
+        let mut stack = vec![tree.root_node()];
+        while let Some(node) = stack.pop() {
+            for start in (0..=len).step_by(3) {
+                for end in (start..=len).step_by(5) {
+                    assert_eq!(is_contained(&node, start, end), parent_first(&node, start, end));
+                }
+            }
+            stack.extend(node.children(&mut cursor));
+        }
     }
 }

@@ -79,6 +79,18 @@ tasks:
     cmds:
       - cargo test --locked -p tree-sitter-language-pack --features test-internals,serde,config
 
+  # ~keep The scaling guard is timing-based, so it runs in release against a small static
+  # ~keep grammar set (the shapes need only these) instead of the full 372-language build.
+  test:split-scaling:
+    desc: Run the splitter scaling regression test and a benchmark smoke pass (release)
+    env:
+      PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+      TSLP_LANGUAGES: "c,csv,go,java,javascript,json,markdown,python,rust,toml,yaml"
+      TSLP_LINK_MODE: static
+    cmds:
+      - cargo test --locked --release -p tree-sitter-language-pack --test split_scaling process_scales_linearly -- --ignored
+      - cargo bench --locked -p tree-sitter-language-pack --bench splitting -- --test 'split/(rust_many_fns|json_array|python_giant_class|nested_brackets)'
+
   lint:
     desc: Auto-fix Rust code linting (cargo fmt + clippy)
     env:

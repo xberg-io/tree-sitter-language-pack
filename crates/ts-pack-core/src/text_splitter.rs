@@ -21,7 +21,8 @@ use crate::intel::walk::{Descend, MAX_TREE_DEPTH, walk_bounded};
 ///    ultimately to raw byte splits.
 ///
 /// The function never splits in the middle of a token/leaf node when an AST
-/// boundary is available.
+/// boundary is available. Short chunks left at region edges are merged with, or
+/// re-cut against, their neighbours (see [`rebalance_edges`]).
 ///
 /// # Arguments
 ///
@@ -48,6 +49,14 @@ pub fn split_code(source: &str, tree: &tree_sitter::Tree, max_chunk_size: usize)
         return vec![(0, source.len())];
     }
 
+    let mut chunks = split_regions(source, tree, max_chunk_size);
+    rebalance_edges(source, &mut chunks, max_chunk_size);
+    chunks
+}
+
+/// The AST-guided split of a non-empty source larger than `max_chunk_size`, before edge
+/// rebalancing: each region is decided on its own.
+fn split_regions(source: &str, tree: &tree_sitter::Tree, max_chunk_size: usize) -> Vec<(usize, usize)> {
     let root = tree.root_node();
     let (node_ranges, truncated) = collect_node_ranges(&root);
     if truncated > 0 {
@@ -79,8 +88,51 @@ pub fn split_code(source: &str, tree: &tree_sitter::Tree, max_chunk_size: usize)
     };
     let mut chunks: Vec<(usize, usize)> = Vec::new();
     splitter.split_recursive(0, source.len(), 0, &mut chunks);
-
     chunks
+}
+
+/// Merge or re-cut the short chunks that regional splitting leaves at region edges.
+///
+/// `split_recursive` decides each region on its own, so the head or tail left over from an
+/// oversized unit is never offered to its neighbour. Two passes fix that, each linear in the
+/// source length: adjacent chunks whose union fits are merged, then any three consecutive
+/// chunks that include a tiny one (under a quarter of the limit) and span at most two limits
+/// are re-cut into two at the latest line boundary that keeps both within the limit. Healthy
+/// chunks are never re-cut, so top-level boundaries survive. The chunk count only ever
+/// decreases, and a re-cut must reduce the number of tiny chunks.
+fn rebalance_edges(source: &str, chunks: &mut Vec<(usize, usize)>, max: usize) {
+    let mut merged: Vec<(usize, usize)> = Vec::with_capacity(chunks.len());
+    for &(start, end) in chunks.iter() {
+        match merged.last_mut() {
+            Some(prev) if end - prev.0 <= max => prev.1 = end,
+            _ => merged.push((start, end)),
+        }
+    }
+    *chunks = merged;
+
+    let tiny = |range: (usize, usize)| (range.1 - range.0) * 4 < max;
+    let bytes = source.as_bytes();
+    let mut i = 0;
+    while i + 2 < chunks.len() {
+        let (start, end) = (chunks[i].0, chunks[i + 2].1);
+        let old_tiny = chunks[i..i + 3].iter().filter(|&&c| tiny(c)).count();
+        if old_tiny == 0 || end - start > 2 * max {
+            i += 1;
+            continue;
+        }
+        let lowest = end.saturating_sub(max).max(start + 1);
+        let highest = (start + max).min(end - 1);
+        let Some(cut) = (lowest..=highest).rev().find(|&c| bytes[c - 1] == b'\n') else {
+            i += 1;
+            continue;
+        };
+        if usize::from(tiny((start, cut))) + usize::from(tiny((cut, end))) >= old_tiny {
+            i += 1;
+            continue;
+        }
+        chunks.splice(i..i + 3, [(start, cut), (cut, end)]);
+        i = i.saturating_sub(1);
+    }
 }
 
 /// A node's byte range paired with its depth in the AST.
@@ -145,16 +197,17 @@ impl Splitter<'_> {
         if current_depth < self.split_points_by_depth.len() {
             let points = &self.split_points_by_depth[current_depth];
 
-            let relevant: Vec<usize> = points
-                .iter()
-                .copied()
-                .filter(|&p| p > region_start && p < region_end)
-                .collect();
+            // ~keep `points` is sorted and deduplicated, so the open interval
+            // ~keep (region_start, region_end) is a contiguous slice found by binary search.
+            // ~keep Filtering the whole level per region made splitting quadratic in the node count.
+            let first = points.partition_point(|&p| p <= region_start);
+            let last = points.partition_point(|&p| p < region_end);
+            let relevant = &points[first..last.max(first)];
 
             if !relevant.is_empty() {
                 let mut boundaries = Vec::with_capacity(relevant.len() + 2);
                 boundaries.push(region_start);
-                boundaries.extend_from_slice(&relevant);
+                boundaries.extend_from_slice(relevant);
                 boundaries.push(region_end);
 
                 self.merge_boundaries(&boundaries, current_depth, out);
@@ -275,6 +328,9 @@ fn split_at_bytes(
         pos = end;
     }
 }
+
+#[cfg(test)]
+mod oracle_tests;
 
 #[cfg(test)]
 mod tests {
@@ -473,5 +529,83 @@ mod tests {
             assert!(source.is_char_boundary(s));
             assert!(source.is_char_boundary(e));
         }
+    }
+
+    fn parse_with(lang: &str, src: &str) -> Option<tree_sitter::Tree> {
+        let language = crate::get_language(lang).ok()?;
+        let mut parser = tree_sitter::Parser::new();
+        parser.set_language(&language).ok()?;
+        parser.parse(src, None)
+    }
+
+    /// The pre-index region lookup: filter every split point of the level.
+    fn legacy_relevant(points: &[usize], region_start: usize, region_end: usize) -> Vec<usize> {
+        points
+            .iter()
+            .copied()
+            .filter(|&p| p > region_start && p < region_end)
+            .collect()
+    }
+
+    #[test]
+    fn indexed_region_lookup_matches_legacy_filter() {
+        let points = vec![0, 3, 3, 7, 10, 15, 21, 40];
+        let mut points: Vec<usize> = points;
+        points.sort_unstable();
+        points.dedup();
+        for start in 0..45 {
+            for end in start..45 {
+                let first = points.partition_point(|&p| p <= start);
+                let last = points.partition_point(|&p| p < end);
+                assert_eq!(
+                    points[first..last.max(first)],
+                    legacy_relevant(&points, start, end)[..],
+                    "start={start}, end={end}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn many_oversized_siblings_split_contiguously() {
+        let src: String = (0..200)
+            .map(|i| format!("fn f{i}(a: i32) -> i32 {{ g(a) }}\n"))
+            .collect();
+        let Some(tree) = parse_with("rust", &src) else { return };
+        for max in [8, 20, 33, 100] {
+            let chunks = split_code(&src, &tree, max);
+            assert_eq!(chunks.first().map(|c| c.0), Some(0));
+            assert_eq!(chunks.last().map(|c| c.1), Some(src.len()));
+            for pair in chunks.windows(2) {
+                assert_eq!(pair[0].1, pair[1].0, "chunks must be contiguous (max={max})");
+            }
+            assert!(chunks.iter().all(|c| c.1 - c.0 <= max), "max={max}");
+        }
+    }
+
+    #[test]
+    fn split_code_scales_linearly_with_many_oversized_nodes() {
+        let build = |n: usize| -> String { (0..n).map(|i| format!("fn f{i}(a: i32) -> i32 {{ g(a) }}\n")).collect() };
+        let time = |n: usize| -> Option<f64> {
+            let src = build(n);
+            let tree = parse_with("rust", &src)?;
+            let mut best = f64::MAX;
+            for _ in 0..3 {
+                let start = std::time::Instant::now();
+                let chunks = split_code(&src, &tree, 20);
+                best = best.min(start.elapsed().as_secs_f64());
+                assert!(!chunks.is_empty());
+            }
+            Some(best)
+        };
+        let (Some(small), Some(large)) = (time(5_000), time(20_000)) else {
+            return;
+        };
+        // Linear growth is ~4x for 4x the input; the quadratic scan was ~16x.
+        assert!(
+            large < small * 10.0 + 0.005,
+            "4x input took {:.1}x longer ({small:.4}s -> {large:.4}s)",
+            large / small
+        );
     }
 }

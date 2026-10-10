@@ -117,5 +117,8 @@ jobs:
       - name: Run feature-gated tests
         run: task rust:test:feature-gated
 
+      - name: Run splitter scaling regression and bench smoke
+        run: task rust:test:split-scaling
+
       - name: Run Rust E2E tests
         run: task rust:e2e:test

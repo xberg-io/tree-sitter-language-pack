@@ -105,6 +105,10 @@ required-features = ["serde", "config"]
 name = "benchmarks"
 harness = false
 
+[[bench]]
+name = "splitting"
+harness = false
+
 [lints.clippy]
 all = { level = "deny", priority = -1 }
 duplicated_attributes = "allow"
