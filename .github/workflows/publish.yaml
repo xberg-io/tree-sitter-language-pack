@@ -1756,11 +1756,21 @@ jobs:
         id: langs
         uses: xberg-io/actions/list-language-definitions@v1
 
-      - name: Build and package C FFI distribution
+      - name: Build C FFI library
+        uses: xberg-io/actions/build-rust-ffi@v1
+        with:
+          crate-name: ts-pack-core-ffi
+          target: ${{ matrix.target }}
+          require-static: "true"
+          additional-flags: "--locked"
+        env:
+          PROJECT_ROOT: ${{ github.workspace }}
+          TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
+          TSLP_LINK_MODE: static
+
+      - name: Package C FFI distribution
         shell: bash
-        run: |
-          alef publish build --lang ffi --target ${{ matrix.target }}
-          alef publish package --lang ffi --target ${{ matrix.target }} -o dist/c-ffi
+        run: alef publish package --lang ffi --target ${{ matrix.target }} -o dist/c-ffi
         env:
           PROJECT_ROOT: ${{ github.workspace }}
           TSLP_LANGUAGES: ${{ steps.langs.outputs.names }}
