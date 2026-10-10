@@ -238,19 +238,17 @@ pub(super) fn record_chunk_node(
         record_definition_name(node, source, chunk_start, chunk_end, collector);
     }
 
-    // ~keep A comment belongs to the chunk holding its first byte, even when it runs past the
-    // ~keep chunk end: requiring full containment dropped a boundary-straddling comment from
+    // ~keep A comment or docstring belongs to the chunk holding its first byte, even when it runs
+    // ~keep past the chunk end: requiring full containment dropped a boundary-straddling one from
     // ~keep every chunk. Exactly one chunk contains any given start byte, so it is reported once.
-    if node.start_byte() >= chunk_start
-        && node.start_byte() < chunk_end
+    let starts_in_chunk = node.start_byte() >= chunk_start && node.start_byte() < chunk_end;
+    if starts_in_chunk
         && node.parent().is_some()
         && let Some(comment) = comment_at(node, source)
     {
         collector.comments.push(comment);
     }
-    if is_contained(node, chunk_start, chunk_end)
-        && let Some(docstring) = docstring_at(node, source, language)
-    {
+    if starts_in_chunk && let Some(docstring) = docstring_at(node, source, language) {
         collector.docstrings.push(docstring);
     }
 }

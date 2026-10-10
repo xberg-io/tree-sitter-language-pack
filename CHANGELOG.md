@@ -25,9 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   boundaries move and the chunk count only ever decreases (`fn a() {..}\nfn b() {}` at 36 bytes: 3 chunks
   with a 7-byte head, now 2). Chunks that were not adjacent to a tiny chunk are untouched, and the pass is
   linear in the source length.
-- A comment that straddles a chunk boundary is now reported in `ChunkContext::comments` of the chunk
-  containing its first byte. It previously appeared in no chunk because comments required full containment.
-  Docstrings keep the full-containment rule.
+- A comment or docstring that straddles a chunk boundary is now reported, with its full text, in
+  `ChunkContext::comments` / `ChunkContext::docstrings` of the chunk containing its first byte. It previously
+  appeared in no chunk because both required full containment.
 
 ### Added
 

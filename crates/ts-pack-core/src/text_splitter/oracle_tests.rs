@@ -629,3 +629,36 @@ fn a_comment_spanning_a_chunk_boundary_is_attributed_to_the_chunk_containing_its
     assert_eq!(owners, vec![owner.metadata.chunk_index]);
     assert_eq!(owner.metadata.comments[0].text, &source[comment_start..comment_end]);
 }
+
+/// A Python docstring that straddles a chunk boundary is reported by the chunk holding its
+/// first byte, whole and exactly once, instead of by none.
+#[test]
+fn a_docstring_spanning_a_chunk_boundary_is_attributed_to_the_chunk_containing_its_start() {
+    use crate::intel::chunking::chunk_source;
+    let source =
+        "def f():\n    \"\"\"A long docstring that cannot fit in a single small chunk at all.\"\"\"\n    return 1\n";
+    let Ok(language) = crate::get_language("python") else {
+        return;
+    };
+    let Some(tree) = parse("python", source) else { return };
+    let doc_start = source.find("\"\"\"").unwrap();
+    let doc_end = source.rfind("\"\"\"").unwrap() + 3;
+    let chunks = chunk_source(source, "python", 30, &language, &tree);
+    assert!(
+        chunks
+            .iter()
+            .any(|c| c.start_byte < doc_end && c.end_byte > doc_start && c.end_byte < doc_end),
+        "premise: the docstring must straddle a boundary: {chunks:?}"
+    );
+    let owners: Vec<usize> = chunks
+        .iter()
+        .filter(|c| !c.metadata.docstrings.is_empty())
+        .map(|c| c.metadata.chunk_index)
+        .collect();
+    let owner = chunks
+        .iter()
+        .find(|c| c.start_byte <= doc_start && doc_start < c.end_byte)
+        .unwrap();
+    assert_eq!(owners, vec![owner.metadata.chunk_index]);
+    assert_eq!(owner.metadata.docstrings[0].text, &source[doc_start..doc_end]);
+}
