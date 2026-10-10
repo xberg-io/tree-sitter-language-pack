@@ -11,7 +11,6 @@ tasks:
     desc: Update Node/TypeScript dependencies within current major versions (non-breaking)
     cmds:
       - echo "Updating Node/TypeScript dependencies across workspace (within-major)..."
-      - corepack up
       - pnpm up -r
       - pnpm up -w
 
@@ -19,7 +18,6 @@ tasks:
     desc: Upgrade Node/TypeScript dependencies to latest versions (cross-major / breaking)
     cmds:
       - echo "Upgrading Node/TypeScript dependencies across workspace (cross-major)..."
-      - corepack up
       - pnpm up --latest -r
       - pnpm up --latest -w
 
