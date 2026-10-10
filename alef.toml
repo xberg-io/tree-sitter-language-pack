@@ -1899,7 +1899,10 @@ run = "cd test_apps/kotlin_android && TSLP_LINK_MODE=static TSLP_LANGUAGES=mojo,
 description = "Pre-compiled tree-sitter grammars for 372 programming languages"
 license = "MIT"
 repository = "https://github.com/xberg-io/tree-sitter-language-pack"
-authors = ["Na'aman Hirschfeld"]
+authors = [
+  "Na'aman Hirschfeld <naaman@xberg.io>",
+  "Tobias Perlstein <tobias@xberg.io>",
+]
 keywords = ["tree-sitter", "parser", "syntax", "language-pack"]
 
 [crates.scaffold.cargo]

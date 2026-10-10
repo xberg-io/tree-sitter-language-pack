@@ -1,4 +1,14 @@
 {
+  "author": {
+    "name": "Na'aman Hirschfeld",
+    "email": "naaman@xberg.io"
+  },
+  "contributors": [
+    {
+      "name": "Tobias Perlstein",
+      "email": "tobias@xberg.io"
+    }
+  ],
   "name": "@xberg-io/tree-sitter-language-pack",
   "version": "1.21.1",
   "description": "Pre-compiled tree-sitter grammars for 372 programming languages",

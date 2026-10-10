@@ -35,6 +35,7 @@ defmodule TreeSitterLanguagePack.MixProject do
   defp package do
     [
       licenses: ["MIT"],
+      maintainers: ["Na'aman Hirschfeld <naaman@xberg.io>", "Tobias Perlstein <tobias@xberg.io>"],
       links: %{"GitHub" => "https://github.com/xberg-io/tree-sitter-language-pack"},
       files:
         ~w(lib .formatter.exs mix.exs README* checksum-*.exs native/tree_sitter_language_pack_nif/Cargo.toml native/tree_sitter_language_pack_nif/Cargo.lock ../../packages/elixir/native/tree_sitter_language_pack_nif/src)

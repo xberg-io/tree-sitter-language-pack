@@ -4,6 +4,10 @@
 # To verify freshness: alef verify
 
 [package]
+authors = [
+  "Na'aman Hirschfeld <naaman@xberg.io>",
+  "Tobias Perlstein <tobias@xberg.io>",
+]
 name = "tree_sitter_language_pack_nif"
 version = "1.21.1"
 edition = "2024"

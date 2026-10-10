@@ -2,6 +2,10 @@
 # alef:hash:ea251c1bb5ce7ccd36a2ce3499e24d7a45061fa599f4b53abe55f2acb35853a1
 
 [package]
+authors = [
+  "Na'aman Hirschfeld <naaman@xberg.io>",
+  "Tobias Perlstein <tobias@xberg.io>",
+]
 name = "tree-sitter-language-pack-jni"
 version = "1.21.1"
 edition = "2024"

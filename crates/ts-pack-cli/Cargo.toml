@@ -1,4 +1,5 @@
 [package]
+authors.workspace = true
 name = "ts-pack-cli"
 version.workspace = true
 edition.workspace = true
