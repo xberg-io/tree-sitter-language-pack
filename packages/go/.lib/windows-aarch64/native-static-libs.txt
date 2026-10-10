@@ -1,0 +1,1 @@
+bcrypt.lib advapi32.lib windows.0.52.0.lib advapi32.lib cfgmgr32.lib kernel32.lib user32.lib ws2_32.lib windows.0.52.0.lib kernel32.lib ntdll.lib userenv.lib ws2_32.lib dbghelp.lib /defaultlib:msvcrt[0m
