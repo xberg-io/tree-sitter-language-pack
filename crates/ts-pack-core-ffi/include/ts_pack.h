@@ -308,6 +308,7 @@ enum TS_PACKAlefFfiErrorCode
   TsPackAlefUnknown = 2,
   TsPackAlefPanic = 3,
   TsPackAlefInvalidHandle = 4,
+  TsPackAlefCancelled = 5,
   TreeSitterLanguagePackErrorLanguageNotFound = 100,
   TreeSitterLanguagePackErrorDynamicLoad = 101,
   TreeSitterLanguagePackErrorNullLanguagePointer = 102,
@@ -345,6 +346,16 @@ int32_t ts_pack_last_error_code(void);
  * The returned pointer is borrowed from thread-local storage and must NOT be freed.
  */
 const char *ts_pack_last_error_context(void);
+
+/**
+ * Return the variant name of the last typed error, such as `RateLimited`.
+ * The pointer is NULL when the last error did not come from a typed error value, and is borrowed
+ * and valid until the next FFI call on this thread.
+ * # Safety
+ * Caller must ensure all pointer arguments are valid or null.
+ * The returned pointer is borrowed from thread-local storage and must NOT be freed.
+ */
+const char *ts_pack_last_error_variant(void);
 
 /**
  * Free a string previously returned by this library.

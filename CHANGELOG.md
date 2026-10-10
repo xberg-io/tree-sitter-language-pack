@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.21.1] - 2026-10-10
+
+### Fixed
+
+- Source chunking now walks the syntax tree once and routes metadata to overlapping chunks, instead
+  of walking the full tree once per chunk. Metadata collection now scales with the AST traversal and
+  the node-to-chunk overlaps it produces.
+
+### Changed
+
+- Regenerate all bindings, fixtures, documentation and workflows with Alef 0.107.12. Native bindings
+  now preserve typed error variants, map cancellation consistently and safely defer handle destruction
+  until concurrent calls finish.
+
 ## [1.21.0] - 2026-10-04
 
 ### Added

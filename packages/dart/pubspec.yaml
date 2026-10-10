@@ -1,6 +1,6 @@
 name: tree_sitter_language_pack
 description: Pre-compiled tree-sitter grammars for 372 programming languages
-version: 1.21.0
+version: 1.21.1
 repository: https://github.com/xberg-io/tree-sitter-language-pack
 environment:
   sdk: '>=3.11.0 <4.0.0'
@@ -19,6 +19,6 @@ dev_dependencies:
   test: '^1.25.0'
   lints: '^6.1.0'
   # Required by flutter_rust_bridge_codegen 2.x for sealed classes.
-  freezed: '^3.2.5'
+  freezed: ^4.0.2
   build_runner: '^2.15.0'
   json_serializable: '^6.13.2'

@@ -33,7 +33,7 @@
     <dependency>
       <groupId>io.xberg.treesitterlanguagepack</groupId>
       <artifactId>tree-sitter-language-pack</artifactId>
-      <version>1.21.0</version>
+      <version>1.21.1</version>
     </dependency>
 
     <dependency>

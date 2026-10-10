@@ -9,7 +9,7 @@ exclude = [
 resolver = "2"
 
 [workspace.package]
-version = "1.21.0"
+version = "1.21.1"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/xberg-io/tree-sitter-language-pack"
@@ -60,7 +60,7 @@ toml_edit = "0.25"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tree-sitter = "0.27"
-tree-sitter-language = "0.1.8"
+tree-sitter-language = "0.1.9"
 tree-sitter-language-pack = { path = "crates/ts-pack-core" }
 ureq = { version = "3", features = ["platform-verifier", "socks-proxy"] }
 walkdir = "2.5"
