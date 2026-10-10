@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-language-pack",
-  "version": "1.21.0",
+  "version": "1.21.1",
   "description": "Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking.",
   "contextFileName": "GEMINI.md",
   "mcpServers": {
