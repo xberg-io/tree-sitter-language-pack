@@ -2,6 +2,7 @@ version: "3"
 
 vars:
   DEV_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json"
+  TEST_LANGUAGES: "baml,c,cedar,dockerfile,dotenv,elixir,go,hcl,java,javascript,json,just,kdl,kotlin,properties,python,ruby,rust,sql,swift,terraform,toml,tsx,typescript,typoscript,typst,xml,yaml"
   LINK_MODE: "dynamic"
 
 tasks:
@@ -48,6 +49,7 @@ tasks:
     desc: Run all Rust tests
     env:
       PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+      TSLP_LANGUAGES: "{{.TEST_LANGUAGES}}"
       TSLP_LINK_MODE: "{{.LINK_MODE}}"
     cmds:
       - cargo test --locked --workspace --exclude ts-pack-core-php --exclude ts-pack-core-wasm
@@ -72,6 +74,7 @@ tasks:
     desc: Run tests gated behind non-default Cargo features (wire_format, concurrent_download)
     env:
       PROJECT_ROOT: "{{.PROJECT_ROOT}}"
+      TSLP_LANGUAGES: "{{.TEST_LANGUAGES}}"
       TSLP_LINK_MODE: "{{.LINK_MODE}}"
     cmds:
       - cargo test --locked -p tree-sitter-language-pack --features test-internals,serde,config
