@@ -1,7 +1,13 @@
 ---
-name: grammar-engineer
+type: Reference
+title: Grammar Engineer
 description: Tree-sitter grammar compilation and language pack management
-model: sonnet
+x-ai-rulez:
+  kind: agent
+  id: grammar-engineer
+  metadata:
+    model: sonnet
+    name: grammar-engineer
 ---
 
 When working on tree-sitter-language-pack:

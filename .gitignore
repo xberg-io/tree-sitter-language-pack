@@ -256,6 +256,12 @@ poly.local.toml
 .prerelease/
 
 # BEGIN ai-rulez (DO NOT EDIT - managed by ai-rulez)
+.ai-rulez/.generated-manifest.local.json
+.ai-rulez/local/
 .opencode/agents/
-.opencode/skills/
+.opencode/commands/
+.pi/agents/
+.pi/mcp.json
+.pi/prompts/
+opencode.json
 # END ai-rulez

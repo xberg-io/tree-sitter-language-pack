@@ -1,5 +1,12 @@
 ---
-priority: high
+type: Decision
+title: Build System
+x-ai-rulez:
+  kind: rule
+  id: build-system
+  domain: parser-compilation
+  metadata:
+    priority: high
 ---
 
 # Build System

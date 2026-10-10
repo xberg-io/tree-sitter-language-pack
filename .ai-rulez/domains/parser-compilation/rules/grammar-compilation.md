@@ -1,5 +1,12 @@
 ---
-priority: critical
+type: Decision
+title: Grammar Compilation
+x-ai-rulez:
+  kind: rule
+  id: grammar-compilation
+  domain: parser-compilation
+  metadata:
+    priority: critical
 ---
 
 # Grammar Compilation Standards

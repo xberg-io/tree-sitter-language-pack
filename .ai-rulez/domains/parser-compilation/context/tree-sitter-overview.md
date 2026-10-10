@@ -1,5 +1,12 @@
 ---
-priority: high
+type: Concept
+title: Tree Sitter Overview
+x-ai-rulez:
+  kind: context
+  id: tree-sitter-overview
+  domain: parser-compilation
+  metadata:
+    priority: high
 ---
 
 # Tree-Sitter Overview

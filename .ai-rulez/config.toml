@@ -1,10 +1,10 @@
 
-version = '4.0'
+version = "5.0"
 name = 'tree-sitter-language-pack'
 description = 'Tree-sitter grammar pack and code-intelligence library with active Python, TypeScript/Node, Ruby, PHP, Go, Java, JNI, C#, Elixir, WebAssembly, Dart, Kotlin Android, Swift, Zig, and C FFI bindings'
 gitignore = true
 default = 'full'
-presets = ["claude", "codex", "opencode"]
+presets = ["claude", "codex", "opencode", "pi"]
 builtins = [
   'rust',
   'python',
@@ -28,6 +28,7 @@ builtins = [
 compact = true
 [header]
 style = 'minimal'
+hashes = "full"
 
 [profiles]
 full = ['parser-compilation', 'language-management']

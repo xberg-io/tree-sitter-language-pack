@@ -1,5 +1,12 @@
 ---
-priority: medium
+type: Decision
+title: Version Management
+x-ai-rulez:
+  kind: rule
+  id: version-management
+  domain: language-management
+  metadata:
+    priority: medium
 ---
 
 # Version Management

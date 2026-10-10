@@ -1,5 +1,12 @@
 ---
-priority: high
+type: Decision
+title: Language Registry
+x-ai-rulez:
+  kind: rule
+  id: language-registry
+  domain: language-management
+  metadata:
+    priority: high
 ---
 
 # Language Registry Management

@@ -1,5 +1,12 @@
 ---
-priority: high
+type: Decision
+title: Parser Testing
+x-ai-rulez:
+  kind: rule
+  id: parser-testing
+  domain: language-management
+  metadata:
+    priority: high
 ---
 
 # Parser Testing Standards

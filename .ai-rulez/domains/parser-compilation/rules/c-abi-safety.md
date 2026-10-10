@@ -1,5 +1,12 @@
 ---
-priority: high
+type: Decision
+title: C Abi Safety
+x-ai-rulez:
+  kind: rule
+  id: c-abi-safety
+  domain: parser-compilation
+  metadata:
+    priority: high
 ---
 
 # C ABI Safety
