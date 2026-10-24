@@ -2884,10 +2884,9 @@ jobs:
           node-version: "22"
       - uses: xberg-io/actions/install-task@v1
       - name: Install ai-rulez
-        uses: xberg-io/actions/setup-ai-rulez@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/setup-ai-rulez@v1.27.1
         with:
-          ai-rulez-version: "5.3.0"
-          source-revision: "bdabc8a6e9211de60ca1e4ad76225ac92fcf218f"
+          ai-rulez-version: "5.6.0"
       # The plugin has no test suite. `plugin:verify` is the only failable check
       # that exists for it: it re-derives every generated bundle from
       # plugin/.ai-rulez and compares byte content + BLAKE3 provenance, so it goes
@@ -5563,12 +5562,11 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Install ai-rulez
-        uses: xberg-io/actions/setup-ai-rulez@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/setup-ai-rulez@v1.27.1
         with:
-          ai-rulez-version: "5.3.0"
-          source-revision: "bdabc8a6e9211de60ca1e4ad76225ac92fcf218f"
+          ai-rulez-version: "5.6.0"
       - name: Verify plugin source and generated artifacts
-        uses: xberg-io/actions/verify-ai-rulez-plugin@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/verify-ai-rulez-plugin@v1.27.1
         with:
           config-directory: .ai-rulez
       - name: Setup Node.js
@@ -5630,12 +5628,11 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
       - name: Install ai-rulez
-        uses: xberg-io/actions/setup-ai-rulez@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/setup-ai-rulez@v1.27.1
         with:
-          ai-rulez-version: "5.3.0"
-          source-revision: "bdabc8a6e9211de60ca1e4ad76225ac92fcf218f"
+          ai-rulez-version: "5.6.0"
       - name: Verify plugin source and generated artifacts
-        uses: xberg-io/actions/verify-ai-rulez-plugin@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/verify-ai-rulez-plugin@v1.27.1
         with:
           config-directory: .ai-rulez
       - name: Install uv
@@ -5681,14 +5678,13 @@ jobs:
           ref: ${{ needs.prepare.outputs.tag }}
           fetch-depth: 0
       - name: Install ai-rulez
-        uses: xberg-io/actions/setup-ai-rulez@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/setup-ai-rulez@v1.27.1
         with:
-          ai-rulez-version: "5.3.0"
-          source-revision: "bdabc8a6e9211de60ca1e4ad76225ac92fcf218f"
+          ai-rulez-version: "5.6.0"
       - name: Verify public skill exports
         run: python3 scripts/sync_public_skills.py --check
       - name: Package all supported plugin runtimes
-        uses: xberg-io/actions/package-ai-rulez-plugin@66e9a172c28ae7e57496fe92de1ab74f2a604194
+        uses: xberg-io/actions/package-ai-rulez-plugin@v1.27.1
         with:
           cursor-marketplace: "true"
           tag: ${{ needs.prepare.outputs.tag }}
@@ -5753,12 +5749,11 @@ jobs:
         with:
           ref: ${{ github.sha }}
       - name: Install reviewed ai-rulez
-        uses: xberg-io/actions/setup-ai-rulez@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/setup-ai-rulez@v1.27.1
         with:
-          ai-rulez-version: "5.3.0"
-          source-revision: "bdabc8a6e9211de60ca1e4ad76225ac92fcf218f"
+          ai-rulez-version: "5.6.0"
       - name: Verify plugin versions and generated resources
-        uses: xberg-io/actions/verify-ai-rulez-plugin@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/verify-ai-rulez-plugin@v1.27.1
         with:
           version-sync-script: scripts/sync_plugin_version.py
       - uses: actions/setup-node@v7
@@ -5825,12 +5820,11 @@ jobs:
         with:
           ref: ${{ github.sha }}
       - name: Install reviewed ai-rulez
-        uses: xberg-io/actions/setup-ai-rulez@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/setup-ai-rulez@v1.27.1
         with:
-          ai-rulez-version: "5.3.0"
-          source-revision: "bdabc8a6e9211de60ca1e4ad76225ac92fcf218f"
+          ai-rulez-version: "5.6.0"
       - name: Verify plugin versions and generated resources
-        uses: xberg-io/actions/verify-ai-rulez-plugin@98adf87f1ed4c62a57ff56f9010d62faf42d4db6
+        uses: xberg-io/actions/verify-ai-rulez-plugin@v1.27.1
         with:
           version-sync-script: scripts/sync_plugin_version.py
       - uses: astral-sh/setup-uv@v10.3.0

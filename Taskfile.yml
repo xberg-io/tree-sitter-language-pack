@@ -45,6 +45,8 @@ includes:
     taskfile: .task/workflows/e2e.yml
 
 vars:
+  # One pin for every task that runs ai-rulez. Keep it equal to ai-rulez-version in the workflows. ~keep
+  AI_RULEZ: "uvx --from ai-rulez==5.6.0 ai-rulez"
   PROJECT_ROOT:
     sh: pwd
   VERSION:
@@ -70,7 +72,7 @@ tasks:
   ai-rulez:
     desc: Generate ai-rulez configuration files (CLAUDE.md, etc.)
     cmds:
-      - ai-rulez generate
+      - "{{.AI_RULEZ}} generate"
 
   clone:
     desc: "Clone all language grammar repositories (full re-clone)"
@@ -481,7 +483,7 @@ tasks:
   governance:check:
     desc: Check materialized local governance outputs against shared sources
     cmds:
-      - ai-rulez generate --check --no-local --strict-config
+      - "{{.AI_RULEZ}} generate --check --no-local --strict-config"
 
   plugin:skills:test:
     desc: Verify public skill ownership and resource freshness
