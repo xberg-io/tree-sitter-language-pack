@@ -578,7 +578,7 @@ indent-width = 2
 [[workspace.poly.hooks-sources]]
 id = "ai-rulez"
 git = "https://github.com/Goldziher/ai-rulez.git"
-revision = "v5.3.0"
+revision = "v5.6.0"
 hooks = ["ai-rulez-validate", "ai-rulez-plugin-verify"]
 [workspace.poly.per-file-ignores]
 # Alef-generated config files. Both grow with the size of the surface alef manages and
