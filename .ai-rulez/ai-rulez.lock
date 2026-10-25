@@ -4,7 +4,7 @@
 version = 1
 ai_rulez_version = '5.6.3'
 scope = 'all'
-tree = 'sha256:d212e111649f9c0c4772d2bc1018c3fcf2a8b476cccca1324a800a30bdef9699'
+tree = 'sha256:eec47b6f322c6914aba4eae2b9c0e5f2c47d2c5c72901e17b0fb2258c9c0d7e6'
 
 [[include]]
 name = 'xberg-cicd'
@@ -234,65 +234,24 @@ commit = 'bca4b4e8f1f198bef25308aaabf7a2c238a387a3'
 digest = 'sha256:552648a1d89cccb6bc3d47cb25f3b6355f75a104936fc70668fdb6167868c965'
 
 [[item]]
-kind = 'agent'
-id = 'grammar-engineer'
-path = 'agents/grammar-engineer.md'
-digest = 'sha256:17f56b2337806acb088dc840ee29e3fab3055a8787d47dacbe87081f22c64ca9'
-
-[[item]]
-kind = 'context'
-id = 'tree-sitter-overview'
-domain = 'parser-compilation'
-path = 'domains/parser-compilation/context/tree-sitter-overview.md'
-digest = 'sha256:d2a4167c3dcc4dd6c8427ad0c992d3ccb7bf3c1ca06fe8ada12fe4f74bdc126d'
+kind = 'rule'
+id = 'core-layout'
+path = 'rules/core-layout.md'
+digest = 'sha256:6117d9895a96ec151555896bc1c013263bce90c0e07cc3bd0aaa11cf763fcea5'
 
 [[item]]
 kind = 'rule'
-id = 'typescript-conventions'
-path = 'rules/typescript-conventions.md'
-digest = 'sha256:0dc2cd57a3b548383c7de9945ad7d8b31f2e6470c7af6027ea483dd1a6182eaa'
-
-[[item]]
-kind = 'rule'
-id = 'language-registry'
+id = 'language-management'
 domain = 'language-management'
-path = 'domains/language-management/rules/language-registry.md'
-digest = 'sha256:514cc38e4549edb3924520e755dbc66dfc08169d45834201673fd85d1d7fa730'
+path = 'domains/language-management/rules/language-management.md'
+digest = 'sha256:3d9747c86a1188e15cc0087551d6e86c7d2a10a7d3f72a9904d7232c5161062c'
 
 [[item]]
 kind = 'rule'
-id = 'parser-testing'
-domain = 'language-management'
-path = 'domains/language-management/rules/parser-testing.md'
-digest = 'sha256:7350ee758a25697c97eea23f069c7871342dd3773acce0cfe1e7dfecd849f761'
-
-[[item]]
-kind = 'rule'
-id = 'version-management'
-domain = 'language-management'
-path = 'domains/language-management/rules/version-management.md'
-digest = 'sha256:9eaba7dc17beceff47e14defaaa6568602ee7426f95ec633cad3cabfdbb5ae08'
-
-[[item]]
-kind = 'rule'
-id = 'build-system'
+id = 'parser-compilation'
 domain = 'parser-compilation'
-path = 'domains/parser-compilation/rules/build-system.md'
-digest = 'sha256:55f3c623bcfd23f7311ad63300c28b58bda88a2f2a1eb53880cd5db0744c3e25'
-
-[[item]]
-kind = 'rule'
-id = 'c-abi-safety'
-domain = 'parser-compilation'
-path = 'domains/parser-compilation/rules/c-abi-safety.md'
-digest = 'sha256:9a7db59428dfff13074724dae0802555d88afa9e9786e6a3774a04273cc3bbaf'
-
-[[item]]
-kind = 'rule'
-id = 'grammar-compilation'
-domain = 'parser-compilation'
-path = 'domains/parser-compilation/rules/grammar-compilation.md'
-digest = 'sha256:554efe504da0c4bc62db7e025968414a63c8c29151848130ec528e387d594e29'
+path = 'domains/parser-compilation/rules/parser-compilation.md'
+digest = 'sha256:2a33820f0997b2d5d7d201cc4180ab2066d5adb8e374004fbc167c789982ab62'
 
 [[item]]
 kind = 'settings'
