@@ -1,3 +1,3 @@
 # Concepts
 
-* [Typescript Conventions](typescript-conventions.md)
+* [Core Crate Layout](core-layout.md)
