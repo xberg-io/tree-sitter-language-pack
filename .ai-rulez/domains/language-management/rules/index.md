@@ -1,5 +1,3 @@
 # Concepts
 
-* [Language Registry](language-registry.md)
-* [Parser Testing](parser-testing.md)
-* [Version Management](version-management.md)
+* [Language Management](language-management.md)
