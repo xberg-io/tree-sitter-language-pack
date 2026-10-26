@@ -5,6 +5,34 @@ gitignore = true
 name = "tree-sitter-language-pack"
 description = "Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking."
 
+[lint]
+# The repository MCP reference intentionally keeps the Claude /mcp name. ~keep
+allow_overrides = ["claude:mcp"]
+
+# Goldziher/ai-rulez#485: ai-rulez reports generated skill copies as duplicates. ~keep
+[[lint.ignore_rules]]
+rules = ["AR701"]
+paths = [".claude/skills/*/SKILL.md", ".codex/skills/*/SKILL.md", ".github/skills/*/SKILL.md"]
+reason = "The generated harness and plugin copies repeat the source skill descriptions and names. ai-rulez counts each copy as a duplicate."
+
+[[lint.ignore_rules]]
+rules = ["AR701", "AR703"]
+paths = [
+  "plugin/.cursor-plugin/skills/*/SKILL.md",
+  "plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/*/SKILL.md",
+  "plugin/.hermes/plugins/tree-sitter-language-pack/skills/*/SKILL.md",
+  "plugin/.opencode/skills/*/SKILL.md",
+  "plugin/.pi/skills/*/SKILL.md",
+  "plugin/skills/*/SKILL.md",
+  "skills/*/SKILL.md",
+]
+reason = "The generated harness and plugin copies repeat the source skill descriptions and names. ai-rulez counts each copy as a duplicate."
+
+# The launcher path is relative to the plugin root (plugin/scripts/mcp-launch.sh), which AR402 does not search. ~keep
+[[lint.ignore_rules]]
+rules = ["AR402"]
+paths = ["**/tree-sitter-language-pack-using-the-mcp-server/SKILL.md"]
+reason = "The plugin bundles scripts/mcp-launch.sh at its own root; each bundle resolves it there."
 
 [mcp]
 self_server = false
