@@ -4,9 +4,6 @@ title: Core Crate Layout
 paths:
   - "crates/ts-pack-core/src/**"
   - "crates/ts-pack-cli/**"
-targets:
-  - ".claude/rules/"
-  - ".github/instructions/"
 x-ai-rulez:
   kind: rule
   id: core-layout

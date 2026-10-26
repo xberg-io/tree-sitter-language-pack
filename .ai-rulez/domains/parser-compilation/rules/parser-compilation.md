@@ -7,9 +7,6 @@ paths:
   - "grammars/**"
   - "patches/**"
   - "sources/**"
-targets:
-  - ".claude/rules/"
-  - ".github/instructions/"
 x-ai-rulez:
   kind: rule
   id: parser-compilation

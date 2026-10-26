@@ -9,9 +9,6 @@ paths:
   - "crates/ts-pack-core/src/extensions.rs"
   - "fixtures/parsing/**"
   - "fixtures/registry/**"
-targets:
-  - ".claude/rules/"
-  - ".github/instructions/"
 x-ai-rulez:
   kind: rule
   id: language-management
