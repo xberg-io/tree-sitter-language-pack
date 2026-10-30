@@ -55,11 +55,12 @@ class ReasonScannerTests(unittest.TestCase):
     def scan(self, source: str, mask: int, flags: int = 0, parens: int = 0, repeats: int = 1) -> list[tuple[int, ...]]:
         result = subprocess.run(
             [str(self.executable), source, str(mask), str(flags), str(parens), str(repeats)],
-            check=True,
+            check=False,
             capture_output=True,
             text=True,
             timeout=5,
         )
+        assert result.returncode == 0, result.stderr
         return [tuple(map(int, line.split())) for line in result.stdout.splitlines()]
 
     def test_token_boundaries_and_state_transitions(self) -> None:
@@ -100,6 +101,13 @@ class ReasonScannerTests(unittest.TestCase):
         for source, mask, flags, parens, expected in cases:
             with self.subTest(source=source, mask=mask, flags=flags, parens=parens):
                 assert self.scan(source, mask, flags, parens) == [expected]
+
+    def test_line_comments_at_eof_terminate_at_the_full_comment_span(self) -> None:
+        """An ordinary line comment also ends when the source has no final newline."""
+        for source in ("//", "// comment"):
+            with self.subTest(source=source):
+                end = len(source)
+                assert self.scan(source, 2) == [(1, end, 0, end, 1, 0, 0, 0, 0)]
 
     def test_eof_newline_is_reported_only_once(self) -> None:
         """Repeated EOF scans must not produce an unbounded sequence of newlines."""

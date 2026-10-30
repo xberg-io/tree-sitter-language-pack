@@ -15,10 +15,16 @@ typedef struct {
   unsigned steps;
 } TestLexer;
 
+enum { MAX_ADVANCE_STEPS = 4096, NONTERMINATION_EXIT = 3 };
+
 static void test_advance(TSLexer *lexer, bool skip) {
   TestLexer *test = (TestLexer *)lexer;
-  if (++test->steps > 4096)
-    abort();
+  if (++test->steps > MAX_ADVANCE_STEPS) {
+    fprintf(stderr,
+            "scanner did not terminate after %u advances at byte %u (EOF=%d)\n",
+            test->steps, test->position, test->input[test->position] == '\0');
+    exit(NONTERMINATION_EXIT);
+  }
   if (test->input[test->position] != '\0') {
     ++test->position;
     if (skip)
