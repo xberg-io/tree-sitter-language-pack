@@ -112,3 +112,14 @@ setup() {
 		return 1
 	}
 }
+
+@test "a missing dart stops the refresh with a message, before dart runs" {
+	# PATH holds only the stubs and bash, so a dart on the host cannot satisfy the probe. ~keep
+	rm "$XBERG_STUB_BIN/dart"
+	mkdir "$BATS_TEST_TMPDIR/bash-only"
+	ln -s "$BASH" "$BATS_TEST_TMPDIR/bash-only/bash"
+	PATH="$XBERG_STUB_BIN:$BATS_TEST_TMPDIR/bash-only" usage_mode=update run "$BASH" "$SCRIPT"
+	xberg_assert_status 1
+	xberg_assert_output_contains "dart is required on PATH"
+	[ "$(tail -n 1 "$XBERG_TRACE")" = "elixir mix hex.outdated" ]
+}

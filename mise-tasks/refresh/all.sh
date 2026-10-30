@@ -16,8 +16,15 @@ esac
 
 csharp_project=TreeSitterLanguagePack/TreeSitterLanguagePack.csproj
 
-# Dart, Swift and Zig upgrades match the shared deps engine; the other ecosystems keep their own
-# steps (extra manifests, report steps, Maven version rules). ~keep
+require() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "$1 is required on PATH" >&2
+    exit 1
+  }
+}
+
+# The shared deps engine runs the Rust upgrade, both Dart and Swift modes and the Zig upgrade; the
+# other steps (extra manifests, report steps, Maven version rules) stay here. ~keep
 refresh() {
   local lang="$1"
   case "$lang:$mode" in
@@ -82,19 +89,19 @@ refresh() {
   # Dart, Swift and Zig are not mise tools, so each fails first when its binary is missing. SwiftPM
   # resolves within Package.swift ranges: edit them by hand for a major upgrade. ~keep
   dart:*)
-    command -v dart >/dev/null 2>&1
+    require dart
     mise run deps "$mode" dart
     ;;
   swift:*)
-    command -v swift >/dev/null 2>&1
+    require swift
     mise run deps "$mode" swift
     ;;
   zig:update)
-    command -v zig >/dev/null 2>&1
+    require zig
     (cd packages/zig && zig build --fetch)
     ;;
   zig:upgrade)
-    command -v zig >/dev/null 2>&1
+    require zig
     mise run deps upgrade zig
     ;;
   # Gradle has no built-in apply-updates: this reports current vs available versions; edit
@@ -102,7 +109,7 @@ refresh() {
   kotlin-android:*)
     local revision=release
     if [ "$mode" = upgrade ]; then revision=latest.release; fi
-    command -v gradle >/dev/null 2>&1
+    require gradle
     (cd packages/kotlin-android && { gradle dependencyUpdates -Drevision="$revision" --no-daemon || true; })
     ;;
   esac
