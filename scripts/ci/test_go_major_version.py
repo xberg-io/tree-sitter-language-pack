@@ -1,5 +1,6 @@
 """Exercise prerelease Go resolution across semantic import major versions."""
 
+import re
 from pathlib import Path
 
 import pytest
@@ -38,3 +39,29 @@ def test_go_version_pin_accepts_the_major_version_module(tmp_path: Path, monkeyp
     findings, changed = check_test_app_pins.check_pin(pin, "2.0.0", fix=False)
     assert findings == []
     assert changed is False
+
+
+def test_handwritten_capsule_test_imports_the_current_go_module() -> None:
+    root = Path(__file__).resolve().parents[2]
+    module = next(
+        line.removeprefix("module ").strip()
+        for line in (root / "packages/go/go.mod").read_text().splitlines()
+        if line.startswith("module ")
+    )
+    source = (root / "e2e/go/capsule_passthrough_test.go").read_text()
+    imported = re.search(r'\btspack\s+"([^"]+)"', source)
+    assert imported is not None
+    assert imported.group(1) == module
+
+
+def test_go_readme_installation_uses_the_current_module() -> None:
+    root = Path(__file__).resolve().parents[2]
+    module = next(
+        line.removeprefix("module ").strip()
+        for line in (root / "packages/go/go.mod").read_text().splitlines()
+        if line.startswith("module ")
+    )
+    readme = (root / "packages/go/README.md").read_text()
+    assert f"go get {module}\n" in readme
+    assert f'https://pkg.go.dev/{module}"' in readme
+    assert f'"{module}"' in readme

@@ -71,7 +71,7 @@ fn wire__crate__DownloadManager_clean_cache_impl(
                 );
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let mut api_that_guard = None;
                     let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
                         flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, false),
@@ -113,7 +113,7 @@ fn wire__crate__DownloadManager_download_all_best_effort_impl(
                 );
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let mut api_that_guard = None;
                     let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
                         flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, false),
@@ -194,7 +194,7 @@ fn wire__crate__DownloadManager_new_impl(
             let api_version = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::DownloadManager::new(api_version)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -295,7 +295,7 @@ fn wire__crate__LanguageRegistry_get_language_impl(
             let api_name = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let mut api_that_guard = None;
                     let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
                         flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, false),
@@ -494,7 +494,7 @@ fn wire__crate__LanguageRegistry_process_impl(
             let api_config = <crate::ProcessConfig>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let mut api_that_guard = None;
                     let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
                         flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, false),
@@ -1540,7 +1540,7 @@ fn wire__crate__Parser_set_language_impl(
             let api_name = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let mut api_that_guard = None;
                     let decode_indices_ = flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
                         flutter_rust_bridge::for_generated::LockableOrderInfo::new(&api_that, 0, true),
@@ -1986,7 +1986,7 @@ fn wire__crate__cache_dir_impl(
             let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::cache_dir()?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -2014,7 +2014,7 @@ fn wire__crate__clean_cache_impl(
             let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::clean_cache()?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -2043,7 +2043,7 @@ fn wire__crate__configure_impl(
             let api_config = <crate::PackConfig>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::configure(api_config)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -2912,7 +2912,7 @@ fn wire__crate__download_impl(
             let api_names = <Vec<String>>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::download(api_names)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -2940,7 +2940,7 @@ fn wire__crate__download_all_impl(
             let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::download_all()?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -2969,7 +2969,7 @@ fn wire__crate__download_group_impl(
             let api_name = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::download_group(api_name)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3137,7 +3137,7 @@ fn wire__crate__get_language_impl(
             let api_name = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::get_language(api_name)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3193,7 +3193,7 @@ fn wire__crate__get_parser_impl(
             let api_name = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::get_parser(api_name)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3278,7 +3278,7 @@ fn wire__crate__init_impl(
             let api_config = <crate::PackConfig>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::init(api_config)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3333,7 +3333,7 @@ fn wire__crate__manifest_groups_impl(
             let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::manifest_groups()?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3361,7 +3361,7 @@ fn wire__crate__manifest_languages_impl(
             let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::manifest_languages()?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3390,7 +3390,7 @@ fn wire__crate__prefetch_impl(
             let api_languages = <Vec<String>>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::prefetch(api_languages)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3419,7 +3419,7 @@ fn wire__crate__process_impl(
             let api_config = <crate::ProcessConfig>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
-                transform_result_sse::<_, String>((move || {
+                transform_result_sse::<_, AlefBridgeError>((move || {
                     let output_ok = crate::process(api_source, api_config)?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -3765,6 +3765,14 @@ impl SseDecode for TreeCursor {
     }
 }
 
+impl SseDecode for AlefBridgeError {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <crate::AlefBridgeErrorWire>::sse_decode(deserializer);
+        return crate::alef_decode_bridge_error(inner);
+    }
+}
+
 impl SseDecode for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DownloadManager>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3826,6 +3834,30 @@ impl SseDecode for String {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <Vec<u8>>::sse_decode(deserializer);
         return String::from_utf8(inner).unwrap();
+    }
+}
+
+impl SseDecode for crate::AlefBridgeErrorWire {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_error = <crate::Error>::sse_decode(deserializer);
+                return crate::AlefBridgeErrorWire::Error { error: var_error };
+            }
+            1 => {
+                let mut var_message = <String>::sse_decode(deserializer);
+                return crate::AlefBridgeErrorWire::InvalidInput { message: var_message };
+            }
+            2 => {
+                let mut var_message = <String>::sse_decode(deserializer);
+                return crate::AlefBridgeErrorWire::NativeFailure { message: var_message };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -4941,6 +4973,43 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<TreeCursor>> for TreeCursor {
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<AlefBridgeError> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        crate::alef_encode_bridge_error(self.0).into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<AlefBridgeError> {}
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<AlefBridgeError>> for AlefBridgeError {
+    fn into_into_dart(self) -> FrbWrapper<AlefBridgeError> {
+        self.into()
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::AlefBridgeErrorWire {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::AlefBridgeErrorWire::Error { error } => {
+                [0.into_dart(), error.into_into_dart().into_dart()].into_dart()
+            }
+            crate::AlefBridgeErrorWire::InvalidInput { message } => {
+                [1.into_dart(), message.into_into_dart().into_dart()].into_dart()
+            }
+            crate::AlefBridgeErrorWire::NativeFailure { message } => {
+                [2.into_dart(), message.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::AlefBridgeErrorWire {}
+impl flutter_rust_bridge::IntoIntoDart<crate::AlefBridgeErrorWire> for crate::AlefBridgeErrorWire {
+    fn into_into_dart(self) -> crate::AlefBridgeErrorWire {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<crate::ByteRange> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -5567,6 +5636,13 @@ impl SseEncode for TreeCursor {
     }
 }
 
+impl SseEncode for AlefBridgeError {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::AlefBridgeErrorWire>::sse_encode(crate::alef_encode_bridge_error(self), serializer);
+    }
+}
+
 impl SseEncode for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DownloadManager>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -5634,6 +5710,29 @@ impl SseEncode for String {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<u8>>::sse_encode(self.into_bytes(), serializer);
+    }
+}
+
+impl SseEncode for crate::AlefBridgeErrorWire {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::AlefBridgeErrorWire::Error { error } => {
+                <i32>::sse_encode(0, serializer);
+                <crate::Error>::sse_encode(error, serializer);
+            }
+            crate::AlefBridgeErrorWire::InvalidInput { message } => {
+                <i32>::sse_encode(1, serializer);
+                <String>::sse_encode(message, serializer);
+            }
+            crate::AlefBridgeErrorWire::NativeFailure { message } => {
+                <i32>::sse_encode(2, serializer);
+                <String>::sse_encode(message, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 

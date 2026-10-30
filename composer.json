@@ -37,7 +37,12 @@
     "support-nts": true,
     "download-url-method": "pre-packaged-binary"
   },
-  "keywords": ["language-pack", "parser", "syntax", "tree-sitter"],
+  "keywords": [
+    "language-pack",
+    "parser",
+    "syntax",
+    "tree-sitter"
+  ],
   "extra": {
     "pie": {
       "binary": {

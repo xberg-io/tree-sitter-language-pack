@@ -13,6 +13,385 @@ part of 'lib.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
+mixin _$AlefBridgeErrorWire {
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is AlefBridgeErrorWire);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'AlefBridgeErrorWire()';
+}
+
+
+}
+
+/// @nodoc
+class $AlefBridgeErrorWireCopyWith<$Res>  {
+$AlefBridgeErrorWireCopyWith(AlefBridgeErrorWire _, $Res Function(AlefBridgeErrorWire) __);
+}
+
+
+/// Adds pattern-matching-related methods to [AlefBridgeErrorWire].
+extension AlefBridgeErrorWirePatterns on AlefBridgeErrorWire {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AlefBridgeErrorWire_Error value)?  error,TResult Function( AlefBridgeErrorWire_InvalidInput value)?  invalidInput,TResult Function( AlefBridgeErrorWire_NativeFailure value)?  nativeFailure,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case AlefBridgeErrorWire_Error() when error != null:
+return error(_that);case AlefBridgeErrorWire_InvalidInput() when invalidInput != null:
+return invalidInput(_that);case AlefBridgeErrorWire_NativeFailure() when nativeFailure != null:
+return nativeFailure(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AlefBridgeErrorWire_Error value)  error,required TResult Function( AlefBridgeErrorWire_InvalidInput value)  invalidInput,required TResult Function( AlefBridgeErrorWire_NativeFailure value)  nativeFailure,}){
+final _that = this;
+switch (_that) {
+case AlefBridgeErrorWire_Error():
+return error(_that);case AlefBridgeErrorWire_InvalidInput():
+return invalidInput(_that);case AlefBridgeErrorWire_NativeFailure():
+return nativeFailure(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AlefBridgeErrorWire_Error value)?  error,TResult? Function( AlefBridgeErrorWire_InvalidInput value)?  invalidInput,TResult? Function( AlefBridgeErrorWire_NativeFailure value)?  nativeFailure,}){
+final _that = this;
+switch (_that) {
+case AlefBridgeErrorWire_Error() when error != null:
+return error(_that);case AlefBridgeErrorWire_InvalidInput() when invalidInput != null:
+return invalidInput(_that);case AlefBridgeErrorWire_NativeFailure() when nativeFailure != null:
+return nativeFailure(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( Error error)?  error,TResult Function( String message)?  invalidInput,TResult Function( String message)?  nativeFailure,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case AlefBridgeErrorWire_Error() when error != null:
+return error(_that.error);case AlefBridgeErrorWire_InvalidInput() when invalidInput != null:
+return invalidInput(_that.message);case AlefBridgeErrorWire_NativeFailure() when nativeFailure != null:
+return nativeFailure(_that.message);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( Error error)  error,required TResult Function( String message)  invalidInput,required TResult Function( String message)  nativeFailure,}) {final _that = this;
+switch (_that) {
+case AlefBridgeErrorWire_Error():
+return error(_that.error);case AlefBridgeErrorWire_InvalidInput():
+return invalidInput(_that.message);case AlefBridgeErrorWire_NativeFailure():
+return nativeFailure(_that.message);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( Error error)?  error,TResult? Function( String message)?  invalidInput,TResult? Function( String message)?  nativeFailure,}) {final _that = this;
+switch (_that) {
+case AlefBridgeErrorWire_Error() when error != null:
+return error(_that.error);case AlefBridgeErrorWire_InvalidInput() when invalidInput != null:
+return invalidInput(_that.message);case AlefBridgeErrorWire_NativeFailure() when nativeFailure != null:
+return nativeFailure(_that.message);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class AlefBridgeErrorWire_Error extends AlefBridgeErrorWire {
+  const AlefBridgeErrorWire_Error({required this.error}): super._();
+
+
+ final  Error error;
+
+/// Create a copy of AlefBridgeErrorWire
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AlefBridgeErrorWire_ErrorCopyWith<AlefBridgeErrorWire_Error> get copyWith => _$AlefBridgeErrorWire_ErrorCopyWithImpl<AlefBridgeErrorWire_Error>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is AlefBridgeErrorWire_Error&&(identical(other.error, error) || other.error == error));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,error);
+}
+
+@override
+String toString() {
+    return 'AlefBridgeErrorWire.error(error: $error)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AlefBridgeErrorWire_ErrorCopyWith<$Res> implements $AlefBridgeErrorWireCopyWith<$Res> {
+  factory $AlefBridgeErrorWire_ErrorCopyWith(AlefBridgeErrorWire_Error value, $Res Function(AlefBridgeErrorWire_Error) _then) = _$AlefBridgeErrorWire_ErrorCopyWithImpl;
+@useResult
+$Res call({
+ Error error
+});
+
+
+$ErrorCopyWith<$Res> get error;
+
+}
+/// @nodoc
+class _$AlefBridgeErrorWire_ErrorCopyWithImpl<$Res>
+    implements $AlefBridgeErrorWire_ErrorCopyWith<$Res> {
+  _$AlefBridgeErrorWire_ErrorCopyWithImpl(this._self, this._then);
+
+  final AlefBridgeErrorWire_Error _self;
+  final $Res Function(AlefBridgeErrorWire_Error) _then;
+
+/// Create a copy of AlefBridgeErrorWire
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = null,}) {
+  return _then(AlefBridgeErrorWire_Error(
+error: null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as Error,
+  ));
+}
+
+/// Create a copy of AlefBridgeErrorWire
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ErrorCopyWith<$Res> get error {
+
+  return $ErrorCopyWith<$Res>(_self.error, (value) {
+    return _then(_self.copyWith(error: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class AlefBridgeErrorWire_InvalidInput extends AlefBridgeErrorWire {
+  const AlefBridgeErrorWire_InvalidInput({required this.message}): super._();
+
+
+ final  String message;
+
+/// Create a copy of AlefBridgeErrorWire
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AlefBridgeErrorWire_InvalidInputCopyWith<AlefBridgeErrorWire_InvalidInput> get copyWith => _$AlefBridgeErrorWire_InvalidInputCopyWithImpl<AlefBridgeErrorWire_InvalidInput>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is AlefBridgeErrorWire_InvalidInput&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,message);
+}
+
+@override
+String toString() {
+    return 'AlefBridgeErrorWire.invalidInput(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AlefBridgeErrorWire_InvalidInputCopyWith<$Res> implements $AlefBridgeErrorWireCopyWith<$Res> {
+  factory $AlefBridgeErrorWire_InvalidInputCopyWith(AlefBridgeErrorWire_InvalidInput value, $Res Function(AlefBridgeErrorWire_InvalidInput) _then) = _$AlefBridgeErrorWire_InvalidInputCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$AlefBridgeErrorWire_InvalidInputCopyWithImpl<$Res>
+    implements $AlefBridgeErrorWire_InvalidInputCopyWith<$Res> {
+  _$AlefBridgeErrorWire_InvalidInputCopyWithImpl(this._self, this._then);
+
+  final AlefBridgeErrorWire_InvalidInput _self;
+  final $Res Function(AlefBridgeErrorWire_InvalidInput) _then;
+
+/// Create a copy of AlefBridgeErrorWire
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(AlefBridgeErrorWire_InvalidInput(
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class AlefBridgeErrorWire_NativeFailure extends AlefBridgeErrorWire {
+  const AlefBridgeErrorWire_NativeFailure({required this.message}): super._();
+
+
+ final  String message;
+
+/// Create a copy of AlefBridgeErrorWire
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AlefBridgeErrorWire_NativeFailureCopyWith<AlefBridgeErrorWire_NativeFailure> get copyWith => _$AlefBridgeErrorWire_NativeFailureCopyWithImpl<AlefBridgeErrorWire_NativeFailure>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is AlefBridgeErrorWire_NativeFailure&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,message);
+}
+
+@override
+String toString() {
+    return 'AlefBridgeErrorWire.nativeFailure(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AlefBridgeErrorWire_NativeFailureCopyWith<$Res> implements $AlefBridgeErrorWireCopyWith<$Res> {
+  factory $AlefBridgeErrorWire_NativeFailureCopyWith(AlefBridgeErrorWire_NativeFailure value, $Res Function(AlefBridgeErrorWire_NativeFailure) _then) = _$AlefBridgeErrorWire_NativeFailureCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$AlefBridgeErrorWire_NativeFailureCopyWithImpl<$Res>
+    implements $AlefBridgeErrorWire_NativeFailureCopyWith<$Res> {
+  _$AlefBridgeErrorWire_NativeFailureCopyWithImpl(this._self, this._then);
+
+  final AlefBridgeErrorWire_NativeFailure _self;
+  final $Res Function(AlefBridgeErrorWire_NativeFailure) _then;
+
+/// Create a copy of AlefBridgeErrorWire
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(AlefBridgeErrorWire_NativeFailure(
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$DocstringFormat {
 
 
@@ -680,7 +1059,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.languageNotFound(field0: $field0)';
+  return "Language '" + field0.toString() + "' not found";
 }
 
 
@@ -748,7 +1127,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.dynamicLoad(field0: $field0)';
+  return "Dynamic library load error: " + field0.toString() + "";
 }
 
 
@@ -816,7 +1195,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.nullLanguagePointer(field0: $field0)';
+  return "Language function returned null pointer for '" + field0.toString() + "'";
 }
 
 
@@ -884,7 +1263,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.parserSetup(field0: $field0)';
+  return "Failed to set parser language: " + field0.toString() + "";
 }
 
 
@@ -952,7 +1331,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.lockPoisoned(field0: $field0)';
+  return "Registry lock poisoned: " + field0.toString() + "";
 }
 
 
@@ -1020,7 +1399,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.config(field0: $field0)';
+  return "Configuration error: " + field0.toString() + "";
 }
 
 
@@ -1081,7 +1460,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-    return 'Error.parseFailed()';
+  return "Parse failed: parsing returned no tree";
 }
 
 
@@ -1120,7 +1499,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.parseTimeout(timeoutMs: $timeoutMs)';
+  return "Parse cancelled: exceeded the configured budget of " + timeoutMs.toString() + " ms";
 }
 
 
@@ -1188,7 +1567,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.queryError(field0: $field0)';
+  return "Query error: " + field0.toString() + "";
 }
 
 
@@ -1256,7 +1635,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.invalidRange(field0: $field0)';
+  return "Invalid byte range: " + field0.toString() + "";
 }
 
 
@@ -1324,7 +1703,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.download(field0: $field0)';
+  return "Download error: " + field0.toString() + "";
 }
 
 
@@ -1394,7 +1773,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.checksumMismatch(file: $file, expected: $expected, actual: $actual)';
+  return "Checksum mismatch for '" + file.toString() + "': expected " + expected.toString() + ", got " + actual.toString() + "";
 }
 
 
@@ -1464,7 +1843,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.cacheLock(field0: $field0)';
+  return "Download cache lock error: " + field0.toString() + "";
 }
 
 

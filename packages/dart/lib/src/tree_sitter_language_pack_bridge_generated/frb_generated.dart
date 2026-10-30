@@ -639,7 +639,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateDownloadManagerCleanCacheConstMeta,
         argValues: [that],
@@ -675,7 +676,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_i_64,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateDownloadManagerDownloadAllBestEffortConstMeta,
         argValues: [that],
@@ -743,7 +745,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         codec: SseCodec(
           decodeSuccessData:
               sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDownloadManager,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateDownloadManagerNewConstMeta,
         argValues: [version],
@@ -845,7 +848,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         codec: SseCodec(
           decodeSuccessData:
               sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLanguage,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateLanguageRegistryGetLanguageConstMeta,
         argValues: [that, name],
@@ -1025,7 +1029,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_process_result,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateLanguageRegistryProcessConstMeta,
         argValues: [that, source, config],
@@ -1869,7 +1874,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateParserSetLanguageConstMeta,
         argValues: [that, name],
@@ -2231,7 +2237,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateCacheDirConstMeta,
         argValues: [],
@@ -2258,7 +2265,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateCleanCacheConstMeta,
         argValues: [],
@@ -2286,7 +2294,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateConfigureConstMeta,
         argValues: [config],
@@ -3255,7 +3264,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_i_64,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateDownloadConstMeta,
         argValues: [names],
@@ -3282,7 +3292,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_i_64,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateDownloadAllConstMeta,
         argValues: [],
@@ -3310,7 +3321,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_i_64,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateDownloadGroupConstMeta,
         argValues: [name],
@@ -3484,7 +3496,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         codec: SseCodec(
           decodeSuccessData:
               sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLanguage,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateGetLanguageConstMeta,
         argValues: [name],
@@ -3543,7 +3556,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         codec: SseCodec(
           decodeSuccessData:
               sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerParser,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateGetParserConstMeta,
         argValues: [name],
@@ -3627,7 +3641,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateInitConstMeta,
         argValues: [config],
@@ -3681,7 +3696,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_String,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateManifestGroupsConstMeta,
         argValues: [],
@@ -3708,7 +3724,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_String,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateManifestLanguagesConstMeta,
         argValues: [],
@@ -3736,7 +3753,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCratePrefetchConstMeta,
         argValues: [languages],
@@ -3768,7 +3786,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_process_result,
-          decodeErrorData: sse_decode_String,
+          decodeErrorData:
+              sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError,
         ),
         constMeta: kCrateProcessConstMeta,
         argValues: [source, config],
@@ -3963,6 +3982,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Object
+  dco_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return switch (dco_decode_alef_bridge_error_wire(raw)) {
+      AlefBridgeErrorWire_Error(:final error) => error,
+      AlefBridgeErrorWire_InvalidInput(:final message) => ArgumentError(
+        message,
+      ),
+      AlefBridgeErrorWire_NativeFailure(:final message) => StateError(message),
+    };
+  }
+
+  @protected
   DownloadManager
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDownloadManager(
     dynamic raw,
@@ -4032,6 +4066,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AlefBridgeErrorWire dco_decode_alef_bridge_error_wire(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return AlefBridgeErrorWire_Error(
+          error: dco_decode_box_autoadd_error(raw[1]),
+        );
+      case 1:
+        return AlefBridgeErrorWire_InvalidInput(
+          message: dco_decode_String(raw[1]),
+        );
+      case 2:
+        return AlefBridgeErrorWire_NativeFailure(
+          message: dco_decode_String(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
   bool dco_decode_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
@@ -4063,6 +4118,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DataNode dco_decode_box_autoadd_data_node(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_data_node(raw);
+  }
+
+  @protected
+  Error dco_decode_box_autoadd_error(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_error(raw);
   }
 
   @protected
@@ -4862,6 +4923,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Object
+  sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_alef_bridge_error_wire(deserializer);
+    return switch (inner) {
+      AlefBridgeErrorWire_Error(:final error) => error,
+      AlefBridgeErrorWire_InvalidInput(:final message) => ArgumentError(
+        message,
+      ),
+      AlefBridgeErrorWire_NativeFailure(:final message) => StateError(message),
+    };
+  }
+
+  @protected
   DownloadManager
   sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDownloadManager(
     SseDeserializer deserializer,
@@ -4953,6 +5030,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  AlefBridgeErrorWire sse_decode_alef_bridge_error_wire(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_error = sse_decode_box_autoadd_error(deserializer);
+        return AlefBridgeErrorWire_Error(error: var_error);
+      case 1:
+        var var_message = sse_decode_String(deserializer);
+        return AlefBridgeErrorWire_InvalidInput(message: var_message);
+      case 2:
+        var var_message = sse_decode_String(deserializer);
+        return AlefBridgeErrorWire_NativeFailure(message: var_message);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
@@ -4984,6 +5083,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DataNode sse_decode_box_autoadd_data_node(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_data_node(deserializer));
+  }
+
+  @protected
+  Error sse_decode_box_autoadd_error(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_error(deserializer));
   }
 
   @protected
@@ -5978,6 +6083,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError(
+    Object self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_alef_bridge_error_wire(switch (self) {
+      Error error => AlefBridgeErrorWire.error(error: error),
+      ArgumentError error => AlefBridgeErrorWire.invalidInput(
+        message: error.message.toString(),
+      ),
+      StateError error => AlefBridgeErrorWire.nativeFailure(
+        message: error.message,
+      ),
+      _ => throw ArgumentError.value(self, 'error', 'Unsupported bridge error'),
+    }, serializer);
+  }
+
+  @protected
+  void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDownloadManager(
     DownloadManager self,
     SseSerializer serializer,
@@ -6074,6 +6198,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_alef_bridge_error_wire(
+    AlefBridgeErrorWire self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case AlefBridgeErrorWire_Error(error: final error):
+        sse_encode_i_32(0, serializer);
+        sse_encode_box_autoadd_error(error, serializer);
+      case AlefBridgeErrorWire_InvalidInput(message: final message):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(message, serializer);
+      case AlefBridgeErrorWire_NativeFailure(message: final message):
+        sse_encode_i_32(2, serializer);
+        sse_encode_String(message, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
@@ -6112,6 +6255,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_data_node(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_error(Error self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_error(self, serializer);
   }
 
   @protected

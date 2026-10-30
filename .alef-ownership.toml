@@ -35,6 +35,8 @@ owned_paths = [
   "crates/ts-pack-core-node/.gitignore",
   "crates/ts-pack-core-node/LICENSE",
   "crates/ts-pack-core-node/README.md",
+  "crates/ts-pack-core-node/binding.cjs",
+  "crates/ts-pack-core-node/index.mjs",
   "crates/ts-pack-core-php/src//LICENSE",
   "crates/ts-pack-core-wasm/LICENSE",
   "crates/ts-pack-core-wasm/README.md",

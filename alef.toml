@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.115.5"
+alef_version = "0.115.7"
 languages = [
   "python",
   "node",
@@ -243,22 +243,22 @@ replace = 'Include="XbergIo.TreeSitterLanguagePack" Version="{version}"'
 [[workspace.sync.text_replacements]]
 path = "test_apps/go/go.mod"
 search = 'xberg-io/tree-sitter-language-pack/packages/go(?:/v2)? v[^\s]*'
-replace = 'xberg-io/tree-sitter-language-pack/packages/go v{version}'
+replace = 'xberg-io/tree-sitter-language-pack/packages/go/v2 v{version}'
 
 [[workspace.sync.text_replacements]]
 path = "packages/go/go.mod"
 search = '(?m)^module github\.com/xberg-io/tree-sitter-language-pack/packages/go(?:/v2)?$'
-replace = 'module github.com/xberg-io/tree-sitter-language-pack/packages/go'
+replace = 'module github.com/xberg-io/tree-sitter-language-pack/packages/go/v2'
 
 [[workspace.sync.text_replacements]]
 path = "e2e/go/go.mod"
 search = 'github\.com/xberg-io/tree-sitter-language-pack/packages/go(?:/v2)? v[^\s]*'
-replace = 'github.com/xberg-io/tree-sitter-language-pack/packages/go v{version}'
+replace = 'github.com/xberg-io/tree-sitter-language-pack/packages/go/v2 v{version}'
 
 [[workspace.sync.text_replacements]]
 path = "e2e/go/go.mod"
 search = '(?m)^replace github\.com/xberg-io/tree-sitter-language-pack/packages/go(?:/v2)? =>'
-replace = 'replace github.com/xberg-io/tree-sitter-language-pack/packages/go =>'
+replace = 'replace github.com/xberg-io/tree-sitter-language-pack/packages/go/v2 =>'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/rust/Cargo.toml"
@@ -380,12 +380,12 @@ replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
 path = "alef.toml"
-search = '(\[crates\.e2e\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"\s+path = "[^"]*"\s+version = "v)[^"]*'
+search = '(\[crates\.e2e\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"\s+path = "[^"]*"\s+version = "v)[^"]*'
 replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
 path = "alef.toml"
-search = '(\[crates\.e2e\.registry\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"\s+version = "v)[^"]*'
+search = '(\[crates\.e2e\.registry\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"\s+version = "v)[^"]*'
 replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
@@ -598,33 +598,22 @@ hooks = ["adrlint-lint", "adrlint-format-check", "adrlint-lock-check"]
 "poly.toml" = ["file-too-long"]
 ".alef-toml-merge-provenance.toml" = ["file-too-long"]
 # --- quality-debt baseline (generated) ---
-# 34 size/complexity findings across 27 files that predate these
+# 9 size/complexity findings across 9 files that predate these
 # metrics. Listed per file rather than switching the rules off, so the metrics still
 # fire on every file NOT listed here -- new code stays covered, and each path below is
 # one discrete unit of work.
 # TODO(xberg-io/tree-sitter-language-pack#184): pay this down file by file and delete each entry as it goes green.
 # Do not add new paths here without a very good reason. ~keep
 ".alef-ownership.toml" = ["file-too-long"]
-".github/workflows/ci-e2e.yaml" = ["file-too-long"]
 ".github/workflows/ci.yaml" = ["file-too-long"]
 ".github/workflows/publish.yaml" = ["file-too-long"]
 "CHANGELOG.md" = ["file-too-long"]
 "alef.toml" = ["file-too-long"]
-"crates/ts-pack-cli/src/commands/mcp.rs" = ["file-too-long"]
 "crates/ts-pack-core/language_definitions.json" = ["file-too-long"]
 # Digest-pinned grammar redistribution notices (#191): a generated data file whose line count
 # grows with the number of retained license texts, not with maintainability debt. ~keep
 "sources/grammar_notices.json" = ["file-too-long"]
-"crates/ts-pack-core/src/download.rs" = ["file-too-long"]
-"crates/ts-pack-core/src/intel/data_extraction.rs" = ["file-too-long"]
-"crates/ts-pack-core/src/intel/intelligence.rs" = ["file-too-long"]
-"crates/ts-pack-core/src/lib.rs" = ["file-too-long"]
-"crates/ts-pack-core/src/registry.rs" = ["file-too-long"]
 "docs-site/src/content/docs/changelog.md" = ["file-too-long"]
-"grammars/reason/src/scanner.c" = ["cyclomatic-complexity", "function-too-long"]
-"grammars/wolfram/grammar.js" = ["too-many-parameters"]
-"grammars/wolfram/src/scanner.c" = ["nesting-too-deep"]
-"grammars/xquery/grammar.js" = ["function-too-long"]
 "sources/language_definitions.json" = ["file-too-long"]
 # --- end quality-debt baseline ---
 # Quality metrics do not apply to test code. A test function's length is its assertion
@@ -699,7 +688,6 @@ hooks = ["adrlint-lint", "adrlint-format-check", "adrlint-lock-check"]
 # anything editable here. poly reports on generated files by design (only `--fix-generated`
 # gates rewriting), so regeneration would revert any edit made to silence this. ~keep
 "docs-site/src/content/docs/reference/**" = ["file-too-long"]
-"scripts/generate_grammar_table.py" = ["function-too-long"]
 "scripts/**/*.py" = ["ASYNC", "D", "S", "T201", "INP001", "RUF100"]
 "cli-proxy/**/*.py" = ["ASYNC", "D", "PLR0917", "PLR2004", "T201", "RUF100"]
 "docker/**" = ["DL3006", "DL3059"]
@@ -941,7 +929,7 @@ package = "tree-sitter"
 package_version = "0.26"
 
 [crates.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
 package_name = "tspack"
 
 [crates.go.capsule_types.Language]
@@ -1311,7 +1299,10 @@ languages = [
 ]
 
 [crates.e2e.harness_extras.node]
-dev_dependencies = { "tree-sitter" = "^0.25.1" }
+dev_dependencies = { "tree-sitter" = "^0.25.1", "@types/node" = "^26.6.6", vitest = "^5.0.5" }
+
+[crates.e2e.harness_extras.wasm]
+dev_dependencies = { rollup = "^4.66.0", vitest = "^5.0.5" }
 
 [crates.e2e.harness_extras.go]
 dependencies = { "github.com/tree-sitter/go-tree-sitter" = "v0.25.0" }
@@ -1379,7 +1370,7 @@ function = "process"
 options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
 function = "Process"
 alias = "tspack"
 options_type = "ProcessConfig"
@@ -1830,9 +1821,9 @@ name = "@xberg-io/tree-sitter-language-pack"
 path = "../../crates/ts-pack-core-node"
 
 [crates.e2e.packages.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
 path = "../../packages/go"
-version = "v1.22.2"
+version = "v2.0.0"
 
 [crates.e2e.packages.elixir]
 name = "tree_sitter_language_pack"
@@ -1868,51 +1859,51 @@ github_repo = "https://github.com/xberg-io/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.node]
 name = "@xberg-io/tree-sitter-language-pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
-version = "v1.22.2"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
+version = "v2.0.0"
 
 [crates.e2e.registry.packages.java]
 name = "io.xberg.treesitterlanguagepack:tree-sitter-language-pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.wasm]
 name = "@xberg-io/tree-sitter-language-pack-wasm"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.php]
 name = "xberg-io/tree-sitter-language-pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.zig.platform_hashes]
 "aarch64-apple-darwin" = "tree_sitter_language_pack-1.22.1-jCz0Y0MmSwBXq_A71Vi5ijvmp0Qogtl3kNcBO8ywm_dX"
@@ -1923,15 +1914,15 @@ version = "1.22.2"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "io.xberg.tslp.android:tree-sitter-language-pack-android"
-version = "1.22.2"
+version = "2.0.0"
 
 [crates.e2e.registry.packages.homebrew]
 tap = "xberg-io/homebrew-tap"
@@ -2019,7 +2010,7 @@ package_manager = ["npm", "pnpm", "yarn"]
 [crates.readme.languages.go]
 template = "language_package.md"
 name = "Go"
-package_name = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+package_name = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
 badge_url = "https://img.shields.io/github/v/tag/xberg-io/tree-sitter-language-pack?label=Go&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.xberg.io"
 description = "Pre-compiled tree-sitter grammars for 372 programming languages with idiomatic Go bindings via cgo."

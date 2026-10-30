@@ -37,7 +37,7 @@ composer require xberg-io/tree-sitter-language-pack
 {% elif language == "go" %}
 
 ```bash
-go get github.com/xberg-io/tree-sitter-language-pack/packages/go
+go get {{ package_name }}
 ```
 
 {% elif language == "java" %}

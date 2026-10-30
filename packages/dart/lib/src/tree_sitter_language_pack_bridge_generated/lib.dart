@@ -10,7 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'lib.freezed.dart';
 
 // These functions are ignored because they are not marked as `pub`: `try_convert_comment_kind_from_core`, `try_convert_data_node_kind_from_core`, `try_convert_diagnostic_severity_from_core`, `try_convert_docstring_format_from_core`, `try_convert_export_kind_from_core`, `try_convert_structure_kind_from_core`, `try_convert_symbol_kind_from_core`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `try_from`
 
 /// Detect language name from a file extension (without leading dot).
 ///
@@ -519,6 +519,18 @@ abstract class TreeCursor implements RustOpaqueInterface {
   Future<bool> gotoParent();
 
   Future<Node> node();
+}
+
+@freezed
+sealed class AlefBridgeErrorWire with _$AlefBridgeErrorWire {
+  const AlefBridgeErrorWire._();
+
+  const factory AlefBridgeErrorWire.error({required Error error}) =
+      AlefBridgeErrorWire_Error;
+  const factory AlefBridgeErrorWire.invalidInput({required String message}) =
+      AlefBridgeErrorWire_InvalidInput;
+  const factory AlefBridgeErrorWire.nativeFailure({required String message}) =
+      AlefBridgeErrorWire_NativeFailure;
 }
 
 /// A byte range — start (inclusive) to end (exclusive).

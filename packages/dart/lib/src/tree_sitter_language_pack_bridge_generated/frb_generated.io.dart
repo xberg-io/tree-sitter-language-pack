@@ -131,6 +131,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  Object
+  dco_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError(
+    dynamic raw,
+  );
+
+  @protected
   DownloadManager
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDownloadManager(
     dynamic raw,
@@ -176,6 +182,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  AlefBridgeErrorWire dco_decode_alef_bridge_error_wire(dynamic raw);
+
+  @protected
   bool dco_decode_bool(dynamic raw);
 
   @protected
@@ -192,6 +201,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   DataNode dco_decode_box_autoadd_data_node(dynamic raw);
+
+  @protected
+  Error dco_decode_box_autoadd_error(dynamic raw);
 
   @protected
   PlatformInt64 dco_decode_box_autoadd_i_64(dynamic raw);
@@ -455,6 +467,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  Object
+  sse_decode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   DownloadManager
   sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDownloadManager(
     SseDeserializer deserializer,
@@ -500,6 +518,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  AlefBridgeErrorWire sse_decode_alef_bridge_error_wire(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
@@ -516,6 +539,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   DataNode sse_decode_box_autoadd_data_node(SseDeserializer deserializer);
+
+  @protected
+  Error sse_decode_box_autoadd_error(SseDeserializer deserializer);
 
   @protected
   PlatformInt64 sse_decode_box_autoadd_i_64(SseDeserializer deserializer);
@@ -804,6 +830,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
+  sse_encode_CustomSerializer_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAlefBridgeError(
+    Object self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDownloadManager(
     DownloadManager self,
     SseSerializer serializer,
@@ -855,6 +888,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
+  void sse_encode_alef_bridge_error_wire(
+    AlefBridgeErrorWire self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
@@ -876,6 +915,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     DataNode self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_box_autoadd_error(Error self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_i_64(

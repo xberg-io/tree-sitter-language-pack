@@ -10,7 +10,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-30
+
+### Breaking changes
+
+- Updated parsers change the grammar ABI for Ada (15 to 14) and Hurl, Idris and VRL (14 to 15).
+  Refresh cached grammar artifacts before using this release.
+- The Go binding moves to the `github.com/xberg-io/tree-sitter-language-pack/packages/go/v2` module path.
+
+### Changed
+
+- Upgrade 52 grammar sources and refresh Rust, Python, Node, PHP, Ruby and Elixir dependencies.
+- Generate stale bundled parsers with tree-sitter CLI 0.27.1 and reject unsuccessful parser generation.
+- Split large parser, configuration, download and intelligence modules into focused modules and test files (#184).
+- Development tasks run through mise (`mise run <task>`) instead of go-task, with the toolchain
+  pinned to the xberg-io/toolchains v1.12.0 baseline in `mise.toml` and `mise.lock`; task names are
+  unchanged.
+
 ### Security
+
+- Update ctutils, Tokio, and Zstandard dependencies to resolve six security advisories
+  (RUSTSEC-2026-0385, RUSTSEC-2026-0386, RUSTSEC-2026-0391, RUSTSEC-2026-0398,
+  RUSTSEC-2026-0403, RUSTSEC-2026-0410).
 
 - Update TLS certificate validation and bundled roots to reject distrusted emSign intermediates
   (RUSTSEC-2026-0381, RUSTSEC-2026-0382, RUSTSEC-2026-0383).
@@ -19,6 +40,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (RUSTSEC-2026-0346, RUSTSEC-2026-0347, RUSTSEC-2026-0348, RUSTSEC-2026-0349).
 
 ### Fixed
+
+- Load native Node bindings on Windows using the upstream capsule fix (#208, #213).
+- Stop Reason line-comment scanning at end of input instead of looping indefinitely.
+- Complete shell staging and release contracts, including the CLI Bats suites (#212).
+- Manage the Homebrew consumer suite with Alef and Bats while retaining the FFI language-list smoke check.
 
 - Grammar source links for Jinja2 and SQL point to the maintained repositories used by the bundled parsers.
 - Release dry runs validate Swift artifacts without pushing tags or triggering plugin publication.

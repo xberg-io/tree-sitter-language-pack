@@ -89,7 +89,7 @@ PINS: tuple[Pin, ...] = (
     # `alef e2e generate`, so fixing it here is what makes the generated file come out right.
     Pin("go_e2e", "alef.toml", r'(?ms)^\[crates\.e2e\.packages\.go\][^\[]*?^version = "v([0-9][0-9.]*)"'),
     Pin("rust", "test_apps/rust/Cargo.toml", r'package = "tree-sitter-language-pack", version = "([^"]*)"'),
-    Pin("ruby", "test_apps/ruby/Gemfile", r"gem 'tree_sitter_language_pack', '([^']*)'"),
+    Pin("ruby", "test_apps/ruby/Gemfile", r"""gem ["']tree_sitter_language_pack["'], ["']([^"']*)["']"""),
     Pin("python", "test_apps/python/pyproject.toml", r'tree-sitter-language-pack==([^"]+)"'),
     Pin("dart", "test_apps/dart/pubspec.yaml", r"tree_sitter_language_pack:\s*\^?([0-9][^\s]*)"),
     Pin("elixir", "test_apps/elixir/mix.exs", r':tree_sitter_language_pack, "([^"]*)"'),

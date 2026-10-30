@@ -6,7 +6,7 @@ name: tree-sitter-language-pack-chunking-for-llms
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
 Content-Hash: blake3:f73428c23ccd047c1e8d74065c6be1dcc21b97f1f3e235ebc2a6779317208188
-Source-Hash: blake3:7d42dc9ed6844fc016e1eb87e0917dfecf4ea53742cc348fcedd89dfbca21369
+Source-Hash: blake3:d820321930403f83de33681b0981d38fe2c87c2f14f9d460c67d0f48fe336870
 Schema-Version: v1
 -->
 

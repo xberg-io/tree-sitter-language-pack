@@ -131,4 +131,4 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding for ${platform}-${arch}. Errors: ${loadErrors.join(", ")}`);
 }
 
-module.exports = nativeBinding;
+module.exports = require("./binding.cjs")(nativeBinding);

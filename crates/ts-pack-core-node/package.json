@@ -10,7 +10,7 @@
     }
   ],
   "name": "@xberg-io/tree-sitter-language-pack",
-  "version": "1.22.2",
+  "version": "2.0.0",
   "description": "Pre-compiled tree-sitter grammars for 372 programming languages",
   "license": "MIT",
   "repository": {
@@ -22,24 +22,27 @@
   "exports": {
     ".": {
       "types": "./index.d.ts",
+      "import": "./index.mjs",
       "require": "./index.js",
       "default": "./index.js"
     }
   },
   "files": [
     "index.js",
+    "binding.cjs",
+    "index.mjs",
     "index.d.ts",
     "*.node"
   ],
   "optionalDependencies": {
-    "@xberg-io/tree-sitter-language-pack-darwin-arm64": "1.22.2",
-    "@xberg-io/tree-sitter-language-pack-darwin-x64": "1.22.2",
-    "@xberg-io/tree-sitter-language-pack-linux-arm64-gnu": "1.22.2",
-    "@xberg-io/tree-sitter-language-pack-linux-arm64-musl": "1.22.2",
-    "@xberg-io/tree-sitter-language-pack-linux-x64-gnu": "1.22.2",
-    "@xberg-io/tree-sitter-language-pack-linux-x64-musl": "1.22.2",
-    "@xberg-io/tree-sitter-language-pack-win32-arm64-msvc": "1.22.2",
-    "@xberg-io/tree-sitter-language-pack-win32-x64-msvc": "1.22.2"
+    "@xberg-io/tree-sitter-language-pack-darwin-arm64": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-darwin-x64": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-linux-arm64-gnu": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-linux-arm64-musl": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-linux-x64-gnu": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-linux-x64-musl": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-win32-arm64-msvc": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-win32-x64-msvc": "2.0.0"
   },
   "napi": {
     "packageName": "@xberg-io/tree-sitter-language-pack",
@@ -56,7 +59,7 @@
     ]
   },
   "scripts": {
-    "build": "npx --yes -p @napi-rs/cli@^3.7.3 napi build --platform --release",
+    "build": "npx --yes -p @napi-rs/cli@^3.7.3 napi build --no-js --platform --release",
     "artifacts": "npx --yes -p @napi-rs/cli@^3.7.3 napi artifacts",
     "prepublishOnly": "npx --yes -p @napi-rs/cli@^3.7.3 napi prepublish -t npm --skip-optional-publish"
   },
