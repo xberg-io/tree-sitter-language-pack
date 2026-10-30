@@ -12,6 +12,8 @@ on:
       - "scripts/**"
       - "docs-site/src/snippets/**"
       - "docs-site/src/content/docs/reference/**"
+      - "adrs/**"
+      - ".adrlint.toml"
       - ".github/workflows/ci.yaml"
       - ".github/workflows/publish.yaml"
       - ".golangci.yml"
@@ -176,6 +178,7 @@ jobs:
       # compile against the API they document -- the class of defect that shipped a release
       # whose every e2e suite failed. ~keep
       check-fixture-snippets: true
+      check-adrs: true
       # No alef-version override here: install-alef@v1 defaults to "latest", which its
       # resolve.sh reads as the alef.toml pin. A hard-coded version here drifted out of sync
       # with alef.toml (0.67.7 vs 0.68.0, neither of which alef.toml agreed with after the
