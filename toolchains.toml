@@ -17,10 +17,6 @@ task_sets = [
   "rust",
 ]
 
-[overrides.pnpm]
-version = "12.3.4"
-reason = "package.json packageManager pins pnpm 12.3.4, which wrote pnpm-lock.yaml; move both together"
-
 [overrides.zig]
 version = "0.16.0"
 reason = "packages/zig and test_apps/zig target the Zig 0.16 API; CI builds and snippet checks pin 0.16.0"

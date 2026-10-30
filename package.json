@@ -1,7 +1,7 @@
 {
   "private": true,
   "workspaces": [".", "crates/ts-pack-core-node", "e2e/node"],
-  "packageManager": "pnpm@12.3.4",
+  "packageManager": "pnpm@12.15.0",
   "devDependencies": {
     "@textlint-rule/textlint-rule-no-invalid-control-character": "^3.0.0",
     "textlint": "^15.8.0",
