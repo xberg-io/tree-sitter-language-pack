@@ -80,8 +80,15 @@ printf "native fixture\n" >target/release/libts_pack_core_ffi.so'
 wasm_tools() {
 	xberg_stub_exit rustup 0
 	xberg_stub_exit tree-sitter 0
+	mkdir -p "$XBERG_WORK/canonical/bin"
+	cp "$XBERG_STUB_BIN/tree-sitter" "$XBERG_WORK/canonical/bin/tree-sitter"
+	xberg_stub_exit tree-sitter 99
+	xberg_stub mise 'test "$#" -eq 4 && test "$1" = -C && test "$2" = "$XBERG_WORK" && test "$3" = which && test "$4" = tree-sitter || exit 89
+printf "%s/canonical/bin/tree-sitter\n" "$XBERG_WORK"'
 	xberg_stub npm 'printf "unexpected global install\n" >&2; exit 99'
 	xberg_stub uv 'test "$TSLP_LANGUAGES" = mojo,nim,norg || exit 43
+test "$(command -v tree-sitter)" = "$XBERG_WORK/canonical/bin/tree-sitter" || exit 45
+tree-sitter --version
 printf "uv %s\n" "$*" >>"$XBERG_TRACE"'
 }
 

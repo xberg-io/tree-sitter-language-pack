@@ -80,10 +80,7 @@ jobs:
       - name: Setup Node.js
         uses: xberg-io/actions/setup-mise@v1
         with:
-          install-args: node
-
-      - name: Install tree-sitter CLI
-        run: npm install -g tree-sitter-cli@0.26.11
+          install-args: node tree-sitter
 
       - name: Setup Python environment
         uses: xberg-io/actions/setup-python-env@v1
@@ -178,7 +175,9 @@ jobs:
         env:
           TSLP_LANGUAGES: ${{ steps.select.outputs.languages }}
           TSLP_GENERATE_CONCURRENCY: "2"
-        run: uv run --script scripts/clone_vendors.py
+        run: |
+          tree_sitter_cli=$(mise which tree-sitter)
+          PATH="$(dirname "$tree_sitter_cli"):$PATH" uv run --script scripts/clone_vendors.py
 
       # A `cargo test` over zero compiled grammars is silently green, so the selected
       # set must be proven on disk before anything is built. ~keep

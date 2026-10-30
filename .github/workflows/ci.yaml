@@ -84,6 +84,7 @@ jobs:
           uv run --no-sync python -m pytest scripts/ci/test_grammar_notices.py
           uv run --no-sync python -m pytest scripts/ci/test_clone_vendors_git_env.py
           uv run --no-sync python -m pytest scripts/ci/test_e2e_workflow_contract.py
+          uv run --no-sync python -m pytest scripts/ci/test_tree_sitter_toolchain.py
 
   clone-vendors:
     name: Clone vendors
@@ -105,10 +106,7 @@ jobs:
       - name: Setup Node.js
         uses: xberg-io/actions/setup-mise@v1
         with:
-          install-args: node
-
-      - name: Install tree-sitter CLI
-        run: npm install -g tree-sitter-cli@0.26.11
+          install-args: node tree-sitter
 
       - name: Setup Python environment
         uses: xberg-io/actions/setup-python-env@v1
@@ -129,7 +127,8 @@ jobs:
           TSLP_GENERATE_CONCURRENCY: "1"
         run: |
           mkdir -p parsers
-          uv run --script scripts/clone_vendors.py
+          tree_sitter_cli=$(mise which tree-sitter)
+          PATH="$(dirname "$tree_sitter_cli"):$PATH" uv run --script scripts/clone_vendors.py
 
       - name: Upload parsers
         uses: actions/upload-artifact@v7

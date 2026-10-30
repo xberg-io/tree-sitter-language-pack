@@ -41,10 +41,14 @@ fi
 # uses the session's own resolved environment and leaves `parsers/` populated, so build.rs
 # returns at its first check and never goes to the network. TSLP_OFFLINE is deliberately NOT
 # the fix: this build needs mojo, nim and norg to have a real parser.c before build.rs's wasm
-# skip check runs. The CLI pin tracks the one used across the workflows. ~keep
-if ! command -v tree-sitter >/dev/null 2>&1; then
-  npm install --global tree-sitter-cli@0.26.11
+# skip check runs. ~keep
+if ! tree_sitter_cli=$(mise -C "$ROOT" which tree-sitter); then
+  mise -C "$ROOT" install --locked tree-sitter
+  tree_sitter_cli=$(mise -C "$ROOT" which tree-sitter)
 fi
+# ~keep Node's global bin directory can precede mise's CLI directory and contain an older generator.
+PATH="$(dirname "$tree_sitter_cli"):$PATH"
+export PATH
 
 (
   cd "$ROOT"

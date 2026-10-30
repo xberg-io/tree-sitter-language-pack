@@ -105,7 +105,7 @@ def write_workflow(root: Path, name: str, document: dict) -> None:
 
 
 def test_expanded_e2e_jobs_preserve_original_contract() -> None:
-    assert verify_contract(ROOT) == {"jobs": 21, "steps": 179, "reusable_workflows": 7}
+    assert verify_contract(ROOT) == {"jobs": 21, "steps": 178, "reusable_workflows": 7}
     for path in (ROOT / ".github/workflows").glob("ci-e2e*.yaml"):
         assert len(path.read_text().splitlines()) <= 1000, f"{path.name} exceeds the file-size limit"
 

@@ -43,7 +43,7 @@
     }
   },
   "jobs": {
-    "clone-vendors": "b51502efd40dc2a674b2da9793ad0f53e9b74cdc7e6fe237ce72bf01d0090334",
+    "clone-vendors": "3b51d93124e95f2a318f8992c9972fa522bd81b63a5fe00cb0713069e76a1cce",
     "build-e2e-bundles": "c5ec963479b20af1bfd48f9bd5206b36f45b450229ab6b73cea1913e12e99a86",
     "changes": "4266675edf2c63e2486df3313508584eefcc0aa26b608daec1d06d7187e38694",
     "build-ffi": "43a3e4c4262557c4bc0ceb7077d5a922ede7e6deed465a90db1ab5efc7610b20",
@@ -65,7 +65,7 @@
     "test-swift": "9e4a51a26d768e1bcc24a9ebb6b7099d7cadea936c9426347f3d51a0a7f73504",
     "test-zig": "f8ad345a04fb2dd256b565a1c4087c3d12aaba9f8da5b363bf6f205a6dd904fc"
   },
-  "step_count": 179,
+  "step_count": 178,
   "delegated_jobs": [
     "test-go",
     "test-java",
@@ -74,5 +74,15 @@
     "test-php",
     "test-elixir",
     "test-c-ffi"
+  ],
+  "intentional_updates": [
+    {
+      "job": "clone-vendors",
+      "reason": "Select the canonical mise CLI and reject stale global executables.",
+      "previous_job_sha256": "b51502efd40dc2a674b2da9793ad0f53e9b74cdc7e6fe237ce72bf01d0090334",
+      "job_sha256": "3b51d93124e95f2a318f8992c9972fa522bd81b63a5fe00cb0713069e76a1cce",
+      "previous_step_count": 179,
+      "step_count": 178
+    }
   ]
 }

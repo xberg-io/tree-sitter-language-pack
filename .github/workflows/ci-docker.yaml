@@ -41,13 +41,12 @@ jobs:
       - name: Setup Python, uv and Node.js (for tree-sitter-cli)
         uses: xberg-io/actions/setup-mise@v1
         with:
-          install-args: python uv node
-
-      - name: Install tree-sitter-cli
-        run: npm install -g tree-sitter-cli@0.26.11
+          install-args: python uv node tree-sitter
 
       - name: Clone grammar sources
-        run: uv run --script scripts/clone_vendors.py
+        run: |
+          tree_sitter_cli=$(mise which tree-sitter)
+          PATH="$(dirname "$tree_sitter_cli"):$PATH" uv run --script scripts/clone_vendors.py
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4

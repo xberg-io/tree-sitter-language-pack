@@ -422,10 +422,8 @@ jobs:
       - name: Setup Node
         uses: xberg-io/actions/setup-mise@v1
         with:
-          install-args: node
+          install-args: node tree-sitter
           config-ref: ${{ github.sha }}
-      - name: Install tree-sitter CLI
-        run: npm install -g tree-sitter-cli@0.26.11
 
       - name: Setup Python environment
         uses: xberg-io/actions/setup-python-env@v1
@@ -444,7 +442,8 @@ jobs:
       - name: Clone vendors
         run: |
           mkdir -p parsers
-          uv run --script scripts/clone_vendors.py
+          tree_sitter_cli=$(mise which tree-sitter)
+          PATH="$(dirname "$tree_sitter_cli"):$PATH" uv run --script scripts/clone_vendors.py
 
       - name: Upload parsers
         uses: actions/upload-artifact@v7
