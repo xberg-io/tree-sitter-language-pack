@@ -6,7 +6,7 @@ name: tree-sitter-language-pack-managing-parsers
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
 Content-Hash: blake3:a2e80363e28ad0e5f3112ab4c73c46e76fa6f9a6d875d1c56af89fc86546f9f5
-Source-Hash: blake3:f6af1693d7e3d301871730c180582f140a9c6aeee0d040ba3edbfb33b5d38409
+Source-Hash: blake3:7d42dc9ed6844fc016e1eb87e0917dfecf4ea53742cc348fcedd89dfbca21369
 Schema-Version: v1
 -->
 

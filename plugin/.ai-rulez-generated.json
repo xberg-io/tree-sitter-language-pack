@@ -1,13 +1,13 @@
 {
   "schema_version": "v1",
-  "source_hash": "blake3:f6af1693d7e3d301871730c180582f140a9c6aeee0d040ba3edbfb33b5d38409",
+  "source_hash": "blake3:7d42dc9ed6844fc016e1eb87e0917dfecf4ea53742cc348fcedd89dfbca21369",
   "outputs": {
     ".claude-plugin/plugin.json": {
       "content_hash": "blake3:8367d7adb62a93412633392593cea1efd2f1d5c829a527d76368e361ca28348d",
       "mode": "0644"
     },
     ".codex-plugin/plugin.json": {
-      "content_hash": "blake3:1ce9e1bfa28e8a686f38aeb4c4bf001a1dc333ba11a494253f91c6c41b59f6a1",
+      "content_hash": "blake3:baad37b451c0e0136ff5e36d507fdf1845a23c857432b6c52936f2769dbd1f2f",
       "mode": "0644"
     },
     ".cursor-plugin/plugin.json": {
@@ -71,7 +71,7 @@
       "mode": "0644"
     },
     ".factory-plugin/plugin.json": {
-      "content_hash": "blake3:046224c7a624db6127516959c3bdf28530f90bed523969cb0845026d2b3f2084",
+      "content_hash": "blake3:4e7e5610fd1831f6797ec3e2613d52a39e75007c73389c12c3843d74fd684945",
       "mode": "0644"
     },
     ".hermes/package/pyproject.toml": {
@@ -343,11 +343,11 @@
       "mode": "0644"
     },
     "assets/icon.svg": {
-      "content_hash": "blake3:b0abe59064a94924a573822a11881a4f0627adea28c258f542abd97b88fa436d",
+      "content_hash": "blake3:fba9cce240f6fdcc05a7f1400d1f7c2adb471049980e5975e51869145da70a19",
       "mode": "0644"
     },
     "assets/logo.svg": {
-      "content_hash": "blake3:edbce41f41812957f6f07afa54d73e3ebd3d57b4578384e74d4f8bdcb7d5483b",
+      "content_hash": "blake3:fba9cce240f6fdcc05a7f1400d1f7c2adb471049980e5975e51869145da70a19",
       "mode": "0644"
     },
     "gemini-extension.json": {
@@ -355,7 +355,7 @@
       "mode": "0644"
     },
     "kimi.plugin.json": {
-      "content_hash": "blake3:a048dcb31cfd1ad34a72d4bc107c7748e1b44dff8496b9897bdb977db2fa88d8",
+      "content_hash": "blake3:86b8f3cf70b8c4369b68efbe55af3d7c778445d29d379315a7ae65b2acd8fec1",
       "mode": "0644"
     },
     "mcp.json": {
