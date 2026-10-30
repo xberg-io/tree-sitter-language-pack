@@ -569,7 +569,9 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: github:rustwasm/wasm-pack
 
       - name: Install wasi-sdk
         uses: xberg-io/actions/install-wasi-sdk@v1

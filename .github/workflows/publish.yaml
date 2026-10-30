@@ -1242,7 +1242,10 @@ jobs:
         uses: xberg-io/actions/install-wasi-sdk@v1
 
       - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: github:rustwasm/wasm-pack
+          config-ref: ${{ github.sha }}
 
       - name: Add swap (best-effort; avoid OOM during 372-grammar static link)
         shell: bash
@@ -2610,16 +2613,14 @@ jobs:
       # `[crates.test.wasm]`'s precondition needs `pnpm` and `wasm-pack`, and its `before`
       # hook runs `wasm-pack build`; the e2e command itself runs `pnpm install`. Plain
       # actions/setup-node supplies neither, so use the workspace action (which brings pnpm)
-      # and install wasm-pack the same way ci-e2e.yaml's `build-wasm` does. ~keep
+      # and install wasm-pack from mise.toml as ci-e2e.yaml's `build-wasm` does. ~keep
       - uses: xberg-io/actions/setup-node-workspace@v1
         with:
           node-version: "22"
       - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-      - name: Setup mise
         uses: xberg-io/actions/setup-mise@v1
         with:
-          install: "false"
+          install-args: github:rustwasm/wasm-pack
           config-ref: ${{ github.sha }}
       - uses: xberg-io/actions/install-alef@v1
       - name: Run WASM E2E tests
