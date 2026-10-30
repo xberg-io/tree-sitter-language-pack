@@ -1,5 +1,5 @@
 {
-  "source_commit": "9ca9114d6c41886e0239bf11ee79e8f548e67532",
+  "source_commit": "196517a9d1dff372e979fe6f8c32708f8d2df023",
   "source_file_sha256": "9014aa57f258b91b1987684d3fdff710608380c5e132fe68b4eea808433b367e",
   "header": {
     "name": "CI E2E",
@@ -19,9 +19,7 @@
     },
     "on": {
       "push": {
-        "branches": [
-          "main"
-        ],
+        "branches": ["main"],
         "paths": [
           "crates/**",
           "packages/**",
@@ -66,15 +64,7 @@
     "test-zig": "f8ad345a04fb2dd256b565a1c4087c3d12aaba9f8da5b363bf6f205a6dd904fc"
   },
   "step_count": 178,
-  "delegated_jobs": [
-    "test-go",
-    "test-java",
-    "test-csharp",
-    "test-ruby",
-    "test-php",
-    "test-elixir",
-    "test-c-ffi"
-  ],
+  "delegated_jobs": ["test-go", "test-java", "test-csharp", "test-ruby", "test-php", "test-elixir", "test-c-ffi"],
   "intentional_updates": [
     {
       "job": "clone-vendors",

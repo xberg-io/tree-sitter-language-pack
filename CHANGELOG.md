@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Generate stale bundled parsers with tree-sitter CLI 0.27.1 and reject unsuccessful parser generation.
 - Split large parser, configuration, download and intelligence modules into focused modules and test files (#184).
 - Development tasks run through mise (`mise run <task>`) instead of go-task, with the toolchain
-  pinned to the xberg-io/toolchains v1.12.0 baseline in `mise.toml` and `mise.lock`; task names are
+  pinned to the xberg-io/toolchains v1.12.1 baseline in `mise.toml` and `mise.lock`; task names are
   unchanged.
 
 ### Security
