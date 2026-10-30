@@ -4,46 +4,46 @@
 version = 1
 ai_rulez_version = '5.9.2'
 scope = 'all'
-tree = 'sha256:36808cc771db704bd0d7d419f9013bcd1c0f07b2aa2a724df0013e478c973bc4'
+tree = 'sha256:1911e50294830260ace261eed0a3c32bbac235279f0b64c2332d3ac87f37dd6a'
 
 [[include]]
 name = 'xberg-bindings'
 source = 'https://github.com/xberg-io/agent-conventions.git'
 path = 'modules/bindings'
 ref = '^1'
-tag = 'v1.2.1'
-tag_object = 'a457a8f6e6e7e10260ba248ea7c6aeca8b5268a9'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
-digest = 'sha256:c8822df3ce5a97a47cb7d8afa5fc4323e8f53638be3d47ad73550981c86da8fc'
+tag = 'v1.3.1'
+tag_object = 'ddf05f44d55b752f763795e843ecf0c6e7e08394'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
+digest = 'sha256:4c2838e4fcb571059a3851f5cf64db6d5246c9ac87e8aa7143206295e4af37c1'
 
 [[include]]
 name = 'xberg-cicd'
 source = 'https://github.com/xberg-io/agent-conventions.git'
 path = 'modules/cicd'
 ref = '^1'
-tag = 'v1.2.1'
-tag_object = 'a457a8f6e6e7e10260ba248ea7c6aeca8b5268a9'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
-digest = 'sha256:38d54dc260b5da71bc0887d877dcc1f41de4a0b688cf805491458abdf7b01ffb'
+tag = 'v1.3.1'
+tag_object = 'ddf05f44d55b752f763795e843ecf0c6e7e08394'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
+digest = 'sha256:781d7485b00c32c03a25470981d0e09d36d02973618ae073236865ba1269447a'
 
 [[include]]
 name = 'xberg-core'
 source = 'https://github.com/xberg-io/agent-conventions.git'
 path = 'modules/core'
 ref = '^1'
-tag = 'v1.2.1'
-tag_object = 'a457a8f6e6e7e10260ba248ea7c6aeca8b5268a9'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
-digest = 'sha256:57bf3dd641c4a11ff6b702cbba60bba1083df643a517d567c1970bcb69004f99'
+tag = 'v1.3.1'
+tag_object = 'ddf05f44d55b752f763795e843ecf0c6e7e08394'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
+digest = 'sha256:e812c49d68cfcb08b24a483d051947b27c9e111529a5e54e7a46051f3c1b0f9e'
 
 [[include]]
 name = 'xberg-docs-sites'
 source = 'https://github.com/xberg-io/agent-conventions.git'
 path = 'modules/docs-sites'
 ref = '^1'
-tag = 'v1.2.1'
-tag_object = 'a457a8f6e6e7e10260ba248ea7c6aeca8b5268a9'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+tag = 'v1.3.1'
+tag_object = 'ddf05f44d55b752f763795e843ecf0c6e7e08394'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:b3c9853170e19437f2e62e074df373a320d2efbd888aeb86780cd0c1c3b3e1c5'
 
 [[include]]
@@ -51,9 +51,9 @@ name = 'xberg-languages'
 source = 'https://github.com/xberg-io/agent-conventions.git'
 path = 'modules/languages'
 ref = '^1'
-tag = 'v1.2.1'
-tag_object = 'a457a8f6e6e7e10260ba248ea7c6aeca8b5268a9'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+tag = 'v1.3.1'
+tag_object = 'ddf05f44d55b752f763795e843ecf0c6e7e08394'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:a1a929c5d6ae0250616ccac332501fe1d899136513ef1f8425d010572a27740a'
 
 [[skill]]
@@ -67,7 +67,7 @@ digest = 'sha256:8a3f864983df737c2044ef430ed319ed5801c123c889a0ea5afd708c366b703
 [[served]]
 name = 'agent-coordination'
 source = 'include:xberg-core/skills/agent-coordination/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:24e1e82ac9008a98e08275e25263f1b59447205d04ed0865a1e1328be76d22f3'
 
 [[served]]
@@ -86,13 +86,13 @@ digest = 'sha256:18290e35d202fdfc795c5ee4299f611dccf30c786d06d7f3987e2f4954b012c
 [[served]]
 name = 'basemind-tools'
 source = 'include:xberg-core/skills/basemind-tools/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:ff5cf13e1d705a00567e6ea1f4e4ea2774fd8d7e780f53586bb41727a10c4478'
 
 [[served]]
 name = 'binding-architecture'
 source = 'include:xberg-bindings/skills/binding-architecture/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:748f7eb14225767f5ab45c8c3c5878e344a31497316b0d586537fcbe7815dbc0'
 
 [[served]]
@@ -140,7 +140,7 @@ digest = 'sha256:31adedeec2e2f4e7e0cc802f32467ad38d6db4034df698dac1ee9b52b747fd0
 [[served]]
 name = 'consumer-release-gates'
 source = 'include:xberg-bindings/skills/consumer-release-gates/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:d1a591a6f2e46cb431aa80dcd1e976110502132ca23dd2eb02c49b164c49dae7'
 
 [[served]]
@@ -158,8 +158,8 @@ digest = 'sha256:a14972471464f1b63b70977fb4b3e8b0ded516c01f67ee3955a29fc0908047c
 [[served]]
 name = 'e2e-generation'
 source = 'include:xberg-bindings/skills/e2e-generation/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
-digest = 'sha256:919b04c3867571cd228867451a3e6f38a286d0fa242f2dba51c157b5cda1b511'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
+digest = 'sha256:830bc502178f1dc565f4d17f025c83f91496215275138a1ac8d2e5576b2cd2d8'
 
 [[served]]
 name = 'error-handling'
@@ -170,7 +170,7 @@ digest = 'sha256:fbc7d452c7171e71341578b6c7a56fc2c87031c0ce15d35884bc3260e04ff68
 [[served]]
 name = 'feature-flag-conventions'
 source = 'include:xberg-languages/skills/feature-flag-conventions/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:72ab88042d36374449285381c76935c2032bbd9b5f552d18f4e1c19f120b093c'
 
 [[served]]
@@ -182,8 +182,8 @@ digest = 'sha256:0cbc2e97ebac4504be69a13b5572b6690ad66e3638a746071ef7d53f85ba29c
 [[served]]
 name = 'github-workflow-conventions'
 source = 'include:xberg-cicd/skills/github-workflow-conventions/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
-digest = 'sha256:c2447f22b656836ec6ecf13e68426f7860160152844f5301a84ce1b87df918ad'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
+digest = 'sha256:da5cc78cc74784665baff33403f831ce4e5afe6fb4c87eb8fa1409d034fcebc1'
 
 [[served]]
 name = 'incremental-approach'
@@ -206,13 +206,13 @@ digest = 'sha256:6d2a5361dc9e8a15cae29340b7b9c0266accda6686f77b633373fb3d3489833
 [[served]]
 name = 'mise-tasks'
 source = 'include:xberg-core/skills/mise-tasks/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
-digest = 'sha256:39ff76879eb6d4ce0f9cb8ec643a6122f1d66ae99ce5711a052cc0145545a487'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
+digest = 'sha256:31534b5c6a3277702ec20250ac3791d5a55c3d2e7ed288f81afe7100bd6ae68a'
 
 [[served]]
 name = 'mise-toolchains'
 source = 'include:xberg-core/skills/mise-toolchains/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:70ac84a345c190d8fcb4560f85535058c201d4fb9e80b7ae1226c91622472585'
 
 [[served]]
@@ -231,186 +231,186 @@ digest = 'sha256:2700d984ba10baa2e16ed19b48cc8fd5f7351776f2ce03f6712394d3912f91c
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:a4ed841ba34fb5aa5f5653cf8490b82592e567690496a69f80f518604b512c50'
+digest = 'sha256:a2aa567482f54e8eba9b2a7f575c434b6d1a4d50a6be320d7b463370d35f1440'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:5b679e2a8adc244c556893182be79d173a7ccc16b3f89d2f924c52ff1ded5e47'
+digest = 'sha256:9e34713b88e1b31db2e315978e75f626374ef3038dab9f4d9d5eb86241375c14'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:126b9d1517b76e2ceb6a2a07c7ddcab605f3f4327d6df80e9074bad478edc2c6'
+digest = 'sha256:e72483f3afa49162a69924e1c6227fd1c075e3ce63bb0626e748d6814ff349fe'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:7395ca63e4e54a0d6969059e866419fb043738f47777b0e6de6fed419ecc7cf2'
+digest = 'sha256:016da0dd3d15e69dba19e5531ccede48065f5922691ca121cc2963bfe5ffbd03'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:650e8dc24f41f323a33628bdda25ba05a58aafcf5a003fb6351cfe7c136b79af'
+digest = 'sha256:176a9d39674591f1750e4900e17012ead5233b7222362543cd0beddfa914c311'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:bb6cf26a910124c4052fa10a92643c660c6367b84be8663cd81276ed1f7626d6'
+digest = 'sha256:c00c5bde40fd5685e29733f3fef5a6213ac7ff99601ade7b949a22a9a1087225'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:5d49d361417f7d3253628bf3f6f2a88f008ac95de08f1767b7e01e40ebea709b'
+digest = 'sha256:8e610b0944e8b44d1e07a73510a3384c220e686d601c5d5064f37386d15494c1'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:109f9db1b42d59f1224c1f053207aa384e95ae49315c2f596d83ff494361642d'
+digest = 'sha256:aab6afd0204a3c7121e40ffa355b021fc2cb4cdcbfe822cefddf7c865a6d6f9d'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:e75d36972877769a1c1872def44c5f4146807f212739f9dab82c2158a10214a4'
+digest = 'sha256:433a063835013961e90381afadf31f33a9dcbe9e8729d1c05e376311a5074043'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:113ec6326288c0b230ba258a6aa94217a04323dc0bd6f8f19d598a6fb629a517'
+digest = 'sha256:43ebfa159ed574573d23c29326a335bd14bec1a7bad3dafcc029c238edec18e2'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:66c392db6e222a1ee7ebd3a379a3eef541ede846edc87eda00a413d034620283'
+digest = 'sha256:31f9d8b23b19fc513ebcb5d0f22945bb7cc0daaf349e1ec202d60611e72a63ed'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:0720da9ccaf42b6e538ed22f114d2659640f5cdd296c710c4bdc2676f1c9cc9d'
+digest = 'sha256:794cc4cf37dfca4b12b5f07e4e8ceaa911dc8cbfdc2d1432b6f9079acc5b3b6b'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:ca7a53810be9527c0cf56e7071504de702eddd48bc4d4ffb78e13139c92fac6e'
+digest = 'sha256:ad41bbfbff49970bfbf6c70220ff65c9e38faf63694d54d2237542923a86c65c'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:91a53db7719f81b9bbb641589f7dfb880d658a7dd86430136f6ccaeca093b3a1'
+digest = 'sha256:6447acc87e4b991b74b07b2cdf7374b7defb87c5fe07cca2e4c106378f6b3e6e'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:a526c7aad650a10627310dee6f474622606b30ca14abae9be89ba91941c1315e'
+digest = 'sha256:c21e8542dba214c985521f4cffcd93e059eeaa6739aecf9ceae1933960be44b2'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:0ff7a783182947ddb798c93ad53113a7a3eccd21a977c4e2aa1ece09f8c7ef94'
+digest = 'sha256:b934a2260a257644555fd450a180e4d460e0bb632f07273f939ec4b755b892c3'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:7c5bdd0792bf73846577545465322b184f0c75a335800bf4c6ef670d1330c56b'
+digest = 'sha256:8171fc553e7f039c094145534f7f32de0d2af758463eac9d1d0c441b90f398f1'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:216514ce3aefe758dbb02d3c110b422ff608a7b713f339cca9d54d7e165e6a8e'
+digest = 'sha256:0c709653a276d934bbdfc802bd718b7181125fee8355d2eb23f127b7947450a9'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:8f2b1f8e4dd0e9101866182172df5e5d88f9ea5391dd212302064109c13db8f6'
+digest = 'sha256:85c0f6564b49a884d33f6e1d4a9bee9bde4f81ea3f26458cef17cbb3ebf7db24'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:70edd7fabc123c5068f7e5cf865e5558ce1a3b8d117c9f4793e42f0d5a5b7128'
+digest = 'sha256:002d54ff76f43443d3e3ad66a4f1a78684fad4140eb52f39bf182ffecea5a2d4'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:0616f9a889b3fd5c01e12cb79a5dc649e665ce74506f4f5bbfa8d45d53ea1284'
+digest = 'sha256:9f715338dc756571eb3bf1aaf64bfe857b9234c77b2e14738559b22b92a9778d'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack'
 source = 'plugin/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:ef8d465d57181add44891ea21533bbafacebfc55f6059c00905459cfd302ae5a'
+digest = 'sha256:c3e0e7bd494a0b59b3f1d9f93af33381fb1738ac512c5ae42d29ad8d4d1ef5d9'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:e814aeb48cbc7f9d1158f89f4e604870a32d71c5e7038f6f82f16b5f48e6bfba'
+digest = 'sha256:b959646a5c17c8d956e3b499969a0ba15abdd23d436b0cd99edf1994b4e34568'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:945160cd943a9751c8bd1c80e516ff654f41e6aaaf8e8e7fd87ddec764bd4d85'
+digest = 'sha256:31a6faa15b2166ef1ca9d44185cf5e1b87fc2be508195809a4b20b5801e02f0e'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:4331d037ba602c9bc5fe9eba9afbb3f87b903422a6fed9f966503df7d1c3588a'
+digest = 'sha256:e0d4954220ee995b186ccd11698098333ca7f35852fd865912a353908f492e52'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:564560289366bc86304b1815fbdaf13bf3da09086f9dc08d27068f4706e5f351'
+digest = 'sha256:8bbbe40f39e5e812b364ce65ac1131c9feb0b2d560ea3c41db2a77da53720752'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:d7298bd6e6c80d0af9f6f9317fe36d6c3269748a450d1dafbe0c59cc23ed8669'
+digest = 'sha256:df05044252b3d88f7db481548e340074c6a461666d3faf853504411342f28cc0'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:585ecf3bf3aaa68fc54049df10f7f9fe13c0e760f1485614641bedf92bc86458'
+digest = 'sha256:e9aeb1faf0c49314981fd90b0a41d069bfc9445e8039ad876822a77729a68531'
 
 [[served]]
 name = 'poly-lint-format'
 source = 'include:xberg-core/skills/poly-lint-format/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:772854a122a129565f974e6c5ae84ef1169f7bc4f3a2068bfdc56b548c161697'
 
 [[served]]
 name = 'release-workflow'
 source = 'include:xberg-core/skills/release-workflow/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
-digest = 'sha256:06f25cb150b837b13100b02fec046d41b5fabc8304980ba53a44754c263390ed'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
+digest = 'sha256:e8e9204217e11d47cc1fc8d941dfacd105c9e528d738c298868fd8d987966893'
 
 [[served]]
 name = 'scoop-distribution'
 source = 'include:xberg-cicd/skills/scoop-distribution/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:6e9b84f5dbda314cf743a4e92178642674143d36d8b7ceef2eab6cb057581c07'
 
 [[served]]
@@ -422,7 +422,7 @@ digest = 'sha256:7ab2b543dc6608f204c957fedfc55ae902d22fda9dc8a52252330ff9b1406ff
 [[served]]
 name = 'tdd-workflow'
 source = 'include:xberg-core/skills/tdd-workflow/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:8651ec0982657585e697dd493effee488ec008a92362636b2262db859ab30afc'
 
 [[served]]
@@ -434,7 +434,7 @@ digest = 'sha256:f406604437e2998fc756a0a5b6a08cd832b871c188f76ee5ecbfef33184e965
 [[served]]
 name = 'tracing-conventions'
 source = 'include:xberg-languages/skills/tracing-conventions/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:6b41c52c1e88c3251b6c85f5196b0cd536a41f63ad5ba0862485d569259457e0'
 
 [[served]]
@@ -482,13 +482,13 @@ digest = 'sha256:2f445a75e0aec8c76d37db75d6fe2688276eddf5e9e424277b50b0ac0904139
 [[served]]
 name = 'verification-harness'
 source = 'include:xberg-core/skills/verification-harness/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:52ffa5fdd63293f4d0325b3f51a187d07eba9b69e2341da62c4603e2798dd948'
 
 [[served]]
 name = 'xberg-brand-and-docs'
 source = 'include:xberg-docs-sites/skills/xberg-brand-and-docs/SKILL.md'
-commit = '56651c7e8ade090a5cd2693d04ef3a0168a6903a'
+commit = 'a8ed32b44b161605dbc8b934a417ff136178a980'
 digest = 'sha256:8cbcbbfc52e0443832bcaefec2c99ffb8755deb5a36b2bb720c6daf4c4078316'
 
 [[item]]
