@@ -21,51 +21,50 @@ bool tree_sitter_wolfram_external_scanner_scan(void *payload, TSLexer *lexer,
   while (iswspace(lexer->lookahead))
     lexer->advance(lexer, true);
 
-  if (lexer->lookahead == '(') {
-    advance(lexer);
-    if (lexer->lookahead != '*')
-      return false;
-    advance(lexer);
+  if (lexer->lookahead != '(')
+    return false;
 
-    bool after_star = false;
-    unsigned nesting_depth = 1;
-    for (;;) {
-      switch (lexer->lookahead) {
-      case '\0':
-        return false;
-      case '*':
+  advance(lexer);
+  if (lexer->lookahead != '*')
+    return false;
+  advance(lexer);
+
+  bool after_star = false;
+  unsigned nesting_depth = 1;
+  for (;;) {
+    switch (lexer->lookahead) {
+    case '\0':
+      return false;
+    case '*':
+      advance(lexer);
+      after_star = true;
+      break;
+    case '(':
+      advance(lexer);
+      after_star = false;
+      if (lexer->lookahead == '*') {
+        nesting_depth++;
         advance(lexer);
-        after_star = true;
-        break;
-      case '(':
-        advance(lexer);
-        after_star = false;
-        if (lexer->lookahead == '*') {
-          nesting_depth++;
-          advance(lexer);
-        }
-        break;
-      case ')':
-        if (after_star) {
-          advance(lexer);
-          after_star = false;
-          nesting_depth--;
-          if (nesting_depth == 0) {
-            lexer->result_symbol = COMMENT;
-            return true;
-          }
-        } else {
-          advance(lexer);
-          after_star = false;
-        }
-        break;
-      default:
-        advance(lexer);
-        after_star = false;
-        break;
       }
+      break;
+    case ')':
+      if (after_star) {
+        advance(lexer);
+        after_star = false;
+        nesting_depth--;
+        if (nesting_depth == 0) {
+          lexer->result_symbol = COMMENT;
+          return true;
+        }
+      } else {
+        advance(lexer);
+        after_star = false;
+      }
+      break;
+    default:
+      advance(lexer);
+      after_star = false;
+      break;
     }
   }
-
-  return false;
 }
