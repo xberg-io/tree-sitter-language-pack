@@ -24,7 +24,7 @@ passthrough on those bindings (#143; 11a52b2769, 2026-06-19).
 Chosen option: "Regenerate the ABI-15 grammars at ABI 14 (`generate: true` with `abi_version: 14`)", because ABI 14 loads in the host runtimes that `get_language` passthrough targets, while upstream
 ABI 15 output was rejected by them (11a52b2769).
 
-11a52b2769 set `generate: true` and `abi_version: 14` on the 126 grammars that were at ABI 15.
+11a52b2769 set `generate: true` and `abi_version: 14` on 125 of the 126 grammars at ABI 15 (all but `perl`).
 `clone_vendors.py` runs `tree-sitter generate --abi <abi_version>` for entries marked `generate: true`, and
 `abi_version` has defaulted to 14 since 8a7ccafa93 (2025-02-06). A grammar exempted from regeneration because its
 `parser.c` is too large keeps the committed file, whose ABI must fall within 13 to 15. At 11a52b2769 only `perl` stayed at ABI 15, because upstream ships no `grammar.js`; the

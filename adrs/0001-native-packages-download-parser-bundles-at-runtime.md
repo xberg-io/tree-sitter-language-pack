@@ -10,7 +10,7 @@ decision-makers: ["Na'aman Hirschfeld"]
 
 The pack covers several hundred grammars (372 today). The Rust rewrite (7adfeb0597, 2026-03-07) set the core
 crate's default feature set to `["all"]`, which compiled every grammar into every build and every native package, and
-`dynamic-loading` joined the default the next day (ce92df6d5b, 2026-03-09). On 2026-03-10 (602d29602c) the default became `["dynamic-loading", "download"]`, with a new
+`dynamic-loading` joined the default two days later (ce92df6d5b, 2026-03-09). On 2026-03-10 (602d29602c) the default became `["dynamic-loading", "download"]`, with a new
 `download` feature. Release builds then generated a `parsers.json` manifest (d673b667bf, 2026-03-16), and a
 download and configure API reached every binding (f0976ce016, 2026-03-18).
 

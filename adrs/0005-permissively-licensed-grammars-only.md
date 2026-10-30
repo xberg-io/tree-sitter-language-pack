@@ -29,8 +29,9 @@ imposing license obligations on downstream users" (ca4adf7f05, 2026-03-24).
 The same day the policy was documented (ca4adf7f05), `scripts/lint_grammar_licenses.py` was added to check every
 grammar against GitHub's license API as a local task (34a0981302), and the two copyleft grammars were replaced by MIT
 and ISC alternatives (1032c8bd56). CI ran the linter from d5372a8633 (2026-04-08), dropped it in 7de1342dfd
-(2026-04-21), and restored it as a gate in 4015f3a317 (2026-08-12). Until 0960cd483a (2026-08-12) the linter could
-not fail; since then an unknown or unresolvable license fails the check instead of passing.
+(2026-04-21), and restored it as a gate in 4015f3a317 (2026-08-12). Until 0960cd483a (2026-08-12) only a listed
+copyleft license failed the linter, and an unknown or unresolvable license passed with a warning; since then it
+fails too.
 
 ### Consequences
 
