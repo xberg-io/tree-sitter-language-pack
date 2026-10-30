@@ -4,8 +4,8 @@ import 'package:tree_sitter_language_pack/src/tree_sitter_language_pack_bridge_g
     show RustLib;
 
 // Requires the native `tree-sitter-language-pack-dart` Rust crate to be built
-// via `mise run dart:build`, which compiles with TSLP_LINK_MODE=static and
-// TSLP_LANGUAGES=mojo,nim,norg (see mise-tasks/dart/compile.sh). Every test that needs a
+// with TSLP_LINK_MODE=static and TSLP_LANGUAGES=mojo,nim,norg, as
+// .github/workflows/ci-dart.yaml does. Every test that needs a
 // real grammar (parsing, root-node kind, `process()`) uses "nim", one of
 // those three statically-compiled languages, so this suite needs no network
 // access and no warm download cache. "python"/"rust"/"markdown" appear only
@@ -121,7 +121,7 @@ void main() {
       expect(
         result,
         isTrue,
-        reason: 'nim is compiled in by task dart:build (TSLP_LANGUAGES=mojo,nim,norg)',
+        reason: 'nim is compiled in statically (TSLP_LANGUAGES=mojo,nim,norg)',
       );
     });
 

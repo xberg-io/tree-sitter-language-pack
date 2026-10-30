@@ -1,7 +1,7 @@
 # Swift tasks, included from mise.toml [task_config]. Swift is not a mise tool, so each task that
 # needs it fails first when `swift` is missing. ~keep
 
-# ~keep `setup-swift-bridge.sh` regenerates Sources/RustBridgeC/RustBridgeC.h,
+# ~keep `setup-swift-bridge.sh` (run by swift:bridge) regenerates Sources/RustBridgeC/RustBridgeC.h,
 # Sources/RustBridge/SwiftBridgeCore.swift and
 # Sources/RustBridge/tree-sitter-language-pack-swift.swift from swift-bridge, and swift-bridge
 # writes them WITHOUT the `alef:hash:` line alef stamps on them. Committing after a Swift build
@@ -9,15 +9,6 @@
 # detected" while everything passes locally -- 1.19.1 lost a CI cycle to exactly that. Build
 # Swift to test it, then run `alef generate --skip-compile` before committing so the files go in
 # stamped.
-["swift:build"]
-description = "Build Swift package against swift-bridge Rust crate"
-run = [{ task = "swift:bridge release" }, "cd packages/swift && swift build"]
-
-["swift:test"]
-description = "Run Swift tests"
-dir = "{{config_root}}/packages/swift"
-run = ["command -v swift >/dev/null 2>&1", "swift test"]
-
 ["swift:e2e:test"]
 description = "Run Swift e2e tests"
 run = [{ task = "swift:bridge release" }, "cd e2e/swift_e2e && swift test"]

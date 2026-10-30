@@ -39,10 +39,6 @@ run = [
   "cargo bench --locked -p tree-sitter-language-pack --bench splitting -- --test 'split/(rust_many_fns|json_array|python_giant_class|nested_brackets)'",
 ]
 
-["rust:format:check"]
-description = "Check Rust formatting (CI)"
-run = "cargo fmt --all -- --check"
-
 ["rust:e2e:test"]
 description = "Run Rust E2E tests"
 env = { TSLP_LANGUAGES = "mojo,nim,norg,bash" }

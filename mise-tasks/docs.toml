@@ -1,22 +1,5 @@
 # Documentation tasks, included from mise.toml [task_config]. ~keep
 
-["docs:build:strict"]
-description = "Build documentation (CI-equivalent; astro build fails on errors)"
-run = [{ task = "docs:build" }]
-
-["docs:lint:prose"]
-description = "Lint prose with textlint"
-run = "npx textlint 'docs-site/src/content/docs/**/*.{md,mdx}'"
-
-["docs:snippets:list"]
-description = "List all documentation snippets discovered by alef"
-run = "alef snippets list --snippets docs-site/src/snippets"
-
-["docs:snippets:list:lang"]
-description = "List snippets filtered to specific languages (rust,python)"
-usage = 'arg "<languages>" help="Comma-separated snippet languages"'
-run = 'alef snippets list --snippets docs-site/src/snippets --languages "$usage_languages"'
-
 ["docs:generate:languages"]
 description = "Generate supported languages documentation from language_definitions.json"
 sources = ["sources/language_definitions.json"]

@@ -1,7 +1,0 @@
-# Kotlin/Android tasks, included from mise.toml [task_config]. Gradle is not a mise tool, so each
-# task that needs it fails first when `gradle` is missing. ~keep
-
-["kotlin-android:build"]
-description = "Build kotlin-android AAR in release mode"
-dir = "{{config_root}}/packages/kotlin-android"
-run = ["command -v gradle >/dev/null 2>&1", "gradle assembleRelease --no-daemon"]

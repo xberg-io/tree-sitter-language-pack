@@ -1,10 +1,5 @@
 # Version tasks, included from mise.toml [task_config]. ~keep
 
-["version:set"]
-description = "Set an explicit release version and synchronize generated outputs"
-usage = 'arg "<version>" help="Release version to set, e.g. 1.22.0"'
-run = ['alef sync-versions --set "$usage_version"', { task = "version:sync" }]
-
 ["version:sync"]
 description = "Synchronize version across all package manifests"
 run = [

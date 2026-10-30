@@ -88,10 +88,10 @@ class Target:
 # scoping decision rather than an oversight. Adding one means producing the local artifact
 # first: these package managers resolve a built distributable, not a source tree.
 UNSUPPORTED: dict[str, str] = {
-    "node": "npm resolves a prebuilt NAPI package; needs `mise run node:build` output and a pnpm "
-    "`overrides` entry pointing at the packed tarball",
-    "wasm": "npm resolves a prebuilt wasm-pack package; needs `mise run wasm:build` output and a "
-    "pnpm `overrides` entry pointing at the packed tarball",
+    "node": "npm resolves a prebuilt NAPI package; needs `napi build --release` output from "
+    "crates/ts-pack-core-node and a pnpm `overrides` entry pointing at the packed tarball",
+    "wasm": "npm resolves a prebuilt wasm-pack package; needs `wasm-pack build --target web --release` "
+    "output from crates/ts-pack-core-wasm and a pnpm `overrides` entry pointing at the packed tarball",
     "java": "Maven has no path dependency; the local equivalent is "
     "`mvn -f packages/java/pom.xml install` into ~/.m2 before the run",
     "csharp": "NuGet has no path dependency; the local equivalent is `dotnet pack packages/csharp` "
@@ -101,7 +101,7 @@ UNSUPPORTED: dict[str, str] = {
     "c": "download_ffi.sh downloads a prebuilt FFI archive from the GitHub release; the local "
     "equivalent is ALEF_FFI_LOCAL_DIR against `mise run ffi:build` output",
     "kotlin_android": "Gradle resolves a published AAR; the local equivalent is "
-    "`mise run kotlin-android:build` plus a mavenLocal() publish",
+    "`gradle assembleRelease` in packages/kotlin-android plus a mavenLocal() publish",
     "php": "already resolves the package from ../../crates/ts-pack-core-php via a composer "
     "psr-4 path autoload, so it never depended on packagist and needs no override",
 }

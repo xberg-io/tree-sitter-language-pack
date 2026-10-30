@@ -51,8 +51,8 @@ mise run test            # run all test suites
 mise run lint            # run all linters (clippy, ruff, oxlint, rubocop, …)
 mise run format          # auto-format all code
 mise run e2e:generate    # regenerate e2e test suites from fixtures
-mise run e2e:test        # run e2e tests
-mise run alef:sync       # regenerate the alef-managed bindings and docs
+mise run go:e2e:test     # run one binding's e2e tests (<lang>:e2e:test)
+alef generate            # regenerate the alef-managed bindings and docs
 ```
 
 Run `mise tasks` to see all available tasks.
@@ -165,7 +165,7 @@ Then regenerate and run e2e tests:
 
 ```bash
 mise run e2e:generate
-mise run e2e:test
+alef test --e2e --jobs 1
 ```
 
 ### 5. Open a pull request
@@ -194,7 +194,7 @@ Binding changes must:
 - **Not add logic that belongs in the Rust core.** Bindings are pure translation layers.
 - **Have test coverage** in the binding's native test suite.
 - **Follow the existing API surface** — most binding surfaces are alef-generated; regenerate
-  them with `mise run alef:sync` rather than hand-editing generated files.
+  them with `alef generate` rather than hand-editing generated files.
 
 ## Documentation
 
@@ -210,7 +210,7 @@ Doc fixes and new guides follow the same workflow as code changes:
 
 :::caution[Generated reference pages]
 Everything under `docs-site/src/content/docs/reference/` is alef-generated from the Rust
-source. Fix the doc comments upstream and run `mise run alef:sync` — do not edit those pages.
+source. Fix the doc comments upstream and run `alef docs` — do not edit those pages.
 :::
 
 :::tip[Quick edits]
@@ -255,7 +255,7 @@ Keep commits **small and focused**. Each commit should represent one logical cha
 - [ ] `mise run lint` passes (zero warnings)
 - [ ] New language has at least one fixture under `fixtures/`, with the regenerated snippets
       under `docs-site/src/snippets/generated/` committed alongside it
-- [ ] `mise run e2e:generate && mise run e2e:test` passes
+- [ ] `mise run e2e:generate && alef test --e2e --jobs 1` passes
 - [ ] `mise run version:sync` run if any manifest was bumped
 - [ ] PR description explains the change and links related issues
 

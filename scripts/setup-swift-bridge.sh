@@ -24,7 +24,7 @@ mkdir -p packages/swift/Sources/RustBridge
 
 # RustBridgeC.h is normally materialized by `alef generate`, which wraps the raw
 # swift-bridge concatenation in an include guard and a provenance header. CI and
-# `mise run swift:build` invoke this script directly instead (no alef run in between),
+# `mise run swift:bridge` invoke this script directly instead (no alef run in between),
 # so it must reproduce alef's exact wrapping byte-for-byte: on a clean tree, where
 # the committed header already reflects the current Rust API, this keeps the write
 # a no-op instead of stripping the guard and dropping provenance. ~keep

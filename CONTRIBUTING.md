@@ -45,7 +45,7 @@ This will install the pinned toolchain, setup the dependencies, and pre-commit h
 | `mise run lint`   | Run all linters                       |
 | `mise run format` | Format all code                       |
 
-For language-specific commands, use the namespace pattern: `mise run rust:test`, `mise run go:test`, `mise run node:build`, etc.
+For language-specific commands, use the namespace pattern: `mise run rust:test`, `mise run go:test`, `mise run go:e2e:test`, etc.
 
 ## What to keep in mind
 

@@ -1,15 +1,4 @@
-# WASM tasks, included from mise.toml [task_config]. WASM_CC and WASM_SYSROOT override the Homebrew
-# LLVM clang and wasi-sysroot paths. ~keep
-
-["wasm:pack"]
-description = "Build the WASM package for one wasm-pack target"
-hide = true
-usage = 'arg "<target>" help="wasm-pack target: web, bundler or nodejs"'
-run = '''CC_wasm32_unknown_unknown="${WASM_CC:-/opt/homebrew/opt/llvm/bin/clang}" WASI_SYSROOT="${WASM_SYSROOT:-/opt/homebrew/share/wasi-sysroot}" wasm-pack build crates/ts-pack-core-wasm --target "$usage_target" --release'''
-
-["wasm:build"]
-description = "Build WASM package (web target)"
-run = [{ task = "wasm:pack web" }]
+# WASM tasks, included from mise.toml [task_config]. ~keep
 
 ["wasm:e2e:test"]
 description = "Run WASM E2E tests"

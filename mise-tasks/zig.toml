@@ -1,10 +1,6 @@
 # Zig tasks, included from mise.toml [task_config]. They build against the Rust FFI library with
 # the FFI test grammar set linked statically. ~keep
 
-["zig:test"]
-description = "Run Zig tests against the Rust FFI shared library"
-run = ["command -v zig >/dev/null 2>&1", { task = "ffi:build" }, "cd packages/zig && zig build test"]
-
 ["zig:e2e:test"]
 description = "Run Zig e2e tests against the Rust FFI shared library"
 run = [

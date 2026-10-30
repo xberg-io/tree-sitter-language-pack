@@ -1,10 +1,5 @@
 # Node.js tasks, included from mise.toml [task_config]. ~keep
 
-["node:build"]
-description = "Build NAPI-RS native module (release)"
-dir = "{{config_root}}/crates/ts-pack-core-node"
-run = "napi build --release"
-
 ["node:e2e:test"]
 description = "Run TypeScript/Node E2E tests"
 run = "alef test --lang node --e2e --jobs 1"

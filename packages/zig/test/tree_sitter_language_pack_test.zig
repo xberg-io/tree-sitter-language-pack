@@ -3,7 +3,7 @@ const tslp = @import("tree_sitter_language_pack");
 
 // These tests require the native `ts_pack_core_ffi` library to have been built
 // with at least `python` statically compiled in (TSLP_LANGUAGES must include
-// "python"). `mise run zig:test` and the CI workflow both build with
+// "python"). The CI workflow (.github/workflows/ci-zig.yaml) builds with
 // TSLP_LANGUAGES=python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg,
 // so "python" is guaranteed present without any network access. Do not add
 // assertions here that depend on languages outside that set, or on

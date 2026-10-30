@@ -38,7 +38,6 @@ includes = [
   "mise-tasks/php.toml",
   "mise-tasks/csharp.toml",
   "mise-tasks/dart.toml",
-  "mise-tasks/kotlin-android.toml",
   "mise-tasks/swift.toml",
   "mise-tasks/zig.toml",
   "mise-tasks/docs.toml",
@@ -122,46 +121,6 @@ run = [{ task = "refresh:all update" }]
 [tasks.upgrade]
 description = "Upgrade all dependencies to latest versions (cross-major / breaking allowed)"
 run = [{ task = "refresh:all upgrade" }]
-
-[tasks."update:grammars"]
-description = "DANGER (opt-in): re-pin ALL grammars to upstream HEAD, unreviewed — each new pin runs upstream grammar.js under Node. Review the diff before committing."
-run = "uv run --no-sync scripts/pin_vendors.py"
-
-# ---- alef --------------------------------------------------------------------------------------
-
-[tasks."alef:generate"]
-description = "Regenerate all Alef-managed outputs without building"
-# ~keep `alef all` never builds the per-language artifacts that a `compile`/`typecheck`
-# `docs.snippets.validation_level` needs (only `alef build` does), so leaving validation on
-# spawns a doomed toolchain per snippet and cannot pass by construction. Discovery, the
-# reference-page audit and gap detection still run. Use `mise run alef:snippets` after
-# `alef build` when you actually want validation.
-run = "alef all --clean --skip-snippet-validation --skip-compile"
-
-[tasks."alef:format"]
-description = "Format Alef-managed language bindings"
-run = "alef fmt"
-
-[tasks."alef:sync"]
-description = "Sync the version to all manifests, registry test-app pins, and the plugin"
-# Delegate instead of calling `alef sync-versions` directly: the bare command misses the
-# registry test-app pins and the plugin version pin. That gap is what left the plugin pin at
-# 1.15.8 on a 1.15.9 core. ~keep
-run = [{ task = "version:sync" }]
-
-[tasks."alef:docs"]
-description = "Generate API reference documentation"
-run = "alef docs"
-
-[tasks."readme:generate"]
-description = "Generate all package READMEs"
-run = "alef readme"
-
-# ---- E2E ---------------------------------------------------------------------------------------
-
-[tasks."e2e:test"]
-description = "Run e2e tests across all bindings (FFI built first)"
-run = "alef test --e2e --jobs 1"
 
 # ---- Governance and contracts ------------------------------------------------------------------
 

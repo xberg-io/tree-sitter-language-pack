@@ -1,10 +1,6 @@
 # Dart tasks, included from mise.toml [task_config]. Dart is not a mise tool, so each task that
 # needs it fails first when `dart` is missing. ~keep
 
-["dart:build"]
-description = "Build Dart package against flutter_rust_bridge Rust crate"
-run = [{ task = "dart:compile release" }]
-
 ["dart:e2e:test"]
 description = "Run Dart e2e tests"
 env = { DYLD_FALLBACK_LIBRARY_PATH = "{{config_root}}/target/release", LD_LIBRARY_PATH = "{{config_root}}/target/release", FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR = "{{config_root}}/target/release" }
