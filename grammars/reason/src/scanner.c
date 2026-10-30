@@ -126,157 +126,122 @@ static bool is_identifier_start(char c) {
   return c == '_' || (c >= 'a' && c <= 'z');
 }
 
-bool tree_sitter_reason_external_scanner_scan(void *payload, TSLexer *lexer,
-                                              const bool *valid_symbols) {
-  ScannerState *state = (ScannerState *)payload;
-  // ~keep upstream omits the type specifier (implicit int); modern clang
-  // rejects it under C99+
-  const bool in_string = state->in_quotes || state->in_backticks;
-
-  if (valid_symbols[TEMPLATE_CHARS]) {
-    lexer->result_symbol = TEMPLATE_CHARS;
-    for (bool has_content = false;; has_content = true) {
-      lexer->mark_end(lexer);
-      switch (lexer->lookahead) {
-      case '`':
-        state->in_backticks = false;
+static bool scan_template_chars(ScannerState *state, TSLexer *lexer) {
+  lexer->result_symbol = TEMPLATE_CHARS;
+  for (bool has_content = false;; has_content = true) {
+    lexer->mark_end(lexer);
+    switch (lexer->lookahead) {
+    case '`':
+      state->in_backticks = false;
+      return has_content;
+    case '\0':
+      return false;
+    case '$':
+      advance(lexer);
+      if (lexer->lookahead == '{' || is_identifier_start(lexer->lookahead))
         return has_content;
-      case '\0':
-        return false;
-      case '$':
-        advance(lexer);
-        if (lexer->lookahead == '{' || is_identifier_start(lexer->lookahead)) {
-          return has_content;
-        }
-        break;
-      case '\\':
-        return has_content;
-      default:
-        advance(lexer);
-      }
+      break;
+    case '\\':
+      return has_content;
+    default:
+      advance(lexer);
     }
-
-    return true;
   }
+}
 
-  // If a source file missing EOL at EOF, give the last statement a chance:
-  // report the statement delimiting EOL at the very end of file. Make sure
-  // it’s done only once, otherwise the scanner will enter dead-lock because
-  // we report NEWLINE again and again, no matter the lexer is exhausted
-  // already.
-  if (valid_symbols[NEWLINE] && lexer->eof(lexer) && !state->eof_reported) {
+static bool newline_continues_statement(TSLexer *lexer) {
+  if (lexer->lookahead == '-') {
+    advance(lexer);
+    return lexer->lookahead == '>';
+  }
+  // ~keep Variant cases, ternaries and block closings continue the current
+  // statement.
+  if (lexer->lookahead == '|' || lexer->lookahead == '?' ||
+      lexer->lookahead == ':' || lexer->lookahead == '}')
+    return true;
+  if (lexer->lookahead != 'a')
+    return false;
+  advance(lexer);
+  if (lexer->lookahead != 'n')
+    return false;
+  advance(lexer);
+  // ~keep `and` continues a recursive definition; leave its final character
+  // unconsumed.
+  return lexer->lookahead == 'd';
+}
+
+// ~keep EOF supplies one final statement-delimiting newline. Physical newlines
+// can instead be formatting inside a statement. NEWLINE_AND_COMMENT preserves
+// both statement-boundary semantics and comment highlighting when they
+// coincide.
+static bool scan_newline(ScannerState *state, TSLexer *lexer,
+                         const bool *valid_symbols) {
+  if (lexer->eof(lexer) && !state->eof_reported) {
     lexer->result_symbol = NEWLINE;
     state->eof_reported = true;
     return true;
   }
-
-  // Magic ahead!
-  // We have two types of newline in reason. The one which ends the current
-  // statement, and the one used just for pretty-formatting (e.g. separates
-  // variant type values). We report only the first one. The second one should
-  // be ignored and skipped as whitespace. What makes things worse is that we
-  // can have comments interleaved in statements. Tree-sitter gives just one
-  // chance to say what type of a token we’re on. We can’t say: “I see a
-  // significant newline, then I see a comment”. To deal with it, an artificial
-  // token NEWLINE_AND_COMMENT was introduced. It has the same semantics for the
-  // AST as simple newline and the same highlighting as a usual comment.
-  if (valid_symbols[NEWLINE] && lexer->lookahead == '\n') {
-    bool is_unnested = state->parens_nesting == 0;
-    lexer->result_symbol = NEWLINE;
-    lexer->advance(lexer, true);
+  if (lexer->lookahead != '\n')
+    return false;
+  lexer->result_symbol = NEWLINE;
+  lexer->advance(lexer, true);
+  lexer->mark_end(lexer);
+  bool has_comment = scan_whitespace_and_comments(lexer);
+  if (has_comment && valid_symbols[NEWLINE_AND_COMMENT]) {
+    lexer->result_symbol = NEWLINE_AND_COMMENT;
     lexer->mark_end(lexer);
-
-    bool has_comment = scan_whitespace_and_comments(lexer);
-    if (has_comment && valid_symbols[NEWLINE_AND_COMMENT]) {
-      lexer->result_symbol = NEWLINE_AND_COMMENT;
-      lexer->mark_end(lexer);
-    }
-
-    bool in_multiline_statement = false;
-    if (lexer->lookahead == '-') {
-      advance(lexer);
-      if (lexer->lookahead == '>') {
-        // Ignore new lines before pipe operator (->) ~keep
-        in_multiline_statement = true;
-      }
-    } else if (lexer->lookahead == '|') {
-      // Ignore new lines before variant declarations and switch matches
-      in_multiline_statement = true;
-    } else if (lexer->lookahead == '?' || lexer->lookahead == ':') {
-      // Ignore new lines before potential ternaries
-      in_multiline_statement = true;
-    } else if (lexer->lookahead == '}') {
-      // Do not report new lines right before block/switch closings to avoid
-      // parser confusion between a terminated and unterminated statements
-      // for rules like seq(repeat($._statement), $.statement) ~keep
-      in_multiline_statement = true;
-    } else if (lexer->lookahead == 'a') {
-      advance(lexer);
-      if (lexer->lookahead == 'n') {
-        advance(lexer);
-        if (lexer->lookahead == 'd') {
-          // Ignore new lines before `and` keyword (recursive definition)
-          in_multiline_statement = true;
-        }
-      }
-    }
-
-    if (in_multiline_statement) {
-      if (has_comment && valid_symbols[COMMENT]) {
-        lexer->result_symbol = COMMENT;
-        return true;
-      }
-    } else {
-      return true;
-    }
   }
+  if (!newline_continues_statement(lexer))
+    return true;
+  if (has_comment && valid_symbols[COMMENT]) {
+    lexer->result_symbol = COMMENT;
+    return true;
+  }
+  return false;
+}
 
-  if (!in_string) {
+static bool scan_delimiter(ScannerState *state, TSLexer *lexer,
+                           const bool *valid_symbols) {
+  if (valid_symbols[QUOTE] && lexer->lookahead == '"') {
+    state->in_quotes = !state->in_quotes;
+    lexer->result_symbol = QUOTE;
+  } else if (valid_symbols[BACKTICK] && lexer->lookahead == '`') {
+    state->in_backticks = !state->in_backticks;
+    lexer->result_symbol = BACKTICK;
+  } else if (valid_symbols[L_PAREN] && lexer->lookahead == '(') {
+    ++state->parens_nesting;
+    lexer->result_symbol = L_PAREN;
+  } else if (valid_symbols[R_PAREN] && lexer->lookahead == ')') {
+    --state->parens_nesting;
+    lexer->result_symbol = R_PAREN;
+  } else {
+    return false;
+  }
+  lexer->advance(lexer, false);
+  lexer->mark_end(lexer);
+  return true;
+}
+
+bool tree_sitter_reason_external_scanner_scan(void *payload, TSLexer *lexer,
+                                              const bool *valid_symbols) {
+  ScannerState *state = (ScannerState *)payload;
+  const bool in_string = state->in_quotes || state->in_backticks;
+  if (valid_symbols[TEMPLATE_CHARS])
+    return scan_template_chars(state, lexer);
+  if (valid_symbols[NEWLINE] && scan_newline(state, lexer, valid_symbols))
+    return true;
+  if (!in_string)
     scan_whitespace(lexer, true);
-  }
-
   if (valid_symbols[COMMENT] && lexer->lookahead == '/' && !in_string) {
     lexer->result_symbol = COMMENT;
     if (scan_comment(lexer)) {
       lexer->mark_end(lexer);
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
-
-  if (valid_symbols[QUOTE] && lexer->lookahead == '"') {
-    state->in_quotes = !state->in_quotes;
-    lexer->result_symbol = QUOTE;
-    lexer->advance(lexer, false);
-    lexer->mark_end(lexer);
+  if (scan_delimiter(state, lexer, valid_symbols))
     return true;
-  }
-
-  if (valid_symbols[BACKTICK] && lexer->lookahead == '`') {
-    state->in_backticks = !state->in_backticks;
-    lexer->result_symbol = BACKTICK;
-    lexer->advance(lexer, false);
-    lexer->mark_end(lexer);
-    return true;
-  }
-
-  if (valid_symbols[L_PAREN] && lexer->lookahead == '(') {
-    ++state->parens_nesting;
-    lexer->result_symbol = L_PAREN;
-    lexer->advance(lexer, false);
-    lexer->mark_end(lexer);
-    return true;
-  }
-
-  if (valid_symbols[R_PAREN] && lexer->lookahead == ')') {
-    --state->parens_nesting;
-    lexer->result_symbol = R_PAREN;
-    lexer->advance(lexer, false);
-    lexer->mark_end(lexer);
-    return true;
-  }
-
   lexer->advance(lexer, iswspace(lexer->lookahead));
   return false;
 }
