@@ -58,7 +58,6 @@ DEPS_RUST_MANIFESTS = "e2e/rust/Cargo.toml"
 
 [vars]
 # Grammar sets compiled by the task namespaces; a full build compiles all 372. ~keep
-dev_languages = "python,rust,javascript,typescript,go,html,css,json"
 test_languages = "baml,c,cedar,dockerfile,dotenv,elixir,go,hcl,java,javascript,jinja2,json,just,kdl,kotlin,properties,python,ruby,rust,sql,swift,terraform,toml,tsx,typescript,typoscript,typst,xml,yaml"
 ffi_test_languages = "python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg"
 rust_workspace = "--locked --workspace --exclude ts-pack-core-php --exclude ts-pack-core-wasm"

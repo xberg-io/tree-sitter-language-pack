@@ -14,19 +14,9 @@ description = "Build all crates with all languages"
 env = { TSLP_LINK_MODE = "dynamic" }
 run = "cargo build {{vars.rust_workspace}}"
 
-["rust:build:dev"]
-description = "Build with a small set of languages for fast iteration"
-env = { TSLP_LANGUAGES = "{{vars.dev_languages}}", TSLP_LINK_MODE = "dynamic" }
-run = "cargo build {{vars.rust_workspace}}"
-
 ["rust:test"]
 description = "Run all Rust tests"
 env = { TSLP_LANGUAGES = "{{vars.test_languages}}", TSLP_LINK_MODE = "dynamic" }
-run = ["cargo test {{vars.rust_workspace}}", { task = "rust:test:feature-gated" }]
-
-["rust:test:quick"]
-description = "Run tests with a small set of languages"
-env = { TSLP_LANGUAGES = "{{vars.dev_languages}}", TSLP_LINK_MODE = "dynamic" }
 run = ["cargo test {{vars.rust_workspace}}", { task = "rust:test:feature-gated" }]
 
 # ~keep `wire_format` and `concurrent_download` carry `required-features` in

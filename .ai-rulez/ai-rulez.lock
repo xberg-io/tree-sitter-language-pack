@@ -4,7 +4,7 @@
 version = 1
 ai_rulez_version = '5.9.2'
 scope = 'all'
-tree = 'sha256:ab1e020e8e757d66a1950d5a53114cc9cc68f7856236b58dfe444b83a0a1c37a'
+tree = 'sha256:54480f416942be4a0187b236dbc506629372452bb7bcfa593645e2d4f97898f3'
 
 [[include]]
 name = 'xberg-bindings'
@@ -514,14 +514,14 @@ kind = 'rule'
 id = 'language-management'
 domain = 'language-management'
 path = 'domains/language-management/rules/language-management.md'
-digest = 'sha256:eff55240532f143f607a37e6fb62cd910d386d4fb5116ec8e78afdce77369081'
+digest = 'sha256:32c267685fa0112436dde5ab7b578b21d6cc01d67945bbd0c273756674831e1d'
 
 [[item]]
 kind = 'rule'
 id = 'parser-compilation'
 domain = 'parser-compilation'
 path = 'domains/parser-compilation/rules/parser-compilation.md'
-digest = 'sha256:78d4949e477d55fa1588a5aee935aaa486059a90a6e74f19e63080de019b0d22'
+digest = 'sha256:636f4ef07e517c3c2aa252f1778eb3ed9f4f6014e60924c68097261fc8a78744'
 
 [[item]]
 kind = 'settings'
