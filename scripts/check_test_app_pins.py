@@ -78,7 +78,7 @@ PINS: tuple[Pin, ...] = (
         "test_apps/csharp/TreeSitterLanguagePack.E2eTests.csproj",
         r'Include="XbergIo\.TreeSitterLanguagePack"\s+Version="([^"]*)"',
     ),
-    Pin("go", "test_apps/go/go.mod", r"xberg-io/tree-sitter-language-pack/packages/go v([^\s]+)"),
+    Pin("go", "test_apps/go/go.mod", r"xberg-io/tree-sitter-language-pack/packages/go(?:/v\d+)? v([^\s]+)"),
     # ~keep Not a test app, but the same drift with an extra hop. `alef e2e generate` copies this
     # literal into `e2e/go/go.mod`, and it runs LAST in `version:sync` -- after the sync step that
     # had already written the new version there -- so a stale value here silently reverts the pin

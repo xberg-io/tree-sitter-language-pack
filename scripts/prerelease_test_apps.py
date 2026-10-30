@@ -35,12 +35,15 @@ from __future__ import annotations
 
 import argparse
 import re
+import shlex
 import shutil
 import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
+
+import tomllib
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -122,6 +125,11 @@ def _write_rust_override(staged: Path) -> None:
     (cargo_dir / "config.toml").write_text(f'[patch.crates-io]\ntree-sitter-language-pack = {{ path = "{local}" }}\n')
 
 
+def _go_module() -> str:
+    configuration = tomllib.loads((ROOT / "alef.toml").read_text())
+    return configuration["crates"][0]["go"]["module"]
+
+
 def _write_go_override(staged: Path) -> None:
     """Add a workspace-level `replace` so the module resolves to `packages/go`.
 
@@ -129,7 +137,7 @@ def _write_go_override(staged: Path) -> None:
     `replace` needs no checksum, so `go.sum` stays valid unmodified.
     """
     local = ROOT / "packages" / "go"
-    module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+    module = _go_module()
     (staged / "go.work").write_text(f"go 1.26\n\nuse .\n\nreplace {module} => {local}\n")
 
 
@@ -226,10 +234,7 @@ TARGETS: dict[str, Target] = {
             app_subdir="go",
             local_package="packages/go",
             apply_override=_write_go_override,
-            verify=(
-                "go list -m -f '{{.Path}} => {{with .Replace}}{{.Dir}}{{end}}' "
-                "github.com/xberg-io/tree-sitter-language-pack/packages/go"
-            ),
+            verify=("go list -m -f '{{.Path}} => {{with .Replace}}{{.Dir}}{{end}}'"),
             run="go test ./... -count=1",
         ),
         Target(
@@ -323,8 +328,11 @@ def verify_resolution(target: Target, staged: Path) -> bool:
     to the registry also exits zero. ~keep
     """
     expected = str(ROOT / target.local_package)
+    command = target.verify
+    if target.name == "go":
+        command = f"{command} {shlex.quote(_go_module())}"
     completed = subprocess.run(
-        target.verify,
+        command,
         shell=True,
         cwd=staged,
         check=False,
