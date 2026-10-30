@@ -16,20 +16,21 @@ copyleft grammars, `nim` (MPL-2.0) and `prolog` (AGPL-3.0) (1032c8bd56, 2026-03-
 
 ## Considered Options
 
-* Accept only permissively licensed grammars, checked in CI by a license linter
+* Accept only permissively licensed grammars, checked by a license linter
 
 No alternatives were recorded.
 
 ## Decision Outcome
 
-Chosen option: "Accept only permissively licensed grammars, checked in CI by a license linter", because the policy
+Chosen option: "Accept only permissively licensed grammars, checked by a license linter", because the policy
 "ensures that tree-sitter-language-pack can be freely used in any project — commercial or otherwise — without
 imposing license obligations on downstream users" (ca4adf7f05, 2026-03-24).
 
 The same day the policy was documented (ca4adf7f05), `scripts/lint_grammar_licenses.py` was added to check every
-grammar against GitHub's license API (34a0981302), and the two copyleft grammars were replaced by MIT and ISC
-alternatives (1032c8bd56). Since 0960cd483a (2026-08-12) the linter fails closed: an unknown or unresolvable license
-fails the check instead of passing.
+grammar against GitHub's license API as a local task (34a0981302), and the two copyleft grammars were replaced by MIT
+and ISC alternatives (1032c8bd56). CI ran the linter from d5372a8633 (2026-04-08), dropped it in 7de1342dfd
+(2026-04-21), and restored it as a gate in 4015f3a317 (2026-08-12). Until 0960cd483a (2026-08-12) the linter could
+not fail; since then an unknown or unresolvable license fails the check instead of passing.
 
 ### Consequences
 
@@ -41,6 +42,6 @@ fails the check instead of passing.
 
 * `scripts/lint_grammar_licenses.py:38` and `scripts/lint_grammar_licenses.py:54` define the permissive and copyleft
   license sets.
-* `mise.toml:101` defines `lint:licenses:check`, which `.github/workflows/ci.yaml:443` runs after refusing to run
+* `mise.toml:102` defines `lint:licenses:check`, which `.github/workflows/ci.yaml:446` runs after refusing to run
   without the definitions, the license cache or an authenticated `gh`.
 * `docs-site/src/content/docs/contributing.md:68` states the policy for contributors.

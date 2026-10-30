@@ -38,7 +38,7 @@ build compiles no grammar and a `wasm32` build compiles the curated default subs
 
 ### Confirmation
 
-* `crates/ts-pack-core/build_support/definitions.rs:84` (`selected_languages`) reads `TSLP_LANGUAGES` and handles
+* `crates/ts-pack-core/build_support/definitions.rs:85` (`selected_languages`) reads `TSLP_LANGUAGES` and handles
   `all` and `*`.
 * `crates/ts-pack-core/Cargo.toml:30` to `crates/ts-pack-core/Cargo.toml:49` define the features; none is a `lang-*`
   or group feature.

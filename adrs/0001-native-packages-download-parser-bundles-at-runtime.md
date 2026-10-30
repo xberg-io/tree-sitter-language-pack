@@ -8,9 +8,9 @@ decision-makers: ["Na'aman Hirschfeld"]
 
 ## Context and Problem Statement
 
-The pack covers several hundred grammars (372 today). After the Rust rewrite (7adfeb0597, 2026-03-07) the core
-crate's default feature set was `["all", "dynamic-loading"]`, which compiled every grammar into every build and every
-native package. On 2026-03-10 (602d29602c) the default became `["dynamic-loading", "download"]`, with a new
+The pack covers several hundred grammars (372 today). The Rust rewrite (7adfeb0597, 2026-03-07) set the core
+crate's default feature set to `["all"]`, which compiled every grammar into every build and every native package, and
+`dynamic-loading` joined the default the next day (ce92df6d5b, 2026-03-09). On 2026-03-10 (602d29602c) the default became `["dynamic-loading", "download"]`, with a new
 `download` feature. Release builds then generated a `parsers.json` manifest (d673b667bf, 2026-03-16), and a
 download and configure API reached every binding (f0976ce016, 2026-03-18).
 
@@ -23,7 +23,7 @@ download and configure API reached every binding (f0976ce016, 2026-03-18).
 ## Decision Outcome
 
 Chosen option: "Native packages ship no grammars by default and download a per-platform parser bundle, listed in a
-`parsers.json` release manifest, on first use", because, as the architecture page states, it "keeps installation fast
+`parsers.json` release manifest, on first use", because, as the architecture docs written later state, it "keeps installation fast
 and download sizes minimal" (`docs-site/src/content/docs/concepts/architecture.md:122`).
 
 The release publishes one `parsers-<platform>.tar.zst` bundle per platform and a `parsers.json` manifest. On first
@@ -44,7 +44,7 @@ network access. Grammars can still be compiled in statically
 ### Confirmation
 
 * `crates/ts-pack-core/Cargo.toml:31` sets `default = ["dynamic-loading", "download"]`.
-* `crates/ts-pack-core/build_support/definitions.rs:85` documents that an unset `TSLP_LANGUAGES` "means runtime
+* `crates/ts-pack-core/build_support/definitions.rs:86` documents that an unset `TSLP_LANGUAGES` "means runtime
   download", and `crates/ts-pack-core/build_support/definitions.rs:130` compiles no grammar on native targets then.
 * `crates/ts-pack-core/src/download.rs:56` builds the release URL of `parsers.json`.
 * `.github/workflows/publish.yaml:2167` generates the manifest, and `.github/workflows/publish.yaml:2300` uploads the

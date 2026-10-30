@@ -15,18 +15,19 @@ passthrough on those bindings (#143; 11a52b2769, 2026-06-19).
 
 ## Considered Options
 
-* Regenerate grammars with `tree-sitter generate --abi 14`, with `abi_version` 14 as the default generation target
-* Ship each grammar's upstream `parser.c` at whatever ABI upstream generated (the state before 11a52b2769)
+* Regenerate the ABI-15 grammars at ABI 14 (`generate: true` with `abi_version: 14`)
+* Keep shipping those grammars' upstream `parser.c` at ABI 15 (the state before 11a52b2769, when some grammars were
+  regenerated and the rest used the `parser.c` upstream committed)
 
 ## Decision Outcome
 
-Chosen option: "Regenerate grammars with `tree-sitter generate --abi 14`, with `abi_version` 14 as the default
-generation target", because ABI 14 loads in the host runtimes that `get_language` passthrough targets, while upstream
+Chosen option: "Regenerate the ABI-15 grammars at ABI 14 (`generate: true` with `abi_version: 14`)", because ABI 14 loads in the host runtimes that `get_language` passthrough targets, while upstream
 ABI 15 output was rejected by them (11a52b2769).
 
+11a52b2769 set `generate: true` and `abi_version: 14` on the 126 grammars that were at ABI 15.
 `clone_vendors.py` runs `tree-sitter generate --abi <abi_version>` for entries marked `generate: true`, and
-`abi_version` defaults to 14. A grammar that cannot be regenerated keeps its committed `parser.c`, which must fall
-within ABI 13 to 15. At 11a52b2769 only `perl` stayed at ABI 15, because upstream ships no `grammar.js`; the
+`abi_version` has defaulted to 14 since 8a7ccafa93 (2025-02-06). A grammar exempted from regeneration because its
+`parser.c` is too large keeps the committed file, whose ABI must fall within 13 to 15. At 11a52b2769 only `perl` stayed at ABI 15, because upstream ships no `grammar.js`; the
 architecture page now lists 16 such grammars, whose committed `parser.c` is too large to regenerate.
 
 ### Consequences
@@ -40,6 +41,7 @@ architecture page now lists 16 such grammars, whose committed `parser.c` is too 
 
 * `scripts/clone_vendors.py:785` defaults `abi_version` to 14, and `scripts/clone_vendors.py:604` passes it to
   `tree-sitter generate --abi`.
-* `scripts/clone_vendors.py:98` sets the minimum loadable ABI to 13, and `scripts/clone_vendors.py:617` accepts a
-  committed `parser.c` only within that range.
+* `scripts/clone_vendors.py:98` sets the minimum loadable ABI to 13 and `scripts/clone_vendors.py:104` the maximum to
+  15, and `scripts/clone_vendors.py:495` rejects an exempted grammar whose committed `parser.c` falls outside that
+  range.
 * `docs-site/src/content/docs/concepts/architecture.md:130` documents ABI 14 and the ABI 15 exceptions.

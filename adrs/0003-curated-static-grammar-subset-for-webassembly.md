@@ -26,8 +26,11 @@ Chosen option: "A curated subset of common languages compiled into the `.wasm` m
 source adds that the full `parser.c` sources total about 1.7 GB and the resulting bundle "is far too large for
 browsers" (`crates/ts-pack-core/build_support/definitions.rs:135`).
 
-The subset began as a `wasm` feature group and now lives in the build script as `WASM_DEFAULT_LANGUAGES`, the
-default for `wasm32` when `TSLP_LANGUAGES` is unset. The WebAssembly package exposes no download or cache helpers.
+The subset began as a `wasm` feature group. Today the published WebAssembly package is built with an explicit
+31-language `TSLP_LANGUAGES` (`.github/workflows/publish.yaml:1282`), and the wasm builds in
+`.github/workflows/ci-e2e.yaml` and `.github/workflows/ci.yaml` set the same list. The build script's
+`WASM_DEFAULT_LANGUAGES` (49 grammars) is only the fallback for a `wasm32` build that leaves `TSLP_LANGUAGES` unset,
+as `alef.toml:887` to `alef.toml:889` records. The WebAssembly package exposes no download or cache helpers.
 
 ### Consequences
 
@@ -37,7 +40,10 @@ default for `wasm32` when `TSLP_LANGUAGES` is unset. The WebAssembly package exp
 
 ### Confirmation
 
-* `crates/ts-pack-core/build_support/definitions.rs:121` selects `WASM_DEFAULT_LANGUAGES` for `wasm32`, and
-  `crates/ts-pack-core/build_support/definitions.rs:140` defines the subset (49 grammars).
+* `.github/workflows/publish.yaml:1282` sets the 31-language `TSLP_LANGUAGES` for the published WebAssembly build;
+  `.github/workflows/ci-e2e.yaml:552` and `.github/workflows/ci.yaml:1131` set the same list.
+* `crates/ts-pack-core/build_support/definitions.rs:121` falls back to `WASM_DEFAULT_LANGUAGES` for `wasm32` when
+  `TSLP_LANGUAGES` is unset, and `crates/ts-pack-core/build_support/definitions.rs:140` defines that fallback (49
+  grammars).
 * `crates/ts-pack-core/build_support/wasm.rs:57` caps the size of a single `parser.c` in a `wasm32` build.
 * `docs-site/src/content/docs/concepts/architecture.md:124` documents the curated static subset.
