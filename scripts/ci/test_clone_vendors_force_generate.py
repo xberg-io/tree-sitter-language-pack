@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import sys
 from pathlib import Path
+from subprocess import CompletedProcess
 from typing import Any
 
 import pytest
@@ -89,3 +90,35 @@ def test_ordinary_generation_retains_the_compatible_timeout_fallback(monkeypatch
     monkeypatch.setattr(vendor, "_run_generate_with_timeout", timeout)
     monkeypatch.setattr(vendor, "run_process", no_op)
     asyncio.run(vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1)))
+
+
+@pytest.mark.parametrize("force", [False, True])
+@pytest.mark.parametrize("timeout", [0, 30])
+def test_nonzero_generation_exit_cannot_ship_committed_output(
+    oversized_parser: Path, monkeypatch: pytest.MonkeyPatch, force: bool, timeout: int
+) -> None:
+    original = vendor._run_generate_with_timeout
+    before = oversized_parser.read_bytes()
+
+    async def fail(_cmd: list[str], cwd: str) -> None:
+        await original([sys.executable, "-c", "import sys; sys.exit(23)"], cwd)
+
+    monkeypatch.setattr(vendor, "GENERATE_TIMEOUT", timeout)
+    monkeypatch.setattr(vendor, "_run_generate_with_timeout", fail)
+    with pytest.raises(RuntimeError, match=r"generation.*23"):
+        asyncio.run(vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1), force=force))
+    assert oversized_parser.read_bytes() == before
+
+
+@pytest.mark.parametrize("timeout", [0, 30])
+def test_windows_generation_rejects_nonzero_exit_status(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, timeout: int
+) -> None:
+    async def fail(cmd: list[str], **_kwargs: Any) -> CompletedProcess:
+        return CompletedProcess(cmd, 23)
+
+    monkeypatch.setattr(vendor.platform, "system", lambda: "Windows")
+    monkeypatch.setattr(vendor, "GENERATE_TIMEOUT", timeout)
+    monkeypatch.setattr(vendor, "run_process", fail)
+    with pytest.raises(RuntimeError, match=r"generation.*23"):
+        asyncio.run(vendor._run_generate_with_timeout(["tree-sitter", "generate"], str(tmp_path)))

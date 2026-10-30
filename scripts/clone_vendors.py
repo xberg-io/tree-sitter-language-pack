@@ -535,9 +535,11 @@ async def _run_generate_with_timeout(cmd: list[str], cwd: str) -> None:
     if platform.system() == "Windows":
         run = run_process(cmd, cwd=cwd, check=False)
         if GENERATE_TIMEOUT > 0:
-            await asyncio.wait_for(run, timeout=GENERATE_TIMEOUT)
+            result = await asyncio.wait_for(run, timeout=GENERATE_TIMEOUT)
         else:
-            await run
+            result = await run
+        if result.returncode != 0:
+            raise RuntimeError(f"grammar generation exited with status {result.returncode} in {cwd}")
         return
 
     proc = await asyncio.create_subprocess_exec(
@@ -549,15 +551,17 @@ async def _run_generate_with_timeout(cmd: list[str], cwd: str) -> None:
     )
     try:
         if GENERATE_TIMEOUT > 0:
-            await asyncio.wait_for(proc.wait(), timeout=GENERATE_TIMEOUT)
+            returncode = await asyncio.wait_for(proc.wait(), timeout=GENERATE_TIMEOUT)
         else:
-            await proc.wait()
+            returncode = await proc.wait()
     except (TimeoutError, asyncio.TimeoutError):
         with suppress(ProcessLookupError):
             os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
         with suppress(ProcessLookupError):
             await proc.wait()
         raise
+    if returncode != 0:
+        raise RuntimeError(f"grammar generation exited with status {returncode} in {cwd}")
 
 
 async def handle_generate(
@@ -638,7 +642,7 @@ async def handle_generate(
                     f"contract. Raise TSLP_GENERATE_TIMEOUT or use a larger runner so generation completes."
                 ) from None
         except Exception as e:
-            raise RuntimeError(f"failed to clone {language_name} due to an exception: {e}") from e
+            raise RuntimeError(f"failed to generate {language_name} due to an exception: {e}") from e
 
 
 async def _discover_and_copy_queries(
