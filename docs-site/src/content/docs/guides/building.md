@@ -10,7 +10,7 @@ This guide covers building the Rust core from source — useful if you need stat
 - Rust toolchain (see `rust-toolchain.toml` in the repository root for the pinned version)
 - Python 3 (for the vendor scripts)
 - A C compiler (`gcc` or `clang`) — required by `build.rs` to compile parser grammars
-- The [Task](https://taskfile.dev) runner
+- [mise](https://mise.jdx.dev/), the project toolchain and task runner
 
 Clone the repository:
 
