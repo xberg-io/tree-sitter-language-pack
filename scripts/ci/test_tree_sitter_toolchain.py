@@ -1,5 +1,7 @@
 """Keep grammar generation on the canonical mise CLI despite stale global executables."""
 
+import copy
+import fnmatch
 import os
 import subprocess
 from pathlib import Path
@@ -20,6 +22,51 @@ WORKFLOWS = {
     "publish-docker.yaml": "build",
     "publish.yaml": "clone-vendors-shard",
 }
+CI_DEPENDENCIES = [f".github/workflows/{name}" for name in WORKFLOWS] + [
+    "scripts/stage_wasm_types.sh",
+    "scripts/ci/test_tree_sitter_toolchain.py",
+]
+CI_COMMAND = "uv run --no-sync python -m pytest scripts/ci/test_tree_sitter_toolchain.py"
+
+
+def verify_ci_gate(workflow: dict) -> None:
+    paths = workflow.get("on", workflow.get(True))["push"]["paths"]
+    for path in CI_DEPENDENCIES:
+        assert any(fnmatch.fnmatchcase(path, pattern) for pattern in paths), f"CI does not cover {path}"
+    job = workflow["jobs"]["nuget-pack-contract"]
+    assert not ({"if", "needs"} & job.keys()), "CLI contract job must run unconditionally"
+    assert not job.get("continue-on-error", False), "CLI contract job must propagate failures"
+    steps = [step for step in job["steps"] if step.get("name") == "Test NuGet packing workflow"]
+    assert len(steps) == 1, "CLI contract step count changed"
+    assert "if" not in steps[0], "CLI contract step must run unconditionally"
+    assert not steps[0].get("continue-on-error", False), "CLI contract step must propagate failures"
+    assert CI_COMMAND in steps[0]["run"].splitlines(), "CLI contract invocation missing"
+
+
+def test_actual_ci_gate_selects_every_workflow_and_helper_and_invokes_contract() -> None:
+    assert len(CI_DEPENDENCIES) == 12
+    verify_ci_gate(yaml.safe_load((ROOT / ".github/workflows/ci.yaml").read_text()))
+
+
+@pytest.mark.parametrize("path", CI_DEPENDENCIES)
+def test_ci_gate_rejects_removed_dependency_coverage(path: str) -> None:
+    workflow = yaml.safe_load((ROOT / ".github/workflows/ci.yaml").read_text())
+    verify_ci_gate(workflow)
+    changed = copy.deepcopy(workflow)
+    paths = changed[True]["push"]["paths"]
+    changed[True]["push"]["paths"] = [pattern for pattern in paths if not fnmatch.fnmatchcase(path, pattern)]
+    with pytest.raises(AssertionError, match="CI does not cover"):
+        verify_ci_gate(changed)
+
+
+def test_ci_gate_rejects_removed_contract_invocation() -> None:
+    workflow = yaml.safe_load((ROOT / ".github/workflows/ci.yaml").read_text())
+    verify_ci_gate(workflow)
+    steps = workflow["jobs"]["nuget-pack-contract"]["steps"]
+    step = next(step for step in steps if step.get("name") == "Test NuGet packing workflow")
+    step["run"] = "\n".join(line for line in step["run"].splitlines() if line != CI_COMMAND) + "\n"
+    with pytest.raises(AssertionError, match="CLI contract invocation missing"):
+        verify_ci_gate(workflow)
 
 
 def workflow_steps(filename: str) -> list[dict]:
