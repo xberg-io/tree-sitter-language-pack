@@ -39,9 +39,11 @@ jobs:
         abi: [arm64-v8a, x86_64]
     steps:
       - uses: actions/checkout@v7
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: ci-mobile-android-${{ matrix.abi }}
+      # ~keep Android SDK/NDK stays on its setup action (org toolchain policy).
       - uses: xberg-io/actions/setup-android-ndk@v1
       - name: cargo ndk check tree-sitter-language-pack-dart
         run: cargo ndk --target ${{ matrix.abi }} --platform 21 -- check -p tree-sitter-language-pack-dart
@@ -63,10 +65,12 @@ jobs:
             target: x86_64-linux-android
     steps:
       - uses: actions/checkout@v7
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - uses: xberg-io/actions/setup-rust@v1
         with:
           target: ${{ matrix.target }}
           cache-key-prefix: ci-mobile-kotlin-android-${{ matrix.abi }}
+      # ~keep Android SDK/NDK stays on its setup action (org toolchain policy).
       - uses: xberg-io/actions/setup-android-ndk@v1
       - uses: xberg-io/actions/build-android-natives@v1
         with:
@@ -95,6 +99,7 @@ jobs:
         target: [aarch64-apple-ios, aarch64-apple-ios-sim]
     steps:
       - uses: actions/checkout@v7
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - uses: xberg-io/actions/setup-rust@v1
         with:
           target: ${{ matrix.target }}

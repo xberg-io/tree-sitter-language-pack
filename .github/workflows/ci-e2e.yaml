@@ -100,6 +100,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -300,6 +301,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -353,6 +355,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -465,6 +468,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -560,6 +564,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -727,6 +732,7 @@ jobs:
       - name: Check Go formatting
         run: mise run go:format:check
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust (for e2e generate)
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -792,6 +798,7 @@ jobs:
           mkdir -p crates/ts-pack-core-ffi/include
           cp -r ffi-artifacts/crates/ts-pack-core-ffi/include/* crates/ts-pack-core-ffi/include/ 2>/dev/null || true
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust (for libtree-sitter build)
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -824,6 +831,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust (for alef e2e generate)
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -886,6 +894,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -897,6 +906,7 @@ jobs:
       - name: Build FFI library
         run: cargo build -p ts-pack-core-ffi --release
 
+      # ~keep dotnet is a mise lock gap (script install, no checksummed artifact).
       - name: Setup .NET
         uses: actions/setup-dotnet@v6
         with:
@@ -973,6 +983,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -1039,6 +1050,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -1047,6 +1059,7 @@ jobs:
           cache-key-prefix: php-${{ matrix.os }}
           install-llvm-cov: "false"
 
+      # ~keep PHP stays on its setup action (org toolchain policy).
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -1123,6 +1136,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -1130,6 +1144,7 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
+      # ~keep BEAM stays on its setup action until evaluated for mise (org toolchain policy).
       - name: Setup Elixir
         uses: xberg-io/actions/setup-elixir@v1
         with:
@@ -1239,6 +1254,7 @@ jobs:
           cp -r ffi-artifacts/crates/ts-pack-core-ffi/include/* test_apps/c/ffi/include/ 2>/dev/null || true
           echo "ALEF_FFI_LOCAL_DIR=$PWD/test_apps/c/ffi" >> "$GITHUB_ENV"
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -1295,6 +1311,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -1303,6 +1320,7 @@ jobs:
           cache-key-prefix: e2e-dart
           install-llvm-cov: "false"
 
+      # ~keep Dart/Flutter stays on its setup action (org toolchain policy).
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
       - name: Setup mise
@@ -1347,6 +1365,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -1416,6 +1435,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:
@@ -1468,6 +1488,7 @@ jobs:
           name: language-parsers
           path: parsers
 
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - name: Setup Rust
         uses: xberg-io/actions/setup-rust@v1
         with:

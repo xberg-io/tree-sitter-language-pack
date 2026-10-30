@@ -81,6 +81,7 @@ jobs:
         with:
           name: language-parsers
           path: parsers
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: ci-swift
