@@ -20,7 +20,7 @@ setup() {
 @test "update refreshes every ecosystem within its major versions, in order" {
 	usage_mode=update run bash "$SCRIPT"
 	xberg_assert_status 0
-	local rules="-DallowSnapshots=false -Dmaven.version.rules=file:///$XBERG_WORK/packages/java/maven-version-rules.xml"
+	local rules="-DallowSnapshots=false -Dmaven.version.rules=file:///$XBERG_WORK/packages/java/versions-rules.xml"
 	local csproj=TreeSitterLanguagePack/TreeSitterLanguagePack.csproj
 	xberg_assert_trace \
 		"work cargo upgrade" \
@@ -60,7 +60,7 @@ setup() {
 @test "upgrade takes breaking releases and routes rust, dart, swift and zig through the shared engine" {
 	usage_mode=upgrade run bash "$SCRIPT"
 	xberg_assert_status 0
-	local rules="-DallowSnapshots=false -Dmaven.version.rules=file:///$XBERG_WORK/packages/java/maven-version-rules.xml"
+	local rules="-DallowSnapshots=false -Dmaven.version.rules=file:///$XBERG_WORK/packages/java/versions-rules.xml"
 	local csproj=TreeSitterLanguagePack/TreeSitterLanguagePack.csproj
 	xberg_assert_trace \
 		"work mise run deps upgrade rust" \
@@ -101,4 +101,14 @@ setup() {
 	xberg_assert_status 2
 	xberg_assert_output "mode must be update or upgrade, got: refresh"
 	xberg_assert_trace_empty
+}
+
+@test "the Maven version rules file the java refresh names exists" {
+	local rules
+	rules="$(sed -n 's#.*-Dmaven.version.rules=file:///\${PWD}/\([^"]*\)".*#\1#p' "$SCRIPT")"
+	[ -n "$rules" ]
+	[ -f "$(dirname "$SCRIPT")/../../packages/java/$rules" ] || {
+		echo "refresh/all.sh names packages/java/$rules, which does not exist" >&2
+		return 1
+	}
 }

@@ -110,7 +110,7 @@ refresh() {
 
 refresh_java() {
   local rules majors goal
-  rules=(-DallowSnapshots=false "-Dmaven.version.rules=file:///${PWD}/maven-version-rules.xml")
+  rules=(-DallowSnapshots=false "-Dmaven.version.rules=file:///${PWD}/versions-rules.xml")
   if [ "$mode" = update ]; then
     majors=-DallowMajorUpdates=false goal=versions:use-next-versions
   else
