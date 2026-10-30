@@ -8,7 +8,7 @@ tells everyone about the problem before there is a fix.
 Email both maintainers directly:
 
 - **Na'aman Hirschfeld** — <naaman@xberg.io>
-- **Tobias Silva** — <tobias@xberg.io>
+- **Tobias Perlstein** — <tobias@xberg.io>
 
 You may also [privately report a vulnerability](https://github.com/xberg-io/tree-sitter-language-pack/security/advisories/new) through GitHub, which opens a private channel with the maintainers.
 
