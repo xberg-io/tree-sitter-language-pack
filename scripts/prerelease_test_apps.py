@@ -90,8 +90,11 @@ class Target:
 UNSUPPORTED: dict[str, str] = {
     "node": "npm resolves a prebuilt NAPI package; needs `napi build --release` output from "
     "crates/ts-pack-core-node and a pnpm `overrides` entry pointing at the packed tarball",
-    "wasm": "npm resolves a prebuilt wasm-pack package; needs `wasm-pack build --target web --release` "
-    "output from crates/ts-pack-core-wasm and a pnpm `overrides` entry pointing at the packed tarball",
+    "wasm": "npm resolves a prebuilt wasm-pack package; needs the output of "
+    "`CC_wasm32_unknown_unknown=<llvm clang> WASI_SYSROOT=<wasi-sysroot> "
+    "wasm-pack build crates/ts-pack-core-wasm --target web --release` (Homebrew: "
+    "/opt/homebrew/opt/llvm/bin/clang, /opt/homebrew/share/wasi-sysroot) and a pnpm `overrides` "
+    "entry pointing at the packed tarball",
     "java": "Maven has no path dependency; the local equivalent is "
     "`mvn -f packages/java/pom.xml install` into ~/.m2 before the run",
     "csharp": "NuGet has no path dependency; the local equivalent is `dotnet pack packages/csharp` "
