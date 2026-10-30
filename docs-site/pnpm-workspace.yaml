@@ -2,7 +2,7 @@ allowBuilds:
   esbuild: true
   sharp: true
 minimumReleaseAgeExclude:
-  - "@xberg-io/docs-theme@0.4.0 || 0.4.1"
+  - "@xberg-io/docs-theme@0.4.0 || 0.4.1 || 0.4.2"
 
 overrides:
   # Both reach us only through Astro/Starlight internals, whose own ranges still
