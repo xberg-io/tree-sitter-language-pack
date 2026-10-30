@@ -1,0 +1,37 @@
+version = 1
+canonical = 1
+
+[adrs."adrs/0000-record-architecture-decisions.md"]
+number = 0
+status = "accepted"
+blake3 = "ea71dde1e3e587b5f717217c1dc350a2260bc2a1dded98ce86eb73e50c71d3cb"
+
+[adrs."adrs/0001-native-packages-download-parser-bundles-at-runtime.md"]
+number = 1
+status = "accepted"
+blake3 = "6e83164a6511354a368f5d0ff91b5aa6ad6ae4342f98e7c0c4b88de59ec5f350"
+
+[adrs."adrs/0002-build-time-grammar-selection-through-tslp-languages.md"]
+number = 2
+status = "accepted"
+blake3 = "3a52160afcc6b6530b5db8d698a17beb4dad3ab77d21c73910ec4e4e03877d43"
+
+[adrs."adrs/0003-curated-static-grammar-subset-for-webassembly.md"]
+number = 3
+status = "accepted"
+blake3 = "e83385f79c40b6f72231aceb3a807faeb387c679a2445b81b24d14de6a250a88"
+
+[adrs."adrs/0004-generate-grammars-at-tree-sitter-abi-14.md"]
+number = 4
+status = "accepted"
+blake3 = "8c9536d67b5b3595c9bf5e4898febdaae02068efe936509ff5535ee5c75f1e43"
+
+[adrs."adrs/0005-permissively-licensed-grammars-only.md"]
+number = 5
+status = "accepted"
+blake3 = "08c711ae6587eb9b93637aff6f947e47bb89bb8679d80bf1cad153888c11f8b2"
+
+[adrs."adrs/0006-grammar-pins-validated-as-commit-shas-on-allowlisted-forges.md"]
+number = 6
+status = "accepted"
+blake3 = "984ad36e1d9ac5410246a0636a6914b2383af88d71c707947594e7c72fd98b6e"
