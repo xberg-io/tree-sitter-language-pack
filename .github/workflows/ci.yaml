@@ -22,6 +22,8 @@ on:
       - "Cargo.toml"
       - "Cargo.lock"
       - "mise.toml"
+      - "mise.lock"
+      - "toolchains.toml"
       - "mise-tasks/**"
       - "pyproject.toml"
       - ".clang-format"
@@ -46,6 +48,13 @@ env:
   BUILD_PROFILE: ci
 
 jobs:
+  toolchain:
+    name: Toolchain baseline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: xberg-io/actions/check-toolchain@v1
+
   nuget-pack-contract:
     name: Check NuGet package closure
     runs-on: ubuntu-latest
