@@ -2944,16 +2944,19 @@ jobs:
         run: ./target/release/ts-pack --version
       - name: Smoke test — help
         run: ./target/release/ts-pack --help
-      - name: Run CLI smoke test script
-        run: |
-          chmod +x test_apps/cli/smoke_test.sh
-          TS_PACK_BIN=./target/release/ts-pack test_apps/cli/smoke_test.sh
-      - name: Run grammar test (static subset)
-        run: |
-          chmod +x test_apps/cli/test_all_grammars.sh
-          TS_PACK_BIN=./target/release/ts-pack \
-            TS_PACK_LANGUAGES="python,rust,javascript,typescript,go,html,css,json" \
-            test_apps/cli/test_all_grammars.sh
+      - name: Install Bats
+        uses: xberg-io/actions/install-bats@v1
+        with:
+          version: "1.14.0"
+      - name: Run CLI Bats contracts
+        uses: xberg-io/actions/run-bats@v1
+        env:
+          TS_PACK_BIN: ${{ github.workspace }}/target/release/ts-pack
+          TS_PACK_LANGUAGES: python,rust,javascript,typescript,go,html,css,json
+        with:
+          path: test_apps/cli
+          lib-path: scripts/tests/lib
+          args: --print-output-on-failure
 
   e2e-plugin:
     name: E2E gate — agent plugin bundles

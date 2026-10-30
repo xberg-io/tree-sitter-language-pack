@@ -81,15 +81,24 @@ jobs:
         id: langs
         uses: xberg-io/actions/list-language-definitions@v1
 
+      - name: Install Bats
+        uses: xberg-io/actions/install-bats@v1
+        with:
+          version: "1.14.0"
+
       - name: Test all grammars
         run: |
+          bats_root="$(dirname "$(dirname "$(command -v bats)")")"
+          test -f "$bats_root/libexec/bats-core/bats-exec-test"
           docker run --rm \
             --user root \
             -e TS_PACK_LANGUAGES="${{ steps.langs.outputs.names }}" \
             -v "${{ github.workspace }}/test_apps:/tests" \
+            -v "${{ github.workspace }}/scripts/tests/lib:/bats-lib:ro" \
+            -v "$bats_root:/opt/bats:ro" \
             --entrypoint "" \
             ts-pack:test \
-            sh -c "apk add --no-cache python3 bash && TS_PACK_BIN=ts-pack bash /tests/cli/test_all_grammars.sh"
+            sh -c 'apk add --no-cache python3 bash && BATS_LIB_PATH=/bats-lib TS_PACK_BIN=ts-pack /opt/bats/bin/bats /tests/cli/grammars.bats'
 
       - name: Test parse commands
         run: |
