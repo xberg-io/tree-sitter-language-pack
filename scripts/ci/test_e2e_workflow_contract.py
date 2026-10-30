@@ -13,6 +13,8 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT = Path(__file__).with_name("fixtures") / "e2e-workflow-contract.json"
 REUSABLE_PATH = ".github/workflows/ci-e2e-*.yaml"
+CI_CONTRACT_COMMAND = "uv run --no-sync python -m pytest scripts/ci/test_e2e_workflow_contract.py"
+CI_CONTRACT_PATH = ".github/workflows/ci-e2e*.yaml"
 
 
 def load_workflow(path: Path) -> dict:
@@ -24,6 +26,25 @@ def load_workflow(path: Path) -> dict:
 
 def digest(value: dict) -> str:
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def verify_ci_contract_gate(root: Path) -> None:
+    workflow = load_workflow(root / ".github/workflows/ci.yaml")
+    paths = workflow["on"]["push"]["paths"]
+    expected = json.loads(CONTRACT.read_text())
+    dependencies = [".github/workflows/ci-e2e.yaml"] + [
+        f".github/workflows/ci-e2e-{job.removeprefix('test-')}.yaml" for job in expected["delegated_jobs"]
+    ]
+    for path in dependencies:
+        assert any(fnmatch.fnmatchcase(path, pattern) for pattern in paths), f"CI does not cover {path}"
+    job = workflow["jobs"]["nuget-pack-contract"]
+    assert "if" not in job, "CI contract job must be unconditional"
+    assert not job.get("continue-on-error", False), "CI contract job must propagate failures"
+    steps = [step for step in job["steps"] if step.get("name") == "Test NuGet packing workflow"]
+    assert len(steps) == 1, "CI contract step count changed"
+    assert "if" not in steps[0], "CI contract step must be unconditional"
+    assert not steps[0].get("continue-on-error", False), "CI contract step must propagate failures"
+    assert CI_CONTRACT_COMMAND in steps[0]["run"].splitlines(), "CI contract invocation missing"
 
 
 def expand_jobs(root: Path, workflow: dict, delegated: list[str]) -> dict:
@@ -74,7 +95,7 @@ def verify_contract(root: Path) -> dict:
 def copied_workflows(tmp_path: Path) -> Path:
     directory = tmp_path / ".github/workflows"
     directory.mkdir(parents=True)
-    for path in (ROOT / ".github/workflows").glob("ci-e2e*.yaml"):
+    for path in [ROOT / ".github/workflows/ci.yaml", *(ROOT / ".github/workflows").glob("ci-e2e*.yaml")]:
         (directory / path.name).write_bytes(path.read_bytes())
     return tmp_path
 
@@ -165,3 +186,49 @@ def test_rejects_missing_child_workflow_core_filter(copied_workflows: Path) -> N
     write_workflow(copied_workflows, "ci-e2e.yaml", workflow)
     with pytest.raises(AssertionError, match="child workflows must select core producers"):
         verify_contract(copied_workflows)
+
+
+def test_real_ci_gate_covers_parent_and_children_and_runs_contract() -> None:
+    verify_ci_contract_gate(ROOT)
+
+
+def test_rejects_removed_real_ci_workflow_path_coverage(copied_workflows: Path) -> None:
+    workflow = load_workflow(copied_workflows / ".github/workflows/ci.yaml")
+    workflow["on"]["push"]["paths"].remove(CI_CONTRACT_PATH)
+    write_workflow(copied_workflows, "ci.yaml", workflow)
+    with pytest.raises(AssertionError, match="CI does not cover"):
+        verify_ci_contract_gate(copied_workflows)
+
+
+def test_rejects_removed_real_ci_contract_invocation(copied_workflows: Path) -> None:
+    workflow = load_workflow(copied_workflows / ".github/workflows/ci.yaml")
+    step = next(
+        step
+        for step in workflow["jobs"]["nuget-pack-contract"]["steps"]
+        if step.get("name") == "Test NuGet packing workflow"
+    )
+    step["run"] = "\n".join(line for line in step["run"].splitlines() if line != CI_CONTRACT_COMMAND) + "\n"
+    write_workflow(copied_workflows, "ci.yaml", workflow)
+    with pytest.raises(AssertionError, match="CI contract invocation missing"):
+        verify_ci_contract_gate(copied_workflows)
+
+
+def test_rejects_a_conditional_real_ci_contract_job(copied_workflows: Path) -> None:
+    workflow = load_workflow(copied_workflows / ".github/workflows/ci.yaml")
+    workflow["jobs"]["nuget-pack-contract"]["if"] = False
+    write_workflow(copied_workflows, "ci.yaml", workflow)
+    with pytest.raises(AssertionError, match="CI contract job must be unconditional"):
+        verify_ci_contract_gate(copied_workflows)
+
+
+def test_rejects_ignored_real_ci_contract_failures(copied_workflows: Path) -> None:
+    workflow = load_workflow(copied_workflows / ".github/workflows/ci.yaml")
+    step = next(
+        step
+        for step in workflow["jobs"]["nuget-pack-contract"]["steps"]
+        if step.get("name") == "Test NuGet packing workflow"
+    )
+    step["continue-on-error"] = True
+    write_workflow(copied_workflows, "ci.yaml", workflow)
+    with pytest.raises(AssertionError, match="CI contract step must propagate failures"):
+        verify_ci_contract_gate(copied_workflows)

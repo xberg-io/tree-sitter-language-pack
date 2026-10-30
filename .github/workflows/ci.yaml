@@ -15,6 +15,7 @@ on:
       - "adrs/**"
       - ".adrlint.toml"
       - ".github/workflows/ci.yaml"
+      - ".github/workflows/ci-e2e*.yaml"
       - ".github/workflows/publish.yaml"
       - ".golangci.yml"
       - ".cargo/config.toml"
@@ -82,6 +83,7 @@ jobs:
           uv run --no-sync python -m pytest scripts/ci/test_go_release_assets.py
           uv run --no-sync python -m pytest scripts/ci/test_grammar_notices.py
           uv run --no-sync python -m pytest scripts/ci/test_clone_vendors_git_env.py
+          uv run --no-sync python -m pytest scripts/ci/test_e2e_workflow_contract.py
 
   clone-vendors:
     name: Clone vendors
