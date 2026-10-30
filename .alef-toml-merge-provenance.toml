@@ -95,6 +95,7 @@ values = [
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
   "skills/**",
+  "adrs/**",
 ]
 
 [[entries]]
@@ -192,6 +193,7 @@ values = [
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
   "skills/**",
+  "adrs/**",
   ".alef-ownership.toml",
   "sources/grammar_notices.json",
 ]
@@ -281,6 +283,7 @@ values = [
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
   "skills/**",
+  "adrs/**",
 ]
 
 [[entries]]
@@ -368,6 +371,7 @@ values = [
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
   "skills/**",
+  "adrs/**",
 ]
 
 [[entries]]

@@ -519,6 +519,9 @@ exclude = [
   "crates/*-ffi/include/*.h",
   "packages/go/include/*.h",
   "/skills/**",
+  # adrlint owns ADR Markdown with its own rumdl config and content-hash lock; poly would
+  # double-report and its lock-unaware formatter would break locks. ~keep
+  "/adrs/**",
 ]
 # alef's generated ownership ledger lists every alef-owned path; at ~550 KiB it trips the
 # 500 KiB check-added-large-files guard on every regen, though it is text and diffs cleanly.
@@ -582,6 +585,12 @@ id = "ai-rulez"
 git = "https://github.com/Goldziher/ai-rulez.git"
 revision = "v5.9.2"
 hooks = ["ai-rulez-validate", "ai-rulez-plugin-verify"]
+
+[[workspace.poly.hooks-sources]]
+id = "adrlint"
+git = "https://github.com/Goldziher/adrlint.git"
+revision = "v0.4.0"
+hooks = ["adrlint-lint", "adrlint-format-check", "adrlint-lock-check"]
 [workspace.poly.per-file-ignores]
 # Alef-generated config files. Both grow with the size of the surface alef manages and
 # with the quality-debt baseline below; a line count on generated config is not a
