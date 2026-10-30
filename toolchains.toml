@@ -20,7 +20,3 @@ task_sets = [
 [overrides.zig]
 version = "0.16.0"
 reason = "packages/zig and test_apps/zig target the Zig 0.16 API; CI builds and snippet checks pin 0.16.0"
-
-[overrides.rust]
-version = "1.95"
-reason = "rust-toolchain.toml pins channel 1.95; move it with any lint fixes a newer clippy demands"
