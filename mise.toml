@@ -51,8 +51,8 @@ includes = [
 PROJECT_ROOT = "{{config_root}}"
 # Repository specifics for the shared task sets (toolchains.toml task_sets). ~keep
 BATS_LIB_REF = "v1.29.0"
-# Only the ecosystems whose refresh matches the shared engine use it; the other <lang>:update and
-# <lang>:upgrade bodies (extra manifests, report steps, Maven rules) stay in their namespace. ~keep
+# mise-tasks/refresh/all.sh calls the shared engine for the ecosystems whose refresh matches it and
+# keeps the other ecosystems' steps (extra manifests, report steps, Maven rules) itself. ~keep
 DEPS_LANGS = "rust dart swift zig"
 DEPS_RUST_MANIFESTS = "e2e/rust/Cargo.toml"
 
@@ -61,7 +61,6 @@ DEPS_RUST_MANIFESTS = "e2e/rust/Cargo.toml"
 test_languages = "baml,c,cedar,dockerfile,dotenv,elixir,go,hcl,java,javascript,jinja2,json,just,kdl,kotlin,properties,python,ruby,rust,sql,swift,terraform,toml,tsx,typescript,typoscript,typst,xml,yaml"
 ffi_test_languages = "python,rust,javascript,typescript,go,html,css,json,mojo,nim,norg"
 rust_workspace = "--locked --workspace --exclude ts-pack-core-php --exclude ts-pack-core-wasm"
-csharp_project = "TreeSitterLanguagePack/TreeSitterLanguagePack.csproj"
 
 # ---- Entry points ------------------------------------------------------------------------------
 

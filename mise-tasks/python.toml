@@ -13,20 +13,6 @@ run = [
   "uv pip install -e packages/python",
 ]
 
-["python:update"]
-description = "Update Python dependencies within current major versions (non-breaking)"
-run = [
-  "uv sync --all-packages --all-extras --no-install-workspace --no-install-project",
-  "uv pip list --outdated || true",
-]
-
-["python:upgrade"]
-description = "Upgrade Python dependencies to latest versions (cross-major / breaking)"
-run = [
-  "uv sync --all-packages --all-extras --upgrade --no-install-workspace --no-install-project",
-  "uv pip list --outdated || true",
-]
-
 ["python:e2e:test"]
 description = "Run Python E2E tests"
 run = "alef test --lang python --e2e --jobs 1"

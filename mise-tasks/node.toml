@@ -1,13 +1,5 @@
 # Node.js tasks, included from mise.toml [task_config]. ~keep
 
-["node:update"]
-description = "Update Node/TypeScript dependencies within current major versions (non-breaking)"
-run = ["pnpm up -r", "pnpm up -w"]
-
-["node:upgrade"]
-description = "Upgrade Node/TypeScript dependencies to latest versions (cross-major / breaking)"
-run = ["pnpm up --latest -r", "pnpm up --latest -w"]
-
 ["node:build"]
 description = "Build NAPI-RS native module (release)"
 dir = "{{config_root}}/crates/ts-pack-core-node"

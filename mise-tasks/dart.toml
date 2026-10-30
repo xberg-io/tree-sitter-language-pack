@@ -5,14 +5,6 @@
 description = "Build Dart package against flutter_rust_bridge Rust crate"
 run = [{ task = "dart:compile release" }]
 
-["dart:update"]
-description = "Update Dart dependencies within current major versions (non-breaking)"
-run = ["command -v dart >/dev/null 2>&1", "mise run deps update dart"]
-
-["dart:upgrade"]
-description = "Upgrade Dart dependencies to latest versions (cross-major / breaking)"
-run = ["command -v dart >/dev/null 2>&1", "mise run deps upgrade dart"]
-
 ["dart:e2e:test"]
 description = "Run Dart e2e tests"
 env = { DYLD_FALLBACK_LIBRARY_PATH = "{{config_root}}/target/release", LD_LIBRARY_PATH = "{{config_root}}/target/release", FRB_DART_LOAD_EXTERNAL_LIBRARY_NATIVE_LIB_DIR = "{{config_root}}/target/release" }

@@ -1,17 +1,6 @@
 # Ruby tasks, included from mise.toml [task_config]. mise supplies the pinned Ruby, so the tasks no
 # longer initialise rbenv shims ahead of it. ~keep
 
-["ruby:update"]
-description = "Update Ruby dependencies within current major versions (non-breaking)"
-dir = "{{config_root}}/packages/ruby"
-run = ["bundle update --conservative", "bundle outdated || true"]
-
-# True cross-major upgrades require manual Gemfile edits. ~keep
-["ruby:upgrade"]
-description = "Upgrade Ruby dependencies to latest versions allowed by Gemfile (cross-major)"
-dir = "{{config_root}}/packages/ruby"
-run = ["bundle update --all --conservative=false", "bundle outdated || true"]
-
 ["ruby:e2e:test"]
 description = "Run Ruby E2E tests"
 run = "alef test --lang ruby --e2e --jobs 1"

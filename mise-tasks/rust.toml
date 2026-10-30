@@ -43,21 +43,6 @@ run = [
 description = "Check Rust formatting (CI)"
 run = "cargo fmt --all -- --check"
 
-# `cargo upgrade` without --incompatible raises requirements within their major version first,
-# which the shared deps engine's update mode does not do. ~keep
-["rust:update"]
-description = "Update Rust dependencies within current major versions (non-breaking)"
-run = [
-  "cargo upgrade",
-  "cargo update",
-  "cargo upgrade --manifest-path e2e/rust/Cargo.toml",
-  "cargo update --manifest-path e2e/rust/Cargo.toml",
-]
-
-["rust:upgrade"]
-description = "Upgrade Rust dependencies to latest versions (cross-major / breaking)"
-run = ["mise run deps upgrade rust"]
-
 ["rust:e2e:test"]
 description = "Run Rust E2E tests"
 env = { TSLP_LANGUAGES = "mojo,nim,norg,bash" }

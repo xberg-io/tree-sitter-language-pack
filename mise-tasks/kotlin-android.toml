@@ -5,15 +5,3 @@
 description = "Build kotlin-android AAR in release mode"
 dir = "{{config_root}}/packages/kotlin-android"
 run = ["command -v gradle >/dev/null 2>&1", "gradle assembleRelease --no-daemon"]
-
-# Gradle has no built-in apply-updates: these report current vs available versions; edit
-# build.gradle(.kts) by hand to apply them. ~keep
-["kotlin-android:update"]
-description = "Report kotlin-android dependency updates within current major versions (non-breaking)"
-dir = "{{config_root}}/packages/kotlin-android"
-run = ["command -v gradle >/dev/null 2>&1", "gradle dependencyUpdates -Drevision=release --no-daemon || true"]
-
-["kotlin-android:upgrade"]
-description = "Report kotlin-android dependency updates including cross-major (breaking)"
-dir = "{{config_root}}/packages/kotlin-android"
-run = ["command -v gradle >/dev/null 2>&1", "gradle dependencyUpdates -Drevision=latest.release --no-daemon || true"]

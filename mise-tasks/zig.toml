@@ -5,15 +5,6 @@
 description = "Run Zig tests against the Rust FFI shared library"
 run = ["command -v zig >/dev/null 2>&1", { task = "ffi:build" }, "cd packages/zig && zig build test"]
 
-["zig:update"]
-description = "Refresh Zig dependencies within build.zig.zon constraints (non-breaking)"
-dir = "{{config_root}}/packages/zig"
-run = ["command -v zig >/dev/null 2>&1", "zig build --fetch"]
-
-["zig:upgrade"]
-description = "Refresh build.zig.zon hashes by re-fetching every declared URL"
-run = ["command -v zig >/dev/null 2>&1", "mise run deps upgrade zig"]
-
 ["zig:e2e:test"]
 description = "Run Zig e2e tests against the Rust FFI shared library"
 run = [

@@ -11,17 +11,6 @@ dir = "{{config_root}}/packages/elixir"
 env = { MIX_ENV = "test" }
 run = "mix test"
 
-# Elixir requires manual mix.exs edits for major version updates. ~keep
-["elixir:update"]
-description = "Update Elixir dependencies within current major versions (non-breaking)"
-dir = "{{config_root}}/packages/elixir"
-run = ["mix hex.outdated || true", "mix deps.update --all", "mix hex.outdated || true"]
-
-["elixir:upgrade"]
-description = "Upgrade Elixir dependencies to latest versions (cross-major / breaking)"
-dir = "{{config_root}}/packages/elixir"
-run = ["mix hex.outdated || true", "mix deps.unlock --all", "mix deps.update --all", "mix hex.outdated || true"]
-
 ["elixir:e2e:generate"]
 description = "Generate Elixir E2E tests from fixtures"
 run = "alef e2e generate --lang elixir"
