@@ -129,6 +129,7 @@ class LanguageDict(TypedDict):
     branch: NotRequired[str]
     directory: NotRequired[str]
     generate: NotRequired[bool]
+    force_generate: NotRequired[bool]
     rewrite_targets: NotRequired[bool]
     abi_version: NotRequired[int]
 
@@ -174,6 +175,8 @@ def _language_cache_key(language_definition: LanguageDict) -> str:
         str(language_definition.get("abi_version", 14)),
         _local_grammar_content_hash(local) if local else "",
     ]
+    if language_definition.get("force_generate", False):
+        parts.append("force_generate")
     return hashlib.sha256("|".join(parts).encode()).hexdigest()[:16]
 
 
@@ -449,7 +452,7 @@ def _committed_parser_abi(target_dir: Path) -> int | None:
     return int(match.group(1)) if match else None
 
 
-def _should_regenerate(language_name: str, directory: str | None) -> bool:
+def _should_regenerate(language_name: str, directory: str | None, *, force: bool = False) -> bool:
     """Whether a `generate: true` grammar should actually be regenerated.
 
     Monster grammars whose freshly-cloned parser.c exceeds ABI_EXEMPT_PARSER_BYTES are
@@ -468,6 +471,7 @@ def _should_regenerate(language_name: str, directory: str | None) -> bool:
     Args:
         language_name: The grammar name.
         directory: Optional subdirectory within the cloned repo.
+        force: Regenerate a known-stale parser even when its committed output exceeds the size limit.
 
     Returns:
         True to regenerate, False to keep the already-cloned parser.c.
@@ -477,7 +481,7 @@ def _should_regenerate(language_name: str, directory: str | None) -> bool:
             outside the range the runtime can load, so neither path can produce a
             valid parser.
     """
-    if ABI_EXEMPT_PARSER_BYTES <= 0:
+    if force or ABI_EXEMPT_PARSER_BYTES <= 0:
         return True
     target_dir = (
         (vendor_directory / language_name / directory).resolve()
@@ -561,6 +565,8 @@ async def handle_generate(
     directory: str | None,
     abi_version: int,
     generate_semaphore: asyncio.Semaphore,
+    *,
+    force: bool = False,
 ) -> None:
     """Handle the generation of a language.
 
@@ -569,12 +575,10 @@ async def handle_generate(
         directory: The directory to generate the language in.
         abi_version: The ABI version to use.
         generate_semaphore: Caps concurrent generation to bound peak memory.
+        force: Refuse the committed-parser fallback if regeneration times out.
 
     Raises:
         RuntimeError: if generate fails.
-
-    Returns:
-        None
     """
     target_dir = (
         (vendor_directory / language_name / directory).resolve()
@@ -614,6 +618,11 @@ async def handle_generate(
                     check=False,
                 )
             committed_abi = _committed_parser_abi(target_dir)
+            if force:
+                raise RuntimeError(
+                    f"tree-sitter forced regeneration for {language_name} timed out after {GENERATE_TIMEOUT}s; "
+                    "refusing to use its known-stale committed parser.c"
+                ) from None
             if committed_abi is not None and MIN_COMPATIBLE_ABI <= committed_abi <= abi_version:
                 print(
                     f"WARNING: tree-sitter generate for {language_name} timed out after "
@@ -783,12 +792,14 @@ async def process_repo(
         )
     directory = language_definition.get("directory")
     abi_version = language_definition.get("abi_version", 14)
-    if language_definition.get("generate", False) and _should_regenerate(language_name, directory):
+    force = language_definition.get("force_generate", False)
+    if language_definition.get("generate", False) and _should_regenerate(language_name, directory, force=force):
         await handle_generate(
             language_name=language_name,
             directory=directory,
             abi_version=abi_version,
             generate_semaphore=generate_semaphore,
+            force=force,
         )
     await move_src_folder(language_name=language_name, directory=directory)
 

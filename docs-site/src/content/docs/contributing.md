@@ -100,7 +100,9 @@ Available fields:
 | `extensions` | No       | File extensions that map to this language (e.g. `["rs"]`)              |
 | `ambiguous`  | No       | Extensions shared with other languages (e.g. `{"h": ["cpp", "objc"]}`) |
 | `c_symbol`   | No       | Override for the C symbol name when it differs from the language name  |
-| `generate`   | No       | Set to `true` to force running `tree-sitter generate` before compiling |
+| `generate`   | No       | Regenerate before compiling, except oversized committed parsers |
+| `force_generate` | No | With `generate`, require regeneration even for oversized parsers; a timeout fails instead of using committed output |
+| `abi_version` | No | Generation ABI target (default `14`); the runtime supports ABI 13–15 |
 
 ### 3. Build and test
 
