@@ -106,7 +106,7 @@ fn write_definition_tables(f: &mut fs::File, definitions: &BTreeMap<String, Lang
     // ~keep This is the canonical known-language list, independent of static or dynamic compilation.
     // ~keep Download callers use it to probe a language before triggering on-demand download.
     writeln!(f, "#[allow(unused)]\npub(crate) static KNOWN_LANGUAGES: &[&str] = &[").unwrap();
-    for (name, _) in definitions.iter() {
+    for name in definitions.keys() {
         writeln!(f, "    \"{name}\",").unwrap();
     }
     writeln!(f, "];").unwrap();
