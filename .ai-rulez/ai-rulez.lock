@@ -4,7 +4,7 @@
 version = 1
 ai_rulez_version = '5.9.2'
 scope = 'all'
-tree = 'sha256:54480f416942be4a0187b236dbc506629372452bb7bcfa593645e2d4f97898f3'
+tree = 'sha256:36808cc771db704bd0d7d419f9013bcd1c0f07b2aa2a724df0013e478c973bc4'
 
 [[include]]
 name = 'xberg-bindings'
@@ -521,7 +521,7 @@ kind = 'rule'
 id = 'parser-compilation'
 domain = 'parser-compilation'
 path = 'domains/parser-compilation/rules/parser-compilation.md'
-digest = 'sha256:636f4ef07e517c3c2aa252f1778eb3ed9f4f6014e60924c68097261fc8a78744'
+digest = 'sha256:5f07cb8eb014b559485e619cea3e1c23ca034c397666ddacfe7dd702760f48a9'
 
 [[item]]
 kind = 'settings'
