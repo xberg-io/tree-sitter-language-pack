@@ -10,7 +10,8 @@
 //! If a test here fails, the JSON wire format changed. Either revert the
 //! Rust change, or — if the change is deliberate — accept it explicitly
 //! with `cargo insta review`, commit the `.snap` diff so the intent is
-//! visible in code review, and regen every binding with `alef generate`.
+//! visible in code review, and regen every binding with
+//! `alef all --clean --skip-snippet-validation --skip-compile`.
 
 use insta::assert_json_snapshot;
 use tree_sitter_language_pack::{

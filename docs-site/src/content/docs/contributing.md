@@ -52,7 +52,7 @@ mise run lint            # run all linters (clippy, ruff, oxlint, rubocop, …)
 mise run format          # auto-format all code
 mise run e2e:generate    # regenerate e2e test suites from fixtures
 mise run go:e2e:test     # run one binding's e2e tests (<lang>:e2e:test)
-alef generate            # regenerate the alef-managed bindings and docs
+alef all --clean --skip-snippet-validation --skip-compile  # regenerate the alef-managed bindings and docs
 ```
 
 Run `mise tasks` to see all available tasks.
@@ -194,7 +194,8 @@ Binding changes must:
 - **Not add logic that belongs in the Rust core.** Bindings are pure translation layers.
 - **Have test coverage** in the binding's native test suite.
 - **Follow the existing API surface** — most binding surfaces are alef-generated; regenerate
-  them with `alef generate` rather than hand-editing generated files.
+  them with `alef all --clean --skip-snippet-validation --skip-compile` rather than hand-editing
+  generated files.
 
 ## Documentation
 
