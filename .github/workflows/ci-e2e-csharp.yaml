@@ -1,0 +1,99 @@
+name: CI E2E csharp
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  RUST_BACKTRACE: short
+  BUILD_PROFILE: ci
+
+jobs:
+  test-csharp:
+    name: Test C# (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-26]
+    env:
+      DOTNET_VERSION: "10.0.x"
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Wire e2e manifest
+        uses: ./.github/actions/wire-e2e-manifest
+        with:
+          platform-label: ${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
+          artifact-name: e2e-bundles-${{ matrix.os == 'ubuntu-latest' && 'linux-x86_64' || 'macos-arm64' }}
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "true"
+          cache-key-prefix: csharp-${{ matrix.os }}
+          install-llvm-cov: "false"
+
+      - name: Build FFI library
+        run: cargo build -p ts-pack-core-ffi --release
+
+      # ~keep dotnet is a mise lock gap (script install, no checksummed artifact).
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Set library paths for .NET
+        shell: bash
+        run: |
+          {
+            echo "LD_LIBRARY_PATH=${{ github.workspace }}/target/release:${LD_LIBRARY_PATH:-}"
+            echo "DYLD_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_LIBRARY_PATH:-}"
+            echo "DYLD_FALLBACK_LIBRARY_PATH=${{ github.workspace }}/target/release:${DYLD_FALLBACK_LIBRARY_PATH:-}"
+          } >> "$GITHUB_ENV"
+
+      - name: Stage native library into runtimes/
+        shell: bash
+        run: |
+          case "${{ matrix.os }}" in
+            macos-26) RID=osx-arm64 ;;
+            ubuntu-latest) RID=linux-x64 ;;
+            *) echo "Unknown OS"; exit 1 ;;
+          esac
+          dest=packages/csharp/TreeSitterLanguagePack/runtimes/$RID/native
+          mkdir -p "$dest"
+          cp target/release/libts_pack_core_ffi.* "$dest/" 2>/dev/null || true
+          ls -la "$dest"
+
+      - name: Build C# bindings
+        working-directory: packages/csharp
+        run: dotnet build TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release
+
+      - name: Run C# unit tests
+        working-directory: packages/csharp
+        run: dotnet test TreeSitterLanguagePack/TreeSitterLanguagePack.csproj -c Release --no-build
+
+      - name: Run C# E2E tests
+        working-directory: e2e/csharp
+        run: dotnet test -c Release
+
+      - name: Cleanup Rust cache
+        if: always()
+        uses: xberg-io/actions/cleanup-rust-cache@v1

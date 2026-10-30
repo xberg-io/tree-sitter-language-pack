@@ -1,0 +1,99 @@
+name: CI E2E php
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  RUST_BACKTRACE: short
+  BUILD_PROFILE: ci
+
+jobs:
+  test-php:
+    name: Test PHP (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-26]
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Wire e2e manifest
+        if: matrix.os == 'ubuntu-latest'
+        uses: ./.github/actions/wire-e2e-manifest
+        with:
+          platform-label: linux-x86_64
+          artifact-name: e2e-bundles-linux-x86_64
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "true"
+          cache-key-prefix: php-${{ matrix.os }}
+          install-llvm-cov: "false"
+
+      # ~keep PHP stays on its setup action (org toolchain policy).
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: ffi
+          tools: composer
+
+      - name: Export PHP build config
+        shell: bash
+        run: |
+          PHP_CONFIG_BIN="$(command -v php-config || true)"
+          if [ -z "$PHP_CONFIG_BIN" ]; then
+            echo "php-config not found in PATH" >&2
+            exit 1
+          fi
+          echo "PHP_CONFIG=$PHP_CONFIG_BIN" >> "$GITHUB_ENV"
+
+      - name: Export macOS PHP linker flags
+        if: matrix.os == 'macos-26'
+        shell: bash
+        run: |
+          EXTRA_FLAGS="-C link-arg=-Wl,-undefined,dynamic_lookup"
+          if [ -n "${RUSTFLAGS:-}" ]; then
+            echo "RUSTFLAGS=${RUSTFLAGS} ${EXTRA_FLAGS}" >> "$GITHUB_ENV"
+          else
+            echo "RUSTFLAGS=${EXTRA_FLAGS}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build PHP extension
+        run: cargo build --release --manifest-path crates/ts-pack-core-php/Cargo.toml
+
+      - name: Run PHP E2E tests
+        if: matrix.os == 'ubuntu-latest'
+        working-directory: e2e/php
+        run: |
+          composer install --no-progress --prefer-dist
+          # Run via the alef-generated harness, which loads our extension
+          # additively (`php -d extension=<path>`) while keeping the system
+          # php.ini. A minimal `-c` ini would replace the system config and drop
+          # PHPUnit's shared extensions (dom, mbstring, tokenizer, xml, ...) on
+          # Ubuntu, so PHPUnit could not start.
+          php run_tests.php
+
+      - name: Cleanup Rust cache
+        if: always()
+        uses: xberg-io/actions/cleanup-rust-cache@v1

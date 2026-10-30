@@ -1,0 +1,74 @@
+name: CI E2E ruby
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  RUST_BACKTRACE: short
+  BUILD_PROFILE: ci
+
+jobs:
+  test-ruby:
+    name: Test Ruby (${{ matrix.ruby-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: ["3.4", "4.0"]
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Wire e2e manifest
+        uses: ./.github/actions/wire-e2e-manifest
+        with:
+          platform-label: linux-x86_64
+          artifact-name: e2e-bundles-linux-x86_64
+
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          components: ""
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.335.0
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+
+      - name: Install Ruby dependencies
+        working-directory: packages/ruby
+        run: bundle install
+
+      - name: Build native extension
+        working-directory: packages/ruby
+        run: bundle exec rake compile
+        env:
+          CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
+
+      - name: Run RSpec tests
+        working-directory: packages/ruby
+        run: bundle exec rspec
+
+      - name: Run Ruby E2E tests
+        working-directory: e2e/ruby
+        run: |
+          bundle install
+          bundle exec rspec

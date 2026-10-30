@@ -1,0 +1,78 @@
+{
+  "source_commit": "9ca9114d6c41886e0239bf11ee79e8f548e67532",
+  "source_file_sha256": "9014aa57f258b91b1987684d3fdff710608380c5e132fe68b4eea808433b367e",
+  "header": {
+    "name": "CI E2E",
+    "concurrency": {
+      "group": "ci-e2e-${{ github.ref }}",
+      "cancel-in-progress": true
+    },
+    "permissions": {
+      "contents": "read"
+    },
+    "env": {
+      "CARGO_TERM_COLOR": "always",
+      "CARGO_INCREMENTAL": 0,
+      "CARGO_PROFILE_DEV_DEBUG": 0,
+      "RUST_BACKTRACE": "short",
+      "BUILD_PROFILE": "ci"
+    },
+    "on": {
+      "push": {
+        "branches": [
+          "main"
+        ],
+        "paths": [
+          "crates/**",
+          "packages/**",
+          "e2e/**",
+          "fixtures/**",
+          "sources/**",
+          "scripts/**",
+          "alef.toml",
+          "Cargo.toml",
+          "Cargo.lock",
+          "pnpm-workspace.yaml",
+          "pnpm-lock.yaml",
+          "package.json",
+          "pyproject.toml",
+          ".github/workflows/ci-e2e.yaml"
+        ]
+      },
+      "workflow_dispatch": null
+    }
+  },
+  "jobs": {
+    "clone-vendors": "b51502efd40dc2a674b2da9793ad0f53e9b74cdc7e6fe237ce72bf01d0090334",
+    "build-e2e-bundles": "c5ec963479b20af1bfd48f9bd5206b36f45b450229ab6b73cea1913e12e99a86",
+    "changes": "4266675edf2c63e2486df3313508584eefcc0aa26b608daec1d06d7187e38694",
+    "build-ffi": "43a3e4c4262557c4bc0ceb7077d5a922ede7e6deed465a90db1ab5efc7610b20",
+    "build-python": "0add0aada25ad39826ac8542e87887756691267a7bc0d0dfedea71cfbffdde67",
+    "test-python": "f3402848c75f69e126d145a31d4808adc220b5511f528a48e1957d5c8728b307",
+    "build-node": "a2b2b3fc053056f110256f1a402ee0f2b70ec12906fb55910b3daaac41aa5c4a",
+    "test-node": "6ddbc826177ed4611fb7911de53af721026fdaf53bd7334f0552b690ec7e6615",
+    "build-wasm": "5d5e7f4858ce3fd39bd721a854bd9f9daa91f92c7b138cdc77a9dba14a9744d5",
+    "test-wasm": "f60a670490b5d9a1a4cd30165b245de49fa014fc25da8f876d780d1028070dae",
+    "test-go": "ab5fc7a2b461444ba400cf7138e225d73d1f4481ec9ce53af68fa5e0be5c0c65",
+    "test-java": "85eec00ca7f6cb52c312499eed557d33d59545d80caa3669c00bea25c373fd81",
+    "test-csharp": "7a0c1c18cccc7efcb1168b17f5d0eebbfe57fc7b0d4e78a24eb77682818b2e22",
+    "test-ruby": "dc4d7c0ed2acd4b4d4e3cb89d25e662a5d91d6a00a0d51e5fcebf34d6c6091e5",
+    "test-php": "2428baacd569c25288d3c90539a546f2e3d4e3feb30d74df841692fe7defbba4",
+    "test-elixir": "ae86fe93c3e81d04e85123bfc7bef2d9a0dfb3562eccdc9778de15d6cc8fde5d",
+    "test-c-ffi": "9cc25749a9d8ef8ad98de2a076d4d1881b313c5316bc625b87235bb2f251b0ed",
+    "test-dart": "5b71749f41a8a0278b86ab093312ea307622a89977a3bd2bf823513d50a9f437",
+    "test-kotlin-android": "f73477812f8dc5d859baa0bf17f6ae802cd59b45f76969be6b175c93a274f437",
+    "test-swift": "9e4a51a26d768e1bcc24a9ebb6b7099d7cadea936c9426347f3d51a0a7f73504",
+    "test-zig": "f8ad345a04fb2dd256b565a1c4087c3d12aaba9f8da5b363bf6f205a6dd904fc"
+  },
+  "step_count": 179,
+  "delegated_jobs": [
+    "test-go",
+    "test-java",
+    "test-csharp",
+    "test-ruby",
+    "test-php",
+    "test-elixir",
+    "test-c-ffi"
+  ]
+}
