@@ -5905,7 +5905,7 @@ jobs:
           registry-url: https://registry.npmjs.org
       - uses: pnpm/action-setup@v6
         with:
-          version: "12.11.2"
+          version: "12.15.0"
           run_install: false
       - name: Read and check the exact npm version
         id: package
