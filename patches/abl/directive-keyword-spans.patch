@@ -1,0 +1,11 @@
+--- a/queries/highlights.scm
++++ b/queries/highlights.scm
+@@ -820,8 +820,6 @@
+ ; Preprocessor branches can contain ordinary ABL. Capture directive tokens,
+ ; not the entire branch, so its expressions keep their normal highlighting.
+ [(then_branch) (else_branch) (endif_branch)] @keyword.directive
+-(if_branch) @keyword.directive
+-(elseif_branch) @keyword.directive
+ (global_define_preprocessor_directive name: (identifier) @constant.macro)
+ (scoped_define_preprocessor_directive name: (identifier) @constant.macro)
+ (undefine_preprocessor_directive name: (identifier) @constant.macro)

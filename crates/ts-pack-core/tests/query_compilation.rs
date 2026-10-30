@@ -30,16 +30,11 @@ const OVERLAY_TAGS_LANGUAGES: [&str; 9] = [
 /// This list is enforced in BOTH directions: an entry that starts compiling fails the test just
 /// as loudly as an unlisted failure. A known-failures list nobody is forced to revisit is how a
 /// gate rots into a green light that checks nothing. ~keep
-const KNOWN_UPSTREAM_BROKEN: [(&str, QueryKind, &str); 4] = [
+const KNOWN_UPSTREAM_BROKEN: [(&str, QueryKind, &str); 3] = [
     (
         "flatbuffers",
         QueryKind::Highlights,
         "upstream typo: grammar.js defines `enum_val_decl`, the query says `enumval_decl`",
-    ),
-    (
-        "hurl",
-        QueryKind::Highlights,
-        "upstream renamed the option field to `option_key:` and wrote the query against `key:` in the same commit",
     ),
     (
         "solidity",
@@ -203,4 +198,47 @@ fn should_compile_the_hand_written_tags_overlay_for_every_overlay_language_built
         present_overlay_languages.len(),
         failures.iter().map(ToString::to_string).collect::<Vec<_>>().join("\n")
     );
+}
+
+#[test]
+fn should_capture_abl_directive_keywords_without_their_names_values_or_bodies() {
+    use tree_sitter::{Parser, QueryCursor, StreamingIterator};
+
+    let Ok(language) = LanguageRegistry::new().get_language("abl") else {
+        eprintln!("SKIPPED ABL directive captures: build with TSLP_LANGUAGES=abl");
+        return;
+    };
+    let query = get_query("abl", QueryKind::Highlights)
+        .expect("ABL highlights must compile")
+        .expect("ABL must bundle highlights");
+    let fixtures: [(&str, &[&str]); 11] = [
+        ("&gLoBaL-DeFiNe FLAG 1\n", &["&gLoBaL-DeFiNe"]),
+        ("&ScOpEd-DeFiNe FLAG 1\n", &["&ScOpEd-DeFiNe"]),
+        ("&UnDeFiNe FLAG\n", &["&UnDeFiNe"]),
+        ("&MeSsAgE hello\n", &["&MeSsAgE"]),
+        ("&AnAlYzE-SuSpEnD _UIB-CODE-BLOCK\n", &["&AnAlYzE-SuSpEnD"]),
+        ("&AnAlYzE-ReSuMe metadata\n", &["&AnAlYzE-ReSuMe"]),
+        ("&iF TRUE\n", &["&iF"]),
+        ("&tHeN\n", &["&tHeN"]),
+        ("&eLsEiF FALSE\n", &["&eLsEiF"]),
+        ("&eLsE\n", &["&eLsE"]),
+        ("&eNdIf\n", &["&eNdIf"]),
+    ];
+    let mut parser = Parser::new();
+    parser.set_language(&language).expect("ABL must load");
+    for (source, expected) in fixtures {
+        let tree = parser.parse(source, None).expect("fixture must parse");
+        assert!(!tree.root_node().has_error(), "fixture needs recovery: {source}");
+        let mut cursor = QueryCursor::new();
+        let mut matches = cursor.matches(&query, tree.root_node(), source.as_bytes());
+        let mut captured = Vec::new();
+        while let Some(found) = matches.next() {
+            for capture in found.captures() {
+                if query.capture_names()[capture.index as usize] == "keyword.directive" {
+                    captured.push(&source[capture.node.byte_range()]);
+                }
+            }
+        }
+        assert_eq!(captured, expected, "directive spans for {source}");
+    }
 }
