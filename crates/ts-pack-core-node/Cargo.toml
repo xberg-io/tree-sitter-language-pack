@@ -30,7 +30,7 @@ default = ["download"]
 download = ["tree-sitter-language-pack/download"]
 
 [dependencies]
-napi = { version = "3", features = ["async"] }
+napi = { version = "3", features = ["async", "napi8"] }
 napi-derive = "3"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

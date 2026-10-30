@@ -53,31 +53,7 @@ use napi_derive::napi;
 use std::sync::Arc;
 use std::sync::Mutex;
 
-#[repr(C)]
-struct NapiTypeTag {
-    lower: u64,
-    upper: u64,
-}
-
-#[cfg_attr(target_os = "windows", link(name = "node", kind = "raw-dylib"))]
-unsafe extern "C" {
-    fn napi_create_external(
-        env: napi::sys::napi_env,
-        data: *mut std::ffi::c_void,
-        finalize_cb: Option<
-            unsafe extern "C" fn(env: napi::sys::napi_env, data: *mut std::ffi::c_void, hint: *mut std::ffi::c_void),
-        >,
-        finalize_hint: *mut std::ffi::c_void,
-        result: *mut napi::sys::napi_value,
-    ) -> napi::sys::napi_status;
-    fn napi_type_tag_object(
-        env: napi::sys::napi_env,
-        value: napi::sys::napi_value,
-        type_tag: *const NapiTypeTag,
-    ) -> napi::sys::napi_status;
-}
-
-const __ALEF_CAPSULE_TAG_LANGUAGE: NapiTypeTag = NapiTypeTag {
+const __ALEF_CAPSULE_TAG_LANGUAGE: napi::sys::napi_type_tag = napi::sys::napi_type_tag {
     lower: 0x8AF2E5212AD58ABF,
     upper: 0xD5006CAD83ABBA16,
 };
@@ -1917,14 +1893,14 @@ pub fn get_language(env: &napi::Env, name: String) -> napi::Result<napi::bindgen
     let mut obj = napi::bindgen_prelude::Object::new(env)?;
     let env_raw = env.raw();
     let mut external_value: napi::sys::napi_value = std::ptr::null_mut();
-    let create_status = unsafe { napi_create_external(env_raw, ptr, None, std::ptr::null_mut(), &mut external_value) };
+    let create_status = unsafe { napi::sys::napi_create_external(env_raw, ptr, None, std::ptr::null_mut(), &mut external_value) };
     if create_status != napi::sys::Status::napi_ok {
         return Err(napi::Error::new(
             napi::Status::GenericFailure,
             format!("napi_create_external failed: status={create_status}"),
         ));
     }
-    let status = unsafe { napi_type_tag_object(env_raw, external_value, &__ALEF_CAPSULE_TAG_LANGUAGE) };
+    let status = unsafe { napi::sys::napi_type_tag_object(env_raw, external_value, &__ALEF_CAPSULE_TAG_LANGUAGE) };
     if status != napi::sys::Status::napi_ok {
         return Err(napi::Error::new(
             napi::Status::GenericFailure,

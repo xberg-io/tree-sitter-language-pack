@@ -1020,9 +1020,14 @@ jobs:
           - os: macos-26
             target: aarch64-apple-darwin
             platform: macos-arm64
+          # Builds a few grammars, since this leg only proves the addon loads under node.exe.
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            platform: win32-x64
+            languages: "python,json"
     env:
       PROJECT_ROOT: ${{ github.workspace }}
-      TSLP_LANGUAGES: "all"
+      TSLP_LANGUAGES: ${{ matrix.languages || 'all' }}
       TSLP_LINK_MODE: static
     steps:
       - name: Checkout
@@ -1051,6 +1056,11 @@ jobs:
       - name: Build native module
         working-directory: crates/ts-pack-core-node
         run: napi build --release --platform --target ${{ matrix.target }}
+
+      - name: Load native module
+        shell: bash
+        working-directory: crates/ts-pack-core-node
+        run: node -e "const m = require('./'); console.log('Languages:', m.availableLanguages().length)"
 
       - name: Upload native module
         uses: actions/upload-artifact@v7
