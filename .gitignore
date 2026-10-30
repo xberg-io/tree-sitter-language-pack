@@ -257,7 +257,7 @@ poly.local.toml
 .ai-rulez/.config.local.*
 .opencode/agents/
 .opencode/commands/
-opencode.json
+/opencode.json
 # END ai-rulez
 
 # Agent harness output outside the ai-rulez managed block: the machine-local overlay,
