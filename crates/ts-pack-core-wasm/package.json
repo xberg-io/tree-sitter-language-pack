@@ -23,7 +23,12 @@
     "access": "public"
   },
   "type": "module",
-  "files": ["pkg", "*.wasm", "*.d.ts", "README.md"],
+  "files": [
+    "pkg",
+    "*.wasm",
+    "*.d.ts",
+    "README.md"
+  ],
   "main": "pkg/nodejs/ts_pack_core_wasm.js",
   "module": "pkg/web/ts_pack_core_wasm.js",
   "types": "pkg/nodejs/ts_pack_core_wasm.d.ts",
@@ -53,7 +58,7 @@
     "clean": "rm -rf pkg dist"
   },
   "devDependencies": {
-    "vitest": "^4.1.11",
-    "@vitest/coverage-v8": "^4.1.11"
+    "@vitest/coverage-v8": "^5.0.5",
+    "vitest": "^5.0.5"
   }
 }
