@@ -35,11 +35,11 @@ setup() {
 		"ruby bundle outdated" \
 		"go go get -t ./..." \
 		"go go mod tidy" \
-		"go go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest" \
+		"go go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.1" \
 		"java mvn $rules -DallowMajorUpdates=false versions:use-next-versions -DprocessDependencies=true -DprocessParent=false -DgenerateBackupPoms=false" \
 		"java mvn $rules -DallowMajorUpdates=false versions:update-properties -DgenerateBackupPoms=false" \
 		"java mvn $rules versions:display-dependency-updates" \
-		"csharp dotnet tool install --global dotnet-outdated-tool" \
+		"csharp dotnet tool install --global dotnet-outdated-tool --version 4.8.1" \
 		"csharp dotnet outdated $csproj --upgrade --version-lock Major" \
 		"csharp dotnet list $csproj package --outdated" \
 		"work composer update -w" \
@@ -54,7 +54,7 @@ setup() {
 		"zig zig build --fetch" \
 		"kotlin-android gradle dependencyUpdates -Drevision=release --no-daemon" \
 		"work uv run --no-sync scripts/check_grammar_updates.py --dry-run" \
-		"work uvx --from gh-actions-updater gau --update --recursive --pin-style major --missing-ref fallback .github"
+		"work uvx --from gh-actions-updater==0.3.0 gau --update --recursive --pin-style major --missing-ref fallback .github"
 }
 
 @test "upgrade takes breaking releases and routes rust, dart, swift and zig through the shared engine" {
@@ -72,12 +72,12 @@ setup() {
 		"ruby bundle outdated" \
 		"go go get -u -t ./..." \
 		"go go mod tidy" \
-		"go go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest" \
+		"go go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.1" \
 		"java mvn $rules -DallowMajorUpdates=true versions:use-latest-releases -DprocessDependencies=true -DprocessParent=false -DgenerateBackupPoms=false" \
 		"java mvn $rules -DallowMajorUpdates=true versions:update-properties -DgenerateBackupPoms=false" \
 		"java mvn $rules versions:display-dependency-updates" \
 		"java mvn $rules versions:display-plugin-updates" \
-		"csharp dotnet tool install --global dotnet-outdated-tool" \
+		"csharp dotnet tool install --global dotnet-outdated-tool --version 4.8.1" \
 		"csharp dotnet outdated $csproj --upgrade" \
 		"csharp dotnet list $csproj package --outdated" \
 		"work composer update --with-all-dependencies" \
@@ -93,7 +93,7 @@ setup() {
 		"work mise run deps upgrade zig" \
 		"kotlin-android gradle dependencyUpdates -Drevision=latest.release --no-daemon" \
 		"work uv run --no-sync scripts/check_grammar_updates.py --dry-run" \
-		"work uvx --from gh-actions-updater gau --update --recursive --pin-style major --missing-ref fallback .github"
+		"work uvx --from gh-actions-updater==0.3.0 gau --update --recursive --pin-style major --missing-ref fallback .github"
 }
 
 @test "an unknown mode exits 2 before running anything" {

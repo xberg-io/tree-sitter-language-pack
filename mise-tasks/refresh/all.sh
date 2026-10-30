@@ -55,7 +55,7 @@ refresh() {
       cd packages/go
       go get "${flags[@]}" ./...
       go mod tidy
-      go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest || true
+      go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.1 || true
     )
     ;;
   java:*) (cd packages/java && refresh_java) ;;
@@ -64,7 +64,7 @@ refresh() {
     if [ "$mode" = update ]; then lock=(--version-lock Major); fi
     (
       cd packages/csharp
-      dotnet tool install --global dotnet-outdated-tool || dotnet tool update --global dotnet-outdated-tool
+      dotnet tool install --global dotnet-outdated-tool --version 4.8.1 || dotnet tool update --global dotnet-outdated-tool --version 4.8.1
       dotnet outdated "$csharp_project" --upgrade ${lock[@]+"${lock[@]}"}
       dotnet list "$csharp_project" package --outdated || true
     )
@@ -141,4 +141,4 @@ done
 echo "Checking for language grammar updates (report only)..."
 uv run --no-sync scripts/check_grammar_updates.py --dry-run
 echo "Updating GitHub Actions pins..."
-uvx --from gh-actions-updater gau --update --recursive --pin-style major --missing-ref fallback .github
+uvx --from gh-actions-updater==0.3.0 gau --update --recursive --pin-style major --missing-ref fallback .github

@@ -7,7 +7,7 @@ run = ["rustc --version", "rustup component add rustfmt clippy", { task = "rust:
 
 ["rust:install:cargo-machete"]
 description = "Install cargo-machete for unused dependency detection"
-run = "cargo-machete --version 2>/dev/null || cargo install --locked cargo-machete || true"
+run = "mise install github:bnjbvr/cargo-machete || true"
 
 ["rust:build"]
 description = "Build all crates with all languages"
