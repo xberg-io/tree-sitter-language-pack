@@ -2,7 +2,7 @@
   "name": "tree-sitter-language-pack",
   "displayName": "Tree-Sitter Language Pack",
   "description": "Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking.",
-  "version": "2.0.0",
+  "version": "1.23.0",
   "author": {
     "name": "Kreuzberg, Inc.",
     "email": "contact@xberg.io",

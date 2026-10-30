@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 
-	tspack "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
+	tspack "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 )
 
 // TestCapsulePassthroughParsesPython verifies that GetLanguage returns a *tree_sitter.Language

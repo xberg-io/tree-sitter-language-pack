@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 import pytest
+import tomllib
 
 from scripts import check_test_app_pins, prerelease_test_apps
 
@@ -28,15 +29,20 @@ def test_go_prerelease_resolves_the_configured_module(
     assert prerelease_test_apps.verify_resolution(prerelease_test_apps.TARGETS["go"], staged)
 
 
-def test_go_version_pin_accepts_the_major_version_module(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+@pytest.mark.parametrize("major", [1, 2])
+def test_go_version_pin_accepts_the_configured_module(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, major: int
+) -> None:
     app = tmp_path / "test_apps/go"
     app.mkdir(parents=True)
-    (app / "go.mod").write_text(
-        "module example.com/consumer\n\nrequire github.com/xberg-io/tree-sitter-language-pack/packages/go/v2 v2.0.0\n"
-    )
+    module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+    if major > 1:
+        module += f"/v{major}"
+    version = "1.23.0" if major == 1 else "2.0.0"
+    (app / "go.mod").write_text(f"module example.com/consumer\n\nrequire {module} v{version}\n")
     monkeypatch.setattr(check_test_app_pins, "ROOT", tmp_path)
     pin = next(pin for pin in check_test_app_pins.PINS if pin.app == "go")
-    findings, changed = check_test_app_pins.check_pin(pin, "2.0.0", fix=False)
+    findings, changed = check_test_app_pins.check_pin(pin, version, fix=False)
     assert findings == []
     assert changed is False
 
@@ -65,3 +71,17 @@ def test_go_readme_installation_uses_the_current_module() -> None:
     assert f"go get {module}\n" in readme
     assert f'https://pkg.go.dev/{module}"' in readme
     assert f'"{module}"' in readme
+
+
+def test_minor_release_preserves_the_existing_go_module() -> None:
+    root = Path(__file__).resolve().parents[2]
+    configuration = tomllib.loads((root / "alef.toml").read_text())["crates"][0]
+    module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+    assert configuration["go"]["module"] == module
+    assert configuration["e2e"]["packages"]["go"]["module"] == module
+    assert configuration["e2e"]["registry"]["packages"]["go"]["module"] == module
+    assert configuration["readme"]["languages"]["go"]["package_name"] == module
+    module_lines = [
+        line for line in (root / "packages/go/go.mod").read_text().splitlines() if line.startswith("module ")
+    ]
+    assert module_lines == [f"module {module}"]

@@ -7,15 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.0.0] - 2026-10-30
+## [1.23.0] - 2026-10-30
 
-### Breaking changes
+### Changed
 
 - Updated parsers change the grammar ABI for Ada (15 to 14) and Hurl, Idris and VRL (14 to 15).
   Refresh cached grammar artifacts before using this release.
-- The Go binding moves to the `github.com/xberg-io/tree-sitter-language-pack/packages/go/v2` module path.
-
-### Changed
 
 - Upgrade 52 grammar sources and refresh Rust, Python, Node, PHP, Ruby and Elixir dependencies.
 - Generate stale bundled parsers with tree-sitter CLI 0.27.1 and reject unsuccessful parser generation.

@@ -243,22 +243,22 @@ replace = 'Include="XbergIo.TreeSitterLanguagePack" Version="{version}"'
 [[workspace.sync.text_replacements]]
 path = "test_apps/go/go.mod"
 search = 'xberg-io/tree-sitter-language-pack/packages/go(?:/v2)? v[^\s]*'
-replace = 'xberg-io/tree-sitter-language-pack/packages/go/v2 v{version}'
+replace = 'xberg-io/tree-sitter-language-pack/packages/go v{version}'
 
 [[workspace.sync.text_replacements]]
 path = "packages/go/go.mod"
 search = '(?m)^module github\.com/xberg-io/tree-sitter-language-pack/packages/go(?:/v2)?$'
-replace = 'module github.com/xberg-io/tree-sitter-language-pack/packages/go/v2'
+replace = 'module github.com/xberg-io/tree-sitter-language-pack/packages/go'
 
 [[workspace.sync.text_replacements]]
 path = "e2e/go/go.mod"
 search = 'github\.com/xberg-io/tree-sitter-language-pack/packages/go(?:/v2)? v[^\s]*'
-replace = 'github.com/xberg-io/tree-sitter-language-pack/packages/go/v2 v{version}'
+replace = 'github.com/xberg-io/tree-sitter-language-pack/packages/go v{version}'
 
 [[workspace.sync.text_replacements]]
 path = "e2e/go/go.mod"
 search = '(?m)^replace github\.com/xberg-io/tree-sitter-language-pack/packages/go(?:/v2)? =>'
-replace = 'replace github.com/xberg-io/tree-sitter-language-pack/packages/go/v2 =>'
+replace = 'replace github.com/xberg-io/tree-sitter-language-pack/packages/go =>'
 
 [[workspace.sync.text_replacements]]
 path = "test_apps/rust/Cargo.toml"
@@ -380,12 +380,12 @@ replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
 path = "alef.toml"
-search = '(\[crates\.e2e\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"\s+path = "[^"]*"\s+version = "v)[^"]*'
+search = '(\[crates\.e2e\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"\s+path = "[^"]*"\s+version = "v)[^"]*'
 replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
 path = "alef.toml"
-search = '(\[crates\.e2e\.registry\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"\s+version = "v)[^"]*'
+search = '(\[crates\.e2e\.registry\.packages\.go\]\s+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"\s+version = "v)[^"]*'
 replace = '${1}{version}'
 
 [[workspace.sync.text_replacements]]
@@ -929,7 +929,7 @@ package = "tree-sitter"
 package_version = "0.26"
 
 [crates.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 package_name = "tspack"
 
 [crates.go.capsule_types.Language]
@@ -1370,7 +1370,7 @@ function = "process"
 options_type = "ProcessConfig"
 
 [crates.e2e.call.overrides.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 function = "Process"
 alias = "tspack"
 options_type = "ProcessConfig"
@@ -1821,9 +1821,9 @@ name = "@xberg-io/tree-sitter-language-pack"
 path = "../../crates/ts-pack-core-node"
 
 [crates.e2e.packages.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 path = "../../packages/go"
-version = "v2.0.0"
+version = "v1.23.0"
 
 [crates.e2e.packages.elixir]
 name = "tree_sitter_language_pack"
@@ -1859,51 +1859,51 @@ github_repo = "https://github.com/xberg-io/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.node]
 name = "@xberg-io/tree-sitter-language-pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.go]
-module = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
-version = "v2.0.0"
+module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
+version = "v1.23.0"
 
 [crates.e2e.registry.packages.java]
 name = "io.xberg.treesitterlanguagepack:tree-sitter-language-pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.wasm]
 name = "@xberg-io/tree-sitter-language-pack-wasm"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.php]
 name = "xberg-io/tree-sitter-language-pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.zig.platform_hashes]
 "aarch64-apple-darwin" = "tree_sitter_language_pack-1.22.1-jCz0Y0MmSwBXq_A71Vi5ijvmp0Qogtl3kNcBO8ywm_dX"
@@ -1914,15 +1914,15 @@ version = "2.0.0"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "io.xberg.tslp.android:tree-sitter-language-pack-android"
-version = "2.0.0"
+version = "1.23.0"
 
 [crates.e2e.registry.packages.homebrew]
 tap = "xberg-io/homebrew-tap"
@@ -2010,7 +2010,7 @@ package_manager = ["npm", "pnpm", "yarn"]
 [crates.readme.languages.go]
 template = "language_package.md"
 name = "Go"
-package_name = "github.com/xberg-io/tree-sitter-language-pack/packages/go/v2"
+package_name = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 badge_url = "https://img.shields.io/github/v/tag/xberg-io/tree-sitter-language-pack?label=Go&color=007ec6"
 docs_url = "https://docs.tree-sitter-language-pack.xberg.io"
 description = "Pre-compiled tree-sitter grammars for 372 programming languages with idiomatic Go bindings via cgo."

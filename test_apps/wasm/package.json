@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@xberg-io/tree-sitter-language-pack-wasm": "2.0.0",
+    "@xberg-io/tree-sitter-language-pack-wasm": "1.23.0",
     "rollup": "^4.66.0",
     "vitest": "^5.0.5"
   },
