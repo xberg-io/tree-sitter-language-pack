@@ -21,7 +21,10 @@
   "bin": {
     "ts-pack": "bin/ts-pack.js"
   },
-  "files": ["bin/", "install.js"],
+  "files": [
+    "bin/",
+    "install.js"
+  ],
   "type": "module",
   "publishConfig": {
     "access": "public"

@@ -11,7 +11,10 @@
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && tree-sitter parse examples/*.abnf examples/generated/*.abnf --quiet --time"
   },
-  "keywords": ["parser", "lexer"],
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
   "author": "Jacob Mitchell",
   "license": "MIT",
   "dependencies": {

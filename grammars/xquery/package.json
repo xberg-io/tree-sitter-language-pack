@@ -4,7 +4,16 @@
   "version": "0.1.2",
   "author": "Grant Mackenzie <grantmacken@gmail.com>",
   "license": "MIT",
-  "keywords": ["XQuery", "treesitter", "tree-sitter", "parser", "grammar", "tooling", "XML", "JSON"],
+  "keywords": [
+    "XQuery",
+    "treesitter",
+    "tree-sitter",
+    "parser",
+    "grammar",
+    "tooling",
+    "XML",
+    "JSON"
+  ],
   "homepage": "https://grantmacken.github.io/tree-sitter-xquery",
   "repository": {
     "type": "git",
@@ -33,7 +42,12 @@
   "tree-sitter": [
     {
       "scope": "source.xquery",
-      "file-types": ["xquery", "xqm", "xq", "xql"]
+      "file-types": [
+        "xquery",
+        "xqm",
+        "xq",
+        "xql"
+      ]
     }
   ]
 }

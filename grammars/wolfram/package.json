@@ -31,8 +31,16 @@
   "tree-sitter": [
     {
       "scope": "source.wolfram",
-      "file-types": ["wl", "m", "wls", "wlt", "mt"],
-      "highlights": ["queries/highlights.scm"],
+      "file-types": [
+        "wl",
+        "m",
+        "wls",
+        "wlt",
+        "mt"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
       "injection-regex": "wolfram"
     }
   ]
