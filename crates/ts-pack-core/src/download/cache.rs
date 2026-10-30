@@ -243,6 +243,7 @@ fn warn_if_outside_profile_cache_root(path: &Path) {
     }
     if is_outside_profile_cache_root(path, &profile_root) {
         tracing::warn!(
+            target: "tree_sitter_language_pack::download",
             cache_dir = %path.display(),
             profile_root = %profile_root,
             "cache directory is outside the current user's {WINDOWS_PROFILE_CACHE_ENV} profile \
