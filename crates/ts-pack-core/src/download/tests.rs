@@ -4,6 +4,7 @@
 
 use std::sync::Arc;
 
+use super::cache::*;
 use super::*;
 
 fn temp_cache_dir() -> tempfile::TempDir {
