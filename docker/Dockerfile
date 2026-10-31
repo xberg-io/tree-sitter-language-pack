@@ -1,6 +1,6 @@
 # NOTE: The `parsers/` directory must exist in the build context.
 
-FROM rust:1.99.1-alpine3.22 AS builder
+FROM rust:1.99.1-alpine3.24 AS builder
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
@@ -8,14 +8,14 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 # revision of a package, so an exact `python3=3.12.13-r0` stops resolving the moment a security
 # bump lands and the old revision is deleted -- which is exactly how the arm64 image build broke
 # ("python3-3.12.14-r0: breaks: world[python3=3.12.13-r0]"). The base image already pins Alpine to
-# 3.22, so the major.minor is fixed; letting the revision float is what keeps this reproducible
+# 3.24, so the major.minor is fixed; letting the revision float is what keeps this reproducible
 # rather than merely deterministic-until-it-isn't.
 RUN apk add --no-cache \
-    bash=~5.2 \
-    g++=~14.2 \
-    gcc=~14.2 \
+    bash=~5.3 \
+    g++=~15.2 \
+    gcc=~15.2 \
     musl-dev=~1.2 \
-    python3=~3.12
+    python3=~3.14
 
 ENV CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=gcc
 
@@ -30,7 +30,7 @@ RUN LANGS=$(python3 -c "import json; d=json.load(open('sources/language_definiti
     cargo build --release -p ts-pack-cli && \
     strip target/release/ts-pack
 
-FROM alpine:3.22
+FROM alpine:3.24
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 

@@ -275,7 +275,7 @@ println!("{count} languages available");
 Pre-download parsers during your build to avoid runtime network calls:
 
 ```dockerfile title="Dockerfile"
-FROM python:3.12-slim
+FROM python:3.15-slim-trixie
 RUN pip install tree-sitter-language-pack
 # Pre-download at build time — no network needed at runtime
 RUN python -c "from tree_sitter_language_pack import download_all; download_all()"
