@@ -1,0 +1,11 @@
+--- a/src/scanner.c
++++ b/src/scanner.c
+@@ -284,4 +284,8 @@
+     if (!payload) {
++#ifdef __wasm__
++        __builtin_trap();
++#else
+         fprintf(stderr, "tree-sitter-swift: out of memory allocating scanner state\n");
+         exit(1);
++#endif
+     }
