@@ -1,3 +1,3 @@
 # Concepts
 
-* [Language Management](language-management.md)
+- [Language Management](language-management.md)

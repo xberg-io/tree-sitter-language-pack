@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "source_hash": "blake3:09e8364c2021bf5e301e76fc67a2b84dd47e26431c68749ecdf69db12ef87caf",
+  "source_hash": "blake3:e63d5809d1494bcfc9e4a67ba9975f7ed86cda4b3d2bdf85b0c483f0c5ddfcb0",
   "outputs": {
     ".claude-plugin/plugin.json": {
       "content_hash": "blake3:d4d847bb2fe2759d19c8d4b51b0fe0148409d626df39f1b175fb3b0af8499f89",
@@ -19,7 +19,7 @@
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-chunking-for-llms/index.md": {
-      "content_hash": "blake3:6d57f77dc6f19b4d6368b221cf127d55f48a6aeb16c1b818520350823093ad9d",
+      "content_hash": "blake3:f7ef6629f557f565c7c80dc79f0fd3119943bcc289c6f495369c9748dfe63278",
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-detecting-languages/SKILL.md": {
@@ -27,7 +27,7 @@
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-detecting-languages/index.md": {
-      "content_hash": "blake3:00d9e168e2e18926363c2920bfa13e3cafdb6e10a07ff44315e28471436d75ff",
+      "content_hash": "blake3:b6ae9f879c400202aebbe889169b23a1830dafe15982c57f88fe29f54810ffa1",
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-extracting-code-structure/SKILL.md": {
@@ -35,7 +35,7 @@
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-extracting-code-structure/index.md": {
-      "content_hash": "blake3:2048c5866d4991c168d6745b5b441995b03374e1f45a68e192c7a5bd33412265",
+      "content_hash": "blake3:004fcef96fdb00b67c5b6eccff53bc3a9986d84e5b8f502c8f4088cceab3f654",
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-managing-parsers/SKILL.md": {
@@ -43,7 +43,7 @@
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-managing-parsers/index.md": {
-      "content_hash": "blake3:28c6b41387bb02a6805e88f231ca77690561f153d34d8604086acd5ddde377ea",
+      "content_hash": "blake3:7d1a825fee7cf44f11f0ddf6f0fd063ac15d8009dc8f789cf213d0d3eac07639",
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-parsing-source/SKILL.md": {
@@ -51,7 +51,7 @@
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-parsing-source/index.md": {
-      "content_hash": "blake3:e005f28cff22a608b6de356e159f03b6fc36e5591b648cbf027ff71d5b0aa685",
+      "content_hash": "blake3:67ed3edf0ec097237c130f267db2f651308ce42da6e72dad60d9e8ce49c6e5c3",
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-using-the-mcp-server/SKILL.md": {
@@ -59,7 +59,7 @@
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack-using-the-mcp-server/index.md": {
-      "content_hash": "blake3:a42a29461b327814b164b9ebcd3e82de3a90038bb0ce52bf164cb2f26ba17eff",
+      "content_hash": "blake3:e5a2f703de2f1be4156e6f4176be6968b55e470119b9b24411007aca35963822",
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack/SKILL.md": {
@@ -67,7 +67,7 @@
       "mode": "0644"
     },
     ".cursor-plugin/skills/tree-sitter-language-pack/index.md": {
-      "content_hash": "blake3:6e29ec562220d5d8bf518488ed0c2b5f95bf6c8050a2eaf1b968fc66dc9a3efd",
+      "content_hash": "blake3:fcbadaead37f3fc2b32a983376aad0f355c44fdb37bbbd412119d1be667e2800",
       "mode": "0644"
     },
     ".factory-plugin/plugin.json": {
@@ -95,7 +95,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-chunking-for-llms/index.md": {
-      "content_hash": "blake3:6d57f77dc6f19b4d6368b221cf127d55f48a6aeb16c1b818520350823093ad9d",
+      "content_hash": "blake3:f7ef6629f557f565c7c80dc79f0fd3119943bcc289c6f495369c9748dfe63278",
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-detecting-languages/SKILL.md": {
@@ -103,7 +103,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-detecting-languages/index.md": {
-      "content_hash": "blake3:00d9e168e2e18926363c2920bfa13e3cafdb6e10a07ff44315e28471436d75ff",
+      "content_hash": "blake3:b6ae9f879c400202aebbe889169b23a1830dafe15982c57f88fe29f54810ffa1",
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-extracting-code-structure/SKILL.md": {
@@ -111,7 +111,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-extracting-code-structure/index.md": {
-      "content_hash": "blake3:2048c5866d4991c168d6745b5b441995b03374e1f45a68e192c7a5bd33412265",
+      "content_hash": "blake3:004fcef96fdb00b67c5b6eccff53bc3a9986d84e5b8f502c8f4088cceab3f654",
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-managing-parsers/SKILL.md": {
@@ -119,7 +119,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-managing-parsers/index.md": {
-      "content_hash": "blake3:28c6b41387bb02a6805e88f231ca77690561f153d34d8604086acd5ddde377ea",
+      "content_hash": "blake3:7d1a825fee7cf44f11f0ddf6f0fd063ac15d8009dc8f789cf213d0d3eac07639",
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-parsing-source/SKILL.md": {
@@ -127,7 +127,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-parsing-source/index.md": {
-      "content_hash": "blake3:e005f28cff22a608b6de356e159f03b6fc36e5591b648cbf027ff71d5b0aa685",
+      "content_hash": "blake3:67ed3edf0ec097237c130f267db2f651308ce42da6e72dad60d9e8ce49c6e5c3",
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-using-the-mcp-server/SKILL.md": {
@@ -135,7 +135,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-using-the-mcp-server/index.md": {
-      "content_hash": "blake3:a42a29461b327814b164b9ebcd3e82de3a90038bb0ce52bf164cb2f26ba17eff",
+      "content_hash": "blake3:e5a2f703de2f1be4156e6f4176be6968b55e470119b9b24411007aca35963822",
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack/SKILL.md": {
@@ -143,7 +143,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack/index.md": {
-      "content_hash": "blake3:6e29ec562220d5d8bf518488ed0c2b5f95bf6c8050a2eaf1b968fc66dc9a3efd",
+      "content_hash": "blake3:fcbadaead37f3fc2b32a983376aad0f355c44fdb37bbbd412119d1be667e2800",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/__init__.py": {
@@ -163,7 +163,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-chunking-for-llms/index.md": {
-      "content_hash": "blake3:6d57f77dc6f19b4d6368b221cf127d55f48a6aeb16c1b818520350823093ad9d",
+      "content_hash": "blake3:f7ef6629f557f565c7c80dc79f0fd3119943bcc289c6f495369c9748dfe63278",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-detecting-languages/SKILL.md": {
@@ -171,7 +171,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-detecting-languages/index.md": {
-      "content_hash": "blake3:00d9e168e2e18926363c2920bfa13e3cafdb6e10a07ff44315e28471436d75ff",
+      "content_hash": "blake3:b6ae9f879c400202aebbe889169b23a1830dafe15982c57f88fe29f54810ffa1",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-extracting-code-structure/SKILL.md": {
@@ -179,7 +179,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-extracting-code-structure/index.md": {
-      "content_hash": "blake3:2048c5866d4991c168d6745b5b441995b03374e1f45a68e192c7a5bd33412265",
+      "content_hash": "blake3:004fcef96fdb00b67c5b6eccff53bc3a9986d84e5b8f502c8f4088cceab3f654",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-managing-parsers/SKILL.md": {
@@ -187,7 +187,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-managing-parsers/index.md": {
-      "content_hash": "blake3:28c6b41387bb02a6805e88f231ca77690561f153d34d8604086acd5ddde377ea",
+      "content_hash": "blake3:7d1a825fee7cf44f11f0ddf6f0fd063ac15d8009dc8f789cf213d0d3eac07639",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-parsing-source/SKILL.md": {
@@ -195,7 +195,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-parsing-source/index.md": {
-      "content_hash": "blake3:e005f28cff22a608b6de356e159f03b6fc36e5591b648cbf027ff71d5b0aa685",
+      "content_hash": "blake3:67ed3edf0ec097237c130f267db2f651308ce42da6e72dad60d9e8ce49c6e5c3",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-using-the-mcp-server/SKILL.md": {
@@ -203,7 +203,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-using-the-mcp-server/index.md": {
-      "content_hash": "blake3:a42a29461b327814b164b9ebcd3e82de3a90038bb0ce52bf164cb2f26ba17eff",
+      "content_hash": "blake3:e5a2f703de2f1be4156e6f4176be6968b55e470119b9b24411007aca35963822",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack/SKILL.md": {
@@ -211,7 +211,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack/index.md": {
-      "content_hash": "blake3:6e29ec562220d5d8bf518488ed0c2b5f95bf6c8050a2eaf1b968fc66dc9a3efd",
+      "content_hash": "blake3:fcbadaead37f3fc2b32a983376aad0f355c44fdb37bbbd412119d1be667e2800",
       "mode": "0644"
     },
     ".mcp.json": {
@@ -235,7 +235,7 @@
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-chunking-for-llms/index.md": {
-      "content_hash": "blake3:6d57f77dc6f19b4d6368b221cf127d55f48a6aeb16c1b818520350823093ad9d",
+      "content_hash": "blake3:f7ef6629f557f565c7c80dc79f0fd3119943bcc289c6f495369c9748dfe63278",
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-detecting-languages/SKILL.md": {
@@ -243,7 +243,7 @@
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-detecting-languages/index.md": {
-      "content_hash": "blake3:00d9e168e2e18926363c2920bfa13e3cafdb6e10a07ff44315e28471436d75ff",
+      "content_hash": "blake3:b6ae9f879c400202aebbe889169b23a1830dafe15982c57f88fe29f54810ffa1",
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-extracting-code-structure/SKILL.md": {
@@ -251,7 +251,7 @@
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-extracting-code-structure/index.md": {
-      "content_hash": "blake3:2048c5866d4991c168d6745b5b441995b03374e1f45a68e192c7a5bd33412265",
+      "content_hash": "blake3:004fcef96fdb00b67c5b6eccff53bc3a9986d84e5b8f502c8f4088cceab3f654",
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-managing-parsers/SKILL.md": {
@@ -259,7 +259,7 @@
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-managing-parsers/index.md": {
-      "content_hash": "blake3:28c6b41387bb02a6805e88f231ca77690561f153d34d8604086acd5ddde377ea",
+      "content_hash": "blake3:7d1a825fee7cf44f11f0ddf6f0fd063ac15d8009dc8f789cf213d0d3eac07639",
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-parsing-source/SKILL.md": {
@@ -267,7 +267,7 @@
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-parsing-source/index.md": {
-      "content_hash": "blake3:e005f28cff22a608b6de356e159f03b6fc36e5591b648cbf027ff71d5b0aa685",
+      "content_hash": "blake3:67ed3edf0ec097237c130f267db2f651308ce42da6e72dad60d9e8ce49c6e5c3",
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-using-the-mcp-server/SKILL.md": {
@@ -275,7 +275,7 @@
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack-using-the-mcp-server/index.md": {
-      "content_hash": "blake3:a42a29461b327814b164b9ebcd3e82de3a90038bb0ce52bf164cb2f26ba17eff",
+      "content_hash": "blake3:e5a2f703de2f1be4156e6f4176be6968b55e470119b9b24411007aca35963822",
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack/SKILL.md": {
@@ -283,7 +283,7 @@
       "mode": "0644"
     },
     ".opencode/skills/tree-sitter-language-pack/index.md": {
-      "content_hash": "blake3:6e29ec562220d5d8bf518488ed0c2b5f95bf6c8050a2eaf1b968fc66dc9a3efd",
+      "content_hash": "blake3:fcbadaead37f3fc2b32a983376aad0f355c44fdb37bbbd412119d1be667e2800",
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-chunking-for-llms/SKILL.md": {
@@ -291,7 +291,7 @@
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-chunking-for-llms/index.md": {
-      "content_hash": "blake3:6d57f77dc6f19b4d6368b221cf127d55f48a6aeb16c1b818520350823093ad9d",
+      "content_hash": "blake3:f7ef6629f557f565c7c80dc79f0fd3119943bcc289c6f495369c9748dfe63278",
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-detecting-languages/SKILL.md": {
@@ -299,7 +299,7 @@
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-detecting-languages/index.md": {
-      "content_hash": "blake3:00d9e168e2e18926363c2920bfa13e3cafdb6e10a07ff44315e28471436d75ff",
+      "content_hash": "blake3:b6ae9f879c400202aebbe889169b23a1830dafe15982c57f88fe29f54810ffa1",
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-extracting-code-structure/SKILL.md": {
@@ -307,7 +307,7 @@
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-extracting-code-structure/index.md": {
-      "content_hash": "blake3:2048c5866d4991c168d6745b5b441995b03374e1f45a68e192c7a5bd33412265",
+      "content_hash": "blake3:004fcef96fdb00b67c5b6eccff53bc3a9986d84e5b8f502c8f4088cceab3f654",
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-managing-parsers/SKILL.md": {
@@ -315,7 +315,7 @@
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-managing-parsers/index.md": {
-      "content_hash": "blake3:28c6b41387bb02a6805e88f231ca77690561f153d34d8604086acd5ddde377ea",
+      "content_hash": "blake3:7d1a825fee7cf44f11f0ddf6f0fd063ac15d8009dc8f789cf213d0d3eac07639",
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-parsing-source/SKILL.md": {
@@ -323,7 +323,7 @@
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-parsing-source/index.md": {
-      "content_hash": "blake3:e005f28cff22a608b6de356e159f03b6fc36e5591b648cbf027ff71d5b0aa685",
+      "content_hash": "blake3:67ed3edf0ec097237c130f267db2f651308ce42da6e72dad60d9e8ce49c6e5c3",
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-using-the-mcp-server/SKILL.md": {
@@ -331,7 +331,7 @@
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack-using-the-mcp-server/index.md": {
-      "content_hash": "blake3:a42a29461b327814b164b9ebcd3e82de3a90038bb0ce52bf164cb2f26ba17eff",
+      "content_hash": "blake3:e5a2f703de2f1be4156e6f4176be6968b55e470119b9b24411007aca35963822",
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack/SKILL.md": {
@@ -339,7 +339,7 @@
       "mode": "0644"
     },
     ".pi/skills/tree-sitter-language-pack/index.md": {
-      "content_hash": "blake3:6e29ec562220d5d8bf518488ed0c2b5f95bf6c8050a2eaf1b968fc66dc9a3efd",
+      "content_hash": "blake3:fcbadaead37f3fc2b32a983376aad0f355c44fdb37bbbd412119d1be667e2800",
       "mode": "0644"
     },
     "assets/icon.svg": {
@@ -379,7 +379,7 @@
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-chunking-for-llms/index.md": {
-      "content_hash": "blake3:6d57f77dc6f19b4d6368b221cf127d55f48a6aeb16c1b818520350823093ad9d",
+      "content_hash": "blake3:f7ef6629f557f565c7c80dc79f0fd3119943bcc289c6f495369c9748dfe63278",
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-detecting-languages/SKILL.md": {
@@ -387,7 +387,7 @@
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-detecting-languages/index.md": {
-      "content_hash": "blake3:00d9e168e2e18926363c2920bfa13e3cafdb6e10a07ff44315e28471436d75ff",
+      "content_hash": "blake3:b6ae9f879c400202aebbe889169b23a1830dafe15982c57f88fe29f54810ffa1",
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-extracting-code-structure/SKILL.md": {
@@ -395,7 +395,7 @@
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-extracting-code-structure/index.md": {
-      "content_hash": "blake3:2048c5866d4991c168d6745b5b441995b03374e1f45a68e192c7a5bd33412265",
+      "content_hash": "blake3:004fcef96fdb00b67c5b6eccff53bc3a9986d84e5b8f502c8f4088cceab3f654",
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-managing-parsers/SKILL.md": {
@@ -403,7 +403,7 @@
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-managing-parsers/index.md": {
-      "content_hash": "blake3:28c6b41387bb02a6805e88f231ca77690561f153d34d8604086acd5ddde377ea",
+      "content_hash": "blake3:7d1a825fee7cf44f11f0ddf6f0fd063ac15d8009dc8f789cf213d0d3eac07639",
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-parsing-source/SKILL.md": {
@@ -411,7 +411,7 @@
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-parsing-source/index.md": {
-      "content_hash": "blake3:e005f28cff22a608b6de356e159f03b6fc36e5591b648cbf027ff71d5b0aa685",
+      "content_hash": "blake3:67ed3edf0ec097237c130f267db2f651308ce42da6e72dad60d9e8ce49c6e5c3",
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-using-the-mcp-server/SKILL.md": {
@@ -419,7 +419,7 @@
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack-using-the-mcp-server/index.md": {
-      "content_hash": "blake3:a42a29461b327814b164b9ebcd3e82de3a90038bb0ce52bf164cb2f26ba17eff",
+      "content_hash": "blake3:e5a2f703de2f1be4156e6f4176be6968b55e470119b9b24411007aca35963822",
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack/SKILL.md": {
@@ -427,7 +427,7 @@
       "mode": "0644"
     },
     "skills/tree-sitter-language-pack/index.md": {
-      "content_hash": "blake3:6e29ec562220d5d8bf518488ed0c2b5f95bf6c8050a2eaf1b968fc66dc9a3efd",
+      "content_hash": "blake3:fcbadaead37f3fc2b32a983376aad0f355c44fdb37bbbd412119d1be667e2800",
       "mode": "0644"
     }
   },

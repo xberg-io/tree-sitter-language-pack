@@ -1,10 +1,10 @@
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
-Content-Hash: blake3:e005f28cff22a608b6de356e159f03b6fc36e5591b648cbf027ff71d5b0aa685
-Source-Hash: blake3:09e8364c2021bf5e301e76fc67a2b84dd47e26431c68749ecdf69db12ef87caf
+Content-Hash: blake3:67ed3edf0ec097237c130f267db2f651308ce42da6e72dad60d9e8ce49c6e5c3
+Source-Hash: blake3:e63d5809d1494bcfc9e4a67ba9975f7ed86cda4b3d2bdf85b0c483f0c5ddfcb0
 Schema-Version: v1
 -->
 
 # Concepts
 
-* [Tree Sitter Language Pack Parsing Source](SKILL.md) - Use when the user wants a tree-sitter syntax tree for a source file — an s-expression dump or JSON tree. Covers `ts-pack parse`, language auto-detection vs `--language`, stdin input, and reading `has_errors`.
+- [Tree Sitter Language Pack Parsing Source](SKILL.md) - Use when the user wants a tree-sitter syntax tree for a source file — an s-expression dump or JSON tree. Covers `ts-pack parse`, language auto-detection vs `--language`, stdin input, and reading `has_errors`.

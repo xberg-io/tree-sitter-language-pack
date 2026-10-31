@@ -1,3 +1,3 @@
 # Concepts
 
-* [Parser Compilation](parser-compilation.md)
+- [Parser Compilation](parser-compilation.md)
