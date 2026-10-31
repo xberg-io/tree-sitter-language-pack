@@ -580,6 +580,8 @@ async def _run_generate_with_timeout(cmd: list[str], cwd: str) -> None:
         stderr=asyncio.subprocess.PIPE,
         start_new_session=True,
     )
+    # ~keep The session leader may be reaped while a descendant still holds stderr open.
+    process_group = proc.pid
     stderr_task = asyncio.create_task(_generation_stderr_tail(proc.stderr))
     try:
         wait = _wait_generation(proc, stderr_task)
@@ -589,7 +591,7 @@ async def _run_generate_with_timeout(cmd: list[str], cwd: str) -> None:
             returncode, stderr = await wait
     except (TimeoutError, asyncio.TimeoutError, asyncio.CancelledError):
         with suppress(ProcessLookupError):
-            os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            os.killpg(process_group, signal.SIGKILL)
         with suppress(ProcessLookupError):
             await proc.wait()
         raise

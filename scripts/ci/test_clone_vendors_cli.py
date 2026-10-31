@@ -2,7 +2,9 @@
 
 import asyncio
 import io
+import json
 import os
+import signal
 import sys
 from pathlib import Path
 from subprocess import CompletedProcess
@@ -144,3 +146,67 @@ def test_generation_cancellation_reaps_its_child(tmp_path: Path) -> None:
     asyncio.run(cancel())
     with pytest.raises(ProcessLookupError):
         os.kill(int(pid_file.read_text()), 0)
+
+
+STDERR_HOLDER = """import json,os,pathlib,sys,time
+leader=os.getpid()
+child=os.fork()
+if child:
+    os._exit(0)
+while os.getppid()==leader:
+    time.sleep(.001)
+pathlib.Path(sys.argv[1]).write_text(json.dumps([leader,os.getpid()]))
+time.sleep(30)
+"""
+
+
+def _process_exists(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    return True
+
+
+@pytest.mark.skipif(not hasattr(os, "fork"), reason="POSIX process groups require fork")
+@pytest.mark.parametrize("cancel", [False, True])
+def test_cleanup_kills_the_owned_descendant_after_its_leader_exits(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, cancel: bool
+) -> None:
+    pid_file = tmp_path / "descendant.json"
+    monkeypatch.setattr(vendor, "GENERATE_TIMEOUT", 1)
+
+    async def probe() -> None:
+        task = asyncio.create_task(
+            vendor._run_generate_with_timeout([sys.executable, "-c", STDERR_HOLDER, str(pid_file)], str(tmp_path))
+        )
+        child = leader = None
+        try:
+            for _ in range(200):
+                if pid_file.exists():
+                    leader, child = json.loads(pid_file.read_text())
+                    if not _process_exists(leader):
+                        break
+                await asyncio.sleep(0.01)
+            assert leader is not None
+            assert child is not None
+            assert not _process_exists(leader), "fixture leader must exit before cleanup"
+            assert os.getpgid(child) == leader, "fixture descendant must remain in its owned group"
+            if cancel:
+                task.cancel()
+            with pytest.raises(asyncio.CancelledError if cancel else TimeoutError):
+                await task
+            for _ in range(200):
+                if not _process_exists(child):
+                    break
+                await asyncio.sleep(0.01)
+            assert not _process_exists(child), "cleanup left a live descendant holding stderr after its leader exited"
+        finally:
+            if child and _process_exists(child) and os.getpgid(child) == leader:
+                os.killpg(leader, signal.SIGKILL)
+            if not task.done():
+                task.cancel()
+                with pytest.raises(asyncio.CancelledError):
+                    await task
+
+    asyncio.run(probe())
