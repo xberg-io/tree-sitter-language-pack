@@ -61,7 +61,7 @@ def test_process_passes_force_to_selection_and_generation(tmp_path: Path, monkey
     monkeypatch.setattr(vendor, "_should_regenerate", select)
     monkeypatch.setattr(vendor, "handle_generate", generate)
     definition = {"repo": "https://github.com/example/grammar", "generate": True, "force_generate": True}
-    asyncio.run(vendor.process_repo("abl", definition, asyncio.Semaphore(1)))
+    asyncio.run(vendor.process_repo("abl", definition, asyncio.Semaphore(1), Path("/fixture/tree-sitter")))
     assert observed == {"selection": True, "generation": True}
 
 
@@ -76,7 +76,9 @@ def test_forced_generation_timeout_cannot_ship_the_stale_parser(monkeypatch: pyt
     monkeypatch.setattr(vendor, "_run_generate_with_timeout", timeout)
     monkeypatch.setattr(vendor, "run_process", no_op)
     with pytest.raises(RuntimeError, match="forced regeneration"):
-        asyncio.run(vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1), force=True))
+        asyncio.run(
+            vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1), Path("/fixture/tree-sitter"), force=True)
+        )
 
 
 @pytest.mark.usefixtures("oversized_parser")
@@ -89,7 +91,7 @@ def test_ordinary_generation_retains_the_compatible_timeout_fallback(monkeypatch
 
     monkeypatch.setattr(vendor, "_run_generate_with_timeout", timeout)
     monkeypatch.setattr(vendor, "run_process", no_op)
-    asyncio.run(vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1)))
+    asyncio.run(vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1), Path("/fixture/tree-sitter")))
 
 
 @pytest.mark.parametrize("force", [False, True])
@@ -106,7 +108,9 @@ def test_nonzero_generation_exit_cannot_ship_committed_output(
     monkeypatch.setattr(vendor, "GENERATE_TIMEOUT", timeout)
     monkeypatch.setattr(vendor, "_run_generate_with_timeout", fail)
     with pytest.raises(RuntimeError, match=r"generation.*23"):
-        asyncio.run(vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1), force=force))
+        asyncio.run(
+            vendor.handle_generate("abl", None, 15, asyncio.Semaphore(1), Path("/fixture/tree-sitter"), force=force)
+        )
     assert oversized_parser.read_bytes() == before
 
 

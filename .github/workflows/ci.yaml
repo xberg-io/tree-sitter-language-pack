@@ -90,6 +90,7 @@ jobs:
           uv run --no-sync python -m pytest scripts/ci/test_go_release_assets.py
           uv run --no-sync python -m pytest scripts/ci/test_grammar_notices.py
           uv run --no-sync python -m pytest scripts/ci/test_clone_vendors_git_env.py
+          uv run --no-sync python -m pytest scripts/ci/test_clone_vendors_cli.py
           uv run --no-sync python -m pytest scripts/ci/test_e2e_workflow_contract.py
           uv run --no-sync python -m pytest scripts/ci/test_tree_sitter_toolchain.py
           uv run --no-sync python -m pytest scripts/ci/test_go_major_version.py -k "not prerelease"

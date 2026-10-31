@@ -95,6 +95,7 @@ GENERATE_CONCURRENCY = int(os.environ.get("TSLP_GENERATE_CONCURRENCY", "3"))
 
 LANGUAGES_FILTER = set(os.environ.get("TSLP_LANGUAGES", "").split(",")) if os.environ.get("TSLP_LANGUAGES") else set()
 GENERATE_TIMEOUT = int(os.environ.get("TSLP_GENERATE_TIMEOUT", "480"))
+GENERATE_STDERR_BYTES = 8192
 MIN_COMPATIBLE_ABI = int(os.environ.get("TSLP_MIN_COMPATIBLE_ABI", "13"))
 # ~keep Ceiling on what the vendored `tree-sitter` crate can *load*, independent of any
 # grammar's requested generation target (`abi_version`, which defaults to 14). Grammars
@@ -513,6 +514,36 @@ def _should_regenerate(language_name: str, directory: str | None, *, force: bool
     return False
 
 
+async def _resolve_tree_sitter_cli() -> Path:
+    try:
+        result = await run_process(["mise", "which", "tree-sitter"], cwd=str(_project_root), check=False)
+    except OSError as exc:
+        raise RuntimeError("cannot resolve canonical tree-sitter; run mise install tree-sitter in the project") from exc
+    lines = result.stdout.decode().strip().splitlines()
+    if result.returncode or len(lines) != 1:
+        raise RuntimeError("cannot resolve canonical tree-sitter; run mise install tree-sitter in the project")
+    path = Path(lines[0])
+    if not path.is_absolute() or not path.is_file() or not os.access(path, os.X_OK):
+        raise RuntimeError("canonical tree-sitter resolution must name an absolute executable file")
+    return path.resolve()
+
+
+async def _generation_stderr_tail(stream: asyncio.StreamReader) -> bytes:
+    tail = b""
+    while chunk := await stream.read(GENERATE_STDERR_BYTES):
+        tail = (tail + chunk)[-GENERATE_STDERR_BYTES:]
+    return tail
+
+
+async def _wait_generation(proc: asyncio.subprocess.Process, stderr_task: asyncio.Task[bytes]) -> tuple[int, bytes]:
+    return await proc.wait(), await stderr_task
+
+
+def _generation_failed(returncode: int, cwd: str, stderr: bytes | None) -> None:
+    diagnostic = (stderr or b"")[-GENERATE_STDERR_BYTES:].decode(errors="replace").strip()
+    raise RuntimeError(f"grammar generation exited with status {returncode} in {cwd}: {diagnostic or '(no stderr)'}")
+
+
 async def _run_generate_with_timeout(cmd: list[str], cwd: str) -> None:
     """Run `tree-sitter generate`, hard-killing its process group on timeout.
 
@@ -539,29 +570,34 @@ async def _run_generate_with_timeout(cmd: list[str], cwd: str) -> None:
         else:
             result = await run
         if result.returncode != 0:
-            raise RuntimeError(f"grammar generation exited with status {result.returncode} in {cwd}")
+            _generation_failed(result.returncode, cwd, result.stderr)
         return
 
     proc = await asyncio.create_subprocess_exec(
         *cmd,
         cwd=cwd,
         stdout=asyncio.subprocess.DEVNULL,
-        stderr=asyncio.subprocess.DEVNULL,
+        stderr=asyncio.subprocess.PIPE,
         start_new_session=True,
     )
+    stderr_task = asyncio.create_task(_generation_stderr_tail(proc.stderr))
     try:
+        wait = _wait_generation(proc, stderr_task)
         if GENERATE_TIMEOUT > 0:
-            returncode = await asyncio.wait_for(proc.wait(), timeout=GENERATE_TIMEOUT)
+            returncode, stderr = await asyncio.wait_for(wait, timeout=GENERATE_TIMEOUT)
         else:
-            returncode = await proc.wait()
-    except (TimeoutError, asyncio.TimeoutError):
+            returncode, stderr = await wait
+    except (TimeoutError, asyncio.TimeoutError, asyncio.CancelledError):
         with suppress(ProcessLookupError):
             os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
         with suppress(ProcessLookupError):
             await proc.wait()
         raise
+    finally:
+        if not stderr_task.done():
+            stderr_task.cancel()
     if returncode != 0:
-        raise RuntimeError(f"grammar generation exited with status {returncode} in {cwd}")
+        _generation_failed(returncode, cwd, stderr)
 
 
 async def handle_generate(
@@ -569,6 +605,7 @@ async def handle_generate(
     directory: str | None,
     abi_version: int,
     generate_semaphore: asyncio.Semaphore,
+    tree_sitter_cli: Path,
     *,
     force: bool = False,
 ) -> None:
@@ -607,9 +644,9 @@ async def handle_generate(
                 print(f"npm install for {language_name} failed (continuing): {e}")
 
         if platform.system() == "Windows":
-            cmd = ["cmd", "/c", "tree-sitter", "generate", "--abi", str(abi_version)]
+            cmd = ["cmd", "/c", str(tree_sitter_cli), "generate", "--abi", str(abi_version)]
         else:
-            cmd = ["tree-sitter", "generate", "--abi", str(abi_version)]
+            cmd = [str(tree_sitter_cli), "generate", "--abi", str(abi_version)]
 
         try:
             await _run_generate_with_timeout(cmd, str(target_dir))
@@ -773,6 +810,7 @@ async def process_repo(
     language_name: str,
     language_definition: LanguageDict,
     generate_semaphore: asyncio.Semaphore,
+    tree_sitter_cli: Path,
 ) -> None:
     """Process a repository.
 
@@ -803,6 +841,7 @@ async def process_repo(
             directory=directory,
             abi_version=abi_version,
             generate_semaphore=generate_semaphore,
+            tree_sitter_cli=tree_sitter_cli,
             force=force,
         )
     await move_src_folder(language_name=language_name, directory=directory)
@@ -838,6 +877,7 @@ async def main() -> None:
         return
 
     print(f"Processing {len(to_process)} language(s)...")
+    tree_sitter_cli = await _resolve_tree_sitter_cli()
 
     semaphore = asyncio.Semaphore(CLONE_CONCURRENCY)
     generate_semaphore = asyncio.Semaphore(GENERATE_CONCURRENCY)
@@ -849,6 +889,7 @@ async def main() -> None:
                 language_name=name,
                 language_definition=defn,
                 generate_semaphore=generate_semaphore,
+                tree_sitter_cli=tree_sitter_cli,
             )
 
     await asyncio.gather(
@@ -882,9 +923,6 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    if not which("tree-sitter"):
-        sys.exit("tree-sitter is a required system dependency. Please install it with 'npm i -g tree-sitter-cli'")
-
     if _no_cache():
         print("Caching disabled (TSLP_NO_CACHE=1) — performing full clone")
         if vendor_directory.exists():
