@@ -39,10 +39,12 @@ run = [
   "cargo bench --locked -p tree-sitter-language-pack --bench splitting -- --test 'split/(rust_many_fns|json_array|python_giant_class|nested_brackets)'",
 ]
 
+# ~keep A task `env` overrides the caller's environment, so CI's TSLP_LANGUAGES=all never reached
+# ~keep the build and every other fixture language was downloaded from the unpublished release.
+# ~keep The shell default keeps the small local set and lets the caller widen it.
 ["rust:e2e:test"]
 description = "Run Rust E2E tests"
-env = { TSLP_LANGUAGES = "mojo,nim,norg,bash" }
-run = "alef test --lang rust --e2e --jobs 1"
+run = 'TSLP_LANGUAGES="${TSLP_LANGUAGES:-mojo,nim,norg,bash}" alef test --lang rust --e2e --jobs 1'
 
 ["rust:audit"]
 description = "Audit all five independent Cargo dependency resolutions"
