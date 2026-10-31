@@ -49,9 +49,10 @@ jobs:
           install-llvm-cov: "false"
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.335.0
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
+          tools: ruby=${{ matrix.ruby-version }}
+          mise-env: ci
 
       - name: Install Ruby dependencies
         working-directory: packages/ruby

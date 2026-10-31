@@ -1,0 +1,10 @@
+# Loaded only with MISE_ENV=ci, so the extra versions CI jobs select stay locked. ~keep
+# python: 3.10 and 3.14 are the floor and ceiling the Python e2e matrices run on. ruby: the platform
+# gem stages one native extension per ABI 3.2 to 4.0 (3.5 is the 3.5.0-preview1 ABI), and the e2e
+# matrices run 3.4 and 4.0. java: e2e/kotlin_android builds with the JDK 17 the Android Gradle plugin
+# targets. zig: the musl Node.js builds link through cargo-zigbuild on Zig 0.14.1. ~keep
+[tools]
+python = ["3.13.18", "3.10.22", "3.14.10"]
+ruby = ["3.4.12", "3.2.11", "3.3.13", "3.5.0-preview1", "4.0.9"]
+java = ["temurin-25.0.5+8.0.LTS", "temurin-17.0.21+9"]
+zig = ["0.16.0", "0.14.1"]

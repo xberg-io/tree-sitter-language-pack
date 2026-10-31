@@ -415,9 +415,10 @@ jobs:
           artifact-name: e2e-bundles-${{ matrix.platform }}
 
       - name: Setup Python
-        uses: actions/setup-python@v7
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          tools: python=${{ matrix.python-version }}
+          mise-env: ci
 
       - name: Download wheel
         uses: actions/download-artifact@v8
@@ -828,18 +829,20 @@ jobs:
           cache-key-prefix: e2e-kotlin-android
           install-llvm-cov: "false"
 
-      - name: Setup Java
-        uses: actions/setup-java@v6
+      - name: Setup mise
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          distribution: "temurin"
-          java-version: "17"
+          install: "false"
+          mise-env: ci
 
       # No Android NDK here: e2e/kotlin_android's generated suite is a host JVM
       # unit-test source set, so nothing cross-compiles. The runner's
       # preinstalled Android SDK is enough for the com.android.library plugin
       # to configure. ~keep
-      - name: Setup Gradle
+      - name: Setup Java and Gradle
         uses: xberg-io/actions/setup-gradle@v1
+        with:
+          java-version: "17"
 
       # The generated suite lives in src/test (host JVM unit tests); the
       # build.gradle.kts `buildHostJni`/`copyHostJni` tasks build and stage
