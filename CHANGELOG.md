@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.23.1] - 2026-10-31
+
+### Fixed
+
+- Keep the Elixir NIF core dependency aligned with the release version after version corrections.
+- Restore iOS Dart builds with libc 0.2.191.
+- Trap Swift scanner allocation failures on WASM without importing unsupported stdio or exit symbols;
+  retain the native allocation-failure diagnostic.
+- Generate Elixir release checksums with the system Bash on macOS.
+- Resolve the grammar generator from the project Mise toolchain before entering upstream repositories.
+  Preserve bounded failure diagnostics and terminate owned descendants even after their leader exits.
+- Refresh the grammar query table and coding-agent plugin provenance.
+
 ## [1.23.0] - 2026-10-30
 
 ### Changed

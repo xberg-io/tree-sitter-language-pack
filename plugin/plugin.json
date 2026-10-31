@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tree-sitter-language-pack",
-  "version": "1.23.0",
+  "version": "1.23.1",
   "description": "Parse and extract code intelligence from 372 programming languages with tree-sitter — structure, imports, symbols, and syntax-aware chunking.",
   "author": {
     "name": "Kreuzberg, Inc.",

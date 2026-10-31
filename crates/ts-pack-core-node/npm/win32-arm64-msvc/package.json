@@ -10,7 +10,7 @@
     }
   ],
   "name": "@xberg-io/tree-sitter-language-pack-win32-arm64-msvc",
-  "version": "1.23.0",
+  "version": "1.23.1",
   "license": "MIT",
   "repository": {
     "type": "git",
