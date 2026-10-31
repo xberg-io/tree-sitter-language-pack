@@ -2,7 +2,7 @@
 
 | Language | Repository | ABI | highlights | injections | locals | indents | folds | tags |
 |---|---|---|---|---|---|---|---|---|
-| Abl | [usagi-coffee/tree-sitter-abl](https://github.com/usagi-coffee/tree-sitter-abl) | 15 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Abl | [usagi-coffee/tree-sitter-abl](https://github.com/usagi-coffee/tree-sitter-abl) | 15 | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ |
 | Abnf | [grammars/abnf](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/abnf) (vendored) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Actionscript | [Rileran/tree-sitter-actionscript](https://github.com/Rileran/tree-sitter-actionscript) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Ada | [briot/tree-sitter-ada](https://github.com/briot/tree-sitter-ada) | 14 | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
@@ -28,7 +28,7 @@
 | Bicep | [tree-sitter-grammars/tree-sitter-bicep](https://github.com/tree-sitter-grammars/tree-sitter-bicep) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Bitbake | [tree-sitter-grammars/tree-sitter-bitbake](https://github.com/tree-sitter-grammars/tree-sitter-bitbake) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Blade | [EmranMR/tree-sitter-blade](https://github.com/EmranMR/tree-sitter-blade) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Bpftrace | [sgruszka/tree-sitter-bpftrace](https://github.com/sgruszka/tree-sitter-bpftrace) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Bpftrace | [sgruszka/tree-sitter-bpftrace](https://github.com/sgruszka/tree-sitter-bpftrace) | 14 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | Brightscript | [ajdelcimmuto/tree-sitter-brightscript](https://github.com/ajdelcimmuto/tree-sitter-brightscript) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
 | BSL | [alkoleft/tree-sitter-bsl](https://github.com/alkoleft/tree-sitter-bsl) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | C | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
