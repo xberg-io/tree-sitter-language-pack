@@ -1052,7 +1052,7 @@ jobs:
           config-ref: ${{ github.sha }}
       - name: Setup Ruby 3.2 (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
           bundler: none
@@ -1077,7 +1077,7 @@ jobs:
           cache: "false"
       - name: Setup Ruby 3.3 (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
           bundler: none
@@ -1102,7 +1102,7 @@ jobs:
           cache: "false"
       - name: Setup Ruby 3.4 (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
           bundler: none
@@ -1118,7 +1118,7 @@ jobs:
 
       # ~keep Ruby 3.5.0-preview1 has no precompiled build for mise on any platform.
       - name: Setup Ruby 3.5
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.5"
           bundler: none
@@ -1143,7 +1143,7 @@ jobs:
           cache: "false"
       - name: Setup Ruby 4.0 (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "4.0"
           bundler: none
@@ -1171,7 +1171,7 @@ jobs:
 
       # ~keep Ruby 3.5.0-preview1 has no precompiled build for mise on any platform.
       - name: Setup Ruby 3.5 for platform gem verification
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.5"
           bundler: none
@@ -1193,7 +1193,7 @@ jobs:
           cache: "false"
       - name: Setup Ruby 3.4 for platform gem verification (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.4"
           bundler: none
@@ -1215,7 +1215,7 @@ jobs:
           cache: "false"
       - name: Setup Ruby 3.3 for platform gem verification (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
           bundler: none
@@ -1237,7 +1237,7 @@ jobs:
           cache: "false"
       - name: Setup Ruby 3.2 for platform gem verification (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
           bundler: none
