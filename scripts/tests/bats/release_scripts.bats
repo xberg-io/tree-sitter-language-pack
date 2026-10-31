@@ -104,7 +104,7 @@ PY
 done
 printf "%s\n" "$url" >>"$XBERG_TRACE"
 cp "$NIF_FIXTURE" "$output"'
-	run env -u GH_TOKEN -u GITHUB_TOKEN bash "$ROOT/scripts/publish/elixir/generate_checksums.sh" 1.2.3
+	run env -u GH_TOKEN -u GITHUB_TOKEN /bin/bash "$ROOT/scripts/publish/elixir/generate_checksums.sh" 1.2.3
 	xberg_assert_status 0
 	target=packages/elixir/checksum-Elixir.TreeSitterLanguagePack.Native.exs
 	[ "$(grep -c '=> "sha256:' "$target")" -eq 16 ]

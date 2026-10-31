@@ -72,7 +72,10 @@ for TARGET in "${TARGETS[@]}"; do
   done
 done
 
-mapfile -t SORTED_CHECKSUMS < <(printf '%s\n' "${CHECKSUMS[@]}" | sort)
+SORTED_CHECKSUMS=()
+while IFS= read -r CHECKSUM; do
+  SORTED_CHECKSUMS+=("$CHECKSUM")
+done < <(printf '%s\n' "${CHECKSUMS[@]}" | sort)
 
 echo "Writing checksum file: $CHECKSUM_FILE"
 {
