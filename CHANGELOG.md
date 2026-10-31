@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Preserve bounded failure diagnostics and terminate owned descendants even after their leader exits.
 - Refresh the grammar query table and coding-agent plugin provenance.
 
+### Security
+
+- Update Zstandard, Rustls, certificate validation and root certificates in the independent
+  Elixir, Ruby and Rust consumer lockfiles; audit all five Cargo resolutions in CI.
+
 ## [1.23.0] - 2026-10-30
 
 ### Changed

@@ -43,3 +43,9 @@ run = [
 description = "Run Rust E2E tests"
 env = { TSLP_LANGUAGES = "mojo,nim,norg,bash" }
 run = "alef test --lang rust --e2e --jobs 1"
+
+["rust:audit"]
+description = "Audit all five independent Cargo dependency resolutions"
+# This repository-owned scanner is pinned separately from the baseline tools. ~keep
+tools = { "cargo:cargo-audit" = "0.22.1" }
+run = "python3 scripts/ci/check_cargo_lock_audits.py"

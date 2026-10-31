@@ -7,6 +7,7 @@ on:
       - "crates/**"
       - "packages/**"
       - "e2e/**"
+      - "test_apps/rust/Cargo.lock"
       - "fixtures/**"
       - "sources/**"
       - "scripts/**"
@@ -96,7 +97,23 @@ jobs:
           uv run --no-sync python -m pytest scripts/ci/test_go_major_version.py -k "not prerelease"
           uv run --no-sync python -m pytest scripts/ci/test_ruby_test_app_pins.py
           uv run --no-sync python -m pytest scripts/ci/test_elixir_native_version_pin.py
+          uv run --no-sync python -m pytest scripts/ci/test_cargo_lock_audits.py
           uv run --no-sync python -m unittest scripts.tests.test_swift_wasm_allocation
+
+  cargo-security:
+    name: Audit all Cargo lockfiles
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: xberg-io/actions/setup-rust@v1
+      - uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: python
+      - name: Audit all five independent resolutions
+        env:
+          MISE_TASK_RUN_AUTO_INSTALL: "true"
+        run: mise run rust:audit
 
   clone-vendors:
     name: Clone vendors
