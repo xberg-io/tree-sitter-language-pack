@@ -943,28 +943,31 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      - name: Setup Zig
-        if: matrix.musl
-        uses: mlugg/setup-zig@v2
-        with:
-          version: "0.14.1"
-
-      - name: Install cargo-zigbuild
+      - name: Install Zig and cargo-zigbuild
         if: matrix.musl
         uses: xberg-io/actions/setup-mise@v1
         with:
-          install-args: github:rust-cross/cargo-zigbuild
+          tools: zig=0.14.1 github:rust-cross/cargo-zigbuild
+          mise-env: ci
           config-ref: ${{ github.sha }}
 
       - name: Add musl Rust target
         if: matrix.musl
         run: rustup target add ${{ matrix.napi_target }}
 
+      # ~keep mise.lock has no windows-arm64 platform (lockfile_platforms), so the windows-11-arm leg keeps
+      # setup-node and every other leg takes the locked mise Node.js.
       - name: Setup Node.js
+        if: matrix.os != 'windows-11-arm'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: node
+          config-ref: ${{ github.sha }}
+      - name: Setup Node.js (windows-11-arm)
+        if: matrix.os == 'windows-11-arm'
         uses: actions/setup-node@v7
         with:
           node-version: "22"
-          registry-url: "https://registry.npmjs.org"
 
       - name: Install NAPI-RS CLI
         run: npm install -g @napi-rs/cli
@@ -1041,7 +1044,17 @@ jobs:
         with:
           lang: ruby
 
+      # ~keep jdx/ruby publishes no precompiled macOS x86_64 Ruby (mise.ci.lock points that platform at the
+      # ~keep source tarball), so the macos-26-intel leg keeps setup-ruby and every other leg takes mise's Ruby.
       - name: Setup Ruby 3.2
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.2
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+      - name: Setup Ruby 3.2 (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.2"
@@ -1056,7 +1069,17 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.3
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.3
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 3.3 (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.3"
@@ -1071,7 +1094,17 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.4
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.4
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 3.4 (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.4"
@@ -1086,7 +1119,17 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.5
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.5.0-preview1
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 3.5 (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.5"
@@ -1101,7 +1144,17 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 4.0
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=4.0
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 4.0 (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "4.0"
@@ -1128,7 +1181,17 @@ jobs:
           gem install packages/ruby/tree_sitter_language_pack-*.gem --no-document
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.5 for platform gem verification
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.5.0-preview1
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 3.5 for platform gem verification (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.5"
@@ -1140,7 +1203,17 @@ jobs:
           gem install packages/ruby/tree_sitter_language_pack-*.gem --no-document
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.4 for platform gem verification
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.4
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 3.4 for platform gem verification (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.4"
@@ -1152,7 +1225,17 @@ jobs:
           gem install packages/ruby/tree_sitter_language_pack-*.gem --no-document
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.3 for platform gem verification
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.3
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 3.3 for platform gem verification (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.3"
@@ -1164,7 +1247,17 @@ jobs:
           gem install packages/ruby/tree_sitter_language_pack-*.gem --no-document
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.2 for platform gem verification
+        if: matrix.os != 'macos-26-intel'
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: ruby=3.2
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+          cache: "false"
+      - name: Setup Ruby 3.2 for platform gem verification (macos-26-intel)
+        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.2"
@@ -3148,10 +3241,10 @@ jobs:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+          tools: node
+          config-ref: ${{ github.sha }}
 
       - name: Install NAPI-RS CLI
         run: npm install -g @napi-rs/cli
@@ -3248,10 +3341,10 @@ jobs:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+          tools: node
+          config-ref: ${{ github.sha }}
 
       - name: Download WASM package
         uses: actions/download-artifact@v8
@@ -3405,16 +3498,10 @@ jobs:
 
       - name: Setup Java
         if: ${{ needs.prepare.outputs.dry_run != 'true' && steps.recheck.outputs.exists != 'true' }}
-        uses: actions/setup-java@v6
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          distribution: temurin
-          java-version: "25"
-          cache: maven
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          tools: java
+          config-ref: ${{ github.sha }}
 
       - name: Setup Maven
         if: ${{ needs.prepare.outputs.dry_run != 'true' && steps.recheck.outputs.exists != 'true' }}
@@ -3478,6 +3565,7 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Dry run summary
         if: ${{ needs.prepare.outputs.dry_run == 'true' }}
@@ -4514,11 +4602,16 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
         with:
           cache-key-prefix: publish-e2e-kotlin-android
-      - uses: actions/setup-java@v6
+      - name: Setup mise
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          distribution: "temurin"
+          install: "false"
+          mise-env: ci
+          config-ref: ${{ github.sha }}
+      - name: Setup Java and Gradle
+        uses: xberg-io/actions/setup-gradle@v1
+        with:
           java-version: "17"
-      - uses: xberg-io/actions/setup-gradle@v1
       # The generated suite is the host JVM `test` source set; src/androidTest
       # is not wired into any source set and is not executed. ~keep
       - name: Run Kotlin Android E2E tests
@@ -5709,10 +5802,10 @@ jobs:
         with:
           config-directory: .ai-rulez
       - name: Setup Node.js
-        uses: actions/setup-node@v7
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+          tools: node
+          config-ref: ${{ github.sha }}
       # Plain ESM adapter — no build step. Skip if this version is already on npm so a
       # release re-run is idempotent (plugin version tracks the core release). ~keep
       - name: Re-check npm before publish
@@ -5901,14 +5994,11 @@ jobs:
         uses: xberg-io/actions/verify-ai-rulez-plugin@v1
         with:
           version-sync-script: scripts/sync_plugin_version.py
-      - uses: actions/setup-node@v7
+      - name: Setup Node.js and pnpm
+        uses: xberg-io/actions/setup-mise@v1
         with:
-          node-version: "24"
-          registry-url: https://registry.npmjs.org
-      - uses: pnpm/action-setup@v6
-        with:
-          version: "12.15.0"
-          run_install: false
+          tools: node pnpm
+          config-ref: ${{ github.sha }}
       - name: Read and check the exact npm version
         id: package
         shell: bash
