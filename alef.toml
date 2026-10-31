@@ -280,6 +280,11 @@ search = '(?m)^version = "[^"]*"'
 replace = 'version = "{version}"'
 
 [[workspace.sync.text_replacements]]
+path = "packages/elixir/native/tree_sitter_language_pack_nif/Cargo.toml"
+search = '(?m)^(tree-sitter-language-pack = \{ version = ")[^"]*'
+replace = '${1}{version}'
+
+[[workspace.sync.text_replacements]]
 path = "packages/dart/lib/src/native_loader.dart"
 search = "nativeModuleVersion = '[^']*'"
 replace = "nativeModuleVersion = '{version}'"

@@ -93,6 +93,11 @@ PINS: tuple[Pin, ...] = (
     Pin("python", "test_apps/python/pyproject.toml", r'tree-sitter-language-pack==([^"]+)"'),
     Pin("dart", "test_apps/dart/pubspec.yaml", r"tree_sitter_language_pack:\s*\^?([0-9][^\s]*)"),
     Pin("elixir", "test_apps/elixir/mix.exs", r':tree_sitter_language_pack, "([^"]*)"'),
+    Pin(
+        "elixir_native",
+        "packages/elixir/native/tree_sitter_language_pack_nif/Cargo.toml",
+        r'(?m)^tree-sitter-language-pack = \{ version = "([^"]*)"',
+    ),
     Pin("kotlin_android", "test_apps/kotlin_android/build.gradle.kts", r'tree-sitter-language-pack-android:([^"]*)"'),
     Pin("swift_e2e", "test_apps/swift_e2e/Package.swift", r'branch: "release/swift/([^"]*)"'),
     Pin("swift", "test_apps/swift/Package.swift", r'tree-sitter-language-pack\.git",\s*from: "([^"]*)"'),
