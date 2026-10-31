@@ -650,8 +650,7 @@ jobs:
             fi
           fi
 
-      # ~keep mise cannot lock the whole toolchain for windows-arm64 (no Temurin 25 build there),
-      # so the windows-11-arm legs keep setup-python and every other leg takes the locked mise Python.
+      # ~keep windows-11-arm keeps setup-python: lockfile_platforms has no windows-arm64.
       - name: Setup Python
         if: matrix.os != 'windows-11-arm'
         uses: xberg-io/actions/setup-mise@v1
@@ -955,8 +954,7 @@ jobs:
         if: matrix.musl
         run: rustup target add ${{ matrix.napi_target }}
 
-      # ~keep mise.lock has no windows-arm64 platform (lockfile_platforms), so the windows-11-arm leg keeps
-      # setup-node and every other leg takes the locked mise Node.js.
+      # ~keep windows-11-arm keeps setup-node: lockfile_platforms has no windows-arm64.
       - name: Setup Node.js
         if: matrix.os != 'windows-11-arm'
         uses: xberg-io/actions/setup-mise@v1
@@ -1044,8 +1042,7 @@ jobs:
         with:
           lang: ruby
 
-      # ~keep jdx/ruby publishes no precompiled macOS x86_64 Ruby (mise.ci.lock points that platform at the
-      # ~keep source tarball), so the macos-26-intel leg keeps setup-ruby and every other leg takes mise's Ruby.
+      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.2
         if: matrix.os != 'macos-26-intel'
         uses: xberg-io/actions/setup-mise@v1
@@ -1119,17 +1116,8 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}
           CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
 
-      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
+      # ~keep Ruby 3.5.0-preview1 has no precompiled build for mise on any platform.
       - name: Setup Ruby 3.5
-        if: matrix.os != 'macos-26-intel'
-        uses: xberg-io/actions/setup-mise@v1
-        with:
-          tools: ruby=3.5.0-preview1
-          mise-env: ci
-          config-ref: ${{ github.sha }}
-          cache: "false"
-      - name: Setup Ruby 3.5 (macos-26-intel)
-        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.5"
@@ -1181,17 +1169,8 @@ jobs:
           gem install packages/ruby/tree_sitter_language_pack-*.gem --no-document
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
 
-      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
+      # ~keep Ruby 3.5.0-preview1 has no precompiled build for mise on any platform.
       - name: Setup Ruby 3.5 for platform gem verification
-        if: matrix.os != 'macos-26-intel'
-        uses: xberg-io/actions/setup-mise@v1
-        with:
-          tools: ruby=3.5.0-preview1
-          mise-env: ci
-          config-ref: ${{ github.sha }}
-          cache: "false"
-      - name: Setup Ruby 3.5 for platform gem verification (macos-26-intel)
-        if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1.335.0
         with:
           ruby-version: "3.5"
@@ -1898,8 +1877,7 @@ jobs:
       - name: Install alef
         uses: xberg-io/actions/install-alef@v1
 
-      # ~keep mise cannot lock the whole toolchain for windows-arm64 (no Temurin 25 build there),
-      # so the windows-11-arm legs keep setup-python and every other leg takes the locked mise Python.
+      # ~keep windows-11-arm keeps setup-python: lockfile_platforms has no windows-arm64.
       - name: Setup Python
         if: matrix.os != 'windows-11-arm'
         uses: xberg-io/actions/setup-mise@v1
@@ -2137,8 +2115,7 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      # ~keep mise cannot lock the whole toolchain for windows-arm64 (no Temurin 25 build there),
-      # so the windows-11-arm legs keep setup-python and every other leg takes the locked mise Python.
+      # ~keep windows-11-arm keeps setup-python: lockfile_platforms has no windows-arm64.
       - name: Setup Python
         if: matrix.os != 'windows-11-arm'
         uses: xberg-io/actions/setup-mise@v1
@@ -4711,8 +4688,7 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
-      # ~keep mise cannot lock the whole toolchain for windows-arm64 (no Temurin 25 build there),
-      # so the windows-11-arm legs keep setup-python and every other leg takes the locked mise Python.
+      # ~keep windows-11-arm keeps setup-python: lockfile_platforms has no windows-arm64.
       - name: Setup Python
         if: matrix.os != 'windows-11-arm'
         uses: xberg-io/actions/setup-mise@v1

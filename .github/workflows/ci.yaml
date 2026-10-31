@@ -862,8 +862,7 @@ jobs:
           cache-key-prefix: parsers-${{ matrix.label }}
           install-llvm-cov: "false"
 
-      # ~keep mise cannot lock the whole toolchain for windows-arm64 (no Temurin 25 build there),
-      # so the windows-11-arm legs keep setup-python and every other leg takes the locked mise Python.
+      # ~keep windows-11-arm keeps setup-python: lockfile_platforms has no windows-arm64.
       - name: Setup Python
         if: matrix.os != 'windows-11-arm'
         uses: xberg-io/actions/setup-mise@v1

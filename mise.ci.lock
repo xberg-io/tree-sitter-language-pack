@@ -28,26 +28,34 @@ url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0
 checksum = "sha256:32cd4d2151c91aa00d0fc911edfd05245ed40fa6b1aa894d5f35c928cd67a59d"
 url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.5%2B8/OpenJDK25U-jdk_x64_mac_hotspot_25.0.5_8.tar.gz"
 
+[tools.java."platforms.windows-x64"]
+checksum = "sha256:636bdc13dc649ddc7d5921c5c7d23cca6e44fd19d662b45cc9c02135a6c96c42"
+url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.5%2B8/OpenJDK25U-jdk_x64_windows_hotspot_25.0.5_8.zip"
+
 [[tools.java]]
-version = "temurin-17.0.21+9"
+version = "temurin-17.0.20+8"
 backend = "core:java"
-specifiers = ["temurin-17.0.21+9"]
+specifiers = ["temurin-17.0.20+8"]
 
 [tools.java."platforms.linux-arm64"]
-checksum = "sha256:3e4eca7ead088f080af1476007decf010a240a1eb4e1e78c54fa32fbcc347084"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.21%2B9/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.21_9.tar.gz"
+checksum = "sha256:d143936f473a4cb24e3b0e247d6d0775769d55ec9775c339540e753059a8d77a"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.linux-x64"]
-checksum = "sha256:8b9b611d917e3dfd8419d3566b5949226f69b052fed7e109c1368add1dfe8711"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.21%2B9/OpenJDK17U-jdk_x64_linux_hotspot_17.0.21_9.tar.gz"
+checksum = "sha256:be7668bc030d578b83d6d5ef9221d6d6729bbbca8cf94a7d52e16ac68b5a5a35"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.macos-arm64"]
-checksum = "sha256:78b08c7f5a0598242d5719c022e19479cb4a3aa45c37c19726a757a469ed1c15"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.21%2B9/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.21_9.tar.gz"
+checksum = "sha256:524850138c742324fb21fca4ff6ef68ea25f25bf59366a864e45b4a0c45ed0df"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.20_8.tar.gz"
 
 [tools.java."platforms.macos-x64"]
-checksum = "sha256:868f5c672b3389fdbe48e44f94ae170f01668b1401360944fc7159d7cc9772cc"
-url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.21%2B9/OpenJDK17U-jdk_x64_mac_hotspot_17.0.21_9.tar.gz"
+checksum = "sha256:3710c3131c5d7c090582b357f1310133a90bf701183d065223f1a0b90b9ed5ae"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.20_8.tar.gz"
+
+[tools.java."platforms.windows-x64"]
+checksum = "sha256:418497be5cf585bdd2203d6486a565d66d3f5e992d5630d45104cb873fab8122"
+url = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.20_8.zip"
 
 [[tools.node]]
 version = "26.12.1"
@@ -69,6 +77,10 @@ url = "https://nodejs.org/dist/v26.12.1/node-v26.12.1-darwin-arm64.tar.gz"
 [tools.node."platforms.macos-x64"]
 checksum = "sha256:b85c2ea4420ad0bc4abf2dc6cf1f55130ed681f1cabf60cf3f526e4c9e2712ff"
 url = "https://nodejs.org/dist/v26.12.1/node-v26.12.1-darwin-x64.tar.gz"
+
+[tools.node."platforms.windows-x64"]
+checksum = "sha256:b3efd5c70cba3308ed46e7e699a9b8aac075bbc6b027fcb39c84c31acc25e2b4"
+url = "https://nodejs.org/dist/v26.12.1/node-v26.12.1-win-x64.zip"
 
 [[tools.python]]
 version = "3.13.18"
@@ -93,6 +105,11 @@ provenance = "github-attestations"
 [tools.python."platforms.macos-x64"]
 checksum = "sha256:7412c19d896c99431b74a18a5643e110449a7f9590fbab179c3e5ab27b9aa9e3"
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.13.18+20261026-x86_64-apple-darwin-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.windows-x64"]
+checksum = "sha256:7369f7a35f261222a6ac8b3a87c1c88eeebee8af945d85346202591a64038dd3"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.13.18+20261026-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.python]]
@@ -120,6 +137,11 @@ checksum = "sha256:7c579c3d9913a36b86a63772704cc08960de9b819b8915455218a536dbd4f
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261009/cpython-3.10.22+20261009-x86_64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
+[tools.python."platforms.windows-x64"]
+checksum = "sha256:f20288c45ff11e7fe026f40ddcfb2acfe695cec18860746639e289142a589745"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261009/cpython-3.10.22+20261009-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
 [[tools.python]]
 version = "3.14.10"
 backend = "core:python"
@@ -143,6 +165,11 @@ provenance = "github-attestations"
 [tools.python."platforms.macos-x64"]
 checksum = "sha256:2fd8becd48cf0ff5f0a15df3c0db7cae7aa708dcaacf901bd30d6cdd6229370b"
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.14.10+20261026-x86_64-apple-darwin-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.windows-x64"]
+checksum = "sha256:c1876a9795d3a94ee49a1499a69cd91e26ca3e2829593f93fa6e4db90d05402b"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.14.10+20261026-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.ruby]]
@@ -176,6 +203,15 @@ checksum = "sha256:5e5d85ad93b0adcccbad47733680f4892bd0078e3342437f7babce01c1872
 url = "https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.12.tar.gz"
 
 [[tools.ruby]]
+version = "3.4.12"
+backend = "core:ruby"
+specifiers = ["3.4.12"]
+
+[tools.ruby."platforms.windows-x64"]
+checksum = "sha256:3806f164377824bcb17e1cf39b17d967e2bdc01e8547ce0254cd786dbe2cfe13"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.4.12-1/rubyinstaller-3.4.12-1-x64.7z"
+
+[[tools.ruby]]
 version = "3.2.11"
 backend = "core:ruby"
 specifiers = ["3.2.11"]
@@ -204,6 +240,15 @@ provenance = "github-attestations"
 [tools.ruby."platforms.macos-x64"]
 checksum = "sha256:b3eeabd6636f334531db3ffdc3229eb05e524740e6c84fdc043720573cf2f8b2"
 url = "https://cache.ruby-lang.org/pub/ruby/3.2/ruby-3.2.11.tar.gz"
+
+[[tools.ruby]]
+version = "3.2.11"
+backend = "core:ruby"
+specifiers = ["3.2.11"]
+
+[tools.ruby."platforms.windows-x64"]
+checksum = "sha256:20e56be307ae5576c024c97a7d8784c2033e676ea8c67477dda602b8e97fe69c"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.2.11-1/rubyinstaller-3.2.11-1-x64.7z"
 
 [[tools.ruby]]
 version = "3.3.13"
@@ -236,31 +281,13 @@ checksum = "sha256:4cae72e971bd1cdb20ca87d299111182417c5276c162de8ead0ab0531426c
 url = "https://cache.ruby-lang.org/pub/ruby/3.3/ruby-3.3.13.tar.gz"
 
 [[tools.ruby]]
-version = "3.5.0-preview1"
+version = "3.3.13"
 backend = "core:ruby"
-specifiers = ["3.5.0-preview1"]
+specifiers = ["3.3.13"]
 
-[tools.ruby.options]
-compile = "false"
-precompiled_url = "jdx/ruby"
-ruby_build_repo = "https://github.com/rbenv/ruby-build.git"
-ruby_install = "false"
-
-[tools.ruby."platforms.linux-arm64"]
-checksum = "sha256:ecf09c7eb902e91cdaf9cc553cd00cca9b848b3fc0e14297850f9ab08cdd46f0"
-url = "https://cache.ruby-lang.org/pub/ruby/3.5/ruby-3.5.0-preview1.tar.gz"
-
-[tools.ruby."platforms.linux-x64"]
-checksum = "sha256:ecf09c7eb902e91cdaf9cc553cd00cca9b848b3fc0e14297850f9ab08cdd46f0"
-url = "https://cache.ruby-lang.org/pub/ruby/3.5/ruby-3.5.0-preview1.tar.gz"
-
-[tools.ruby."platforms.macos-arm64"]
-checksum = "sha256:ecf09c7eb902e91cdaf9cc553cd00cca9b848b3fc0e14297850f9ab08cdd46f0"
-url = "https://cache.ruby-lang.org/pub/ruby/3.5/ruby-3.5.0-preview1.tar.gz"
-
-[tools.ruby."platforms.macos-x64"]
-checksum = "sha256:ecf09c7eb902e91cdaf9cc553cd00cca9b848b3fc0e14297850f9ab08cdd46f0"
-url = "https://cache.ruby-lang.org/pub/ruby/3.5/ruby-3.5.0-preview1.tar.gz"
+[tools.ruby."platforms.windows-x64"]
+checksum = "sha256:590bc6a1a557ae0ae1630ca36be71a253d068b0298c302e9bf803d99a00a6516"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.3.13-1/rubyinstaller-3.3.13-1-x64.7z"
 
 [[tools.ruby]]
 version = "4.0.9"
@@ -292,6 +319,15 @@ provenance = "github-attestations"
 checksum = "sha256:c35350682ff050b79702d57ade4516e7336063f510155d19fb2fb5b3f3909511"
 url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.9.tar.gz"
 
+[[tools.ruby]]
+version = "4.0.9"
+backend = "core:ruby"
+specifiers = ["4.0.9"]
+
+[tools.ruby."platforms.windows-x64"]
+checksum = "sha256:1dc0715916251a13c4f6a550a3da1f2c726bff869371fd573a65234c008f47b4"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.9-1/rubyinstaller-4.0.9-1-x64.7z"
+
 [[tools.zig]]
 version = "0.16.0"
 backend = "core:zig"
@@ -313,6 +349,10 @@ url = "https://ziglang.org/download/0.16.0/zig-aarch64-macos-0.16.0.tar.xz"
 checksum = "sha256:0387557ed1877bc6a2e1802c8391953baddba76081876301c522f52977b52ba7"
 url = "https://ziglang.org/download/0.16.0/zig-x86_64-macos-0.16.0.tar.xz"
 
+[tools.zig."platforms.windows-x64"]
+checksum = "sha256:68659eb5f1e4eb1437a722f1dd889c5a322c9954607f5edcf337bc3684a75a7e"
+url = "https://ziglang.org/download/0.16.0/zig-x86_64-windows-0.16.0.zip"
+
 [[tools.zig]]
 version = "0.14.1"
 backend = "core:zig"
@@ -333,3 +373,7 @@ url = "https://ziglang.org/download/0.14.1/zig-aarch64-macos-0.14.1.tar.xz"
 [tools.zig."platforms.macos-x64"]
 checksum = "sha256:b0f8bdfb9035783db58dd6c19d7dea89892acc3814421853e5752fe4573e5f43"
 url = "https://ziglang.org/download/0.14.1/zig-x86_64-macos-0.14.1.tar.xz"
+
+[tools.zig."platforms.windows-x64"]
+checksum = "sha256:554f5378228923ffd558eac35e21af020c73789d87afeabf4bfd16f2e6feed2c"
+url = "https://ziglang.org/download/0.14.1/zig-x86_64-windows-0.14.1.zip"
