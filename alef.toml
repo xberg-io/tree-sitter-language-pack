@@ -1914,7 +1914,7 @@ version = "1.23.1"
 "aarch64-apple-darwin" = "tree_sitter_language_pack-1.23.1-jCz0Y05qSwCQ3aXBwilnmuhgDjTdmw0lTiylUa5h6tGe"
 "aarch64-unknown-linux-gnu" = "tree_sitter_language_pack-1.23.1-jCz0YxZWUADI5vleetTLYXX8PyeA8K-eabZlFIl571MB"
 "x86_64-apple-darwin" = "tree_sitter_language_pack-1.23.1-jCz0Y75HUAChEPsWSLUDzc2xqKx1o3jLvQxRAVpvT_Tr"
-"x86_64-pc-windows-msvc" = "tree_sitter_language_pack-1.23.1-jCz0Y5IIXwBs_A7_u9IJOMMKrJejcKgJUpyQar1vGrpD"
+"x86_64-pc-windows-msvc" = "tree_sitter_language_pack-1.23.1-jCz0Y5IIXwAZ3kNmgUwLgzFG3PL0H1OwlcO56QgkyovR"
 "x86_64-unknown-linux-gnu" = "tree_sitter_language_pack-1.23.1-jCz0Yw48WQCUdXjxsMgUjpNPTX2ka1p7mhcdaIuxkhJ6"
 
 [crates.e2e.registry.packages.swift]
