@@ -860,7 +860,9 @@ jobs:
           # Scope --no-binary to ONLY tree-sitter-language-pack so transitive
           # deps (tree-sitter, etc.) use their published wheels — otherwise we'd
           # have to pre-install every transitive backend (hatchling, scikit-build, …).
-          pip install 'maturin>=1,<2'
+          # ~keep setuptools: tree-sitter ships no wheel for the newest CPython, so pip builds it from its
+          # ~keep sdist, whose backend --no-build-isolation cannot fetch.
+          pip install 'maturin>=1,<2' setuptools
           TSLP_LANGUAGES="python,rust,javascript" \
           TSLP_LINK_MODE=static \
           TSLP_SOURCE_BUNDLE_URL="file://${BUNDLE}" \
@@ -999,7 +1001,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     env:
-      BUNDLER_VERSION: "4.0.7"
       RB_SYS_CARGO_PROFILE: release
     strategy:
       fail-fast: false
@@ -1022,6 +1023,18 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      # ~keep The tag's Gemfile.lock decides the bundler version; a hardcoded one drifts whenever the
+      # ~keep release prep relocks with a newer bundler, and `gem install` then fails on every ABI.
+      - name: Read the locked bundler version
+        run: |
+          set -euo pipefail
+          version=$(awk '/^BUNDLED WITH/ {getline; gsub(/[[:space:]]/, ""); print}' packages/ruby/Gemfile.lock)
+          if [[ -z "$version" ]]; then
+            echo "::error::packages/ruby/Gemfile.lock has no BUNDLED WITH version"
+            exit 1
+          fi
+          echo "BUNDLER_VERSION=${version}" >> "$GITHUB_ENV"
 
       - name: Download parsers
         uses: actions/download-artifact@v8
