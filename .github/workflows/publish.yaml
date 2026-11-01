@@ -2662,13 +2662,18 @@ jobs:
       # `[crates.test.node]`'s precondition and its `before` hook both need the `napi`
       # binary, which no setup action provides. ci-e2e.yaml installs it in `build-node`
       # before running the same NAPI build. ~keep
-      - name: Install NAPI-RS CLI
-        run: npm install -g @napi-rs/cli
+      # ~keep Install it into mise's node, after setup-mise: the task runs under that node, whose shims do not
+      # ~keep see a CLI installed into the setup-node-workspace node.
       - name: Setup mise
         uses: xberg-io/actions/setup-mise@v1
         with:
-          install: "false"
+          tools: node
           config-ref: ${{ github.sha }}
+      - name: Install NAPI-RS CLI
+        run: |
+          npm install -g @napi-rs/cli
+          mise reshim
+          napi --version
       - uses: xberg-io/actions/install-alef@v1
       - name: Run Node E2E tests
         run: mise run node:e2e:test
