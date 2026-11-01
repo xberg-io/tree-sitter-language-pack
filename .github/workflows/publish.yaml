@@ -4174,6 +4174,9 @@ jobs:
       # download URL, so that sed had nothing to match and silently did nothing every
       # release. The version is asserted against the URL instead. ~keep
       - name: Update Package.swift with version and checksum
+        id: manifest
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           set -euo pipefail
           VERSION="${{ needs.prepare.outputs.version }}"
@@ -4185,7 +4188,19 @@ jobs:
           fi
 
           placeholders=$(grep -c '__ALEF_SWIFT_CHECKSUM__' Package.swift || true)
+          # ~keep A re-dispatched release checks out the tag an earlier run already checksummed. When the
+          # ~keep released bundle hashes to that checksum the Swift package is published; re-uploading this
+          # ~keep run's rebuilt (non-reproducible) bundle would break every consumer resolving the tag.
           if [[ "$placeholders" -eq 0 ]]; then
+            tagged=$(grep -oE 'checksum: "[0-9a-f]{64}"' Package.swift | grep -oE '[0-9a-f]{64}' || true)
+            asset_dir=$(mktemp -d)
+            if [[ -n "$tagged" ]] && gh release download "${{ needs.prepare.outputs.tag }}" \
+                 -p 'TreeSitterLanguagePack-rs.artifactbundle.zip' -D "$asset_dir" 2>/dev/null \
+               && [[ "$(sha256sum "$asset_dir"/*.zip | cut -d' ' -f1)" == "$tagged" ]]; then
+              echo "Package.swift already carries ${tagged}, the released bundle's checksum; the Swift package is published."
+              echo "published=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
             echo "::error::Package.swift has no __ALEF_SWIFT_CHECKSUM__ to substitute — the release prep did not reset it, or the token was renamed."
             exit 1
           fi
@@ -4201,7 +4216,7 @@ jobs:
           head -40 Package.swift
 
       - name: Commit and push Package.swift
-        if: ${{ needs.prepare.outputs.dry_run != true && needs.prepare.outputs.dry_run != 'true' }}
+        if: ${{ steps.manifest.outputs.published != 'true' && needs.prepare.outputs.dry_run != true && needs.prepare.outputs.dry_run != 'true' }}
         run: |
           git config user.name "xberg-dev-publisher[bot]"
           git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
@@ -4226,12 +4241,14 @@ jobs:
           git push origin -f "HEAD:refs/heads/release/swift/${{ needs.prepare.outputs.version }}"
 
       - name: Download Swift artifact bundle
+        if: ${{ steps.manifest.outputs.published != 'true' }}
         uses: actions/download-artifact@v8
         with:
           name: swift-artifactbundle
           path: dist/swift
 
       - name: Upload Swift artifact bundle to GitHub Release
+        if: ${{ steps.manifest.outputs.published != 'true' }}
         uses: xberg-io/actions/upload-release-assets@v1
         with:
           tag: ${{ needs.prepare.outputs.tag }}
