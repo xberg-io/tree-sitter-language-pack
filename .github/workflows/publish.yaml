@@ -4049,6 +4049,11 @@ jobs:
       - uses: xberg-io/actions/setup-rust@v1
       - uses: xberg-io/actions/build-swift-artifactbundle@v1
         id: bundle
+        # ~keep Rust otherwise links the iOS archive for 10.0 while the zstd objects call ___chkstk_darwin,
+        # ~keep which the iOS 10 runtime lacks. These match Package.swift's platforms.
+        env:
+          IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+          MACOSX_DEPLOYMENT_TARGET: "13.0"
         with:
           crate-name: tree-sitter-language-pack-swift
           artifact-name: TreeSitterLanguagePack-rs
