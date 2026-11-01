@@ -5250,6 +5250,14 @@ jobs:
         run: |
           cd packages/go
 
+          # ~keep A re-dispatched release must not fail here: the Go proxy caches a module tag on first fetch,
+          # ~keep so an existing tag is the published module and is never re-created.
+          go_tag="packages/go/v${{ needs.prepare.outputs.version }}"
+          if git ls-remote --exit-code --tags origin "refs/tags/${go_tag}" >/dev/null; then
+            echo "${go_tag} already exists on origin; the Go module is published"
+            exit 0
+          fi
+
           # Stage only the new/modified library files, not .gitkeep.
           # Use -f because root .gitignore globally ignores *.so/*.dylib/*.dll;
           # the published Go module deliberately ships pre-built FFI artifacts.
