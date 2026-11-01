@@ -2389,6 +2389,27 @@ jobs:
           print(f'Generated parsers.json with {len(platforms)} platforms and {len(languages)} languages')
           "
 
+      # ~keep A partial matrix is tolerated on a first upload, but a re-dispatched release must not
+      # ~keep replace a published manifest with one that drops a platform: every released binding on that
+      # ~keep platform then fails get_parser (a runner ENOSPC on linux-x86_64 did exactly this to v1.23.1).
+      - name: Refuse to drop a platform from the released manifest
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          TAG: ${{ needs.prepare.outputs.tag }}
+        run: |
+          set -euo pipefail
+          released_dir=$(mktemp -d)
+          if ! gh release download "$TAG" -R "$GITHUB_REPOSITORY" -p parsers.json -D "$released_dir" 2>/dev/null; then
+            echo "No parsers.json on ${TAG} yet; nothing to preserve."
+            exit 0
+          fi
+          dropped=$(jq -r --slurpfile new dist/parsers/parsers.json \
+            '.platforms | keys - ($new[0].platforms | keys) | .[]' "$released_dir/parsers.json")
+          if [[ -n "$dropped" ]]; then
+            echo "::error::${TAG}'s parsers.json lists platforms this run did not build: ${dropped//$'\n'/, }. Rerun the failed build-parser-binaries legs."
+            exit 1
+          fi
+
       - name: Upload to GitHub Release
         uses: xberg-io/actions/publish-github-release@v1
         with:
