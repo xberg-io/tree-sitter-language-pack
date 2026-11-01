@@ -149,7 +149,7 @@ class ReleaseDryMutationTests(unittest.TestCase):
             checker = ROOT / "scripts/check_test_app_pins.py"
             pins = runpy.run_path(str(checker))["PINS"]
             paths = {"Cargo.toml", "alef.toml", *(pin.path for pin in pins)}
-            assert len(paths) == 19
+            assert len(paths) == 20
             for name in paths:
                 destination = root / name
                 destination.parent.mkdir(parents=True, exist_ok=True)
