@@ -776,14 +776,15 @@ jobs:
 
   build-python-sdist:
     name: Build Python sdist
-    needs: [prepare, validate-versions, clone-vendors, publish-crates]
+    needs: [prepare, validate-versions, clone-vendors, check-registries, publish-crates]
     # `== 'success'`, never `!= 'failure'`: a SKIPPED publish-crates satisfies
     # `!= 'failure'`, so this job used to build an sdist whose Cargo manifest
     # resolves `tree-sitter-language-pack = "^<version>"` from crates.io — a
     # version that was never published — and burn its full retry budget on
-    # `failed to select a version for the requirement` (#177). ~keep
+    # `failed to select a version for the requirement` (#177). A skip counts only
+    # when check-registries saw the crate on crates.io, which a re-dispatch hits. ~keep
     if: >-
-      ${{ !inputs.plugins-only && (!cancelled() && needs.publish-crates.result == 'success' && needs.prepare.outputs.release_python == 'true') }}
+      ${{ !inputs.plugins-only && (!cancelled() && (needs.publish-crates.result == 'success' || (needs.publish-crates.result == 'skipped' && fromJson(needs.check-registries.outputs.results).cratesio == 'true')) && needs.prepare.outputs.release_python == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -990,14 +991,14 @@ jobs:
     # upload-parser-binaries publishes parsers.json to the release; the gem's
     # "Verify platform gem" step downloads it at runtime, so it must run first
     # (otherwise get_parser 404s on the not-yet-uploaded manifest).
-    needs: [prepare, validate-versions, clone-vendors, publish-crates, upload-parser-binaries]
+    needs: [prepare, validate-versions, clone-vendors, check-registries, publish-crates, upload-parser-binaries]
     # `== 'success'` on both, never `!= 'failure'` and never a bare `needs:`
     # edge: `!cancelled()` disables the implicit all-needs-succeeded rule, so a
     # SKIPPED publish-crates or upload-parser-binaries would otherwise let this
     # job build a gem against a crate that is not on crates.io and a parsers.json
     # that is not on the release. ~keep
     if: >-
-      ${{ !inputs.plugins-only && (!cancelled() && needs.publish-crates.result == 'success' && needs.upload-parser-binaries.result == 'success' && needs.prepare.outputs.release_ruby == 'true') }}
+      ${{ !inputs.plugins-only && (!cancelled() && (needs.publish-crates.result == 'success' || (needs.publish-crates.result == 'skipped' && fromJson(needs.check-registries.outputs.results).cratesio == 'true')) && needs.upload-parser-binaries.result == 'success' && needs.prepare.outputs.release_ruby == 'true') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     env:
