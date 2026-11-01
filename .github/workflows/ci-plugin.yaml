@@ -55,8 +55,6 @@ jobs:
       # until `mise run plugin:generate` is rerun. ~keep
       - name: Install ai-rulez
         uses: xberg-io/actions/setup-ai-rulez@v1
-        with:
-          ai-rulez-version: "latest"
       - name: Verify plugin bundles and version
         uses: xberg-io/actions/verify-ai-rulez-plugin@v1
         with:
