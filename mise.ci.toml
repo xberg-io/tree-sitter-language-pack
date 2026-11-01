@@ -7,7 +7,7 @@
 # mise.ci.lock also carries macos-x64 Ruby source-tarball entries: mise locks every lockfile platform
 # per tool, though the macos-26-intel gem leg installs Ruby with setup-ruby instead. ~keep
 [tools]
-python = ["3.13.18", "3.10.22", "3.14.10"]
-ruby = ["3.4.12", "3.2.11", "3.3.13", "4.0.9"]
+python = ["3.15.2", "3.10.22", "3.14.10"]
+ruby = ["4.0.9", "3.2.11", "3.3.13", "3.4.12"]
 java = ["temurin-25.0.5+8.0.LTS", "temurin-17.0.20+8"]
 zig = ["0.16.0", "0.14.1"]
