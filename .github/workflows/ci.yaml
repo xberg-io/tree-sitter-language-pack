@@ -388,6 +388,12 @@ jobs:
           elixir-version: "1.20.4"
           otp-version: "29"
 
+      # `alef e2e generate` runs `dart format .` over e2e/dart and only warns when `dart` is
+      # missing, so without it every committed (formatted) Dart suite reads as stale.
+      # Dart stays on its setup action (org toolchain policy). ~keep
+      - name: Setup Dart formatter for generated e2e tests
+        uses: dart-lang/setup-dart@v1
+
       # Implements the generated-code policy in CLAUDE.md. The task is named
       # `e2e:generate` (CLAUDE.md's "generate:e2e" is wrong); it fans out to
       # `alef e2e generate`, which is invoked directly here to match the
