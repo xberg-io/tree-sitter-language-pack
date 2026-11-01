@@ -141,4 +141,4 @@ done
 echo "Checking for language grammar updates (report only)..."
 uv run --no-sync scripts/check_grammar_updates.py --dry-run
 echo "Updating GitHub Actions pins..."
-uvx --from gh-actions-updater==0.3.0 gau --update --recursive --pin-style major --missing-ref fallback .github
+gau --update --recursive --pin-style major --missing-ref fallback .github
