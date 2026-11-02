@@ -151,10 +151,9 @@ jobs:
       - uses: xberg-io/actions/publish-nuget@v1
         if: ${{ !inputs.dry_run }}
         with:
+          nuget-user: naaman
           packages-dir: release-source/dist/nuget-runtimes
           expected-version: ${{ steps.version.outputs.version }}
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   prepare:
     name: Prepare release
@@ -3761,6 +3760,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -3794,11 +3794,10 @@ jobs:
         if: ${{ needs.prepare.outputs.dry_run != 'true' }}
         uses: xberg-io/actions/publish-nuget@v1
         with:
+          nuget-user: naaman
           packages-dir: dist/nuget
           dry-run: ${{ needs.prepare.outputs.dry_run }}
           expected-version: ${{ needs.prepare.outputs.version }}
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   build-dart-native:
     name: Build Dart native library (${{ matrix.label }})
