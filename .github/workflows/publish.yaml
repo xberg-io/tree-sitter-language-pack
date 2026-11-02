@@ -151,7 +151,7 @@ jobs:
       - uses: xberg-io/actions/publish-nuget@v1
         if: ${{ !inputs.dry_run }}
         with:
-          nuget-user: naaman
+          nuget-user: naaman-xberg
           packages-dir: release-source/dist/nuget-runtimes
           expected-version: ${{ steps.version.outputs.version }}
 
@@ -3794,7 +3794,7 @@ jobs:
         if: ${{ needs.prepare.outputs.dry_run != 'true' }}
         uses: xberg-io/actions/publish-nuget@v1
         with:
-          nuget-user: naaman
+          nuget-user: naaman-xberg
           packages-dir: dist/nuget
           dry-run: ${{ needs.prepare.outputs.dry_run }}
           expected-version: ${{ needs.prepare.outputs.version }}
