@@ -13,7 +13,7 @@ You'll need the following tools installed:
 
 - [mise](https://mise.jdx.dev/) — the project toolchain and task runner
 - Rust stable toolchain via [rustup](https://rustup.rs/)
-- Python 3.10+ and [uv](https://docs.astral.sh/uv/)
+- Python 3.11+ and [uv](https://docs.astral.sh/uv/)
 - Node.js 18+ and [pnpm](https://pnpm.io/)
 
 ## Getting started

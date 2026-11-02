@@ -1001,7 +1001,7 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux-x86_64
-            python-version: "3.10"
+            python-version: "3.11"
           - os: ubuntu-latest
             platform: linux-x86_64
             python-version: "3.14"

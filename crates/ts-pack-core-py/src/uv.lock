@@ -1,6 +1,6 @@
 version = 1
 revision = 5
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 
 [[package]]
 name = "pyrefly"
@@ -52,14 +52,6 @@ version = "0.26.0"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f7/03/5600b84aff2e6c4fe80cfebb4063fe2f50299521befe5f6092ab8c082f4a/tree_sitter-0.26.0.tar.gz", hash = "sha256:b40c219edccc4564530c96f8f1556f6202b37cda964d1cbd7bd2b7e68b40a245", size = 191423, upload-time = "2026-06-30T12:14:27.933Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a4/2f/201c33ea65875d8e4ec73e4d1949718ec49780d84c0adf19793ef75d99a2/tree_sitter-0.26.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:ff527388df14cb5009f9274faf78cc69a7393ae6acf3b04784b8acca249519c5", size = 148676, upload-time = "2026-06-30T12:13:42.718Z" },
-    { url = "https://files.pythonhosted.org/packages/9e/db/05b9d45dd2b9827bf91b6819e749227ca6d686d58658292c0f149294b18e/tree_sitter-0.26.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:7bcbadfa614326debef581957d5c780a9d7f66065c13deea61aa21d1dd36263f", size = 140757, upload-time = "2026-06-30T12:13:44.007Z" },
-    { url = "https://files.pythonhosted.org/packages/b9/08/1e1da65c1585b8d70130b26d65b41a71737ab623c1fab1008479c2b95b50/tree_sitter-0.26.0-cp310-cp310-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:2f941cea06128c1f74f8937a8e2a90c7db49cf4be6647cd9e07d92a306d91517", size = 631526, upload-time = "2026-06-30T12:13:45.008Z" },
-    { url = "https://files.pythonhosted.org/packages/b0/b7/06353044a80ee58a71e884b4a9b2913705849d81025d87308abdfef8f883/tree_sitter-0.26.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:e9e46b664887d8c1014f1fb33e09454bbdd9ec1fe29b7fd02dde7b46bc1bb81a", size = 658688, upload-time = "2026-06-30T12:13:46.491Z" },
-    { url = "https://files.pythonhosted.org/packages/df/56/c4b22ccbc4f89ae507c0b76e29f363ad4f16eb38c43f7392b3eb9afec64e/tree_sitter-0.26.0-cp310-cp310-manylinux_2_31_riscv64.manylinux_2_39_riscv64.whl", hash = "sha256:763627db05db34f12333081bd7422cc1c675893d373cc870b3e9249e200700e4", size = 644399, upload-time = "2026-06-30T12:13:47.719Z" },
-    { url = "https://files.pythonhosted.org/packages/b5/b7/6b3f0192d5b9b49a199cb0dcd5e45dd1327a82c52c80a49edd790e3a2d9b/tree_sitter-0.26.0-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:17a1c5cfd3a05d5c7c86bf4282b6ef8092c91dc0a98390499669c3fedb7d1814", size = 655316, upload-time = "2026-06-30T12:13:49.03Z" },
-    { url = "https://files.pythonhosted.org/packages/a5/6b/f7475c8f8d699671c2a80c3ed16f5cddd161280c6ed5b845117179c66075/tree_sitter-0.26.0-cp310-cp310-win_amd64.whl", hash = "sha256:f289be0225ba2ace8e87d6c9639b2bc9ff2b5271afb7c5d39282a4a00e248682", size = 129494, upload-time = "2026-06-30T12:13:50.242Z" },
-    { url = "https://files.pythonhosted.org/packages/f6/20/0df8dd708638cba7ef875fff4ce80122af7f604f1f0b566de2164108bc01/tree_sitter-0.26.0-cp310-cp310-win_arm64.whl", hash = "sha256:526a165a2cb1d1f79e247d400f0e0acd8d49a817d6f312d543513af200b1f886", size = 116486, upload-time = "2026-06-30T12:13:51.21Z" },
     { url = "https://files.pythonhosted.org/packages/41/18/78aae7e4b5a36daaebb0276e4b07d084d45298758000787838e89329e11f/tree_sitter-0.26.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:1d6fe0e8fb4df77b5ee816228e2c4475a63d8cc1d4d3a7ffd7097b2b87fc3e95", size = 148679, upload-time = "2026-06-30T12:13:52.27Z" },
     { url = "https://files.pythonhosted.org/packages/24/e4/b371b9553b0e47d130fc2073e56cab94fecc868be04666bf5bbd1fcd1cc9/tree_sitter-0.26.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:514a9bf8993e5210e7970736aaf6020d1759b670e195ef17b1c48f586aa30736", size = 140759, upload-time = "2026-06-30T12:13:53.221Z" },
     { url = "https://files.pythonhosted.org/packages/22/7d/266fb0f2c41e6fb00b0f40e7a3338cdf99651e6a6511ca72bc78fc697636/tree_sitter-0.26.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:10f0d4eb94aa7242dcb7f554bcd24dd7ba1c114f00d58759ba08c7a46c8ec51a", size = 637206, upload-time = "2026-06-30T12:13:54.334Z" },

@@ -38,7 +38,7 @@ memchr = "2"
 napi = { version = "3", features = ["napi4", "serde-json"] }
 napi-build = "2"
 napi-derive = "3"
-pyo3 = { version = "0.30", features = ["abi3-py310"] }
+pyo3 = { version = "0.30", features = ["abi3-py311"] }
 rayon = "1"
 rb-sys = "0.9"
 regex = "1"

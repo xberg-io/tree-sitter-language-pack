@@ -17,10 +17,9 @@ maintainers = [
   { name = "Na'aman Hirschfeld", email = "naaman@xberg.io" },
   { name = "Tobias Perlstein", email = "tobias@xberg.io" },
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -34,9 +33,9 @@ dev = ["pyrefly>=1.4", "ruff>=0.14.8"]
 [tool.maturin]
 module-name = "tree_sitter_language_pack._native"
 manifest-path = "../../crates/ts-pack-core-py/Cargo.toml"
-# abi3-py310 produces a single wheel per platform that loads on Python 3.10+,
+# abi3-py311 produces a single wheel per platform that loads on Python 3.11+,
 # avoiding a per-Python-version build matrix.
-features = ["pyo3/extension-module", "pyo3/abi3-py310"]
+features = ["pyo3/extension-module", "pyo3/abi3-py311"]
 python-packages = ["tree_sitter_language_pack"]
 # Bundle the core Rust crate so `pip install` can build from sdist on
 # platforms without a precompiled wheel (e.g. Alpine/musl). Without this
@@ -45,7 +44,7 @@ python-packages = ["tree_sitter_language_pack"]
 include = [{ path = "../../crates/ts-pack-core/**/*", format = "sdist" }]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 line-length = 120
 format.docstring-code-line-length = 120
 format.docstring-code-format = true
@@ -92,5 +91,5 @@ lint.pylint.max-branches = 15
 lint.pylint.max-returns = 10
 
 [tool.pyrefly]
-python-version = "3.10"
+python-version = "3.11"
 preset = "strict"
