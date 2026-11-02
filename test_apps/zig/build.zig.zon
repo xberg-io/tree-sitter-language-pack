@@ -21,7 +21,7 @@
         },
         .tree_sitter_language_pack_x86_64_pc_windows_msvc = .{
             .url = "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v1.23.1/tree-sitter-language-pack-zig-v1.23.1-x86_64-pc-windows-msvc.tar.gz",
-            .hash = "tree_sitter_language_pack-1.23.1-jCz0Y5IIXwAZ3kNmgUwLgzFG3PL0H1OwlcO56QgkyovR",
+            .hash = "tree_sitter_language_pack-1.23.1-jCz0Y5IIXwB46XmatBwAoPQChKSR86L9rFro0rTgkqad",
             .lazy = true,
         },
         .tree_sitter_language_pack_x86_64_unknown_linux_gnu = .{
