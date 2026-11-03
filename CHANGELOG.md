@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Minimum supported versions raised: Node.js 22, Ruby 3.3, PHP 8.3, Elixir 1.17, Go 1.27, Java 25, Android API 24, Dart 3.13, Zig 0.17, macOS 26.
+- Minimum supported versions raised: Node.js 22, Ruby 3.3, PHP 8.3, Elixir 1.17, Go 1.27, Java 25, Android API 24, Dart 3.13, macOS 26.
+- Regenerate the bindings with Alef 0.118.0, so the generated manifests declare the raised minimums. The Zig package stays on Zig 0.16, which upstream tree-sitter's build still requires.
 - Python 3.11 is now the minimum supported version; Python 3.10 reached end of life.
 
 ## [1.23.1] - 2026-10-31

@@ -1623,7 +1623,7 @@ fn wire__crate__Parser_set_parse_timeout_ms_impl(
             let api_that = <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Parser>>>::sse_decode(
                 &mut deserializer,
             );
-            let api_timeout_ms = <Option<i64>>::sse_decode(&mut deserializer);
+            let api_timeout_ms = <Option<u64>>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
                 transform_result_sse::<_, ()>((move || {
@@ -3531,7 +3531,7 @@ const _: fn() = || {
         }
         crate::Error::ParseFailed => {}
         crate::Error::ParseTimeout { timeout_ms } => {
-            let _: i64 = timeout_ms;
+            let _: u64 = timeout_ms;
         }
         crate::Error::QueryError { field0 } => {
             let _: String = field0;
@@ -3600,7 +3600,7 @@ const _: fn() = || {
         let _: Option<i64> = ProcessConfig.chunk_max_size;
         let _: bool = ProcessConfig.data_extraction;
         let _: Option<i64> = ProcessConfig.max_source_bytes;
-        let _: Option<i64> = ProcessConfig.parse_timeout_ms;
+        let _: Option<u64> = ProcessConfig.parse_timeout_ms;
     }
     {
         let ProcessResult = None::<crate::ProcessResult>.unwrap();
@@ -4125,7 +4125,7 @@ impl SseDecode for crate::Error {
                 return crate::Error::ParseFailed;
             }
             7 => {
-                let mut var_timeoutMs = <i64>::sse_decode(deserializer);
+                let mut var_timeoutMs = <u64>::sse_decode(deserializer);
                 return crate::Error::ParseTimeout {
                     timeout_ms: var_timeoutMs,
                 };
@@ -4468,6 +4468,17 @@ impl SseDecode for Option<crate::Span> {
     }
 }
 
+impl SseDecode for Option<u64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<u64>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<Vec<String>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4519,7 +4530,7 @@ impl SseDecode for crate::ProcessConfig {
         let mut var_chunkMaxSize = <Option<i64>>::sse_decode(deserializer);
         let mut var_dataExtraction = <bool>::sse_decode(deserializer);
         let mut var_maxSourceBytes = <Option<i64>>::sse_decode(deserializer);
-        let mut var_parseTimeoutMs = <Option<i64>>::sse_decode(deserializer);
+        let mut var_parseTimeoutMs = <Option<u64>>::sse_decode(deserializer);
         return crate::ProcessConfig {
             language: var_language,
             structure: var_structure,
@@ -4714,6 +4725,13 @@ impl SseDecode for crate::SymbolKind {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseDecode for u64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_u64::<NativeEndian>().unwrap()
     }
 }
 
@@ -5952,7 +5970,7 @@ impl SseEncode for crate::Error {
             }
             crate::Error::ParseTimeout { timeout_ms } => {
                 <i32>::sse_encode(7, serializer);
-                <i64>::sse_encode(timeout_ms, serializer);
+                <u64>::sse_encode(timeout_ms, serializer);
             }
             crate::Error::QueryError { field0 } => {
                 <i32>::sse_encode(8, serializer);
@@ -6238,6 +6256,16 @@ impl SseEncode for Option<crate::Span> {
     }
 }
 
+impl SseEncode for Option<u64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <u64>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<Vec<String>> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6279,7 +6307,7 @@ impl SseEncode for crate::ProcessConfig {
         <Option<i64>>::sse_encode(self.chunk_max_size, serializer);
         <bool>::sse_encode(self.data_extraction, serializer);
         <Option<i64>>::sse_encode(self.max_source_bytes, serializer);
-        <Option<i64>>::sse_encode(self.parse_timeout_ms, serializer);
+        <Option<u64>>::sse_encode(self.parse_timeout_ms, serializer);
     }
 }
 
@@ -6419,6 +6447,13 @@ impl SseEncode for crate::SymbolKind {
                 unimplemented!("");
             }
         }
+    }
+}
+
+impl SseEncode for u64 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_u64::<NativeEndian>(self).unwrap();
     }
 }
 

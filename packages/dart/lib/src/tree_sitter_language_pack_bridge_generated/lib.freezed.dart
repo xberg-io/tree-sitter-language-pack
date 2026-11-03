@@ -944,7 +944,7 @@ return cacheLock(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String field0)?  languageNotFound,TResult Function( String field0)?  dynamicLoad,TResult Function( String field0)?  nullLanguagePointer,TResult Function( String field0)?  parserSetup,TResult Function( String field0)?  lockPoisoned,TResult Function( String field0)?  config,TResult Function()?  parseFailed,TResult Function( PlatformInt64 timeoutMs)?  parseTimeout,TResult Function( String field0)?  queryError,TResult Function( String field0)?  invalidRange,TResult Function( String field0)?  download,TResult Function( String file,  String expected,  String actual)?  checksumMismatch,TResult Function( String field0)?  cacheLock,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String field0)?  languageNotFound,TResult Function( String field0)?  dynamicLoad,TResult Function( String field0)?  nullLanguagePointer,TResult Function( String field0)?  parserSetup,TResult Function( String field0)?  lockPoisoned,TResult Function( String field0)?  config,TResult Function()?  parseFailed,TResult Function( BigInt timeoutMs)?  parseTimeout,TResult Function( String field0)?  queryError,TResult Function( String field0)?  invalidRange,TResult Function( String field0)?  download,TResult Function( String file,  String expected,  String actual)?  checksumMismatch,TResult Function( String field0)?  cacheLock,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Error_LanguageNotFound() when languageNotFound != null:
 return languageNotFound(_that.field0);case Error_DynamicLoad() when dynamicLoad != null:
@@ -977,7 +977,7 @@ return cacheLock(_that.field0);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String field0)  languageNotFound,required TResult Function( String field0)  dynamicLoad,required TResult Function( String field0)  nullLanguagePointer,required TResult Function( String field0)  parserSetup,required TResult Function( String field0)  lockPoisoned,required TResult Function( String field0)  config,required TResult Function()  parseFailed,required TResult Function( PlatformInt64 timeoutMs)  parseTimeout,required TResult Function( String field0)  queryError,required TResult Function( String field0)  invalidRange,required TResult Function( String field0)  download,required TResult Function( String file,  String expected,  String actual)  checksumMismatch,required TResult Function( String field0)  cacheLock,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String field0)  languageNotFound,required TResult Function( String field0)  dynamicLoad,required TResult Function( String field0)  nullLanguagePointer,required TResult Function( String field0)  parserSetup,required TResult Function( String field0)  lockPoisoned,required TResult Function( String field0)  config,required TResult Function()  parseFailed,required TResult Function( BigInt timeoutMs)  parseTimeout,required TResult Function( String field0)  queryError,required TResult Function( String field0)  invalidRange,required TResult Function( String field0)  download,required TResult Function( String file,  String expected,  String actual)  checksumMismatch,required TResult Function( String field0)  cacheLock,}) {final _that = this;
 switch (_that) {
 case Error_LanguageNotFound():
 return languageNotFound(_that.field0);case Error_DynamicLoad():
@@ -1006,7 +1006,7 @@ return cacheLock(_that.field0);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String field0)?  languageNotFound,TResult? Function( String field0)?  dynamicLoad,TResult? Function( String field0)?  nullLanguagePointer,TResult? Function( String field0)?  parserSetup,TResult? Function( String field0)?  lockPoisoned,TResult? Function( String field0)?  config,TResult? Function()?  parseFailed,TResult? Function( PlatformInt64 timeoutMs)?  parseTimeout,TResult? Function( String field0)?  queryError,TResult? Function( String field0)?  invalidRange,TResult? Function( String field0)?  download,TResult? Function( String file,  String expected,  String actual)?  checksumMismatch,TResult? Function( String field0)?  cacheLock,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String field0)?  languageNotFound,TResult? Function( String field0)?  dynamicLoad,TResult? Function( String field0)?  nullLanguagePointer,TResult? Function( String field0)?  parserSetup,TResult? Function( String field0)?  lockPoisoned,TResult? Function( String field0)?  config,TResult? Function()?  parseFailed,TResult? Function( BigInt timeoutMs)?  parseTimeout,TResult? Function( String field0)?  queryError,TResult? Function( String field0)?  invalidRange,TResult? Function( String field0)?  download,TResult? Function( String file,  String expected,  String actual)?  checksumMismatch,TResult? Function( String field0)?  cacheLock,}) {final _that = this;
 switch (_that) {
 case Error_LanguageNotFound() when languageNotFound != null:
 return languageNotFound(_that.field0);case Error_DynamicLoad() when dynamicLoad != null:
@@ -1476,7 +1476,7 @@ class Error_ParseTimeout extends Error {
   const Error_ParseTimeout({required this.timeoutMs}): super._();
 
 
- final  PlatformInt64 timeoutMs;
+ final  BigInt timeoutMs;
 
 /// Create a copy of Error
 /// with the given fields replaced by the non-null parameter values.
@@ -1510,7 +1510,7 @@ abstract mixin class $Error_ParseTimeoutCopyWith<$Res> implements $ErrorCopyWith
   factory $Error_ParseTimeoutCopyWith(Error_ParseTimeout value, $Res Function(Error_ParseTimeout) _then) = _$Error_ParseTimeoutCopyWithImpl;
 @useResult
 $Res call({
- PlatformInt64 timeoutMs
+ BigInt timeoutMs
 });
 
 
@@ -1530,7 +1530,7 @@ class _$Error_ParseTimeoutCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? timeoutMs = null,}) {
   return _then(Error_ParseTimeout(
 timeoutMs: null == timeoutMs ? _self.timeoutMs : timeoutMs // ignore: cast_nullable_to_non_nullable
-as PlatformInt64,
+as BigInt,
   ));
 }
 

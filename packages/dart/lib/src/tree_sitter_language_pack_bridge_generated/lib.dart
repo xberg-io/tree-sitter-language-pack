@@ -498,7 +498,7 @@ abstract class Parser implements RustOpaqueInterface {
 
   Future<void> setMaxSourceBytes({PlatformInt64? maxBytes});
 
-  Future<void> setParseTimeoutMs({PlatformInt64? timeoutMs});
+  Future<void> setParseTimeoutMs({BigInt? timeoutMs});
 }
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Tree>>
@@ -1054,7 +1054,7 @@ sealed class Error with _$Error {
   /// Raised only when a budget is configured — see
   /// [`ProcessConfig::parse_timeout_ms`](crate::ProcessConfig::parse_timeout_ms),
   /// which defaults to `None`.
-  const factory Error.parseTimeout({required PlatformInt64 timeoutMs}) =
+  const factory Error.parseTimeout({required BigInt timeoutMs}) =
       Error_ParseTimeout;
 
   /// A tree-sitter query could not be compiled or executed.
@@ -1445,7 +1445,7 @@ class ProcessConfig {
   /// invokes periodically; cancellation is therefore granular to that callback
   /// interval rather than exact. A parse that exceeds the budget fails with
   /// [`Error::ParseTimeout`](crate::Error::ParseTimeout).
-  final PlatformInt64? parseTimeoutMs;
+  final BigInt? parseTimeoutMs;
 
   const ProcessConfig({
     required this.language,
