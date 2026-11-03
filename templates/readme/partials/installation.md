@@ -93,7 +93,7 @@ dependencies {
 ```
 
 {% elif language == "swift" %}
-Requires Swift 6.0+. Add to your `Package.swift`:
+Requires Swift 6.2+. Add to your `Package.swift`:
 
 ```swift
 .package(
@@ -103,7 +103,7 @@ Requires Swift 6.0+. Add to your `Package.swift`:
 ```
 
 {% elif language == "zig" %}
-Requires Zig 0.16+. Fetch the `{{ version }}` package tarball from the [GitHub releases page](https://github.com/xberg-io/tree-sitter-language-pack/releases):
+Requires Zig 0.17+. Fetch the `{{ version }}` package tarball from the [GitHub releases page](https://github.com/xberg-io/tree-sitter-language-pack/releases):
 
 ```bash
 zig fetch --save <release-tarball-url>

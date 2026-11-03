@@ -1967,7 +1967,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.2", "8.3", "8.4", "8.5"]
+        php: ["8.3", "8.4", "8.5"]
         platform:
           - os: ubuntu-latest
             label: linux-x86_64
@@ -3614,8 +3614,8 @@ jobs:
       - name: Setup Elixir
         uses: erlef/setup-elixir@v1
         with:
-          elixir-version: "1.16"
-          otp-version: "26.2"
+          elixir-version: "1.17"
+          otp-version: "27.3"
           version-type: strict
 
       - name: Install Hex and Rebar

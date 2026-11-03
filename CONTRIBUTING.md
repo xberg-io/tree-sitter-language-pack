@@ -32,7 +32,7 @@ This will install the pinned toolchain, setup the dependencies, and pre-commit h
 | Java     | 25+     | JDK (via [sdkman](https://sdkman.io/))   |
 | .NET     | 10+     | `dotnet`                                 |
 | PHP      | 8.1+    | `composer`                               |
-| Elixir   | 1.14+   | `mix` (OTP 25+)                          |
+| Elixir   | 1.17+   | `mix` (OTP 25+)                          |
 
 ## Quick reference
 

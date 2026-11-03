@@ -165,7 +165,7 @@ Verify:
 
 ### Node.js
 
-Requires Node.js 18+. Pre-built binaries for Linux (x64, arm64), macOS (x64, arm64), and Windows (x64).
+Requires Node.js 22+. Pre-built binaries for Linux (x64, arm64), macOS (x64, arm64), and Windows (x64).
 
 <Tabs syncKey="lang">
 <TabItem label="npm">
@@ -199,7 +199,7 @@ Verify:
 
 ### Rust
 
-Requires Rust 1.85+.
+Requires Rust 1.99+.
 
 <Tabs syncKey="lang">
 <TabItem label="Cargo CLI">
@@ -227,7 +227,7 @@ Verify:
 
 ### Go
 
-Requires Go 1.26+. The binding uses cgo and links against the pre-compiled C FFI library.
+Requires Go 1.27+. The binding uses cgo and links against the pre-compiled C FFI library.
 
 ```bash
 go get github.com/xberg-io/tree-sitter-language-pack/packages/go
@@ -299,7 +299,7 @@ The NuGet package includes native runtime assets for Windows, Linux, and macOS.
 
 ### Ruby
 
-Requires Ruby 3.2+.
+Requires Ruby 3.3+.
 
 <Tabs syncKey="lang">
 <TabItem label="gem">
@@ -330,7 +330,7 @@ Verify:
 
 ### Elixir
 
-Requires Elixir 1.14+ and OTP 25+.
+Requires Elixir 1.17+ and OTP 25+.
 
 <Tabs syncKey="lang">
 <TabItem label="mix.exs">
@@ -358,7 +358,7 @@ Verify:
 
 ### PHP
 
-Requires PHP 8.2+. This package is a native PHP extension (`type: php-ext`). Install
+Requires PHP 8.3+. This package is a native PHP extension (`type: php-ext`). Install
 [`mlocati/php-extension-installer`](https://github.com/mlocati/php-extension-installer) first
 so Composer can download and register the compiled `.so`/`.dll`:
 
@@ -396,7 +396,7 @@ Verify:
 
 ### Dart
 
-Requires Dart 3.11+.
+Requires Dart 3.13+.
 
 ```bash
 dart pub add tree_sitter_language_pack
@@ -410,7 +410,7 @@ Verify:
 
 ### Kotlin Android
 
-Requires Android minSdk 21 and Java 17 bytecode.
+Requires Android minSdk 24 and Java 17 bytecode.
 
 ```kotlin
 implementation("io.xberg.tslp.android:tree-sitter-language-pack-android:1.14.3")
@@ -426,7 +426,7 @@ Verify:
 
 ### Swift
 
-Requires Swift 6.0+.
+Requires Swift 6.2+.
 
 ```swift
 .package(
@@ -443,7 +443,7 @@ Verify:
 
 ### Zig
 
-Requires Zig 0.16+.
+Requires Zig 0.17+.
 
 ```bash
 zig fetch --save <release tarball url>
