@@ -589,7 +589,7 @@ async def _run_generate_with_timeout(cmd: list[str], cwd: str) -> None:
             returncode, stderr = await asyncio.wait_for(wait, timeout=GENERATE_TIMEOUT)
         else:
             returncode, stderr = await wait
-    except (TimeoutError, asyncio.TimeoutError, asyncio.CancelledError):
+    except (TimeoutError, asyncio.CancelledError):
         with suppress(ProcessLookupError):
             os.killpg(process_group, signal.SIGKILL)
         with suppress(ProcessLookupError):
@@ -653,7 +653,7 @@ async def handle_generate(
         try:
             await _run_generate_with_timeout(cmd, str(target_dir))
             print(f"Generated {language_name} parser successfully")
-        except (TimeoutError, asyncio.TimeoutError):
+        except TimeoutError:
             with suppress(Exception):
                 await run_process(
                     ["git", "checkout", "HEAD", "--", "."],

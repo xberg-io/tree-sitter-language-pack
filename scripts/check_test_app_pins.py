@@ -30,10 +30,9 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
-
-import tomllib
 
 ROOT = Path(__file__).resolve().parent.parent
 

@@ -39,11 +39,10 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
-
-import tomllib
 
 if TYPE_CHECKING:
     from collections.abc import Callable

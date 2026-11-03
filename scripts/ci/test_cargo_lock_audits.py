@@ -5,12 +5,12 @@ import fnmatch
 import importlib
 import json
 import subprocess
+import tomllib
 from pathlib import Path
 from types import ModuleType
 from typing import Any
 
 import pytest
-import tomllib
 import yaml
 
 LOCKS = (

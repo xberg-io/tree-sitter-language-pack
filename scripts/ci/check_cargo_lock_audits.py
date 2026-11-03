@@ -3,9 +3,8 @@
 import json
 import subprocess
 import sys
-from pathlib import Path
-
 import tomllib
+from pathlib import Path
 
 LOCKFILES = (
     "Cargo.lock",

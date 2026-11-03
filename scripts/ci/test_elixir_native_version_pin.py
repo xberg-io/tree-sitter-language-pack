@@ -1,9 +1,9 @@
 """Keep the excluded Elixir NIF's core requirement aligned with release corrections."""
 
+import tomllib
 from pathlib import Path
 
 import pytest
-import tomllib
 
 from scripts import check_test_app_pins
 

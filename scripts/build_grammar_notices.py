@@ -35,14 +35,13 @@ import json
 import re
 import subprocess
 import sys
+import tomllib
 import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
-
-import tomllib
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 _DEFINITIONS_PATH = _PROJECT_ROOT / "sources" / "language_definitions.json"

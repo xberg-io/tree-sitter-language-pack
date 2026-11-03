@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "source_hash": "blake3:e63d5809d1494bcfc9e4a67ba9975f7ed86cda4b3d2bdf85b0c483f0c5ddfcb0",
+  "source_hash": "blake3:1cad51e570053e9832e0ee03087c777fc4f9206b95ae93aec5410de070fdf0eb",
   "outputs": {
     ".claude-plugin/plugin.json": {
       "content_hash": "blake3:d4d847bb2fe2759d19c8d4b51b0fe0148409d626df39f1b175fb3b0af8499f89",
@@ -83,7 +83,7 @@
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/hermes.py": {
-      "content_hash": "blake3:02249c93f2d3aff17ad0f14af723a89b09e2d7818628be65ca00b70a1c354718",
+      "content_hash": "blake3:d1ee48c0ec2a39203eb0694095415f95d52b7d2661165859e7f331f8c4eb4326",
       "mode": "0644"
     },
     ".hermes/package/src/tree_sitter_language_pack_hermes_plugin/plugin.yaml": {
@@ -151,7 +151,7 @@
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/hermes.py": {
-      "content_hash": "blake3:02249c93f2d3aff17ad0f14af723a89b09e2d7818628be65ca00b70a1c354718",
+      "content_hash": "blake3:d1ee48c0ec2a39203eb0694095415f95d52b7d2661165859e7f331f8c4eb4326",
       "mode": "0644"
     },
     ".hermes/plugins/tree-sitter-language-pack/plugin.yaml": {

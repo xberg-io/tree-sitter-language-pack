@@ -1,10 +1,10 @@
 """Exercise prerelease Go resolution across semantic import major versions."""
 
 import re
+import tomllib
 from pathlib import Path
 
 import pytest
-import tomllib
 
 from scripts import check_test_app_pins, prerelease_test_apps
 

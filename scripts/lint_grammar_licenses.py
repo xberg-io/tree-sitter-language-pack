@@ -23,13 +23,9 @@ Exit codes:
 import json
 import subprocess
 import sys
+import tomllib
 from pathlib import Path
 from typing import Any
-
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
 
 _project_root = Path(__file__).parent.parent
 _definitions_path = _project_root / "sources" / "language_definitions.json"
