@@ -78,7 +78,7 @@ PROBE_BUILD_ZON = """.{
     .name = .zig_hash_probe,
     .version = "0.0.0",
     .fingerprint = 0x9e6b1a2c4d8f3057,
-    .minimum_zig_version = "0.17.0",
+    .minimum_zig_version = "0.16.0",
     .dependencies = .{},
     .paths = .{""},
 }
