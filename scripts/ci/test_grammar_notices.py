@@ -122,6 +122,42 @@ def test_build_reports_every_unresolved_language(patched_root: Path, monkeypatch
     assert "beta" in str(error.value)
 
 
+def test_build_subset_refreshes_entries_inside_the_committed_record(
+    patched_root: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    old_digest, beta_digest, new_digest = _sha("old alpha"), _sha(APACHE_TEXT), _sha(MIT_TEXT)
+    beta_entry = _entry("https://github.com/b/beta", "b" * 40, beta_digest, "Apache-2.0")
+    notices_path = patched_root / "grammar_notices.json"
+    notices_path.write_text(
+        json.dumps(
+            {
+                "schema": notices.SCHEMA,
+                "definitions_sha256": "stale",
+                "languages": {"alpha": _entry("https://github.com/a/alpha", "0" * 40, old_digest), "beta": beta_entry},
+                "licenses": {old_digest: "old alpha", beta_digest: APACHE_TEXT},
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(notices, "_NOTICES_PATH", notices_path)
+
+    def fake_resolve(name: str, _definition: dict, _override: dict | None) -> notices.LanguageResult:
+        assert name == "alpha", "a subset update must resolve only the named languages"
+        entry = _entry("https://github.com/a/alpha", "a" * 40, new_digest)
+        return notices.LanguageResult(name=name, entry=entry, texts={new_digest: MIT_TEXT})
+
+    monkeypatch.setattr(notices, "resolve_language", fake_resolve)
+    definitions = _reload_definitions(patched_root)
+    result = notices.build(definitions, overrides={}, only={"alpha"})
+
+    assert result["languages"] == {
+        "alpha": _entry("https://github.com/a/alpha", "a" * 40, new_digest),
+        "beta": beta_entry,
+    }
+    assert result["licenses"] == {beta_digest: APACHE_TEXT, new_digest: MIT_TEXT}
+    notices._validate(result, definitions, overrides={})
+
+
 def _complete_notices(patched_root: Path, definitions: dict) -> dict:
     digest = _sha(MIT_TEXT)
     return {

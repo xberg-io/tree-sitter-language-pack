@@ -384,18 +384,24 @@ def build(definitions: dict[str, Any], overrides: dict[str, Any], only: set[str]
         detail = "\n".join(f"  {name}: {error}" for name, error in sorted(failures.items()))
         raise NoticesError(f"unresolved coverage for {len(failures)} language(s):\n{detail}")
 
-    licenses: dict[str, str] = {}
-    languages: dict[str, Any] = {}
+    # ~keep A --languages subset refreshes those entries inside the committed record; the
+    # other languages keep their committed provenance instead of dropping out of coverage.
+    committed = _load_committed() if only else {}
+    licenses: dict[str, str] = dict(committed.get("licenses", {}))
+    languages: dict[str, Any] = {
+        name: entry for name, entry in committed.get("languages", {}).items() if name in definitions
+    }
     for name in sorted(results):
         languages[name] = results[name].entry
         for digest, text in results[name].texts.items():
             licenses.setdefault(digest, text)
 
+    used = {item["sha256"] for entry in languages.values() for item in entry.get("license_files", [])}
     return {
         "schema": SCHEMA,
         "definitions_sha256": _sha256(_DEFINITIONS_PATH.read_bytes()),
-        "languages": languages,
-        "licenses": {digest: licenses[digest] for digest in sorted(licenses)},
+        "languages": {name: languages[name] for name in sorted(languages)},
+        "licenses": {digest: licenses[digest] for digest in sorted(licenses) if digest in used},
     }
 
 
