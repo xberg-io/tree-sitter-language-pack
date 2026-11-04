@@ -4099,35 +4099,6 @@ jobs:
           # this job's conclusion becomes the pub.dev publish conclusion. ~keep
           gh run watch "${run_id}" --exit-status --interval 15
 
-  build-swift-package:
-    name: Build Swift package
-    needs: [prepare, validate-versions, clone-vendors]
-    if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true') }}
-    runs-on: macos-26
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: ${{ needs.prepare.outputs.checkout_ref }}
-          fetch-depth: 0
-      - name: Download parsers
-        uses: actions/download-artifact@v8
-        with:
-          name: language-parsers
-          path: parsers
-      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
-      - uses: xberg-io/actions/setup-rust@v1
-      - uses: xberg-io/actions/build-swift-package@v1
-        with:
-          package-dir: packages/swift
-          crate-name: tree-sitter-language-pack-swift
-      - uses: actions/upload-artifact@v7
-        with:
-          name: swift-package
-          path: packages/swift
-          retention-days: 14
-
   e2e-swift:
     name: E2E gate — Swift
     needs: [prepare, validate-versions, clone-vendors, build-parser-binaries]

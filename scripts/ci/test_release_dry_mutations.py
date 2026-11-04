@@ -310,6 +310,20 @@ class SwiftReleaseWorkflowTests(unittest.TestCase):
         assert builders == []
         assert "build-swift-artifactbundle" not in self.jobs
 
+    def test_every_macos_job_has_a_consumer(self) -> None:
+        consumed = {
+            need
+            for job in self.jobs.values()
+            for need in ([job["needs"]] if isinstance(job.get("needs"), str) else job.get("needs", []))
+        }
+        macos = [
+            name
+            for name, job in self.jobs.items()
+            if "macos" in str(job.get("runs-on", "")) or "macos" in str(job.get("strategy", ""))
+        ]
+        assert len(macos) > 5, macos
+        assert [name for name in macos if name not in consumed] == []
+
     def test_swift_release_is_prepared_by_the_shared_workflow(self) -> None:
         workflow = yaml.safe_load((ROOT / ".github/workflows/prepare-swift-release.yaml").read_text())
         events = workflow.get("on", workflow.get(True))
@@ -430,7 +444,9 @@ class SwiftReleaseWorkflowTests(unittest.TestCase):
     def fails_without_validation(job: dict) -> bool:
         """A job that runs regardless but fails its own step when validate-versions did not succeed."""
         for step in job.get("steps", []):
-            names = [key for key, value in step.get("env", {}).items() if value == "${{ needs.validate-versions.result }}"]
+            names = [
+                key for key, value in step.get("env", {}).items() if value == "${{ needs.validate-versions.result }}"
+            ]
             if any(f'require_success "validate-versions" "${name}"' in step.get("run", "") for name in names):
                 return step.get("if", "always()") in {"always()", f"always() && {OUTPUT_DRY} != 'true'"}
         return False
@@ -444,11 +460,7 @@ class SwiftReleaseWorkflowTests(unittest.TestCase):
             self.jobs["publish-zig"] = original
 
     def test_every_registry_publish_needs_the_swift_gate(self) -> None:
-        registry = [
-            name
-            for name in self.jobs
-            if name.startswith(("publish-", "trigger-", "upload-", "stage-"))
-        ]
+        registry = [name for name in self.jobs if name.startswith(("publish-", "trigger-", "upload-", "stage-"))]
         assert len(registry) > 20, registry
         ungated = [name for name in registry if not self.gated(name)]
         assert ungated == []
