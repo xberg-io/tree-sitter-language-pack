@@ -19,3 +19,4 @@ change as a new record.
 | [0004](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0004-generate-grammars-at-tree-sitter-abi-14.md) | Generate grammars at tree-sitter ABI 14 | accepted | 2026-06-19 |
 | [0005](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0005-permissively-licensed-grammars-only.md) | Permissively licensed grammars only | accepted | 2026-03-24 |
 | [0006](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0006-grammar-pins-validated-as-commit-shas-on-allowlisted-forges.md) | Grammar pins validated as commit SHAs on allowlisted forges | accepted | 2026-08-12 |
+| [0007](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0007-tag-the-release-after-pinning-the-swift-bundle-checksum.md) | Tag the release after pinning the Swift bundle checksum | proposed | 2026-11-04 |

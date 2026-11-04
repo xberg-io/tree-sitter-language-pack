@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Keep the core release tag immutable when publishing Swift: the dry run builds the artifact bundle once, the new
+  Release Preparation workflow pins its checksum into `Package.swift` on main and tags that commit, and publication
+  verifies the tag instead of committing a checksum and force-moving the tag and `release/swift/<version>` (#215).
 - Pin the Jinja2 grammar to upstream `main` (`a4f8f18`), which keeps bare identifiers such as
   `{{ variable }}` parsing without errors; the previous pin was an unmerged branch commit (#214).
 - Parse `for name do`, the `<>` redirect in Bash, `__has_include(<header>)` in C and spaced legacy

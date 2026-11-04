@@ -25,6 +25,7 @@ on:
       - ".github/workflows/ci-zig.yaml"
       - ".github/workflows/publish.yaml"
       - ".github/workflows/publish-docker.yaml"
+      - ".github/workflows/release-prepare.yaml"
       - ".golangci.yml"
       - ".cargo/config.toml"
       - "rust-toolchain.toml"

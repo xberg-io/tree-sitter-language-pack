@@ -4062,11 +4062,15 @@ jobs:
           # this job's conclusion becomes the pub.dev publish conclusion. ~keep
           gh run watch "${run_id}" --exit-status --interval 15
 
+  # ~keep The bundle is built only by the dry run on the version-bump commit. Its receipt binds those exact
+  # ~keep bytes to that commit; release-prepare.yaml pins their checksum into Package.swift and tags the pinned
+  # ~keep commit, so the core tag never moves. A real run must not rebuild: the ZIP is not reproducible and
+  # ~keep publish-swift-release reuses the asset release-prepare.yaml attached to the draft release.
   build-swift-artifactbundle:
     name: Build Swift artifact bundle
     needs: [prepare, validate-versions, clone-vendors]
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run == 'true') }}
     runs-on: macos-26
     timeout-minutes: 30
     steps:
@@ -4081,6 +4085,11 @@ jobs:
           path: parsers
       # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - uses: xberg-io/actions/setup-rust@v1
+      # ~keep A dry run's release version carries a `-dryrun-<sha>` suffix; the receipt records the version
+      # ~keep the source declares, which alef checks against Cargo.toml when it pins the checksum.
+      - name: Read the source version
+        id: version
+        run: python3 -c 'import tomllib; print("version=" + tomllib.load(open("Cargo.toml", "rb"))["workspace"]["package"]["version"])' >>"$GITHUB_OUTPUT"
       - uses: xberg-io/actions/build-swift-artifactbundle@v1
         id: bundle
         # ~keep Rust otherwise links the iOS archive for 10.0 while the zstd objects call ___chkstk_darwin,
@@ -4092,18 +4101,15 @@ jobs:
           crate-name: tree-sitter-language-pack-swift
           artifact-name: TreeSitterLanguagePack-rs
           binary-target-name: RustBridgeBinary
+          receipt-version: ${{ steps.version.outputs.version }}
       - uses: actions/upload-artifact@v7
         with:
           name: swift-artifactbundle
-          path: ${{ steps.bundle.outputs.bundle-zip }}
+          path: |
+            ${{ steps.bundle.outputs.bundle-zip }}
+            ${{ steps.bundle.outputs.receipt }}
           if-no-files-found: error
-          retention-days: 14
-      - uses: actions/upload-artifact@v7
-        with:
-          name: swift-checksum
-          path: ${{ steps.bundle.outputs.checksum-file }}
-          if-no-files-found: error
-          retention-days: 14
+          retention-days: 30
 
   build-swift-package:
     name: Build Swift package
@@ -4174,12 +4180,16 @@ jobs:
       - name: Run Swift E2E tests
         run: mise run swift:e2e:test
 
-  update-swift-package-manifest:
-    name: Update Swift Package.swift manifest with version and checksum
-    needs: [prepare, build-swift-artifactbundle, e2e-swift]
+  # ~keep The core tag already pins the checksum (release-prepare.yaml). This job only verifies the tagged
+  # ~keep manifest against the bundle on the release, creates release/swift/<version> at the tagged commit when
+  # ~keep absent (the Swift test apps pin that branch) and never creates, moves or deletes a tag.
+  publish-swift-release:
+    name: Publish Swift release
+    needs: [prepare, e2e-swift]
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != true && needs.prepare.outputs.dry_run != 'true') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/create-github-app-token@v3
         id: app-token
@@ -4190,107 +4200,26 @@ jobs:
 
       - uses: actions/checkout@v7
         with:
-          ref: ${{ needs.prepare.outputs.checkout_ref }}
+          ref: ${{ needs.prepare.outputs.tag }}
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
           persist-credentials: true
 
-      - uses: actions/download-artifact@v8
-        with:
-          name: swift-checksum
-          path: swift-checksums
-
-      # A substitution has to prove it changed something. Count the placeholder BEFORE
-      # substituting and fail on zero; asserting afterwards that the placeholder is gone
-      # passes both when the sed worked and when the generator renamed the token, which is
-      # the case the assertion exists to catch. `__ALEF_SWIFT_VERSION__` was exactly that
-      # no-op here: Package.swift carries the artifactbundle version literally inside the
-      # download URL, so that sed had nothing to match and silently did nothing every
-      # release. The version is asserted against the URL instead. ~keep
-      - name: Update Package.swift with version and checksum
-        id: manifest
+      - name: Download the preparation receipt
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          TAG: ${{ needs.prepare.outputs.tag }}
         run: |
-          set -euo pipefail
-          VERSION="${{ needs.prepare.outputs.version }}"
-          CHECKSUM=$(cat swift-checksums/*.checksum | tr -d '[:space:]')
+          gh release download "$TAG" --pattern 'TreeSitterLanguagePack-rs.artifactbundle.release.json' \
+            --dir dist/swift-artifactbundle
 
-          if [[ -z "$CHECKSUM" ]]; then
-            echo "::error::the swift-checksum artifact is empty; refusing to write a blank checksum"
-            exit 1
-          fi
-
-          placeholders=$(grep -c '__ALEF_SWIFT_CHECKSUM__' Package.swift || true)
-          # ~keep A re-dispatched release checks out the tag an earlier run already checksummed. When the
-          # ~keep released bundle hashes to that checksum the Swift package is published; re-uploading this
-          # ~keep run's rebuilt (non-reproducible) bundle would break every consumer resolving the tag.
-          if [[ "$placeholders" -eq 0 ]]; then
-            tagged=$(grep -oE 'checksum: "[0-9a-f]{64}"' Package.swift | grep -oE '[0-9a-f]{64}' || true)
-            asset_dir=$(mktemp -d)
-            if [[ -n "$tagged" ]] && gh release download "${{ needs.prepare.outputs.tag }}" \
-                 -p 'TreeSitterLanguagePack-rs.artifactbundle.zip' -D "$asset_dir" 2>/dev/null \
-               && [[ "$(sha256sum "$asset_dir"/*.zip | cut -d' ' -f1)" == "$tagged" ]]; then
-              echo "Package.swift already carries ${tagged}, the released bundle's checksum; the Swift package is published."
-              echo "published=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-            echo "::error::Package.swift has no __ALEF_SWIFT_CHECKSUM__ to substitute — the release prep did not reset it, or the token was renamed."
-            exit 1
-          fi
-          sed -i "s/__ALEF_SWIFT_CHECKSUM__/${CHECKSUM}/g" Package.swift
-
-          if ! grep -q "/releases/download/v${VERSION}/" Package.swift; then
-            echo "::error::the Package.swift artifactbundle URL does not point at v${VERSION}."
-            grep -n 'releases/download' Package.swift || true
-            exit 1
-          fi
-
-          echo "Updated Package.swift:"
-          head -40 Package.swift
-
-      - name: Commit and push Package.swift
-        if: ${{ steps.manifest.outputs.published != 'true' && needs.prepare.outputs.dry_run != true && needs.prepare.outputs.dry_run != 'true' }}
-        run: |
-          git config user.name "xberg-dev-publisher[bot]"
-          git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
-          git add Package.swift
-          git commit -m "chore(swift): update Package.swift with checksum for v${{ needs.prepare.outputs.version }}"
-          git tag -f "${{ needs.prepare.outputs.tag }}"
-          git push origin -f "refs/tags/${{ needs.prepare.outputs.tag }}"
-          # Also publish the checksummed commit to a release/swift/<version> branch. The
-          # alef-generated Swift e2e/test-app pins `branch: "release/swift/<version>"`
-          # (matching the liter-llm publish layout), so this ref must exist for SwiftPM to
-          # resolve the package with the substituted XCFramework checksum.
-          #
-          # ~keep The branch and the tag pushed just above name the SAME commit -- `git tag -f`
-          # moved the tag onto this checksummed commit before either push. A superseded
-          # release/swift/<version> branch is therefore fully redundant: everything it holds
-          # stays reachable through v<version>, and a consumer pinned to the branch can move to
-          # `exact: "<version>"` with no other change. Branches for releases older than the
-          # current one are pruned by hand (eight were removed on 2026-09-13); this is not
-          # automated because deleting the previous release's branch the moment a new one
-          # publishes would break external consumers who pinned it, which is their call to make
-          # and not this workflow's.
-          git push origin -f "HEAD:refs/heads/release/swift/${{ needs.prepare.outputs.version }}"
-
-      - name: Download Swift artifact bundle
-        if: ${{ steps.manifest.outputs.published != 'true' }}
-        uses: actions/download-artifact@v8
-        with:
-          name: swift-artifactbundle
-          path: dist/swift
-
-      - name: Upload Swift artifact bundle to GitHub Release
-        if: ${{ steps.manifest.outputs.published != 'true' }}
-        uses: xberg-io/actions/upload-release-assets@v1
+      - uses: xberg-io/actions/publish-swift-release@v1
         with:
           tag: ${{ needs.prepare.outputs.tag }}
-          working-directory: dist/swift
+          bundle-zip: ""
+          receipt: dist/swift-artifactbundle/TreeSitterLanguagePack-rs.artifactbundle.release.json
           dry-run: ${{ needs.prepare.outputs.dry_run }}
           token: ${{ steps.app-token.outputs.token }}
-          assets: |
-            *.artifactbundle.zip
 
   build-zig-package:
     name: Build Zig package (${{ matrix.label }})
@@ -5341,7 +5270,7 @@ jobs:
       - upload-parser-binaries
       - upload-go-release
       - upload-c-ffi-release
-      - update-swift-package-manifest
+      - publish-swift-release
       - stage-go-ffi-libraries
       - upload-cli-release
     if: >-
@@ -5408,7 +5337,7 @@ jobs:
           RESULT_GRAMMAR_NOTICES: ${{ needs.build-grammar-notices.result }}
           RESULT_UPLOAD_GO: ${{ needs.upload-go-release.result }}
           RESULT_UPLOAD_C_FFI: ${{ needs.upload-c-ffi-release.result }}
-          RESULT_SWIFT_MANIFEST: ${{ needs.update-swift-package-manifest.result }}
+          RESULT_SWIFT_RELEASE: ${{ needs.publish-swift-release.result }}
           RESULT_STAGE_GO_FFI: ${{ needs.stage-go-ffi-libraries.result }}
           RESULT_UPLOAD_CLI: ${{ needs.upload-cli-release.result }}
           RELEASE_GO: ${{ needs.prepare.outputs.release_go }}
@@ -5440,7 +5369,7 @@ jobs:
           require_success_when_enabled "go-ffi" "$RESULT_UPLOAD_GO" "$RELEASE_GO"
           require_success_when_enabled "go-ffi-stage" "$RESULT_STAGE_GO_FFI" "$RELEASE_GO"
           require_success_when_enabled "c-ffi" "$RESULT_UPLOAD_C_FFI" "$RELEASE_C_FFI"
-          require_success_when_enabled "swift-manifest" "$RESULT_SWIFT_MANIFEST" "$RELEASE_SWIFT"
+          require_success_when_enabled "swift-release" "$RESULT_SWIFT_RELEASE" "$RELEASE_SWIFT"
 
           if [[ "$failed" -eq 1 ]]; then
             exit 1
@@ -5476,7 +5405,7 @@ jobs:
       - upload-c-ffi-release
       - upload-elixir-release
       - upload-php-pie-release
-      - update-swift-package-manifest
+      - publish-swift-release
       - stage-go-ffi-libraries
       - publish-crates
       - publish-pypi
@@ -5650,7 +5579,7 @@ jobs:
           RESULT_UPLOAD_C_FFI: ${{ needs.upload-c-ffi-release.result }}
           RESULT_UPLOAD_ELIXIR: ${{ needs.upload-elixir-release.result }}
           RESULT_UPLOAD_PHP_PIE: ${{ needs.upload-php-pie-release.result }}
-          RESULT_SWIFT_MANIFEST: ${{ needs.update-swift-package-manifest.result }}
+          RESULT_SWIFT_RELEASE: ${{ needs.publish-swift-release.result }}
           RELEASE_CRATES: ${{ needs.prepare.outputs.release_crates }}
           RELEASE_PYTHON: ${{ needs.prepare.outputs.release_python }}
           RELEASE_NODE: ${{ needs.prepare.outputs.release_node }}
@@ -5750,7 +5679,7 @@ jobs:
           require_publish "c-ffi-assets" "$RESULT_UPLOAD_C_FFI" "$RELEASE_C_FFI"
           require_publish "elixir-nif-assets" "$RESULT_UPLOAD_ELIXIR" "$RELEASE_ELIXIR"
           require_publish "php-pie-assets" "$RESULT_UPLOAD_PHP_PIE" "$RELEASE_PHP"
-          require_publish "swift-manifest" "$RESULT_SWIFT_MANIFEST" "$RELEASE_SWIFT"
+          require_publish "swift-release" "$RESULT_SWIFT_RELEASE" "$RELEASE_SWIFT"
 
           if [[ "$failed" -eq 1 ]]; then
             echo "::error::Release ${{ needs.prepare.outputs.tag }} did not reach every enabled target. See the errors above."

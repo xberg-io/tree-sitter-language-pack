@@ -1,0 +1,167 @@
+name: Release Preparation
+
+# ~keep Cuts the release tag. SwiftPM consumers resolve `from:`/`exact:` versions to the core `v<version>` tag,
+# ~keep so that tag's root Package.swift must already pin the Swift bundle checksum: Publish Release never
+# ~keep moves it (#215). Order: commit the version bump to main, dispatch Publish Release with `dry_run` on
+# ~keep main (it builds the bundle and its receipt once), dispatch this workflow with that run's id, then
+# ~keep dispatch Publish Release with the tag. This pins the dry run's exact ZIP into Package.swift with
+# ~keep `alef sync-versions`, pushes that one commit to main together with the tag, and attaches the ZIP and
+# ~keep receipt to the draft release, which publish-swift-release reuses instead of rebuilding.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run_id:
+        description: "Run id of a successful Publish Release dry run of the current main commit"
+        required: true
+        type: string
+
+concurrency:
+  group: release-prepare
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: Pin the Swift checksum and tag the release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+    env:
+      BUNDLE: dist/swift-artifactbundle/TreeSitterLanguagePack-rs.artifactbundle.zip
+    steps:
+      - name: Validate the dry run
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY_RUN_ID: ${{ inputs.dry_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$DRY_RUN_ID" =~ ^[0-9]+$ ]] || { echo "::error::dry_run_id must be a workflow run id"; exit 1; }
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${DRY_RUN_ID}" >"${RUNNER_TEMP}/run.json"
+          if ! jq -e --arg repository "$GITHUB_REPOSITORY" '.repository.full_name == $repository
+              and .path == ".github/workflows/publish.yaml" and .event == "workflow_dispatch"
+              and .head_branch == "main" and .conclusion == "success"' "${RUNNER_TEMP}/run.json" >/dev/null; then
+            echo "::error::run ${DRY_RUN_ID} is not a successful Publish Release dispatch on main"
+            exit 1
+          fi
+          echo "sha=$(jq -r .head_sha "${RUNNER_TEMP}/run.json")" >>"$GITHUB_OUTPUT"
+
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          owner: xberg-io
+
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: true
+
+      - name: Resolve the release tag
+        id: tag
+        run: python3 -c 'import tomllib; print("tag=v" + tomllib.load(open("Cargo.toml", "rb"))["workspace"]["package"]["version"])' >>"$GITHUB_OUTPUT"
+
+      # ~keep Only the dry run builds this artifact, and its receipt names the dry run's source commit.
+      - uses: actions/download-artifact@v8
+        with:
+          name: swift-artifactbundle
+          path: dist/swift-artifactbundle
+          run-id: ${{ inputs.dry_run_id }}
+          github-token: ${{ github.token }}
+
+      # ~keep A rerun after the push finds the tag already on the pinned child of the dry run commit and skips
+      # ~keep straight to the release upload; any other existing tag, or a main that moved on, stops here.
+      - name: Detect an earlier preparation
+        id: earlier
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null; then
+            git fetch --quiet --no-tags origin "+refs/tags/${TAG}:refs/tags/${TAG}"
+            tagged="$(git rev-parse "refs/tags/${TAG}^{commit}")"
+            if [[ "$(git rev-parse "${tagged}^")" != "$SOURCE_SHA" ]] \
+              || [[ "$(git diff --name-only "$SOURCE_SHA" "$tagged")" != "Package.swift" ]]; then
+              echo "::error::${TAG} exists but does not pin the checksum onto ${SOURCE_SHA}; refusing to touch it."
+              exit 1
+            fi
+            echo "existing=true" >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+          main="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [[ "$main" != "$SOURCE_SHA" ]]; then
+            echo "::error::main moved from ${SOURCE_SHA} to ${main}; dry-run the new main commit and prepare from that run."
+            exit 1
+          fi
+          echo "existing=false" >>"$GITHUB_OUTPUT"
+
+      - name: Install alef
+        if: steps.earlier.outputs.existing != 'true'
+        uses: xberg-io/actions/install-alef@v1
+
+      # ~keep alef applies a prepared bundle only with --regen, and only on a clean tree whose HEAD is the
+      # ~keep receipt's source. The regeneration may rewrite other files; only Package.swift is committed.
+      - name: Pin the bundle checksum
+        if: steps.earlier.outputs.existing != 'true'
+        run: alef sync-versions --regen
+
+      - name: Verify the pinned manifest
+        if: steps.earlier.outputs.existing != 'true'
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          receipt="${BUNDLE%.zip}.release.json"
+          digest="$(shasum -a 256 "$BUNDLE" | cut -d' ' -f1)"
+          fail() { echo "::error::$1"; exit 1; }
+          [[ "$(jq -r .sha256 "$receipt")" == "$digest" ]] || fail "the bundle does not match its receipt"
+          [[ "$(git diff --numstat -- Package.swift)" == $'1\t1\tPackage.swift' ]] \
+            || fail "Package.swift must differ from the dry run commit in exactly its checksum line"
+          ! grep -q '__ALEF_' Package.swift || fail "Package.swift still holds an alef placeholder"
+          [[ "$(grep -cE 'checksum: "[0-9a-f]{64}"' Package.swift)" == 1 ]] || fail "Package.swift must hold one checksum"
+          grep -qF "checksum: \"${digest}\"" Package.swift || fail "Package.swift does not pin the bundle's checksum"
+          grep -qF "https://github.com/${REPOSITORY}/releases/download/${TAG}/${BUNDLE##*/}" Package.swift \
+            || fail "the Package.swift binaryTarget URL does not point at ${TAG}"
+
+      # ~keep One atomic, non-forced push: main fast-forwards to the pinned commit and the tag is created on it,
+      # ~keep or neither ref changes.
+      - name: Commit, tag and push
+        if: steps.earlier.outputs.existing != 'true'
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.name "xberg-dev-publisher[bot]"
+          git config user.email "291994444+xberg-dev-publisher[bot]@users.noreply.github.com"
+          git commit --quiet -m "chore(release): pin the Swift bundle checksum for ${TAG}" -- Package.swift
+          git tag "$TAG"
+          git push --atomic origin HEAD:refs/heads/main "refs/tags/${TAG}"
+
+      - name: Attach the bundle to the draft release
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --draft --verify-tag --title "Release $TAG"
+          present="$(gh release view "$TAG" --json assets --jq '.assets[].name')"
+          check="$(mktemp -d)"
+          for file in "$BUNDLE" "${BUNDLE%.zip}.release.json"; do
+            name="${file##*/}"
+            if grep -qxF "$name" <<<"$present"; then
+              gh release download "$TAG" --pattern "$name" --dir "$check"
+              cmp "$file" "$check/$name" || { echo "::error::${TAG} already carries a different ${name}"; exit 1; }
+            else
+              gh release upload "$TAG" "$file"
+            fi
+          done
