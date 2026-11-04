@@ -335,11 +335,6 @@
     "repo": "https://github.com/eonpatapon/tree-sitter-cue",
     "rev": "eefee1c1ee76ccf0d7880814155b67c1738d5f89"
   },
-  "cylc": {
-    "extensions": ["cylc"],
-    "repo": "https://github.com/elliotfontaine/tree-sitter-cylc",
-    "rev": "6d1d81137112299324b526477ce1db989ab58fb8"
-  },
   "d": {
     "extensions": ["d"],
     "repo": "https://github.com/gdamore/tree-sitter-d",

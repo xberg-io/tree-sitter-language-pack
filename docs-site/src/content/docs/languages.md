@@ -1,9 +1,9 @@
 ---
 title: Supported Languages
-description: "The full list of 372 tree-sitter grammars bundled by tree-sitter-language-pack, with file extensions, source repository, and ABI version."
+description: "The full list of 371 tree-sitter grammars bundled by tree-sitter-language-pack, with file extensions, source repository, and ABI version."
 ---
 
-tree-sitter-language-pack supports **372** languages.
+tree-sitter-language-pack supports **371** languages.
 
 | Language | Extensions | Repository | ABI |
 |----------|------------|------------|-----|
@@ -65,7 +65,6 @@ tree-sitter-language-pack supports **372** languages.
 | CSV | `.csv` | [amaanq/tree-sitter-csv](https://github.com/amaanq/tree-sitter-csv) | 14 |
 | CUDA | `.cu`, `.cuda` | [tree-sitter-grammars/tree-sitter-cuda](https://github.com/tree-sitter-grammars/tree-sitter-cuda) | 15 |
 | Cue | `.cue` | [eonpatapon/tree-sitter-cue](https://github.com/eonpatapon/tree-sitter-cue) | 14 |
-| Cylc | `.cylc` | [elliotfontaine/tree-sitter-cylc](https://github.com/elliotfontaine/tree-sitter-cylc) | 14 |
 | Cypher | `.cypher`, `.cql` | [taekwombo/tree-sitter-cypher](https://github.com/taekwombo/tree-sitter-cypher) | 14 |
 | Cython | `.pyx`, `.pxd`, `.pxi` | [b0o/tree-sitter-cython](https://github.com/b0o/tree-sitter-cython) | 14 |
 | D | `.d` | [gdamore/tree-sitter-d](https://github.com/gdamore/tree-sitter-d) | 14 |

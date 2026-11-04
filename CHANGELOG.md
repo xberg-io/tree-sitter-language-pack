@@ -22,6 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   xberg-io forks that carry the open upstream fixes (tree-sitter-bash#368, tree-sitter-c#334,
   tree-sitter-dockerfile#72) (#216).
 
+### Removed
+
+- Drop the Cylc grammar: its upstream repository (`elliotfontaine/tree-sitter-cylc`) no longer exists,
+  so its pinned source can no longer be fetched, built or license-verified.
+
 ## [1.23.1] - 2026-10-31
 
 ### Fixed
