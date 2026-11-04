@@ -20,7 +20,7 @@
 | Awk | [Beaglefoot/tree-sitter-awk](https://github.com/Beaglefoot/tree-sitter-awk) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Ballerina | [heshanpadmasiri/tree-sitter-ballerina](https://github.com/heshanpadmasiri/tree-sitter-ballerina) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Baml | [BoundaryML/baml-treesitter](https://github.com/BoundaryML/baml-treesitter) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Bash | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Bash | [xberg-io/tree-sitter-bash](https://github.com/xberg-io/tree-sitter-bash) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Bass | [vito/tree-sitter-bass](https://github.com/vito/tree-sitter-bass) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Batch | [davidevofficial/tree-sitter-batch](https://github.com/davidevofficial/tree-sitter-batch) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Beancount | [polarmutex/tree-sitter-beancount](https://github.com/polarmutex/tree-sitter-beancount) | 14 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
@@ -31,7 +31,7 @@
 | Bpftrace | [sgruszka/tree-sitter-bpftrace](https://github.com/sgruszka/tree-sitter-bpftrace) | 14 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | Brightscript | [ajdelcimmuto/tree-sitter-brightscript](https://github.com/ajdelcimmuto/tree-sitter-brightscript) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
 | BSL | [alkoleft/tree-sitter-bsl](https://github.com/alkoleft/tree-sitter-bsl) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| C | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| C | [xberg-io/tree-sitter-c](https://github.com/xberg-io/tree-sitter-c) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | C3 | [c3lang/tree-sitter-c3](https://github.com/c3lang/tree-sitter-c3) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
 | Caddy | [Samonitari/tree-sitter-caddy](https://github.com/Samonitari/tree-sitter-caddy) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Cairo | [tree-sitter-grammars/tree-sitter-cairo](https://github.com/tree-sitter-grammars/tree-sitter-cairo) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
@@ -71,7 +71,7 @@
 | Dhall | [jbellerb/tree-sitter-dhall](https://github.com/jbellerb/tree-sitter-dhall) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Diff | [tree-sitter-grammars/tree-sitter-diff](https://github.com/tree-sitter-grammars/tree-sitter-diff) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Djot | [treeman/tree-sitter-djot](https://github.com/treeman/tree-sitter-djot) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Dockerfile | [camdencheek/tree-sitter-dockerfile](https://github.com/camdencheek/tree-sitter-dockerfile) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Dockerfile | [xberg-io/tree-sitter-dockerfile](https://github.com/xberg-io/tree-sitter-dockerfile) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Dot | [rydesun/tree-sitter-dot](https://github.com/rydesun/tree-sitter-dot) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Dotenv | [pnx/tree-sitter-dotenv](https://github.com/pnx/tree-sitter-dotenv) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Doxygen | [tree-sitter-grammars/tree-sitter-doxygen](https://github.com/tree-sitter-grammars/tree-sitter-doxygen) | 14 | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |

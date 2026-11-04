@@ -81,11 +81,11 @@
   },
   "bash": {
     "abi_version": 14,
-    "branch": "master",
+    "branch": "fix/valid-input-errors",
     "extensions": ["sh", "bash"],
     "generate": true,
-    "repo": "https://github.com/tree-sitter/tree-sitter-bash",
-    "rev": "a06c2e4415e9bc0346c6b86d401879ffb44058f7"
+    "repo": "https://github.com/xberg-io/tree-sitter-bash",
+    "rev": "3234542dfa8029e1e0fe4a36463cfcc9359c5d03"
   },
   "bass": {
     "extensions": [],
@@ -150,11 +150,11 @@
     "ambiguous": {
       "h": ["cpp", "objc"]
     },
-    "branch": "master",
+    "branch": "fix/valid-input-errors",
     "extensions": ["c", "h"],
     "generate": true,
-    "repo": "https://github.com/tree-sitter/tree-sitter-c",
-    "rev": "b780e47fc780ddc8da13afa35a3f4ed5c157823d"
+    "repo": "https://github.com/xberg-io/tree-sitter-c",
+    "rev": "b0031a28bac8cc3aa270727cf9588ee29ed17327"
   },
   "c3": {
     "abi_version": 14,
@@ -385,9 +385,10 @@
     "rev": "759a61896ccb2200a4becec4443e768638a21d58"
   },
   "dockerfile": {
+    "branch": "fix/valid-input-errors",
     "extensions": ["dockerfile"],
-    "repo": "https://github.com/camdencheek/tree-sitter-dockerfile",
-    "rev": "971acdd908568b4531b0ba28a445bf0bb720aba5"
+    "repo": "https://github.com/xberg-io/tree-sitter-dockerfile",
+    "rev": "c980600b1be63e081989d8ffebfea3831233ea7a"
   },
   "dot": {
     "extensions": ["dot", "gv"],

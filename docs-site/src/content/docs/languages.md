@@ -25,7 +25,7 @@ tree-sitter-language-pack supports **372** languages.
 | Awk | `.awk` | [Beaglefoot/tree-sitter-awk](https://github.com/Beaglefoot/tree-sitter-awk) | 14 |
 | Ballerina | `.bal` | [heshanpadmasiri/tree-sitter-ballerina](https://github.com/heshanpadmasiri/tree-sitter-ballerina) | 14 |
 | Baml | `.baml` | [BoundaryML/baml-treesitter](https://github.com/BoundaryML/baml-treesitter) | 14 |
-| Bash | `.sh`, `.bash` | [tree-sitter/tree-sitter-bash](https://github.com/tree-sitter/tree-sitter-bash) | 14 |
+| Bash | `.sh`, `.bash` | [xberg-io/tree-sitter-bash](https://github.com/xberg-io/tree-sitter-bash) | 14 |
 | Bass | — | [vito/tree-sitter-bass](https://github.com/vito/tree-sitter-bass) | 14 |
 | Batch | `.bat`, `.cmd` | [davidevofficial/tree-sitter-batch](https://github.com/davidevofficial/tree-sitter-batch) | 14 |
 | Beancount | `.beancount` | [polarmutex/tree-sitter-beancount](https://github.com/polarmutex/tree-sitter-beancount) | 14 |
@@ -36,7 +36,7 @@ tree-sitter-language-pack supports **372** languages.
 | Bpftrace | `.bt` | [sgruszka/tree-sitter-bpftrace](https://github.com/sgruszka/tree-sitter-bpftrace) | 14 |
 | Brightscript | `.brs` | [ajdelcimmuto/tree-sitter-brightscript](https://github.com/ajdelcimmuto/tree-sitter-brightscript) | 14 |
 | BSL | `.bsl` | [alkoleft/tree-sitter-bsl](https://github.com/alkoleft/tree-sitter-bsl) | 14 |
-| C | `.c`, `.h` | [tree-sitter/tree-sitter-c](https://github.com/tree-sitter/tree-sitter-c) | 14 |
+| C | `.c`, `.h` | [xberg-io/tree-sitter-c](https://github.com/xberg-io/tree-sitter-c) | 14 |
 | C3 | `.c3`, `.c3i`, `.c3t` | [c3lang/tree-sitter-c3](https://github.com/c3lang/tree-sitter-c3) | 14 |
 | Caddy | `.caddyfile` | [Samonitari/tree-sitter-caddy](https://github.com/Samonitari/tree-sitter-caddy) | 14 |
 | Cairo | `.cairo` | [tree-sitter-grammars/tree-sitter-cairo](https://github.com/tree-sitter-grammars/tree-sitter-cairo) | 14 |
@@ -76,7 +76,7 @@ tree-sitter-language-pack supports **372** languages.
 | Dhall | `.dhall` | [jbellerb/tree-sitter-dhall](https://github.com/jbellerb/tree-sitter-dhall) | 14 |
 | Diff | `.diff`, `.patch` | [tree-sitter-grammars/tree-sitter-diff](https://github.com/tree-sitter-grammars/tree-sitter-diff) | 14 |
 | Djot | `.dj` | [treeman/tree-sitter-djot](https://github.com/treeman/tree-sitter-djot) | 14 |
-| Dockerfile | `.dockerfile` | [camdencheek/tree-sitter-dockerfile](https://github.com/camdencheek/tree-sitter-dockerfile) | 14 |
+| Dockerfile | `.dockerfile` | [xberg-io/tree-sitter-dockerfile](https://github.com/xberg-io/tree-sitter-dockerfile) | 14 |
 | Dot | `.dot`, `.gv` | [rydesun/tree-sitter-dot](https://github.com/rydesun/tree-sitter-dot) | 14 |
 | Dotenv | — | [pnx/tree-sitter-dotenv](https://github.com/pnx/tree-sitter-dotenv) | 14 |
 | Doxygen | — | [tree-sitter-grammars/tree-sitter-doxygen](https://github.com/tree-sitter-grammars/tree-sitter-doxygen) | 14 |

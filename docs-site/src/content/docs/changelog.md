@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Pin the Jinja2 grammar to upstream `main` (`a4f8f18`), which keeps bare identifiers such as
   `{{ variable }}` parsing without errors; the previous pin was an unmerged branch commit (#214).
+- Parse `for name do`, the `<>` redirect in Bash, `__has_include(<header>)` in C and spaced legacy
+  `ENV` values in Dockerfiles without errors. The bash, c and dockerfile grammars now come from
+  xberg-io forks that carry the open upstream fixes (tree-sitter-bash#368, tree-sitter-c#334,
+  tree-sitter-dockerfile#72) (#216).
 
 ## [1.23.1] - 2026-10-31
 

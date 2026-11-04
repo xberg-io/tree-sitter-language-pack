@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "e94cf280edfe9de6c2b0076a6232d761d0f4dd33192f5d6fbf1ceb238c36d1c7",
+  "definitions_sha256": "f387b0412a8ce864546c5900d23bb54db3db2eba630747eca7ce583fbdd1f06f",
   "languages": {
     "abl": {
       "branch": null,
@@ -290,7 +290,7 @@
       "spdx_source": "detected"
     },
     "bash": {
-      "branch": "master",
+      "branch": "fix/valid-input-errors",
       "directory": null,
       "license_files": [
         {
@@ -299,9 +299,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/tree-sitter/tree-sitter-bash",
+      "repo": "https://github.com/xberg-io/tree-sitter-bash",
       "resolution": "github-license",
-      "rev": "a06c2e4415e9bc0346c6b86d401879ffb44058f7",
+      "rev": "3234542dfa8029e1e0fe4a36463cfcc9359c5d03",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -466,7 +466,7 @@
       "spdx_source": "detected"
     },
     "c": {
-      "branch": "master",
+      "branch": "fix/valid-input-errors",
       "directory": null,
       "license_files": [
         {
@@ -475,9 +475,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/tree-sitter/tree-sitter-c",
+      "repo": "https://github.com/xberg-io/tree-sitter-c",
       "resolution": "github-license",
-      "rev": "b780e47fc780ddc8da13afa35a3f4ed5c157823d",
+      "rev": "b0031a28bac8cc3aa270727cf9588ee29ed17327",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1118,7 +1118,7 @@
       "spdx_source": "detected"
     },
     "dockerfile": {
-      "branch": null,
+      "branch": "fix/valid-input-errors",
       "directory": null,
       "license_files": [
         {
@@ -1127,9 +1127,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/camdencheek/tree-sitter-dockerfile",
+      "repo": "https://github.com/xberg-io/tree-sitter-dockerfile",
       "resolution": "github-license",
-      "rev": "971acdd908568b4531b0ba28a445bf0bb720aba5",
+      "rev": "c980600b1be63e081989d8ffebfea3831233ea7a",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
