@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Every macOS binary now targets macOS 26, the minimum `Package.swift` declares; the Swift bundle targeted 13.0 and
+  the other macOS artifacts used toolchain defaults.
 - Minimum supported versions raised: Node.js 22, Ruby 3.3, PHP 8.3, Elixir 1.17, Go 1.27, Java 25, Android API 24, Dart 3.13, macOS 26.
 - Regenerate the bindings with Alef 0.119.0, so the generated manifests declare the raised minimums. The Zig package stays on Zig 0.16, which upstream tree-sitter's build still requires.
 - Python 3.11 is now the minimum supported version; Python 3.10 reached end of life.

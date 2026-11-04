@@ -43,6 +43,10 @@ env:
   CARGO_TERM_COLOR: always
   CARGO_INCREMENTAL: "0"
   RUST_BACKTRACE: short
+  # ~keep Every shipped macOS binary (wheels, Node, CLI, FFI, NIFs, natives, parser libraries, the Swift bundle)
+  # ~keep targets the org floor that Package.swift's `.macOS(.v26)` declares; toolchain defaults are lower.
+  # ~keep scripts/ci/test_macos_deployment_target.py keeps the two equal. Non-Apple targets ignore it.
+  MACOSX_DEPLOYMENT_TARGET: "26.0"
 
 permissions:
   contents: read
@@ -4093,10 +4097,10 @@ jobs:
       - uses: xberg-io/actions/build-swift-artifactbundle@v1
         id: bundle
         # ~keep Rust otherwise links the iOS archive for 10.0 while the zstd objects call ___chkstk_darwin,
-        # ~keep which the iOS 10 runtime lacks. These match Package.swift's platforms.
+        # ~keep which the iOS 10 runtime lacks. This matches Package.swift's iOS platform; macOS comes from the
+        # ~keep workflow env.
         env:
           IPHONEOS_DEPLOYMENT_TARGET: "16.0"
-          MACOSX_DEPLOYMENT_TARGET: "13.0"
         with:
           crate-name: tree-sitter-language-pack-swift
           artifact-name: TreeSitterLanguagePack-rs
