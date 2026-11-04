@@ -1,0 +1,119 @@
+name: Prepare Swift release
+
+# ~keep Step 1 of a release, on the version-bump commit of main: builds the Swift bundle once, pins its checksum
+# ~keep into Package.swift, pushes that commit with the release tag and attaches the bundle to the draft release.
+# ~keep Step 2 is Publish Release on the tag. Procedure and recovery:
+# ~keep https://github.com/xberg-io/actions/blob/v1/prepare-swift-release/README.md
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Build, pin and verify without pushing, tagging or releasing"
+        type: boolean
+        default: false
+
+concurrency:
+  group: prepare-swift-release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  # ~keep The Swift bridge links the vendored grammars, which publish.yaml generates the same way; parsers/ is
+  # ~keep gitignored, so the downloaded sources leave the tree clean for alef's version sync.
+  clone-vendors-shard:
+    name: Clone vendors (shard ${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    env:
+      TSLP_SHARD_INDEX: ${{ matrix.shard }}
+      TSLP_SHARD_COUNT: 4
+      TSLP_GENERATE_CONCURRENCY: 1
+      TSLP_GENERATE_TIMEOUT: "900"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Add swap space
+        run: |
+          sudo swapoff -a || true
+          sudo fallocate -l 30G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
+
+      - name: Setup Node
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: node tree-sitter
+          config-ref: ${{ github.sha }}
+
+      - name: Setup Python environment
+        uses: xberg-io/actions/setup-python-env@v1
+        with:
+          python-version: "3.14"
+          install-command: "uv sync --no-install-project --no-install-workspace"
+
+      - name: Cache parsers
+        uses: actions/cache@v6
+        with:
+          path: parsers
+          key: parsers-shard${{ matrix.shard }}of4-${{ hashFiles('sources/language_definitions.json') }}
+          restore-keys: |
+            parsers-shard${{ matrix.shard }}of4-
+
+      - name: Clone vendors
+        run: |
+          mkdir -p parsers
+          tree_sitter_cli=$(mise which tree-sitter)
+          PATH="$(dirname "$tree_sitter_cli"):$PATH" uv run --script scripts/clone_vendors.py
+
+      - name: Upload parsers
+        uses: actions/upload-artifact@v7
+        with:
+          name: language-parsers-shard-${{ matrix.shard }}
+          path: parsers
+          retention-days: 3
+
+  clone-vendors:
+    name: Clone vendors
+    needs: clone-vendors-shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download shard parsers
+        uses: actions/download-artifact@v8
+        with:
+          pattern: language-parsers-shard-*
+          merge-multiple: true
+          path: parsers
+
+      - name: Upload merged parsers
+        uses: actions/upload-artifact@v7
+        with:
+          name: language-parsers
+          path: parsers
+          retention-days: 3
+
+  swift:
+    needs: clone-vendors
+    uses: xberg-io/actions/.github/workflows/reusable-swift-release-prepare.yml@v1
+    secrets:
+      app-id: ${{ secrets.BOT_APP_ID }}
+      app-private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+    with:
+      dry-run: ${{ inputs.dry-run }}
+      crate-name: tree-sitter-language-pack-swift
+      artifact-name: TreeSitterLanguagePack-rs
+      binary-target-name: RustBridgeBinary
+      setup-artifact: language-parsers
+      setup-artifact-path: parsers

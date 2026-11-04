@@ -15,36 +15,40 @@ from the original tag ([issue 215](https://github.com/xberg-io/tree-sitter-langu
 
 ## Considered Options
 
-* Build the bundle in the dry run, pin its checksum on main and tag that commit before publishing
+* Prepare the release with the shared xberg-io/actions Swift workflow, then publish the tag it creates
 * Keep committing the checksum after tagging and force-move the core tag
 * Publish the checksum only on a separate Swift tag or branch
 
 ## Decision Outcome
 
-Chosen option: "Build the bundle in the dry run, pin its checksum on main and tag that commit before publishing",
-because every publisher and every SwiftPM consumer then reads one immutable tag.
+Chosen option: "Prepare the release with the shared xberg-io/actions Swift workflow, then publish the tag it
+creates", because every publisher and every SwiftPM consumer then reads one immutable tag, by the same procedure as
+the organization's other Swift packages.
 
-The Publish Release dry run on the version-bump commit is the only run that builds the bundle; its receipt
-(`build-swift-artifactbundle` `receipt-version`) binds those bytes to that commit. `release-prepare.yaml` takes that
-run's ZIP and receipt, runs `alef sync-versions --regen` to pin the checksum, accepts only a one-line Package.swift
-change that holds the ZIP's SHA-256 and the tag's download URL, pushes that commit to main and creates the tag in one
-atomic non-forced push, and attaches the ZIP and receipt to the draft release. The real publish run does not rebuild
-the bundle (the ZIP is not reproducible); `xberg-io/actions/publish-swift-release@v1` verifies the tagged manifest
-against the release asset and creates `release/swift/<version>` at the tagged commit only when it is absent.
+A release takes two dispatches, following the
+[prepare-swift-release README](https://github.com/xberg-io/actions/blob/v1/prepare-swift-release/README.md):
+
+1. **Prepare Swift release** (`.github/workflows/prepare-swift-release.yaml`) on the version-bump commit of main.
+   It generates the vendored grammar sources like Publish Release does, then calls
+   `reusable-swift-release-prepare.yml@v1`, which builds the bundle once with a receipt, pins its checksum with
+   alef's version sync, pushes that one commit to main together with the tag in a non-forced atomic push, and
+   attaches the ZIP and receipt to a draft release.
+2. **Publish Release** on the tag. Its `publish-swift-release` job verifies the tagged manifest against the attached
+   ZIP and receipt (`bundle-zip: ""`), never rebuilds the bundle, and creates `release/swift/<version>` at the tagged
+   commit only when it is absent.
 
 ### Consequences
 
 * Good, because the core tag object and its commit never change after creation, on first runs and on retries.
 * Good, because `from:`/`exact:` consumers and the legacy Swift branch resolve the same checksummed commit.
-* Bad, because cutting a release needs a successful dry run of the current main commit and one more dispatch.
+* Good, because the pin, verification and recovery logic lives and is tested in xberg-io/actions.
+* Bad, because cutting a release needs one more dispatch, and Publish Release still builds a bundle it does not ship.
 * Bad, because main holds the previous release's checksum under the next version's URL between a version bump and
   its preparation; `alef verify` accepts that.
 
 ### Confirmation
 
 * `scripts/ci/test_release_dry_mutations.py` rejects any `git tag -f`, forced push or placeholder `sed` in
-  `publish.yaml` and `release-prepare.yaml`, requires the dry-run-only bundle build with its receipt and the
-  `publish-swift-release` job, and runs the preparation steps against a disposable remote: the tag lands on the
-  pinned child of the dry run commit, a rerun leaves the tag object and main unchanged, and an unrelated existing
-  tag, a moved main, a wrong checksum, URL or extra edit, and a bundle that differs from its receipt are rejected
-  before any push.
+  `publish.yaml` and `prepare-swift-release.yaml`, pins the caller to `reusable-swift-release-prepare.yml@v1` with
+  this repository's inputs, keeps its vendor jobs identical to Publish Release's, and requires the
+  `publish-swift-release` job to reuse the release asset.

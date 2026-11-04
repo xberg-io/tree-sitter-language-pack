@@ -4066,15 +4066,11 @@ jobs:
           # this job's conclusion becomes the pub.dev publish conclusion. ~keep
           gh run watch "${run_id}" --exit-status --interval 15
 
-  # ~keep The bundle is built only by the dry run on the version-bump commit. Its receipt binds those exact
-  # ~keep bytes to that commit; release-prepare.yaml pins their checksum into Package.swift and tags the pinned
-  # ~keep commit, so the core tag never moves. A real run must not rebuild: the ZIP is not reproducible and
-  # ~keep publish-swift-release reuses the asset release-prepare.yaml attached to the draft release.
   build-swift-artifactbundle:
     name: Build Swift artifact bundle
     needs: [prepare, validate-versions, clone-vendors]
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run == 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true') }}
     runs-on: macos-26
     timeout-minutes: 30
     steps:
@@ -4089,11 +4085,6 @@ jobs:
           path: parsers
       # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - uses: xberg-io/actions/setup-rust@v1
-      # ~keep A dry run's release version carries a `-dryrun-<sha>` suffix; the receipt records the version
-      # ~keep the source declares, which alef checks against Cargo.toml when it pins the checksum.
-      - name: Read the source version
-        id: version
-        run: python3 -c 'import tomllib; print("version=" + tomllib.load(open("Cargo.toml", "rb"))["workspace"]["package"]["version"])' >>"$GITHUB_OUTPUT"
       - uses: xberg-io/actions/build-swift-artifactbundle@v1
         id: bundle
         # ~keep Rust otherwise links the iOS archive for 10.0 while the zstd objects call ___chkstk_darwin,
@@ -4105,15 +4096,12 @@ jobs:
           crate-name: tree-sitter-language-pack-swift
           artifact-name: TreeSitterLanguagePack-rs
           binary-target-name: RustBridgeBinary
-          receipt-version: ${{ steps.version.outputs.version }}
       - uses: actions/upload-artifact@v7
         with:
           name: swift-artifactbundle
-          path: |
-            ${{ steps.bundle.outputs.bundle-zip }}
-            ${{ steps.bundle.outputs.receipt }}
+          path: ${{ steps.bundle.outputs.bundle-zip }}
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 14
 
   build-swift-package:
     name: Build Swift package
@@ -4184,7 +4172,7 @@ jobs:
       - name: Run Swift E2E tests
         run: mise run swift:e2e:test
 
-  # ~keep The core tag already pins the checksum (release-prepare.yaml). This job only verifies the tagged
+  # ~keep The core tag already pins the checksum (prepare-swift-release.yaml). This job only verifies the tagged
   # ~keep manifest against the bundle on the release, creates release/swift/<version> at the tagged commit when
   # ~keep absent (the Swift test apps pin that branch) and never creates, moves or deletes a tag.
   publish-swift-release:
