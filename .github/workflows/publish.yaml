@@ -1338,7 +1338,7 @@ jobs:
           install-args: github:rustwasm/wasm-pack
           config-ref: ${{ github.sha }}
 
-      - name: Add swap (best-effort; avoid OOM during 372-grammar static link)
+      - name: Add swap (best-effort; avoid OOM during 371-grammar static link)
         shell: bash
         run: |
           # Best-effort: free runners often already have swap, and fallocate

@@ -5,14 +5,14 @@ name: tree-sitter-language-pack-detecting-languages
 
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
-Content-Hash: blake3:1d8f23b5f26e371f9ced71e7f86f664ef0731d0ad7acce227eba69b83b348582
-Source-Hash: blake3:1cad51e570053e9832e0ee03087c777fc4f9206b95ae93aec5410de070fdf0eb
+Content-Hash: blake3:1652855d0d25051247e7728976192ad988833c4913509f8924c67d16628472c6
+Source-Hash: blake3:7bee1d58cd160aed3e3a43fac86899288dc0d0cc1469f568a57306aca85ba291
 Schema-Version: v1
 -->
 
 # Detecting languages
 
-tree-sitter-language-pack maps a file to one of 372 supported languages.
+tree-sitter-language-pack maps a file to one of 371 supported languages.
 Detection works from a file path, a bare extension, or — via the SDK — the
 file content itself.
 

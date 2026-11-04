@@ -1,5 +1,5 @@
 ---
-description: Parse and extract code intelligence from 372 programming languages using tree-sitter grammars. Use when writing code that parses source, extracts structure/imports/exports/symbols/docstrings/comments, detects a language, runs syntax diagnostics, or produces syntax-aware chunks for LLMs — in Rust, Python, Node.js/TypeScript, or the ts-pack CLI. Covers installation, the CLI surface, the SDK surface, and parser-cache management.
+description: Parse and extract code intelligence from 371 programming languages using tree-sitter grammars. Use when writing code that parses source, extracts structure/imports/exports/symbols/docstrings/comments, detects a language, runs syntax diagnostics, or produces syntax-aware chunks for LLMs — in Rust, Python, Node.js/TypeScript, or the ts-pack CLI. Covers installation, the CLI surface, the SDK surface, and parser-cache management.
 license: MIT
 metadata:
     author: xberg-io
@@ -10,8 +10,8 @@ name: tree-sitter-language-pack
 
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
-Content-Hash: blake3:6d3b039552725cf0766102da5d5ca077c50d9d1edf566af974bbfccb22831c36
-Source-Hash: blake3:1cad51e570053e9832e0ee03087c777fc4f9206b95ae93aec5410de070fdf0eb
+Content-Hash: blake3:7860f629c0c291cb2e4f9cb034035fadbc4de3b90bace596a2d2348c12b5ec00
+Source-Hash: blake3:7bee1d58cd160aed3e3a43fac86899288dc0d0cc1469f568a57306aca85ba291
 Schema-Version: v1
 -->
 
@@ -21,12 +21,12 @@ tree-sitter-language-pack is a polyglot code parsing and analysis library
 with a high-performance Rust core and polyglot bindings for 15 languages —
 Python, Node.js/TypeScript, Ruby, Go, Java, C#, PHP, Elixir, Dart,
 Kotlin (Android), Swift, Zig, and WebAssembly, plus a C ABI and JNI. It
-compiles 372 tree-sitter grammars into efficient parsers and exposes code
+compiles 371 tree-sitter grammars into efficient parsers and exposes code
 intelligence on top of them.
 
 ## Capabilities
 
-- **Parse 372 languages** into concrete syntax trees (s-expression or JSON).
+- **Parse 371 languages** into concrete syntax trees (s-expression or JSON).
 - **Extract structure** — functions, classes, methods, modules with line
   and byte spans, child nesting, and visibility.
 - **Extract imports and exports** — statements, sources, exported kinds.

@@ -22,7 +22,7 @@ fn test_get_language_invalid() {
 }
 
 #[test]
-#[ignore = "loads all 372 dynamic libraries — run with --ignored"]
+#[ignore = "loads all 371 dynamic libraries — run with --ignored"]
 fn test_get_language_and_parse() {
     let langs = available_languages();
     for lang_name in &langs {

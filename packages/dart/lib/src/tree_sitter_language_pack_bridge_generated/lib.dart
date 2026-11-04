@@ -259,7 +259,7 @@ Future<PlatformInt64> downloadAll() => RustLib.instance.api.crateDownloadAll();
 Future<PlatformInt64> downloadGroup({required String name}) =>
     RustLib.instance.api.crateDownloadGroup(name: name);
 
-/// Return all language names available in the remote manifest (372).
+/// Return all language names available in the remote manifest (371).
 ///
 /// Fetches (and caches) the remote manifest to discover the full list of
 /// downloadable languages. Use `downloaded_languages` to list what is

@@ -460,7 +460,7 @@ mod tests {
     /// Verify that ext→name detection is independent of parser availability.
     ///
     /// `detect_language_from_extension` consults the static extension table that
-    /// is generated from the full `language_definitions.json` for all 372 grammars.
+    /// is generated from the full `language_definitions.json` for all 371 grammars.
     /// It does NOT gate on whether the parser was compiled in (controlled by
     /// `TSLP_LANGUAGES` at build time). Subset FFI builds must still return the
     /// correct name for any extension in the table.

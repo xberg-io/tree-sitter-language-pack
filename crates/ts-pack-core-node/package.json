@@ -11,7 +11,7 @@
   ],
   "name": "@xberg-io/tree-sitter-language-pack",
   "version": "1.23.1",
-  "description": "Pre-compiled tree-sitter grammars for 372 programming languages",
+  "description": "Pre-compiled tree-sitter grammars for 371 programming languages",
   "license": "MIT",
   "repository": {
     "type": "git",

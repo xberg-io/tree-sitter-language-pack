@@ -14,7 +14,7 @@
   "skills": {
     "tree-sitter-language-pack": {
       "name": "tree-sitter-language-pack",
-      "description": "Parse and extract code intelligence from 372 programming languages using tree-sitter grammars. Use when writing code that parses source, extracts structure/imports/exports/symbols/docstrings/comments, detects a language, runs syntax diagnostics, or produces syntax-aware chunks for LLMs — in Rust, Python, Node.js/TypeScript, or the ts-pack CLI. Covers installation, the CLI surface, the SDK surface, and parser-cache management."
+      "description": "Parse and extract code intelligence from 371 programming languages using tree-sitter grammars. Use when writing code that parses source, extracts structure/imports/exports/symbols/docstrings/comments, detects a language, runs syntax diagnostics, or produces syntax-aware chunks for LLMs — in Rust, Python, Node.js/TypeScript, or the ts-pack CLI. Covers installation, the CLI surface, the SDK surface, and parser-cache management."
     },
     "tree-sitter-language-pack-chunking-for-llms": {
       "name": "tree-sitter-language-pack-chunking-for-llms",
