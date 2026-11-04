@@ -352,9 +352,11 @@ class SwiftReleaseWorkflowTests(unittest.TestCase):
     def test_swift_publication_verifies_the_immutable_tag(self) -> None:
         assert "update-swift-package-manifest" not in self.jobs
         job = self.jobs["publish-swift-release"]
-        assert job["needs"] == ["prepare", "e2e-swift"]
+        assert job["needs"] == ["prepare", "validate-versions", "e2e-swift"]
         assert "||" not in job["if"]
-        for dry, expected in [(True, False), ("true", False), (False, True), ("false", True)]:
+        # ~keep Job outputs are strings, so only the string forms can occur; a boolean comparison is dead.
+        assert f"{OUTPUT_DRY} != true " not in job["if"]
+        for dry, expected in [("true", False), ("false", True)]:
             with self.subTest(dry=dry):
                 assert allows_mutation(job["if"], OUTPUT_DRY, dry) == expected
         checkout = next(step for step in job["steps"] if step.get("uses", "").startswith("actions/checkout@"))
@@ -365,6 +367,7 @@ class SwiftReleaseWorkflowTests(unittest.TestCase):
         assert [step["uses"] for step in publish] == ["xberg-io/actions/publish-swift-release@v1"]
         assert publish[0]["with"]["tag"] == "${{ needs.prepare.outputs.tag }}"
         assert publish[0]["with"]["bundle-zip"] == ""
+        assert "dry-run" not in publish[0]["with"]
         assert (
             publish[0]["with"]["receipt"]
             == "dist/swift-artifactbundle/TreeSitterLanguagePack-rs.artifactbundle.release.json"
@@ -375,6 +378,80 @@ class SwiftReleaseWorkflowTests(unittest.TestCase):
                 env = next(step for step in self.jobs[name]["steps"] if "RESULT_SWIFT_RELEASE" in step.get("env", {}))
                 assert env["env"]["RESULT_SWIFT_RELEASE"] == "${{ needs.publish-swift-release.result }}"
                 assert '"swift-release" "$RESULT_SWIFT_RELEASE" "$RELEASE_SWIFT"' in env["run"]
+
+    def swift_gate(self) -> dict:
+        steps = self.jobs["validate-versions"]["steps"]
+        gates = [step for step in steps if step.get("uses", "").startswith("xberg-io/actions/publish-swift-release@")]
+        assert len(gates) == 1
+        return gates[0]
+
+    def test_tagged_swift_release_is_verified_before_any_registry_publishes(self) -> None:
+        gate = self.swift_gate()
+        assert gate["uses"] == "xberg-io/actions/publish-swift-release@v1"
+        assert gate["with"]["dry-run"] == "true"
+        assert gate["with"]["bundle-zip"] == ""
+        assert gate["with"]["tag"] == "${{ needs.prepare.outputs.tag }}"
+        assert gate["with"]["receipt"] == (
+            "dist/swift-artifactbundle/TreeSitterLanguagePack-rs.artifactbundle.release.json"
+        )
+        condition = gate["if"]
+        assert "needs.prepare.outputs.release_swift == 'true'" in condition
+        for dry, expected in [("true", False), ("false", True)]:
+            with self.subTest(dry=dry):
+                assert allows_mutation(condition, OUTPUT_DRY, dry) == expected
+        steps = self.jobs["validate-versions"]["steps"]
+        checkout = next(step for step in steps if step.get("uses", "").startswith("actions/checkout@"))
+        assert checkout["with"]["fetch-depth"] == 0
+        assert checkout["with"]["ref"] == "${{ needs.prepare.outputs.checkout_ref }}"
+
+    def gated(self, name: str, seen: frozenset[str] = frozenset()) -> bool:
+        """Whether a failed validate-versions keeps `name` from running."""
+        job = self.jobs[name]
+        needs = job.get("needs", [])
+        needs = [needs] if isinstance(needs, str) else needs
+        condition = str(job.get("if", ""))
+        overrides_failure = any(word in condition for word in ["always()", "!cancelled()", "failure()"])
+        if self.fails_without_validation(job):
+            return True
+        for need in needs:
+            if need in seen:
+                continue
+            upstream = need == "validate-versions" or self.gated(need, seen | {name})
+            required = (
+                not overrides_failure
+                or f"needs.{need}.result == 'success'" in condition
+                or f"needs.{need}.outputs.promoted == 'true'" in condition
+            )
+            if upstream and required:
+                return True
+        return False
+
+    @staticmethod
+    def fails_without_validation(job: dict) -> bool:
+        """A job that runs regardless but fails its own step when validate-versions did not succeed."""
+        for step in job.get("steps", []):
+            names = [key for key, value in step.get("env", {}).items() if value == "${{ needs.validate-versions.result }}"]
+            if any(f'require_success "validate-versions" "${name}"' in step.get("run", "") for name in names):
+                return step.get("if", "always()") in {"always()", f"always() && {OUTPUT_DRY} != 'true'"}
+        return False
+
+    def test_gate_walk_detects_a_job_that_ignores_validation(self) -> None:
+        original = self.jobs.get("publish-zig")
+        self.jobs["publish-zig"] = {"needs": ["validate-versions"], "if": "${{ always() }}"}
+        try:
+            assert not self.gated("publish-zig")
+        finally:
+            self.jobs["publish-zig"] = original
+
+    def test_every_registry_publish_needs_the_swift_gate(self) -> None:
+        registry = [
+            name
+            for name in self.jobs
+            if name.startswith(("publish-", "trigger-", "upload-", "stage-"))
+        ]
+        assert len(registry) > 20, registry
+        ungated = [name for name in registry if not self.gated(name)]
+        assert ungated == []
 
     def test_every_needs_edge_names_an_existing_job(self) -> None:
         edges = 0

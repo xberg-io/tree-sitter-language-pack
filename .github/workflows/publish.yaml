@@ -269,12 +269,44 @@ jobs:
     name: Validate version consistency
     needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.checkout_ref }}
+          # ~keep Full history: the Swift gate checks the receipt's source is an ancestor of the tag.
+          fetch-depth: 0
+
+      # ~keep Every registry publish needs this job, so a tag whose Package.swift does not pin the prepared
+      # ~keep bundle (no receipt, wrong checksum, mismatched asset) stops the release before anything ships.
+      # ~keep publish-swift-release repeats the check and then creates the legacy branch.
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        if: ${{ needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != 'true' }}
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          owner: xberg-io
+
+      - name: Download the Swift preparation receipt
+        if: ${{ needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != 'true' }}
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          TAG: ${{ needs.prepare.outputs.tag }}
+        run: |
+          gh release download "$TAG" --pattern 'TreeSitterLanguagePack-rs.artifactbundle.release.json' \
+            --dir dist/swift-artifactbundle
+
+      - name: Verify the tagged Swift release before any registry publishes
+        if: ${{ needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != 'true' }}
+        uses: xberg-io/actions/publish-swift-release@v1
+        with:
+          tag: ${{ needs.prepare.outputs.tag }}
+          bundle-zip: ""
+          receipt: dist/swift-artifactbundle/TreeSitterLanguagePack-rs.artifactbundle.release.json
+          dry-run: "true"
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Validate versions
         uses: xberg-io/actions/validate-versions@v1
@@ -4141,9 +4173,9 @@ jobs:
   # ~keep absent (the Swift test apps pin that branch) and never creates, moves or deletes a tag.
   publish-swift-release:
     name: Publish Swift release
-    needs: [prepare, e2e-swift]
+    needs: [prepare, validate-versions, e2e-swift]
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != true && needs.prepare.outputs.dry_run != 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true' && needs.prepare.outputs.dry_run != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -4174,7 +4206,6 @@ jobs:
           tag: ${{ needs.prepare.outputs.tag }}
           bundle-zip: ""
           receipt: dist/swift-artifactbundle/TreeSitterLanguagePack-rs.artifactbundle.release.json
-          dry-run: ${{ needs.prepare.outputs.dry_run }}
           token: ${{ steps.app-token.outputs.token }}
 
   build-zig-package:
