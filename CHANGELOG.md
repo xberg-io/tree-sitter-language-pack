@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Regenerate the bindings with Alef 0.119.0, so the generated manifests declare the raised minimums. The Zig package stays on Zig 0.16, which upstream tree-sitter's build still requires.
 - Python 3.11 is now the minimum supported version; Python 3.10 reached end of life.
 
+### Fixed
+
+- Pin the Jinja2 grammar to upstream `main` (`a4f8f18`), which keeps bare identifiers such as
+  `{{ variable }}` parsing without errors; the previous pin was an unmerged branch commit (#214).
+
 ## [1.23.1] - 2026-10-31
 
 ### Fixed

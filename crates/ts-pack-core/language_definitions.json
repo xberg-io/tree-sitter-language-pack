@@ -876,7 +876,7 @@
     "extensions": ["j2", "jinja2"],
     "generate": true,
     "repo": "https://github.com/Goldziher/tree-sitter-jinja2",
-    "rev": "baa1f57d116cce3a89c1742d6563520678faea13"
+    "rev": "a4f8f18f3d58a0b7cfdcbd8b0a1845c9a85c640d"
   },
   "jq": {
     "extensions": ["jq"],

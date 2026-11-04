@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "b01e9c991d36911ca6041cce2dc349457a3def746c935888c95169573902a0e7",
+  "definitions_sha256": "e94cf280edfe9de6c2b0076a6232d761d0f4dd33192f5d6fbf1ceb238c36d1c7",
   "languages": {
     "abl": {
       "branch": null,
@@ -2530,7 +2530,7 @@
       "local": null,
       "repo": "https://github.com/Goldziher/tree-sitter-jinja2",
       "resolution": "github-license",
-      "rev": "baa1f57d116cce3a89c1742d6563520678faea13",
+      "rev": "a4f8f18f3d58a0b7cfdcbd8b0a1845c9a85c640d",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
