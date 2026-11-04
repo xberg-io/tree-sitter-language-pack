@@ -43,8 +43,9 @@ env:
   CARGO_TERM_COLOR: always
   CARGO_INCREMENTAL: "0"
   RUST_BACKTRACE: short
-  # ~keep Every shipped macOS binary (wheels, Node, CLI, FFI, NIFs, natives, parser libraries, the Swift bundle)
-  # ~keep targets the org floor that Package.swift's `.macOS(.v26)` declares; toolchain defaults are lower.
+  # ~keep Every shipped macOS binary (wheels, Node, CLI, FFI, NIFs, natives, parser libraries) targets the org
+  # ~keep floor that Package.swift's `.macOS(.v26)` declares; toolchain defaults are lower. The Swift bundle is
+  # ~keep built by prepare-swift-release.yaml, whose shared workflow derives the same target from Package.swift.
   # ~keep scripts/ci/test_macos_deployment_target.py keeps the two equal. Non-Apple targets ignore it.
   MACOSX_DEPLOYMENT_TARGET: "26.0"
 
@@ -4065,43 +4066,6 @@ jobs:
           # `gh run watch --exit-status` exits non-zero when the run fails, so
           # this job's conclusion becomes the pub.dev publish conclusion. ~keep
           gh run watch "${run_id}" --exit-status --interval 15
-
-  build-swift-artifactbundle:
-    name: Build Swift artifact bundle
-    needs: [prepare, validate-versions, clone-vendors]
-    if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_swift == 'true') }}
-    runs-on: macos-26
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: ${{ needs.prepare.outputs.checkout_ref }}
-          fetch-depth: 0
-      - name: Download parsers
-        uses: actions/download-artifact@v8
-        with:
-          name: language-parsers
-          path: parsers
-      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
-      - uses: xberg-io/actions/setup-rust@v1
-      - uses: xberg-io/actions/build-swift-artifactbundle@v1
-        id: bundle
-        # ~keep Rust otherwise links the iOS archive for 10.0 while the zstd objects call ___chkstk_darwin,
-        # ~keep which the iOS 10 runtime lacks. This matches Package.swift's iOS platform; macOS comes from the
-        # ~keep workflow env.
-        env:
-          IPHONEOS_DEPLOYMENT_TARGET: "16.0"
-        with:
-          crate-name: tree-sitter-language-pack-swift
-          artifact-name: TreeSitterLanguagePack-rs
-          binary-target-name: RustBridgeBinary
-      - uses: actions/upload-artifact@v7
-        with:
-          name: swift-artifactbundle
-          path: ${{ steps.bundle.outputs.bundle-zip }}
-          if-no-files-found: error
-          retention-days: 14
 
   build-swift-package:
     name: Build Swift package

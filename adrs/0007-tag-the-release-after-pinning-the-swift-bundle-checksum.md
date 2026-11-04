@@ -34,7 +34,7 @@ A release takes two dispatches, following the
    alef's version sync, pushes that one commit to main together with the tag in a non-forced atomic push, and
    attaches the ZIP and receipt to a draft release.
 2. **Publish Release** on the tag. Its `publish-swift-release` job verifies the tagged manifest against the attached
-   ZIP and receipt (`bundle-zip: ""`), never rebuilds the bundle, and creates `release/swift/<version>` at the tagged
+   ZIP and receipt (`bundle-zip: ""`), builds no bundle, and creates `release/swift/<version>` at the tagged
    commit only when it is absent.
 
 ### Consequences
@@ -42,7 +42,8 @@ A release takes two dispatches, following the
 * Good, because the core tag object and its commit never change after creation, on first runs and on retries.
 * Good, because `from:`/`exact:` consumers and the legacy Swift branch resolve the same checksummed commit.
 * Good, because the pin, verification and recovery logic lives and is tested in xberg-io/actions.
-* Bad, because cutting a release needs one more dispatch, and Publish Release still builds a bundle it does not ship.
+* Bad, because cutting a release needs one more dispatch; Publish Release builds no Swift bundle, so the prepare
+  workflow's dry run is the only Swift bundle rehearsal.
 * Bad, because main holds the previous release's checksum under the next version's URL between a version bump and
   its preparation; `alef verify` accepts that.
 

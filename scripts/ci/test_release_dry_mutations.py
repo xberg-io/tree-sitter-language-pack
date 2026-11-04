@@ -300,6 +300,16 @@ class SwiftReleaseWorkflowTests(unittest.TestCase):
                         assert ref_rewrites(step.get("run", "")) == []
         assert scanned > 100
 
+    def test_publish_builds_no_swift_bundle(self) -> None:
+        builders = [
+            name
+            for name, job in self.jobs.items()
+            for step in job.get("steps", [])
+            if step.get("uses", "").startswith("xberg-io/actions/build-swift-artifactbundle@")
+        ]
+        assert builders == []
+        assert "build-swift-artifactbundle" not in self.jobs
+
     def test_swift_release_is_prepared_by_the_shared_workflow(self) -> None:
         workflow = yaml.safe_load((ROOT / ".github/workflows/prepare-swift-release.yaml").read_text())
         events = workflow.get("on", workflow.get(True))
