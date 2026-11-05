@@ -2,16 +2,16 @@
 # Refresh it with `ai-rulez lock`; `ai-rulez generate --locked` fails when it is stale.
 
 version = 1
-ai_rulez_version = '5.9.8'
+ai_rulez_version = '5.10.0'
 scope = 'all'
 outputs_pinned = true
-tree = 'sha256:7f6131717a879e567831ee7b7141da68e10d3fe45191480d57cad4398d2e81c2'
+tree = 'sha256:9dd7bc140128e25b6503778349a0cf6e3dac97f1eb84a4e2d551a742ab750b8e'
 
 [[item]]
 kind = 'skill'
 id = 'tree-sitter-language-pack'
 path = 'skills/tree-sitter-language-pack'
-digest = 'sha256:6d8b60d6189a56dc2ba63d2c446769599ac401801abe2f60ebf0ea6de5284430'
+digest = 'sha256:527452ec5e1eca8688919f5ca9f479c40ee7962f0ecd4de5664c7737aec2652d'
 
 [[item]]
 kind = 'skill'
@@ -23,7 +23,7 @@ digest = 'sha256:fb5e3790eaeefdd664b28ec008fbd3905ba91f092c3a9eff5b3ea634b81f16a
 kind = 'skill'
 id = 'tree-sitter-language-pack-detecting-languages'
 path = 'skills/tree-sitter-language-pack-detecting-languages'
-digest = 'sha256:a0d64df5de8bd766851e90069e2ae207a675b49cdcc81418ce48310bda713bfb'
+digest = 'sha256:83de88b336027ad7a75f354efa37a4fa7724747e3ee2c7371af41611b79eeb88'
 
 [[item]]
 kind = 'skill'
