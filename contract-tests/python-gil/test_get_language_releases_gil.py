@@ -5,6 +5,10 @@ Not alef-generated. alef.toml's `release_gil = true` skips functions that return
 regeneration can silently drop the `py.detach` around the core call. This test points the
 manifest at a local server that stalls, then checks that another Python thread keeps running
 while the call is blocked on it. ~keep
+
+The probed name is in no wheel's static grammar table: CI builds the wheel with every grammar
+compiled in, so a real name such as "rust" resolves statically, never downloads, and the test
+would measure nothing. ~keep
 """
 
 import json
@@ -18,6 +22,7 @@ from pathlib import Path
 import pytest
 
 STALL_SECONDS = 2.0
+UNBUNDLED_LANGUAGE = "tslp-gil-probe-unbundled"
 MAX_TICK_GAP_SECONDS = 0.5
 
 SERVER = textwrap.dedent(
@@ -42,7 +47,7 @@ PROBE = textwrap.dedent(
     import json, sys, threading, time
     import tree_sitter_language_pack as tslp
 
-    call = sys.argv[1]
+    call, name = sys.argv[1], sys.argv[2]
     stop = threading.Event()
     gaps = []
 
@@ -58,14 +63,15 @@ PROBE = textwrap.dedent(
     ticker.start()
     time.sleep(0.05)
     started = time.monotonic()
+    error = None
     try:
-        getattr(tslp, call)("rust")
-    except Exception:
-        pass
+        getattr(tslp, call)(name)
+    except Exception as exc:
+        error = repr(exc)
     elapsed = time.monotonic() - started
     stop.set()
     ticker.join()
-    print(json.dumps({"elapsed": elapsed, "max_gap": max(gaps)}))
+    print(json.dumps({"elapsed": elapsed, "max_gap": max(gaps), "error": error}))
     """
 )
 
@@ -91,7 +97,12 @@ def test_download_does_not_hold_the_gil(call: str, stalled_manifest_url: str, tm
         "TREE_SITTER_LANGUAGE_PACK_CACHE_DIR": str(tmp_path),
     }
     out = subprocess.run(
-        [sys.executable, "-c", PROBE, call], env=env, capture_output=True, text=True, timeout=60, check=True
+        [sys.executable, "-c", PROBE, call, UNBUNDLED_LANGUAGE],
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=60,
+        check=True,
     )
     result = json.loads(out.stdout.splitlines()[-1])
     # The call must really have waited on the stalled server, or the gap check proves nothing.
