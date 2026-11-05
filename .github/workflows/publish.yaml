@@ -1093,30 +1093,6 @@ jobs:
           lang: ruby
 
       # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
-      - name: Setup Ruby 3.2
-        if: matrix.os != 'macos-26-intel'
-        uses: xberg-io/actions/setup-mise@v1
-        with:
-          tools: ruby=3.2
-          mise-env: ci
-          config-ref: ${{ github.sha }}
-      - name: Setup Ruby 3.2 (macos-26-intel)
-        if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.2"
-          bundler: none
-          bundler-cache: false
-
-      - name: Stage Ruby 3.2 native extension
-        run: |
-          gem install bundler -v "$BUNDLER_VERSION" --no-document
-          ruby scripts/publish/ruby/stage-native-abi.rb
-        env:
-          PROJECT_ROOT: ${{ github.workspace }}
-          CARGO_TARGET_DIR: ${{ github.workspace }}/packages/ruby/target
-
-      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
       - name: Setup Ruby 3.3
         if: matrix.os != 'macos-26-intel'
         uses: xberg-io/actions/setup-mise@v1
@@ -1124,7 +1100,6 @@ jobs:
           tools: ruby=3.3
           mise-env: ci
           config-ref: ${{ github.sha }}
-          cache: "false"
       - name: Setup Ruby 3.3 (macos-26-intel)
         if: matrix.os == 'macos-26-intel'
         uses: ruby/setup-ruby@v1
@@ -1272,28 +1247,6 @@ jobs:
           bundler-cache: false
 
       - name: Verify platform gem on Ruby 3.3
-        run: |
-          gem install packages/ruby/tree_sitter_language_pack-*.gem --no-document
-          ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
-
-      # ~keep macos-26-intel keeps setup-ruby: no precompiled macOS x86_64 Ruby for mise.
-      - name: Setup Ruby 3.2 for platform gem verification
-        if: matrix.os != 'macos-26-intel'
-        uses: xberg-io/actions/setup-mise@v1
-        with:
-          tools: ruby=3.2
-          mise-env: ci
-          config-ref: ${{ github.sha }}
-          cache: "false"
-      - name: Setup Ruby 3.2 for platform gem verification (macos-26-intel)
-        if: matrix.os == 'macos-26-intel'
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.2"
-          bundler: none
-          bundler-cache: false
-
-      - name: Verify platform gem on Ruby 3.2
         run: |
           gem install packages/ruby/tree_sitter_language_pack-*.gem --no-document
           ruby -e 'require "tree_sitter_language_pack"; abort("parse failed") unless TreeSitterLanguagePack.get_parser("json").parse("{}").root_node.kind == "document"'
