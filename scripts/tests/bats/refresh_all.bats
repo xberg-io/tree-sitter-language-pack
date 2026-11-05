@@ -10,7 +10,7 @@ setup() {
 
 	SCRIPT="$(cd "$BATS_TEST_DIRNAME/../../.." && pwd -P)/mise-tasks/refresh/all.sh"
 	local tool
-	for tool in cargo uv uvx pnpm bundle go mvn dotnet composer mix dart swift zig gradle mise; do
+	for tool in cargo uv gau pnpm bundle go mvn dotnet composer mix dart swift zig gradle mise; do
 		xberg_stub "$tool" "printf '%s %s %s\\n' \"\${PWD##*/}\" '$tool' \"\$*\" >>\"\$XBERG_TRACE\""
 	done
 	mkdir -p "$XBERG_WORK"/packages/{ruby,go,java,csharp,elixir,zig,kotlin-android} "$XBERG_WORK/e2e/php"
@@ -54,7 +54,7 @@ setup() {
 		"zig zig build --fetch" \
 		"kotlin-android gradle dependencyUpdates -Drevision=release --no-daemon" \
 		"work uv run --no-sync scripts/check_grammar_updates.py --dry-run" \
-		"work uvx --from gh-actions-updater==0.3.0 gau --update --recursive --pin-style major --missing-ref fallback .github"
+		"work gau --update --recursive --pin-style major --missing-ref fallback .github"
 }
 
 @test "upgrade takes breaking releases and routes rust, dart, swift and zig through the shared engine" {
@@ -93,7 +93,7 @@ setup() {
 		"work mise run deps upgrade zig" \
 		"kotlin-android gradle dependencyUpdates -Drevision=latest.release --no-daemon" \
 		"work uv run --no-sync scripts/check_grammar_updates.py --dry-run" \
-		"work uvx --from gh-actions-updater==0.3.0 gau --update --recursive --pin-style major --missing-ref fallback .github"
+		"work gau --update --recursive --pin-style major --missing-ref fallback .github"
 }
 
 @test "an unknown mode exits 2 before running anything" {
