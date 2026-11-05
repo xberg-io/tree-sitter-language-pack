@@ -44,10 +44,10 @@ env:
   CARGO_INCREMENTAL: "0"
   RUST_BACKTRACE: short
   # ~keep Every shipped macOS binary (wheels, Node, CLI, FFI, NIFs, natives, parser libraries) targets the org
-  # ~keep floor that Package.swift's `.macOS(.v26)` declares; toolchain defaults are lower. The Swift bundle is
+  # ~keep floor that Package.swift's `.macOS(.v15)` declares; toolchain defaults are lower. The Swift bundle is
   # ~keep built by prepare-swift-release.yaml, whose shared workflow derives the same target from Package.swift.
   # ~keep scripts/ci/test_macos_deployment_target.py keeps the two equal. Non-Apple targets ignore it.
-  MACOSX_DEPLOYMENT_TARGET: "26.0"
+  MACOSX_DEPLOYMENT_TARGET: "15.0"
 
 permissions:
   contents: read

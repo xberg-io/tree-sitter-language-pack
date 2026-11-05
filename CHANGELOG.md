@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- macOS 15 is supported again. Every macOS binary the release ships (FFI libraries, language extensions, CLI, parser libraries, Swift bundle and Python wheels) and the Swift package require macOS 15, the oldest macOS that Apple still supports, instead of macOS 26. `Package.swift` uses `swift-tools-version: 6.0`.
+
 ## [1.24.0] - 2026-11-05
 
 ### Changed
