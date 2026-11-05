@@ -5,7 +5,7 @@ go 1.27
 require (
 	github.com/stretchr/testify v1.12.1
 	github.com/tree-sitter/go-tree-sitter v0.25.0
-	github.com/xberg-io/tree-sitter-language-pack/packages/go v1.23.1
+	github.com/xberg-io/tree-sitter-language-pack/packages/go v1.24.0
 )
 
 require (
