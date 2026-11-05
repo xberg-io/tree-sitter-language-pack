@@ -113,7 +113,7 @@ Via swift-bridge for macOS, iOS, and Linux with native Swift types and async/awa
 
 ## Installation
 
-Requires macOS 13+ and Swift 6.0+. Add to your `Package.swift`:
+Requires macOS 13+ and Swift 6.2+. Add to your `Package.swift`:
 
 ```swift
 .package(
