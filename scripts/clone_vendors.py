@@ -58,7 +58,7 @@ from _vendor_sources import (
 from anyio import Path as AsyncPath
 from anyio import run_process
 from anyio.to_thread import run_sync
-from git import Repo
+from git import GitCommandError, Repo
 
 _project_root = Path(__file__).parent.parent
 
@@ -324,6 +324,28 @@ async def _hydrate_lfs_pointers(clone_target: Path, language_name: str) -> None:
         await run_sync(partial(_write_verified_lfs_object, path, content, oid, size, language_name))
 
 
+async def _checkout_rev(repo: Repo, rev: str, language_name: str) -> None:
+    """Check out a pinned revision, fetching it by id when no branch or tag still reaches it.
+
+    Upstream force-pushes leave a pinned commit outside every ref (tree-sitter-abl, 2026-11-03),
+    so a full clone does not carry it and a plain checkout fails; GitHub still serves it by id.
+
+    Args:
+        repo: The fresh clone.
+        rev: The pinned revision.
+        language_name: The grammar being cloned.
+
+    Raises:
+        GitCommandError: If the revision cannot be fetched or checked out.
+    """
+    try:
+        await run_sync(lambda: repo.git.checkout(rev))
+    except GitCommandError:
+        print(f"[clone_vendors] {language_name}: {rev} is on no upstream ref; fetching it by id", flush=True)
+        await run_sync(lambda: repo.git.fetch("origin", rev))
+        await run_sync(lambda: repo.git.checkout(rev))
+
+
 async def _clone_with_lfs_fallback(
     clone_kwargs: dict[str, object],
     rev: str | None,
@@ -349,7 +371,7 @@ async def _clone_with_lfs_fallback(
         repo = await run_sync(partial(Repo.clone_from, env=skip_smudge, **clone_kwargs))  # type: ignore[arg-type]
         repo.git.update_environment(**skip_smudge)
         if rev:
-            await run_sync(lambda r=repo: r.git.checkout(rev))
+            await _checkout_rev(repo, rev, language_name)
     except Exception as e:
         raise RuntimeError(f"failed to clone {language_name} with LFS smudging disabled: {e}") from e
 
@@ -404,8 +426,7 @@ async def clone_repository(repo_url: str, branch: str | None, language_name: str
             repo = await run_sync(partial(Repo.clone_from, **kwargs))  # type: ignore[arg-type]
             print(f"Cloned {repo_url} successfully")
             if rev:
-                cloned_repo = repo
-                await run_sync(lambda r=cloned_repo: r.git.checkout(rev))
+                await _checkout_rev(repo, rev, language_name)
                 print(f"Checked out {rev}")
             return
         except Exception as e:  # noqa: PERF203

@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Clone a grammar whose pinned commit no branch or tag reaches any more by fetching that commit directly. Upstream
+  `tree-sitter-abl` force-pushed `master`, and every fresh source build failed with `unable to read tree`.
 - Keep the core release tag immutable when publishing Swift: the new Prepare Swift release workflow (the shared
   xberg-io/actions workflow) builds the artifact bundle once, pins its checksum into `Package.swift` on main and tags
   that commit, and Publish Release verifies the tag instead of committing a checksum and force-moving the tag and
