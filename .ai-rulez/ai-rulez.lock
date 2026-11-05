@@ -4,7 +4,7 @@
 version = 1
 ai_rulez_version = '5.10.0'
 scope = 'all'
-tree = 'sha256:e16eb5cbf10df53d79027f8c904eaa35e4e367c9f345b32088b473632a606f3a'
+tree = 'sha256:9caf578b4270a7f4325b6f5a11b8c34d115f8498b8b8315edacea46900fbf385'
 
 [[include]]
 name = 'xberg-bindings'
@@ -237,169 +237,169 @@ digest = 'sha256:2700d984ba10baa2e16ed19b48cc8fd5f7351776f2ce03f6712394d3912f91c
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:cb72f91ca2097bfbfc1eec91caf9458192768d557a7abd4e003fc829905f0910'
+digest = 'sha256:1369a19ecc7d64cc3ac3e2d8dd9b400286166ec37b128ac7322a9265b5aee55f'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:53362cb7338f4efb38271d39b582cf15db54a2053de1424e87ea0f2cb620a160'
+digest = 'sha256:b1069ec11e0e692fa246fdd4bf7cb121e420b0be42dc69ad0a83a6180406ca0f'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:ec12d389325073e2022a38d169485eb4ec3798266bbd0aab5f90514f30cf551e'
+digest = 'sha256:32f0126e9238017306e0b93bfa0571b31266b98197a81d1fcf959de57eacc01f'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:d4e9b35c23c940f0b7ac3e86e367ec378e2e21660575af3736f5764610e2f8e3'
+digest = 'sha256:06a871d5bdd93e9dcd76246ad2510f8eebfead6ff2c221359908a11b29c2e94a'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:59dd4b0dfce0ead9ef7f7a44c51aace8b7ba4fbe3cdeb1d6e0161831ea127766'
+digest = 'sha256:b5a2b6a7fa6329cd1bdc9449bba21c61aea2427adacb6a473b7d689802490718'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:b0ad39a81bcc3f66787808012e719886b733a197a37348b77e50155c518b50bd'
+digest = 'sha256:a5fa4e276ef1b390aebaa6cbf4d0f01db8d12dc8a2798b45886b32829bcd7d64'
 
 [[served]]
 name = 'plugin.hermes.package.src.tree_sitter_language_pack_hermes_plugin.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/.hermes/package/src/tree_sitter_language_pack_hermes_plugin/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:2e182dff555a81ca9e2c3f8fb13c9e29d92ab73aa68f2ae470cc4c9370f240a6'
+digest = 'sha256:acedb3ea697e1b77a160e5618103639dea4e08a53a0b643f48992f0a2eb4884b'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:74296ce2f2f327ed2becf97f2ff1cce1dc4a8a35ba15deca6828e03e4ac5acbc'
+digest = 'sha256:7d838031b9913d4c6bd05f84bb5f1023c1d7a81c1786a1f25d346337e1d97e60'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:517ad64b9077d06af616831f1e818e8e6239016351a7b1ddc57c4bff4c432e85'
+digest = 'sha256:4cf3316ba50f7414a613c922ba2ff709a186ac1ee60deb0b4cde8bba8e143573'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:45275a285001d739ccb85d0d0071e55d956ee868ae8486b2f3b365ef5d648529'
+digest = 'sha256:49c764bde97330257825204402a212fe372df5764ed97728a3ae720157365bf9'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:9f347dd0c6907d0fc8559e77c0d551944c8ddcd267a5f3eb33262a56150307d2'
+digest = 'sha256:a6ee0642c58e3d22402061a15541d7034fc75e51577ac5ec52463cb0819a2ff8'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:31c6d185e9a229fc72f9d8b4d2b017ed92f411b8c444f8c3adf028ada8c27aee'
+digest = 'sha256:28382e3a990d49a89edb5981427db2b1aacd2a2247429169561ddc10e2c735a7'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:40e245c32487cf6db3dae9ce28228f9f1ee81b0e6f888654c45311077726ae36'
+digest = 'sha256:7b47e78af4890b82594edcdb0435d403f186a092591c1b0f0d58dffbcfac11b3'
 
 [[served]]
 name = 'plugin.hermes.plugins.tree-sitter-language-pack.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/.hermes/plugins/tree-sitter-language-pack/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:384ae183fd3d44dd4fc9ed7b2457853aba39d1ae2977ea5595b0cc3cf732b193'
+digest = 'sha256:c8ffbe849d8410bf5f5e3059e7aea28c6fdfadd385bced72326f9012b2187e9b'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:c9fd8ec41526914406c7fc33694b84276079244be7dc92cdfc3cd16810b4c6c9'
+digest = 'sha256:24b6b57c0dd9b537075aa11fd21b6634ec8501077cb70bf8f3b2be4ca8598e6d'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:e039af8b1e5fc83ce606e4a4d2772cae72ab8fbf2d97b035bbebba39fd22a7c6'
+digest = 'sha256:31844a38b15eb9fd99ee966bf0e70ba7e6a6e0c3701f15d3a7fa4fb1633706c8'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:a2a3c1319a26c75c1baeb0968c8ea0021e11b89a4f3181bfdfe3e083963677e2'
+digest = 'sha256:b3a21d57619ae88d376c59bd5ef21942fd12ad7f717f25e805868d805e89baad'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:b387a218165432a8ee72cf565a99a9859f4252872d62d3c096b361b87195549a'
+digest = 'sha256:bdf2470f3de9e02387af2f714cfd47e1a37e3d95ffb6b1dd98c4c87ce12e321d'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:8bd510ee9a38fd55e6b518b09975344f1986de0364f2e1c61b5435beac36a49b'
+digest = 'sha256:db5dec47e768c93321cdad39730053564fe89ebc1bf6549c2a97c80bcb875251'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:0fcee9538bf35280d2d7ebe6e5d097df1e5b0148fbaaff9066727fc75c7d200a'
+digest = 'sha256:ea4150eb10b545ad4ef7fb2c96341403c96d534179c840e5380aecac16b900c4'
 
 [[served]]
 name = 'plugin.opencode.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/.opencode/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:d8cd149af6368107a6a78a5d685e2ba0457a098e943cf0ea8186f606b749cc66'
+digest = 'sha256:8b6ade49a98976cef8c31fe026c56640fe6e5a31dfa64e77501d9f1049ee219c'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack'
 source = 'plugin/skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:8d3f0dfc735b5dcb4f8da77d8947f55b3930d0b5fbe05e6a9b5d0ef8d1d6981b'
+digest = 'sha256:9b8e4aa0c402b9b58540a58ec48c3a4fe4903aa21fe4e5c19e811f9a70e10821'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-chunking-for-llms'
 source = 'plugin/skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:d6dfb1384428db8eed983e26ececa49f74d484c4b09da23eea7cb849d09c864c'
+digest = 'sha256:ad1952e4b5d0adc82df391bee81e3fa126d1b6ed00abee5a0f8768f5520419c5'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-detecting-languages'
 source = 'plugin/skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:3a1570eeb23c16b3a974228ea5a68756c098dce66052380a0b293460347aa1e8'
+digest = 'sha256:f0f647e4290b1b234fcd0279f187d51cff16e10cd10988d41889313eba4e4355'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-extracting-code-structure'
 source = 'plugin/skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:aa78cabb18d0475c67a71548a73692cf375ce0731a452f1bb31e838361347b19'
+digest = 'sha256:2fcd9014f8aa1e462666b82b2db6db33f6440d28d60d5519e2cf171dbfb7a987'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-managing-parsers'
 source = 'plugin/skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:5d08c4dd6431730f464cb554a8257f303493b452ba0ce357fc2d6b156e67ae31'
+digest = 'sha256:2dfa0dbbc9f6cea5f1535875b6c62a5e9baddfea4b7164658f780ebae3c116d6'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-parsing-source'
 source = 'plugin/skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:b3a1df9ef709edc4a91f81a2be4b9d782a8b3ee01ab6b16ffa167efe2606c762'
+digest = 'sha256:4a56e09a06450071a96f709f414105593e30a631297b4d2d7d69d23aa54c8930'
 
 [[served]]
 name = 'plugin.skills.tree-sitter-language-pack-using-the-mcp-server'
 source = 'plugin/skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:cf54d08bc1281c0f252a6047a0a76e592ead51005918580dd35ea7e5892de9e4'
+digest = 'sha256:bf52269c5955c3678b917d6c088be805769be57fbfd90b5a9f2d79f7eee21785'
 
 [[served]]
 name = 'poly-lint-format'
@@ -447,43 +447,43 @@ digest = 'sha256:6b41c52c1e88c3251b6c85f5196b0cd536a41f63ad5ba0862485d569259457e
 name = 'tree-sitter-language-pack'
 source = 'skills/tree-sitter-language-pack'
 commit = ''
-digest = 'sha256:05ae94b66855eefdbeac7662bfdca7deb43413d99581a6a19f10e2d721f27ea1'
+digest = 'sha256:1e183049858702ade2484536ad81e51f4f644c88d02579789f844e15f2061ad7'
 
 [[served]]
 name = 'tree-sitter-language-pack-chunking-for-llms'
 source = 'skills/tree-sitter-language-pack-chunking-for-llms'
 commit = ''
-digest = 'sha256:ae46772dcf6313ee8236bc5b4cf04cdff3a52cf2c46e1dcfee57c46e3aff108f'
+digest = 'sha256:01e99511a2088867a9b420988eb01f3115f16f8963b3ecaf6d185739182d26ca'
 
 [[served]]
 name = 'tree-sitter-language-pack-detecting-languages'
 source = 'skills/tree-sitter-language-pack-detecting-languages'
 commit = ''
-digest = 'sha256:4741f33dfcdbb586af3525c28f793fcdcb2cb2f9a1c96316df4bb4c09cb5cccc'
+digest = 'sha256:96f94964378a1c2145f5867548e303e38904a209c9336c37b090019c13236b3e'
 
 [[served]]
 name = 'tree-sitter-language-pack-extracting-code-structure'
 source = 'skills/tree-sitter-language-pack-extracting-code-structure'
 commit = ''
-digest = 'sha256:bce1a0de79187b608053fb77bec22c7301b7d00b0e4d0091b400a3fb1a612ef3'
+digest = 'sha256:9b8a4968a4c78c1896c899f3a4bf841bcf56fdcd1c110805040abc30b2262db5'
 
 [[served]]
 name = 'tree-sitter-language-pack-managing-parsers'
 source = 'skills/tree-sitter-language-pack-managing-parsers'
 commit = ''
-digest = 'sha256:548d65109a03514a05f437bb73fe9c607ec95163af991902f3d25d4394889e31'
+digest = 'sha256:d6158f959bc78cf47e4ecf20bac3e72c450b3031eeb3af3c9f2e78245dda859f'
 
 [[served]]
 name = 'tree-sitter-language-pack-parsing-source'
 source = 'skills/tree-sitter-language-pack-parsing-source'
 commit = ''
-digest = 'sha256:f93a55fc8858ff7cace1f66c81529c5c7db5258c38ce09a891b2a970615574c3'
+digest = 'sha256:2578c2aae8dc11f0084349dc21e88557fa30d9da6a8a82075ef7c74fb21a069e'
 
 [[served]]
 name = 'tree-sitter-language-pack-using-the-mcp-server'
 source = 'skills/tree-sitter-language-pack-using-the-mcp-server'
 commit = ''
-digest = 'sha256:fdfdbc105de513edebf7789a0293711af28f52fd1bd83bf86822d42d237e0f24'
+digest = 'sha256:3de6d3c85d49719984a6c51c54bf9f74041bc5bdb6093023dfc1432adf328395'
 
 [[served]]
 name = 'verification-harness'
