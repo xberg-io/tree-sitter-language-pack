@@ -11,7 +11,7 @@ import PackageDescription
 let package = Package(
   name: "TreeSitterLanguagePack",
   platforms: [
-    .macOS(.v15),
+    .macOS(.v13),
     .iOS(.v16),
   ],
   products: [

@@ -93,7 +93,7 @@ dependencies {
 ```
 
 {% elif language == "swift" %}
-Requires macOS 15+ and Swift 6.0+. Add to your `Package.swift`:
+Requires macOS 13+ and Swift 6.0+. Add to your `Package.swift`:
 
 ```swift
 .package(

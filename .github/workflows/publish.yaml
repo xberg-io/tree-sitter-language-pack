@@ -43,11 +43,13 @@ env:
   CARGO_TERM_COLOR: always
   CARGO_INCREMENTAL: "0"
   RUST_BACKTRACE: short
-  # ~keep Every shipped macOS binary (wheels, Node, CLI, FFI, NIFs, natives, parser libraries) targets the org
-  # ~keep floor that Package.swift's `.macOS(.v15)` declares; toolchain defaults are lower. The Swift bundle is
-  # ~keep built by prepare-swift-release.yaml, whose shared workflow derives the same target from Package.swift.
-  # ~keep scripts/ci/test_macos_deployment_target.py keeps the two equal. Non-Apple targets ignore it.
-  MACOSX_DEPLOYMENT_TARGET: "15.0"
+  # ~keep Every shipped macOS binary (wheels, Node, CLI, FFI, NIFs, natives, parser libraries) targets the lowest
+  # ~keep macOS the code and toolchain need: 10.13, the floor SwiftTreeSitter also declares. rustc, clang and maturin
+  # ~keep raise arm64 to 11.0, the first macOS on Apple Silicon, so wheels are tagged macosx_10_13_x86_64 and
+  # ~keep macosx_11_0_arm64. The Swift package minimum in Package.swift is separate; the Swift bundle is built by
+  # ~keep prepare-swift-release.yaml, whose shared workflow derives its target from Package.swift.
+  # ~keep scripts/ci/test_macos_deployment_target.py holds both values. Non-Apple targets ignore it.
+  MACOSX_DEPLOYMENT_TARGET: "10.13"
 
 permissions:
   contents: read

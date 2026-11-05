@@ -1013,8 +1013,9 @@ abi_compatible = true
 [crates.swift]
 module_name = "TreeSitterLanguagePack"
 package_name = "TreeSitterLanguagePack"
-# The oldest macOS that Apple still supports (alef ADR 0021).
-min_macos_version = "15.0"
+# alef 0.124.1 cannot write a 10.x minimum (it would emit `.v10`). xberg-io/alef#893 lowers the
+# generated floor to 10.15 (async/await); move this to "10.15" with the alef release that carries it.
+min_macos_version = "13.0"
 
 [crates.swift.capsule_types.Language]
 host_type = "SwiftTreeSitter.Language"
