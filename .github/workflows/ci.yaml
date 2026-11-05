@@ -196,15 +196,15 @@ jobs:
       # skipped poly's workspace phase entirely, so those five linters ran only in
       # the git hooks and CI never saw them. ~keep
       setup-go: true
-      # Pinned to the toolchain go.work actually declares (`go 1.26`). The reusable
-      # workflow defaults `go-version` to "stable", which resolved to Go 1.27.0 and made
-      # golangci-lint v2.12.2 fail typecheck on the *stdlib*, not on our code:
-      # "could not import math/rand/v2 (.../rand.go:213:17: method must have no type
-      # parameters)" (run 33250082407). golangci-lint embeds its own go/types, so a Go
-      # release newer than the one it was built against breaks it. The test and e2e jobs
-      # build with the mise baseline Go; only this golangci-lint run stays on 1.26 until
-      # golangci-lint supports the newer stdlib. ~keep
-      go-version: "1.26"
+      # golangci-lint embeds its own go/types, so it must be built with a Go at least as new
+      # as the toolchain it analyses. go.work declares `go 1.27`, so any older Go here just
+      # auto-downloads go1.27.0 (GOTOOLCHAIN=auto), and the reusable workflow's default
+      # golangci-lint v2.12.2 (built with go1.26) then fails typecheck on the *stdlib*:
+      # "could not import math/rand/v2 (... method must have no type parameters)"
+      # (runs 33250082407, 41929746126). Go 1.27 support landed in golangci-lint v2.13.0;
+      # keep both pins in step with go.work and the mise baseline Go. ~keep
+      go-version: "1.27"
+      golangci-lint-version: v2.15.0
       setup-ruby: true
       setup-dart: true
       setup-elixir: true
