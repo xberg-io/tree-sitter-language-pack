@@ -1901,8 +1901,8 @@
   },
   "zig": {
     "extensions": ["zig"],
-    "repo": "https://github.com/maxxnino/tree-sitter-zig",
-    "rev": "a80a6e9be81b33b182ce6305ae4ea28e29211bd5"
+    "repo": "https://github.com/tree-sitter-grammars/tree-sitter-zig",
+    "rev": "6479aa13f32f701c383083d8b28360ebd682fb7d"
   },
   "ziggy": {
     "directory": "tree-sitter-ziggy",

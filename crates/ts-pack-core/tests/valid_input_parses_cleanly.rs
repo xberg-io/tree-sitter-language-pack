@@ -1,11 +1,12 @@
-//! Valid input that older bash, c and dockerfile pins parsed with ERROR nodes (#216).
+//! Valid input that older bash, c, dockerfile (#216) and zig (#217) pins parsed with ERROR nodes.
 #![allow(clippy::unwrap_used, clippy::expect_used)] // ~keep: a failed setup step in a test must abort loudly
 
 use tree_sitter_language_pack::get_parser;
 
 fn assert_parses_cleanly(language: &str, source: &str) -> String {
-    let mut parser = get_parser(language)
-        .unwrap_or_else(|e| panic!("{language} grammar required; build with TSLP_LANGUAGES=bash,c,dockerfile: {e}"));
+    let mut parser = get_parser(language).unwrap_or_else(|e| {
+        panic!("{language} grammar required; build with TSLP_LANGUAGES=bash,c,dockerfile,zig: {e}")
+    });
     let tree = parser.parse(source).unwrap();
     let root = tree.root_node();
     let sexp = root.to_sexp();
@@ -39,4 +40,24 @@ fn c_has_include_with_system_header_argument() {
 fn dockerfile_legacy_env_value_with_spaces() {
     let sexp = assert_parses_cleanly("dockerfile", "ENV LEGACY some value here\n");
     assert!(sexp.contains("(env_instruction (env_pair"), "{sexp}");
+}
+
+#[test]
+fn zig_destructuring_declarations() {
+    let source = concat!(
+        "fn f() void {\n",
+        "    const a, const b = .{ 1, 2 };\n",
+        "    var c: u8, var d: u8 = .{ 3, 4 };\n",
+        "    _ = .{ a, b, c, d };\n",
+        "}\n",
+    );
+    let sexp = assert_parses_cleanly("zig", source);
+    assert!(
+        sexp.contains("(variable_declaration (identifier) (identifier) (anonymous_struct_initializer"),
+        "{sexp}"
+    );
+    assert!(
+        sexp.contains("(variable_declaration (identifier) type: (builtin_type) (identifier) type: (builtin_type)"),
+        "{sexp}"
+    );
 }

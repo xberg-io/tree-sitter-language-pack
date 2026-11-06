@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking for Zig queries:** the Zig grammar moves from the archived `maxxnino/tree-sitter-zig` to the maintained
+  `tree-sitter-grammars/tree-sitter-zig` (`6479aa1`). Node names change from the PEG-style vocabulary (`FnProto`,
+  `VarDecl`, `ErrorUnionExpr`) to snake_case (`function_declaration`, `variable_declaration`), so custom Zig queries
+  need rewriting; the bundled queries are the new grammar's, and it adds `locals.scm`.
+
+### Fixed
+
+- Parse Zig destructuring declarations (`const a, const b = .{ 1, 2 };`, Zig 0.12+) without errors (#217).
+
 ## [1.24.1] - 2026-11-06
 
 ### Changed

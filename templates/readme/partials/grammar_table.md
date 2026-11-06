@@ -369,7 +369,7 @@
 | Yang | [Hubro/tree-sitter-yang](https://github.com/Hubro/tree-sitter-yang) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
 | Yuck | [tree-sitter-grammars/tree-sitter-yuck](https://github.com/tree-sitter-grammars/tree-sitter-yuck) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Yul | [grammars/yul](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/yul) (vendored) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Zig | [maxxnino/tree-sitter-zig](https://github.com/maxxnino/tree-sitter-zig) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
+| Zig | [tree-sitter-grammars/tree-sitter-zig](https://github.com/tree-sitter-grammars/tree-sitter-zig) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Ziggy | [kristoff-it/ziggy](https://github.com/kristoff-it/ziggy) | 14 | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | Ziggy Schema | [kristoff-it/ziggy](https://github.com/kristoff-it/ziggy) | 14 | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | Zsh | [georgeharker/tree-sitter-zsh](https://github.com/georgeharker/tree-sitter-zsh) | 15 | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |

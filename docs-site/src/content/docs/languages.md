@@ -374,7 +374,7 @@ tree-sitter-language-pack supports **371** languages.
 | Yang | `.yang` | [Hubro/tree-sitter-yang](https://github.com/Hubro/tree-sitter-yang) | 14 |
 | Yuck | `.yuck` | [tree-sitter-grammars/tree-sitter-yuck](https://github.com/tree-sitter-grammars/tree-sitter-yuck) | 14 |
 | Yul | `.yul` | [grammars/yul](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/yul) (vendored) | 14 |
-| Zig | `.zig` | [maxxnino/tree-sitter-zig](https://github.com/maxxnino/tree-sitter-zig) | 14 |
+| Zig | `.zig` | [tree-sitter-grammars/tree-sitter-zig](https://github.com/tree-sitter-grammars/tree-sitter-zig) | 14 |
 | Ziggy | `.ziggy` | [kristoff-it/ziggy](https://github.com/kristoff-it/ziggy) | 14 |
 | Ziggy Schema | — | [kristoff-it/ziggy](https://github.com/kristoff-it/ziggy) | 14 |
 | Zsh | `.zsh` | [georgeharker/tree-sitter-zsh](https://github.com/georgeharker/tree-sitter-zsh) | 15 |
