@@ -42,6 +42,7 @@ from _vendor_lfs import (
     _find_lfs_pointers,
     _write_verified_lfs_object,
 )
+from _vendor_licenses import has_license_file, retain_licenses
 from _vendor_queries import (
     QUERY_TYPES,
     _collect_query_candidates,
@@ -211,7 +212,7 @@ def _is_language_cached(language_name: str, language_definition: LanguageDict, m
         return False
 
     parser_dir = parsers_directory / language_name / "src"
-    return parser_dir.exists() and any(parser_dir.iterdir())
+    return parser_dir.exists() and any(parser_dir.iterdir()) and has_license_file(parser_dir.parent)
 
 
 def get_language_definitions() -> tuple[dict[str, LanguageDict], list[str]]:
@@ -753,12 +754,13 @@ async def _discover_and_copy_queries(
             print(f"Warning: failed to copy {language_name} {query_type}: {e}")
 
 
-async def move_src_folder(language_name: str, directory: str | None) -> None:
-    """Move the src folder to the parsers directory and discover/copy queries.
+async def move_src_folder(language_name: str, directory: str | None, language_definition: LanguageDict) -> None:
+    """Move the src folder to the parsers directory, copy its licences and discover/copy queries.
 
     Args:
         language_name: The name of the language.
         directory: The directory to move the src folder from.
+        language_definition: The language definition, for the licence notice fallback.
 
     Returns:
         None
@@ -803,6 +805,9 @@ async def move_src_folder(language_name: str, directory: str | None) -> None:
         await run_sync(rmtree, target_queries)
 
     await _discover_and_copy_queries(language_name, directory, vendor_repo, target_queries)
+
+    kept = await run_sync(retain_licenses, language_name, dict(language_definition), vendor_repo, target_source_dir)
+    print(f"Retained {language_name} licence files: {', '.join(kept)}")
 
 
 async def copy_local_grammar(local_path: str, language_name: str) -> None:
@@ -867,7 +872,7 @@ async def process_repo(
             tree_sitter_cli=tree_sitter_cli,
             force=force,
         )
-    await move_src_folder(language_name=language_name, directory=directory)
+    await move_src_folder(language_name=language_name, directory=directory, language_definition=language_definition)
 
     clone_dir = vendor_directory / language_name
     if await AsyncPath(clone_dir).exists():
