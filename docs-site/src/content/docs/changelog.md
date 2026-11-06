@@ -10,12 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.25.0] - 2026-11-06
+
 ### Changed
 
 - **Breaking for Zig queries:** the Zig grammar moves from the archived `maxxnino/tree-sitter-zig` to the maintained
-  `tree-sitter-grammars/tree-sitter-zig` (`6479aa1`). Node names change from the PEG-style vocabulary (`FnProto`,
-  `VarDecl`, `ErrorUnionExpr`) to snake_case (`function_declaration`, `variable_declaration`), so custom Zig queries
-  need rewriting; the bundled queries are the new grammar's, and it adds `locals.scm`.
+  `tree-sitter-grammars/tree-sitter-zig` (`6479aa1`). Zig node and field names now follow the new grammar: the
+  PEG-style node vocabulary (`FnProto`, `VarDecl`, `ErrorUnionExpr`) becomes snake_case (`function_declaration`,
+  `variable_declaration`), so custom Zig queries need rewriting; the bundled queries are the new grammar's, and it adds
+  `locals.scm`.
 
 ### Fixed
 
