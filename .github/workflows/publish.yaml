@@ -550,7 +550,17 @@ jobs:
             parsers/*/package.json
             parsers/*/.gitignore
             parsers/*/test
+            *.o
+            *.obj
+            *.a
+            *.lib
+            *.so
+            *.dylib
+            *.dll
           output: dist/parser-sources-${{ needs.prepare.outputs.version }}.tar.zst
+
+      - name: Check parser-sources bundle
+        run: python3 scripts/ci/check_source_bundle.py "dist/parser-sources-${{ needs.prepare.outputs.version }}.tar.zst"
 
       - name: Upload to GitHub Release
         if: ${{ needs.prepare.outputs.dry_run != 'true' }}
@@ -880,6 +890,13 @@ jobs:
             parsers/*/package.json
             parsers/*/.gitignore
             parsers/*/test
+            *.o
+            *.obj
+            *.a
+            *.lib
+            *.so
+            *.dylib
+            *.dll
           output: /tmp/parser-sources.tar.zst
 
       - name: Smoke install from sdist (force source bundle download)
