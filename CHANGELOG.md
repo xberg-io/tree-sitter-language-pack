@@ -10,9 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - The `parser-sources-<version>.tar.zst` release bundle no longer ships compiled objects that some upstream grammars
-  commit (`vhs`, `clarity`, `bitbake` `parser.o`), and every `parsers/<language>/` now carries its upstream LICENSE,
-  COPYING or NOTICE files. The 11 grammars whose pinned source has none get a generated `NOTICE` with the SPDX
-  identifier from `sources/grammar_notices.json`. The publish job checks the bundle for both before release.
+  commit (`vhs`, `clarity`, `bitbake` `parser.o`): vendoring deletes them from `parsers/<language>/` and the bundle
+  excludes them. Every `parsers/<language>/` now carries its upstream LICENSE, COPYING or NOTICE files. The 11
+  grammars whose pinned source has none get a generated `NOTICE` with the SPDX identifier from
+  `sources/grammar_notices.json`. The publish job checks the bundle for both before release.
 
 ## [1.25.0] - 2026-11-06
 

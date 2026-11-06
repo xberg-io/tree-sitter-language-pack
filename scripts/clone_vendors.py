@@ -111,6 +111,9 @@ CACHE_MANIFEST_FILE = parsers_directory / ".cache_manifest.json"
 SHARD_INDEX = int(os.environ.get("TSLP_SHARD_INDEX", "0"))
 SHARD_COUNT = int(os.environ.get("TSLP_SHARD_COUNT", "1"))
 
+BUILD_OUTPUT_SUFFIXES = (".o", ".obj", ".a", ".lib", ".so", ".dylib", ".dll")
+"""Compiled objects and libraries some upstream grammars commit next to their sources."""
+
 COMMON_RE_PATTERN = re.compile(r"\.\.[/\\](?:\.\.[/\\])*common[/\\]")
 
 _lfs_bundle_lock = asyncio.Lock()
@@ -754,6 +757,16 @@ async def _discover_and_copy_queries(
             print(f"Warning: failed to copy {language_name} {query_type}: {e}")
 
 
+def _remove_build_outputs(target_dir: Path) -> list[str]:
+    """Delete compiled objects and libraries from a vendored grammar; return their relative paths."""
+    removed = sorted(
+        path for path in target_dir.rglob("*") if path.is_file() and path.suffix.lower() in BUILD_OUTPUT_SUFFIXES
+    )
+    for path in removed:
+        path.unlink()
+    return [path.relative_to(target_dir).as_posix() for path in removed]
+
+
 async def move_src_folder(language_name: str, directory: str | None, language_definition: LanguageDict) -> None:
     """Move the src folder to the parsers directory, copy its licences and discover/copy queries.
 
@@ -805,6 +818,10 @@ async def move_src_folder(language_name: str, directory: str | None, language_de
         await run_sync(rmtree, target_queries)
 
     await _discover_and_copy_queries(language_name, directory, vendor_repo, target_queries)
+
+    removed = await run_sync(_remove_build_outputs, target_source_dir)
+    if removed:
+        print(f"Removed {language_name} upstream build outputs: {', '.join(removed)}")
 
     kept = await run_sync(retain_licenses, language_name, dict(language_definition), vendor_repo, target_source_dir)
     print(f"Retained {language_name} licence files: {', '.join(kept)}")
