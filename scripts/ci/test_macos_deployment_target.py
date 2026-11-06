@@ -29,8 +29,8 @@ def deployment_targets(document: object, where: str = "") -> list[tuple[str, str
     return found
 
 
-def test_package_minimum_is_macos_26() -> None:
-    assert package_minimum() == "26.0"
+def test_package_minimum_is_macos_15() -> None:
+    assert package_minimum() == "15.0"
 
 
 def test_every_workflow_value_equals_the_package_minimum() -> None:

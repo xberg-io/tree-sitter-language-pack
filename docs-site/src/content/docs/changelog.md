@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- macOS 15 is the minimum for every macOS artifact (was 26): wheels, Node, CLI, FFI, NIFs, natives, parser libraries
+  and the Swift package (`.macOS(.v15)`) now target the oldest macOS Apple still supports.
+
 ## [1.24.0] - 2026-11-05
 
 ### Changed

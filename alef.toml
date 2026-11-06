@@ -1013,6 +1013,7 @@ abi_compatible = true
 [crates.swift]
 module_name = "TreeSitterLanguagePack"
 package_name = "TreeSitterLanguagePack"
+min_macos_version = "15.0"
 
 [crates.swift.capsule_types.Language]
 host_type = "SwiftTreeSitter.Language"
