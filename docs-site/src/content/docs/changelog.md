@@ -10,10 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.24.1] - 2026-11-06
+
 ### Changed
 
-- macOS 15 is the minimum for every macOS artifact (was 26): wheels, Node, CLI, FFI, NIFs, natives, parser libraries
-  and the Swift package (`.macOS(.v15)`) now target the oldest macOS Apple still supports.
+- macOS 15 is the minimum for every macOS artifact (1.24.0 required macOS 26): wheels, Node, CLI, FFI, NIFs, natives,
+  parser libraries and the Swift package (`.macOS(.v15)`) now target the oldest macOS Apple still supports.
+
+### Fixed
+
+- Publish the RubyGems release again, for Ruby 3.3 and later: the publish workflow no longer stages Ruby 3.2 native
+  gems, which the gemspec's Ruby 3.3 floor made bundler reject, failing every platform gem build of 1.24.0.
 
 ## [1.24.0] - 2026-11-05
 

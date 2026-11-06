@@ -374,7 +374,7 @@ wheels = [
 
 [[package]]
 name = "tree-sitter-language-pack-workspace"
-version = "1.24.0"
+version = "1.24.1"
 source = { editable = "." }
 
 [package.dev-dependencies]
