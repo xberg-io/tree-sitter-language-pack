@@ -1,0 +1,1 @@
+-framework Security -framework CoreFoundation -liconv -lSystem -lc -lm[0m
