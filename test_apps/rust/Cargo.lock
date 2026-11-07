@@ -972,9 +972,9 @@ checksum = "d0af592be68c579aa78a16846bd19422978c3c52e438523d45ff5d1bff1f9d4a"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.23.1"
+version = "1.25.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ff1c086ef421b7b28a11f0f2952c221f65c23e2c75a453277a8ddcfa1b54e7c"
+checksum = "aeab6dd57fa75ca32f55a3160cce30a8d3217882260ae21c7527df2d41b50f2e"
 dependencies = [
  "ahash",
  "cc",
@@ -998,7 +998,7 @@ dependencies = [
 
 [[package]]
 name = "tree_sitter_language_pack-e2e-rust"
-version = "1.23.1"
+version = "1.25.0"
 dependencies = [
  "serde_json",
  "tree-sitter-language-pack",
