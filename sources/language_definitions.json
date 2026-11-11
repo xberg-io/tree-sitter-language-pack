@@ -714,10 +714,11 @@
     "rev": "cecd8ce9b18f1803d37682f33b6224978fd04d31"
   },
   "groovy": {
-    "branch": "gh-pages",
+    "branch": "master",
     "extensions": ["groovy", "gradle"],
+    "generate": true,
     "repo": "https://github.com/Decodetalkers/tree-sitter-groovy",
-    "rev": "a6cf8f80dd3d5246398ad4011c2e2caf995ee17f"
+    "rev": "527b84430095392327f9237325e65bd460bd409c"
   },
   "gstlaunch": {
     "extensions": [],

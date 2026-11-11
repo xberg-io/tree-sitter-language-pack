@@ -1,11 +1,11 @@
-//! Valid input that older bash, c, dockerfile (#216) and zig (#217) pins parsed with ERROR nodes.
+//! Valid input that older bash, c, dockerfile (#216), zig (#217) and groovy (#220) pins parsed with ERROR nodes.
 #![allow(clippy::unwrap_used, clippy::expect_used)] // ~keep: a failed setup step in a test must abort loudly
 
 use tree_sitter_language_pack::get_parser;
 
 fn assert_parses_cleanly(language: &str, source: &str) -> String {
     let mut parser = get_parser(language).unwrap_or_else(|e| {
-        panic!("{language} grammar required; build with TSLP_LANGUAGES=bash,c,dockerfile,zig: {e}")
+        panic!("{language} grammar required; build with TSLP_LANGUAGES=bash,c,dockerfile,groovy,zig: {e}")
     });
     let tree = parser.parse(source).unwrap();
     let root = tree.root_node();
@@ -40,6 +40,12 @@ fn c_has_include_with_system_header_argument() {
 fn dockerfile_legacy_env_value_with_spaces() {
     let sexp = assert_parses_cleanly("dockerfile", "ENV LEGACY some value here\n");
     assert!(sexp.contains("(env_instruction (env_pair"), "{sexp}");
+}
+
+#[test]
+fn groovy_left_shift_operator() {
+    let sexp = assert_parses_cleanly("groovy", "options.compilerArgs << '-parameters'\n");
+    assert!(sexp.contains("(operators) (string)"), "{sexp}");
 }
 
 #[test]

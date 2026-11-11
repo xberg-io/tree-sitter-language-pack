@@ -14,9 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The `parser-sources-<version>.tar.zst` release bundle no longer ships compiled objects that some upstream grammars
   commit (`vhs`, `clarity`, `bitbake` `parser.o`): vendoring deletes them from `parsers/<language>/` and the bundle
-  excludes them. Every `parsers/<language>/` now carries its upstream LICENSE, COPYING or NOTICE files. The 11
+  excludes them. Every `parsers/<language>/` now carries its upstream LICENSE, COPYING or NOTICE files. The 10
   grammars whose pinned source has none get a generated `NOTICE` with the SPDX identifier from
   `sources/grammar_notices.json`. The publish job checks the bundle for both before release.
+- Parse the Groovy `<<` operator without errors. The groovy grammar is pinned to the upstream merge of
+  tree-sitter-groovy#10 (`527b844`) and generated from its `grammar.js`, since that branch commits no parser. Groovy's
+  licence now comes from its pinned tree, so its notice override is gone (#220).
 
 ## [1.25.0] - 2026-11-06
 
