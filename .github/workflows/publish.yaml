@@ -4343,6 +4343,8 @@ jobs:
           install-args: zig
           config-ref: ${{ github.sha }}
 
+      - uses: xberg-io/actions/install-alef@v1
+
       # `main` can advance past the tag while a publish runs. If it already carries a newer,
       # unpublished version every URL would 404 and there is nothing here to refresh, so skip
       # rather than report a failure for the normal case. ~keep
@@ -4375,6 +4377,22 @@ jobs:
         if: steps.scope.outputs.applies == 'true'
         run: python3 scripts/sync_zig_zon_hashes.py --fix --require-published
 
+      - name: Refresh and verify the Alef generation record
+        if: steps.scope.outputs.applies == 'true'
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- test_apps/zig/build.zig.zon alef.toml; then
+            exit 0
+          fi
+          alef generate --skip-compile
+          alef verify --exit-code
+          git diff --exit-code -- . ':!test_apps/zig/build.zig.zon' ':!alef.toml' ':!.alef-generation.toml'
+          untracked=$(git ls-files --others --exclude-standard -- . ':!.alef-generation.toml')
+          if [[ -n "$untracked" ]]; then
+            printf 'Unexpected generated files:\n%s\n' "$untracked" >&2
+            exit 1
+          fi
+
       - name: Commit and push the refreshed hashes
         if: steps.scope.outputs.applies == 'true'
         env:
@@ -4392,7 +4410,7 @@ jobs:
             exit 0
           fi
           git --no-pager diff -- test_apps/zig/build.zig.zon alef.toml
-          git add test_apps/zig/build.zig.zon alef.toml
+          git add test_apps/zig/build.zig.zon alef.toml .alef-generation.toml
           git commit --no-verify -m "chore(zig): refresh test_apps package hashes for v${VERSION}"
           git push origin HEAD:refs/heads/main
           {
