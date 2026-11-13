@@ -850,10 +850,11 @@
     "rev": "64db751b233ba44ce06fa6c729701bdf87779011"
   },
   "java": {
-    "branch": "master",
     "extensions": ["java"],
-    "repo": "https://github.com/tree-sitter/tree-sitter-java",
-    "rev": "e10607b45ff745f5f876bfa3e94fbcc6b44bdc11"
+    "local": "grammars/java",
+    "generate": true,
+    "abi_version": 14,
+    "license": "MIT"
   },
   "javadoc": {
     "abi_version": 14,
@@ -1338,11 +1339,10 @@
   },
   "python": {
     "abi_version": 14,
-    "branch": "master",
     "extensions": ["py", "pyi", "pyw"],
     "generate": true,
-    "repo": "https://github.com/tree-sitter/tree-sitter-python",
-    "rev": "26855eabccb19c6abf499fbc5b8dc7cc9ab8bc64"
+    "local": "grammars/python",
+    "license": "MIT"
   },
   "ql": {
     "extensions": ["ql"],
@@ -1481,8 +1481,8 @@
     "abi_version": 14,
     "extensions": ["rs"],
     "generate": true,
-    "repo": "https://github.com/tree-sitter/tree-sitter-rust",
-    "rev": "77a3747266f4d621d0757825e6b11edcbf991ca5"
+    "local": "grammars/rust",
+    "license": "MIT"
   },
   "scala": {
     "abi_version": 14,

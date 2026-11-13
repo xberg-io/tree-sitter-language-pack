@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "713bc7aebf6b558a976bde74fb36d3012309a8ee2267530957ca4d1d71b10314",
+  "definitions_sha256": "9ddfd168d5a603a5877db02a09d9d6101f11772e071bb33593179892be14d8aa",
   "languages": {
     "abl": {
       "branch": null,
@@ -2450,20 +2450,20 @@
       "spdx_source": "detected"
     },
     "java": {
-      "branch": "master",
+      "branch": null,
       "directory": null,
       "license_files": [
         {
-          "path": "LICENSE",
+          "path": "grammars/java/LICENSE",
           "sha256": "52ed137b039cd9c46409bc22e89938af911c95b157feae2d040b51e6084369a7"
         }
       ],
-      "local": null,
-      "repo": "https://github.com/tree-sitter/tree-sitter-java",
-      "resolution": "github-license",
-      "rev": "e10607b45ff745f5f876bfa3e94fbcc6b44bdc11",
+      "local": "grammars/java",
+      "repo": null,
+      "resolution": "local-license",
+      "rev": null,
       "spdx": "MIT",
-      "spdx_source": "detected"
+      "spdx_source": "inline"
     },
     "javadoc": {
       "branch": null,
@@ -3978,20 +3978,20 @@
       "spdx_source": "detected"
     },
     "python": {
-      "branch": "master",
+      "branch": null,
       "directory": null,
       "license_files": [
         {
-          "path": "LICENSE",
+          "path": "grammars/python/LICENSE",
           "sha256": "d724405ce238a22c0d35769c5a36b386ad5958192efe8bbb304fb2896254575f"
         }
       ],
-      "local": null,
-      "repo": "https://github.com/tree-sitter/tree-sitter-python",
-      "resolution": "github-license",
-      "rev": "26855eabccb19c6abf499fbc5b8dc7cc9ab8bc64",
+      "local": "grammars/python",
+      "repo": null,
+      "resolution": "local-license",
+      "rev": null,
       "spdx": "MIT",
-      "spdx_source": "detected"
+      "spdx_source": "inline"
     },
     "ql": {
       "branch": null,
@@ -4370,16 +4370,16 @@
       "directory": null,
       "license_files": [
         {
-          "path": "LICENSE",
+          "path": "grammars/rust/LICENSE",
           "sha256": "31d5b6f4243d5c7c6e1c4ebbbb9f6407bd1457a08bcc4f706521710341acba36"
         }
       ],
-      "local": null,
-      "repo": "https://github.com/tree-sitter/tree-sitter-rust",
-      "resolution": "github-license",
-      "rev": "77a3747266f4d621d0757825e6b11edcbf991ca5",
+      "local": "grammars/rust",
+      "repo": null,
+      "resolution": "local-license",
+      "rev": null,
       "spdx": "MIT",
-      "spdx_source": "detected"
+      "spdx_source": "inline"
     },
     "sas": {
       "branch": null,

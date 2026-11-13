@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Updated grammar pins and switched CSS and JavaScript to Grammar Orchard sources (#221).
+- Vendored Java, Rust, and Python at their existing upstream revisions to preserve parser and query compatibility.
 - Updated dependencies and moved the toolchain to Rust 1.100.
 
 ### Fixed
