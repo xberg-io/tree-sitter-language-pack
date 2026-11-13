@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "413cd9da9dae6126555908a188ab03adb06ace4b575e3e1953384b37fcc938d4",
+  "definitions_sha256": "713bc7aebf6b558a976bde74fb36d3012309a8ee2267530957ca4d1d71b10314",
   "languages": {
     "abl": {
       "branch": null,
@@ -13,7 +13,7 @@
       "local": null,
       "repo": "https://github.com/usagi-coffee/tree-sitter-abl",
       "resolution": "github-license",
-      "rev": "2b5bbfeab3cfe6f749cfb7c2619c9c257cc6f213",
+      "rev": "72397c45c19e62013efad91b2b2d1ac2453037f8",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -109,7 +109,7 @@
       "local": null,
       "repo": "https://github.com/SShadowS/tree-sitter-al",
       "resolution": "github-license",
-      "rev": "91a5db623cff519487bb71eec9dfc77e5e1230e3",
+      "rev": "f8c6d8b65c14fafcdfa2f7318762780d8bd14022",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -141,7 +141,7 @@
       "local": null,
       "repo": "https://github.com/aheber/tree-sitter-sfapex",
       "resolution": "github-license",
-      "rev": "218083d5ddd8d8614e9e31a6c203807f61f43348",
+      "rev": "1a4baf203f0bf1b8ab8bcaed3a6ce011a9c1837f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -285,12 +285,12 @@
       "local": null,
       "repo": "https://github.com/BoundaryML/baml-treesitter",
       "resolution": "github-license",
-      "rev": "90dacc1f6b933ff82e381bda6d7ad3f0e1584505",
+      "rev": "c1976f2ef354537c0141ccef83a92bccb15a0246",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
     "bash": {
-      "branch": "fix/valid-input-errors",
+      "branch": "master",
       "directory": null,
       "license_files": [
         {
@@ -299,9 +299,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/xberg-io/tree-sitter-bash",
+      "repo": "https://github.com/TheAuditorTool/tree-sitter-bash",
       "resolution": "github-license",
-      "rev": "3234542dfa8029e1e0fe4a36463cfcc9359c5d03",
+      "rev": "05144cb2adad0c232ff4e525c5084d17a693e9fb",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -349,7 +349,7 @@
       "local": null,
       "repo": "https://github.com/polarmutex/tree-sitter-beancount",
       "resolution": "github-license",
-      "rev": "c8a9780610dbe8ade4888045b1f2caa7a0a9d8aa",
+      "rev": "97e38a1f9a20ec3d34ea9381bb45f2ba988c0de0",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -461,7 +461,7 @@
       "local": null,
       "repo": "https://github.com/alkoleft/tree-sitter-bsl",
       "resolution": "github-license",
-      "rev": "5752667f4d40879a533c4ffe3005da10ff0b5e29",
+      "rev": "0276d95ff0e34e0df4c719243bd19ac1a9d92945",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -493,7 +493,7 @@
       "local": null,
       "repo": "https://github.com/c3lang/tree-sitter-c3",
       "resolution": "github-license",
-      "rev": "e4d3418873ff9f36c71474b5b08c204289f46fb0",
+      "rev": "3d673a303116418866490ca2cb74551bd13f53d6",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -613,7 +613,7 @@
       "local": null,
       "repo": "https://github.com/cfmleditor/tree-sitter-cfml",
       "resolution": "github-license",
-      "rev": "ffdd4d763b037a1ecbc1635ee1b5510a9f3425df",
+      "rev": "24051c091c9c1a69b36914533aee7aa3286d5526",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -709,7 +709,7 @@
       "local": null,
       "repo": "https://github.com/uyha/tree-sitter-cmake",
       "resolution": "github-license",
-      "rev": "58993af75218bc99a1f5a04c832a5937e7c422cb",
+      "rev": "a3ec2b2144daf7132e7ee824d8cab9610523d10f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -858,7 +858,7 @@
       "spdx_source": "detected"
     },
     "css": {
-      "branch": "master",
+      "branch": "main",
       "directory": null,
       "license_files": [
         {
@@ -867,9 +867,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/tree-sitter/tree-sitter-css",
+      "repo": "https://github.com/grammar-orchard/tree-sitter-css-orchard",
       "resolution": "github-license",
-      "rev": "dda5cfc5722c429eaba1c910ca32c2c0c5bb1a3f",
+      "rev": "a1a05bdbd7ca374574008d353df91511692d9e3c",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1102,7 +1102,7 @@
       "spdx_source": "detected"
     },
     "dockerfile": {
-      "branch": "fix/valid-input-errors",
+      "branch": "main",
       "directory": null,
       "license_files": [
         {
@@ -1111,9 +1111,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/xberg-io/tree-sitter-dockerfile",
+      "repo": "https://github.com/TheAuditorTool/tree-sitter-dockerfile",
       "resolution": "github-license",
-      "rev": "c980600b1be63e081989d8ffebfea3831233ea7a",
+      "rev": "33df056e1e6652b1f3e9b7636f40da0d3b1b0949",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1597,7 +1597,7 @@
       "local": null,
       "repo": "https://github.com/stadelmanma/tree-sitter-fortran",
       "resolution": "github-license",
-      "rev": "72f8759dea28ff6671e0868a9ed5ad4a18413917",
+      "rev": "d05165a6f0bd044ba1f89865927a752dd5168e66",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1901,7 +1901,7 @@
       "local": null,
       "repo": "https://github.com/dpezto/tree-sitter-gnuplot",
       "resolution": "github-license",
-      "rev": "3334c5337c943f16759a8f1a888dd451fbfe2624",
+      "rev": "8344b33e6b6a3b81bf780ab5b286ca6d95e60027",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -2050,25 +2050,20 @@
       "spdx_source": "detected"
     },
     "groovy": {
-      "branch": "gh-pages",
+      "branch": "master",
       "directory": null,
       "license_files": [
         {
-          "path": "sources/notice_overrides/groovy/LICENSE",
+          "path": "LICENSE",
           "sha256": "a4823cf3058740efd4b39de28ec67083c41ef759e4f68ad6bcbe0813f9b268f8"
         }
       ],
       "local": null,
-      "override": {
-        "reason": "The pinned revision a6cf8f80dd3d5246398ad4011c2e2caf995ee17f sits on the gh-pages branch, whose tree carries generated parser sources only: no LICENSE, NOTICE, manifest license, or parser-header grant. The project's MIT LICENSE on the default branch is the authoritative grant; it is committed here under sources/notice_overrides/groovy/LICENSE so the notice artifact is reproducible offline.",
-        "ref": "679459be70d7fbac175fb19f668948d57b3825ef",
-        "source": "https://github.com/Decodetalkers/tree-sitter-groovy/blob/679459be70d7fbac175fb19f668948d57b3825ef/LICENSE"
-      },
       "repo": "https://github.com/Decodetalkers/tree-sitter-groovy",
-      "resolution": "override",
-      "rev": "a6cf8f80dd3d5246398ad4011c2e2caf995ee17f",
+      "resolution": "github-license",
+      "rev": "527b84430095392327f9237325e65bd460bd409c",
       "spdx": "MIT",
-      "spdx_source": "override"
+      "spdx_source": "detected"
     },
     "gstlaunch": {
       "branch": null,
@@ -2114,7 +2109,7 @@
       "local": null,
       "repo": "https://github.com/vitallium/tree-sitter-haml",
       "resolution": "github-license",
-      "rev": "c1ed49b66a7365e89de8e0a1310f656d046cc0cc",
+      "rev": "3d6ebc9b228b7118d52ca8753af830b9d011d505",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -2482,12 +2477,12 @@
       "local": null,
       "repo": "https://github.com/rmuir/tree-sitter-javadoc",
       "resolution": "github-license",
-      "rev": "c760949aa76745f9f6f7b023cccfe5f01679ae90",
+      "rev": "d2b4d375f354aa70cd61fad28c62e80dd84e3ad2",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
     "javascript": {
-      "branch": "master",
+      "branch": "main",
       "directory": null,
       "license_files": [
         {
@@ -2496,9 +2491,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/tree-sitter/tree-sitter-javascript",
+      "repo": "https://github.com/grammar-orchard/tree-sitter-javascript-orchard",
       "resolution": "github-license",
-      "rev": "58404d8cf191d69f2674a8fd507bd5776f46cb11",
+      "rev": "c1cb25379be133c2ed7b34bf88680ee13136d09c",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -2738,7 +2733,7 @@
       "local": null,
       "repo": "https://github.com/fwcd/tree-sitter-kotlin",
       "resolution": "github-license",
-      "rev": "5fd3624ac85221ab21fbfb0924a28bc70a3fd794",
+      "rev": "d6af96d2e23ef0a8ff5ab512864378cf08fba311",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -2818,7 +2813,7 @@
       "local": null,
       "repo": "https://github.com/Julian/tree-sitter-lean",
       "resolution": "github-license",
-      "rev": "916c44f4d89c970f66dd34a49e7ce848f4d29e72",
+      "rev": "0d28e5d6e8c4755f5df7ef9bde3b6ec6f59fae94",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3090,7 +3085,7 @@
       "local": null,
       "repo": "https://github.com/acristoffers/tree-sitter-matlab",
       "resolution": "github-license",
-      "rev": "f03d0347acd8bb05d4edd8c845ac1718729e1fad",
+      "rev": "ff2f83da49bb06128c4cfd055e7c95c05c77cded",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3330,7 +3325,7 @@
       "local": null,
       "repo": "https://github.com/nix-community/tree-sitter-nix",
       "resolution": "github-license",
-      "rev": "37500eb28efff87b07af3df45e37d5726429b03a",
+      "rev": "21daff7ec37b01539eddd1e0ac468d2070c2ed5c",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3394,7 +3389,7 @@
       "local": null,
       "repo": "https://github.com/nushell/tree-sitter-nu",
       "resolution": "github-license",
-      "rev": "4f577aaa735154f934594b598a69ed7b1b707cf6",
+      "rev": "0c3f6dfbc30d7713dcbb15b10954f2dee86ef63c",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3426,7 +3421,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter/tree-sitter-ocaml",
       "resolution": "github-license",
-      "rev": "3b2e14e0697d405c9aa0beddfa09b71f45abc504",
+      "rev": "a1c562e73ab787dcc69fdc2e5510c53bbce5364f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3442,7 +3437,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter/tree-sitter-ocaml",
       "resolution": "github-license",
-      "rev": "3b2e14e0697d405c9aa0beddfa09b71f45abc504",
+      "rev": "a1c562e73ab787dcc69fdc2e5510c53bbce5364f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3570,7 +3565,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter-perl/tree-sitter-perl",
       "resolution": "github-license",
-      "rev": "4f531ced18bb1e1408ee798f40609dc4888273ea",
+      "rev": "471859e9d8ef320095d7a62d891a49ba729c0dee",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3658,7 +3653,7 @@
       "local": null,
       "repo": "https://github.com/apple/tree-sitter-pkl",
       "resolution": "github-license",
-      "rev": "c837eff683d62f3cb5e6309b44c257640f202d4b",
+      "rev": "438dc0ddd3785ffa4d173a91fa956e193957d022",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
@@ -4250,7 +4245,7 @@
       "local": null,
       "repo": "https://github.com/rescript-lang/tree-sitter-rescript",
       "resolution": "github-license",
-      "rev": "90643a6302057b969c51e1bf235b8ecf1da49232",
+      "rev": "cc6a15ee6297d493089134cb661a54fc7a13e376",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4282,7 +4277,7 @@
       "local": null,
       "repo": "https://github.com/faldor20/tree-sitter-roc",
       "resolution": "github-license",
-      "rev": "7f9ae855ba7819c5d9279853691fd072e233226b",
+      "rev": "19cc6243c82b2f706810ea71fb8d89000b68b335",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4398,7 +4393,7 @@
       "local": null,
       "repo": "https://github.com/ix-infrastructure/tree-sitter-sas",
       "resolution": "github-license",
-      "rev": "3978750c85453fa81f263ae2561aad5bc153a80c",
+      "rev": "ddd8a662062188cc7bafc9dc321d44884c81ea9b",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4414,7 +4409,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter/tree-sitter-scala",
       "resolution": "github-license",
-      "rev": "c76bab0092b622e34df4916d80b117436683d16e",
+      "rev": "e8728b1c62ea096c753a9a70325f77ebbf2192de",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4478,7 +4473,7 @@
       "local": null,
       "repo": "https://github.com/aheber/tree-sitter-sfapex",
       "resolution": "github-license",
-      "rev": "218083d5ddd8d8614e9e31a6c203807f61f43348",
+      "rev": "1a4baf203f0bf1b8ab8bcaed3a6ce011a9c1837f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4654,7 +4649,7 @@
       "local": null,
       "repo": "https://github.com/aheber/tree-sitter-sfapex",
       "resolution": "github-license",
-      "rev": "218083d5ddd8d8614e9e31a6c203807f61f43348",
+      "rev": "1a4baf203f0bf1b8ab8bcaed3a6ce011a9c1837f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4670,7 +4665,7 @@
       "local": null,
       "repo": "https://github.com/aheber/tree-sitter-sfapex",
       "resolution": "github-license",
-      "rev": "218083d5ddd8d8614e9e31a6c203807f61f43348",
+      "rev": "1a4baf203f0bf1b8ab8bcaed3a6ce011a9c1837f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4739,7 +4734,7 @@
       "spdx_source": "detected"
     },
     "sql": {
-      "branch": null,
+      "branch": "main",
       "directory": null,
       "license_files": [
         {
@@ -4748,9 +4743,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/Goldziher/tree-sitter-sql",
+      "repo": "https://github.com/TheAuditorTool/tree-sitter-sql",
       "resolution": "github-license",
-      "rev": "973122dcccea5777a3703abf7d0735c75bef01ff",
+      "rev": "c042cde1e2a6d8d5375c9dff035de9bc83ba07ac",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4882,7 +4877,7 @@
       "local": null,
       "repo": "https://github.com/kristoff-it/superhtml",
       "resolution": "github-license",
-      "rev": "986777df0e9bd0de891d133d0e549d18b320b90d",
+      "rev": "b00f3d25e7e8103d18c08961ca39be7c282923ed",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4930,7 +4925,7 @@
       "local": null,
       "repo": "https://github.com/alex-pinkus/tree-sitter-swift",
       "resolution": "github-license",
-      "rev": "9e3b87f66f1fd2f3b931376fd3723ab788e337c3",
+      "rev": "3697c2b910e86b6886a15cc64affb90a89e5711c",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4962,7 +4957,7 @@
       "local": null,
       "repo": "https://gitlab.com/nomograph/tree-sitter-sysml",
       "resolution": "gitlab-license",
-      "rev": "b1b1f0ecef8f38f4a97b5c1ffef9115aa4467ff0",
+      "rev": "0740b343876f088b903a646ced72ace62e7f9736",
       "spdx": "MIT",
       "spdx_source": "inline"
     },
@@ -4994,7 +4989,7 @@
       "local": null,
       "repo": "https://github.com/gmlarumbe/tree-sitter-systemverilog",
       "resolution": "github-license",
-      "rev": "08c5e379b9b6022d4c433a9249e6d54dedd051ba",
+      "rev": "73d7620ffdc467aab3c2089be9be5cbbc1be2eaa",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -5074,7 +5069,7 @@
       "local": null,
       "repo": "https://github.com/lewis6991/tree-sitter-tcl",
       "resolution": "github-license",
-      "rev": "850a72ab6436e06645b33b11cfa60cbdb04b1f01",
+      "rev": "90e87ed495a04fd0bf18db4be12b7033cd7402f6",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -5122,7 +5117,7 @@
       "local": null,
       "repo": "https://github.com/uncenter/tree-sitter-tera",
       "resolution": "github-license",
-      "rev": "54b3f8b43aecdbcf12a7366920f0bc8274af1dd0",
+      "rev": "5fff1363a3e474765ee8dfd546630c2a8a7c6cc4",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -5618,7 +5613,7 @@
       "local": null,
       "repo": "https://github.com/belltoy/tree-sitter-vrl",
       "resolution": "github-license",
-      "rev": "6f0055a675702695477dadd8eaebe926e9f5850c",
+      "rev": "8cf3be35891e366087c01bef55d3fe96750997a5",
       "spdx": "MIT",
       "spdx_source": "detected"
     },

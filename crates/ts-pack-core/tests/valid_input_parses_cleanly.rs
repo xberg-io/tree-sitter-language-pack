@@ -1,11 +1,11 @@
-//! Valid input that older bash, c, dockerfile (#216) and zig (#217) pins parsed with ERROR nodes.
+//! Valid input that older grammar pins (#216, #217, #220) parsed with ERROR nodes.
 #![allow(clippy::unwrap_used, clippy::expect_used)] // ~keep: a failed setup step in a test must abort loudly
 
 use tree_sitter_language_pack::get_parser;
 
 fn assert_parses_cleanly(language: &str, source: &str) -> String {
     let mut parser = get_parser(language).unwrap_or_else(|e| {
-        panic!("{language} grammar required; build with TSLP_LANGUAGES=bash,c,dockerfile,zig: {e}")
+        panic!("{language} grammar required; build with TSLP_LANGUAGES=bash,c,css,dockerfile,groovy,javascript,sql,zig: {e}")
     });
     let tree = parser.parse(source).unwrap();
     let root = tree.root_node();
@@ -60,4 +60,37 @@ fn zig_destructuring_declarations() {
         sexp.contains("(variable_declaration (identifier) type: (builtin_type) (identifier) type: (builtin_type)"),
         "{sexp}"
     );
+}
+
+#[test]
+fn bash_accepts_a_variable_substring_offset() {
+    assert_parses_cleanly("bash", "c=\"${s:$i:1}\"\n");
+}
+
+#[test]
+fn dockerfile_accepts_eof_and_crlf_continuations() {
+    assert_parses_cleanly("dockerfile", "FROM alpine\nRUN echo done");
+    assert_parses_cleanly("dockerfile", "FROM alpine\r\nRUN apk add \\\r\n    curl\r\n");
+}
+
+#[test]
+fn sql_accepts_grant_and_sqlite_constraints() {
+    for source in [
+        "GRANT SELECT ON users TO web_user;",
+        "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT);",
+        "CREATE TABLE schedule (day_of_week INTEGER CHECK (day_of_week BETWEEN 0 AND 6));",
+    ] {
+        assert_parses_cleanly("sql", source);
+    }
+}
+
+#[test]
+fn groovy_accepts_left_shift() {
+    assert_parses_cleanly("groovy", "x = 1 << 2\n");
+}
+
+#[test]
+fn orchard_css_and_javascript_accept_common_syntax() {
+    assert_parses_cleanly("css", "@media (min-width: 10px) { .card:hover { color: red; } }\n");
+    assert_parses_cleanly("javascript", "export const lookup = (item) => item?.value ?? 0;\n");
 }
