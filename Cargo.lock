@@ -37,7 +37,6 @@ checksum = "5a15f179cd60c4584b8a8c596927aadc462e27f2ca70c04e0071964a73ba7a75"
 dependencies = [
  "cfg-if",
  "const-random",
- "getrandom 0.3.4",
  "once_cell",
  "serde",
  "version_check",
@@ -2137,20 +2136,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pyo3-async-runtimes"
-version = "0.30.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b877331c7817ccb6379e9d19a06993160141f1d0a386e55276128717df85e3fc"
-dependencies = [
- "futures-channel",
- "futures-util",
- "once_cell",
- "pin-project-lite",
- "pyo3",
- "tokio",
-]
-
-[[package]]
 name = "pyo3-build-config"
 version = "0.30.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3047,7 +3032,6 @@ dependencies = [
  "bytes",
  "libc",
  "mio",
- "parking_lot",
  "pin-project-lite",
  "signal-hook-registry",
  "socket2",
@@ -3265,7 +3249,7 @@ checksum = "d0af592be68c579aa78a16846bd19422978c3c52e438523d45ff5d1bff1f9d4a"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
  "ahash",
  "cc",
@@ -3292,7 +3276,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-dart"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
  "flutter_rust_bridge",
  "serde_json",
@@ -3301,23 +3285,20 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-jni"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
  "async-trait",
- "base64",
  "futures-util",
  "jni",
  "serde_json",
  "tokio",
- "tracing",
  "tree-sitter-language-pack",
 ]
 
 [[package]]
 name = "tree-sitter-language-pack-swift"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
- "ahash",
  "async-trait",
  "libc",
  "serde",
@@ -3331,7 +3312,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-cli"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
  "axum",
  "clap",
@@ -3349,21 +3330,19 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-ffi"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
- "ahash",
  "cbindgen",
  "serde",
  "serde_json",
  "tempfile",
- "tokio",
  "tree-sitter",
  "tree-sitter-language-pack",
 ]
 
 [[package]]
 name = "ts-pack-core-node"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
  "napi",
  "napi-build",
@@ -3375,21 +3354,19 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-php"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
  "ext-php-rs",
  "serde",
  "serde_json",
- "tokio",
  "tree-sitter-language-pack",
 ]
 
 [[package]]
 name = "ts-pack-core-py"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
  "pyo3",
- "pyo3-async-runtimes",
  "serde",
  "serde_json",
  "tree-sitter-language-pack",
@@ -3397,9 +3374,8 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-wasm"
-version = "1.25.0"
+version = "1.25.1"
 dependencies = [
- "futures",
  "futures-util",
  "getrandom 0.2.17",
  "getrandom 0.3.4",
@@ -3407,10 +3383,8 @@ dependencies = [
  "js-sys",
  "serde",
  "serde-wasm-bindgen",
- "serde_json",
  "tree-sitter-language-pack",
  "wasm-bindgen",
- "wasm-bindgen-futures",
 ]
 
 [[package]]

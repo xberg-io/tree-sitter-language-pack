@@ -2,19 +2,19 @@
   "source": "plugin/skills",
   "skill_count": 7,
   "files": {
-    "tree-sitter-language-pack/SKILL.md": "521937672c6f3c44a2841ba1a39794cd7b9bad8c8d8ba8759c5ce97aa590fe45",
-    "tree-sitter-language-pack/index.md": "b027cd6adca239798f7656e17693b031484bfac72818aeab6e92397858927d07",
-    "tree-sitter-language-pack-chunking-for-llms/SKILL.md": "67c87aadec6b0ccfb1e340edd55130927479db7b002a3db9b59e1c58cefdb50f",
-    "tree-sitter-language-pack-chunking-for-llms/index.md": "41dfd49654aeaa7825d3972d22d57d1e80a2c0c6ea1374e80dfa7fa1476f0b74",
-    "tree-sitter-language-pack-detecting-languages/SKILL.md": "1061893504e95297b93f79f9a115fb6cd18730a5a9ce889dbdb364af7def444c",
-    "tree-sitter-language-pack-detecting-languages/index.md": "953e5904945ea8759b4ead271668500dedb61ffabd573227596b53cb3b2785bd",
-    "tree-sitter-language-pack-extracting-code-structure/SKILL.md": "c04477f1907788da58e6da872eacdb6771dfaab74be7c50465d9c2dc5650471c",
-    "tree-sitter-language-pack-extracting-code-structure/index.md": "37bdb0a893dc3fb420c39492045a0d6db08188bc681911ab72161ea6dff48f94",
-    "tree-sitter-language-pack-managing-parsers/SKILL.md": "29324d591cd8e3eca632120d6265ebe729b904b31b9d1b497f6d19b8956db315",
-    "tree-sitter-language-pack-managing-parsers/index.md": "00bd654a137f7a6c6b7329940d5f076d554c7303c4c3a1c62a044cca9eb0be32",
-    "tree-sitter-language-pack-parsing-source/SKILL.md": "b39d9ea2ffabe81f99e7bd037367e329afe899149f92b634ae2074b265da831b",
-    "tree-sitter-language-pack-parsing-source/index.md": "a1d7041dfd55cdca93ec23a26bc271b3c7e74c5a27bbc848584cea35cf54bba9",
-    "tree-sitter-language-pack-using-the-mcp-server/SKILL.md": "f218109b40f8a68beb387d57ae876a5942aa86f2caad7943dd0929173f11caa1",
-    "tree-sitter-language-pack-using-the-mcp-server/index.md": "0bb9b4677df507806708592c4c6a7038420c533dc79350a0faeac6502d901ad1"
+    "tree-sitter-language-pack/SKILL.md": "e0d04b3941a302214b9c72c964b2a0d44c56570eab67303aa11531ea37c6df28",
+    "tree-sitter-language-pack/index.md": "c7607acbcb8d441e6e73182766a65b9954add867d19ff71463387843e3db384f",
+    "tree-sitter-language-pack-chunking-for-llms/SKILL.md": "cf30cebb9510ccfafe5ddad5ff78aeb2b99fade9730da5a2ab0431893c720697",
+    "tree-sitter-language-pack-chunking-for-llms/index.md": "8591f0c61892c0e5bc3f403e384458b36d316cfa9025afd89bd403d181bc051e",
+    "tree-sitter-language-pack-detecting-languages/SKILL.md": "524b3c184b66e092f92145dccdcfb1d2122434d00dc87afd6545110ee97e7bea",
+    "tree-sitter-language-pack-detecting-languages/index.md": "5dd9dd1284872a69ff423b07c674b127ad640a929fed208e61d20dde6407eaf7",
+    "tree-sitter-language-pack-extracting-code-structure/SKILL.md": "62e043ba27119ca2442755669af3dd5f983f0908c0afbef82663ad26ba6e7a40",
+    "tree-sitter-language-pack-extracting-code-structure/index.md": "29f52bc278c114d4298e7287bbe9eaaaa2ba7e2759470e48ba4abf80c1bfbfcf",
+    "tree-sitter-language-pack-managing-parsers/SKILL.md": "63d77e29ae58d6ed47da3c7dde151cb3b8e078f44bb7ae1b11d9fcfb7dd5a0d3",
+    "tree-sitter-language-pack-managing-parsers/index.md": "2243718ebbb60561c7321af820b3a97c19a19531b82d9dbd72848a5ccf69eae2",
+    "tree-sitter-language-pack-parsing-source/SKILL.md": "a575fe9294ac7419cebdc4bc21913f5f1df67e135017865d3f1aed200b10780a",
+    "tree-sitter-language-pack-parsing-source/index.md": "40fd35097137c4bf69b196ffc4ffeec78b2548583d20840034570a578e66dda2",
+    "tree-sitter-language-pack-using-the-mcp-server/SKILL.md": "ee1bd997fa5ecac6998b67a63011edb6c301596c85a004edae1976944f2e13de",
+    "tree-sitter-language-pack-using-the-mcp-server/index.md": "f9e73e274557b5c9fe6cb5d91409224c82e3b9f46b0f7c1109d7c715f2c06e23"
   }
 }

@@ -1,6 +1,6 @@
 # NOTE: The `parsers/` directory must exist in the build context.
 
-FROM rust:1.99.1-alpine3.24 AS builder
+FROM rust:1.100.0-alpine3.24 AS builder
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 

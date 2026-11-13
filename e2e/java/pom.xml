@@ -33,9 +33,9 @@
     <dependency>
       <groupId>io.xberg.treesitterlanguagepack</groupId>
       <artifactId>tree-sitter-language-pack</artifactId>
-      <version>1.25.0</version>
+      <version>1.25.1</version>
       <scope>system</scope>
-      <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.25.0.jar</systemPath>
+      <systemPath>${project.basedir}/../../packages/java/target/tree-sitter-language-pack-1.25.1.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>io.github.tree-sitter</groupId>
@@ -47,12 +47,12 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.22.4</version>
+      <version>2.23.0</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
-      <version>2.22.4</version>
+      <version>2.23.0</version>
     </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>
@@ -179,7 +179,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.6.2</version>
+        <version>3.8.0</version>
         <executions>
           <execution>
             <id>add-test-source</id>

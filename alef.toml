@@ -1,5 +1,5 @@
 [workspace]
-alef_version = "0.124.1"
+alef_version = "0.129.2"
 languages = [
   "python",
   "node",
@@ -794,6 +794,7 @@ grammer = "grammer"
 [[crates]]
 name = "tree-sitter-language-pack"
 core_import = "tree_sitter_language_pack"
+workspace_root = "."
 sources = ["crates/ts-pack-core/src/lib.rs"]
 version_from = "Cargo.toml"
 features = ["serde", "config", "download"]
@@ -1829,7 +1830,7 @@ path = "../../crates/ts-pack-core-node"
 [crates.e2e.packages.go]
 module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
 path = "../../packages/go"
-version = "v1.25.0"
+version = "v1.25.1"
 
 [crates.e2e.packages.elixir]
 name = "tree_sitter_language_pack"
@@ -1865,70 +1866,70 @@ github_repo = "https://github.com/xberg-io/tree-sitter-language-pack"
 
 [crates.e2e.registry.packages.rust]
 name = "tree-sitter-language-pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.python]
 name = "tree-sitter-language-pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.node]
 name = "@xberg-io/tree-sitter-language-pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.go]
 module = "github.com/xberg-io/tree-sitter-language-pack/packages/go"
-version = "v1.25.0"
+version = "v1.25.1"
 
 [crates.e2e.registry.packages.java]
 name = "io.xberg.treesitterlanguagepack:tree-sitter-language-pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.csharp]
 name = "TreeSitterLanguagePack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.ruby]
 name = "tree_sitter_language_pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.c]
 name = "tree-sitter-language-pack-ffi"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.wasm]
 name = "@xberg-io/tree-sitter-language-pack-wasm"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.elixir]
 name = "tree_sitter_language_pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.php]
 name = "xberg-io/tree-sitter-language-pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.zig]
 name = "tree_sitter_language_pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.zig.platform_hashes]
-"aarch64-apple-darwin" = "tree_sitter_language_pack-1.25.0-jCz0Y05qSwBH24jrXIGBG2KPEDEuBElIZcrqOFbYCHmS"
-"aarch64-unknown-linux-gnu" = "tree_sitter_language_pack-1.25.0-jCz0YxZWUQAQwGXLyJtq6K5lqtK1AylunjfL3RMQcePk"
-"x86_64-apple-darwin" = "tree_sitter_language_pack-1.25.0-jCz0Y_ZXUAAjsQ4riKvgJc8EWdY4hZsskB2s7DVZIRCh"
-"x86_64-pc-windows-msvc" = "tree_sitter_language_pack-1.25.0-jCz0Y5IYXwAmwSpRdxeQgZmTHn27KfVERxsik1-Vx8GZ"
-"x86_64-unknown-linux-gnu" = "tree_sitter_language_pack-1.25.0-jCz0Y747WQAu5cZT1Ji9cciqkMc93rEOvGim85gDlJXk"
+"aarch64-apple-darwin" = "STALE_HASH_REGENERATE"
+"aarch64-unknown-linux-gnu" = "STALE_HASH_REGENERATE"
+"x86_64-apple-darwin" = "STALE_HASH_REGENERATE"
+"x86_64-pc-windows-msvc" = "STALE_HASH_REGENERATE"
+"x86_64-unknown-linux-gnu" = "STALE_HASH_REGENERATE"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.dart]
 name = "tree_sitter_language_pack"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.kotlin_android]
 name = "io.xberg.tslp.android:tree-sitter-language-pack-android"
-version = "1.25.0"
+version = "1.25.1"
 
 [crates.e2e.registry.packages.homebrew]
 tap = "xberg-io/homebrew-tap"

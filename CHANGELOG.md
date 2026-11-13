@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.25.1] - 2026-11-13
+
+### Changed
+
+- Updated grammar pins and switched CSS and JavaScript to Grammar Orchard sources (#221).
+- Updated dependencies and moved the toolchain to Rust 1.100.
+
 ### Fixed
+
+- Updated Bash, Dockerfile, SQL, and Groovy parsers to address valid inputs that produced error nodes (#220).
+- Refresh the Alef generation record when the release workflow commits updated Zig archive hashes (#219).
 
 - The `parser-sources-<version>.tar.zst` release bundle no longer ships compiled objects that some upstream grammars
   commit (`vhs`, `clarity`, `bitbake` `parser.o`): vendoring deletes them from `parsers/<language>/` and the bundle
