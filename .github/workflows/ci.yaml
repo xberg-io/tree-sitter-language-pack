@@ -178,6 +178,7 @@ jobs:
     if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
     uses: xberg-io/actions/.github/workflows/reusable-validate.yml@v1
     with:
+      runner: ubuntu-24.04
       setup-rust: false
       setup-python: true
       python-version: "3.13"
