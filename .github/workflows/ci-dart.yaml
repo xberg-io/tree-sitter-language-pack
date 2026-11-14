@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
     paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
       - "crates/ts-pack-core/**"
       - "packages/dart/**"
       - ".github/workflows/ci-dart.yaml"
