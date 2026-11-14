@@ -3249,7 +3249,7 @@ checksum = "d0af592be68c579aa78a16846bd19422978c3c52e438523d45ff5d1bff1f9d4a"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "ahash",
  "cc",
@@ -3276,7 +3276,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-dart"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "flutter_rust_bridge",
  "serde_json",
@@ -3285,7 +3285,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-jni"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "async-trait",
  "futures-util",
@@ -3297,7 +3297,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-swift"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "libc",
  "serde",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-cli"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "axum",
  "clap",
@@ -3329,7 +3329,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-ffi"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "cbindgen",
  "serde",
@@ -3341,7 +3341,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-node"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "napi",
  "napi-build",
@@ -3353,7 +3353,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-php"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "ext-php-rs",
  "serde",
@@ -3363,7 +3363,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-py"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "pyo3",
  "serde",
@@ -3373,7 +3373,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-wasm"
-version = "1.25.1"
+version = "1.25.2"
 dependencies = [
  "futures-util",
  "getrandom 0.2.17",
