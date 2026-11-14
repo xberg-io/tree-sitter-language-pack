@@ -1564,11 +1564,10 @@
     "rev": "1ef52d35a73a2a5f2e433ecfd1c751c1360a923b"
   },
   "sql": {
-    "branch": "main",
     "extensions": ["sql"],
     "generate": true,
-    "repo": "https://github.com/TheAuditorTool/tree-sitter-sql",
-    "rev": "c042cde1e2a6d8d5375c9dff035de9bc83ba07ac"
+    "repo": "https://github.com/Goldziher/tree-sitter-sql",
+    "rev": "973122dcccea5777a3703abf7d0735c75bef01ff"
   },
   "sql_bigquery": {
     "extensions": ["bq"],

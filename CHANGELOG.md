@@ -17,12 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Updated Bash, Dockerfile, SQL, and Groovy parsers to address valid inputs that produced error nodes (#220).
+- Updated Bash, Dockerfile, and Groovy parsers to address valid inputs that produced error nodes (#220).
+- Preserve PostgreSQL dollar-quoted function bodies by retaining the previous SQL grammar pin (#220).
 - Refresh the Alef generation record when the release workflow commits updated Zig archive hashes (#219).
 
 - The `parser-sources-<version>.tar.zst` release bundle no longer ships compiled objects that some upstream grammars
   commit (`vhs`, `clarity`, `bitbake` `parser.o`): vendoring deletes them from `parsers/<language>/` and the bundle
-  excludes them. Every `parsers/<language>/` now carries its upstream LICENSE, COPYING or NOTICE files. The 11
+  excludes them. Every `parsers/<language>/` now carries its upstream LICENSE, COPYING or NOTICE files. The 10
   grammars whose pinned source has none get a generated `NOTICE` with the SPDX identifier from
   `sources/grammar_notices.json`. The publish job checks the bundle for both before release.
 

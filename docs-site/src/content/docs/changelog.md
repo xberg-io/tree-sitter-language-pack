@@ -3,6 +3,8 @@ title: Changelog
 description: "Release history and notable changes for tree-sitter-language-pack."
 ---
 
+# Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
@@ -10,11 +12,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.25.1] - 2026-11-13
+
+### Changed
+
+- Updated grammar pins and switched CSS and JavaScript to Grammar Orchard sources (#221).
+- Vendored Java, Rust, and Python at their existing upstream revisions to preserve parser and query compatibility.
+- Updated dependencies and moved the toolchain to Rust 1.100.
+
 ### Fixed
+
+- Updated Bash, Dockerfile, and Groovy parsers to address valid inputs that produced error nodes (#220).
+- Preserve PostgreSQL dollar-quoted function bodies by retaining the previous SQL grammar pin (#220).
+- Refresh the Alef generation record when the release workflow commits updated Zig archive hashes (#219).
 
 - The `parser-sources-<version>.tar.zst` release bundle no longer ships compiled objects that some upstream grammars
   commit (`vhs`, `clarity`, `bitbake` `parser.o`): vendoring deletes them from `parsers/<language>/` and the bundle
-  excludes them. Every `parsers/<language>/` now carries its upstream LICENSE, COPYING or NOTICE files. The 11
+  excludes them. Every `parsers/<language>/` now carries its upstream LICENSE, COPYING or NOTICE files. The 10
   grammars whose pinned source has none get a generated `NOTICE` with the SPDX identifier from
   `sources/grammar_notices.json`. The publish job checks the bundle for both before release.
 

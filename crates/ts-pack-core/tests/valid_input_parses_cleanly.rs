@@ -74,19 +74,18 @@ fn dockerfile_accepts_eof_and_crlf_continuations() {
 }
 
 #[test]
-fn sql_accepts_grant_and_sqlite_constraints() {
-    for source in [
-        "GRANT SELECT ON users TO web_user;",
-        "CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT);",
-        "CREATE TABLE schedule (day_of_week INTEGER CHECK (day_of_week BETWEEN 0 AND 6));",
-    ] {
-        assert_parses_cleanly("sql", source);
-    }
+fn sql_accepts_dollar_quoted_function_body() {
+    assert_parses_cleanly(
+        "sql",
+        "CREATE FUNCTION f() RETURNS integer AS $$begin return 1; end$$ LANGUAGE plpgsql;",
+    );
 }
 
 #[test]
 fn groovy_accepts_left_shift() {
     assert_parses_cleanly("groovy", "x = 1 << 2\n");
+    let sexp = assert_parses_cleanly("groovy", "options.compilerArgs << '-parameters'\n");
+    assert!(sexp.contains("(operators) (string)"), "{sexp}");
 }
 
 #[test]
