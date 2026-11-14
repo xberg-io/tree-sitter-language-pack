@@ -21,7 +21,6 @@ env:
   TSLP_LINK_MODE: static
   TSLP_LANGUAGES: mojo,nim,norg
   TSLP_OFFLINE: "1"
-  TSLP_ALLOW_FAILED_GRAMMARS: "1"
 
 permissions:
   contents: read
@@ -38,6 +37,19 @@ jobs:
         os: [ubuntu-latest, macos-26]
     steps:
       - uses: actions/checkout@v7
+      - name: Setup parser generator
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: node tree-sitter
+      - name: Setup Python environment
+        uses: xberg-io/actions/setup-python-env@v1
+        with:
+          python-version: "3.14"
+          install-command: "uv sync --no-install-project --no-install-workspace"
+      - name: Prepare parser sources
+        run: |
+          tree_sitter_cli=$(mise which tree-sitter)
+          PATH="$(dirname "$tree_sitter_cli"):$PATH" uv run --script scripts/clone_vendors.py
       # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
       - uses: xberg-io/actions/setup-rust@v1
         with:
