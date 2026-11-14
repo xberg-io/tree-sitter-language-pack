@@ -3299,7 +3299,6 @@ dependencies = [
 name = "tree-sitter-language-pack-swift"
 version = "1.25.1"
 dependencies = [
- "async-trait",
  "libc",
  "serde",
  "serde_json",
