@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Updated the SQL parser so these valid inputs parse without error nodes: psql meta-commands (`\c analytics`), SQLite
+  `PRAGMA` and `INSERT OR REPLACE`, `SET search_path TO app, public`, `ON CONFLICT (id)` and
+  `ON CONFLICT ON CONSTRAINT`, `UPDATE ... SET (a, b) = (...)` and `DELETE ... USING`.
+
 ## [1.26.0] - 2026-11-15
 
 ### Added

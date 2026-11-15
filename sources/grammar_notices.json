@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "0712fdaeaf7594548f1cad60db7af5f661b6171ea353814e10d610b5a22c6c66",
+  "definitions_sha256": "6853eb6d736bec64b876c2c666363a75336d86110c598e139215f31562331e88",
   "languages": {
     "abl": {
       "branch": null,
@@ -4734,7 +4734,7 @@
       "spdx_source": "detected"
     },
     "sql": {
-      "branch": null,
+      "branch": "pack-pin",
       "directory": null,
       "license_files": [
         {
@@ -4743,9 +4743,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/Goldziher/tree-sitter-sql",
+      "repo": "https://github.com/TheAuditorTool/tree-sitter-sql",
       "resolution": "github-license",
-      "rev": "043b51132ece4caf5f2c1470308d45e326b2cd5d",
+      "rev": "8874250d1ff6c039c48c7e8bde8f38573db00575",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
