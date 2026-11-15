@@ -82,6 +82,29 @@ fn sql_accepts_dollar_quoted_function_body() {
 }
 
 #[test]
+fn sql_accepts_psql_meta_commands() {
+    let sexp = assert_parses_cleanly("sql", "\\c analytics\nSELECT 1;\n");
+    assert!(sexp.starts_with("(program (meta_command)"), "{sexp}");
+}
+
+#[test]
+fn sql_accepts_sqlite_pragma_and_conflict_clause() {
+    assert_parses_cleanly("sql", "PRAGMA foreign_keys = ON;");
+    assert_parses_cleanly("sql", "INSERT OR REPLACE INTO tags (id, label) VALUES (1, 'a');");
+}
+
+#[test]
+fn sql_accepts_set_lists_conflict_targets_and_delete_using() {
+    assert_parses_cleanly("sql", "SET search_path TO app, public;");
+    assert_parses_cleanly(
+        "sql",
+        "INSERT INTO tags (id, label) VALUES (1, 'a') ON CONFLICT (id) DO UPDATE SET label = EXCLUDED.label;",
+    );
+    assert_parses_cleanly("sql", "UPDATE tags SET (label, weight) = ('a', 1) WHERE id = 1;");
+    assert_parses_cleanly("sql", "DELETE FROM tags USING old_tags WHERE tags.id = old_tags.id;");
+}
+
+#[test]
 fn groovy_accepts_left_shift() {
     assert_parses_cleanly("groovy", "x = 1 << 2\n");
     let sexp = assert_parses_cleanly("groovy", "options.compilerArgs << '-parameters'\n");

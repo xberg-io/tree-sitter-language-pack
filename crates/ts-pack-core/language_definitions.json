@@ -1567,7 +1567,7 @@
     "extensions": ["sql"],
     "generate": true,
     "repo": "https://github.com/Goldziher/tree-sitter-sql",
-    "rev": "043b51132ece4caf5f2c1470308d45e326b2cd5d"
+    "rev": "8874250d1ff6c039c48c7e8bde8f38573db00575"
   },
   "sql_bigquery": {
     "extensions": ["bq"],
