@@ -2847,6 +2847,13 @@ jobs:
           config-ref: ${{ github.sha }}
       - uses: xberg-io/actions/setup-maven@v1
       - uses: xberg-io/actions/install-alef@v1
+      - name: Use the release workflow's Java build helper
+        env:
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+        run: |
+          if [[ "$(git rev-parse HEAD)" == "$WORKFLOW_SHA" ]]; then exit 0; fi
+          git fetch --no-tags --depth=1 origin "$WORKFLOW_SHA"
+          git show "$WORKFLOW_SHA:scripts/ci/build_libtree_sitter.py" > scripts/ci/build_libtree_sitter.py
       - name: Run Java E2E tests
         run: mise run java:e2e:test
         env:
@@ -4109,6 +4116,13 @@ jobs:
       # Targets e2e/swift_e2e via mise-tasks/swift.toml. alef.toml's swift `e2e`
       # command is a duplicate of its unit-test `command` and does not reach
       # the e2e suite. ~keep
+      - name: Use the release workflow's Swift build helper
+        env:
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+        run: |
+          if [[ "$(git rev-parse HEAD)" == "$WORKFLOW_SHA" ]]; then exit 0; fi
+          git fetch --no-tags --depth=1 origin "$WORKFLOW_SHA"
+          git show "$WORKFLOW_SHA:scripts/setup-swift-bridge.sh" > scripts/setup-swift-bridge.sh
       - name: Run Swift E2E tests
         run: mise run swift:e2e:test
 

@@ -87,6 +87,7 @@ def main() -> int:
         args.cc,
         "-O2",
         "-std=c11",
+        *(["-D_DEFAULT_SOURCE"] if platform.system() == "Linux" else []),
         "-fPIC",
         *shared_flags,
         f"-I{src / 'include'}",

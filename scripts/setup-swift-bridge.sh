@@ -10,8 +10,11 @@ if stat -f '%m %N' "$BUILD_DIR" >/dev/null 2>&1; then
 else
   STAT_FMT=(-c '%Y %n')
 fi
-OUT=$(find "$BUILD_DIR" -maxdepth 2 -type d -name out -path '*tree-sitter-language-pack-swift-*' \
+OUT=$(find "$BUILD_DIR" -maxdepth 4 -type f -name SwiftBridgeCore.h \
+  \( -path '*/tree-sitter-language-pack-swift-*/out/SwiftBridgeCore.h' \
+  -o -path '*/tree-sitter-language-pack-swift/*/out/SwiftBridgeCore.h' \) \
   -exec stat "${STAT_FMT[@]}" {} + 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)
+OUT=${OUT%/SwiftBridgeCore.h}
 if [ -z "$OUT" ]; then
   echo "ERROR: Could not find swift-bridge build output in ${BUILD_DIR}/"
   exit 1

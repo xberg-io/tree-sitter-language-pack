@@ -8,7 +8,7 @@ setup() {
 }
 
 @test "Swift bridge staging preserves its guarded header and imports" {
-	out=target/release/build/tree-sitter-language-pack-swift-fixture/out
+	out=target/release/build/tree-sitter-language-pack-swift/fixture/out
 	mkdir -p "$out/tree-sitter-language-pack-swift"
 	printf 'core header\n' >"$out/SwiftBridgeCore.h"
 	printf 'bridge header\n' >"$out/tree-sitter-language-pack-swift/tree-sitter-language-pack-swift.h"
