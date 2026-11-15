@@ -183,3 +183,23 @@ final class ErrorHandlingTests: XCTestCase {
         XCTAssertThrowsError(try TreeSitterLanguagePack.process(source: "hello", config: configObj))
     }
 }
+
+final class IncrementalParsingTests: XCTestCase {
+    func testEditedTreeCanBeReusedWithoutTransferringOwnership() throws {
+        let parser = try TreeSitterLanguagePack.getParser(name: "nim")
+        let original = try XCTUnwrap(parser.parse("let x = 1\n"))
+        let edited = try original.edited(
+            TreeSitterLanguagePack.InputEdit(
+                startByte: 8,
+                oldEndByte: 9,
+                newEndByte: 10,
+                startPosition: TreeSitterLanguagePack.Point(row: 0, column: 8),
+                oldEndPosition: TreeSitterLanguagePack.Point(row: 0, column: 9),
+                newEndPosition: TreeSitterLanguagePack.Point(row: 0, column: 10)
+            )
+        )
+
+        XCTAssertNotNil(parser.parseIncremental("let x = 12\n", previousTree: edited))
+        XCTAssertNotNil(parser.parseIncremental("let x = 12\n", previousTree: edited))
+    }
+}

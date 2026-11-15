@@ -45,6 +45,101 @@ For batch processing in Rust, reuse the parser object. Creating one parser per p
 Names are case-sensitive — use the lowercase canonical form. Aliases exist: `shell` -> `bash`, `makefile` -> `make`, `bazel` -> `starlark`. See [Languages](/languages/) for the full list.
 :::
 
+## Incremental parsing
+
+Keep the tree from the previous parse when editing a document. Apply the edit to
+that tree with `edited`, then pass the edited tree and the complete new source
+to the same-language parser. The original tree and any nodes or cursors already
+obtained from it retain their original coordinates.
+
+Edit offsets and point columns count UTF-8 bytes. Rows and columns start at zero.
+The end offsets are exclusive. When replacing `é` with `🙂` in the example
+below, the old end is byte 7 and the new end is byte 9.
+
+```rust
+use tree_sitter_language_pack::{InputEdit, Point, get_parser};
+
+let mut parser = get_parser("python")?;
+let original = parser.parse("x = 'é'\n").ok_or("initial parse failed")?;
+let edited = original.edited(InputEdit {
+    start_byte: 5,
+    old_end_byte: 7,
+    new_end_byte: 9,
+    start_position: Point::new(0, 5),
+    old_end_position: Point::new(0, 7),
+    new_end_position: Point::new(0, 9),
+})?;
+let tree = parser
+    .parse_incremental("x = '🙂'\n", &edited)
+    .ok_or("incremental parse failed")?;
+assert!(!tree.root_node().has_error());
+# Ok::<(), Box<dyn std::error::Error>>(())
+```
+
+In Node.js, the package exposes the same operations with camel-case names:
+
+```ts
+import { getParser } from "@xberg-io/tree-sitter-language-pack";
+
+const parser = getParser("python");
+const original = parser.parse("x = 'é'\n");
+if (!original) throw new Error("Initial parse failed");
+
+const edited = original.edited({
+  startByte: 5,
+  oldEndByte: 7,
+  newEndByte: 9,
+  startPosition: { row: 0, column: 5 },
+  oldEndPosition: { row: 0, column: 7 },
+  newEndPosition: { row: 0, column: 9 },
+});
+const tree = parser.parseIncremental("x = '🙂'\n", edited);
+if (!tree) throw new Error("Incremental parse failed");
+```
+
+The WASM package uses the same parser methods and takes a typed edit:
+
+```ts
+import { getParser, WasmInputEdit, WasmPoint } from "@xberg-io/tree-sitter-language-pack-wasm";
+
+const parser = getParser("python");
+const original = parser.parse("x = 'é'\n");
+if (!original) throw new Error("Initial parse failed");
+
+const edited = original.edited(
+  new WasmInputEdit(5, 7, 9, new WasmPoint(0, 5), new WasmPoint(0, 7), new WasmPoint(0, 9)),
+);
+const tree = parser.parseIncremental("x = '🙂'\n", edited);
+if (!tree) throw new Error("Incremental parse failed");
+```
+
+Python's `get_parser()` returns the native `tree_sitter.Parser`. Its tree
+supports the upstream in-place `edit` method. Copy the previous tree first
+when you need to preserve it.
+
+```python
+from tree_sitter_language_pack import get_parser
+
+parser = get_parser("python")
+original = parser.parse("x = 'é'\n".encode())
+edited = original.copy()
+edited.edit(
+    start_byte=5,
+    old_end_byte=7,
+    new_end_byte=9,
+    start_point=(0, 5),
+    old_end_point=(0, 7),
+    new_end_point=(0, 9),
+)
+tree = parser.parse("x = '🙂'\n".encode(), edited)
+assert not tree.root_node.has_error
+```
+
+For multiple edits, apply them in sequence using coordinates relative to the
+document at each step. After reparsing, keep the resulting tree for the next
+document revision. If you change the parser language, parse the new source from
+scratch.
+
 ## Ambiguous extensions in Rust
 
 `detect_language_from_extension()` returns the default language for an extension. Use

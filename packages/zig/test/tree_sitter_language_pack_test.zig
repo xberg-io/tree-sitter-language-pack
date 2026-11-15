@@ -101,3 +101,35 @@ test "should_report_nonzero_language_count_when_global_registry_queried" {
     try std.testing.expect((tslp.language_count()) > 0);
     try std.testing.expect(try tslp.has_language("python"));
 }
+
+test "reuses an edited tree and keeps the original coordinates" {
+    const before = "x = 'é'\ny = 1\n";
+    const after = "x = '🙂'\ny = 1\n";
+    var parser = try tslp.get_parser("python");
+    defer parser.free();
+
+    var original = (try parser.parse(before)) orelse return error.ParserReturnedNoTree;
+    defer original.free();
+    var original_root = try original.root_node();
+    defer original_root.free();
+
+    const edit = tslp.InputEdit{
+        .start_byte = 5,
+        .old_end_byte = 7,
+        .new_end_byte = 9,
+        .start_position = .{ .row = 0, .column = 5 },
+        .old_end_position = .{ .row = 0, .column = 7 },
+        .new_end_position = .{ .row = 0, .column = 9 },
+    };
+    const edit_json = try std.json.Stringify.valueAlloc(std.testing.allocator, edit, .{});
+    defer std.testing.allocator.free(edit_json);
+    var edited = try original.edited(edit_json);
+    defer edited.free();
+    var incremental = (try parser.parse_incremental(after, edited)) orelse return error.ParserReturnedNoTree;
+    defer incremental.free();
+    var root = try incremental.root_node();
+    defer root.free();
+    try std.testing.expect(!(try root.has_error()));
+    try std.testing.expectEqual(@as(u64, after.len), try root.end_byte());
+    try std.testing.expectEqual(@as(u64, before.len), try original_root.end_byte());
+}

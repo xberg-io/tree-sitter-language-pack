@@ -318,3 +318,61 @@ fn debug_of_a_get_parser_result_is_formattable() {
     let result = get_parser("definitely-not-a-language");
     assert!(format!("{result:?}").starts_with("Err("));
 }
+
+#[test]
+fn incremental_parse_reuses_an_edited_tree_without_changing_existing_nodes() {
+    use tree_sitter_language_pack::{InputEdit, Point};
+
+    let before = "x = 'é'\ny = 1\n";
+    let after = "x = '🙂'\ny = 1\n";
+    let mut parser = get_parser("python").expect("Python parser");
+    let original = parser.parse(before).expect("original tree");
+    let original_root = original.root_node();
+    let edited = original
+        .edited(InputEdit {
+            start_byte: 5,
+            old_end_byte: 7,
+            new_end_byte: 9,
+            start_position: Point::new(0, 5),
+            old_end_position: Point::new(0, 7),
+            new_end_position: Point::new(0, 9),
+        })
+        .expect("valid edit");
+
+    assert_eq!(original_root.end_byte(), before.len());
+    assert_eq!(edited.root_node().end_byte(), after.len());
+
+    let incremental = parser.parse_incremental(after, &edited).expect("incremental parse");
+    let fresh = parser.parse(after).expect("fresh parse");
+    assert!(!incremental.root_node().has_error());
+    assert_eq!(incremental.root_node().to_sexp(), fresh.root_node().to_sexp());
+    assert_eq!(incremental.root_node().end_byte(), after.len());
+}
+
+#[test]
+fn edited_tree_rejects_reversed_byte_offsets() {
+    use tree_sitter_language_pack::{Error, InputEdit, Point};
+
+    let tree = get_parser("python").unwrap().parse("x = 1\n").unwrap();
+    let invalid = InputEdit {
+        start_byte: 4,
+        old_end_byte: 3,
+        new_end_byte: 5,
+        start_position: Point::new(0, 4),
+        old_end_position: Point::new(0, 4),
+        new_end_position: Point::new(0, 5),
+    };
+
+    assert!(matches!(tree.edited(invalid), Err(Error::InvalidRange(_))));
+}
+
+#[test]
+fn incremental_parse_honors_the_parsers_language_and_size_limit() {
+    let source = "x = 1\n";
+    let mut python = get_parser("python").unwrap();
+    let tree = python.parse(source).unwrap();
+    assert!(Parser::new().parse_incremental(source, &tree).is_none());
+
+    python.set_max_source_bytes(Some(1));
+    assert!(python.parse_incremental(source, &tree).is_none());
+}

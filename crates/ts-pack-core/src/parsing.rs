@@ -57,6 +57,24 @@ impl From<tree_sitter::Point> for Point {
     }
 }
 
+/// A change to a source document, measured in UTF-8 bytes.
+#[derive(Debug, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct InputEdit {
+    /// Start offset in both documents.
+    pub start_byte: usize,
+    /// End offset of the replaced text in the original document.
+    pub old_end_byte: usize,
+    /// End offset of the replacement text in the new document.
+    pub new_end_byte: usize,
+    /// Start position in both documents.
+    pub start_position: Point,
+    /// End position in the original document.
+    pub old_end_position: Point,
+    /// End position in the new document.
+    pub new_end_position: Point,
+}
+
 /// A byte range — start (inclusive) to end (exclusive).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -170,6 +188,23 @@ impl Parser {
     /// there.
     #[must_use]
     pub fn parse_bytes(&mut self, source: &[u8]) -> Option<Tree> {
+        self.parse_with_old_tree(source, None)
+    }
+
+    /// Parse new UTF-8 source using a previous tree edited to match the new source.
+    ///
+    /// Returns `None` if the tree's language differs from the parser's language
+    /// or if the parse fails under the same limits as [`Self::parse`].
+    #[must_use]
+    pub fn parse_incremental(&mut self, source: &str, old_tree: &Tree) -> Option<Tree> {
+        if self.inner.language().as_deref() != Some(&*old_tree.0.language()) {
+            tracing::debug!("incremental parse requires a tree from the same language");
+            return None;
+        }
+        self.parse_with_old_tree(source.as_bytes(), Some(&old_tree.0))
+    }
+
+    fn parse_with_old_tree(&mut self, source: &[u8], old_tree: Option<&tree_sitter::Tree>) -> Option<Tree> {
         if let Some(limit) = self.max_source_bytes
             && source.len() > limit
         {
@@ -186,7 +221,7 @@ impl Parser {
             .as_deref()
             .and_then(crate::parse::lock_for_stateful_scanner);
 
-        match crate::parse::run_parse(&mut self.inner, source, self.timeout_ms) {
+        match crate::parse::run_parse(&mut self.inner, source, old_tree, self.timeout_ms) {
             Ok(tree) => Some(Tree(Arc::new(tree))),
             Err(error) => {
                 tracing::debug!(error = %error, "parse produced no tree");
@@ -227,6 +262,51 @@ impl std::fmt::Debug for Parser {
 pub struct Tree(Arc<tree_sitter::Tree>);
 
 impl Tree {
+    /// Return an edited copy for use with [`Parser::parse_incremental`].
+    ///
+    /// Existing nodes and cursors still reference the original tree. Byte offsets
+    /// and positions must describe the same edit in the old and new source.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Error::InvalidRange`] for reversed or unrepresentable coordinates.
+    pub fn edited(&self, edit: InputEdit) -> Result<Tree, Error> {
+        let start = (edit.start_position.row, edit.start_position.column);
+        let old_end = (edit.old_end_position.row, edit.old_end_position.column);
+        let new_end = (edit.new_end_position.row, edit.new_end_position.column);
+        let coordinates = [
+            edit.start_byte,
+            edit.old_end_byte,
+            edit.new_end_byte,
+            start.0,
+            start.1,
+            old_end.0,
+            old_end.1,
+            new_end.0,
+            new_end.1,
+        ];
+        if edit.start_byte > edit.old_end_byte
+            || edit.start_byte > edit.new_end_byte
+            || start > old_end
+            || start > new_end
+            || coordinates.into_iter().any(|value| u32::try_from(value).is_err())
+        {
+            return Err(Error::InvalidRange("invalid incremental edit coordinates".into()));
+        }
+
+        let point = |(row, column)| tree_sitter::Point { row, column };
+        let mut tree = (*self.0).clone();
+        tree.edit(&tree_sitter::InputEdit {
+            start_byte: edit.start_byte,
+            old_end_byte: edit.old_end_byte,
+            new_end_byte: edit.new_end_byte,
+            start_position: point(start),
+            old_end_position: point(old_end),
+            new_end_position: point(new_end),
+        });
+        Ok(Tree(Arc::new(tree)))
+    }
+
     /// Return the root [`Node`] of this tree.
     #[must_use]
     pub fn root_node(&self) -> Node {

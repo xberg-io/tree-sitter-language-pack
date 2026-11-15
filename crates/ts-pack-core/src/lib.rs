@@ -81,7 +81,7 @@ pub use intel::types::{
     ProcessResult, Span, StructureItem, StructureKind, SymbolInfo, SymbolKind,
 };
 pub use pack_config::{PackConfig, TlsRootsMode};
-pub use parsing::{ByteRange, Node, Parser, Point, Tree, TreeCursor};
+pub use parsing::{ByteRange, InputEdit, Node, Parser, Point, Tree, TreeCursor};
 pub use process_config::ProcessConfig;
 pub use queries::{
     get_folds_query, get_highlights_query, get_indents_query, get_injections_query, get_locals_query, get_tags_query,

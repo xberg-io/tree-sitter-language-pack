@@ -97,13 +97,13 @@ pub(crate) fn parse_with_language_limited(
     PARSER_CACHE.with(|cache| {
         let mut cache = cache.borrow_mut();
         if let Some(parser) = cache.get_mut(language_name) {
-            return run_parse(parser, source, timeout_ms);
+            return run_parse(parser, source, None, timeout_ms);
         }
         let mut parser = tree_sitter::Parser::new();
         parser
             .set_language(language)
             .map_err(|e| Error::ParserSetup(format!("{e}")))?;
-        let tree = run_parse(&mut parser, source, timeout_ms)?;
+        let tree = run_parse(&mut parser, source, None, timeout_ms)?;
         cache.insert(language_name.to_string(), parser);
         Ok(tree)
     })
@@ -113,6 +113,7 @@ pub(crate) fn parse_with_language_limited(
 pub(crate) fn run_parse(
     parser: &mut tree_sitter::Parser,
     source: &[u8],
+    old_tree: Option<&tree_sitter::Tree>,
     timeout_ms: Option<u64>,
 ) -> Result<tree_sitter::Tree, Error> {
     let len = source.len();
@@ -135,7 +136,7 @@ pub(crate) fn run_parse(
     let Some(deadline) = deadline else {
         // ~keep No budget configured, or a budget so large its deadline is unrepresentable.
         return parser
-            .parse_with_options(&mut read, None, None)
+            .parse_with_options(&mut read, old_tree, None)
             .ok_or(Error::ParseFailed);
     };
 
@@ -148,7 +149,7 @@ pub(crate) fn run_parse(
     };
     let options = tree_sitter::ParseOptions::new().progress_callback(&mut on_progress);
 
-    match parser.parse_with_options(&mut read, None, Some(options)) {
+    match parser.parse_with_options(&mut read, old_tree, Some(options)) {
         Some(tree) => Ok(tree),
         None if Instant::now() >= deadline => {
             let budget_ms = timeout_ms.unwrap_or_default();

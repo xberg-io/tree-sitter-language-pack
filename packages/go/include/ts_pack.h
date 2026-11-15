@@ -142,6 +142,10 @@ typedef struct TS_PACKFileMetrics TS_PACKFileMetrics;
  * An import statement extracted from source code.
  */
 typedef struct TS_PACKImportInfo TS_PACKImportInfo;
+/**
+ * A change to a source document, measured in UTF-8 bytes.
+ */
+typedef struct TS_PACKInputEdit TS_PACKInputEdit;
 typedef uint64_t TS_PACKLanguage;
 /**
  * Thread-safe registry of tree-sitter language parsers.
@@ -1194,6 +1198,77 @@ int32_t ts_pack_import_info_is_wildcard(TS_PACKAlefHandle handle);
 TS_PACKAlefHandle ts_pack_import_info_span(TS_PACKAlefHandle handle);
 
 /**
+ * Create a `InputEdit` from a JSON string. Returns null on failure.
+ * # Safety
+ * JSON string must be valid UTF-8 and null-terminated.
+ * Returned handle must be freed with `ts_pack_input_edit_free`.
+ */
+TS_PACKAlefHandle ts_pack_input_edit_from_json(const char *json);
+
+/**
+ * Serialize a `InputEdit` to a JSON string. Returns null on failure.
+ * # Safety
+ * `handle` must be a valid, non-zero handle returned by a `ts_pack` function.
+ * The returned string must be freed with `ts_pack_free_string`.
+ */
+char *ts_pack_input_edit_to_json(TS_PACKAlefHandle handle);
+
+/**
+ * Free a `InputEdit` handle.
+ * # Safety
+ * Handle must have been returned by this library, or be zero.
+ */
+void ts_pack_input_edit_free(TS_PACKAlefHandle handle);
+
+/**
+ * Get the `start_byte` field from a `InputEdit`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+uintptr_t ts_pack_input_edit_start_byte(TS_PACKAlefHandle handle);
+
+/**
+ * Get the `old_end_byte` field from a `InputEdit`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+uintptr_t ts_pack_input_edit_old_end_byte(TS_PACKAlefHandle handle);
+
+/**
+ * Get the `new_end_byte` field from a `InputEdit`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+uintptr_t ts_pack_input_edit_new_end_byte(TS_PACKAlefHandle handle);
+
+/**
+ * Get the `start_position` field from a `InputEdit`.
+ * A non-null returned handle is owned by the caller.
+ * It must be freed with `ts_pack_point_free`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+TS_PACKAlefHandle ts_pack_input_edit_start_position(TS_PACKAlefHandle handle);
+
+/**
+ * Get the `old_end_position` field from a `InputEdit`.
+ * A non-null returned handle is owned by the caller.
+ * It must be freed with `ts_pack_point_free`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+TS_PACKAlefHandle ts_pack_input_edit_old_end_position(TS_PACKAlefHandle handle);
+
+/**
+ * Get the `new_end_position` field from a `InputEdit`.
+ * A non-null returned handle is owned by the caller.
+ * It must be freed with `ts_pack_point_free`.
+ * # Safety
+ * Pointer must be a valid handle returned by this library.
+ */
+TS_PACKAlefHandle ts_pack_input_edit_new_end_position(TS_PACKAlefHandle handle);
+
+/**
  * Free a `Language` handle.
  * # Safety
  * Handle must have been returned by this library, or be zero.
@@ -1610,6 +1685,18 @@ TS_PACKAlefHandle ts_pack_parser_parse(TS_PACKAlefHandle this_,
 TS_PACKAlefHandle ts_pack_parser_parse_bytes(TS_PACKAlefHandle this_,
                                              const uint8_t *source,
                                              uintptr_t source_len);
+
+/**
+ * Parse new UTF-8 source using a previous tree edited to match the new source.
+ *
+ * Returns `None` if the tree's language differs from the parser's language
+ * or if the parse fails under the same limits as `Self.parse`.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ */
+TS_PACKAlefHandle ts_pack_parser_parse_incremental(TS_PACKAlefHandle this_,
+                                                   const char *source,
+                                                   TS_PACKAlefHandle old_tree);
 
 /**
  * Reset internal state. The next call to `parse` (Self::parse) will
@@ -2254,6 +2341,18 @@ char *ts_pack_symbol_info_doc(TS_PACKAlefHandle handle);
  * Handle must have been returned by this library, or be zero.
  */
 void ts_pack_tree_free(TS_PACKAlefHandle handle);
+
+/**
+ * Return an edited copy for use with `Parser.parse_incremental`.
+ *
+ * Existing nodes and cursors still reference the original tree. Byte offsets
+ * and positions must describe the same edit in the old and new source.
+ * \note Returns `Error.InvalidRange` for reversed or unrepresentable coordinates.
+ * \note SAFETY: Caller must ensure all pointer arguments are valid or null. Returned pointers must be
+ * freed with the appropriate free function.
+ */
+TS_PACKAlefHandle ts_pack_tree_edited(TS_PACKAlefHandle this_,
+                                      TS_PACKAlefHandle edit);
 
 /**
  * Return the root `Node` of this tree.
