@@ -4477,6 +4477,9 @@ jobs:
       # ~keep Android SDK/NDK stays on its setup action (org toolchain policy).
       - uses: xberg-io/actions/setup-android-ndk@v1
       - uses: xberg-io/actions/build-android-natives@v1
+        env:
+          # ~keep Generated JNI manifests declare async-trait even for bindings with only synchronous visitors.
+          CARGO_BUILD_WARNINGS: warn
         with:
           crate-name: tree-sitter-language-pack-jni
           lib-name: ts_pack_jni
