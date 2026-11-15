@@ -4555,6 +4555,9 @@ jobs:
       # is not wired into any source set and is not executed. ~keep
       - name: Run Kotlin Android E2E tests
         working-directory: e2e/kotlin_android
+        env:
+          # ~keep The host-JNI fixture has the same generated manifest as the NDK builds.
+          CARGO_BUILD_WARNINGS: warn
         run: gradle test --no-daemon
 
   publish-kotlin-android:
