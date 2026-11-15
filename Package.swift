@@ -37,7 +37,7 @@ let package = Package(
     .binaryTarget(
       name: "RustBridgeBinary",
       url: "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v1.25.2/TreeSitterLanguagePack-rs.artifactbundle.zip",
-      checksum: "fef91cabed368aa11a5ffe109f59f84a2fd40ee756b849affbb8c81e0a1aede1"
+      checksum: "b4754aee233f5f026ebff81553388c765dfdd6857226171170729268a5998302"
     ),
     // RustBridge: Swift wrapper module owning the swift-bridge generated
     // sources. Depends on RustBridgeC for C type declarations and on
