@@ -254,6 +254,17 @@ jobs:
           use-sccache: "false"
           install-llvm-cov: "false"
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+
+      - name: Export PHP build config
+        run: |
+          PHP_CONFIG_BIN="$(command -v php-config)"
+          test -x "$PHP_CONFIG_BIN"
+          echo "PHP_CONFIG=$PHP_CONFIG_BIN" >> "$GITHUB_ENV"
+
       - name: Check Rust formatting
         run: cargo fmt --check
 

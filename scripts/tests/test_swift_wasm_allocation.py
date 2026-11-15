@@ -55,7 +55,7 @@ class SwiftAllocationTests(unittest.TestCase):
 
     def test_patch_targets_the_reviewed_upstream_revision(self) -> None:
         definitions = json.loads((ROOT / "sources/language_definitions.json").read_text())
-        assert definitions["swift"]["rev"] == "9e3b87f66f1fd2f3b931376fd3723ab788e337c3"
+        assert definitions["swift"]["rev"] == "3697c2b910e86b6886a15cc64affb90a89e5711c"
         patches = list((ROOT / "patches/swift").glob("*.patch"))
         assert len(patches) == 1
         text = patches[0].read_text()
