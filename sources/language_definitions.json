@@ -1564,10 +1564,9 @@
     "rev": "1ef52d35a73a2a5f2e433ecfd1c751c1360a923b"
   },
   "sql": {
-    "branch": "pack-pin",
     "extensions": ["sql"],
     "generate": true,
-    "repo": "https://github.com/TheAuditorTool/tree-sitter-sql",
+    "repo": "https://github.com/Goldziher/tree-sitter-sql",
     "rev": "8874250d1ff6c039c48c7e8bde8f38573db00575"
   },
   "sql_bigquery": {

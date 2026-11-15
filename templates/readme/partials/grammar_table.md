@@ -296,7 +296,7 @@
 | Sourcepawn | [nilshelmig/tree-sitter-sourcepawn](https://github.com/nilshelmig/tree-sitter-sourcepawn) | 14 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
 | Sparql | [GordianDziwis/tree-sitter-sparql](https://github.com/GordianDziwis/tree-sitter-sparql) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Spicedb | [jzelinskie/tree-sitter-spicedb](https://github.com/jzelinskie/tree-sitter-spicedb) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| SQL | [TheAuditorTool/tree-sitter-sql](https://github.com/TheAuditorTool/tree-sitter-sql) | 14 | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| SQL | [Goldziher/tree-sitter-sql](https://github.com/Goldziher/tree-sitter-sql) | 14 | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 | Sql Bigquery | [takegue/tree-sitter-sql-bigquery](https://github.com/takegue/tree-sitter-sql-bigquery) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Squirrel | [tree-sitter-grammars/tree-sitter-squirrel](https://github.com/tree-sitter-grammars/tree-sitter-squirrel) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Ssh Config | [ObserverOfTime/tree-sitter-ssh-config](https://github.com/ObserverOfTime/tree-sitter-ssh-config) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
