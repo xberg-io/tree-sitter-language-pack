@@ -209,6 +209,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformInt64 dco_decode_box_autoadd_i_64(dynamic raw);
 
   @protected
+  InputEdit dco_decode_box_autoadd_input_edit(dynamic raw);
+
+  @protected
   PackConfig dco_decode_box_autoadd_pack_config(dynamic raw);
 
   @protected
@@ -279,6 +282,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ImportInfo dco_decode_import_info(dynamic raw);
+
+  @protected
+  InputEdit dco_decode_input_edit(dynamic raw);
 
   @protected
   List<String> dco_decode_list_String(dynamic raw);
@@ -556,6 +562,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformInt64 sse_decode_box_autoadd_i_64(SseDeserializer deserializer);
 
   @protected
+  InputEdit sse_decode_box_autoadd_input_edit(SseDeserializer deserializer);
+
+  @protected
   PackConfig sse_decode_box_autoadd_pack_config(SseDeserializer deserializer);
 
   @protected
@@ -630,6 +639,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ImportInfo sse_decode_import_info(SseDeserializer deserializer);
+
+  @protected
+  InputEdit sse_decode_input_edit(SseDeserializer deserializer);
 
   @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
@@ -944,6 +956,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_box_autoadd_input_edit(
+    InputEdit self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_box_autoadd_pack_config(
     PackConfig self,
     SseSerializer serializer,
@@ -1026,6 +1044,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_import_info(ImportInfo self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_input_edit(InputEdit self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);

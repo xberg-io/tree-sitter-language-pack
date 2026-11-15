@@ -10,7 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'lib.freezed.dart';
 
 // These functions are ignored because they are not marked as `pub`: `try_convert_comment_kind_from_core`, `try_convert_data_node_kind_from_core`, `try_convert_diagnostic_severity_from_core`, `try_convert_docstring_format_from_core`, `try_convert_export_kind_from_core`, `try_convert_structure_kind_from_core`, `try_convert_symbol_kind_from_core`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `try_from`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `from`, `try_from`
 
 /// Detect language name from a file extension (without leading dot).
 ///
@@ -369,6 +369,9 @@ Future<PackConfig> createPackConfigFromJson({required String json}) =>
 Future<Point> createPointFromJson({required String json}) =>
     RustLib.instance.api.crateCreatePointFromJson(json: json);
 
+Future<InputEdit> createInputEditFromJson({required String json}) =>
+    RustLib.instance.api.crateCreateInputEditFromJson(json: json);
+
 Future<ByteRange> createByteRangeFromJson({required String json}) =>
     RustLib.instance.api.crateCreateByteRangeFromJson(json: json);
 
@@ -492,6 +495,11 @@ abstract class Parser implements RustOpaqueInterface {
 
   Future<Tree?> parseBytes({required List<int> source});
 
+  Future<Tree?> parseIncremental({
+    required String source,
+    required Tree oldTree,
+  });
+
   Future<void> reset();
 
   Future<void> setLanguage({required String name});
@@ -503,6 +511,8 @@ abstract class Parser implements RustOpaqueInterface {
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Tree>>
 abstract class Tree implements RustOpaqueInterface {
+  Future<Tree> edited({required InputEdit edit});
+
   Future<Node> rootNode();
 
   Future<TreeCursor> walk();
@@ -1254,6 +1264,57 @@ class ImportInfo {
           alias == other.alias &&
           isWildcard == other.isWildcard &&
           span == other.span;
+}
+
+/// A change to a source document, measured in UTF-8 bytes.
+class InputEdit {
+  /// Start offset in both documents.
+  final PlatformInt64 startByte;
+
+  /// End offset of the replaced text in the original document.
+  final PlatformInt64 oldEndByte;
+
+  /// End offset of the replacement text in the new document.
+  final PlatformInt64 newEndByte;
+
+  /// Start position in both documents.
+  final Point startPosition;
+
+  /// End position in the original document.
+  final Point oldEndPosition;
+
+  /// End position in the new document.
+  final Point newEndPosition;
+
+  const InputEdit({
+    required this.startByte,
+    required this.oldEndByte,
+    required this.newEndByte,
+    required this.startPosition,
+    required this.oldEndPosition,
+    required this.newEndPosition,
+  });
+
+  @override
+  int get hashCode =>
+      startByte.hashCode ^
+      oldEndByte.hashCode ^
+      newEndByte.hashCode ^
+      startPosition.hashCode ^
+      oldEndPosition.hashCode ^
+      newEndPosition.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is InputEdit &&
+          runtimeType == other.runtimeType &&
+          startByte == other.startByte &&
+          oldEndByte == other.oldEndByte &&
+          newEndByte == other.newEndByte &&
+          startPosition == other.startPosition &&
+          oldEndPosition == other.oldEndPosition &&
+          newEndPosition == other.newEndPosition;
 }
 
 /// Configuration for the tree-sitter language pack.

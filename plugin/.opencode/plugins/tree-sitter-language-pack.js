@@ -1,10 +1,11 @@
 // AI-RULEZ :: GENERATED FILE — DO NOT EDIT
-// Content-Hash: blake3:dc82ceffa8975cedee2b035288843ddc26014ba5a582462873a9247e876ebd2a
-// Source-Hash: blake3:370796ab624dfcac7d6eb01d3b2be691241bb0742fa5e818695c258078fa05e0
+// Content-Hash: blake3:e86da531183c9254f868b83045cbc54b802eda17f70c67947ba78e7e2c3bfeb9
+// Source-Hash: blake3:8676587a66b4b48a65ada54742e189f3248ce30d1a59710468dad16e100e80a4
 // Schema-Version: v1
 
-import { registerBundledContent } from "../ai-rulez-content.js";
 import { spawn } from "node:child_process";
+
+import { registerBundledContent } from "../ai-rulez-content.js";
 
 function hasValue(value) {
   return value !== undefined && value !== null && value !== "";
@@ -69,8 +70,16 @@ function runCli(args, context) {
   });
 }
 
-const file = { type: "string", minLength: 1, description: "Path to the source file." };
-const language = { type: "string", minLength: 1, description: "Language override; auto-detected if omitted." };
+const file = {
+  type: "string",
+  minLength: 1,
+  description: "Path to the source file.",
+};
+const language = {
+  type: "string",
+  minLength: 1,
+  description: "Language override; auto-detected if omitted.",
+};
 const analysis = ["all", "structure", "imports", "exports", "comments", "symbols", "docstrings", "diagnostics"];
 
 function input(properties, required) {
@@ -85,7 +94,14 @@ export const TreeSitterLanguagePackPlugin = {
       editor.add({
         name: "tspack_parse",
         description: "Parse a source file into a tree-sitter syntax tree with ts-pack.",
-        input: input({ file, language, format: { type: "string", enum: ["sexp", "json"], default: "sexp" } }, ["file"]),
+        input: input(
+          {
+            file,
+            language,
+            format: { type: "string", enum: ["sexp", "json"], default: "sexp" },
+          },
+          ["file"],
+        ),
         execute(args, context) {
           const cliArgs = ["parse", args.file, "--format", args.format ?? "sexp"];
           pushOption(cliArgs, "--language", args.language);

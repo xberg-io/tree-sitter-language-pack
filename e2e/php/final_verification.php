@@ -3,9 +3,9 @@
 
 declare(strict_types=1);
 
-echo "========================================\n";
-echo "PHP E2E Test Runner Fix Verification\n";
-echo "========================================\n\n";
+fwrite(STDOUT, "========================================\n");
+fwrite(STDOUT, "PHP E2E Test Runner Fix Verification\n");
+fwrite(STDOUT, "========================================\n\n");
 
 $passed = 0;
 $total = 0;
@@ -15,7 +15,7 @@ function test($name, $condition)
     global $passed, $total;
     $total++;
     $status = $condition ? '✓ PASS' : '✗ FAIL';
-    echo "[$total] $name: $status\n";
+    fwrite(STDOUT, "[$total] $name: $status\n");
     if ($condition)
         $passed++;
     return $condition;
@@ -37,7 +37,6 @@ test('Extension loads with -n flag', extension_loaded('ts-pack-core-php'));
 // Test 5: ProcessConfig exists
 test('ProcessConfig class exists', class_exists('Tree\Sitter\Language\Pack\ProcessConfig'));
 
-// Test 6: ProcessConfig::from_json exists
 test('ProcessConfig::from_json() method exists', method_exists('Tree\Sitter\Language\Pack\ProcessConfig', 'from_json'));
 
 // Test 7: File exists check
@@ -47,11 +46,11 @@ test('Extension binary exists at correct path', file_exists($ext_path));
 // Test 8: Correct basename
 test('Extension filename is libts_pack_core_php.dylib', basename($ext_path) === 'libts_pack_core_php.dylib');
 
-echo "\n========================================\n";
-echo "Result: $passed/$total tests passed\n";
+fwrite(STDOUT, "\n========================================\n");
+fwrite(STDOUT, "Result: $passed/$total tests passed\n");
 if ($passed === $total) {
-    echo "Status: ✓ ALL TESTS PASSED\n";
+    fwrite(STDOUT, "Status: ✓ ALL TESTS PASSED\n");
 } else {
-    echo "Status: ✗ SOME TESTS FAILED\n";
+    fwrite(STDOUT, "Status: ✗ SOME TESTS FAILED\n");
 }
-echo "========================================\n";
+fwrite(STDOUT, "========================================\n");

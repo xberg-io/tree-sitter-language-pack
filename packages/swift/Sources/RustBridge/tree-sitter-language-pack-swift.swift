@@ -25,8 +25,8 @@ public func languageRegistryHasLanguage<GenericIntoRustString: IntoRustString>(_
 public func languageRegistryLanguageCount(_ client: LanguageRegistryRef) -> UInt {
     __swift_bridge__$language_registry_language_count(client.ptr)
 }
-public func languageRegistryProcess<GenericIntoRustString: IntoRustString>(_ client: LanguageRegistryRef, _ source: GenericIntoRustString, _ config: ProcessConfig) throws -> ProcessResult {
-    try { let val = __swift_bridge__$language_registry_process(client.ptr, { let rustString = source.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), {config.isOwned = false; return config.ptr;}()); if val.is_ok { return ProcessResult(ptr: val.ok_or_err!) } else { throw AlefBridgeError(ptr: val.ok_or_err!) } }()
+public func languageRegistryProcess<GenericIntoRustString: IntoRustString>(_ client: LanguageRegistryRef, _ source: GenericIntoRustString, _ config: ProcessConfigRef) throws -> ProcessResult {
+    try { let val = __swift_bridge__$language_registry_process(client.ptr, { let rustString = source.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), config.ptr); if val.is_ok { return ProcessResult(ptr: val.ok_or_err!) } else { throw AlefBridgeError(ptr: val.ok_or_err!) } }()
 }
 public func nodeKind(_ client: NodeRef) -> RustString {
     RustString(ptr: __swift_bridge__$node_kind(client.ptr))
@@ -103,6 +103,9 @@ public func parserParse<GenericIntoRustString: IntoRustString>(_ client: ParserR
 public func parserParseBytes(_ client: ParserRefMut, _ source: RustVec<UInt8>) -> Optional<Tree> {
     { let val = __swift_bridge__$parser_parse_bytes(client.ptr, { let val = source; val.isOwned = false; return val.ptr }()); if val != nil { return Tree(ptr: val!) } else { return nil } }()
 }
+public func parserParseIncremental<GenericIntoRustString: IntoRustString>(_ client: ParserRefMut, _ source: GenericIntoRustString, _ old_tree: TreeRef) -> Optional<Tree> {
+    { let val = __swift_bridge__$parser_parse_incremental(client.ptr, { let rustString = source.intoRustString(); rustString.isOwned = false; return rustString.ptr }(), old_tree.ptr); if val != nil { return Tree(ptr: val!) } else { return nil } }()
+}
 public func parserReset(_ client: ParserRefMut) -> () {
     __swift_bridge__$parser_reset(client.ptr)
 }
@@ -126,6 +129,9 @@ public func processConfigWithParseTimeoutMsFromJson<GenericIntoRustString: IntoR
 }
 public func processConfigValidateFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> RustString {
     try { let val = __swift_bridge__$process_config_validate_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return RustString(ptr: val.ok_or_err!) } else { throw AlefBridgeError(ptr: val.ok_or_err!) } }()
+}
+public func treeEdited(_ client: TreeRef, _ edit: InputEdit) throws -> Tree {
+    try { let val = __swift_bridge__$tree_edited(client.ptr, {edit.isOwned = false; return edit.ptr;}()); if val.is_ok { return Tree(ptr: val.ok_or_err!) } else { throw AlefBridgeError(ptr: val.ok_or_err!) } }()
 }
 public func treeRootNode(_ client: TreeRef) -> Node {
     Node(ptr: __swift_bridge__$tree_root_node(client.ptr))
@@ -268,6 +274,9 @@ public func fileMetricsFromJson<GenericIntoRustString: IntoRustString>(_ json: G
 public func importInfoFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> ImportInfo {
     try { let val = __swift_bridge__$import_info_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return ImportInfo(ptr: val.ok_or_err!) } else { throw AlefBridgeError(ptr: val.ok_or_err!) } }()
 }
+public func inputEditFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> InputEdit {
+    try { let val = __swift_bridge__$input_edit_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return InputEdit(ptr: val.ok_or_err!) } else { throw AlefBridgeError(ptr: val.ok_or_err!) } }()
+}
 public func packConfigFromJson<GenericIntoRustString: IntoRustString>(_ json: GenericIntoRustString) throws -> PackConfig {
     try { let val = __swift_bridge__$pack_config_from_json({ let rustString = json.intoRustString(); rustString.isOwned = false; return rustString.ptr }()); if val.is_ok { return PackConfig(ptr: val.ok_or_err!) } else { throw AlefBridgeError(ptr: val.ok_or_err!) } }()
 }
@@ -345,6 +354,9 @@ public func __alef_phantom_vec_file_metrics() -> RustVec<FileMetrics> {
 }
 public func __alef_phantom_vec_import_info() -> RustVec<ImportInfo> {
     RustVec(ptr: __swift_bridge__$__alef_phantom_vec_import_info())
+}
+public func __alef_phantom_vec_input_edit() -> RustVec<InputEdit> {
+    RustVec(ptr: __swift_bridge__$__alef_phantom_vec_input_edit())
 }
 public func __alef_phantom_vec_language() -> RustVec<Language> {
     RustVec(ptr: __swift_bridge__$__alef_phantom_vec_language())
@@ -1781,6 +1793,106 @@ extension ImportInfo: Vectorizable {
 
     public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
         __swift_bridge__$Vec_ImportInfo$len(vecPtr)
+    }
+}
+
+
+public class InputEdit: InputEditRefMut {
+    public var isOwned: Bool = true
+
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+
+    deinit {
+        if isOwned {
+            __swift_bridge__$InputEdit$_free(ptr)
+        }
+    }
+}
+public class InputEditRefMut: InputEditRef {
+    public override init(ptr: UnsafeMutableRawPointer) {
+        super.init(ptr: ptr)
+    }
+}
+public class InputEditRef {
+    public var ptr: UnsafeMutableRawPointer
+
+    public init(ptr: UnsafeMutableRawPointer) {
+        self.ptr = ptr
+    }
+}
+extension InputEditRef {
+    public func startByte() -> UInt {
+        __swift_bridge__$InputEdit$start_byte(ptr)
+    }
+
+    public func oldEndByte() -> UInt {
+        __swift_bridge__$InputEdit$old_end_byte(ptr)
+    }
+
+    public func newEndByte() -> UInt {
+        __swift_bridge__$InputEdit$new_end_byte(ptr)
+    }
+
+    public func startPosition() -> Point {
+        Point(ptr: __swift_bridge__$InputEdit$start_position(ptr))
+    }
+
+    public func oldEndPosition() -> Point {
+        Point(ptr: __swift_bridge__$InputEdit$old_end_position(ptr))
+    }
+
+    public func newEndPosition() -> Point {
+        Point(ptr: __swift_bridge__$InputEdit$new_end_position(ptr))
+    }
+}
+extension InputEdit: Vectorizable {
+    public static func vecOfSelfNew() -> UnsafeMutableRawPointer {
+        __swift_bridge__$Vec_InputEdit$new()
+    }
+
+    public static func vecOfSelfFree(vecPtr: UnsafeMutableRawPointer) {
+        __swift_bridge__$Vec_InputEdit$drop(vecPtr)
+    }
+
+    public static func vecOfSelfPush(vecPtr: UnsafeMutableRawPointer, value: InputEdit) {
+        __swift_bridge__$Vec_InputEdit$push(vecPtr, {value.isOwned = false; return value.ptr;}())
+    }
+
+    public static func vecOfSelfPop(vecPtr: UnsafeMutableRawPointer) -> Optional<Self> {
+        let pointer = __swift_bridge__$Vec_InputEdit$pop(vecPtr)
+        if pointer == nil {
+            return nil
+        } else {
+            return (InputEdit(ptr: pointer!) as! Self)
+        }
+    }
+
+    public static func vecOfSelfGet(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<InputEditRef> {
+        let pointer = __swift_bridge__$Vec_InputEdit$get(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return InputEditRef(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfGetMut(vecPtr: UnsafeMutableRawPointer, index: UInt) -> Optional<InputEditRefMut> {
+        let pointer = __swift_bridge__$Vec_InputEdit$get_mut(vecPtr, index)
+        if pointer == nil {
+            return nil
+        } else {
+            return InputEditRefMut(ptr: pointer!)
+        }
+    }
+
+    public static func vecOfSelfAsPtr(vecPtr: UnsafeMutableRawPointer) -> UnsafePointer<InputEditRef> {
+        UnsafePointer<InputEditRef>(OpaquePointer(__swift_bridge__$Vec_InputEdit$as_ptr(vecPtr)))
+    }
+
+    public static func vecOfSelfLen(vecPtr: UnsafeMutableRawPointer) -> UInt {
+        __swift_bridge__$Vec_InputEdit$len(vecPtr)
     }
 }
 

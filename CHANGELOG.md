@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.26.0] - 2026-11-15
+
+### Added
+
+- Reuse an edited syntax tree when reparsing source across the language bindings (#223).
+  Edit positions use UTF-8 bytes, and the original tree remains available when using the new edited-copy API.
+
 ## [1.25.2] - 2026-11-14
 
 ### Fixed

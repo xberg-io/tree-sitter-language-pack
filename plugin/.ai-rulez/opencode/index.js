@@ -1,5 +1,6 @@
-import { registerBundledContent } from "../ai-rulez-content.js";
 import { spawn } from "node:child_process";
+
+import { registerBundledContent } from "../ai-rulez-content.js";
 
 function hasValue(value) {
   return value !== undefined && value !== null && value !== "";
@@ -64,8 +65,16 @@ function runCli(args, context) {
   });
 }
 
-const file = { type: "string", minLength: 1, description: "Path to the source file." };
-const language = { type: "string", minLength: 1, description: "Language override; auto-detected if omitted." };
+const file = {
+  type: "string",
+  minLength: 1,
+  description: "Path to the source file.",
+};
+const language = {
+  type: "string",
+  minLength: 1,
+  description: "Language override; auto-detected if omitted.",
+};
 const analysis = ["all", "structure", "imports", "exports", "comments", "symbols", "docstrings", "diagnostics"];
 
 function input(properties, required) {
@@ -80,7 +89,14 @@ export const TreeSitterLanguagePackPlugin = {
       editor.add({
         name: "tspack_parse",
         description: "Parse a source file into a tree-sitter syntax tree with ts-pack.",
-        input: input({ file, language, format: { type: "string", enum: ["sexp", "json"], default: "sexp" } }, ["file"]),
+        input: input(
+          {
+            file,
+            language,
+            format: { type: "string", enum: ["sexp", "json"], default: "sexp" },
+          },
+          ["file"],
+        ),
         execute(args, context) {
           const cliArgs = ["parse", args.file, "--format", args.format ?? "sexp"];
           pushOption(cliArgs, "--language", args.language);
