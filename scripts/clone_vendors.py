@@ -32,7 +32,7 @@ from contextlib import suppress
 from functools import partial
 from json import dumps, loads
 from pathlib import Path
-from shutil import copytree, move, rmtree, which
+from shutil import copyfile, copytree, move, rmtree, which
 from typing import NotRequired, TypedDict
 
 from _vendor_lfs import (
@@ -107,6 +107,7 @@ MAX_COMPATIBLE_ABI = int(os.environ.get("TSLP_MAX_COMPATIBLE_ABI", "15"))
 ABI_EXEMPT_PARSER_BYTES = int(os.environ.get("TSLP_ABI_EXEMPT_PARSER_BYTES", str(24 * 1024 * 1024)))
 
 CACHE_MANIFEST_FILE = parsers_directory / ".cache_manifest.json"
+ATTRIBUTIONS_FILE = "ATTRIBUTIONS.md"
 
 SHARD_INDEX = int(os.environ.get("TSLP_SHARD_INDEX", "0"))
 SHARD_COUNT = int(os.environ.get("TSLP_SHARD_COUNT", "1"))
@@ -214,8 +215,18 @@ def _is_language_cached(language_name: str, language_definition: LanguageDict, m
     if cached_key != expected_key:
         return False
 
-    parser_dir = parsers_directory / language_name / "src"
-    return parser_dir.exists() and any(parser_dir.iterdir()) and has_license_file(parser_dir.parent)
+    target_dir = parsers_directory / language_name
+    local = language_definition.get("local")
+    target_attribution = target_dir / ATTRIBUTIONS_FILE
+    if local:
+        attribution = _project_root / local / ATTRIBUTIONS_FILE
+        if attribution.is_file() and not (
+            target_attribution.is_file() and target_attribution.read_bytes() == attribution.read_bytes()
+        ):
+            return False
+
+    parser_dir = target_dir / "src"
+    return parser_dir.exists() and any(parser_dir.iterdir()) and has_license_file(target_dir)
 
 
 def get_language_definitions() -> tuple[dict[str, LanguageDict], list[str]]:
@@ -892,6 +903,13 @@ async def process_repo(
     await move_src_folder(language_name=language_name, directory=directory, language_definition=language_definition)
 
     clone_dir = vendor_directory / language_name
+    attribution = clone_dir / ATTRIBUTIONS_FILE
+    target_attribution = parsers_directory / language_name / ATTRIBUTIONS_FILE
+    if local and attribution.is_file():
+        await run_sync(copyfile, attribution, target_attribution)
+    else:
+        target_attribution.unlink(missing_ok=True)
+
     if await AsyncPath(clone_dir).exists():
         await run_sync(partial(rmtree, ignore_errors=True), clone_dir)
 

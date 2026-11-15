@@ -44,7 +44,7 @@ env:
   CARGO_INCREMENTAL: "0"
   RUST_BACKTRACE: short
   # ~keep Release dispatches can build older tags with a lower default that excludes SQL.
-  TSLP_WASM_MAX_PARSER_BYTES: "50331648"
+  TSLP_WASM_MAX_PARSER_BYTES: "51380224"
   # ~keep Every shipped macOS binary (wheels, Node, CLI, FFI, NIFs, natives, parser libraries) targets the org
   # ~keep floor, the oldest macOS Apple still supports, which Package.swift's `.macOS(.v15)` declares; toolchain
   # ~keep defaults differ. The Swift bundle is built by prepare-swift-release.yaml, whose shared workflow derives the

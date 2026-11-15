@@ -4,9 +4,8 @@
 use tree_sitter_language_pack::get_parser;
 
 fn assert_parses_cleanly(language: &str, source: &str) -> String {
-    let mut parser = get_parser(language).unwrap_or_else(|e| {
-        panic!("{language} grammar required; build with TSLP_LANGUAGES=bash,c,css,dockerfile,groovy,javascript,sql,zig: {e}")
-    });
+    let mut parser = get_parser(language)
+        .unwrap_or_else(|e| panic!("{language} grammar required; include it in TSLP_LANGUAGES: {e}"));
     let tree = parser.parse(source).unwrap();
     let root = tree.root_node();
     let sexp = root.to_sexp();
@@ -115,4 +114,42 @@ fn groovy_accepts_left_shift() {
 fn orchard_css_and_javascript_accept_common_syntax() {
     assert_parses_cleanly("css", "@media (min-width: 10px) { .card:hover { color: red; } }\n");
     assert_parses_cleanly("javascript", "export const lookup = (item) => item?.value ?? 0;\n");
+}
+
+#[test]
+fn orchard_java_exposes_string_template_boundaries() {
+    let sexp = assert_parses_cleanly("java", r#"class X { String f(String s) { return STR."hi \{s}"; } }"#);
+    assert!(
+        sexp.contains("(string_literal (string_template_begin) (identifier) (string_template_end))"),
+        "{sexp}"
+    );
+}
+
+#[test]
+fn orchard_python_gives_bitwise_and_precedence_over_xor() {
+    let sexp = assert_parses_cleanly("python", "value = a ^ b & c\n");
+    assert!(
+        sexp.contains("(binary_operator left: (identifier) right: (binary_operator"),
+        "{sexp}"
+    );
+}
+
+#[test]
+fn orchard_rust_accepts_a_trailing_comma_in_macro_declarations() {
+    let sexp = assert_parses_cleanly("rust", "macro m($value:expr,) { $value }");
+    assert!(
+        sexp.starts_with("(source_file (macro_definition_v2 name: (identifier)"),
+        "{sexp}"
+    );
+}
+
+#[test]
+fn sql_accepts_named_bind_parameters_alongside_postgres_casts() {
+    assert_parses_cleanly("sql", "SELECT id::text FROM t WHERE id = :id AND kind = :kind;");
+}
+
+#[test]
+fn sql_accepts_snowflake_clone_and_asof_joins() {
+    assert_parses_cleanly("sql", "CREATE TABLE orders_backup CLONE prod.staging.orders;");
+    assert_parses_cleanly("sql", "SELECT * FROM trades ASOF LEFT JOIN quotes USING (symbol, ts);");
 }

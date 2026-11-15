@@ -5,7 +5,7 @@ This XQuery grammar is a vendored, locally-maintained fork of
 (© 2021 Stanislav Chernov, MIT License — see [`LICENSE`](./LICENSE)).
 
 It was imported at upstream commit
-`85f15e8f6388981678838407c25f9222a7abe14b`. Upstream is effectively
+[`85f15e8f6388981678838407c25f9222a7abe14b`](https://github.com/grantmacken/tree-sitter-xquery/commit/85f15e8f6388981678838407c25f9222a7abe14b). Upstream is effectively
 unmaintained, so the grammar is now owned and maintained in-tree under
 `grammars/xquery/`.
 

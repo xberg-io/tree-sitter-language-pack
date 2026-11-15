@@ -12,8 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Switched Java, Python, and Rust to maintained Grammar Orchard grammars and removed their checked-in snapshots (#221).
+  The Python scanner bounds fix is included upstream.
+- Updated the SQL grammar to `7c09669` for named bind parameters, Snowflake `CREATE TABLE ... CLONE` and `ASOF JOIN`,
+  and expression-based `LIMIT` and `OFFSET`.
+
 ### Fixed
 
+- Retain upstream attribution files when staging grammars maintained in this repository.
 - Updated the SQL parser so these valid inputs parse without error nodes: psql meta-commands (`\c analytics`), SQLite
   `PRAGMA` and `INSERT OR REPLACE`, `SET search_path TO app, public`, `ON CONFLICT (id)` and
   `ON CONFLICT ON CONSTRAINT`, `UPDATE ... SET (a, b) = (...)` and `DELETE ... USING`.

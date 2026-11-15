@@ -159,7 +159,7 @@ tree-sitter-language-pack supports **371** languages.
 | Ispc | `.ispc` | [tree-sitter-grammars/tree-sitter-ispc](https://github.com/tree-sitter-grammars/tree-sitter-ispc) | 14 |
 | Jai | `.jai` | [constantitus/tree-sitter-jai](https://github.com/constantitus/tree-sitter-jai) | 15 |
 | Janet | `.janet` | [GrayJack/tree-sitter-janet](https://github.com/GrayJack/tree-sitter-janet) | 14 |
-| Java | `.java` | [grammars/java](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/java) (vendored) | 14 |
+| Java | `.java` | [grammar-orchard/tree-sitter-java-orchard](https://github.com/grammar-orchard/tree-sitter-java-orchard) | 14 |
 | Javadoc | — | [rmuir/tree-sitter-javadoc](https://github.com/rmuir/tree-sitter-javadoc) | 14 |
 | JavaScript | `.js`, `.jsx`, `.mjs`, `.cjs` | [grammar-orchard/tree-sitter-javascript-orchard](https://github.com/grammar-orchard/tree-sitter-javascript-orchard) | 14 |
 | Jinja2 | `.j2`, `.jinja2` | [Goldziher/tree-sitter-jinja2](https://github.com/Goldziher/tree-sitter-jinja2) | 14 |
@@ -254,7 +254,7 @@ tree-sitter-language-pack supports **371** languages.
 | Puppet | `.pp` | [tree-sitter-grammars/tree-sitter-puppet](https://github.com/tree-sitter-grammars/tree-sitter-puppet) | 14 |
 | PureScript | `.purs` | [postsolar/tree-sitter-purescript](https://github.com/postsolar/tree-sitter-purescript) | 14 |
 | Pymanifest | — | [tree-sitter-grammars/tree-sitter-pymanifest](https://github.com/tree-sitter-grammars/tree-sitter-pymanifest) | 14 |
-| Python | `.py`, `.pyi`, `.pyw` | [grammars/python](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/python) (vendored) | 14 |
+| Python | `.py`, `.pyi`, `.pyw` | [grammar-orchard/tree-sitter-python-orchard](https://github.com/grammar-orchard/tree-sitter-python-orchard) | 14 |
 | QL | `.ql` | [tree-sitter/tree-sitter-ql](https://github.com/tree-sitter/tree-sitter-ql) | 14 |
 | QML | `.qml` | [yuja/tree-sitter-qmljs](https://github.com/yuja/tree-sitter-qmljs) | 14 |
 | Qmldir | — | [tree-sitter-grammars/tree-sitter-qmldir](https://github.com/tree-sitter-grammars/tree-sitter-qmldir) | 14 |
@@ -278,7 +278,7 @@ tree-sitter-language-pack supports **371** languages.
 | Rshtml | — | [rshtml/tree-sitter-rshtml](https://github.com/rshtml/tree-sitter-rshtml) | 14 |
 | Rtf | `.rtf` | [GoodNotes/tree-sitter-rtf](https://github.com/GoodNotes/tree-sitter-rtf) | 14 |
 | Ruby | `.rb` | [tree-sitter/tree-sitter-ruby](https://github.com/tree-sitter/tree-sitter-ruby) | 14 |
-| Rust | `.rs` | [grammars/rust](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/rust) (vendored) | 14 |
+| Rust | `.rs` | [grammar-orchard/tree-sitter-rust-orchard](https://github.com/grammar-orchard/tree-sitter-rust-orchard) | 14 |
 | Sas | `.sas` | [ix-infrastructure/tree-sitter-sas](https://github.com/ix-infrastructure/tree-sitter-sas) | 14 |
 | Scala | `.scala` | [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala) | 15 |
 | Scfg | `.scfg` | [rockorager/tree-sitter-scfg](https://github.com/rockorager/tree-sitter-scfg) | 14 |

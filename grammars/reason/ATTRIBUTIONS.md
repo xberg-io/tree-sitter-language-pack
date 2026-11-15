@@ -5,7 +5,7 @@ This Reason grammar is a vendored, locally-maintained fork of
 (© 2021 Victor Nakoryakov, MIT License — see [`LICENSE`](./LICENSE)).
 
 It was imported at upstream commit
-`936958c8c3b2d76cbeb4dffcfe5a8f929c958e7a`. Upstream is effectively
+[`936958c8c3b2d76cbeb4dffcfe5a8f929c958e7a`](https://github.com/danielo515/tree-sitter-reason/commit/936958c8c3b2d76cbeb4dffcfe5a8f929c958e7a). Upstream is effectively
 unmaintained, so the grammar is now owned and maintained in-tree under
 `grammars/reason/`.
 

@@ -158,3 +158,43 @@ def test_cached_parser_without_a_licence_is_refreshed(
     assert not vendor._is_language_cached("example", definition, manifest)
     _write(parsers_dir / "example" / "LICENSE", "MIT\n")
     assert vendor._is_language_cached("example", definition, manifest)
+
+
+def test_local_grammar_attribution_survives_vendoring(
+    layout: tuple[Path, Path], tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    vendor_dir, parsers_dir = layout
+    local = "grammars/example"
+    source = tmp_path / local
+    attribution = f"# Attributions\n\nImported from [{REPO}]({REPO}/commit/{REV}).\n"
+    _write(source / "src" / "parser.c", "int x;\n")
+    _write(source / "LICENSE", "MIT\n")
+    _write(source / "ATTRIBUTIONS.md", attribution)
+    monkeypatch.setattr(vendor, "_project_root", tmp_path)
+
+    asyncio.run(vendor.process_repo("example", {"local": local}, asyncio.Semaphore(1), Path("tree-sitter")))
+
+    target = parsers_dir / "example"
+    assert (target / "ATTRIBUTIONS.md").read_bytes() == attribution.encode()
+    assert (target / "LICENSE").read_text() == "MIT\n"
+    assert not (vendor_dir / "example").exists()
+
+
+def test_cached_local_grammar_without_attribution_is_refreshed(
+    layout: tuple[Path, Path], tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _, parsers_dir = layout
+    local = "grammars/example"
+    attribution = f"{REPO}/commit/{REV}\n"
+    _write(tmp_path / local / "ATTRIBUTIONS.md", attribution)
+    monkeypatch.setattr(vendor, "_project_root", tmp_path)
+    monkeypatch.delenv("TSLP_NO_CACHE", raising=False)
+    definition = {"local": local}
+    manifest = {"example": vendor._language_cache_key(definition)}
+    target = parsers_dir / "example"
+    _write(target / "src" / "parser.c", "int x;\n")
+    _write(target / "LICENSE", "MIT\n")
+
+    assert not vendor._is_language_cached("example", definition, manifest)
+    _write(target / "ATTRIBUTIONS.md", attribution)
+    assert vendor._is_language_cached("example", definition, manifest)

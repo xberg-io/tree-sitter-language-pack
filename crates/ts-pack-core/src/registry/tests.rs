@@ -63,6 +63,10 @@ fn lib_filename_maps_c_symbol_back_to_language_name() {
         lang_name_from_lib_filename("libtree_sitter_rust.so").as_deref(),
         Some("rust")
     );
+    assert_eq!(
+        lang_name_from_lib_filename("libtree_sitter_rust_orchard.so").as_deref(),
+        Some("rust")
+    );
     assert_eq!(lang_name_from_lib_filename("README.md"), None);
     assert_eq!(lang_name_from_lib_filename("libtree_sitter_rust.txt"), None);
 }
@@ -75,11 +79,13 @@ fn library_file_name_applies_the_c_symbol_override() {
         "{}",
         library_file_name("csharp")
     );
-    assert!(
-        library_file_name("rust").contains("tree_sitter_rust."),
-        "{}",
-        library_file_name("rust")
-    );
+    for language in ["java", "python", "rust"] {
+        let filename = library_file_name(language);
+        assert!(
+            filename.contains(&format!("tree_sitter_{language}_orchard.")),
+            "{filename}"
+        );
+    }
 }
 
 #[cfg(feature = "dynamic-loading")]

@@ -850,11 +850,13 @@
     "rev": "64db751b233ba44ce06fa6c729701bdf87779011"
   },
   "java": {
-    "extensions": ["java"],
-    "local": "grammars/java",
-    "generate": true,
     "abi_version": 14,
-    "license": "MIT"
+    "branch": "main",
+    "c_symbol": "java_orchard",
+    "extensions": ["java"],
+    "generate": true,
+    "repo": "https://github.com/grammar-orchard/tree-sitter-java-orchard",
+    "rev": "9f1bf03ceb63be6dc1da6f5b594852932f1b46da"
   },
   "javadoc": {
     "abi_version": 14,
@@ -1339,10 +1341,12 @@
   },
   "python": {
     "abi_version": 14,
+    "branch": "main",
+    "c_symbol": "python_orchard",
     "extensions": ["py", "pyi", "pyw"],
     "generate": true,
-    "local": "grammars/python",
-    "license": "MIT"
+    "repo": "https://github.com/grammar-orchard/tree-sitter-python-orchard",
+    "rev": "f124a008fd961f1ec3cf19763802ab290abec99f"
   },
   "ql": {
     "extensions": ["ql"],
@@ -1479,10 +1483,12 @@
   },
   "rust": {
     "abi_version": 14,
+    "branch": "main",
+    "c_symbol": "rust_orchard",
     "extensions": ["rs"],
     "generate": true,
-    "local": "grammars/rust",
-    "license": "MIT"
+    "repo": "https://github.com/grammar-orchard/tree-sitter-rust-orchard",
+    "rev": "7d8120b8fd67c88f7fe0a3d45acf70f3d8080a53"
   },
   "scala": {
     "abi_version": 14,
@@ -1567,7 +1573,7 @@
     "extensions": ["sql"],
     "generate": true,
     "repo": "https://github.com/Goldziher/tree-sitter-sql",
-    "rev": "8874250d1ff6c039c48c7e8bde8f38573db00575"
+    "rev": "7c0966917f9e089925ac29e4fcbfb948b1e4d125"
   },
   "sql_bigquery": {
     "extensions": ["bq"],

@@ -5,7 +5,7 @@ This ABNF grammar is a vendored, locally-maintained fork of
 (© 2019 Jacob Mitchell, MIT License — see [`LICENSE`](./LICENSE)).
 
 It was imported at upstream commit
-`f68bb6e3cfcc2a3eebf11f47e27efffb128c001f`. Upstream is effectively
+[`f68bb6e3cfcc2a3eebf11f47e27efffb128c001f`](https://github.com/jmitchell/tree-sitter-abnf/commit/f68bb6e3cfcc2a3eebf11f47e27efffb128c001f). Upstream is effectively
 unmaintained, so the grammar is now owned and maintained in-tree under
 `grammars/abnf/`.
 

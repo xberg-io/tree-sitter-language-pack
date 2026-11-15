@@ -5,7 +5,7 @@ This GraphQL grammar is a vendored, locally-maintained fork of
 (© 2021 bkegley, MIT License — see [`LICENSE`](./LICENSE)).
 
 It was imported at upstream commit
-`5e66e961eee421786bdda8495ed1db045e06b5fe`. Upstream is effectively unmaintained,
+[`5e66e961eee421786bdda8495ed1db045e06b5fe`](https://github.com/bkegley/tree-sitter-graphql/commit/5e66e961eee421786bdda8495ed1db045e06b5fe). Upstream is effectively unmaintained,
 so the grammar is now owned and maintained in-tree under `grammars/graphql/`.
 
 ## Local modifications

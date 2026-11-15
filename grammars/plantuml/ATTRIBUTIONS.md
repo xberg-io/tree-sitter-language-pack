@@ -5,7 +5,7 @@ This PlantUML grammar is a vendored, locally-maintained fork of
 (© 2018 Benjamin Gray, MIT License — see [`LICENSE`](./LICENSE)).
 
 It was imported at upstream commit
-`c7361a1d481dc1ff6700b14ea1d5efc549b72713`. Upstream is effectively
+[`c7361a1d481dc1ff6700b14ea1d5efc549b72713`](https://github.com/Decodetalkers/tree_sitter_plantuml/commit/c7361a1d481dc1ff6700b14ea1d5efc549b72713). Upstream is effectively
 unmaintained, so the grammar is now owned and maintained in-tree under
 `grammars/plantuml/`.
 

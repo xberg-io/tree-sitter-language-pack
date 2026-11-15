@@ -390,6 +390,21 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 
 Join our [Discord community](https://discord.gg/xt9WY3GnKR) for questions and discussion.
 
+### In-repository grammars
+
+The sources in [`grammars/`](grammars/) are inputs to the parser build. We maintain
+ABNF, GraphQL, PlantUML, Promela, Reason, Wolfram Language, XQuery, and Yul here
+because their upstream grammars are effectively unmaintained.
+
+The build fetches other grammars at pinned upstream commits, including CSS,
+Java, JavaScript, Python, and Rust from Grammar Orchard.
+
+Each directory records its upstream GitHub repository and exact import commit in
+`ATTRIBUTIONS.md` and carries the upstream `LICENSE`. Git tracks the grammar
+definitions, hand-written scanners, queries, and tests where present. The
+[vendoring script](scripts/clone_vendors.py) generates and stages the C parsers
+under `parsers/` for compilation.
+
 ## License
 
 MIT — see [LICENSE](LICENSE) for details.

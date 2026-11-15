@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "c88805b5f8faecf86cddab15d8a581b7b478e7b2bff72b1fcd65a8d4eb947bb9",
+  "definitions_sha256": "223dd0d6a8804e4cb1c8cb7aa2a400e2dd872fa81216da7d8318afabeee5ece2",
   "languages": {
     "abl": {
       "branch": null,
@@ -2450,20 +2450,20 @@
       "spdx_source": "detected"
     },
     "java": {
-      "branch": null,
+      "branch": "main",
       "directory": null,
       "license_files": [
         {
-          "path": "grammars/java/LICENSE",
+          "path": "LICENSE",
           "sha256": "52ed137b039cd9c46409bc22e89938af911c95b157feae2d040b51e6084369a7"
         }
       ],
-      "local": "grammars/java",
-      "repo": null,
-      "resolution": "local-license",
-      "rev": null,
+      "local": null,
+      "repo": "https://github.com/grammar-orchard/tree-sitter-java-orchard",
+      "resolution": "github-license",
+      "rev": "9f1bf03ceb63be6dc1da6f5b594852932f1b46da",
       "spdx": "MIT",
-      "spdx_source": "inline"
+      "spdx_source": "detected"
     },
     "javadoc": {
       "branch": null,
@@ -3978,20 +3978,20 @@
       "spdx_source": "detected"
     },
     "python": {
-      "branch": null,
+      "branch": "main",
       "directory": null,
       "license_files": [
         {
-          "path": "grammars/python/LICENSE",
+          "path": "LICENSE",
           "sha256": "d724405ce238a22c0d35769c5a36b386ad5958192efe8bbb304fb2896254575f"
         }
       ],
-      "local": "grammars/python",
-      "repo": null,
-      "resolution": "local-license",
-      "rev": null,
+      "local": null,
+      "repo": "https://github.com/grammar-orchard/tree-sitter-python-orchard",
+      "resolution": "github-license",
+      "rev": "f124a008fd961f1ec3cf19763802ab290abec99f",
       "spdx": "MIT",
-      "spdx_source": "inline"
+      "spdx_source": "detected"
     },
     "ql": {
       "branch": null,
@@ -4366,20 +4366,20 @@
       "spdx_source": "detected"
     },
     "rust": {
-      "branch": null,
+      "branch": "main",
       "directory": null,
       "license_files": [
         {
-          "path": "grammars/rust/LICENSE",
+          "path": "LICENSE",
           "sha256": "31d5b6f4243d5c7c6e1c4ebbbb9f6407bd1457a08bcc4f706521710341acba36"
         }
       ],
-      "local": "grammars/rust",
-      "repo": null,
-      "resolution": "local-license",
-      "rev": null,
+      "local": null,
+      "repo": "https://github.com/grammar-orchard/tree-sitter-rust-orchard",
+      "resolution": "github-license",
+      "rev": "7d8120b8fd67c88f7fe0a3d45acf70f3d8080a53",
       "spdx": "MIT",
-      "spdx_source": "inline"
+      "spdx_source": "detected"
     },
     "sas": {
       "branch": null,
@@ -4739,13 +4739,13 @@
       "license_files": [
         {
           "path": "LICENSE",
-          "sha256": "3b3e4e4252d5d7d1c18e1257005f23242bf0580ad619204fd093c99b8c56748d"
+          "sha256": "138e21dc9b8d29d60b78f3de41a4c19a0ea272341eb8c0522f44766cb594d08c"
         }
       ],
       "local": null,
       "repo": "https://github.com/Goldziher/tree-sitter-sql",
       "resolution": "github-license",
-      "rev": "8874250d1ff6c039c48c7e8bde8f38573db00575",
+      "rev": "7c0966917f9e089925ac29e4fcbfb948b1e4d125",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -6007,6 +6007,7 @@
     "1337ef2684df318a38036aeecfcdd4a041368de0b73c300c709da259bf994246": "The MIT License (MIT)\n\nCopyright (c) 2023 Yotam Nachum <me@yotam.net>, Amaan Qureshi <amaanq12@gmail.com>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "133d310a2a99d645f47b12fd7e3e02401502666ca0e44b105addac1d89d71aa9": "The MIT License (MIT)\n\nCopyright (c) 2022-2023 Mohammed Elwardi Fadeli <elwardifadeli@gmail.com>, Amaan Qureshi <amaanq12@gmail.com>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "138a79d3c41042b6644d049263ae7ef944f1f1789ce33ef1ed2aac818c880776": "The MIT License (MIT)\n\nCopyright (c) 2024 Loris Cro\nCopyright (c) 2014 Max Brunsfeld\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "138e21dc9b8d29d60b78f3de41a4c19a0ea272341eb8c0522f44766cb594d08c": "MIT License\n\nCopyright (c) 2021 Derek Stride\nCopyright (c) 2026 Goldziher contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "141f1aa2d7b6cea84a4049073761b08ba40506008dea051896bfc437f5b6bb17": "MIT License\n\nCopyright (c) 2022 Francis\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "14eaaaa5c0cdb0eb86e85c55643c4cfa04593dbfbaef6a20f35337667b7278d7": "MIT License\n\nCopyright (c) 2020 Thomas Vigouroux\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "1552894f242456314eeeec161d68679d91da396a809918b147da7b873ca1c45b": "\nMIT License\n\nCopyright (c) 2025 Tom Waddington\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
