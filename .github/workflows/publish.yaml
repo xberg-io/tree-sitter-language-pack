@@ -2952,7 +2952,15 @@ jobs:
           config-ref: ${{ github.sha }}
       - uses: xberg-io/actions/install-alef@v1
       - name: Run PHP E2E tests
-        run: mise run php:e2e:test
+        run: |
+          # ~keep Bindgen uses the driver to find headers and libclang to parse them.
+          llvm=/usr/lib/llvm-21
+          test -x "$llvm/bin/clang"
+          compgen -G "$llvm/lib/libclang*.so*" >/dev/null
+          export CLANG_PATH="$llvm/bin/clang" LIBCLANG_PATH="$llvm/lib"
+          PHP_CONFIG="$(command -v php-config)"
+          export PHP_CONFIG
+          mise run php:e2e:test
 
   e2e-csharp:
     name: E2E gate — C#
