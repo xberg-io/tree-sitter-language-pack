@@ -900,6 +900,14 @@ async def process_repo(
             tree_sitter_cli=tree_sitter_cli,
             force=force,
         )
+    if (
+        not local
+        and language_name == "sql"
+        and language_definition["repo"] == "https://github.com/Goldziher/tree-sitter-sql"
+    ):
+        validate_rev(language_name, language_definition.get("rev"))
+        sql_root = vendor_directory / language_name
+        await run_process([sys.executable, "scripts/compact-parser.py", "src/parser.c"], cwd=sql_root)
     await move_src_folder(language_name=language_name, directory=directory, language_definition=language_definition)
 
     clone_dir = vendor_directory / language_name

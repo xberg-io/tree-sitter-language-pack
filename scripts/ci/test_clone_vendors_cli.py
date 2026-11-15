@@ -7,7 +7,7 @@ import os
 import signal
 import sys
 from pathlib import Path
-from subprocess import CompletedProcess
+from subprocess import CalledProcessError, CompletedProcess
 from typing import Any
 
 import pytest
@@ -210,3 +210,48 @@ def test_cleanup_kills_the_owned_descendant_after_its_leader_exits(
                     await task
 
     asyncio.run(probe())
+
+
+@pytest.mark.parametrize("script_exit", [0, 23])
+def test_sql_tables_are_compacted_before_vendoring(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, script_exit: int
+) -> None:
+    monkeypatch.setattr(vendor, "vendor_directory", tmp_path / "vendor")
+    monkeypatch.setattr(vendor, "parsers_directory", tmp_path / "parsers")
+    sql_root = vendor.vendor_directory / "sql"
+    parser = sql_root / "src" / "parser.c"
+    script = sql_root / "scripts" / "compact-parser.py"
+    script.parent.mkdir(parents=True)
+    parser.parent.mkdir()
+    script.write_text(
+        "import sys\n"
+        "from pathlib import Path\n"
+        "parser = Path(sys.argv[1])\n"
+        "assert parser.read_text() == 'generated'\n"
+        "parser.write_text('compacted')\n"
+        f"sys.exit({script_exit})\n"
+    )
+    published = []
+
+    async def clone(**_kwargs: Any) -> None:
+        pass
+
+    async def generate(**_kwargs: Any) -> None:
+        parser.write_text("generated")
+
+    async def move(**_kwargs: Any) -> None:
+        published.append(parser.read_text())
+
+    monkeypatch.setattr(vendor, "clone_repository", clone)
+    monkeypatch.setattr(vendor, "handle_generate", generate)
+    monkeypatch.setattr(vendor, "_should_regenerate", lambda *_args, **_kwargs: True)
+    monkeypatch.setattr(vendor, "move_src_folder", move)
+    definition = {"generate": True, "repo": "https://github.com/Goldziher/tree-sitter-sql", "rev": "a" * 40}
+    process = vendor.process_repo("sql", definition, asyncio.Semaphore(1), tmp_path / "tree-sitter")
+    if script_exit:
+        with pytest.raises(CalledProcessError, match=str(script_exit)):
+            asyncio.run(process)
+        assert published == []
+    else:
+        asyncio.run(process)
+        assert published == ["compacted"]

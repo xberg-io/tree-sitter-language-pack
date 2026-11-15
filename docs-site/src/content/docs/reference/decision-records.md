@@ -20,3 +20,4 @@ change as a new record.
 | [0005](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0005-permissively-licensed-grammars-only.md) | Permissively licensed grammars only | accepted | 2026-03-24 |
 | [0006](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0006-grammar-pins-validated-as-commit-shas-on-allowlisted-forges.md) | Grammar pins validated as commit SHAs on allowlisted forges | accepted | 2026-08-12 |
 | [0007](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0007-tag-the-release-after-pinning-the-swift-bundle-checksum.md) | Tag the release after pinning the Swift bundle checksum | proposed | 2026-11-04 |
+| [0008](https://github.com/xberg-io/tree-sitter-language-pack/blob/main/adrs/0008-compact-sql-parser-tables-during-vendoring.md) | Compact SQL parser tables during vendoring | accepted | 2026-11-15 |

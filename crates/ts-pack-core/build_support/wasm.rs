@@ -52,9 +52,9 @@ pub(crate) fn apply_wasm32_optimizations(build: &mut cc::Build) {
 /// ~130 MB). Compiling one of those to wasm32 needs 18-25 GB＋ of clang RAM at *any* optimization
 /// level (the cost is in parsing/IR-building the giant single-function source, not optimization),
 /// which OOMs standard ≤16 GB CI runners — `CARGO_BUILD_JOBS=1` cannot help because a single file
-/// already exceeds the budget. 49 MiB keeps every common language (including the 48.7 MiB `sql`
+/// already exceeds the budget. 48 MiB keeps every common language (including the compacted `sql`
 /// grammar) while excluding only the unbuildable outliers.
-const DEFAULT_WASM_MAX_PARSER_BYTES: u64 = 49 * 1024 * 1024;
+const DEFAULT_WASM_MAX_PARSER_BYTES: u64 = 48 * 1024 * 1024;
 
 /// Resolve the wasm32 `parser.c` size limit. Returns `None` (gate disabled) only when
 /// `TSLP_WASM_MAX_PARSER_BYTES=0`. Any unparsable value falls back to the default.

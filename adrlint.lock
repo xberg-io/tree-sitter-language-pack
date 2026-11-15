@@ -35,3 +35,8 @@ blake3 = "08c711ae6587eb9b93637aff6f947e47bb89bb8679d80bf1cad153888c11f8b2"
 number = 6
 status = "accepted"
 blake3 = "984ad36e1d9ac5410246a0636a6914b2383af88d71c707947594e7c72fd98b6e"
+
+[adrs."adrs/0008-compact-sql-parser-tables-during-vendoring.md"]
+number = 8
+status = "accepted"
+blake3 = "e05e98112263c49d704dfae791adc985224762132691a5b4cf426e4bc38fdd5e"
