@@ -1063,7 +1063,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          # ~keep ruby/setup-ruby has a Ruby 3.5 preview build for Ubuntu 24.04, but not 26.04.
+          - os: ubuntu-24.04
             label: linux-x86_64
             ruby_platform: x86_64-linux
           - os: ubuntu-24.04-arm
@@ -2037,6 +2038,17 @@ jobs:
 
       - name: Install alef
         uses: xberg-io/actions/install-alef@v1
+
+      - name: Align PHP bindgen Clang and libclang
+        if: matrix.platform.label == 'linux-x86_64'
+        shell: bash
+        run: |
+          # ~keep Bindgen uses the driver to find headers and libclang to parse them.
+          llvm=/usr/lib/llvm-21
+          test -x "$llvm/bin/clang"
+          compgen -G "$llvm/lib/libclang*.so*" >/dev/null
+          php_config="$(command -v php-config)"
+          printf 'CLANG_PATH=%s\nLIBCLANG_PATH=%s\nPHP_CONFIG=%s\n' "$llvm/bin/clang" "$llvm/lib" "$php_config" >> "$GITHUB_ENV"
 
       - name: Build PHP extension
         uses: xberg-io/actions/build-php-extension@v1
