@@ -156,6 +156,8 @@ const COMMENT_NODE_KINDS: &[&str] = &[
     "block_comment",
     "doc_comment",
     "documentation_comment",
+    "line_outer_doc_comment",
+    "block_outer_doc_comment",
 ];
 
 /// Whether `node` is a comment node in its grammar.
@@ -244,14 +246,16 @@ pub(super) fn comment_at(node: &tree_sitter::Node, source: &str) -> Option<Comme
     if !is_comment_node(node) {
         return None;
     }
-    // ~keep tree-sitter-rust nests a `doc_comment` inside the `line_comment`/`block_comment`
-    // ~keep that delimits it; reporting both would emit one comment twice.
+    // ~keep Rust doc comments have a separate content node inside their delimiter node.
     if node.parent().is_some_and(|parent| is_comment_node(&parent)) {
         return None;
     }
     let kind = node.kind();
     let text = node_text(node, source).to_string();
-    let comment_kind = if kind == "doc_comment" || kind == "documentation_comment" {
+    let comment_kind = if matches!(
+        kind,
+        "doc_comment" | "documentation_comment" | "line_outer_doc_comment" | "block_outer_doc_comment"
+    ) {
         CommentKind::Doc
     } else if kind == "block_comment" {
         CommentKind::Block
@@ -269,7 +273,15 @@ pub(super) fn comment_at(node: &tree_sitter::Node, source: &str) -> Option<Comme
         text,
         kind: comment_kind,
         span: span_from_node(node),
-        associated_node: node.next_named_sibling().map(|n| n.kind().to_string()),
+        associated_node: node
+            .next_named_sibling()
+            .or_else(|| {
+                if !matches!(kind, "line_outer_doc_comment" | "block_outer_doc_comment") {
+                    return None;
+                }
+                node.parent().filter(|parent| parent.kind() == "attributes")?.parent()
+            })
+            .map(|n| n.kind().to_string()),
     })
 }
 
@@ -296,29 +308,9 @@ pub(super) fn docstring_at(node: &tree_sitter::Node, source: &str, language: &st
     })
 }
 
-/// The string node of a Python docstring and the `block`/`module` holding it.
-///
-/// ~keep `expression_statement` is declared a *supertype* in this pack's
-/// ~keep tree-sitter-python grammar, so it is hidden and a docstring appears as a
-/// ~keep bare `string` directly under the block. The wrapped shape is still
-/// ~keep accepted, for grammars that expose the statement node; the two forms are
-/// ~keep disjoint (a wrapped string's parent is the statement, not the block), so
-/// ~keep no docstring is reported twice.
-///
-/// ~keep A Python docstring is positional, not merely "a bare string in a
-/// ~keep body": only the body's first statement counts. Without this check
-/// ~keep any stray string statement later in the body — `"stray"` after real
-/// ~keep code — was reported as a second, fabricated docstring.
-///
-/// ~keep "First statement" is not `named_child(0)`: comments are `extra`
-/// ~keep nodes (see `parsers/python/src/node-types.json`), spliced into the
-/// ~keep named-child list at their lexical position rather than kept out of
-/// ~keep it, so a leading shebang-adjacent or license comment makes
-/// ~keep `named_child(0)` the comment, not the docstring — dropping every
-/// ~keep real docstring that follows a leading comment. `is_comment_node`
-/// ~keep (used for the same purpose in `mark_comment_rows`) is reused here
-/// ~keep rather than re-deriving "is this an extra" from `is_extra()`, so a
-/// ~keep future grammar-specific extra never has to be taught to two places.
+/// The first non-comment statement of a Python module, function or class body
+/// can be a docstring. Grammar Orchard uses `docstring` for bare strings,
+/// including those outside docstring positions. ~keep
 fn python_docstring_parts<'tree>(
     node: &tree_sitter::Node<'tree>,
 ) -> Option<(tree_sitter::Node<'tree>, tree_sitter::Node<'tree>)> {
@@ -347,11 +339,15 @@ fn python_docstring_parts<'tree>(
 }
 
 fn is_python_string(node: &tree_sitter::Node) -> bool {
-    matches!(node.kind(), "string" | "concatenated_string")
+    matches!(node.kind(), "docstring" | "string" | "concatenated_string")
 }
 
 fn is_python_body(node: &tree_sitter::Node) -> bool {
-    matches!(node.kind(), "block" | "module")
+    node.kind() == "module"
+        || (node.kind() == "block"
+            && node
+                .parent()
+                .is_some_and(|owner| matches!(owner.kind(), "function_definition" | "class_definition")))
 }
 
 /// The [`DocstringFormat`] for a Python docstring's raw text.
@@ -625,8 +621,20 @@ pub(super) fn structure_kind_at(node: &tree_sitter::Node, language: &str) -> Opt
 /// Python docstring is captured separately, as [`DocstringInfo`].
 pub(super) fn doc_comment_at(node: &tree_sitter::Node, source: &str) -> Option<String> {
     let mut lines = Vec::new();
-    let mut boundary_row = node.start_position().row;
-    let mut current = node.prev_named_sibling();
+    let (mut current, mut boundary_row) = if let Some(attributes) = node
+        .child_by_field_name("attributes")
+        .filter(|child| child.kind() == "attributes")
+    {
+        // ~keep Rust Orchard moves outer docs into attributes at the start of the declaration.
+        let declaration = attributes.next_sibling().filter(|sibling| !sibling.is_extra())?;
+        let mut cursor = attributes.walk();
+        (
+            attributes.named_children(&mut cursor).last(),
+            declaration.start_position().row,
+        )
+    } else {
+        (node.prev_named_sibling(), node.start_position().row)
+    };
     while let Some(sibling) = current {
         let Some(comment) = comment_at(&sibling, source) else {
             break;

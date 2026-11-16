@@ -650,17 +650,14 @@ fn should_extract_module_and_class_docstrings_without_duplicating_them() {
 
 #[test]
 fn should_not_report_a_nested_string_expression_as_a_docstring() {
-    let source = "def greet():\n    if True:\n        pass\n    return \"not a docstring\"\n";
+    let source = "def greet():\n    \"Function doc.\"\n    if True:\n        \"Nested string.\"\n    return \"Returned string.\"\n";
     let Some(tree) = parse_or_skip(source, "python") else {
         return;
     };
     let intel = extract_intelligence(source, "python", &tree);
 
-    assert!(
-        intel.docstrings.is_empty(),
-        "a returned string is not a docstring; got {:?}",
-        intel.docstrings
-    );
+    assert_eq!(intel.docstrings.len(), 1);
+    assert_eq!(intel.docstrings[0].text, "\"Function doc.\"");
 }
 
 #[test]

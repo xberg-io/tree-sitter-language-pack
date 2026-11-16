@@ -104,9 +104,7 @@ fn sql_ddl_objects_have_kinds_qualified_names_and_statement_spans() {
 }
 
 #[test]
-fn sql_declarations_folded_into_error_recovery_keep_exact_spans() {
-    // `SET search_path` in a function header and the GRANT are not in the
-    // grammar; recovery folds everything after each into an ERROR node.
+fn sql_functions_with_search_path_and_grants_keep_exact_declaration_spans() {
     let source = "\
 CREATE OR REPLACE FUNCTION engram_purge(p_tenant text)
 RETURNS jsonb
@@ -133,7 +131,7 @@ $$;
 CREATE TABLE code_repos (id uuid PRIMARY KEY);
 ";
     let result = extract(source, "sql");
-    assert!(result.metrics.error_count > 0, "the fixture must exercise recovery");
+    assert_eq!(result.metrics.error_count, 0);
     assert_eq!(
         summary(&result.structure),
         vec![
@@ -213,6 +211,7 @@ fn sql_recovery_reads_a_schema_the_lexer_handed_over_as_a_keyword() {
 ;
 ";
     let result = extract(source, "sql");
+    assert!(result.metrics.error_count > 0, "the fixture must exercise recovery");
     assert_eq!(
         summary(&result.structure),
         vec![
@@ -227,11 +226,7 @@ fn sql_recovery_reads_a_schema_the_lexer_handed_over_as_a_keyword() {
 }
 
 #[test]
-fn sql_table_the_parser_ran_past_its_terminator_ends_there() {
-    // Shrunk from a real DDL proof: the REFERENCES clause and the GRANTs after
-    // it fold the next CREATE TABLE into the first table's node, and the lexer
-    // drops that second table's name token, so it yields nothing rather than
-    // a name it never had.
+fn sql_tables_separated_by_privilege_statements_each_keep_their_own_span() {
     let source = "\
 CREATE TABLE tinker_platform_release_files (
   platform_file_id     uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -248,12 +243,22 @@ CREATE TABLE tinker_promotion_audit (
 );
 ";
     let result = extract(source, "sql");
+    assert_eq!(result.metrics.error_count, 0);
     assert_eq!(
         summary(&result.structure),
-        vec![(Some("tinker_platform_release_files"), &StructureKind::Struct, 0, 5)]
+        vec![
+            (Some("tinker_platform_release_files"), &StructureKind::Struct, 0, 5),
+            (Some("tinker_promotion_audit"), &StructureKind::Struct, 8, 12),
+        ]
     );
-    let table = &result.structure[0].span;
-    assert!(source[table.start_byte..table.end_byte].ends_with(");"));
+    let (first, rest) = source.split_once("\nGRANT").unwrap();
+    let second = &rest[rest.find("CREATE TABLE").unwrap()..];
+    let spans: Vec<_> = result
+        .structure
+        .iter()
+        .map(|item| &source[item.span.start_byte..item.span.end_byte])
+        .collect();
+    assert_eq!(spans, [first, second.trim_end()]);
 }
 
 const JUSTFILE: &str = "\
