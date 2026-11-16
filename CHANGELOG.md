@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.27.0] - 2026-11-16
+
 ### Changed
+
+- Update Rust dependencies and regenerate language bindings with Alef 0.130.0.
 
 - Switched Java, Python, and Rust to maintained Grammar Orchard grammars and removed their checked-in snapshots (#221).
   The Python scanner bounds fix is included upstream.
@@ -16,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Preserve Python docstrings and Rust doc comments with the Grammar Orchard parsers.
+- Restore Linux PHP and Ruby release builds.
 - Retain upstream attribution files when staging grammars maintained in this repository.
 - Updated the SQL parser so these valid inputs parse without error nodes: psql meta-commands (`\c analytics`), SQLite
   `PRAGMA` and `INSERT OR REPLACE`, `SET search_path TO app, public`, `ON CONFLICT (id)` and
