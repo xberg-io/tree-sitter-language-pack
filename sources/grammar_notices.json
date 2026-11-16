@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "842679e40efcda557938052ee4fdfd61ecf4623d60e338964cc8b0cebb8a2e0c",
+  "definitions_sha256": "2e3c4b24e6ef0b5f09d6ea9faeeb7c8316ca53fef37e4659967f0265fa08d9ca",
   "languages": {
     "abl": {
       "branch": null,
@@ -4745,7 +4745,7 @@
       "local": null,
       "repo": "https://github.com/Goldziher/tree-sitter-sql",
       "resolution": "github-license",
-      "rev": "10a2fab61e4bf5f8f7690d2f8468f1f45f74e8f5",
+      "rev": "10d0574753f92082dbc7f57e6cb1cba1dcfa5ec0",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
