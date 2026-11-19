@@ -150,7 +150,7 @@
     "ambiguous": {
       "h": ["cpp", "objc"]
     },
-    "branch": "fix/valid-input-errors",
+    "branch": "master",
     "extensions": ["c", "h"],
     "generate": true,
     "repo": "https://github.com/xberg-io/tree-sitter-c",

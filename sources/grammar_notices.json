@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "2e3c4b24e6ef0b5f09d6ea9faeeb7c8316ca53fef37e4659967f0265fa08d9ca",
+  "definitions_sha256": "dc3b9bbd362b96bdf5cba3695aab5fda176dfc0b008f788d75c13314b0b10d3e",
   "languages": {
     "abl": {
       "branch": null,
@@ -466,7 +466,7 @@
       "spdx_source": "detected"
     },
     "c": {
-      "branch": "fix/valid-input-errors",
+      "branch": "master",
       "directory": null,
       "license_files": [
         {
