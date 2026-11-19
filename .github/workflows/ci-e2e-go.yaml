@@ -91,7 +91,7 @@ jobs:
       - name: Install poly
         uses: polylint/polylint@v0
         with:
-          version: "0.36.0"
+          version: "0.36.1"
 
       - name: Generate Go E2E tests
         run: mise run go:e2e:generate

@@ -72,7 +72,7 @@ jobs:
       - name: Install poly
         uses: polylint/polylint@v0
         with:
-          version: "0.36.0"
+          version: "0.36.1"
 
       - name: Generate C E2E tests
         run: mise run c:e2e:generate

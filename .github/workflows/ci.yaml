@@ -326,7 +326,7 @@ jobs:
       - name: Install poly
         uses: polylint/polylint@v0
         with:
-          version: "0.36.0"
+          version: "0.36.1"
 
       - name: Verify binding API parity
         run: alef verify
@@ -1442,7 +1442,7 @@ jobs:
       - name: Install poly
         uses: polylint/polylint@v0
         with:
-          version: "0.36.0"
+          version: "0.36.1"
 
       - name: Generate Go E2E tests
         run: mise run go:e2e:generate
@@ -1946,7 +1946,7 @@ jobs:
       - name: Install poly
         uses: polylint/polylint@v0
         with:
-          version: "0.36.0"
+          version: "0.36.1"
 
       - name: Generate Elixir E2E tests
         run: mise run elixir:e2e:generate
@@ -2015,7 +2015,7 @@ jobs:
       - name: Install poly
         uses: polylint/polylint@v0
         with:
-          version: "0.36.0"
+          version: "0.36.1"
 
       - name: Generate C E2E tests
         run: mise run c:e2e:generate
