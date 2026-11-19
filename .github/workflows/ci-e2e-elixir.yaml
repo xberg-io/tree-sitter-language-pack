@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
+      POLY_TRUST: "1"
       PROJECT_ROOT: ${{ github.workspace }}
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,bash"
     steps:
@@ -92,9 +93,9 @@ jobs:
         uses: xberg-io/actions/install-alef@v1
 
       - name: Install poly
-        uses: Goldziher/poly@v0
+        uses: polylint/polylint@v0
         with:
-          version: "0.32.1"
+          version: "0.36.0"
 
       - name: Generate Elixir E2E tests
         run: mise run elixir:e2e:generate

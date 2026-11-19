@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
+      POLY_TRUST: "1"
       PROJECT_ROOT: ${{ github.workspace }}
     steps:
       - name: Checkout
@@ -88,9 +89,9 @@ jobs:
         uses: xberg-io/actions/install-alef@v1
 
       - name: Install poly
-        uses: Goldziher/poly@v0
+        uses: polylint/polylint@v0
         with:
-          version: "0.32.1"
+          version: "0.36.0"
 
       - name: Generate Go E2E tests
         run: mise run go:e2e:generate

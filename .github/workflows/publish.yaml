@@ -3142,6 +3142,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
+      POLY_TRUST: "1"
       PROJECT_ROOT: ${{ github.workspace }}
       TSLP_LINK_MODE: static
       TSLP_LANGUAGES: "python,rust,javascript,typescript,go,html,css,json,gherkin"
@@ -3171,9 +3172,9 @@ jobs:
           config-ref: ${{ github.sha }}
       - uses: xberg-io/actions/install-alef@v1
       - name: Install poly
-        uses: Goldziher/poly@v0
+        uses: polylint/polylint@v0
         with:
-          version: "0.32.1"
+          version: "0.36.0"
       # e2e/c/test_*.c is gitignored (.gitignore:95), so a fresh checkout of the release ref
       # contains only the Makefile, main.c and download_ffi.sh. Without regenerating them,
       # `make` dies on the alphabetically first missing category with "No rule to make
