@@ -17,6 +17,10 @@ task_sets = [
   "rust",
 ]
 
+[overrides."github:xberg-io/alef"]
+version = "0.130.0"
+reason = "alef.toml pins alef_version 0.130.0 and the committed bindings are generated with it; the baseline's newer alef lands with a regeneration"
+
 [overrides.zig]
 version = "0.16.0"
 reason = "packages/zig and test_apps/zig target the Zig 0.16 API; CI builds and snippet checks pin 0.16.0"

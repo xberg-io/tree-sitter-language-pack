@@ -1,5 +1,5 @@
 # Versions follow the xberg-io/toolchains baseline named in toolchains.toml. Rust is pinned by
-# rust-toolchain.toml, and alef by alef_version in alef.toml, not here. ~keep
+# rust-toolchain.toml. alef is pinned here and must equal alef_version in alef.toml. ~keep
 [settings]
 lockfile = true
 lockfile_platforms = ["linux-x64", "linux-arm64", "macos-arm64", "macos-x64", "windows-x64"]
@@ -17,6 +17,7 @@ tree-sitter = "0.27.1"
 "github:Goldziher/poly" = "0.36.1"
 "github:Goldziher/adrlint" = "0.5.2"
 "github:Goldziher/gh-actions-updater" = "0.4.0"
+"github:xberg-io/alef" = "0.130.0"
 "github:rust-cross/cargo-zigbuild" = "0.24.1"
 "github:bnjbvr/cargo-machete" = "0.10.1"
 "github:rustwasm/wasm-pack" = "0.15.1"
