@@ -81,7 +81,6 @@ run = [
   { task = "python:install" },
   "alef setup",
   { task = "governance:hooks:install" },
-  { task = "clone:if-missing" },
 ]
 
 [tasks.clone]
