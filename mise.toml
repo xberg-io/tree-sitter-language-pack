@@ -88,8 +88,8 @@ description = "Clone all language grammar repositories (full re-clone)"
 run = "uv run --no-sync scripts/clone_vendors.py"
 
 [tasks."clone:if-missing"]
-description = "Clone only missing language grammar repositories"
-run = 'if [ -d parsers ] && [ -n "$(ls -A parsers 2>/dev/null)" ]; then exit 0; fi; uv run --no-sync scripts/clone_vendors.py'
+description = "Clone the language grammar repositories unless every grammar is already present"
+run = 'if uv run --no-sync scripts/task/parsers_complete.py; then exit 0; fi; uv run --no-sync scripts/clone_vendors.py'
 
 [tasks.build]
 description = "Build Rust core crates only"
