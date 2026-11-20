@@ -5,7 +5,7 @@ description = "Install Python dependencies via uv"
 run = [
   "python3 --version",
   "uv --version",
-  "uv sync --no-install-project --group doc",
+  "uv sync --no-install-project",
   # ~keep packages/python is not a root uv workspace member, so `uv sync` never installs its
   # own dependencies (tree-sitter) and pyrefly cannot resolve them. CI covers this with
   # reusable-validate's `python-extra-projects: packages/python`; this keeps `poly lint`
