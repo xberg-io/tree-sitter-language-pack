@@ -62,6 +62,9 @@ crates/ts-pack-elixir/_build/
 crates/ts-pack-ruby/tmp/
 packages/ruby/tmp/
 
+# WASM crate sits outside pnpm-workspace.yaml; setup writes a stray lockfile
+crates/ts-pack-core-wasm/pnpm-lock.yaml
+
 # Parsers (cloned at build time)
 parsers/
 
