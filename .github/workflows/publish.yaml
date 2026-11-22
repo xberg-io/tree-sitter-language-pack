@@ -210,6 +210,7 @@ jobs:
       # publish. `kotlin-android` must also appear in `available-targets`.
       # below, or the flag is false regardless of which key is read. ~keep
       release_kotlin_android: ${{ steps.meta.outputs.release_kotlin_android }}
+      release_cli: ${{ steps.meta.outputs.release_cli }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -217,7 +218,7 @@ jobs:
         id: meta
         uses: xberg-io/actions/prepare-release-metadata@v1
         with:
-          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,scoop,dart,swift,zig,kotlin-android"
+          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,scoop,dart,swift,zig,kotlin-android,cli"
 
       # ~keep The publish actions compare `expected-version` against the artifact's own version
       # string, and two ecosystems respell a semver prerelease: PyPI dist filenames carry the
@@ -3060,7 +3061,7 @@ jobs:
     name: E2E gate — CLI
     needs: [prepare, validate-versions, clone-vendors]
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true' || needs.prepare.outputs.release_cli == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -4613,8 +4614,10 @@ jobs:
   build-cli:
     name: Build CLI (${{ matrix.label }})
     needs: [prepare, validate-versions, clone-vendors]
+    # ~keep The CLI archives feed Homebrew and the CLI proxy packages (npm/PyPI), which download
+    # them by release tag, so either target builds them.
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true' || needs.prepare.outputs.release_cli == 'true') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     strategy:
@@ -4742,6 +4745,25 @@ jobs:
           path: dist/cli
           merge-multiple: true
 
+      # ~keep The plugin launcher and the npm/PyPI CLI proxies verify the archive they download
+      # against this file and refuse to install without it. The count is the build-cli matrix
+      # size; a short count means an archive is missing, and checksumming the rest would publish
+      # a SHA256SUMS that silently omits it.
+      - name: Generate SHA256SUMS
+        shell: bash
+        working-directory: dist/cli
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          archives=(ts-pack-*.tar.gz ts-pack-*.zip)
+          if [ "${#archives[@]}" -ne 6 ]; then
+            echo "::error::expected 6 CLI archives to checksum, found ${#archives[@]}"
+            ls -la
+            exit 1
+          fi
+          sha256sum "${archives[@]}" > SHA256SUMS
+          cat SHA256SUMS
+
       - name: Upload to GitHub Release
         uses: xberg-io/actions/publish-github-release@v1
         with:
@@ -4753,6 +4775,7 @@ jobs:
           artifacts: |
             dist/cli/ts-pack-*.tar.gz
             dist/cli/ts-pack-*.zip
+            dist/cli/SHA256SUMS
           dry-run: ${{ needs.prepare.outputs.dry_run }}
           token: ${{ steps.app-token.outputs.token }}
 
@@ -5317,7 +5340,7 @@ jobs:
       # failure fail the release.
       #
       # cli-binaries is target-scoped rather than unconditional: build-cli is gated on
-      # release_homebrew, so a targeted workflow_dispatch that omits homebrew skips the
+      # release_homebrew and release_cli, so a targeted workflow_dispatch that omits both skips the
       # CLI upload, and requiring it unconditionally would strand that release as a
       # permanent draft. ~keep
       - name: Verify release assets are complete
@@ -5334,8 +5357,13 @@ jobs:
           RELEASE_C_FFI: ${{ needs.prepare.outputs.release_c_ffi }}
           RELEASE_SWIFT: ${{ needs.prepare.outputs.release_swift }}
           RELEASE_HOMEBREW: ${{ needs.prepare.outputs.release_homebrew }}
+          RELEASE_CLI: ${{ needs.prepare.outputs.release_cli }}
         run: |
           failed=0
+          cli_enabled=false
+          if [[ "$RELEASE_HOMEBREW" == "true" || "$RELEASE_CLI" == "true" ]]; then
+            cli_enabled=true
+          fi
 
           require_success() {
             local name="$1" result="$2"
@@ -5355,7 +5383,7 @@ jobs:
 
           require_success "parser-binaries" "$RESULT_UPLOAD_PARSERS"
           require_success "grammar-notices" "$RESULT_GRAMMAR_NOTICES"
-          require_success_when_enabled "cli-binaries" "$RESULT_UPLOAD_CLI" "$RELEASE_HOMEBREW"
+          require_success_when_enabled "cli-binaries" "$RESULT_UPLOAD_CLI" "$cli_enabled"
           require_success_when_enabled "go-ffi" "$RESULT_UPLOAD_GO" "$RELEASE_GO"
           require_success_when_enabled "go-ffi-stage" "$RESULT_STAGE_GO_FFI" "$RELEASE_GO"
           require_success_when_enabled "c-ffi" "$RESULT_UPLOAD_C_FFI" "$RELEASE_C_FFI"
