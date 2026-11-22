@@ -24,23 +24,23 @@
 // `vec[len]` instead of `vec[len - 1]` therefore returns `sentinel` on every
 // platform, rather than depending on what happens to follow the heap block.
 // ~keep
-int tslp_vec_u32_pop_probe(uint32_t sentinel, const uint32_t *seed,
-                           uint32_t *values, size_t *lengths) {
-  struct vec_u32 vector = vec_u32_new();
-  for (size_t index = 0; index < 3; index += 1) {
-    vec_u32_push(&vector, seed[index]);
-  }
-  if (vector.len != 3 || vector.cap <= vector.len) {
+int tslp_vec_u32_pop_probe(uint32_t sentinel, const uint32_t *seed, uint32_t *values,
+                           size_t *lengths) {
+    struct vec_u32 vector = vec_u32_new();
+    for (size_t index = 0; index < 3; index += 1) {
+        vec_u32_push(&vector, seed[index]);
+    }
+    if (vector.len != 3 || vector.cap <= vector.len) {
+        vec_u32_drop(vector);
+        return TSLP_PROBE_SETUP_FAILED;
+    }
+    for (size_t index = 0; index < 3; index += 1) {
+        vector.vec[vector.len] = sentinel;
+        values[index] = vec_u32_pop(&vector);
+        lengths[index] = vector.len;
+    }
     vec_u32_drop(vector);
-    return TSLP_PROBE_SETUP_FAILED;
-  }
-  for (size_t index = 0; index < 3; index += 1) {
-    vector.vec[vector.len] = sentinel;
-    values[index] = vec_u32_pop(&vector);
-    lengths[index] = vector.len;
-  }
-  vec_u32_drop(vector);
-  return TSLP_PROBE_OK;
+    return TSLP_PROBE_OK;
 }
 
 // Pops the single pushed element, then pops again from the now-empty vector.
@@ -49,17 +49,16 @@ int tslp_vec_u32_pop_probe(uint32_t sentinel, const uint32_t *seed,
 // guarded and the unguarded form stay inside the allocation and neither faults.
 // What differs is the length: a pre-decrement without a guard wraps it to
 // SIZE_MAX. ~keep
-int tslp_vec_u32_pop_empty_probe(uint32_t seed, uint32_t *value,
-                                 size_t *length) {
-  struct vec_u32 vector = vec_u32_new();
-  vec_u32_push(&vector, seed);
-  (void)vec_u32_pop(&vector);
-  if (vector.len != 0 || vector.vec == NULL) {
+int tslp_vec_u32_pop_empty_probe(uint32_t seed, uint32_t *value, size_t *length) {
+    struct vec_u32 vector = vec_u32_new();
+    vec_u32_push(&vector, seed);
+    (void)vec_u32_pop(&vector);
+    if (vector.len != 0 || vector.vec == NULL) {
+        vec_u32_drop(vector);
+        return TSLP_PROBE_SETUP_FAILED;
+    }
+    *value = vec_u32_pop(&vector);
+    *length = vector.len;
     vec_u32_drop(vector);
-    return TSLP_PROBE_SETUP_FAILED;
-  }
-  *value = vec_u32_pop(&vector);
-  *length = vector.len;
-  vec_u32_drop(vector);
-  return TSLP_PROBE_OK;
+    return TSLP_PROBE_OK;
 }

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.27.1] - 2026-11-22
+
+### Added
+
+- Publish the `ts-pack` CLI as npm (`@xberg-io/ts-pack-cli`) and PyPI (`ts-pack-cli`) packages with each release, and list the MCP server in the MCP Registry. The release archives now ship a `SHA256SUMS` file that the launcher and the packages verify.
+
+### Changed
+
+- Update Cargo dependencies.
+- Pin the plugin MCP launcher to the release it ships with.
+
 ## [1.27.0] - 2026-11-16
 
 ### Changed

@@ -3,13 +3,6 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'package:tree_sitter_language_pack/src/native_loader.dart';
-
-import 'dart:ffi';
-import 'dart:isolate';
-import 'dart:io';
-import 'dart:core' as _DartCore;
-import 'dart:core';
 import 'dart:async';
 import 'dart:convert';
 
@@ -27,215 +20,6 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
   RustLib._();
 
-  /// Resolve the prebuilt native library from the environment, the package's bundled
-  /// natives, or the versioned user cache — downloading it if the cache is cold.
-  ///
-  /// Never returns `null`. The return type stays nullable to match flutter_rust_bridge's
-  /// `init` signature, but an unresolvable native throws a descriptive `StateError`
-  /// instead of deferring to FRB's default loader, whose relative-path dlopen would fail
-  /// anyway under a hardened runtime.
-  ///
-  /// Checks in order:
-  /// 1. The `nativeLibDirEnv` environment variable
-  ///    (allows test harnesses to point to development build paths)
-  /// 2. Package-installed location with RID subdirectory (lib/src/native/<rid>/)
-  ///    (for published pub.dev packages with platform-specific bundled native libraries)
-  /// 3. Package-installed location (lib/src/tree_sitter_language_pack_bridge_generated/)
-  ///    (legacy fallback for development or packages without per-platform binaries)
-  /// 4. Versioned user cache populated by `dart run tree_sitter_language_pack:download_libs`
-  ///    (`<cache>/tree_sitter_language_pack/<version>/<rid>/`), shared with the download script
-  ///    via `nativeCachedLibPath()` in `native_loader.dart`.
-  /// 5. On a cache miss, downloads and caches the release asset via
-  ///    `nativeDownloadAndCacheLibrary()` and opens the result.
-  /// 6. Throws a StateError naming the expected release asset URL, the
-  ///    download command, and the env-var override (never a silent null miss).
-  static Future<ExternalLibrary?> _alefResolveExternalLibrary() async {
-    try {
-      const candidates = <String>[
-        // macOS: framework bundle (preferred modern packaging)
-        'tree_sitter_language_pack_dart.framework',
-        // macOS: bare dylib fallback
-        'libtree_sitter_language_pack_dart.dylib',
-        // Linux
-        'libtree_sitter_language_pack_dart.so',
-        // Windows
-        'tree_sitter_language_pack_dart.dll',
-      ];
-
-      // Helper to open a native library by absolute path.
-      // Normalizes path to absolute to avoid hardened-runtime "relative path rejected" errors.
-      ExternalLibrary? tryOpenAbsolute(String libPath) {
-        try {
-          final absPath = File(libPath).absolute.path;
-          return ExternalLibrary.open(absPath);
-        } catch (_) {
-          return null;
-        }
-      }
-
-      bool candidateExists(String libPath) {
-        return File(libPath).existsSync() || Directory(libPath).existsSync();
-      }
-
-      // Check the env-var override first, so test harnesses can point at a development
-      // build path. Read through `nativeLibDirEnv` rather than repeating the literal, so
-      // this and the error message below can never name different variables.
-      final envDir = Platform.environment[nativeLibDirEnv];
-      if (envDir != null && envDir.isNotEmpty) {
-        final absEnvDir = Directory(envDir).absolute.path;
-        final libDir = Directory(absEnvDir);
-        if (libDir.existsSync()) {
-          for (final candidate in candidates) {
-            final libPath = '$absEnvDir/$candidate';
-            if (candidateExists(libPath)) {
-              final result = tryOpenAbsolute(libPath);
-              if (result != null) return result;
-            }
-          }
-        }
-      }
-
-      // Compute RID (runtime identifier) from platform and architecture using Abi.current().
-      // This is more reliable than parsing Platform.version.
-      String? computeRid() {
-        final abi = Abi.current();
-        final os = Platform.operatingSystem;
-
-        // Map from (os, Abi) to RID string.
-        String? ridFromAbi() {
-          if (os == 'linux') {
-            if (abi == Abi.linuxX64) return 'linux-x64';
-            if (abi == Abi.linuxArm64) return 'linux-arm64';
-          } else if (os == 'macos') {
-            if (abi == Abi.macosX64) return 'macos-x64';
-            if (abi == Abi.macosArm64) return 'macos-arm64';
-          } else if (os == 'windows') {
-            if (abi == Abi.windowsX64) return 'windows-x64';
-            if (abi == Abi.windowsArm64) return 'windows-arm64';
-          }
-          return null;
-        }
-
-        return ridFromAbi();
-      }
-
-      final rid = computeRid();
-      if (rid != null) {
-        final packageRoot = await Isolate.resolvePackageUri(
-          _DartCore.Uri.parse(
-            'package:tree_sitter_language_pack/tree_sitter_language_pack.dart',
-          ),
-        );
-        if (packageRoot != null) {
-          final ridDir = packageRoot.resolve('src/native/$rid/');
-          for (final candidate in candidates) {
-            final libPath = ridDir.resolve(candidate).toFilePath();
-            if (candidateExists(libPath)) {
-              final result = tryOpenAbsolute(libPath);
-              if (result != null) return result;
-            }
-          }
-        }
-      }
-
-      // Check legacy package-installed location as fallback.
-      final packageRoot = await Isolate.resolvePackageUri(
-        _DartCore.Uri.parse(
-          'package:tree_sitter_language_pack/tree_sitter_language_pack.dart',
-        ),
-      );
-      if (packageRoot != null) {
-        final libDir = packageRoot.resolve(
-          'src/tree_sitter_language_pack_bridge_generated/',
-        );
-        for (final candidate in candidates) {
-          final libPath = libDir.resolve(candidate).toFilePath();
-          if (candidateExists(libPath)) {
-            final result = tryOpenAbsolute(libPath);
-            if (result != null) return result;
-          }
-        }
-      }
-
-      // As a last resort, resolve the running test/script's package root via
-      // `Platform.script` and search standard RID-relative locations there.
-      // Critical on macOS: `Directory.current` under hardened-runtime `dart` is
-      // the dart binary's own bin dir (relative-path dlopen rejected), whereas
-      // `Platform.script` resolves to the running .dart file's absolute URI,
-      // from which we can walk up to find the package root (the dir containing
-      // `pubspec.yaml`) and look for the bundled native library at standard
-      // paths. This handles the case where `Isolate.resolvePackageUri`
-      // resolution did not yield the actual staging location (e.g., a path
-      // dependency in local development, or a test_app whose host package
-      // contains the native lib directly rather than via the bridged package).
-      try {
-        final scriptPath = Platform.script.toFilePath();
-        var dir = File(scriptPath).absolute.parent;
-        while (dir.parent.path != dir.path &&
-            !File('${dir.path}/pubspec.yaml').existsSync()) {
-          dir = dir.parent;
-        }
-        if (File('${dir.path}/pubspec.yaml').existsSync()) {
-          final rid = computeRid();
-          final absRootPath = dir.absolute.path;
-          final searchRoots = <String>[
-            if (rid != null) '$absRootPath/lib/src/native/$rid',
-            '$absRootPath/lib',
-            absRootPath,
-          ];
-          for (final root in searchRoots) {
-            final absRoot = Directory(root).absolute.path;
-            for (final candidate in candidates) {
-              final libPath = '$absRoot/$candidate';
-              if (candidateExists(libPath)) {
-                final result = tryOpenAbsolute(libPath);
-                if (result != null) return result;
-              }
-            }
-          }
-        }
-      } catch (_) {
-        // fall through to the versioned-cache lookup below
-      }
-
-      // Versioned user cache populated by `dart run tree_sitter_language_pack:download_libs`.
-      // Shares its cache-path logic with the download script via
-      // `nativeCachedLibPath()` so the two can never disagree on the location.
-      final cachedLibPath = nativeCachedLibPath();
-      if (cachedLibPath != null && candidateExists(cachedLibPath)) {
-        final result = tryOpenAbsolute(cachedLibPath);
-        if (result != null) return result;
-      }
-
-      // Cache miss: download and cache the release asset, then open it. Any
-      // failure here (network, checksum mismatch) falls through to the loud
-      // StateError below rather than propagating a raw download exception.
-      try {
-        final downloadedPath = await nativeDownloadAndCacheLibrary();
-        final result = tryOpenAbsolute(downloadedPath);
-        if (result != null) return result;
-      } catch (_) {
-        // fall through to the descriptive miss below
-      }
-    } catch (_) {
-      // Fall through to the descriptive miss below on any resolution failure.
-    }
-
-    // Nothing bundled and nothing staged in the cache: fail loudly rather than
-    // let flutter_rust_bridge attempt a doomed relative-path dlopen. Name the
-    // exact release asset, the fetch command, and the env-var override so the
-    // consumer can recover.
-    final rid = nativeComputeRid() ?? Platform.operatingSystem;
-    throw StateError(
-      'Native library for tree_sitter_language_pack ($rid) was not found. '
-      'Expected it in the versioned cache (${nativeCacheDir() ?? '<unresolved cache dir>'}) '
-      'or bundled with the package. Download it with '
-      '`dart run tree_sitter_language_pack:download_libs`, which fetches '
-      '${nativeAssetUrlBase()}.tar.gz and verifies its SHA-256, '
-      'or point $nativeLibDirEnv at a directory containing the native library.',
-    );
-  }
-
   /// Initialize flutter_rust_bridge
   static Future<void> init({
     RustLibApi? api,
@@ -243,7 +27,6 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
     ExternalLibrary? externalLibrary,
     bool forceSameCodegenVersion = true,
   }) async {
-    externalLibrary ??= await _alefResolveExternalLibrary();
     await instance.initImpl(
       api: api,
       handler: handler,
@@ -7167,7 +6950,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_u_64(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putBigUint64(_alefCheckU64BeforeEncode(self));
+    serializer.buffer.putBigUint64(self);
   }
 
   @protected
@@ -7184,7 +6967,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putBigUint64(_alefCheckU64BeforeEncode(self));
+    serializer.buffer.putBigUint64(self);
   }
 }
 
@@ -7464,13 +7247,4 @@ class TreeImpl extends RustOpaque implements Tree {
   Future<Node> rootNode() => RustLib.instance.api.crateTreeRootNode(that: this);
 
   Future<TreeCursor> walk() => RustLib.instance.api.crateTreeWalk(that: this);
-}
-
-BigInt _alefCheckU64BeforeEncode(BigInt value) {
-  if (value.isNegative || value.bitLength > 64) {
-    throw RangeError(
-      'u64 unsigned value must be between 0 and 18446744073709551615: $value',
-    );
-  }
-  return value;
 }
