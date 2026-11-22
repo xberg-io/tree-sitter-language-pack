@@ -10,8 +10,8 @@ name: tree-sitter-language-pack
 
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
-Content-Hash: blake3:7860f629c0c291cb2e4f9cb034035fadbc4de3b90bace596a2d2348c12b5ec00
-Source-Hash: blake3:38e670e1fc13b9118ff1f891b6b07c06bad8f3635d67ecceed03bb9281c8eae1
+Content-Hash: blake3:320706e5af147afba0ff69f39baf41ed31f0c22308395a4dbd9a3b9c442b324c
+Source-Hash: blake3:b838620098d6ab4665dc6bdde958ff0765c7fe08b238195b8cee8a899af8e99a
 Schema-Version: v1
 -->
 
@@ -79,8 +79,6 @@ should call parsing directly as a tool.
 
 ```bash
 brew install xberg-io/tap/ts-pack
-# or run without a persistent install (the CLI proxy package self-installs the binary):
-npx @xberg-io/ts-pack-cli --help
 # or download a prebuilt binary from the latest GitHub release:
 #   https://github.com/xberg-io/tree-sitter-language-pack/releases/latest
 # or install from crates.io:
