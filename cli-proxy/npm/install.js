@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const REPO = "xberg-io/tree-sitter-language-pack";
 const BIN_NAME = "ts-pack";
 const PKG_NAME = "ts-pack-cli";
-const VERSION_ENV = "TS_PACK_CLI_VERSION";
+const ALLOW_UNVERIFIED_ENV = "TS_PACK_CLI_ALLOW_UNVERIFIED";
 const USER_AGENT = "ts-pack-cli-npm-proxy";
 
 function targetTriple() {
@@ -73,11 +73,6 @@ function httpGetBuffer(url, { headers = {} } = {}, maxRedirects = 5) {
   });
 }
 
-async function httpGetJson(url) {
-  const buf = await httpGetBuffer(url, { headers: { Accept: "application/vnd.github+json" } });
-  return JSON.parse(buf.toString("utf8"));
-}
-
 export class CliUnavailableError extends Error {
   constructor(message) {
     super(message);
@@ -85,84 +80,25 @@ export class CliUnavailableError extends Error {
   }
 }
 
-const NON_CLI_PATTERNS = [
-  "-ffi",
-  "_ffi",
-  "ffi-",
-  "nif",
-  ".so",
-  ".dylib",
-  ".dll",
-  "artifactbundle",
-  ".bottle.",
-  "bottle",
-  "node",
-  "wheel",
-  ".whl",
-  "napi",
-];
+const SUMS_NAME = "SHA256SUMS";
 
-export function isNonCliArtifact(name) {
-  const n = (name || "").toLowerCase();
-  return NON_CLI_PATTERNS.some((pat) => n.includes(pat));
+export function packageVersion() {
+  const manifest = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
+  return manifest.version;
 }
 
-export function assetScore(name) {
-  const n = (name || "").toLowerCase();
-  let score = 0;
-  if (n.includes("cli")) score += 2;
-  if (n.includes(BIN_NAME.toLowerCase())) score += 1;
-  return score;
+export function archiveName(triple) {
+  return `${BIN_NAME}-${triple}.${triple.includes("windows") ? "zip" : "tar.gz"}`;
 }
 
-export function selectArchiveName(names, triple) {
-  const survivors = (names || []).filter((name) => {
-    const n = (name || "").toLowerCase();
-    if (!n.includes(triple)) return false;
-    if (!(n.endsWith(".tar.gz") || n.endsWith(".zip"))) return false;
-    return !isNonCliArtifact(n);
-  });
-  if (survivors.length === 0) return null;
-  survivors.sort((a, b) => assetScore(b) - assetScore(a));
-  return survivors[0];
-}
-
-async function resolveRelease() {
-  const triple = targetTriple();
-  const pinned = process.env[VERSION_ENV];
-  const apiUrl = pinned
-    ? `https://api.github.com/repos/${REPO}/releases/tags/${encodeURIComponent(pinned)}`
-    : `https://api.github.com/repos/${REPO}/releases/latest`;
-
-  let release;
-  try {
-    release = await httpGetJson(apiUrl);
-  } catch (err) {
-    if (pinned && /HTTP 404/.test(err.message)) {
-      throw new Error(`release tag '${pinned}' not found`, { cause: err });
-    }
-    throw err;
-  }
-  const assets = Array.isArray(release.assets) ? release.assets : [];
-  const tag = release.tag_name || pinned || "latest";
-
-  const chosenName = selectArchiveName(
-    assets.map((a) => a.name),
-    triple,
-  );
-  if (!chosenName) {
-    throw new CliUnavailableError(`no standalone CLI asset for target triple "${triple}" in ${REPO} release ${tag}`);
-  }
-  const archive = assets.find((a) => a.name === chosenName);
-  const checksums = assets.find((a) => (a.name || "").toUpperCase().includes("SHA256SUMS"));
-
-  return { tag, triple, archive, checksums };
+export function assetUrl(version, name) {
+  return `https://github.com/${REPO}/releases/download/v${encodeURIComponent(version)}/${name}`;
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BIN_DIR = path.join(__dirname, "bin");
 
-function expectedDigest(text, assetName) {
+export function expectedDigest(text, assetName) {
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line) continue;
@@ -174,36 +110,37 @@ function expectedDigest(text, assetName) {
   return null;
 }
 
-async function verifyArchive(archiveBuf, archiveName, checksums) {
-  if (!checksums) {
-    // A release with no SHA256SUMS asset is exactly what an attacker who can
-    // influence the asset list would produce, and npm buries stderr warnings.
-    // The other two failure modes here already throw, so failing open only on
-    // the absent-file case made the weakest link the one that stayed quiet.
-    if (process.env.TS_PACK_CLI_ALLOW_UNVERIFIED === "1") {
+export function verifyArchive(archiveBuf, asset, sumsText, { allowUnverified = false } = {}) {
+  if (sumsText === null) {
+    if (allowUnverified) {
       process.stderr.write(
-        `WARNING: no SHA256SUMS asset found for ${archiveName}; installing unverified ` +
-          `because TS_PACK_CLI_ALLOW_UNVERIFIED=1 is set.\n`,
+        `WARNING: no ${SUMS_NAME} asset found for ${asset}; installing unverified ` +
+          `because ${ALLOW_UNVERIFIED_ENV}=1 is set.\n`,
       );
       return;
     }
     throw new Error(
-      `no SHA256SUMS asset found in the release for ${archiveName} — refusing to install an ` +
-        `unverified binary. Set TS_PACK_CLI_ALLOW_UNVERIFIED=1 to override.`,
+      `no ${SUMS_NAME} asset found in the release for ${asset} - refusing to install an ` +
+        `unverified binary. Set ${ALLOW_UNVERIFIED_ENV}=1 to override.`,
     );
   }
-  const sumsText = (await httpGetBuffer(checksums.browser_download_url)).toString("utf8");
-  const expected = expectedDigest(sumsText, archiveName);
+  const expected = expectedDigest(sumsText, asset);
   if (!expected) {
-    throw new Error(
-      `no checksum entry for ${archiveName} in ${checksums.name} — refusing to install unverified binary`,
-    );
+    throw new Error(`no checksum entry for ${asset} in ${SUMS_NAME} - refusing to install unverified binary`);
   }
   const actual = crypto.createHash("sha256").update(archiveBuf).digest("hex").toLowerCase();
   if (actual !== expected) {
-    throw new Error(`checksum mismatch for ${archiveName} (expected ${expected}, got ${actual})`);
+    throw new Error(`checksum mismatch for ${asset} (expected ${expected}, got ${actual})`);
   }
-  process.stderr.write(`Checksum verified for ${archiveName}.\n`);
+}
+
+async function fetchSums(version, fetchBuffer) {
+  try {
+    return (await fetchBuffer(assetUrl(version, SUMS_NAME))).toString("utf8");
+  } catch (err) {
+    if (/HTTP 404/.test(err.message)) return null;
+    throw err;
+  }
 }
 
 function isUnsafeEntry(name) {
@@ -312,8 +249,8 @@ function findDir(dir, name) {
   return null;
 }
 
-function safeExtract(archivePath, archiveName, dest) {
-  const isZip = archiveName.toLowerCase().endsWith(".zip");
+function safeExtract(archivePath, asset, dest) {
+  const isZip = asset.toLowerCase().endsWith(".zip");
   const entries = isZip ? listZipEntries(archivePath) : listTarEntries(archivePath);
   for (const entry of entries) {
     if (isUnsafeEntry(entry)) {
@@ -332,7 +269,7 @@ function safeExtract(archivePath, archiveName, dest) {
     const binName = binaryName();
     const extractedBin = findBinary(tmpDir, binName);
     if (!extractedBin) {
-      throw new CliUnavailableError(`archive ${archiveName} did not contain expected CLI binary ${binName}`);
+      throw new CliUnavailableError(`archive ${asset} did not contain expected CLI binary ${binName}`);
     }
     const finalBin = path.join(dest, binName);
     fs.copyFileSync(extractedBin, finalBin);
@@ -347,9 +284,9 @@ function safeExtract(archivePath, archiveName, dest) {
   }
 }
 
-export async function main() {
+export async function main({ fetchBuffer = httpGetBuffer, binDir = BIN_DIR, version = packageVersion() } = {}) {
   const binName = binaryName();
-  const finalPath = path.join(BIN_DIR, binName);
+  const finalPath = path.join(binDir, binName);
   if (fs.existsSync(finalPath)) {
     try {
       const stat = fs.statSync(finalPath);
@@ -359,19 +296,28 @@ export async function main() {
     } catch {}
   }
 
-  fs.mkdirSync(BIN_DIR, { recursive: true });
+  fs.mkdirSync(binDir, { recursive: true });
 
-  const { tag, archive, checksums } = await resolveRelease();
-  process.stderr.write(`Downloading ${BIN_NAME} ${tag} asset ${archive.name}...\n`);
+  const name = archiveName(targetTriple());
+  process.stderr.write(`Downloading ${BIN_NAME} ${version} asset ${name}...\n`);
 
-  const archiveBuf = await httpGetBuffer(archive.browser_download_url);
-  await verifyArchive(archiveBuf, archive.name, checksums);
+  let archiveBuf;
+  try {
+    archiveBuf = await fetchBuffer(assetUrl(version, name));
+  } catch (err) {
+    if (/HTTP 404/.test(err.message)) {
+      throw new CliUnavailableError(`release v${version} of ${REPO} has no asset ${name}`);
+    }
+    throw err;
+  }
+  const sumsText = await fetchSums(version, fetchBuffer);
+  verifyArchive(archiveBuf, name, sumsText, { allowUnverified: process.env[ALLOW_UNVERIFIED_ENV] === "1" });
 
   const stageDir = fs.mkdtempSync(path.join(os.tmpdir(), `${PKG_NAME}-dl-`));
   try {
-    const archivePath = path.join(stageDir, path.basename(archive.name));
+    const archivePath = path.join(stageDir, name);
     fs.writeFileSync(archivePath, archiveBuf);
-    safeExtract(archivePath, archive.name, BIN_DIR);
+    safeExtract(archivePath, name, binDir);
   } finally {
     fs.rmSync(stageDir, { recursive: true, force: true });
   }

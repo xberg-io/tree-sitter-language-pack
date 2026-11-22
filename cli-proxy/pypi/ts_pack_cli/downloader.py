@@ -1,15 +1,13 @@
-"""Resolve, download, verify, and run the native ts-pack binary.
+"""Download, verify, and run the native ts-pack binary.
 
-Self-healing asset discovery: query the GitHub releases API and pick the asset
-whose name contains the platform target triple, instead of hardcoding one exact
-asset name. This keeps working as release asset naming standardizes over time.
-All diagnostics go to stderr.
+The package version is the release version: the archive is fetched from the
+``v<version>`` release of this exact package, never from ``latest``, and checked
+against that release's SHA256SUMS. All diagnostics go to stderr.
 """
 
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import platform
 import shutil
@@ -19,15 +17,18 @@ import tarfile
 import tempfile
 import zipfile
 from pathlib import Path, PurePosixPath
-from typing import Any, cast
-from urllib.error import URLError
+from typing import cast
+from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+from . import __version__
 
 REPO = "xberg-io/tree-sitter-language-pack"
 BIN_NAME = "ts-pack"
 PKG_NAME = "ts-pack-cli"
-VERSION_ENV = "TS_PACK_CLI_VERSION"
+ALLOW_UNVERIFIED_ENV = "TS_PACK_CLI_ALLOW_UNVERIFIED"
+SUMS_NAME = "SHA256SUMS"
 _USER_AGENT = "ts-pack-cli-python-proxy"
 
 
@@ -70,58 +71,27 @@ class _HttpsOnlyRedirectHandler(HTTPRedirectHandler):
 _opener = build_opener(_HttpsOnlyRedirectHandler())
 
 
-def _http_get(url: str, accept: str | None = None) -> bytes:
+def _http_get(url: str) -> bytes:
     if urlsplit(url).scheme.lower() != "https":
         raise RuntimeError(f"refusing non-https URL: {url}")
-    headers = {"User-Agent": _USER_AGENT}
-    if accept:
-        headers["Accept"] = accept
-    request = Request(url, headers=headers)  # noqa: S310 - scheme validated https-only above
+    request = Request(url, headers={"User-Agent": _USER_AGENT})  # noqa: S310 - scheme validated https-only above
     try:
         with _opener.open(request, timeout=60) as response:
             if response.status != 200:
                 raise RuntimeError(f"HTTP {response.status} for {url}")
             return cast("bytes", response.read())
+    except HTTPError as exc:
+        raise RuntimeError(f"HTTP {exc.code} for {url}") from exc
     except URLError as exc:
         raise RuntimeError(f"failed to fetch {url}: {exc}") from exc
 
 
-def _asset_score(name: str) -> int:
-    lowered = name.lower()
-    score = 0
-    if BIN_NAME.lower() in lowered:
-        score += 2
-    if "cli" in lowered:
-        score += 1
-    return score
+def _archive_name(triple: str) -> str:
+    return f"{BIN_NAME}-{triple}.{'zip' if 'windows' in triple else 'tar.gz'}"
 
 
-def _resolve_release() -> tuple[str, dict[str, Any], dict[str, Any] | None]:
-    """Return (tag, archive_asset, checksums_asset_or_none) for this platform."""
-    triple = _target_triple()
-    pinned = os.getenv(VERSION_ENV)
-    if pinned:
-        api_url = f"https://api.github.com/repos/{REPO}/releases/tags/{quote(pinned, safe='')}"
-    else:
-        api_url = f"https://api.github.com/repos/{REPO}/releases/latest"
-
-    release = json.loads(_http_get(api_url, accept="application/vnd.github+json"))
-    assets = release.get("assets") or []
-    tag = release.get("tag_name") or pinned or "latest"
-
-    archives = [
-        a
-        for a in assets
-        if triple in (a.get("name") or "").lower()
-        and ((a.get("name") or "").lower().endswith(".tar.gz") or (a.get("name") or "").lower().endswith(".zip"))
-    ]
-    if not archives:
-        raise RuntimeError(f'no release asset matching target triple "{triple}" in {REPO} release {tag}')
-    archives.sort(key=lambda a: _asset_score(a.get("name") or ""), reverse=True)
-    archive = archives[0]
-
-    checksums = next((a for a in assets if "SHA256SUMS" in (a.get("name") or "").upper()), None)
-    return tag, archive, checksums
+def _asset_url(version: str, name: str) -> str:
+    return f"https://github.com/{REPO}/releases/download/v{quote(version, safe='')}/{name}"
 
 
 def _expected_digest(text: str, asset_name: str) -> str | None:
@@ -138,24 +108,35 @@ def _expected_digest(text: str, asset_name: str) -> str | None:
     return None
 
 
-def _verify_or_warn(archive_path: Path, asset_name: str, checksums: dict[str, Any] | None) -> None:
-    if not checksums:
-        print(
-            f"WARNING: no SHA256SUMS asset found for {asset_name}; "
-            "installing over HTTPS without checksum verification.",
-            file=sys.stderr,
+def _verify_archive(data: bytes, asset_name: str, sums_text: str | None, *, allow_unverified: bool = False) -> None:
+    """Check ``data`` against the release's SHA256SUMS; fail closed when it is missing."""
+    if sums_text is None:
+        if allow_unverified:
+            print(
+                f"WARNING: no {SUMS_NAME} asset found for {asset_name}; installing unverified "
+                f"because {ALLOW_UNVERIFIED_ENV}=1 is set.",
+                file=sys.stderr,
+            )
+            return
+        raise RuntimeError(
+            f"no {SUMS_NAME} asset found in the release for {asset_name} - refusing to install an "
+            f"unverified binary. Set {ALLOW_UNVERIFIED_ENV}=1 to override."
         )
-        return
-    sums_text = _http_get(checksums["browser_download_url"]).decode("utf-8")
     expected = _expected_digest(sums_text, asset_name)
     if not expected:
-        raise RuntimeError(
-            f"no checksum entry for {asset_name} in {checksums['name']} — refusing to install unverified binary"
-        )
-    digest = hashlib.sha256(archive_path.read_bytes()).hexdigest().lower()
+        raise RuntimeError(f"no checksum entry for {asset_name} in {SUMS_NAME} - refusing to install unverified binary")
+    digest = hashlib.sha256(data).hexdigest().lower()
     if digest != expected:
         raise RuntimeError(f"checksum mismatch for {asset_name} (expected {expected}, got {digest})")
-    print(f"Checksum verified for {asset_name}.", file=sys.stderr)
+
+
+def _fetch_sums(version: str) -> str | None:
+    try:
+        return _http_get(_asset_url(version, SUMS_NAME)).decode("utf-8")
+    except RuntimeError as exc:
+        if "HTTP 404" in str(exc):
+            return None
+        raise
 
 
 def _is_within(base: Path, target: Path) -> bool:
@@ -225,29 +206,36 @@ def _cache_dir(tag: str) -> Path:
 
 
 def ensure_binary() -> str:
-    """Ensure the native binary exists locally, downloading if necessary."""
+    """Ensure the native binary for this package version exists locally, downloading if necessary."""
     override = os.getenv("TS_PACK_BINARY")
     if override:
         return override
 
-    tag, archive, checksums = _resolve_release()
-    cache = _cache_dir(tag)
+    version = __version__
+    cache = _cache_dir(f"v{version}")
     binary_path = cache / _binary_name()
     if binary_path.exists() and os.access(binary_path, os.X_OK):
         return str(binary_path)
 
-    print(f"Downloading {BIN_NAME} {tag} asset {archive['name']}...", file=sys.stderr)
+    name = _archive_name(_target_triple())
+    print(f"Downloading {BIN_NAME} {version} asset {name}...", file=sys.stderr)
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp = Path(tmpdir)
-        archive_path = tmp / Path(archive["name"]).name
-        archive_path.write_bytes(_http_get(archive["browser_download_url"]))
-        _verify_or_warn(archive_path, archive["name"], checksums)
+        data = _http_get(_asset_url(version, name))
+        _verify_archive(
+            data,
+            name,
+            _fetch_sums(version),
+            allow_unverified=os.getenv(ALLOW_UNVERIFIED_ENV) == "1",
+        )
+        archive_path = tmp / name
+        archive_path.write_bytes(data)
         extract_dir = tmp / "extract"
         extract_dir.mkdir()
-        _safe_extract(archive_path, archive["name"], extract_dir)
+        _safe_extract(archive_path, name, extract_dir)
         found = _find_binary(extract_dir, _binary_name())
         if not found:
-            raise RuntimeError(f"binary {_binary_name()} not found after extracting {archive['name']}")
+            raise RuntimeError(f"binary {_binary_name()} not found after extracting {name}")
         shutil.move(str(found), str(binary_path))
 
     if platform.system().lower() != "windows":

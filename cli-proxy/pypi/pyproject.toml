@@ -5,7 +5,7 @@ requires = ["hatchling"]
 
 [project]
 name = "ts-pack-cli"
-version = "0.1.0"
+version = "1.27.0"
 description = "CLI proxy for ts-pack — downloads and runs the native ts-pack binary from GitHub releases."
 readme = "README.md"
 license = { text = "MIT" }
@@ -34,5 +34,6 @@ urls.Issues = "https://github.com/xberg-io/tree-sitter-language-pack/issues"
 urls.Repository = "https://github.com/xberg-io/tree-sitter-language-pack.git"
 scripts.ts-pack = "ts_pack_cli.cli:main"
 
-[tool.hatch.build.targets.wheel]
-packages = ["ts_pack_cli"]
+[tool.hatch]
+build.hooks.custom.path = "hatch_build.py"
+build.targets.wheel.packages = ["ts_pack_cli"]

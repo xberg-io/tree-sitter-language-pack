@@ -210,6 +210,7 @@ jobs:
       # publish. `kotlin-android` must also appear in `available-targets`.
       # below, or the flag is false regardless of which key is read. ~keep
       release_kotlin_android: ${{ steps.meta.outputs.release_kotlin_android }}
+      release_cli: ${{ steps.meta.outputs.release_cli }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -217,7 +218,7 @@ jobs:
         id: meta
         uses: xberg-io/actions/prepare-release-metadata@v1
         with:
-          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,scoop,dart,swift,zig,kotlin-android"
+          available-targets: "crates,python,node,wasm,ruby,go,java,elixir,c-ffi,php,csharp,homebrew,scoop,dart,swift,zig,kotlin-android,cli"
 
       # ~keep The publish actions compare `expected-version` against the artifact's own version
       # string, and two ecosystems respell a semver prerelease: PyPI dist filenames carry the
@@ -343,7 +344,7 @@ jobs:
       # on a plugin that is in fact correct. Strip the suffix rather than skipping the step
       # on dry runs -- a dry run is exactly where a drifted plugin should surface, while
       # there is still no tag and nothing has been published.
-      - name: Validate plugin version matches the release
+      - name: Validate plugin, launcher, CLI proxy and registry versions match the release
         shell: bash
         env:
           VERSION: ${{ needs.prepare.outputs.version }}
@@ -425,6 +426,16 @@ jobs:
             "name": "maven-kotlin-android",
             "registry": "maven",
             "package": "io.xberg.tslp.android:tree-sitter-language-pack-android"
+          },
+          {
+            "name": "npm-cli-proxy",
+            "registry": "npm",
+            "package": "@xberg-io/ts-pack-cli"
+          },
+          {
+            "name": "pypi-cli-proxy",
+            "registry": "pypi",
+            "package": "ts-pack-cli"
           }
         ]
 
@@ -3060,7 +3071,7 @@ jobs:
     name: E2E gate — CLI
     needs: [prepare, validate-versions, clone-vendors]
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true' || needs.prepare.outputs.release_cli == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -4613,8 +4624,10 @@ jobs:
   build-cli:
     name: Build CLI (${{ matrix.label }})
     needs: [prepare, validate-versions, clone-vendors]
+    # ~keep The CLI archives feed Homebrew and the CLI proxy packages (npm/PyPI), which download
+    # them by release tag, so either target builds them.
     if: >-
-      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true') }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_homebrew == 'true' || needs.prepare.outputs.release_cli == 'true') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     strategy:
@@ -4742,6 +4755,25 @@ jobs:
           path: dist/cli
           merge-multiple: true
 
+      # ~keep The plugin launcher and the npm/PyPI CLI proxies verify the archive they download
+      # against this file and refuse to install without it. The count is the build-cli matrix
+      # size; a short count means an archive is missing, and checksumming the rest would publish
+      # a SHA256SUMS that silently omits it.
+      - name: Generate SHA256SUMS
+        shell: bash
+        working-directory: dist/cli
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          archives=(ts-pack-*.tar.gz ts-pack-*.zip)
+          if [ "${#archives[@]}" -ne 6 ]; then
+            echo "::error::expected 6 CLI archives to checksum, found ${#archives[@]}"
+            ls -la
+            exit 1
+          fi
+          sha256sum "${archives[@]}" > SHA256SUMS
+          cat SHA256SUMS
+
       - name: Upload to GitHub Release
         uses: xberg-io/actions/publish-github-release@v1
         with:
@@ -4753,6 +4785,7 @@ jobs:
           artifacts: |
             dist/cli/ts-pack-*.tar.gz
             dist/cli/ts-pack-*.zip
+            dist/cli/SHA256SUMS
           dry-run: ${{ needs.prepare.outputs.dry_run }}
           token: ${{ steps.app-token.outputs.token }}
 
@@ -5317,7 +5350,7 @@ jobs:
       # failure fail the release.
       #
       # cli-binaries is target-scoped rather than unconditional: build-cli is gated on
-      # release_homebrew, so a targeted workflow_dispatch that omits homebrew skips the
+      # release_homebrew and release_cli, so a targeted workflow_dispatch that omits both skips the
       # CLI upload, and requiring it unconditionally would strand that release as a
       # permanent draft. ~keep
       - name: Verify release assets are complete
@@ -5334,8 +5367,13 @@ jobs:
           RELEASE_C_FFI: ${{ needs.prepare.outputs.release_c_ffi }}
           RELEASE_SWIFT: ${{ needs.prepare.outputs.release_swift }}
           RELEASE_HOMEBREW: ${{ needs.prepare.outputs.release_homebrew }}
+          RELEASE_CLI: ${{ needs.prepare.outputs.release_cli }}
         run: |
           failed=0
+          cli_enabled=false
+          if [[ "$RELEASE_HOMEBREW" == "true" || "$RELEASE_CLI" == "true" ]]; then
+            cli_enabled=true
+          fi
 
           require_success() {
             local name="$1" result="$2"
@@ -5355,7 +5393,7 @@ jobs:
 
           require_success "parser-binaries" "$RESULT_UPLOAD_PARSERS"
           require_success "grammar-notices" "$RESULT_GRAMMAR_NOTICES"
-          require_success_when_enabled "cli-binaries" "$RESULT_UPLOAD_CLI" "$RELEASE_HOMEBREW"
+          require_success_when_enabled "cli-binaries" "$RESULT_UPLOAD_CLI" "$cli_enabled"
           require_success_when_enabled "go-ffi" "$RESULT_UPLOAD_GO" "$RELEASE_GO"
           require_success_when_enabled "go-ffi-stage" "$RESULT_STAGE_GO_FFI" "$RELEASE_GO"
           require_success_when_enabled "c-ffi" "$RESULT_UPLOAD_C_FFI" "$RELEASE_C_FFI"
@@ -5712,21 +5750,338 @@ jobs:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           project-name: tree-sitter-language-pack
 
-  cli-proxy:
-    name: Publish CLI proxy package (npm)
+  # --- CLI proxy packages (npm + PyPI), published in lockstep with every release ---
+  # Both packages carry the product version (scripts/sync_plugin_version.py), and the
+  # sdist/npm package download that exact release's archive at install time. The release
+  # is a draft until finalize-github-release flips it, and the public download URL cannot
+  # see a draft, so publishing earlier would hand users a version that 404s for the length of
+  # the run and forever if the run dies; an npm or PyPI version cannot be replaced. They are
+  # additive like the plugin jobs: intentionally NOT part of release-finalize `needs`.
+  # `!cancelled()` plus explicit result checks keeps a `targets=` subset dispatch from skipping
+  # these because an unrelated upstream job was skipped. ~keep
+
+  cli-proxy-wheels:
+    name: Build CLI proxy wheel (${{ matrix.target }})
+    needs: [prepare, build-cli, e2e-cli]
+    # Runs on dry runs too: this job holds the wheel smoke test, and it ends at upload-artifact
+    # with no twine, token or secret, so widening it past `dry_run` exercises the payload
+    # without publishing. ~keep
     if: >-
-      ${{ !inputs.plugins-only && (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'cli-proxy-v')) }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_cli == 'true' && needs.build-cli.result == 'success' && needs.e2e-cli.result == 'success') }}
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - aarch64-unknown-linux-gnu
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
     steps:
-      - uses: actions/checkout@v7
-      - uses: xberg-io/actions/publish-npm@v1
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Setup Python
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: python
+          config-ref: ${{ github.sha }}
+
+      # hatch_build.py finds ts-pack-<target>.(tar.gz|zip) in dist/ at the repo root.
+      - name: Download CLI archive
+        uses: actions/download-artifact@v8
+        with:
+          name: ts-pack-${{ matrix.target }}
+          path: dist
+
+      - name: Build wheel with bundled binary
+        shell: bash
+        working-directory: cli-proxy/pypi
+        env:
+          TS_PACK_CLI_TARGET: ${{ matrix.target }}
+        run: |
+          pip install hatchling build
+          python -m build --wheel
+
+      - name: Check the wheel carries the release version and a platform payload
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          wheels=(cli-proxy/pypi/dist/*.whl)
+          if [ "${#wheels[@]}" -ne 1 ]; then
+            echo "::error::expected exactly one wheel in cli-proxy/pypi/dist, found ${#wheels[@]}"
+            exit 1
+          fi
+          expected="$(python3 -c 'import sys; sys.path.insert(0, "scripts"); from sync_plugin_version import to_pep440; print(to_pep440(sys.argv[1]))' "${VERSION%%-dryrun-*}")"
+          case "$(basename "${wheels[0]}")" in
+            "ts_pack_cli-${expected}-py3-none-"*) ;;
+            *)
+              echo "::error::wheel $(basename "${wheels[0]}") does not carry release version ${expected}"
+              exit 1
+              ;;
+          esac
+          unzip -l "${wheels[0]}" | grep -E "ts_pack_cli/bin/${TARGET}/ts-pack(\.exe)?$" \
+            || { echo "::error::wheel ships no ts-pack binary for ${TARGET}"; unzip -l "${wheels[0]}"; exit 1; }
+
+      # The wheel is tagged manylinux_2_39 because the binary links on the ubuntu-24.04 runners.
+      # Reject a binary built on a newer runner image before the tag lies about its floor. ~keep
+      - name: Check the glibc floor behind the manylinux tag
+        if: ${{ endsWith(matrix.target, '-unknown-linux-gnu') }}
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          wheel="$(ls cli-proxy/pypi/dist/*.whl)"
+          unpack="${RUNNER_TEMP}/wheel-glibc/${TARGET}"
+          rm -rf "$unpack"
+          mkdir -p "$unpack"
+          unzip -q "$wheel" -d "$unpack"
+          binary="${unpack}/ts_pack_cli/bin/${TARGET}/ts-pack"
+          newest="$(readelf --wide --dyn-syms "$binary" | grep -o 'GLIBC_[0-9.]*' | sed 's/GLIBC_//' | sort -V | tail -n 1)"
+          echo "${TARGET} needs glibc ${newest:-none}"
+          if [ -n "$newest" ] && [ "$(printf '%s\n%s\n' "$newest" 2.39 | sort -V | tail -n 1)" != "2.39" ]; then
+            echo "::error::${TARGET} needs glibc ${newest}, newer than the 2.39 its manylinux_2_39 wheel tag promises"
+            exit 1
+          fi
+
+      - name: Smoke-test the bundled binary
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          if [ "$TARGET" != "x86_64-unknown-linux-gnu" ]; then
+            echo "::notice title=Wheel smoke test not run::${TARGET} binaries cannot execute on this x86_64 linux runner; the payload is covered by the build-time checks in cli-proxy/pypi/hatch_build.py"
+            exit 0
+          fi
+          wheel="$(ls cli-proxy/pypi/dist/*.whl)"
+          unpack="${RUNNER_TEMP}/wheel-smoke"
+          rm -rf "$unpack"
+          mkdir -p "$unpack"
+          unzip -q "$wheel" -d "$unpack"
+          binary="${unpack}/ts_pack_cli/bin/${TARGET}/ts-pack"
+          chmod u+rx "$binary"
+          "$binary" --version
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: cli-proxy-wheel-${{ matrix.target }}
+          path: cli-proxy/pypi/dist/*.whl
+          retention-days: 14
+
+  publish-cli-proxy-pypi:
+    name: Publish CLI proxy to PyPI (wheels + sdist)
+    needs: [prepare, validate-versions, check-registries, cli-proxy-wheels, upload-cli-release, finalize-github-release]
+    if: >-
+      ${{ !inputs.plugins-only && (!cancelled() && needs.prepare.outputs.release_cli == 'true' && needs.validate-versions.result == 'success' && (needs.prepare.outputs.dry_run == 'true' || needs.finalize-github-release.outputs.promoted == 'true') && (fromJson(needs.check-registries.outputs.results)['pypi-cli-proxy'] != 'true' || needs.prepare.outputs.force_republish == 'true')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Require the jobs this channel publishes from
+        uses: xberg-io/actions/require-job-results@v1
+        with:
+          channel: PyPI (ts-pack-cli)
+          needs: ${{ toJSON(needs) }}
+          succeeded: |
+            cli-proxy-wheels
+            ${{ needs.prepare.outputs.dry_run != 'true' && 'upload-cli-release' || '' }}
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Setup Python
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: python
+          config-ref: ${{ github.sha }}
+
+      - name: Download CLI proxy wheels
+        uses: actions/download-artifact@v8
+        with:
+          pattern: cli-proxy-wheel-*
+          path: dist
+          merge-multiple: true
+
+      - name: Test the CLI proxy
+        shell: bash
+        run: |
+          pip install pytest hatchling
+          python -m pytest cli-proxy/pypi/tests -q
+
+      # The sdist is the downloader fallback for platforms without a wheel.
+      - name: Build CLI proxy sdist
+        shell: bash
+        working-directory: cli-proxy/pypi
+        run: |
+          pip install hatchling build
+          python -m build --sdist
+          cp dist/*.tar.gz ../../dist/
+
+      - name: Assert the expected distribution inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          wheels=(dist/*.whl)
+          sdists=(dist/*.tar.gz)
+          if [ "${#wheels[@]}" -ne 5 ] || [ "${#sdists[@]}" -ne 1 ]; then
+            echo "::error::expected 5 wheels and 1 sdist, found ${#wheels[@]} wheels and ${#sdists[@]} sdists"
+            ls -la dist
+            exit 1
+          fi
+
+      - name: Publish to PyPI
+        uses: xberg-io/actions/publish-pypi@v1
+        with:
+          packages-dir: dist
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+          expected-version: ${{ needs.prepare.outputs.pypi_version }}
+
+  publish-cli-proxy-npm:
+    name: Publish CLI proxy to npm
+    needs: [prepare, validate-versions, check-registries, upload-cli-release, finalize-github-release]
+    if: >-
+      ${{ !inputs.plugins-only && (!cancelled() && needs.prepare.outputs.release_cli == 'true' && needs.validate-versions.result == 'success' && (needs.prepare.outputs.dry_run == 'true' || needs.finalize-github-release.outputs.promoted == 'true') && (fromJson(needs.check-registries.outputs.results)['npm-cli-proxy'] != 'true' || needs.prepare.outputs.force_republish == 'true')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Require the jobs this channel publishes from
+        uses: xberg-io/actions/require-job-results@v1
+        with:
+          channel: npm (@xberg-io/ts-pack-cli)
+          needs: ${{ toJSON(needs) }}
+          succeeded: ${{ needs.prepare.outputs.dry_run != 'true' && 'upload-cli-release' || '' }}
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Setup Node.js
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: node
+          config-ref: ${{ github.sha }}
+
+      - name: Test the CLI proxy
+        shell: bash
+        working-directory: cli-proxy/npm
+        run: node --test test.mjs
+
+      - name: Publish to npm
+        uses: xberg-io/actions/publish-npm@v1
         with:
           package-dir: cli-proxy/npm
+          npm-tag: ${{ needs.prepare.outputs.npm_tag }}
           access: public
           provenance: "true"
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+          expected-version: ${{ needs.prepare.outputs.version }}
+
+  # The registry verifies ownership by fetching the published npm version and reading its
+  # `mcpName`, so this waits for that version to exist. It runs when this release's publish
+  # succeeded, or when the version was already on npm (rerun or an earlier partial run). ~keep
+  publish-mcp-registry:
+    name: Publish MCP Registry entry
+    needs: [prepare, check-registries, publish-cli-proxy-npm]
+    if: >-
+      ${{ !inputs.plugins-only && (!cancelled() && needs.prepare.outputs.release_cli == 'true' && needs.prepare.outputs.dry_run != 'true' && (needs.publish-cli-proxy-npm.result == 'success' || (needs.publish-cli-proxy-npm.result == 'skipped' && fromJson(needs.check-registries.outputs.results)['npm-cli-proxy'] == 'true'))) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      # ~keep Pinned, with the archive's SHA-256 below, because releases/latest resolves at run
+      # time and lands an unreviewed binary in a publish job. The digest was taken from the
+      # release asset after `cosign verify-blob` against the release's sigstore bundle. Bump both
+      # together, deliberately.
+      MCP_PUBLISHER_VERSION: v1.8.1
+      MCP_PUBLISHER_SHA256: a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc
+      SERVER_NAME: io.github.xberg-io/tree-sitter-language-pack
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Check server.json carries the release version
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          jq -e --arg v "$VERSION" --arg n "$SERVER_NAME" \
+            '.name == $n and .version == $v and (.packages | length) > 0 and all(.packages[]; .version == $v)' \
+            server.json >/dev/null \
+            || { echo "::error::server.json does not describe ${SERVER_NAME} ${VERSION}"; cat server.json; exit 1; }
+
+      - name: Check whether the registry already has this version
+        id: registry
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          name="$(jq -rn --arg n "$SERVER_NAME" '$n | @uri')"
+          version="$(jq -rn --arg v "$VERSION" '$v | @uri')"
+          status="$(curl -sS -o /dev/null -w '%{http_code}' \
+            "https://registry.modelcontextprotocol.io/v0.1/servers/${name}/versions/${version}")"
+          case "$status" in
+            200) echo "exists=true" >>"$GITHUB_OUTPUT" ;;
+            404) echo "exists=false" >>"$GITHUB_OUTPUT" ;;
+            *)
+              echo "::error::unexpected HTTP ${status} from the MCP Registry"
+              exit 1
+              ;;
+          esac
+
+      - name: Install mcp-publisher
+        if: ${{ steps.registry.outputs.exists != 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive=mcp-publisher_linux_amd64.tar.gz
+          curl -fsSL -o "$archive" \
+            "https://github.com/modelcontextprotocol/registry/releases/download/${MCP_PUBLISHER_VERSION}/${archive}"
+          echo "${MCP_PUBLISHER_SHA256}  ${archive}" | sha256sum -c -
+          tar xzf "$archive" mcp-publisher
+          rm -f "$archive"
+
+      - name: Validate server.json
+        if: ${{ steps.registry.outputs.exists != 'true' }}
+        run: ./mcp-publisher validate server.json
+
+      - name: Authenticate to the MCP Registry
+        if: ${{ steps.registry.outputs.exists != 'true' }}
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to the MCP Registry
+        if: ${{ steps.registry.outputs.exists != 'true' }}
+        run: ./mcp-publisher publish server.json
+
+      - name: Note that the version is already published
+        if: ${{ steps.registry.outputs.exists == 'true' }}
+        run: echo "::notice title=MCP Registry::${SERVER_NAME} ${{ needs.prepare.outputs.version }} is already published; nothing to do."
 
   # --- Coding-agent plugin (lives in plugin/, generated by ai-rulez; see plugin/README.md) ---
   # Additive best-effort like the language jobs above: intentionally NOT part of
