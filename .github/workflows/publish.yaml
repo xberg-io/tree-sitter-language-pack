@@ -344,7 +344,7 @@ jobs:
       # on a plugin that is in fact correct. Strip the suffix rather than skipping the step
       # on dry runs -- a dry run is exactly where a drifted plugin should surface, while
       # there is still no tag and nothing has been published.
-      - name: Validate plugin version matches the release
+      - name: Validate plugin, launcher, CLI proxy and registry versions match the release
         shell: bash
         env:
           VERSION: ${{ needs.prepare.outputs.version }}
@@ -426,6 +426,16 @@ jobs:
             "name": "maven-kotlin-android",
             "registry": "maven",
             "package": "io.xberg.tslp.android:tree-sitter-language-pack-android"
+          },
+          {
+            "name": "npm-cli-proxy",
+            "registry": "npm",
+            "package": "@xberg-io/ts-pack-cli"
+          },
+          {
+            "name": "pypi-cli-proxy",
+            "registry": "pypi",
+            "package": "ts-pack-cli"
           }
         ]
 
@@ -5740,21 +5750,252 @@ jobs:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           project-name: tree-sitter-language-pack
 
-  cli-proxy:
-    name: Publish CLI proxy package (npm)
+  # --- CLI proxy packages (npm + PyPI), published in lockstep with every release ---
+  # Both packages carry the product version (scripts/sync_plugin_version.py), and the
+  # sdist/npm package download that exact release's archive at install time. The release
+  # is a draft until finalize-github-release flips it, and the public download URL cannot
+  # see a draft, so publishing earlier would hand users a version that 404s for the length of
+  # the run and forever if the run dies; an npm or PyPI version cannot be replaced. They are
+  # additive like the plugin jobs: intentionally NOT part of release-finalize `needs`.
+  # `!cancelled()` plus explicit result checks keeps a `targets=` subset dispatch from skipping
+  # these because an unrelated upstream job was skipped. ~keep
+
+  cli-proxy-wheels:
+    name: Build CLI proxy wheel (${{ matrix.target }})
+    needs: [prepare, build-cli, e2e-cli]
+    # Runs on dry runs too: this job holds the wheel smoke test, and it ends at upload-artifact
+    # with no twine, token or secret, so widening it past `dry_run` exercises the payload
+    # without publishing. ~keep
     if: >-
-      ${{ !inputs.plugins-only && (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'cli-proxy-v')) }}
+      ${{ !inputs.plugins-only && (needs.prepare.outputs.release_cli == 'true' && needs.build-cli.result == 'success' && needs.e2e-cli.result == 'success') }}
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - aarch64-unknown-linux-gnu
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
     steps:
-      - uses: actions/checkout@v7
-      - uses: xberg-io/actions/publish-npm@v1
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Setup Python
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: python
+          config-ref: ${{ github.sha }}
+
+      # hatch_build.py finds ts-pack-<target>.(tar.gz|zip) in dist/ at the repo root.
+      - name: Download CLI archive
+        uses: actions/download-artifact@v8
+        with:
+          name: ts-pack-${{ matrix.target }}
+          path: dist
+
+      - name: Build wheel with bundled binary
+        shell: bash
+        working-directory: cli-proxy/pypi
+        env:
+          TS_PACK_CLI_TARGET: ${{ matrix.target }}
+        run: |
+          pip install hatchling build
+          python -m build --wheel
+
+      - name: Check the wheel carries the release version and a platform payload
+        shell: bash
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          wheels=(cli-proxy/pypi/dist/*.whl)
+          if [ "${#wheels[@]}" -ne 1 ]; then
+            echo "::error::expected exactly one wheel in cli-proxy/pypi/dist, found ${#wheels[@]}"
+            exit 1
+          fi
+          expected="$(python3 -c 'import sys; sys.path.insert(0, "scripts"); from sync_plugin_version import to_pep440; print(to_pep440(sys.argv[1]))' "${VERSION%%-dryrun-*}")"
+          case "$(basename "${wheels[0]}")" in
+            "ts_pack_cli-${expected}-py3-none-"*) ;;
+            *)
+              echo "::error::wheel $(basename "${wheels[0]}") does not carry release version ${expected}"
+              exit 1
+              ;;
+          esac
+          unzip -l "${wheels[0]}" | grep -E "ts_pack_cli/bin/${TARGET}/ts-pack(\.exe)?$" \
+            || { echo "::error::wheel ships no ts-pack binary for ${TARGET}"; unzip -l "${wheels[0]}"; exit 1; }
+
+      # The wheel is tagged manylinux_2_39 because the binary links on the ubuntu-24.04 runners.
+      # Reject a binary built on a newer runner image before the tag lies about its floor. ~keep
+      - name: Check the glibc floor behind the manylinux tag
+        if: ${{ endsWith(matrix.target, '-unknown-linux-gnu') }}
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          wheel="$(ls cli-proxy/pypi/dist/*.whl)"
+          unpack="${RUNNER_TEMP}/wheel-glibc/${TARGET}"
+          rm -rf "$unpack"
+          mkdir -p "$unpack"
+          unzip -q "$wheel" -d "$unpack"
+          binary="${unpack}/ts_pack_cli/bin/${TARGET}/ts-pack"
+          newest="$(readelf --wide --dyn-syms "$binary" | grep -o 'GLIBC_[0-9.]*' | sed 's/GLIBC_//' | sort -V | tail -n 1)"
+          echo "${TARGET} needs glibc ${newest:-none}"
+          if [ -n "$newest" ] && [ "$(printf '%s\n%s\n' "$newest" 2.39 | sort -V | tail -n 1)" != "2.39" ]; then
+            echo "::error::${TARGET} needs glibc ${newest}, newer than the 2.39 its manylinux_2_39 wheel tag promises"
+            exit 1
+          fi
+
+      - name: Smoke-test the bundled binary
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          if [ "$TARGET" != "x86_64-unknown-linux-gnu" ]; then
+            echo "::notice title=Wheel smoke test not run::${TARGET} binaries cannot execute on this x86_64 linux runner; the payload is covered by the build-time checks in cli-proxy/pypi/hatch_build.py"
+            exit 0
+          fi
+          wheel="$(ls cli-proxy/pypi/dist/*.whl)"
+          unpack="${RUNNER_TEMP}/wheel-smoke"
+          rm -rf "$unpack"
+          mkdir -p "$unpack"
+          unzip -q "$wheel" -d "$unpack"
+          binary="${unpack}/ts_pack_cli/bin/${TARGET}/ts-pack"
+          chmod u+rx "$binary"
+          "$binary" --version
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: cli-proxy-wheel-${{ matrix.target }}
+          path: cli-proxy/pypi/dist/*.whl
+          retention-days: 14
+
+  publish-cli-proxy-pypi:
+    name: Publish CLI proxy to PyPI (wheels + sdist)
+    needs: [prepare, validate-versions, check-registries, cli-proxy-wheels, upload-cli-release, finalize-github-release]
+    if: >-
+      ${{ !inputs.plugins-only && (!cancelled() && needs.prepare.outputs.release_cli == 'true' && needs.validate-versions.result == 'success' && (needs.prepare.outputs.dry_run == 'true' || needs.finalize-github-release.outputs.promoted == 'true') && (fromJson(needs.check-registries.outputs.results)['pypi-cli-proxy'] != 'true' || needs.prepare.outputs.force_republish == 'true')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Require the jobs this channel publishes from
+        uses: xberg-io/actions/require-job-results@v1
+        with:
+          channel: PyPI (ts-pack-cli)
+          needs: ${{ toJSON(needs) }}
+          succeeded: |
+            cli-proxy-wheels
+            ${{ needs.prepare.outputs.dry_run != 'true' && 'upload-cli-release' || '' }}
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Setup Python
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          install-args: python
+          config-ref: ${{ github.sha }}
+
+      - name: Download CLI proxy wheels
+        uses: actions/download-artifact@v8
+        with:
+          pattern: cli-proxy-wheel-*
+          path: dist
+          merge-multiple: true
+
+      - name: Test the CLI proxy
+        shell: bash
+        run: |
+          pip install pytest hatchling
+          python -m pytest cli-proxy/pypi/tests -q
+
+      # The sdist is the downloader fallback for platforms without a wheel.
+      - name: Build CLI proxy sdist
+        shell: bash
+        working-directory: cli-proxy/pypi
+        run: |
+          pip install hatchling build
+          python -m build --sdist
+          cp dist/*.tar.gz ../../dist/
+
+      - name: Assert the expected distribution inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          wheels=(dist/*.whl)
+          sdists=(dist/*.tar.gz)
+          if [ "${#wheels[@]}" -ne 5 ] || [ "${#sdists[@]}" -ne 1 ]; then
+            echo "::error::expected 5 wheels and 1 sdist, found ${#wheels[@]} wheels and ${#sdists[@]} sdists"
+            ls -la dist
+            exit 1
+          fi
+
+      - name: Publish to PyPI
+        uses: xberg-io/actions/publish-pypi@v1
+        with:
+          packages-dir: dist
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+          expected-version: ${{ needs.prepare.outputs.pypi_version }}
+
+  publish-cli-proxy-npm:
+    name: Publish CLI proxy to npm
+    needs: [prepare, validate-versions, check-registries, upload-cli-release, finalize-github-release]
+    if: >-
+      ${{ !inputs.plugins-only && (!cancelled() && needs.prepare.outputs.release_cli == 'true' && needs.validate-versions.result == 'success' && (needs.prepare.outputs.dry_run == 'true' || needs.finalize-github-release.outputs.promoted == 'true') && (fromJson(needs.check-registries.outputs.results)['npm-cli-proxy'] != 'true' || needs.prepare.outputs.force_republish == 'true')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Require the jobs this channel publishes from
+        uses: xberg-io/actions/require-job-results@v1
+        with:
+          channel: npm (@xberg-io/ts-pack-cli)
+          needs: ${{ toJSON(needs) }}
+          succeeded: ${{ needs.prepare.outputs.dry_run != 'true' && 'upload-cli-release' || '' }}
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.checkout_ref }}
+
+      - name: Setup Node.js
+        uses: xberg-io/actions/setup-mise@v1
+        with:
+          tools: node
+          config-ref: ${{ github.sha }}
+
+      - name: Test the CLI proxy
+        shell: bash
+        working-directory: cli-proxy/npm
+        run: node --test test.mjs
+
+      - name: Publish to npm
+        uses: xberg-io/actions/publish-npm@v1
         with:
           package-dir: cli-proxy/npm
+          npm-tag: ${{ needs.prepare.outputs.npm_tag }}
           access: public
           provenance: "true"
+          dry-run: ${{ needs.prepare.outputs.dry_run }}
+          expected-version: ${{ needs.prepare.outputs.version }}
 
   # --- Coding-agent plugin (lives in plugin/, generated by ai-rulez; see plugin/README.md) ---
   # Additive best-effort like the language jobs above: intentionally NOT part of

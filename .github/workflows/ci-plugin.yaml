@@ -24,6 +24,8 @@ on:
       - ".agents/plugins/**"
       - ".ai-rulez/config*.toml"
       - "scripts/sync_plugin_version.py"
+      - "cli-proxy/**"
+      - "server.json"
       - "mise.toml"
       - "mise-tasks/**"
       - "scripts/tests/**"
