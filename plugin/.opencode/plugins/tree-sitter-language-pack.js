@@ -1,6 +1,6 @@
 // AI-RULEZ :: GENERATED FILE — DO NOT EDIT
-// Content-Hash: blake3:e86da531183c9254f868b83045cbc54b802eda17f70c67947ba78e7e2c3bfeb9
-// Source-Hash: blake3:38e670e1fc13b9118ff1f891b6b07c06bad8f3635d67ecceed03bb9281c8eae1
+// Content-Hash: blake3:1cd1331fdeedd10799bbfbdd9e57436901a2e446e41eeb73af738e8e081948c3
+// Source-Hash: blake3:b838620098d6ab4665dc6bdde958ff0765c7fe08b238195b8cee8a899af8e99a
 // Schema-Version: v1
 
 import { spawn } from "node:child_process";
@@ -43,8 +43,7 @@ function runCli(args, context) {
       if (error.code === "ENOENT") {
         resolve({
           title: "ts-pack CLI not found",
-          output:
-            "Install the ts-pack CLI with `brew install xberg-io/tap/ts-pack`, or run it via `npx @xberg-io/ts-pack-cli` (the CLI proxy's bin is `ts-pack`).",
+          output: "Install the ts-pack CLI with `brew install xberg-io/tap/ts-pack`, or `cargo install ts-pack-cli`.",
           metadata: { exitCode: 127, command: "ts-pack", subcommand: args[0] },
         });
         return;

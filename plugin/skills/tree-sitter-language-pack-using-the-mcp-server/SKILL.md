@@ -5,8 +5,8 @@ name: tree-sitter-language-pack-using-the-mcp-server
 
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
-Content-Hash: blake3:32a9429c4f5c314cfb1deb3eca4cab52f4c96283e07d68ecf017e925486e72ac
-Source-Hash: blake3:38e670e1fc13b9118ff1f891b6b07c06bad8f3635d67ecceed03bb9281c8eae1
+Content-Hash: blake3:65227ac137c5a1b9b7a5c80e9b8d5cb0aa9364a1783e2fb03abb67e01c443c3e
+Source-Hash: blake3:b838620098d6ab4665dc6bdde958ff0765c7fe08b238195b8cee8a899af8e99a
 Schema-Version: v1
 -->
 
@@ -29,9 +29,9 @@ the runtime supports MCP.
 The plugin auto-registers the server. Its command is the bundled launcher
 `scripts/mcp-launch.sh`, which execs `ts-pack mcp`. On first run the launcher
 resolves a `ts-pack` binary: it reuses one already on `PATH` or cached in the
-plugin's `bin/`, then tries `npx`, then Homebrew, then downloads a prebuilt
-from the tool's latest GitHub release. Override the channel with
-`TS_PACK_LAUNCHER=auto|npx|brew|download`.
+plugin's `bin/`, provided it is at least the release this plugin ships with,
+then tries Homebrew, then downloads that exact release from GitHub. Override
+the channel with `TS_PACK_LAUNCHER=auto|brew|download`.
 
 The `mcp` subcommand ships in a recent release of the tool. If an older
 `ts-pack` is already on `PATH`, it may not expose `mcp` yet — upgrade the binary

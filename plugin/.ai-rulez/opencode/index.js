@@ -38,8 +38,7 @@ function runCli(args, context) {
       if (error.code === "ENOENT") {
         resolve({
           title: "ts-pack CLI not found",
-          output:
-            "Install the ts-pack CLI with `brew install xberg-io/tap/ts-pack`, or run it via `npx @xberg-io/ts-pack-cli` (the CLI proxy's bin is `ts-pack`).",
+          output: "Install the ts-pack CLI with `brew install xberg-io/tap/ts-pack`, or `cargo install ts-pack-cli`.",
           metadata: { exitCode: 127, command: "ts-pack", subcommand: args[0] },
         });
         return;

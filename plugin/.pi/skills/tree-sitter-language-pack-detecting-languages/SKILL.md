@@ -6,7 +6,7 @@ name: tree-sitter-language-pack-detecting-languages
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
 Content-Hash: blake3:1652855d0d25051247e7728976192ad988833c4913509f8924c67d16628472c6
-Source-Hash: blake3:38e670e1fc13b9118ff1f891b6b07c06bad8f3635d67ecceed03bb9281c8eae1
+Source-Hash: blake3:b838620098d6ab4665dc6bdde958ff0765c7fe08b238195b8cee8a899af8e99a
 Schema-Version: v1
 -->
 
