@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.xberg-io/tree-sitter-language-pack",
+  "title": "Tree-Sitter Language Pack",
+  "description": "Parse source code, extract structure and symbols, and chunk files for LLMs across 300+ languages.",
+  "version": "1.27.0",
+  "websiteUrl": "https://xberg.io",
+  "repository": {
+    "url": "https://github.com/xberg-io/tree-sitter-language-pack",
+    "source": "github",
+    "id": "820491775"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@xberg-io/ts-pack-cli",
+      "version": "1.27.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--transport",
+          "value": "stdio"
+        }
+      ]
+    }
+  ]
+}
