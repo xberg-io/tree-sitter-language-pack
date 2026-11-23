@@ -66,6 +66,11 @@ dbg_macro = "deny"
 unsafe_code = "deny"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(alef)'] }
 
+# The Python sdist ships a trimmed workspace, so dependencies only the omitted crates use look unused
+# there, and the sdist smoke build denies warnings. ~keep
+[workspace.lints.cargo]
+unused_workspace_dependencies = "allow"
+
 [profile.release]
 lto = "thin"
 codegen-units = 1
