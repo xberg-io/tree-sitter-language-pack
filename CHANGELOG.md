@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.27.2] - 2026-11-23
+
+### Changed
+
+- Regenerate the bindings with Alef 0.132.5: generated Node, WASM, Python, PHP, Java and Elixir output is lint-clean.
+- Re-pin the e2e download scripts to the current release.
+
 ## [1.27.1] - 2026-11-22
 
 ### Added

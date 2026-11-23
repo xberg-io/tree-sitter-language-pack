@@ -183,7 +183,7 @@ return nativeFailure(_that.message);case _:
 
 class AlefBridgeErrorWire_Error extends AlefBridgeErrorWire {
   const AlefBridgeErrorWire_Error({required this.error}): super._();
-  
+
 
  final  Error error;
 
@@ -248,7 +248,7 @@ as Error,
 @override
 @pragma('vm:prefer-inline')
 $ErrorCopyWith<$Res> get error {
-  
+
   return $ErrorCopyWith<$Res>(_self.error, (value) {
     return _then(_self.copyWith(error: value));
   });
@@ -260,7 +260,7 @@ $ErrorCopyWith<$Res> get error {
 
 class AlefBridgeErrorWire_InvalidInput extends AlefBridgeErrorWire {
   const AlefBridgeErrorWire_InvalidInput({required this.message}): super._();
-  
+
 
  final  String message;
 
@@ -328,7 +328,7 @@ as String,
 
 class AlefBridgeErrorWire_NativeFailure extends AlefBridgeErrorWire {
   const AlefBridgeErrorWire_NativeFailure({required this.message}): super._();
-  
+
 
  final  String message;
 
@@ -580,7 +580,7 @@ return other(_that.field0);case _:
 
 class DocstringFormat_PythonTripleQuote extends DocstringFormat {
   const DocstringFormat_PythonTripleQuote(): super._();
-  
+
 
 
 
@@ -612,7 +612,7 @@ String toString() {
 
 class DocstringFormat_JSDoc extends DocstringFormat {
   const DocstringFormat_JSDoc(): super._();
-  
+
 
 
 
@@ -644,7 +644,7 @@ String toString() {
 
 class DocstringFormat_Rustdoc extends DocstringFormat {
   const DocstringFormat_Rustdoc(): super._();
-  
+
 
 
 
@@ -676,7 +676,7 @@ String toString() {
 
 class DocstringFormat_GoDoc extends DocstringFormat {
   const DocstringFormat_GoDoc(): super._();
-  
+
 
 
 
@@ -708,7 +708,7 @@ String toString() {
 
 class DocstringFormat_JavaDoc extends DocstringFormat {
   const DocstringFormat_JavaDoc(): super._();
-  
+
 
 
 
@@ -740,7 +740,7 @@ String toString() {
 
 class DocstringFormat_Other extends DocstringFormat {
   const DocstringFormat_Other({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1034,7 +1034,7 @@ return cacheLock(_that.field0);case _:
 
 class Error_LanguageNotFound extends Error {
   const Error_LanguageNotFound({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1059,7 +1059,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.languageNotFound(field0: $field0)';
+  return "Language '" + field0.toString() + "' not found";
 }
 
 
@@ -1102,7 +1102,7 @@ as String,
 
 class Error_DynamicLoad extends Error {
   const Error_DynamicLoad({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1127,7 +1127,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.dynamicLoad(field0: $field0)';
+  return "Dynamic library load error: " + field0.toString() + "";
 }
 
 
@@ -1170,7 +1170,7 @@ as String,
 
 class Error_NullLanguagePointer extends Error {
   const Error_NullLanguagePointer({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1195,7 +1195,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.nullLanguagePointer(field0: $field0)';
+  return "Language function returned null pointer for '" + field0.toString() + "'";
 }
 
 
@@ -1238,7 +1238,7 @@ as String,
 
 class Error_ParserSetup extends Error {
   const Error_ParserSetup({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1263,7 +1263,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.parserSetup(field0: $field0)';
+  return "Failed to set parser language: " + field0.toString() + "";
 }
 
 
@@ -1306,7 +1306,7 @@ as String,
 
 class Error_LockPoisoned extends Error {
   const Error_LockPoisoned({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1331,7 +1331,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.lockPoisoned(field0: $field0)';
+  return "Registry lock poisoned: " + field0.toString() + "";
 }
 
 
@@ -1374,7 +1374,7 @@ as String,
 
 class Error_Config extends Error {
   const Error_Config({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1399,7 +1399,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.config(field0: $field0)';
+  return "Configuration error: " + field0.toString() + "";
 }
 
 
@@ -1442,7 +1442,7 @@ as String,
 
 class Error_ParseFailed extends Error {
   const Error_ParseFailed(): super._();
-  
+
 
 
 
@@ -1460,7 +1460,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-    return 'Error.parseFailed()';
+  return "Parse failed: parsing returned no tree";
 }
 
 
@@ -1474,7 +1474,7 @@ String toString() {
 
 class Error_ParseTimeout extends Error {
   const Error_ParseTimeout({required this.timeoutMs}): super._();
-  
+
 
  final  BigInt timeoutMs;
 
@@ -1499,7 +1499,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.parseTimeout(timeoutMs: $timeoutMs)';
+  return "Parse cancelled: exceeded the configured budget of " + timeoutMs.toString() + " ms";
 }
 
 
@@ -1542,7 +1542,7 @@ as BigInt,
 
 class Error_QueryError extends Error {
   const Error_QueryError({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1567,7 +1567,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.queryError(field0: $field0)';
+  return "Query error: " + field0.toString() + "";
 }
 
 
@@ -1610,7 +1610,7 @@ as String,
 
 class Error_InvalidRange extends Error {
   const Error_InvalidRange({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1635,7 +1635,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.invalidRange(field0: $field0)';
+  return "Invalid byte range: " + field0.toString() + "";
 }
 
 
@@ -1678,7 +1678,7 @@ as String,
 
 class Error_Download extends Error {
   const Error_Download({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1703,7 +1703,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.download(field0: $field0)';
+  return "Download error: " + field0.toString() + "";
 }
 
 
@@ -1746,7 +1746,7 @@ as String,
 
 class Error_ChecksumMismatch extends Error {
   const Error_ChecksumMismatch({required this.file, required this.expected, required this.actual}): super._();
-  
+
 
  final  String file;
  final  String expected;
@@ -1773,7 +1773,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.checksumMismatch(file: $file, expected: $expected, actual: $actual)';
+  return "Checksum mismatch for '" + file.toString() + "': expected " + expected.toString() + ", got " + actual.toString() + "";
 }
 
 
@@ -1818,7 +1818,7 @@ as String,
 
 class Error_CacheLock extends Error {
   const Error_CacheLock({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -1843,7 +1843,7 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'Error.cacheLock(field0: $field0)';
+  return "Download cache lock error: " + field0.toString() + "";
 }
 
 
@@ -2100,7 +2100,7 @@ return other(_that.field0);case _:
 
 class StructureKind_Function extends StructureKind {
   const StructureKind_Function(): super._();
-  
+
 
 
 
@@ -2132,7 +2132,7 @@ String toString() {
 
 class StructureKind_Method extends StructureKind {
   const StructureKind_Method(): super._();
-  
+
 
 
 
@@ -2164,7 +2164,7 @@ String toString() {
 
 class StructureKind_Class extends StructureKind {
   const StructureKind_Class(): super._();
-  
+
 
 
 
@@ -2196,7 +2196,7 @@ String toString() {
 
 class StructureKind_Struct extends StructureKind {
   const StructureKind_Struct(): super._();
-  
+
 
 
 
@@ -2228,7 +2228,7 @@ String toString() {
 
 class StructureKind_Interface extends StructureKind {
   const StructureKind_Interface(): super._();
-  
+
 
 
 
@@ -2260,7 +2260,7 @@ String toString() {
 
 class StructureKind_Enum extends StructureKind {
   const StructureKind_Enum(): super._();
-  
+
 
 
 
@@ -2292,7 +2292,7 @@ String toString() {
 
 class StructureKind_Module extends StructureKind {
   const StructureKind_Module(): super._();
-  
+
 
 
 
@@ -2324,7 +2324,7 @@ String toString() {
 
 class StructureKind_Trait extends StructureKind {
   const StructureKind_Trait(): super._();
-  
+
 
 
 
@@ -2356,7 +2356,7 @@ String toString() {
 
 class StructureKind_Impl extends StructureKind {
   const StructureKind_Impl(): super._();
-  
+
 
 
 
@@ -2388,7 +2388,7 @@ String toString() {
 
 class StructureKind_Namespace extends StructureKind {
   const StructureKind_Namespace(): super._();
-  
+
 
 
 
@@ -2420,7 +2420,7 @@ String toString() {
 
 class StructureKind_Other extends StructureKind {
   const StructureKind_Other({required this.field0}): super._();
-  
+
 
  final  String field0;
 
@@ -2690,7 +2690,7 @@ return other(_that.field0);case _:
 
 class SymbolKind_Variable extends SymbolKind {
   const SymbolKind_Variable(): super._();
-  
+
 
 
 
@@ -2722,7 +2722,7 @@ String toString() {
 
 class SymbolKind_Constant extends SymbolKind {
   const SymbolKind_Constant(): super._();
-  
+
 
 
 
@@ -2754,7 +2754,7 @@ String toString() {
 
 class SymbolKind_Function extends SymbolKind {
   const SymbolKind_Function(): super._();
-  
+
 
 
 
@@ -2786,7 +2786,7 @@ String toString() {
 
 class SymbolKind_Class extends SymbolKind {
   const SymbolKind_Class(): super._();
-  
+
 
 
 
@@ -2818,7 +2818,7 @@ String toString() {
 
 class SymbolKind_Type extends SymbolKind {
   const SymbolKind_Type(): super._();
-  
+
 
 
 
@@ -2850,7 +2850,7 @@ String toString() {
 
 class SymbolKind_Interface extends SymbolKind {
   const SymbolKind_Interface(): super._();
-  
+
 
 
 
@@ -2882,7 +2882,7 @@ String toString() {
 
 class SymbolKind_Enum extends SymbolKind {
   const SymbolKind_Enum(): super._();
-  
+
 
 
 
@@ -2914,7 +2914,7 @@ String toString() {
 
 class SymbolKind_Module extends SymbolKind {
   const SymbolKind_Module(): super._();
-  
+
 
 
 
@@ -2946,7 +2946,7 @@ String toString() {
 
 class SymbolKind_Other extends SymbolKind {
   const SymbolKind_Other({required this.field0}): super._();
-  
+
 
  final  String field0;
 

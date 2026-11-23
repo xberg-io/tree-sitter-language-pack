@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@xberg-io/tree-sitter-language-pack-wasm':
-        specifier: 1.23.1
-        version: 1.23.1
+        specifier: 1.27.1
+        version: 1.27.1
       rollup:
         specifier: ^4.66.0
         version: 4.67.4
@@ -308,8 +308,8 @@ packages:
   '@vitest/spy@5.0.5':
     resolution: {integrity: sha512-lwJRExuH417257Q5wv9QYugN9IMJkoxcrKrYxGPQkBzl7wlNpTUxD/5yNX4ESKVUIShKPgkGchYPFMWOOk0wzw==}
 
-  '@xberg-io/tree-sitter-language-pack-wasm@1.23.1':
-    resolution: {integrity: sha512-4UBvyAHf0CbOMx5+0xdxP8xtb4+t5RFE7qSNqK0F3WqntbYCliQSZYfm1T1aKG9N2Tfucimjgxzg/rLaW1u7Zw==}
+  '@xberg-io/tree-sitter-language-pack-wasm@1.27.1':
+    resolution: {integrity: sha512-sNFbyjhyKSyhHcqw6UdN5g7eZ2V9Y7s5KvGK10q6So5nQgI4rQcCxCw+l/2PQmFl4gjGkAsXHeSalzZRlGXD9Q==}
 
   assertion-error@2.0.1:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
@@ -725,7 +725,7 @@ snapshots:
 
   '@vitest/spy@5.0.5': {}
 
-  '@xberg-io/tree-sitter-language-pack-wasm@1.23.1': {}
+  '@xberg-io/tree-sitter-language-pack-wasm@1.27.1': {}
 
   assertion-error@2.0.1: {}
 
