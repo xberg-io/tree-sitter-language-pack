@@ -5,7 +5,7 @@ requires = ["hatchling"]
 
 [project]
 name = "ts-pack-cli"
-version = "1.27.2"
+version = "1.27.3"
 description = "CLI proxy for ts-pack — downloads and runs the native ts-pack binary from GitHub releases."
 readme = "README.md"
 license = { text = "MIT" }

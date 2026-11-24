@@ -1,6 +1,6 @@
 [plugin]
 name = "tree-sitter-language-pack"
-version = "1.27.2"
+version = "1.27.3"
 runtimes = [
   "claude",
   "cursor",

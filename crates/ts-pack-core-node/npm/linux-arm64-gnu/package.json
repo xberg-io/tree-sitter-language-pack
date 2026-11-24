@@ -10,7 +10,7 @@
     }
   ],
   "name": "@xberg-io/tree-sitter-language-pack-linux-arm64-gnu",
-  "version": "1.27.2",
+  "version": "1.27.3",
   "license": "MIT",
   "repository": {
     "type": "git",
