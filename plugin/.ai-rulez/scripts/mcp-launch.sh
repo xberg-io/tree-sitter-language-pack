@@ -5,7 +5,7 @@ REPO="xberg-io/tree-sitter-language-pack"
 # ~keep Rewritten by scripts/sync_plugin_version.py on every release. The plugin only accepts a
 # ~keep binary at or above this version, and downloads exactly this release, so a plugin update
 # ~keep cannot keep running an older ts-pack that happens to be installed.
-PINNED_VERSION="1.27.3"
+PINNED_VERSION="1.27.4"
 
 log() { printf 'ts-pack-launch: %s\n' "$*" >&2; }
 die() {

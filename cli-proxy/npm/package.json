@@ -1,6 +1,6 @@
 {
   "name": "@xberg-io/ts-pack-cli",
-  "version": "1.27.3",
+  "version": "1.27.4",
   "mcpName": "io.github.xberg-io/tree-sitter-language-pack",
   "description": "CLI proxy for ts-pack — runs the native ts-pack binary shipped in a per-platform package, downloading it from GitHub releases only as a fallback.",
   "license": "MIT",

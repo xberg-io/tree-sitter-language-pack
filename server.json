@@ -3,7 +3,7 @@
   "name": "io.github.xberg-io/tree-sitter-language-pack",
   "title": "Tree-Sitter Language Pack",
   "description": "Parse source code, extract structure and symbols, and chunk files for LLMs across 300+ languages.",
-  "version": "1.27.3",
+  "version": "1.27.4",
   "websiteUrl": "https://xberg.io",
   "repository": {
     "url": "https://github.com/xberg-io/tree-sitter-language-pack",
@@ -15,7 +15,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@xberg-io/ts-pack-cli",
-      "version": "1.27.3",
+      "version": "1.27.4",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"

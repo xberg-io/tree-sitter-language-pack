@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.27.4] - 2026-11-25
+
+### Added
+
+- Ship the CLI binary inside per-platform npm packages (`@xberg-io/ts-pack-cli-<os>-<cpu>[-<libc>]`) that the `@xberg-io/ts-pack-cli` launcher resolves first, so `npx` works in sandboxes without network access. The GitHub download remains the last-resort fallback.
+
+### Changed
+
+- Update 33 grammars to their latest revisions: abl, al, baml, bpftrace, clojure, csharp, dotenv, erlang, fsharp, fsharp_signature, gnuplot, groovy, lean, magik, matlab, moonbit, nix, pascal, perl, php, postgres, proto, rescript, sas, scala, slint, sql, swift, sysml, systemverilog, t32, vimdoc and zsh.
+
+### Fixed
+
+- Refresh the `.ai-rulez` lock for ai-rulez 5.15.0 so the plugin runtime packaging check passes.
+- Let the Python sdist smoke build warn on the trimmed workspace manifest's lints instead of failing the release.
+
 ## [1.27.3] - 2026-11-24
 
 ### Fixed

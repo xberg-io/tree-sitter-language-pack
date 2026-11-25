@@ -36,7 +36,7 @@ let package = Package(
     // sibling RustBridge target below and link against this binary.
     .binaryTarget(
       name: "RustBridgeBinary",
-      url: "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v1.27.3/TreeSitterLanguagePack-rs.artifactbundle.zip",
+      url: "https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v1.27.4/TreeSitterLanguagePack-rs.artifactbundle.zip",
       checksum: "7b43c36ae46f6385913cff0df4ef3f3523598e531212dd809a2b7a6fef987e29"
     ),
     // RustBridge: Swift wrapper module owning the swift-bridge generated
