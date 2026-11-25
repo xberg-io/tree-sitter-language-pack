@@ -34,9 +34,10 @@ newer Kimi releases.
 ### Binary requirement
 
 The bundled MCP launcher (`scripts/mcp-launch.sh`) resolves a `ts-pack` binary
-automatically on first run: it reuses one already on `PATH`, then tries
-`npx`, then Homebrew, then a prebuilt download from the tool's latest
-GitHub release. No manual install is required to use the MCP server.
+automatically on first run: it reuses a cached or `PATH` binary at or above the pinned
+release, then runs `npx --yes @xberg-io/ts-pack-cli@<pinned version>` when Node is available,
+then falls back to downloading that release from GitHub. Homebrew is used only with
+`TS_PACK_LAUNCHER=brew`. No manual install is required to use the MCP server.
 
 To install the `ts-pack` CLI yourself:
 

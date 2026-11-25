@@ -15,11 +15,13 @@ die() {
 
 LAUNCHER="${TS_PACK_LAUNCHER:-auto}"
 case "$LAUNCHER" in
-auto | brew | download) ;;
-*) die "invalid TS_PACK_LAUNCHER='$LAUNCHER' (expected auto|brew|download)" ;;
+auto | npx | brew | download) ;;
+*) die "invalid TS_PACK_LAUNCHER='$LAUNCHER' (expected auto|npx|brew|download)" ;;
 esac
 
 want() { [ "$LAUNCHER" = "auto" ] || [ "$LAUNCHER" = "$1" ]; }
+# brew is never part of auto: it needs network and a package manager a sandbox does not have.
+want_explicit() { [ "$LAUNCHER" = "$1" ]; }
 
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-}"
 if [ -z "$PLUGIN_ROOT" ]; then
@@ -63,7 +65,17 @@ if have "$BINARY_NAME"; then
   fi
 fi
 
-if want brew && have brew; then
+NPM_PACKAGE="@xberg-io/ts-pack-cli"
+# ~keep npx prints its own progress on stdout unless told otherwise, which would corrupt the MCP
+# ~keep stdio stream, so its stdout is never touched: --yes skips the install prompt, and npm's
+# ~keep own chatter is silenced or sent to stderr. The version is exact, never a range.
+if want npx && have node && have npx; then
+  log "running $NPM_PACKAGE@$PINNED_VERSION via npx ..."
+  export npm_config_update_notifier=false npm_config_fund=false npm_config_audit=false
+  exec npx --yes --loglevel=error "$NPM_PACKAGE@$PINNED_VERSION" "$@"
+fi
+
+if want_explicit brew && have brew; then
   log "installing via 'brew install xberg-io/tap/ts-pack' ..."
   if brew install xberg-io/tap/ts-pack >&2; then
     if have "$BINARY_NAME"; then
@@ -177,6 +189,7 @@ if want download; then
 fi
 
 die "could not locate or install ts-pack. Install it manually with one of:
+  npm install -g ${NPM_PACKAGE}@${PINNED_VERSION}  (or run it with npx; needs node)
   brew install xberg-io/tap/ts-pack
   cargo install ts-pack-cli
   or download a prebuilt archive from https://github.com/${REPO}/releases/tag/v${PINNED_VERSION}

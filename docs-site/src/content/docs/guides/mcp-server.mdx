@@ -286,7 +286,7 @@ code itself — the agent supplies it when it calls `process`.
 
 ## Using the Plugin Instead
 
-For most users, installing the tree-sitter-language-pack plugin from the self-hosted [`xberg-io/tree-sitter-language-pack`](https://github.com/xberg-io/tree-sitter-language-pack) marketplace is simpler than manual MCP registration. The plugin ships a launcher script (`scripts/mcp-launch.sh`) that resolves the `ts-pack` CLI at runtime — via a cached binary, `npx @xberg-io/ts-pack-cli`, Homebrew, or a prebuilt release download — and registers the `tree-sitter-language-pack` server for you.
+For most users, installing the tree-sitter-language-pack plugin from the self-hosted [`xberg-io/tree-sitter-language-pack`](https://github.com/xberg-io/tree-sitter-language-pack) marketplace is simpler than manual MCP registration. The plugin ships a launcher script (`scripts/mcp-launch.sh`) that resolves the `ts-pack` CLI at runtime — via a cached or `PATH` binary, the pinned `npx @xberg-io/ts-pack-cli` release, or a prebuilt release download (Homebrew only with `TS_PACK_LAUNCHER=brew`) — and registers the `tree-sitter-language-pack` server for you.
 
 See [AI Coding Assistants](/guides/ai-coding-assistants/) for installation steps.
 

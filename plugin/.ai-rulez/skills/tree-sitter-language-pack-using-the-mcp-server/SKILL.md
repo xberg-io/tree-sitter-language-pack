@@ -29,8 +29,9 @@ The plugin auto-registers the server. Its command is the bundled launcher
 `scripts/mcp-launch.sh`, which execs `ts-pack mcp`. On first run the launcher
 resolves a `ts-pack` binary: it reuses one already on `PATH` or cached in the
 plugin's `bin/`, provided it is at least the release this plugin ships with,
-then tries Homebrew, then downloads that exact release from GitHub. Override
-the channel with `TS_PACK_LAUNCHER=auto|brew|download`.
+then runs the exact pinned `@xberg-io/ts-pack-cli` release through `npx` when Node is
+available, then downloads that release from GitHub. Homebrew is used only when you
+select it. Override the channel with `TS_PACK_LAUNCHER=auto|npx|brew|download`.
 
 The `mcp` subcommand ships in a recent release of the tool. If an older
 `ts-pack` is already on `PATH`, it may not expose `mcp` yet — upgrade the binary
