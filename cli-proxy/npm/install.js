@@ -2,6 +2,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import https from "node:https";
+import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -35,6 +36,41 @@ function targetTriple() {
 
 function binaryName() {
   return os.type() === "Windows_NT" ? `${BIN_NAME}.exe` : BIN_NAME;
+}
+
+const SCOPE_PACKAGE = "@xberg-io/ts-pack-cli";
+// ~keep Linux binaries are glibc builds only; a musl host has no matching platform package.
+const BUNDLED_PLATFORMS = {
+  "darwin-arm64": "darwin-arm64",
+  "darwin-x64": "darwin-x64",
+  "win32-x64": "win32-x64",
+  "win32-arm64": "win32-arm64",
+  "linux-x64": "linux-x64-gnu",
+  "linux-arm64": "linux-arm64-gnu",
+};
+
+export function bundledPackageName(platform = process.platform, arch = process.arch) {
+  const suffix = BUNDLED_PLATFORMS[`${platform}-${arch}`];
+  return suffix ? `${SCOPE_PACKAGE}-${suffix}` : null;
+}
+
+// Resolves the binary shipped by the platform package listed in optionalDependencies, so the CLI
+// runs with no network access. Returns null when no such package is installed.
+export function resolveBundledBinary({
+  platform = process.platform,
+  arch = process.arch,
+  resolve = createRequire(import.meta.url).resolve,
+} = {}) {
+  const name = bundledPackageName(platform, arch);
+  if (!name) return null;
+  let manifest;
+  try {
+    manifest = resolve(`${name}/package.json`);
+  } catch {
+    return null;
+  }
+  const binary = path.join(path.dirname(manifest), "bin", platform === "win32" ? `${BIN_NAME}.exe` : BIN_NAME);
+  return fs.existsSync(binary) ? binary : null;
 }
 
 function httpGetBuffer(url, { headers = {} } = {}, maxRedirects = 5) {

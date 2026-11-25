@@ -6,7 +6,16 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { test } from "node:test";
 
-import { archiveName, assetUrl, expectedDigest, main, packageVersion, verifyArchive } from "./install.js";
+import {
+  archiveName,
+  assetUrl,
+  bundledPackageName,
+  expectedDigest,
+  main,
+  packageVersion,
+  resolveBundledBinary,
+  verifyArchive,
+} from "./install.js";
 
 const sha = (buf) => crypto.createHash("sha256").update(buf).digest("hex");
 
@@ -107,3 +116,95 @@ test("main refuses to install when the release has no SHA256SUMS", async (t) => 
   };
   await assert.rejects(main({ fetchBuffer, binDir, version: "9.8.7" }), /refusing to install an unverified binary/);
 });
+
+const HERE = path.dirname(new URL(import.meta.url).pathname);
+const INSTALL_MARKER = "  const finalPath = path.join(binDir, binName);";
+
+function fakePlatformPackage(root, name, binaryName) {
+  const dir = path.join(root, "node_modules", ...name.split("/"));
+  fs.mkdirSync(path.join(dir, "bin"), { recursive: true });
+  fs.writeFileSync(path.join(dir, "package.json"), JSON.stringify({ name, version: "0.0.0" }));
+  const binary = path.join(dir, "bin", binaryName);
+  fs.writeFileSync(binary, '#!/bin/sh\necho bundled-binary "$@"\n');
+  fs.chmodSync(binary, 0o755);
+  return binary;
+}
+
+function stageLauncher(root) {
+  fs.mkdirSync(path.join(root, "bin"));
+  fs.copyFileSync(path.join(HERE, "package.json"), path.join(root, "package.json"));
+  fs.copyFileSync(path.join(HERE, "bin", "ts-pack.js"), path.join(root, "bin", "ts-pack.js"));
+  const installSource = fs.readFileSync(path.join(HERE, "install.js"), "utf8");
+  assert.ok(installSource.includes(INSTALL_MARKER), "install.js main() body changed; update this test");
+  fs.writeFileSync(
+    path.join(root, "install.js"),
+    installSource.replace(INSTALL_MARKER, `  throw new Error("download attempted");\n${INSTALL_MARKER}`),
+  );
+}
+
+test("bundledPackageName maps each release platform and is null for unknown ones", () => {
+  const scope = "@xberg-io/ts-pack-cli";
+  assert.equal(bundledPackageName("linux", "x64"), `${scope}-linux-x64-gnu`);
+  assert.equal(bundledPackageName("linux", "arm64"), `${scope}-linux-arm64-gnu`);
+  assert.equal(bundledPackageName("darwin", "arm64"), `${scope}-darwin-arm64`);
+  assert.equal(bundledPackageName("darwin", "x64"), `${scope}-darwin-x64`);
+  assert.equal(bundledPackageName("win32", "x64"), `${scope}-win32-x64`);
+  assert.equal(bundledPackageName("win32", "arm64"), `${scope}-win32-arm64`);
+  assert.equal(bundledPackageName("freebsd", "x64"), null);
+});
+
+test("resolveBundledBinary returns the platform package binary and null when it is absent", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "ts-pack-bundled-"));
+  try {
+    const gnu = fakePlatformPackage(root, "@xberg-io/ts-pack-cli-linux-x64-gnu", "ts-pack");
+    const resolve = (id) => {
+      const file = path.join(root, "node_modules", ...id.split("/"));
+      if (!fs.existsSync(file)) throw new Error(`Cannot find module ${id}`);
+      return file;
+    };
+    assert.equal(resolveBundledBinary({ platform: "linux", arch: "x64", resolve }), gnu);
+    assert.equal(resolveBundledBinary({ platform: "linux", arch: "arm64", resolve }), null);
+    assert.equal(resolveBundledBinary({ platform: "freebsd", arch: "x64", resolve }), null);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test(
+  "the launcher runs the bundled platform package and never reaches the download path",
+  { skip: process.platform === "win32" },
+  () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "ts-pack-launcher-"));
+    try {
+      stageLauncher(root);
+      const pkg = bundledPackageName();
+      assert.ok(pkg, `no bundled package is defined for ${process.platform}-${process.arch}`);
+      fakePlatformPackage(root, pkg, "ts-pack");
+      const result = spawnSync(process.execPath, [path.join(root, "bin", "ts-pack.js"), "--flag", "x"], {
+        encoding: "utf8",
+      });
+      assert.equal(result.stdout.trim(), "bundled-binary --flag x");
+      assert.equal(result.status, 0);
+      assert.doesNotMatch(result.stderr, /download/);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  },
+);
+
+test(
+  "the launcher falls through to the download path when no platform package is installed",
+  { skip: process.platform === "win32" },
+  () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "ts-pack-launcher-"));
+    try {
+      stageLauncher(root);
+      const result = spawnSync(process.execPath, [path.join(root, "bin", "ts-pack.js")], { encoding: "utf8" });
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, /attempting download/);
+      assert.match(result.stderr, /download attempted/);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  },
+);
