@@ -228,7 +228,7 @@ tree-sitter-language-pack supports **371** languages.
 | Pascal | `.pas` | [Isopod/tree-sitter-pascal](https://github.com/Isopod/tree-sitter-pascal) | 14 |
 | Pem | `.pem` | [tree-sitter-grammars/tree-sitter-pem](https://github.com/tree-sitter-grammars/tree-sitter-pem) | 14 |
 | Penrose | `.style`, `.substance`, `.domain` | [klukaszek/tree-sitter-penrose](https://github.com/klukaszek/tree-sitter-penrose) | 14 |
-| Perl | `.pl`, `.pm` | [tree-sitter-perl/tree-sitter-perl](https://github.com/tree-sitter-perl/tree-sitter-perl) | 15 |
+| Perl | `.pl`, `.pm` | [tree-sitter-perl/tree-sitter-perl](https://github.com/tree-sitter-perl/tree-sitter-perl) | 14 |
 | PGN | `.pgn` | [rolandwalker/tree-sitter-pgn](https://github.com/rolandwalker/tree-sitter-pgn) | 14 |
 | PHP | `.php` | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php) | 14 |
 | Phpdoc | — | [claytonrcarter/tree-sitter-phpdoc](https://github.com/claytonrcarter/tree-sitter-phpdoc) | 14 |
@@ -396,7 +396,6 @@ The following grammars ship at a higher ABI because their committed `parser.c` i
 - Haxe (ABI 15)
 - Jai (ABI 15)
 - Lean (ABI 15)
-- Perl (ABI 15)
 - Postgres (ABI 15)
 - Razor (ABI 15)
 - Scala (ABI 15)

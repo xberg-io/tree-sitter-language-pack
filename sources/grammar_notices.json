@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "dc3b9bbd362b96bdf5cba3695aab5fda176dfc0b008f788d75c13314b0b10d3e",
+  "definitions_sha256": "8d0c982494dcd92a9e5300b103bd3d9727544b3acbc198c43aa5f760df3ef1cf",
   "languages": {
     "abl": {
       "branch": null,
@@ -13,7 +13,7 @@
       "local": null,
       "repo": "https://github.com/usagi-coffee/tree-sitter-abl",
       "resolution": "github-license",
-      "rev": "72397c45c19e62013efad91b2b2d1ac2453037f8",
+      "rev": "0caa50726a3006eba419eabc30892d0d7944cd86",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -109,7 +109,7 @@
       "local": null,
       "repo": "https://github.com/SShadowS/tree-sitter-al",
       "resolution": "github-license",
-      "rev": "f8c6d8b65c14fafcdfa2f7318762780d8bd14022",
+      "rev": "431b9615efb58dfa2e3d8b14f05b9f75365bfbdc",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -285,7 +285,7 @@
       "local": null,
       "repo": "https://github.com/BoundaryML/baml-treesitter",
       "resolution": "github-license",
-      "rev": "c1976f2ef354537c0141ccef83a92bccb15a0246",
+      "rev": "d481eb9fd6cb9fd401442abf840341a49a10bcf3",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
@@ -429,7 +429,7 @@
       "local": null,
       "repo": "https://github.com/sgruszka/tree-sitter-bpftrace",
       "resolution": "github-license",
-      "rev": "75d72c276910304b19cd76a990fe6ba7beebb59b",
+      "rev": "fbfd2612d3a8f56973672d978fe9facd7c33dbb4",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -693,7 +693,7 @@
       "local": null,
       "repo": "https://github.com/sogaiu/tree-sitter-clojure",
       "resolution": "github-license",
-      "rev": "e43eff80d17cf34852dcd92ca5e6986d23a7040f",
+      "rev": "56a4c9de7940d18bad086cce0815544e0ac2b7f6",
       "spdx": "CC0-1.0",
       "spdx_source": "detected"
     },
@@ -853,7 +853,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter/tree-sitter-c-sharp",
       "resolution": "github-license",
-      "rev": "8c0abe0b84a3681d3e6852ce2e2a1eecb4f731c5",
+      "rev": "e3971fcb53bf5573a7e0d4ff6db46d2a77a4bf71",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1145,7 +1145,7 @@
       "local": null,
       "repo": "https://github.com/pnx/tree-sitter-dotenv",
       "resolution": "github-license",
-      "rev": "b4f0b0d154a348d4ae57dfc4d37f128559fbde6d",
+      "rev": "4c9b86bcb61e3dac3225535f6eaf23487a66337f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1421,7 +1421,7 @@
       "local": null,
       "repo": "https://github.com/WhatsApp/tree-sitter-erlang",
       "resolution": "github-license",
-      "rev": "62c82e67b73e13f3ef06e4c8c07ff035a8235d30",
+      "rev": "d40106aa0d6077beea08c5e14b901d98ab79d224",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
@@ -1613,7 +1613,7 @@
       "local": null,
       "repo": "https://github.com/ionide/tree-sitter-fsharp",
       "resolution": "github-license",
-      "rev": "aefd0c8741bdf3aeb827a228aa4a996a6536697e",
+      "rev": "4cf8d030ac820f1c181670f0c49e7964fe3c614b",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1629,7 +1629,7 @@
       "local": null,
       "repo": "https://github.com/ionide/tree-sitter-fsharp",
       "resolution": "github-license",
-      "rev": "aefd0c8741bdf3aeb827a228aa4a996a6536697e",
+      "rev": "4cf8d030ac820f1c181670f0c49e7964fe3c614b",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -1901,7 +1901,7 @@
       "local": null,
       "repo": "https://github.com/dpezto/tree-sitter-gnuplot",
       "resolution": "github-license",
-      "rev": "8344b33e6b6a3b81bf780ab5b286ca6d95e60027",
+      "rev": "c433242ddca2feda59dde22d9929d1e3124a541a",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -2061,7 +2061,7 @@
       "local": null,
       "repo": "https://github.com/Decodetalkers/tree-sitter-groovy",
       "resolution": "github-license",
-      "rev": "527b84430095392327f9237325e65bd460bd409c",
+      "rev": "44989d65d8e8142344583a1976039b5bbeb280c7",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -2813,7 +2813,7 @@
       "local": null,
       "repo": "https://github.com/Julian/tree-sitter-lean",
       "resolution": "github-license",
-      "rev": "0d28e5d6e8c4755f5df7ef9bde3b6ec6f59fae94",
+      "rev": "f35fa9b1ad3edd22c2b07b61f569a6d9c8e07d6e",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3021,7 +3021,7 @@
       "local": null,
       "repo": "https://github.com/krn-robin/tree-sitter-magik",
       "resolution": "github-license",
-      "rev": "2ccff2474031ce6e9ce3f94b021ff705a2ce880c",
+      "rev": "ed72470ac75542bf4b6e6ba683a3f4489d75c647",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3085,7 +3085,7 @@
       "local": null,
       "repo": "https://github.com/acristoffers/tree-sitter-matlab",
       "resolution": "github-license",
-      "rev": "ff2f83da49bb06128c4cfd055e7c95c05c77cded",
+      "rev": "1bdb8cf5e73620892a199f659ceb9c06d02e4b2f",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3181,7 +3181,7 @@
       "local": null,
       "repo": "https://github.com/moonbitlang/tree-sitter-moonbit",
       "resolution": "github-license",
-      "rev": "5435c307c6cf2ef0d508a99047b06f35a4308444",
+      "rev": "dd8c9ebab659cf5cd039342704e42aca88b2b34a",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
@@ -3325,7 +3325,7 @@
       "local": null,
       "repo": "https://github.com/nix-community/tree-sitter-nix",
       "resolution": "github-license",
-      "rev": "21daff7ec37b01539eddd1e0ac468d2070c2ed5c",
+      "rev": "0645c95c47b272f23d15c1e83446973401bd1a53",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3517,7 +3517,7 @@
       "local": null,
       "repo": "https://github.com/Isopod/tree-sitter-pascal",
       "resolution": "github-license",
-      "rev": "042119eca2e18a60e56317fb06ee3ba5c32cb447",
+      "rev": "3a274dce7346b7d5e3238ff7450e0a45c0701d78",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3565,7 +3565,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter-perl/tree-sitter-perl",
       "resolution": "github-license",
-      "rev": "471859e9d8ef320095d7a62d891a49ba729c0dee",
+      "rev": "42f05ca7d82fddc9ef3fb58b4d287bda46bebc96",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3597,7 +3597,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter/tree-sitter-php",
       "resolution": "github-license",
-      "rev": "58d5643086ae60e93a3746cca648363ee97c8761",
+      "rev": "c1e13490bd656b8869cd47e6f74997ed46750a08",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -3733,7 +3733,7 @@
       "local": null,
       "repo": "https://github.com/gmr/tree-sitter-postgres",
       "resolution": "github-license",
-      "rev": "d6ba3d1f1db62922aa5f2b94c04d33afbcdbc6ed",
+      "rev": "83c0cc2f4401d5e5944834a09d3f8c24184398fa",
       "spdx": "BSD-2-Clause",
       "spdx_source": "detected"
     },
@@ -3877,7 +3877,7 @@
       "local": null,
       "repo": "https://github.com/coder3101/tree-sitter-proto",
       "resolution": "github-license",
-      "rev": "18366491f37d43d6d5d02cbb1e79b650b5728145",
+      "rev": "68a898a1715f1b0fce0d21ae6d1f4e24c60fcb2c",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4245,7 +4245,7 @@
       "local": null,
       "repo": "https://github.com/rescript-lang/tree-sitter-rescript",
       "resolution": "github-license",
-      "rev": "cc6a15ee6297d493089134cb661a54fc7a13e376",
+      "rev": "d93f5cb4187bc233e8d76d2b19f4a2fe3084bce7",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4393,7 +4393,7 @@
       "local": null,
       "repo": "https://github.com/ix-infrastructure/tree-sitter-sas",
       "resolution": "github-license",
-      "rev": "ddd8a662062188cc7bafc9dc321d44884c81ea9b",
+      "rev": "657dde82c9a81d3f4fdd792be3b5042d600e0322",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4409,7 +4409,7 @@
       "local": null,
       "repo": "https://github.com/tree-sitter/tree-sitter-scala",
       "resolution": "github-license",
-      "rev": "e8728b1c62ea096c753a9a70325f77ebbf2192de",
+      "rev": "3f18a9b1f70fe969db1f13070b6b86b0ffcb2d7b",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4515,13 +4515,13 @@
       "license_files": [
         {
           "path": "LICENSES",
-          "sha256": "e55f4315d4ce9f129228fd473a1407b1f2bb2b89f5f236aa50ed6c93e8029cde"
+          "sha256": "c8e1326e91ac01d937903de56eca7acf2e19b257f47ca47d59e1056850c79b54"
         }
       ],
       "local": null,
       "repo": "https://github.com/slint-ui/tree-sitter-slint",
       "resolution": "github-license",
-      "rev": "b494447aeb10e540b9f0fbde08748c052859e42d",
+      "rev": "b22bb31bd1cf1dfc47e7432197a9474b62d05b14",
       "spdx": "MIT",
       "spdx_source": "inline"
     },
@@ -4745,7 +4745,7 @@
       "local": null,
       "repo": "https://github.com/Goldziher/tree-sitter-sql",
       "resolution": "github-license",
-      "rev": "10d0574753f92082dbc7f57e6cb1cba1dcfa5ec0",
+      "rev": "1d5a9dd0b522c862ceb7aaff211299d07a4ec1a4",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4925,7 +4925,7 @@
       "local": null,
       "repo": "https://github.com/alex-pinkus/tree-sitter-swift",
       "resolution": "github-license",
-      "rev": "3697c2b910e86b6886a15cc64affb90a89e5711c",
+      "rev": "91a4e36948b46231caf264b4ece62d8d66622a43",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4957,7 +4957,7 @@
       "local": null,
       "repo": "https://gitlab.com/nomograph/tree-sitter-sysml",
       "resolution": "gitlab-license",
-      "rev": "0740b343876f088b903a646ced72ace62e7f9736",
+      "rev": "5290876295e83bf5373b60cba21716923ae93052",
       "spdx": "MIT",
       "spdx_source": "inline"
     },
@@ -4989,7 +4989,7 @@
       "local": null,
       "repo": "https://github.com/gmlarumbe/tree-sitter-systemverilog",
       "resolution": "github-license",
-      "rev": "73d7620ffdc467aab3c2089be9be5cbbc1be2eaa",
+      "rev": "ad3921ba232ba50cf95935bf07554b63b39a1e39",
       "spdx": "MIT",
       "spdx_source": "detected"
     },
@@ -4999,13 +4999,13 @@
       "license_files": [
         {
           "path": "LICENSES",
-          "sha256": "15d21e4bfb4df4b5555778e4a62b7a9d0addfdbf5f3a5acec821f94e276277ce"
+          "sha256": "67af918550030fb8a69c5dc7a8904ef0566a27d54c521a62d6717c9bd7c79031"
         }
       ],
       "local": null,
       "repo": "https://github.com/xasc/tree-sitter-t32",
       "resolution": "github-license",
-      "rev": "ee48a9a8a1314698b26af74e1397af6a8dd13f45",
+      "rev": "45b3830dfd4684e4764c1486bb966ab37ab869fe",
       "spdx": "MIT",
       "spdx_source": "inline"
     },
@@ -5597,7 +5597,7 @@
       "local": null,
       "repo": "https://github.com/neovim/tree-sitter-vimdoc",
       "resolution": "github-license",
-      "rev": "a13c5c7e09aa2ec2f724ac5c0fdb91a4a7eeabba",
+      "rev": "cf5f03718e699c0e37e4f26a4417fb744c714ba2",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
@@ -5981,7 +5981,7 @@
       "local": null,
       "repo": "https://github.com/georgeharker/tree-sitter-zsh",
       "resolution": "github-license",
-      "rev": "7a593401efb5418ffdedbe3c0e4c61c6d240166d",
+      "rev": "77eee01fa3226133e7ae49c2297de558ebb75df0",
       "spdx": "MIT",
       "spdx_source": "detected"
     }
@@ -6011,7 +6011,6 @@
     "141f1aa2d7b6cea84a4049073761b08ba40506008dea051896bfc437f5b6bb17": "MIT License\n\nCopyright (c) 2022 Francis\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "14eaaaa5c0cdb0eb86e85c55643c4cfa04593dbfbaef6a20f35337667b7278d7": "MIT License\n\nCopyright (c) 2020 Thomas Vigouroux\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "1552894f242456314eeeec161d68679d91da396a809918b147da7b873ca1c45b": "\nMIT License\n\nCopyright (c) 2025 Tom Waddington\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
-    "15d21e4bfb4df4b5555778e4a62b7a9d0addfdbf5f3a5acec821f94e276277ce": "[{\"name\":\"BSD-2-Clause.txt\",\"path\":\"LICENSES/BSD-2-Clause.txt\",\"sha\":\"5f662b354cd40cd5339d5aa05d74b15405138230\",\"size\":1267,\"url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/BSD-2-Clause.txt?ref=ee48a9a8a1314698b26af74e1397af6a8dd13f45\",\"html_url\":\"https://github.com/xasc/tree-sitter-t32/blob/ee48a9a8a1314698b26af74e1397af6a8dd13f45/LICENSES/BSD-2-Clause.txt\",\"git_url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/5f662b354cd40cd5339d5aa05d74b15405138230\",\"download_url\":\"https://raw.githubusercontent.com/xasc/tree-sitter-t32/ee48a9a8a1314698b26af74e1397af6a8dd13f45/LICENSES/BSD-2-Clause.txt\",\"type\":\"file\",\"_links\":{\"self\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/BSD-2-Clause.txt?ref=ee48a9a8a1314698b26af74e1397af6a8dd13f45\",\"git\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/5f662b354cd40cd5339d5aa05d74b15405138230\",\"html\":\"https://github.com/xasc/tree-sitter-t32/blob/ee48a9a8a1314698b26af74e1397af6a8dd13f45/LICENSES/BSD-2-Clause.txt\"}},{\"name\":\"MIT.txt\",\"path\":\"LICENSES/MIT.txt\",\"sha\":\"2071b23b0e08594ea6bc99ac71129ef992abf498\",\"size\":1078,\"url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/MIT.txt?ref=ee48a9a8a1314698b26af74e1397af6a8dd13f45\",\"html_url\":\"https://github.com/xasc/tree-sitter-t32/blob/ee48a9a8a1314698b26af74e1397af6a8dd13f45/LICENSES/MIT.txt\",\"git_url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"download_url\":\"https://raw.githubusercontent.com/xasc/tree-sitter-t32/ee48a9a8a1314698b26af74e1397af6a8dd13f45/LICENSES/MIT.txt\",\"type\":\"file\",\"_links\":{\"self\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/MIT.txt?ref=ee48a9a8a1314698b26af74e1397af6a8dd13f45\",\"git\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"html\":\"https://github.com/xasc/tree-sitter-t32/blob/ee48a9a8a1314698b26af74e1397af6a8dd13f45/LICENSES/MIT.txt\"}}]",
     "187f1b531af1499f33e208a1613126a6ac5dc093d16d2eb9cd8575893f96a692": "MIT License\n\nCopyright (c) 2025 MD. Mouinul Hossain \n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "188fdcca13247f567cddb0d5155c622de1a6cf3f0245e52f0986907b6c2819f5": "The MIT License (MIT)\n\nCopyright (c) 2023 Stephan Seitz\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "1cc17f880ff4fa68079a72b98b89d42e8ce16b1bdbb1ec7b6f33465241e41003": "Copyright (c) 2024-2025 Mohammad Ashar Khan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \" Software\"), to deal in\nthe Software without restriction, including without limitation the rights to\nuse, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of\nthe Software, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice (including the next\nparagraph) shall be included in all copies or substantial portions of the\nSoftware.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER\nIN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN\nCONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
@@ -6101,6 +6100,7 @@
     "657936faf6b18facb53bd2ae9d6f4cf9326462d75b69b899767ff443955c23a5": "BSD 3-Clause License\n\nCopyright (c) 2022, Alexander Flurie\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice, this\n   list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\n   this list of conditions and the following disclaimer in the documentation\n   and/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its\n   contributors may be used to endorse or promote products derived from\n   this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\nAND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\nIMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n",
     "65e8e22b5ebc3dd16001addc8d39b66e01962853196851e9fa1bc34c4158b651": "MIT License\n\nCopyright (c) 2022 aMOPel\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "664764fabf40c0b318e06324a5a12379092a2df25b8cbf2415f71bc0bb352346": "The MIT License (MIT)\n\nCopyright (c) 2017 Josh Vera, GitHub\nCopyright (c) 2019 Max Brunsfeld, Amaan Qureshi, Christian Frøystad, Caleb White\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "67af918550030fb8a69c5dc7a8904ef0566a27d54c521a62d6717c9bd7c79031": "[{\"name\":\"BSD-2-Clause.txt\",\"path\":\"LICENSES/BSD-2-Clause.txt\",\"sha\":\"5f662b354cd40cd5339d5aa05d74b15405138230\",\"size\":1267,\"url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/BSD-2-Clause.txt?ref=45b3830dfd4684e4764c1486bb966ab37ab869fe\",\"html_url\":\"https://github.com/xasc/tree-sitter-t32/blob/45b3830dfd4684e4764c1486bb966ab37ab869fe/LICENSES/BSD-2-Clause.txt\",\"git_url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/5f662b354cd40cd5339d5aa05d74b15405138230\",\"download_url\":\"https://raw.githubusercontent.com/xasc/tree-sitter-t32/45b3830dfd4684e4764c1486bb966ab37ab869fe/LICENSES/BSD-2-Clause.txt\",\"type\":\"file\",\"_links\":{\"self\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/BSD-2-Clause.txt?ref=45b3830dfd4684e4764c1486bb966ab37ab869fe\",\"git\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/5f662b354cd40cd5339d5aa05d74b15405138230\",\"html\":\"https://github.com/xasc/tree-sitter-t32/blob/45b3830dfd4684e4764c1486bb966ab37ab869fe/LICENSES/BSD-2-Clause.txt\"}},{\"name\":\"MIT.txt\",\"path\":\"LICENSES/MIT.txt\",\"sha\":\"2071b23b0e08594ea6bc99ac71129ef992abf498\",\"size\":1078,\"url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/MIT.txt?ref=45b3830dfd4684e4764c1486bb966ab37ab869fe\",\"html_url\":\"https://github.com/xasc/tree-sitter-t32/blob/45b3830dfd4684e4764c1486bb966ab37ab869fe/LICENSES/MIT.txt\",\"git_url\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"download_url\":\"https://raw.githubusercontent.com/xasc/tree-sitter-t32/45b3830dfd4684e4764c1486bb966ab37ab869fe/LICENSES/MIT.txt\",\"type\":\"file\",\"_links\":{\"self\":\"https://api.github.com/repos/xasc/tree-sitter-t32/contents/LICENSES/MIT.txt?ref=45b3830dfd4684e4764c1486bb966ab37ab869fe\",\"git\":\"https://api.github.com/repos/xasc/tree-sitter-t32/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"html\":\"https://github.com/xasc/tree-sitter-t32/blob/45b3830dfd4684e4764c1486bb966ab37ab869fe/LICENSES/MIT.txt\"}}]",
     "681f75c2ab1536a01a914b1be992d1694023abe2b81c0217a6cfbd2e08a7c506": "Copyright (c) 2018 Gabriel Gonzalez\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice, this\nlist of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\nthis list of conditions and the following disclaimer in the documentation\nand/or other materials provided with the distribution.\n\n3. Neither the name of the author nor the names of its contributors may be\nused to endorse or promote products derived from this software without\nspecific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\nAND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\nIMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n",
     "68a9a526ae357ed5a2f8ca5dabb14131b283554b69639bb04816088d4b1f2fa0": "Copyright 2025 Avishai \"Veesh\" Goldman\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
     "69cde5f7d6a2e04dd67e1bd2523eff47c9281063872aac6c9665a061df9a24b9": "MIT License\n\nCopyright (c) 2026 Riley Bruins\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
@@ -6206,6 +6206,7 @@
     "c5cfb43042b6b72045f4ba997834d0a7786d2793d91680868b5815b39f14fc78": "The MIT License (MIT)\n\nCopyright (c) 2018 Max Brunsfeld\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "c6137844f3f63aa4522dfc1cde8dff4f3314ed594ea954a73e3073dcc9d33b11": "The MIT License (MIT)\n\nCopyright (c) 2023 Amaan Qureshi <amaanq12@gmail.com>, Marius Cobzarenco <marius@reinfer.io>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n\n      \"Licensor\" shall mean the copyright owner or entity authorized by\n      the copyright owner that is granting the License.\n\n      \"Legal Entity\" shall mean the union of the acting entity and all\n      other entities that control, are controlled by, or are under common\n      control with that entity. For the purposes of this definition,\n      \"control\" means (i) the power, direct or indirect, to cause the\n      direction or management of such entity, whether by contract or\n      otherwise, or (ii) ownership of fifty percent (50%) or more of the\n      outstanding shares, or (iii) beneficial ownership of such entity.\n\n      \"You\" (or \"Your\") shall mean an individual or Legal Entity\n      exercising permissions granted by this License.\n\n      \"Source\" form shall mean the preferred form for making modifications,\n      including but not limited to software source code, documentation\n      source, and configuration files.\n\n      \"Object\" form shall mean any form resulting from mechanical\n      transformation or translation of a Source form, including but\n      not limited to compiled object code, generated documentation,\n      and conversions to other media types.\n\n      \"Work\" shall mean the work of authorship, whether in Source or\n      Object form, made available under the License, as indicated by a\n      copyright notice that is included in or attached to the work\n      (an example is provided in the Appendix below).\n\n      \"Derivative Works\" shall mean any work, whether in Source or Object\n      form, that is based on (or derived from) the Work and for which the\n      editorial revisions, annotations, elaborations, or other modifications\n      represent, as a whole, an original work of authorship. For the purposes\n      of this License, Derivative Works shall not include works that remain\n      separable from, or merely link (or bind by name) to the interfaces of,\n      the Work and Derivative Works thereof.\n\n      \"Contribution\" shall mean any work of authorship, including\n      the original version of the Work and any modifications or additions\n      to that Work or Derivative Works thereof, that is intentionally\n      submitted to Licensor for inclusion in the Work by the copyright owner\n      or by an individual or Legal Entity authorized to submit on behalf of\n      the copyright owner. For the purposes of this definition, \"submitted\"\n      means any form of electronic, verbal, or written communication sent\n      to the Licensor or its representatives, including but not limited to\n      communication on electronic mailing lists, source code control systems,\n      and issue tracking systems that are managed by, or on behalf of, the\n      Licensor for the purpose of discussing and improving the Work, but\n      excluding communication that is conspicuously marked or otherwise\n      designated in writing by the copyright owner as \"Not a Contribution.\"\n\n      \"Contributor\" shall mean Licensor and any individual or Legal Entity\n      on behalf of whom a Contribution has been received by Licensor and\n      subsequently incorporated within the Work.\n\n   2. Grant of Copyright License. Subject to the terms and conditions of\n      this License, each Contributor hereby grants to You a perpetual,\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n      copyright license to reproduce, prepare Derivative Works of,\n      publicly display, publicly perform, sublicense, and distribute the\n      Work and such Derivative Works in Source or Object form.\n\n   3. Grant of Patent License. Subject to the terms and conditions of\n      this License, each Contributor hereby grants to You a perpetual,\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n      (except as stated in this section) patent license to make, have made,\n      use, offer to sell, sell, import, and otherwise transfer the Work,\n      where such license applies only to those patent claims licensable\n      by such Contributor that are necessarily infringed by their\n      Contribution(s) alone or by combination of their Contribution(s)\n      with the Work to which such Contribution(s) was submitted. If You\n      institute patent litigation against any entity (including a\n      cross-claim or counterclaim in a lawsuit) alleging that the Work\n      or a Contribution incorporated within the Work constitutes direct\n      or contributory patent infringement, then any patent licenses\n      granted to You under this License for that Work shall terminate\n      as of the date such litigation is filed.\n\n   4. Redistribution. You may reproduce and distribute copies of the\n      Work or Derivative Works thereof in any medium, with or without\n      modifications, and in Source or Object form, provided that You\n      meet the following conditions:\n\n      (a) You must give any other recipients of the Work or\n          Derivative Works a copy of this License; and\n\n      (b) You must cause any modified files to carry prominent notices\n          stating that You changed the files; and\n\n      (c) You must retain, in the Source form of any Derivative Works\n          that You distribute, all copyright, patent, trademark, and\n          attribution notices from the Source form of the Work,\n          excluding those notices that do not pertain to any part of\n          the Derivative Works; and\n\n      (d) If the Work includes a \"NOTICE\" text file as part of its\n          distribution, then any Derivative Works that You distribute must\n          include a readable copy of the attribution notices contained\n          within such NOTICE file, excluding those notices that do not\n          pertain to any part of the Derivative Works, in at least one\n          of the following places: within a NOTICE text file distributed\n          as part of the Derivative Works; within the Source form or\n          documentation, if provided along with the Derivative Works; or,\n          within a display generated by the Derivative Works, if and\n          wherever such third-party notices normally appear. The contents\n          of the NOTICE file are for informational purposes only and\n          do not modify the License. You may add Your own attribution\n          notices within Derivative Works that You distribute, alongside\n          or as an addendum to the NOTICE text from the Work, provided\n          that such additional attribution notices cannot be construed\n          as modifying the License.\n\n      You may add Your own copyright statement to Your modifications and\n      may provide additional or different license terms and conditions\n      for use, reproduction, or distribution of Your modifications, or\n      for any such Derivative Works as a whole, provided Your use,\n      reproduction, and distribution of the Work otherwise complies with\n      the conditions stated in this License.\n\n   5. Submission of Contributions. Unless You explicitly state otherwise,\n      any Contribution intentionally submitted for inclusion in the Work\n      by You to the Licensor shall be under the terms and conditions of\n      this License, without any additional terms or conditions.\n      Notwithstanding the above, nothing herein shall supersede or modify\n      the terms of any separate license agreement you may have executed\n      with Licensor regarding such Contributions.\n\n   6. Trademarks. This License does not grant permission to use the trade\n      names, trademarks, service marks, or product names of the Licensor,\n      except as required for reasonable and customary use in describing the\n      origin of the Work and reproducing the content of the NOTICE file.\n\n   7. Disclaimer of Warranty. Unless required by applicable law or\n      agreed to in writing, Licensor provides the Work (and each\n      Contributor provides its Contributions) on an \"AS IS\" BASIS,\n      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or\n      implied, including, without limitation, any warranties or conditions\n      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A\n      PARTICULAR PURPOSE. You are solely responsible for determining the\n      appropriateness of using or redistributing the Work and assume any\n      risks associated with Your exercise of permissions under this License.\n\n   8. Limitation of Liability. In no event and under no legal theory,\n      whether in tort (including negligence), contract, or otherwise,\n      unless required by applicable law (such as deliberate and grossly\n      negligent acts) or agreed to in writing, shall any Contributor be\n      liable to You for damages, including any direct, indirect, special,\n      incidental, or consequential damages of any character arising as a\n      result of this License or out of the use or inability to use the\n      Work (including but not limited to damages for loss of goodwill,\n      work stoppage, computer failure or malfunction, or any and all\n      other commercial damages or losses), even if such Contributor\n      has been advised of the possibility of such damages.\n\n   9. Accepting Warranty or Additional Liability. While redistributing\n      the Work or Derivative Works thereof, You may choose to offer,\n      and charge a fee for, acceptance of support, warranty, indemnity,\n      or other liability obligations and/or rights consistent with this\n      License. However, in accepting such obligations, You may act only\n      on Your own behalf and on Your sole responsibility, not on behalf\n      of any other Contributor, and only if You agree to indemnify,\n      defend, and hold each Contributor harmless for any liability\n      incurred by, or claims asserted against, such Contributor by reason\n      of your accepting any such warranty or additional liability.\n\n   END OF TERMS AND CONDITIONS\n\n   APPENDIX: How to apply the Apache License to your work.\n\n      To apply the Apache License to your work, attach the following\n      boilerplate notice, with the fields enclosed by brackets \"[]\"\n      replaced with your own identifying information. (Don't include\n      the brackets!)  The text should be enclosed in the appropriate\n      comment syntax for the file format. We also recommend that a\n      file or class name and description of purpose be included on the\n      same \"printed page\" as the copyright notice for easier\n      identification within third-party archives.\n\n   Copyright [yyyy] [name of copyright owner]\n\n   Licensed under the Apache License, Version 2.0 (the \"License\");\n   you may not use this file except in compliance with the License.\n   You may obtain a copy of the License at\n\n       http://www.apache.org/licenses/LICENSE-2.0\n\n   Unless required by applicable law or agreed to in writing, software\n   distributed under the License is distributed on an \"AS IS\" BASIS,\n   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n   See the License for the specific language governing permissions and\n   limitations under the License.\n",
+    "c8e1326e91ac01d937903de56eca7acf2e19b257f47ca47d59e1056850c79b54": "[{\"name\":\"MIT.txt\",\"path\":\"LICENSES/MIT.txt\",\"sha\":\"2071b23b0e08594ea6bc99ac71129ef992abf498\",\"size\":1078,\"url\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/contents/LICENSES/MIT.txt?ref=b22bb31bd1cf1dfc47e7432197a9474b62d05b14\",\"html_url\":\"https://github.com/slint-ui/tree-sitter-slint/blob/b22bb31bd1cf1dfc47e7432197a9474b62d05b14/LICENSES/MIT.txt\",\"git_url\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"download_url\":\"https://raw.githubusercontent.com/slint-ui/tree-sitter-slint/b22bb31bd1cf1dfc47e7432197a9474b62d05b14/LICENSES/MIT.txt\",\"type\":\"file\",\"_links\":{\"self\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/contents/LICENSES/MIT.txt?ref=b22bb31bd1cf1dfc47e7432197a9474b62d05b14\",\"git\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"html\":\"https://github.com/slint-ui/tree-sitter-slint/blob/b22bb31bd1cf1dfc47e7432197a9474b62d05b14/LICENSES/MIT.txt\"}}]",
     "c91845be8393ab50c602041e1b1e96994ad40a1d28fec9b9ee3ffe0933e4e641": "MIT License\n\nCopyright (c) 2021 Joaquín Andrés León Ulloa\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "c9917b675c1c98576e3b9a5c5958e2cb0f515f0c26ac7446359f5064484cb7a0": "SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception\n",
     "cb35e29b2573e50c2ce9de0d00cebb2583e1403ca5527a3d6069ca6f3006555e": "{\n  \"grammars\": [\n    {\n      \"name\": \"eds\",\n      \"camelcase\": \"Eds\",\n      \"scope\": \"source.eds\",\n      \"path\": \".\",\n      \"file-types\": null,\n      \"injection-regex\": \"^eds$\"\n    }\n  ],\n  \"metadata\": {\n    \"version\": \"0.0.1\",\n    \"license\": \"MIT\",\n    \"description\": \"eds grammar for tree-sitter\",\n    \"links\": {\n      \"repository\": \"https://github.com/tree-sitter/tree-sitter-eds\"\n    }\n  },\n  \"bindings\": {\n    \"c\": true,\n    \"go\": true,\n    \"node\": true,\n    \"python\": true,\n    \"rust\": true,\n    \"swift\": true\n  }\n}",
@@ -6239,7 +6240,6 @@
     "e3578fe6a7e9592bd4d39fb52d2be62c07e5f8bdca2ca66b3e22f553ec8351fb": "MIT License\n\nCopyright (c) 2022 Lewis Russell\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "e4bfcc87169fdab12e351211541723132f58648a5ffad8f0f45b534349dbed45": "MIT License\n\nCopyright (c) 2020 Patrick Förster\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "e5301ee61e22f19f1bd8eb892cc229f8ae3e090ce966ffad3dcdd37c681d63b1": "The MIT License (MIT)\n\nCopyright (c) 2023 Vhyrro <vhyrro@gmail.com>, Amaan Qureshi <amaanq12@gmail.com>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
-    "e55f4315d4ce9f129228fd473a1407b1f2bb2b89f5f236aa50ed6c93e8029cde": "[{\"name\":\"MIT.txt\",\"path\":\"LICENSES/MIT.txt\",\"sha\":\"2071b23b0e08594ea6bc99ac71129ef992abf498\",\"size\":1078,\"url\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/contents/LICENSES/MIT.txt?ref=b494447aeb10e540b9f0fbde08748c052859e42d\",\"html_url\":\"https://github.com/slint-ui/tree-sitter-slint/blob/b494447aeb10e540b9f0fbde08748c052859e42d/LICENSES/MIT.txt\",\"git_url\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"download_url\":\"https://raw.githubusercontent.com/slint-ui/tree-sitter-slint/b494447aeb10e540b9f0fbde08748c052859e42d/LICENSES/MIT.txt\",\"type\":\"file\",\"_links\":{\"self\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/contents/LICENSES/MIT.txt?ref=b494447aeb10e540b9f0fbde08748c052859e42d\",\"git\":\"https://api.github.com/repos/slint-ui/tree-sitter-slint/git/blobs/2071b23b0e08594ea6bc99ac71129ef992abf498\",\"html\":\"https://github.com/slint-ui/tree-sitter-slint/blob/b494447aeb10e540b9f0fbde08748c052859e42d/LICENSES/MIT.txt\"}}]",
     "e655b78f10b6e71cb448eb35b0b8bf0722922a66bb3445a8e0d0f28972d68dae": "MIT License\n\nCopyright (c) 2022 Arnar\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
     "e6c68633cd08e0c6e83235ca5966f525231a6452c617d5268b5f2cacca815182": "headerPath = \"scripts/license-header.txt\"\n\nincludes = [\n    \"*.c\",\n    \"*.cc\",\n    \"*.h\",\n    \"*.js\",\n    \"*.pkl\",\n    \"PklProject\",\n]\n\nexcludes = [\n    \"bindings/*\",\n    \"parser.c\",\n    \"src/tree_sitter/*\"\n]\n\n[git]\nattrs = 'auto'\nignore = 'auto'\n\n[properties]\ncopyrightOwner = \"Apple Inc. and the Pkl project authors\"\n",
     "e7c1af0db7acee33e9c9dc905d0896c4a863d6f271879cab94a2b8fef84bf819": "The MIT License (MIT)\n\nCopyright (c) 2023 Tomohiro Hashidate (joker1007)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",

@@ -223,7 +223,7 @@
 | Pascal | [Isopod/tree-sitter-pascal](https://github.com/Isopod/tree-sitter-pascal) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
 | Pem | [tree-sitter-grammars/tree-sitter-pem](https://github.com/tree-sitter-grammars/tree-sitter-pem) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Penrose | [klukaszek/tree-sitter-penrose](https://github.com/klukaszek/tree-sitter-penrose) | 14 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
-| Perl | [tree-sitter-perl/tree-sitter-perl](https://github.com/tree-sitter-perl/tree-sitter-perl) | 15 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| Perl | [tree-sitter-perl/tree-sitter-perl](https://github.com/tree-sitter-perl/tree-sitter-perl) | 14 | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
 | PGN | [rolandwalker/tree-sitter-pgn](https://github.com/rolandwalker/tree-sitter-pgn) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | PHP | [tree-sitter/tree-sitter-php](https://github.com/tree-sitter/tree-sitter-php) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
 | Phpdoc | [claytonrcarter/tree-sitter-phpdoc](https://github.com/claytonrcarter/tree-sitter-phpdoc) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
