@@ -1,0 +1,7 @@
+definition.function	100
+definition.function	200
+definition.function	300
+reference.call	100
+reference.call	200
+reference.call	200
+reference.call	300

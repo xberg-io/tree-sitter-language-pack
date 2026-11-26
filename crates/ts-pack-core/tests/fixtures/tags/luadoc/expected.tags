@@ -1,0 +1,3 @@
+definition.class	Dog
+reference.class	Animal
+reference.class	Serializable

@@ -19,9 +19,7 @@
     "eex": "EEx template layer; all definitions live in the injected Elixir",
     "embeddedtemplate": "ERB/EJS template layer; all definitions live in the injected Ruby or JavaScript",
     "foam": "OpenFOAM dictionary data files; nested keyed sub-dictionaries are configuration values, as in JSON or HOCON",
-    "gcode": "CNC machine instruction lines (G/M words, coordinates); no named definitions",
     "git_rebase": "interactive rebase todo list of commands applied to commit hashes; no declarations",
-    "gitattributes": "list of path patterns with attributes; patterns select files and declare nothing",
     "gitcommit": "commit message text plus git's generated status comments; no declarations",
     "gitignore": "list of path patterns to ignore; patterns select files and declare nothing",
     "glimmer": "Handlebars/Glimmer templates; components and helpers are declared in the backing JavaScript or TypeScript",
@@ -39,14 +37,12 @@
     "hurl": "sequence of HTTP request/response entries; captures are runtime extractions from responses, not declarations",
     "javadoc": "doc-comment markup inside Java comments; the documented symbols are tagged by the Java grammar",
     "jjdescription": "Jujutsu change description (commit message) text; no declarations",
-    "jsdoc": "doc-comment markup inside JavaScript comments; the documented symbols are tagged by the JavaScript grammar",
     "json": "data serialization; keys are data, not declarations",
     "json5": "JSON5 data serialization; keys are data, not declarations",
     "kdl": "KDL document data: a tree of nodes with arguments and properties, not declarations",
     "kitty": "kitty.conf option lines set built-in options and map lines bind keys to built-in actions; the only user-named things, action_alias and kitten_alias, are shorthands for an action command line usable only in later map lines of the same config, not symbols worth indexing",
     "liquid": "Liquid template layer; it has no macros or named blocks, and assign/capture only bind render-time locals",
     "llvm_mir": "body of a Machine IR function (the YAML `body:` block): basic blocks are numbered and referenced by number, and the function and its frame are declared in the surrounding YAML",
-    "luadoc": "doc-comment markup inside Lua comments; the documented symbols are tagged by the Lua grammar",
     "luap": "Lua pattern (regex-like) strings; no declarations",
     "markdown_inline": "inline-span layer injected into markdown paragraphs; headings are tagged by the markdown block grammar",
     "mermaid": "diagram description: flowchart vertex ids, sequence participants, class-diagram classes and members, ER entities and state ids are labels local to the one diagram that draws them; no source file defines or references them, so indexing them finds nothing to navigate to",
@@ -90,7 +86,6 @@
     "xcompose": "XCompose key-sequence to character mappings; no named definitions",
     "xit": "[x]it! plain-text checklist of task lines grouped under free-text titles; no declarations",
     "xml": "markup and data serialization; element names are vocabulary, not declarations (DTDs, which declare elements, are tagged by dtd)",
-    "yaml": "data serialization; keys are data, and anchors are value aliases rather than declarations",
     "ziggy": "Ziggy data documents (a JSON-like serialization); their schema is tagged by ziggy_schema"
   },
   "grammar_blocked": {
@@ -99,5 +94,16 @@
     "jinja2": "the grammar parses every {% %} statement as one opaque token, with no macro, block, set or import nodes, so macro and block names cannot be captured",
     "tsql": "the grammar has no DDL nodes: CREATE TABLE/PROCEDURE/FUNCTION/VIEW statements are not parsed as declarations, and error recovery turns their keywords into function calls, so no definition name can be captured"
   },
-  "unexercised_patterns": {}
+  "unexercised_patterns": {
+    "luadoc": [
+      {
+        "pattern": "(alias_annotation (identifier) @name) @definition.type",
+        "reason": "the luadoc grammar parses a single annotation per document (one injected `---@` comment line), so the one-file fixture holds a class annotation and cannot also hold this form"
+      },
+      {
+        "pattern": "(enum_annotation (identifier) @name) @definition.enum",
+        "reason": "the luadoc grammar parses a single annotation per document (one injected `---@` comment line), so the one-file fixture holds a class annotation and cannot also hold this form"
+      }
+    ]
+  }
 }

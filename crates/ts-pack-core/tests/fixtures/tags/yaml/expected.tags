@@ -1,0 +1,9 @@
+definition.label	defaults
+definition.label	retry
+definition.label	base_url
+reference.label	defaults
+reference.label	base_url
+reference.label	retry
+reference.label	defaults
+definition.label	primary
+reference.label	primary

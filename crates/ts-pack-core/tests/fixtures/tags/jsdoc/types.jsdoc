@@ -1,0 +1,16 @@
+/**
+ * Shapes shared by the geometry helpers.
+ *
+ * @typedef {Object} Point
+ * @property {number} x - horizontal position
+ * @property {number} y - vertical position
+ * @typedef {Point[]} Polygon
+ * @typedef {"inch"|"cm"} Unit
+ * @callback Transform
+ * @param {Point} point - the point to move
+ * @returns {Point}
+ * @callback Predicate
+ * @param {Polygon} polygon
+ * @type {Transform}
+ * @see Polygon
+ */

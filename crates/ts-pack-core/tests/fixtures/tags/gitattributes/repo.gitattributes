@@ -1,0 +1,9 @@
+# Attribute macros for this repository.
+[attr]generated -diff linguist-generated=true
+[attr]lfs filter=lfs diff=lfs merge=lfs -text
+[attr]vendored linguist-vendored -diff
+
+*.png lfs
+*.pb.go generated
+third_party/** vendored
+*.sh text eol=lf

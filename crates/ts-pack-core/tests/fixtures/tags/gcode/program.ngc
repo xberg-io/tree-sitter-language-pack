@@ -1,0 +1,29 @@
+(Pocket a square, drill its corners, then park)
+o100 sub
+  G1 X#1 Y0 F200
+  G1 X#1 Y#1
+  G1 X0 Y#1
+  G1 X0 Y0
+o100 endsub
+
+o200 sub
+  G81 X#1 Y#2 Z-3 R1
+  G80
+o200 endsub
+
+o300 sub
+  G0 Z5
+  G0 X0 Y0
+o300 endsub
+
+o<named_pass> sub
+  G1 Z-1
+o<named_pass> endsub
+
+G21 G90
+o100 call [20]
+o200 call [0] [0]
+o200 call [20] [20]
+o<named_pass> call
+o300 call
+M2

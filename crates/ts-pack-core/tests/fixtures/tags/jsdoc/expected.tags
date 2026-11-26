@@ -1,0 +1,5 @@
+definition.type	Point
+definition.type	Polygon
+definition.type	Unit
+definition.type	Transform
+definition.type	Predicate

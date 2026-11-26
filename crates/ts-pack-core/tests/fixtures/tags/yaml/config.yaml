@@ -1,0 +1,26 @@
+# Shared settings reused through anchors and aliases.
+defaults: &defaults
+  adapter: postgres
+  host: localhost
+  pool: 5
+
+retry_policy: &retry
+  attempts: 3
+  backoff: exponential
+
+base_url: &base_url "https://api.example.com"
+
+development:
+  <<: *defaults
+  database: app_development
+  url: *base_url
+  retry: *retry
+
+test:
+  <<: *defaults
+  database: app_test
+
+regions:
+  - &primary eu-west-1
+  - us-east-1
+failover: *primary
