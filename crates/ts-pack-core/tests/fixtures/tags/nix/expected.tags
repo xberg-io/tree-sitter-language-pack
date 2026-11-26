@@ -1,3 +1,16 @@
+definition.variable	version
 definition.function	greet
 definition.function	wrap
+definition.function	mkPackage
+reference.call	mkDerivation
+definition.field	hello
+reference.call	greet
+definition.field	shout
 reference.call	wrap
+definition.field	description
+definition.field	tools
+definition.function	format
+reference.call	toLower
+definition.field	lint
+definition.field	app
+reference.call	mkPackage
