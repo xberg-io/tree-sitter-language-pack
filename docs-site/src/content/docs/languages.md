@@ -24,7 +24,7 @@ tree-sitter-language-pack supports **371** languages.
 | Avro | `.avdl` | [victorhqc/tree-sitter-apache-avro](https://github.com/victorhqc/tree-sitter-apache-avro) | 14 |
 | Awk | `.awk` | [Beaglefoot/tree-sitter-awk](https://github.com/Beaglefoot/tree-sitter-awk) | 14 |
 | Ballerina | `.bal` | [heshanpadmasiri/tree-sitter-ballerina](https://github.com/heshanpadmasiri/tree-sitter-ballerina) | 14 |
-| Baml | `.baml` | [BoundaryML/baml-treesitter](https://github.com/BoundaryML/baml-treesitter) | 14 |
+| Baml | `.baml` | [BoundaryML/baml](https://github.com/BoundaryML/baml) | 14 |
 | Bash | `.sh`, `.bash` | [TheAuditorTool/tree-sitter-bash](https://github.com/TheAuditorTool/tree-sitter-bash) | 14 |
 | Bass | — | [vito/tree-sitter-bass](https://github.com/vito/tree-sitter-bass) | 14 |
 | Batch | `.bat`, `.cmd` | [davidevofficial/tree-sitter-batch](https://github.com/davidevofficial/tree-sitter-batch) | 14 |

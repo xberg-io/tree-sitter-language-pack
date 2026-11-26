@@ -1961,10 +1961,11 @@
   },
   "baml": {
     "abi_version": 14,
+    "directory": "typescript2/pkg-grammar-treesitter",
     "extensions": ["baml"],
     "generate": true,
-    "repo": "https://github.com/BoundaryML/baml-treesitter",
-    "rev": "d481eb9fd6cb9fd401442abf840341a49a10bcf3"
+    "repo": "https://github.com/BoundaryML/baml",
+    "rev": "37c501459d9b3f5ff9fc4e006687e74aae314552"
   },
   "bpftrace": {
     "extensions": ["bt"],

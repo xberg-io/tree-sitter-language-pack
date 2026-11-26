@@ -3,6 +3,7 @@
   "6cdh/tree-sitter-scheme": "MIT",
   "AlexanderBrevig/tree-sitter-forth": "MIT",
   "Beaglefoot/tree-sitter-awk": "MIT",
+  "BoundaryML/baml": "Apache-2.0",
   "BoundaryML/baml-treesitter": "Apache-2.0",
   "ChocolateNao/tree-sitter-gcode": "MIT",
   "CodeAnt-AI/tree-sitter-vb-dotnet": "MIT",

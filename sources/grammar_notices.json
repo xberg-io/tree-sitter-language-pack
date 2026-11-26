@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "8d0c982494dcd92a9e5300b103bd3d9727544b3acbc198c43aa5f760df3ef1cf",
+  "definitions_sha256": "04d45029565209e909b37d57330564e433cfc1fcecf9ce259f700f95479e2912",
   "languages": {
     "abl": {
       "branch": null,
@@ -275,7 +275,7 @@
     },
     "baml": {
       "branch": null,
-      "directory": null,
+      "directory": "typescript2/pkg-grammar-treesitter",
       "license_files": [
         {
           "path": "LICENSE",
@@ -283,9 +283,9 @@
         }
       ],
       "local": null,
-      "repo": "https://github.com/BoundaryML/baml-treesitter",
+      "repo": "https://github.com/BoundaryML/baml",
       "resolution": "github-license",
-      "rev": "d481eb9fd6cb9fd401442abf840341a49a10bcf3",
+      "rev": "37c501459d9b3f5ff9fc4e006687e74aae314552",
       "spdx": "Apache-2.0",
       "spdx_source": "detected"
     },
