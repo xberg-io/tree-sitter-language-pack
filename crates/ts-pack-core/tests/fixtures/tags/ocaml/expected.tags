@@ -2,6 +2,7 @@ definition.interface	SHAPE
 definition.type	t
 definition.function	area
 reference.type	t
+definition.variable	name
 definition.module	Geometry
 definition.class	point
 definition.field	x
@@ -21,6 +22,7 @@ reference.constant	Square
 definition.module	Circle_shape
 reference.interface	SHAPE
 definition.type	t
+definition.variable	name
 definition.function	area
 reference.module	Geometry
 reference.call	area

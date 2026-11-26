@@ -2,6 +2,8 @@ definition.constant	PiApprox
 definition.class	Shape
 definition.class	Circle
 definition.enum	Color
+definition.type	Meters
+definition.type	Celsius
 definition.variable	created
 definition.function	square
 definition.method	area

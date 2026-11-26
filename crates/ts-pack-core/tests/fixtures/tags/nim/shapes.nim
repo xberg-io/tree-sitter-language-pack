@@ -9,6 +9,8 @@ type
     radius: float
   Color = enum
     red, green
+  Meters* = float
+  Celsius = distinct float
 
 var created = 0
 

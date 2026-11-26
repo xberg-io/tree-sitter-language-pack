@@ -3,6 +3,7 @@
 module type SHAPE = sig
   type t
   val area : t -> float
+  val name : string
 end
 
 module Geometry = struct
@@ -27,6 +28,7 @@ end
 
 module Circle_shape : SHAPE = struct
   type t = float
+  let name = "circle"
   let area r = Geometry.area (Geometry.Circle r)
 end
 

@@ -43,11 +43,24 @@ end entity counter;
 
 architecture rtl of counter is
   signal value : count_t := (others => '0');
+
+  function saturate(v : count_t) return count_t is
+  begin
+    if v = (v'range => '1') then
+      return v;
+    end if;
+    return increment(value => v);
+  end function saturate;
+
+  procedure hold(signal v : inout count_t) is
+  begin
+    v <= v;
+  end procedure hold;
 begin
   tick : process (clk)
   begin
     if rising_edge(clk) then
-      value <= increment(value => value);
+      value <= saturate(v => value);
     end if;
   end process tick;
   count <= value;

@@ -8,6 +8,8 @@ const
 type
   TColor = (Red, Green, Blue);
 
+  TLength = Double;
+
   TPoint = record
     X, Y: Integer;
   end;

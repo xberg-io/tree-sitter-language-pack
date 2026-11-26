@@ -14,8 +14,12 @@ definition.class	Counter
 reference.type	Nat
 definition.variable	count
 definition.method	inc
+definition.method	bump
+reference.type	Nat
+reference.type	Nat
 definition.method	greet
 reference.type	Text
 reference.type	Text
 reference.call	double
+reference.call	bump
 reference.call	print

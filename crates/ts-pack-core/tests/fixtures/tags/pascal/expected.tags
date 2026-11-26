@@ -1,6 +1,7 @@
 definition.module	Shapes
 definition.constant	MaxSides
 definition.enum	TColor
+definition.type	TLength
 definition.class	TPoint
 definition.interface	IShape
 definition.method	Perimeter

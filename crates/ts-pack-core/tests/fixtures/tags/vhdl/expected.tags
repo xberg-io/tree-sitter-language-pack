@@ -25,7 +25,13 @@ definition.class	rtl
 reference.implementation	counter
 definition.variable	value
 reference.type	count_t
+definition.function	saturate
+reference.type	count_t
+reference.type	count_t
 reference.call	increment
+definition.function	hold
+reference.type	count_t
+reference.call	saturate
 definition.module	top
 definition.class	structural
 reference.implementation	top

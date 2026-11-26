@@ -2,6 +2,7 @@ definition.module	fifo_pkg
 definition.constant	WIDTH
 definition.type	word_t
 definition.function	next_ptr
+definition.function	wait_cycles
 definition.interface	fifo_if
 definition.interface	Printable
 definition.class	Transaction

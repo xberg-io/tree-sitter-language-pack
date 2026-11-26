@@ -5,6 +5,10 @@ package fifo_pkg;
   function automatic int next_ptr(int ptr, int depth);
     return (ptr + 1) % depth;
   endfunction
+
+  task automatic wait_cycles(int n);
+    repeat (n) #1;
+  endtask
 endpackage
 
 interface fifo_if (input logic clk);

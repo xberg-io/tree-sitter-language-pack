@@ -16,8 +16,13 @@ actor Main {
     public func inc() { count += 1 };
   };
 
+  func bump(step : Nat) : Nat {
+    let next = total + step;
+    next
+  };
+
   public func greet(name : Text) : async Text {
-    total += Util.double(1);
+    total += Util.double(bump(1));
     Debug.print(name);
     "Hello, " # name
   };
