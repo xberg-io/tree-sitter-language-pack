@@ -5,11 +5,20 @@ CREATE TABLE app.users (
   name text NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS orders (
+  id serial PRIMARY KEY,
+  user_id integer REFERENCES app.users (id)
+);
+
 CREATE VIEW active_users AS SELECT id, name FROM app.users;
 
 CREATE MATERIALIZED VIEW app.user_counts AS SELECT count(*) AS total FROM app.users;
 
 CREATE TYPE app.mood AS ENUM ('happy', 'sad');
+
+CREATE TYPE point AS (x integer, y integer);
+
+CREATE DOMAIN app.email AS text CHECK (VALUE LIKE '%@%');
 
 CREATE FUNCTION app.add(a integer, b integer) RETURNS integer
   AS 'select a + b' LANGUAGE sql;
@@ -23,4 +32,6 @@ CREATE SEQUENCE order_seq;
 CREATE TRIGGER users_audit AFTER INSERT ON app.users
   FOR EACH ROW EXECUTE FUNCTION app.audit();
 
-SELECT name FROM app.users WHERE id = app.add(1, 2);
+SELECT u.name, app.add(1, 2)
+FROM app.users AS u
+JOIN orders o ON o.user_id = u.id;

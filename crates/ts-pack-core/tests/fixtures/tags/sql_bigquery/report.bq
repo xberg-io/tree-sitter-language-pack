@@ -2,17 +2,30 @@ CREATE SCHEMA mydataset;
 
 CREATE TABLE mydataset.events (
   id INT64,
-  name STRING
+  name STRING,
+  created_at TIMESTAMP
 );
+
+CREATE TABLE `my-project.mydataset.archive` (id INT64);
+
+CREATE TABLE mydataset.events_copy COPY mydataset.events;
 
 CREATE VIEW mydataset.recent AS
 SELECT id, name FROM mydataset.events;
 
+CREATE MATERIALIZED VIEW mydataset.daily AS
+SELECT DATE(created_at) AS day, COUNT(*) AS total FROM mydataset.events GROUP BY day;
+
 CREATE FUNCTION mydataset.add_one(x INT64) AS (x + 1);
+
+CREATE TABLE FUNCTION mydataset.events_since(cutoff TIMESTAMP) AS
+SELECT * FROM mydataset.events WHERE created_at > cutoff;
 
 CREATE PROCEDURE mydataset.cleanup()
 BEGIN
   DELETE FROM mydataset.events WHERE id < 0;
 END;
 
-SELECT name FROM mydataset.events WHERE id = 1;
+SELECT e.name, mydataset.add_one(e.id)
+FROM mydataset.events AS e
+JOIN mydataset.recent AS r ON r.id = e.id;
