@@ -1,0 +1,10 @@
+definition.macro	\\pack
+definition.macro	note
+definition.section	Introduction
+definition.label	sec:intro
+reference.label	sec:usage
+definition.section	Usage
+definition.label	sec:usage
+reference.label	knuth84
+definition.label	eq:sum
+definition.section	Acknowledgements

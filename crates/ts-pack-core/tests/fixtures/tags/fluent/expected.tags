@@ -1,0 +1,6 @@
+definition.variable	-brand-name
+definition.variable	welcome
+reference.variable	-brand-name
+definition.variable	emails
+definition.variable	about
+reference.variable	welcome

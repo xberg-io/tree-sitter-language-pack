@@ -1,0 +1,25 @@
+import { Button } from "std-widgets.slint";
+
+export struct Item {
+    title: string,
+    done: bool,
+}
+
+export enum Filter { all, open }
+
+global Theme {
+    out property <color> accent: #336699;
+}
+
+component Row inherits Rectangle {
+    in property <Item> item;
+    callback toggled(bool);
+    Text { text: item.title; }
+}
+
+export component App inherits Window {
+    in-out property <int> count: 0;
+    function increment() { count += 1; }
+    Row { item: { title: "a", done: false }; }
+    Button { text: "Add"; clicked => { increment(); } }
+}

@@ -1,0 +1,9 @@
+{{ set title = "Home" }}
+{{ function greet(name) }}
+  Hello {{ name }}
+{{ /function }}
+
+{{ layout "layout.vto" }}
+  <h1>{{ title }}</h1>
+  {{ greet("world") }}
+{{ /layout }}

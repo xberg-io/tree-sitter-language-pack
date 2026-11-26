@@ -1,0 +1,11 @@
+mixin card(title)
+  .card
+    h2= title
+html
+  head
+    block head
+      title Home
+  body
+    block content
+      p Hello
+    +card("Welcome")

@@ -1,0 +1,5 @@
+definition.variable	@primary
+definition.macro	bordered
+definition.macro	rounded
+definition.keyframes	pulse
+reference.call	bordered

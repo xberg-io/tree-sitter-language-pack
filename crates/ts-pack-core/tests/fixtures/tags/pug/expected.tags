@@ -1,0 +1,4 @@
+definition.macro	card
+definition.section	head
+definition.section	content
+reference.call	card

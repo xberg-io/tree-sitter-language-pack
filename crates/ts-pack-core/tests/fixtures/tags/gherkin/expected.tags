@@ -1,0 +1,8 @@
+definition.module	Login
+reference.call	a registered user
+definition.function	Successful login
+reference.call	the user logs in
+reference.call	the dashboard is shown
+definition.function	Failed login
+reference.call	the user enters a wrong password
+reference.call	an error is shown

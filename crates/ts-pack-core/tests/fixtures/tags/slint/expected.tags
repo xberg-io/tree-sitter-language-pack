@@ -1,0 +1,16 @@
+definition.struct	Item
+definition.enum	Filter
+definition.class	Theme
+definition.property	accent
+definition.class	Row
+reference.class	Rectangle
+definition.property	item
+definition.method	toggled
+reference.class	Text
+definition.class	App
+reference.class	Window
+definition.property	count
+definition.method	increment
+reference.class	Row
+reference.class	Button
+reference.call	increment

@@ -1,0 +1,18 @@
+@model IndexModel
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
+
+<h1>@Title</h1>
+
+@functions {
+    private int visits;
+
+    public string Title { get; set; } = "Home";
+
+    public string Greet(string name)
+    {
+        return $"Hello, {name}";
+    }
+}

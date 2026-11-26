@@ -1,0 +1,8 @@
+definition.variable	width
+definition.module	rounded_box
+reference.call	minkowski
+reference.call	cube
+reference.call	cylinder
+definition.function	half
+reference.call	rounded_box
+reference.call	half

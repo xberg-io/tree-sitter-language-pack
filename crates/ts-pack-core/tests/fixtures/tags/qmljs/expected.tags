@@ -1,0 +1,11 @@
+reference.class	Rectangle
+definition.variable	root
+definition.class	Badge
+reference.class	Text
+definition.property	title
+definition.property	count
+definition.method	clicked
+definition.method	increment
+reference.call	clicked
+reference.class	Text
+definition.variable	label

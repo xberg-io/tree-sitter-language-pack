@@ -1,0 +1,14 @@
+*pack.txt*	Tree-sitter language pack
+
+==============================================================================
+INTRODUCTION					*pack-intro*
+
+The pack parses many languages. See |pack-usage|.
+
+==============================================================================
+USAGE						*pack-usage*
+
+:PackParse {lang}				*:PackParse*
+	Parse the buffer with {lang}.
+
+ vim:tw=78:ts=8:ft=help:norl:

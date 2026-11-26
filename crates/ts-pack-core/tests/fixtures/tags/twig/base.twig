@@ -1,0 +1,13 @@
+{% extends "layout.twig" %}
+{% import "forms.twig" as forms %}
+
+{% macro input(name, value = "") %}
+  <input name="{{ name }}" value="{{ value }}">
+{% endmacro %}
+
+{% set title = "Home" %}
+
+{% block content %}
+  {{ forms.input("q") }}
+  {{ _self.input("q") }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% import "macros.html" as macros %}
+
+{% macro input(name, value="") %}
+  <input name="{{ name }}" value="{{ value }}">
+{% endmacro input %}
+
+{% set title = "Home" %}
+
+{% block content %}
+  {{ macros::input(name="q") }}
+  {{ self::input(name="q") }}
+{% endblock content %}

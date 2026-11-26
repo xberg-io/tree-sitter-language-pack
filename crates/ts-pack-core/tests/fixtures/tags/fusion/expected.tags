@@ -1,0 +1,4 @@
+definition.class	Vendor.Site:Component.Card
+reference.class	Neos.Fusion:Component
+reference.class	Neos.Fusion:Case
+reference.class	Vendor.Site:Component.Card

@@ -1,0 +1,5 @@
+definition.variable	background
+definition.variable	foreground
+reference.variable	background
+reference.variable	background
+reference.variable	foreground

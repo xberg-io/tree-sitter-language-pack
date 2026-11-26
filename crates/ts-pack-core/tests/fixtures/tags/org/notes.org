@@ -1,0 +1,15 @@
+#+TITLE: Notes
+
+* Getting started
+Install the pack.
+** Usage
+:PROPERTIES:
+:CUSTOM_ID: usage
+:END:
+See [[#usage]].
+*** TODO Configuration
+#+NAME: config-block
+#+BEGIN_SRC toml
+key = "value"
+#+END_SRC
+* Reference

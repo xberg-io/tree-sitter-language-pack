@@ -1,0 +1,5 @@
+definition.constant	acm
+definition.label	knuth84
+definition.label	lamport94
+reference.constant	acm
+reference.label	knuth84

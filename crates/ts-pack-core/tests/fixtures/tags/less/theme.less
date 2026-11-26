@@ -1,0 +1,22 @@
+@primary: #336699;
+@import "base";
+
+.bordered(@width: 2px) {
+  border: @width solid @primary;
+}
+
+#namespace {
+  .rounded() {
+    border-radius: 4px;
+  }
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.5; }
+}
+
+.card {
+  .bordered(4px);
+  color: @primary;
+}

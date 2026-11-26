@@ -1,0 +1,15 @@
+* {
+    background: #282828;
+    foreground: @background;
+}
+
+@import "colors.rasi"
+
+window {
+    background-color: @background;
+    width: 50%;
+}
+
+element selected {
+    text-color: var(foreground);
+}

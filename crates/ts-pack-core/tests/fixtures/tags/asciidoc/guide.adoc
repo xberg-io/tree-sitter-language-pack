@@ -1,0 +1,18 @@
+= Getting Started
+:toc:
+
+[[usage]]
+== Usage
+
+See <<usage>> and the <<config,configuration>>.
+
+[#config]
+=== Configuration
+
+----
+key = "value"
+----
+
+== Advanced
+
+=== Plugins

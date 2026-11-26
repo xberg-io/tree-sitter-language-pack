@@ -1,0 +1,4 @@
+definition.section	Scripts
+definition.field	visits
+definition.property	Title
+definition.method	Greet

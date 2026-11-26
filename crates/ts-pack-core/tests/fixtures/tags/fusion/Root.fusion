@@ -1,0 +1,11 @@
+prototype(Vendor.Site:Component.Card) < prototype(Neos.Fusion:Component) {
+    title = ''
+    renderer = afx`<div>{props.title}</div>`
+}
+
+root = Neos.Fusion:Case {
+    default {
+        condition = true
+        renderer = Vendor.Site:Component.Card
+    }
+}
