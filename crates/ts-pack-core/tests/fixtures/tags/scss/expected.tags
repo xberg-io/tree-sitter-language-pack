@@ -1,0 +1,5 @@
+definition.variable	$primary
+definition.macro	button
+definition.function	double
+definition.class	%message-shared
+definition.class	%notice

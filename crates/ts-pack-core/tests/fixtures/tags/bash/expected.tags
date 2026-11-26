@@ -1,0 +1,7 @@
+definition.variable	PREFIX
+definition.variable	PATH_EXTRA
+definition.variable	VERSION
+definition.variable	A
+definition.variable	B
+definition.function	build
+definition.function	deploy

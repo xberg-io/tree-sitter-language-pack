@@ -1,0 +1,6 @@
+reference.module	//tools:defs.bzl
+definition.variable	DEPS
+definition.function	my_macro
+definition.class	lib
+definition.variable	target
+definition.class	gen

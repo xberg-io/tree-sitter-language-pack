@@ -1,0 +1,9 @@
+definition.module	terraform
+definition.module	aws
+definition.class	logs
+definition.class	ubuntu
+definition.variable	env
+definition.constant	bucket_arn
+definition.module	vpc
+definition.variable	name_prefix
+definition.variable	tags

@@ -89,6 +89,7 @@ insta = { version = "1.49", features = ["json"] }
 # ~keep typst_serialize_overflow drives the typst external-scanner C ABI directly,
 # ~keep which means resolving its symbols out of the built grammar library.
 libloading = { workspace = true }
+serde_json = { workspace = true }
 tempfile = { workspace = true }
 
 [[test]]

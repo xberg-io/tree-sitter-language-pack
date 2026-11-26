@@ -1,0 +1,9 @@
+definition.module	billing
+definition.struct	users
+definition.type	active_users
+definition.type	user_counts
+definition.type	mood
+definition.function	add_one
+definition.variable	users_email_idx
+definition.variable	order_seq
+definition.function	audit_users
