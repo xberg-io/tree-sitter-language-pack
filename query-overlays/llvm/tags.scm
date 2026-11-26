@@ -24,10 +24,17 @@
   .
   (global_var) @name) @definition.function
 
-; `@total = alias i32, ptr @counter`; the aliasee may be a function or a variable.
+; `@sum = alias i32 (i32, i32), ptr @add`: an alias whose value type is a function type names a
+; function; `@total = alias i32, ptr @counter` names a variable.
 (alias
   .
-  (global_var) @name) @definition.alias
+  (global_var) @name
+  .
+  (type (argument_list))) @definition.function
+
+(alias
+  .
+  (global_var) @name) @definition.variable
 
 ; `%struct.Point = type { i32, i32 }`
 (global_type

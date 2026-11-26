@@ -15,7 +15,7 @@
 
 (struct_specifier
   name: (type_identifier) @name
-  body: (_)) @definition.struct
+  body: (_)) @definition.class
 
 (class_specifier
   name: (type_identifier) @name
@@ -24,6 +24,9 @@
 (enum_specifier
   name: (type_identifier) @name
   body: (_)) @definition.enum
+
+(enumerator
+  name: (identifier) @name) @definition.constant
 
 (type_definition
   declarator: (type_identifier) @name) @definition.type

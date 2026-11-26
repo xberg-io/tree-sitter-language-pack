@@ -1,8 +1,11 @@
 definition.type	%struct.Point
 definition.variable	@counter
-definition.alias	@total
+definition.variable	@total
+definition.function	@sum
+definition.function	@resolved
 definition.constant	@.str
 definition.function	@add
+definition.function	@resolve_add
 definition.function	@main
 reference.call	@add
 reference.call	@printf

@@ -1,4 +1,5 @@
 definition.constant	STACK_SIZE
 definition.label	_start
 reference.call	clear
+definition.label	reset
 definition.label	clear

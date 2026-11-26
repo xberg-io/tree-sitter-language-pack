@@ -7,7 +7,7 @@
 
 (struct_specifier
   name: (type_identifier) @name
-  body: (_)) @definition.struct
+  body: (_)) @definition.class
 
 ; Interface blocks: `uniform Camera { mat4 view; } camera;` names the block `Camera` and the
 ; instance `camera`.

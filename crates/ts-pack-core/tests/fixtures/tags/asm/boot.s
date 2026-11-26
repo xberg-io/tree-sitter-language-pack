@@ -10,6 +10,10 @@ _start:
 .done:
     ret
 
+label reset
+    xor rax, rax
+    ret
+
 clear:
     xor rdi, rdi
     ret

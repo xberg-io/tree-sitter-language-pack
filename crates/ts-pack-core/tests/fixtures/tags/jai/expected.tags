@@ -1,6 +1,6 @@
 definition.constant	LIMIT
 definition.variable	counter
-definition.struct	Vector2
+definition.class	Vector2
 definition.enum	Color
 definition.function	add
 definition.function	main

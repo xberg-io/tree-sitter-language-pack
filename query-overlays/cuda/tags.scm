@@ -1,6 +1,22 @@
 ; CUDA (`.cu`), a C++ dialect. Function definitions (kernels and host or device functions), types
 ; with a body, namespaces, typedefs and macros. Declarations inside function bodies are locals.
 
+; `Grid(int w, int h) : ... {}` inside `class Grid`: a constructor, claimed before the generic
+; function pattern below.
+([(class_specifier
+    name: (type_identifier) @_class
+    body: (field_declaration_list
+            (function_definition
+              declarator: (function_declarator
+                            declarator: (identifier) @name)) @definition.constructor))
+  (struct_specifier
+    name: (type_identifier) @_class
+    body: (field_declaration_list
+            (function_definition
+              declarator: (function_declarator
+                            declarator: (identifier) @name)) @definition.constructor))]
+  (#eq? @name @_class))
+
 ; `__global__ void saxpy(...) { ... }` and `float *alloc(int n) { ... }`
 (function_definition
   declarator: [(function_declarator
@@ -21,7 +37,7 @@
 
 (struct_specifier
   name: (type_identifier) @name
-  body: (_)) @definition.struct
+  body: (_)) @definition.class
 
 (class_specifier
   name: (type_identifier) @name
@@ -29,11 +45,14 @@
 
 (union_specifier
   name: (type_identifier) @name
-  body: (_)) @definition.union
+  body: (_)) @definition.class
 
 (enum_specifier
   name: (type_identifier) @name
   body: (_)) @definition.enum
+
+(enumerator
+  name: (identifier) @name) @definition.constant
 
 ; `typedef float real;` and `using real = float;`
 (type_definition

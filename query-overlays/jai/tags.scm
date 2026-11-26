@@ -11,7 +11,7 @@
 (source_file
   (statement
     (struct_declaration
-      name: (identifier) @name) @definition.struct))
+      name: (identifier) @name) @definition.class))
 
 (source_file
   (statement
