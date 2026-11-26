@@ -1,0 +1,10 @@
+definition.label	FLASH
+definition.label	RAM
+definition.variable	_stack_size
+definition.section	.text
+definition.variable	_etext
+definition.variable	_heap_start
+reference.label	FLASH
+definition.section	.data
+reference.label	RAM
+reference.label	FLASH

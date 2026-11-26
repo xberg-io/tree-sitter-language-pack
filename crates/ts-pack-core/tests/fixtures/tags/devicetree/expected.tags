@@ -1,0 +1,7 @@
+definition.macro	LED_GPIO
+definition.module	memory
+definition.module	leds
+definition.label	status_led
+definition.module	led-0
+reference.label	gpio
+reference.label	uart0

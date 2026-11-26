@@ -1,0 +1,26 @@
+/dts-v1/;
+
+#define LED_GPIO 13
+
+/ {
+	model = "Example Board";
+	compatible = "acme,board";
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x80000000 0x10000000>;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		status_led: led-0 {
+			label = "status";
+			gpios = <&gpio 13 0>;
+		};
+	};
+};
+
+&uart0 {
+	status = "okay";
+};

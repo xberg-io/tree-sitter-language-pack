@@ -1,0 +1,12 @@
+definition.variable	Width
+definition.class	Reg
+definition.constant	R0
+reference.class	Reg
+definition.constant	R1
+reference.class	Reg
+definition.class	ALU
+reference.class	Reg
+definition.constant	ADD
+reference.class	ALU
+definition.constant	SP
+reference.class	Reg

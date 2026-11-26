@@ -1,0 +1,9 @@
+definition.variable	digit
+definition.variable	number
+reference.variable	digit
+definition.module	tokens
+definition.variable	ident
+reference.variable	number
+reference.variable	ident
+reference.module	tokens
+reference.variable	space
