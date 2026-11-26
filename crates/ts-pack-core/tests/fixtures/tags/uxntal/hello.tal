@@ -1,0 +1,19 @@
+|00 @System &vector $2 &pad $6 &r $2 &g $2 &b $2
+|10 @Console &vector $2 &read $1 &pad $5 &write $1
+
+%EMIT { .Console/write DEO }
+
+|0100
+
+@on-reset ( -> )
+	;hello-txt print-str
+	BRK
+
+@print-str ( str* -- )
+	&while
+		LDAk EMIT
+		INC2 LDAk ?&while
+	POP2
+	JMP2r
+
+@hello-txt "Hello 0a $1

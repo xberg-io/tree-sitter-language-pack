@@ -1,0 +1,5 @@
+definition.module	@kernels
+definition.function	@add
+reference.call	@log
+definition.function	@main
+reference.call	@add

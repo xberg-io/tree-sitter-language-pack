@@ -1,0 +1,7 @@
+definition.constant	BUFSIZE
+definition.macro	PUSHALL
+definition.label	start
+reference.call	PUSHALL
+reference.call	clear
+definition.label	clear
+definition.label	buffer

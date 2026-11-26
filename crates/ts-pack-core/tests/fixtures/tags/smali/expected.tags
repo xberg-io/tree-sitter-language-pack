@@ -1,0 +1,8 @@
+definition.class	Greeter
+definition.field	MAX
+definition.field	name
+definition.constructor	<init>
+reference.call	<init>
+definition.method	greet
+reference.call	shout
+definition.method	shout

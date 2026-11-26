@@ -1,0 +1,5 @@
+definition.module	$math
+definition.variable	$counter
+definition.function	$add
+definition.function	$twice
+reference.call	$add

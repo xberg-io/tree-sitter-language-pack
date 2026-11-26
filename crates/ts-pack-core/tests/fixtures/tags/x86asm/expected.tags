@@ -1,0 +1,3 @@
+definition.label	_start
+reference.call	print
+definition.label	print

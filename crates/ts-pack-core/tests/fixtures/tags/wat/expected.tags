@@ -1,0 +1,8 @@
+definition.type	$binop
+definition.variable	$mem
+definition.variable	$counter
+definition.variable	$fns
+definition.function	$add
+reference.call	$log
+definition.function	$main
+reference.call	$add

@@ -1,0 +1,8 @@
+definition.macro	SYS_EXIT
+definition.macro	exit
+definition.constant	LEN
+definition.struct	point
+definition.label	msg
+definition.label	_start
+reference.call	print
+definition.label	print

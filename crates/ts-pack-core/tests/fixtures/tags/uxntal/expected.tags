@@ -1,0 +1,8 @@
+definition.label	System
+definition.label	Console
+definition.macro	EMIT
+definition.label	on-reset
+reference.call	print-str
+definition.label	print-str
+reference.call	EMIT
+definition.label	hello-txt
