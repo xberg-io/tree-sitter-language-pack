@@ -1,8 +1,0 @@
-{{ define "header" }}<h1>{{ .Title }}</h1>{{ end }}
-
-{{ block "content" . }}
-  {{ $count := len .Items }}
-  <p>{{ $count }} items</p>
-{{ end }}
-
-{{ template "header" . }}
