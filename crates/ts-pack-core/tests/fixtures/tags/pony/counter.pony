@@ -3,11 +3,19 @@ use "collections"
 trait Named
   fun name(): String
 
-interface Countable
+interface Countable is Named
   fun count(): USize
 
 primitive Limits
   fun max_count(): USize => 10
+
+struct Point
+  var x: F64 = 0
+  var y: F64 = 0
+
+  new create(x': F64, y': F64) =>
+    x = x'
+    y = y'
 
 class Counter is (Named & Countable)
   var _count: USize = 0

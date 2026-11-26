@@ -1,4 +1,7 @@
-definition.property	app.name
-definition.property	app.title
-reference.property	app.name
-definition.property	server.port
+definition.variable	app.name
+definition.variable	app.title
+reference.variable	app.name
+definition.variable	server.port
+definition.variable	server.url
+reference.variable	server.port
+definition.variable	db.password

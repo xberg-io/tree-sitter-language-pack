@@ -8,7 +8,7 @@
 
 (program
   (utype
-    (uname) @name) @definition.struct)
+    (uname) @name) @definition.class)
 
 (program
   [

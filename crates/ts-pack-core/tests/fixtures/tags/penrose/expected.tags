@@ -15,3 +15,12 @@ reference.type	Set
 definition.function	Singleton
 reference.type	Point
 reference.type	Set
+definition.variable	epsilon
+reference.type	Set
+definition.variable	A
+definition.variable	B
+reference.type	Point
+definition.variable	p
+definition.variable	C
+reference.call	Intersection
+reference.call	Disjoint

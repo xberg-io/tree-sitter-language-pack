@@ -1,10 +1,33 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package demo.v1;
 
+import "google/protobuf/descriptor.proto";
+
+// A point on the plane.
 message Point {
-  int32 x = 1;
-  int32 y = 2;
+  required int32 x = 1;
+  optional int32 y = 2 [default = 0];
+}
+
+message Shape {
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+    KIND_POLYGON = 1;
+  }
+
+  optional Kind kind = 1;
+  repeated Point vertices = 2;
+  map<string, string> labels = 3;
+
+  oneof fill {
+    string color = 4;
+    bytes pattern = 5;
+  }
+
+  optional group Metadata = 6 {
+    optional string author = 7;
+  }
 }
 
 enum Color {
@@ -12,6 +35,11 @@ enum Color {
   COLOR_RED = 1;
 }
 
+extend google.protobuf.FieldOptions {
+  optional bool sensitive = 50000;
+}
+
 service Geometry {
   rpc Move(Point) returns (Point);
+  rpc Describe(Shape) returns (.demo.v1.Shape);
 }

@@ -7,3 +7,11 @@ predicate Subset(Set s1, Set s2)
 
 function Intersection(Set a, Set b) -> Set
 constructor Singleton(Point p) -> Set
+value epsilon: Number
+
+-- The grammar parses .domain, .substance and .style statements through one root; these are
+-- substance statements.
+Set A, B
+Point p
+Let C := Intersection(A, B)
+Disjoint(A, B)

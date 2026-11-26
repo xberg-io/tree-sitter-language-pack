@@ -12,6 +12,10 @@ type
     X, Y: Integer;
   end;
 
+  IShape = interface
+    function Perimeter: Double;
+  end;
+
   TShape = class
   private
     FSides: Integer;

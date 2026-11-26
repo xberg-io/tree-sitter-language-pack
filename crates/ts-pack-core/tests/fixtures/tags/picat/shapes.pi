@@ -14,6 +14,16 @@ large(R) =>
 total([]) = 0.
 total([R|Rs]) = area(R) + total(Rs).
 
+color(red).
+color(green).
+
+positive(X), X > 0 => true.
+
+echo(X), {ins(X)} => println(X).
+echo(_) => true.
+
 main =>
-    println(total([1.0, 2.0])),
+    Xs = [1.0, 2.0],
+    println(total(Xs)),
+    println(Xs.length),
     if large(3.0) then println(large) end.

@@ -22,7 +22,7 @@
 
 ; Constructors, methods and behaviours
 (constructor
-  (identifier) @name) @definition.method
+  (identifier) @name) @definition.constructor
 
 (method
   (identifier) @name) @definition.method
@@ -35,59 +35,56 @@
   name: (identifier) @name) @definition.field
 
 ; Provided traits and interfaces: `is Trait` or `is (A & B)`
-(class_definition
-  [
-    (base_type
-      name: (identifier) @name)
-    (intersection_type
+[
+  (class_definition
+    [
       (base_type
-        name: (identifier) @name))
-  ]) @reference.implementation
-
-(actor_definition
-  [
-    (base_type
-      name: (identifier) @name)
-    (intersection_type
+        name: (identifier) @name)
+      (intersection_type
+        (base_type
+          name: (identifier) @name))
+    ])
+  (actor_definition
+    [
       (base_type
-        name: (identifier) @name))
-  ]) @reference.implementation
-
-(primitive_definition
-  [
-    (base_type
-      name: (identifier) @name)
-    (intersection_type
+        name: (identifier) @name)
+      (intersection_type
+        (base_type
+          name: (identifier) @name))
+    ])
+  (primitive_definition
+    [
       (base_type
-        name: (identifier) @name))
-  ]) @reference.implementation
-
-(struct_definition
-  [
-    (base_type
-      name: (identifier) @name)
-    (intersection_type
+        name: (identifier) @name)
+      (intersection_type
+        (base_type
+          name: (identifier) @name))
+    ])
+  (struct_definition
+    [
       (base_type
-        name: (identifier) @name))
-  ]) @reference.implementation
-
-(trait_definition
-  [
-    (base_type
-      name: (identifier) @name)
-    (intersection_type
+        name: (identifier) @name)
+      (intersection_type
+        (base_type
+          name: (identifier) @name))
+    ])
+  (trait_definition
+    [
       (base_type
-        name: (identifier) @name))
-  ]) @reference.implementation
-
-(interface_definition
-  [
-    (base_type
-      name: (identifier) @name)
-    (intersection_type
+        name: (identifier) @name)
+      (intersection_type
+        (base_type
+          name: (identifier) @name))
+    ])
+  (interface_definition
+    [
       (base_type
-        name: (identifier) @name))
-  ]) @reference.implementation
+        name: (identifier) @name)
+      (intersection_type
+        (base_type
+          name: (identifier) @name))
+    ])
+] @reference.implementation
 
 ; Packages
 (use_statement

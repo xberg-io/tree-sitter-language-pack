@@ -1,11 +1,9 @@
 definition.variable	$ErrorActionPreference
 definition.variable	$Targets
 definition.enum	Stage
-definition.enum_variant	Build
-definition.enum_variant	Deploy
+definition.constant	Build
+definition.constant	Deploy
 definition.class	Service
-definition.field	$Name
-definition.field	$Port
 definition.constructor	Service
 definition.method	Url
 definition.function	Invoke-Build

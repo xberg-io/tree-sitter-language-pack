@@ -14,10 +14,8 @@
  (implementation (defProc header: (declProc name: (identifier) @name)) @definition.function)
  (interface (declProc name: (identifier) @name) @definition.function)]
 
-; Method bodies: `function TShape.Area: Double; begin ... end;`
-[(program (defProc header: (declProc name: (genericDot rhs: (identifier) @name))) @definition.method)
- (library (defProc header: (declProc name: (genericDot rhs: (identifier) @name))) @definition.method)
- (implementation (defProc header: (declProc name: (genericDot rhs: (identifier) @name))) @definition.method)]
+; Method bodies (`function TShape.Area: Double; begin ... end;`) are not tagged: Pascal requires
+; every method to be declared in its type first, and that declaration is the tag.
 
 ; Methods declared in a class, record, interface or helper type
 [(declClass (declProc name: (identifier) @name) @definition.method)
@@ -43,7 +41,7 @@
 (declTypes
   (declType
     name: (identifier) @name
-    type: (declClass (kRecord))) @definition.struct)
+    type: (declClass (kRecord))) @definition.class)
 
 (declTypes
   (declType

@@ -18,13 +18,13 @@
 ; `[string] Url() { ... }`
 (class_method_definition (simple_name) @name) @definition.method
 
-; `[int] $Port = 8080`
-(class_property_definition (variable) @name) @definition.field
+; Class properties (`[int] $Port = 8080`) are not tagged: the grammar's `variable` is a single
+; token that keeps the `$`, while members are used as `$this.Port`, without it.
 
 ; `enum Stage { Build; Deploy = 2 }`
 (enum_statement . (simple_name) @name) @definition.enum
 
-(enum_member (simple_name) @name) @definition.enum_variant
+(enum_member (simple_name) @name) @definition.constant
 
 ; `$Targets = @('api', 'worker')` at the top level; the grammar nests the target variable in the
 ; full expression-precedence chain.

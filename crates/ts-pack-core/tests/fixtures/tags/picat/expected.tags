@@ -6,11 +6,16 @@ definition.function	square
 definition.function	large
 reference.call	area
 definition.function	total
-definition.function	total
 reference.call	area
 reference.call	total
+definition.function	color
+definition.function	positive
+definition.function	echo
+reference.call	println
 definition.function	main
 reference.call	println
 reference.call	total
+reference.call	println
+reference.call	length
 reference.call	large
 reference.call	println
