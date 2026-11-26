@@ -1,4 +1,10 @@
 definition.constant	$app_name
 definition.constant	$base
+definition.constant	$version
+definition.constant	$debug
+definition.constant	$owners
 reference.constant	$app_name
 reference.constant	$base
+reference.constant	$version
+reference.constant	$debug
+reference.constant	$owners

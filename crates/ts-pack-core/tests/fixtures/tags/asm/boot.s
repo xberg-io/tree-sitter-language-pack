@@ -1,4 +1,5 @@
 const STACK_SIZE 4096
+const EXIT_CODE 0
 
 .section .text
 .global _start

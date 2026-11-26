@@ -1,8 +1,14 @@
 let {
     $app_name = "greeter"
     $base = { port = 8080 host = "localhost" }
+    $version = "1.4.0"
+    $debug = false
+    $owners = [ "ops" "web" ]
 } in {
     name = $app_name
     server = { ..$base tls = false }
     banner = "Welcome"
+    version = $version
+    debug = $debug
+    owners = $owners
 }

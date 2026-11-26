@@ -1,3 +1,6 @@
 definition.module	FileInfo
 definition.module	DeviceInfo
 definition.module	1000
+definition.module	1018
+definition.module	1018sub0
+definition.module	1018sub1

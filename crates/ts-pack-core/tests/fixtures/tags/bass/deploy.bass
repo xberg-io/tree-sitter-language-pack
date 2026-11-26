@@ -12,4 +12,8 @@
 (defop when-ok [cond & body] scope
   (if (eval cond scope) (eval (cons do body) scope) null))
 
-(build *dir*)
+(defn publish [artifact]
+  (log "publishing" artifact)
+  (build artifact))
+
+(publish *dir*)

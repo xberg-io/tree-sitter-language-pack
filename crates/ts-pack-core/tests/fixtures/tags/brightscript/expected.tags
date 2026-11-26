@@ -4,3 +4,7 @@ reference.call	FormatTotal
 definition.function	Add
 definition.function	FormatTotal
 reference.call	ToStr
+definition.function	Average
+reference.call	Count
+reference.call	Add
+reference.call	Count

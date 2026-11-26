@@ -1,3 +1,5 @@
 definition.module	metadata
 definition.module	options
+definition.module	options.packages.find
+definition.module	tool:pytest
 definition.module	flake8

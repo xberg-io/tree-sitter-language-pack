@@ -5,3 +5,6 @@ definition.function	TotalAmount
 definition.function	LogOrder
 reference.call	Message
 reference.call	Describe
+definition.function	FormatOrder
+reference.call	StrTemplate
+reference.call	TotalAmount

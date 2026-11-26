@@ -1,8 +1,12 @@
 definition.variable	@calls
 reference.call	hash
+definition.variable	@latency
+reference.call	lruhash
 definition.macro	inc
+definition.macro	is_root
 reference.call	printf
 reference.call	count
 reference.call	inc
+reference.call	is_root
 reference.call	print
 reference.call	clear

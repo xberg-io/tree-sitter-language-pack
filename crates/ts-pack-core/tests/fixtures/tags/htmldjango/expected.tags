@@ -1,2 +1,5 @@
 definition.section	title
+definition.section	meta
 definition.section	content
+definition.section	sidebar
+definition.section	scripts

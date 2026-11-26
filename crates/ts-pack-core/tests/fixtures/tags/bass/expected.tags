@@ -2,3 +2,4 @@ definition.variable	version
 definition.variable	image
 definition.function	build
 definition.macro	when-ok
+definition.function	publish

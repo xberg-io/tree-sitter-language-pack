@@ -3,9 +3,20 @@
 
 {% block title %}Home{% endblock %}
 
+{% block meta %}
+  <meta name="description" content="Home page">
+{% endblock meta %}
+
 {% block content %}
   {% with total=items|length %}
     <p>{{ total }} items</p>
   {% endwith %}
+  {% block sidebar %}
+    <aside>{{ user.name }}</aside>
+  {% endblock sidebar %}
   {% include "footer.html" %}
 {% endblock content %}
+
+{% block scripts %}
+  <script src="{% static 'app.js' %}"></script>
+{% endblock %}

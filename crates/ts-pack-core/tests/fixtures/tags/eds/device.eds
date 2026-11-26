@@ -14,3 +14,22 @@ ObjectType=0x7
 DataType=0x0007
 AccessType=ro
 DefaultValue=0x00000191
+
+[1018]
+SubNumber=2
+ParameterName=Identity object
+ObjectType=0x9
+
+[1018sub0]
+ParameterName=Number of entries
+ObjectType=0x7
+DataType=0x0005
+AccessType=ro
+DefaultValue=1
+
+[1018sub1]
+ParameterName=Vendor ID
+ObjectType=0x7
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x0

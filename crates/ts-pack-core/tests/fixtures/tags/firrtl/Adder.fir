@@ -18,6 +18,11 @@ circuit Adder :
     tmp <= total
     sum <= tmp
 
+  module Pass :
+    input x : UInt<1>
+    output y : UInt<1>
+    y <= x
+
   extmodule BlackBox :
     input in : UInt<1>
     defname = BlackBox

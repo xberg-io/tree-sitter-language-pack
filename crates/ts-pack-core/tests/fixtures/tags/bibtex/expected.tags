@@ -1,5 +1,8 @@
 definition.constant	acm
+definition.constant	tug
 definition.label	knuth84
 definition.label	lamport94
 reference.constant	acm
 reference.label	knuth84
+definition.label	knuth86
+reference.constant	tug

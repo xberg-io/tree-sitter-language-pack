@@ -16,3 +16,7 @@ EndFunction
 Procedure LogOrder(Order)
 	Message(Order.Describe());
 EndProcedure
+
+Function FormatOrder(Order) Export
+	Return StrTemplate("%1: %2", Order.Number, TotalAmount(Order.Lines));
+EndFunction

@@ -1,5 +1,9 @@
 definition.variable	threshold
+definition.variable	regions
+reference.call	dynamic
+definition.function	Normalize
 definition.function	Recent
 reference.call	ago
 reference.call	Recent
 reference.call	sum
+reference.call	Normalize

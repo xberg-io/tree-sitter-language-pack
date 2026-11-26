@@ -10,3 +10,8 @@ end function
 function FormatTotal(value as integer) as string
     return "Total: " + value.ToStr()
 end function
+
+function Average(values as object) as float
+    if values.Count() = 0 then return 0
+    return Add(values[0], values[1]) / values.Count()
+end function

@@ -1,5 +1,6 @@
 definition.type	EUR
 definition.type	Assets:Checking
+definition.type	Expenses:Housing
 definition.type	Expenses:Groceries
 reference.type	Expenses:Groceries
 reference.type	Assets:Checking

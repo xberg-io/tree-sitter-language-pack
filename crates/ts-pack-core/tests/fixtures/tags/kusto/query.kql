@@ -1,5 +1,9 @@
 let threshold = 100;
+let regions = dynamic(["eu", "us"]);
+let Normalize = (value: real) { value / 100 };
 let Recent = (days: int) { Events | where Timestamp > ago(1d * days) };
 Recent(7)
 | where Count > threshold
+| where Region in (regions)
 | summarize total = sum(Count) by Region
+| extend share = Normalize(total)

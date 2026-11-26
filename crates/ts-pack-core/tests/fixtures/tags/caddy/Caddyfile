@@ -11,3 +11,12 @@ example.com, www.example.com {
 https://status.example.com {
 	respond "OK" 200
 }
+
+localhost:8443 {
+	tls internal
+	reverse_proxy localhost:3000
+}
+
+:9090 {
+	metrics /metrics
+}

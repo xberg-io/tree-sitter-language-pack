@@ -9,3 +9,9 @@ root = Neos.Fusion:Case {
         renderer = Vendor.Site:Component.Card
     }
 }
+
+prototype(Vendor.Site:Page) < prototype(Neos.Neos:Page) {
+    body = Vendor.Site:Component.Card {
+        title = 'Home'
+    }
+}

@@ -1,9 +1,14 @@
 #!/usr/bin/env bpftrace
 
 let @calls = hash(1024);
+let @latency = lruhash(512);
 
 macro inc(x) {
   x + 1
+}
+
+macro is_root(uid) {
+  uid == 0
 }
 
 BEGIN
@@ -15,6 +20,9 @@ tracepoint:raw_syscalls:sys_enter
 {
   @calls[comm] = count();
   $n = inc(1);
+  if (is_root(uid)) {
+    @latency[tid] = nsecs;
+  }
 }
 
 END

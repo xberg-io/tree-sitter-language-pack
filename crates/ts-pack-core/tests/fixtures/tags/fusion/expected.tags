@@ -2,3 +2,6 @@ definition.class	Vendor.Site:Component.Card
 reference.class	Neos.Fusion:Component
 reference.class	Neos.Fusion:Case
 reference.class	Vendor.Site:Component.Card
+definition.class	Vendor.Site:Page
+reference.class	Neos.Neos:Page
+reference.class	Vendor.Site:Component.Card

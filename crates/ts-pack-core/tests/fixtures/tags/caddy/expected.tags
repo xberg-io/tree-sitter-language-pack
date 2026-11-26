@@ -1,3 +1,5 @@
 definition.module	example.com
 definition.module	www.example.com
 definition.module	https://status.example.com
+definition.module	localhost:8443
+definition.module	:9090

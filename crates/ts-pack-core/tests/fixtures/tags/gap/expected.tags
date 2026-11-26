@@ -1,4 +1,9 @@
 definition.function	Square
 definition.function	Double
+definition.function	Cube
+reference.call	Square
+definition.function	Counter
 reference.call	Print
 reference.call	Square
+reference.call	Cube
+reference.call	Counter

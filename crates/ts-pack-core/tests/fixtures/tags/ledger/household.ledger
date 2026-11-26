@@ -3,6 +3,7 @@ commodity EUR
     format 1.000,00 EUR
 
 account Assets:Checking
+account Expenses:Housing
 account Expenses:Groceries
     note Food and household supplies
 

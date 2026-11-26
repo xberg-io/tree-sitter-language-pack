@@ -1,4 +1,5 @@
 definition.module	Half
 definition.module	Adder
 reference.module	Half
+definition.module	Pass
 definition.module	BlackBox

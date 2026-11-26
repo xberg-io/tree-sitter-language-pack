@@ -1,3 +1,6 @@
 definition.type	count
 definition.function	add-one
 definition.function	double
+definition.type	pair
+definition.function	swap
+definition.function	quadruple
