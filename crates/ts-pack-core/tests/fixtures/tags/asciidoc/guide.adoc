@@ -1,18 +1,26 @@
 = Getting Started
 :toc:
+:product-name: Language Pack
+:version: 1.2
 
-[[usage]]
+[#usage]
 == Usage
 
-See <<usage>> and the <<config,configuration>>.
+[#intro]
+See the configuration section.
 
 [#config]
 === Configuration
 
+[#sample]
 ----
 key = "value"
 ----
 
 == Advanced
 
+[#plugins]
 === Plugins
+
+[[legacy]]
+Older releases used anchors in double brackets.

@@ -1,10 +1,22 @@
 # Getting started
 
-Install the [pack][install].
+Install the [pack][install], read the [guide][manual] and see the
+[changelog][changes].
 
-{#usage}
+{#usage .wide}
 ## Usage
 
-See [usage](#usage).
+See [usage](#usage), the note[^speed] and the caveat[^memory].
+
+## Configuration
+
+Set `key` before you start, as the [manual][manual] explains.
 
 [install]: https://example.com/install
+[manual]: https://example.com/guide
+[changes]: https://example.com/changes
+[unused]: https://example.com/unused
+
+[^speed]: Parsing is incremental.
+
+[^memory]: Trees share unchanged nodes.

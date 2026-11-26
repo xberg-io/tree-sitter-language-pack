@@ -1,6 +1,7 @@
-definition.section	Getting Started\n
-definition.section	Usage\n
+definition.variable	product-name
+definition.variable	version
+definition.label	usage
+definition.label	intro
 definition.label	config
-definition.section	Configuration\n
-definition.section	Advanced\n
-definition.section	Plugins\n
+definition.label	sample
+definition.label	plugins

@@ -1,2 +1,12 @@
-definition.section	Getting started\n
-definition.section	Usage\n
+reference.label	install
+reference.label	manual
+reference.label	changes
+reference.label	speed
+reference.label	memory
+reference.label	manual
+definition.label	install
+definition.label	manual
+definition.label	changes
+definition.label	unused
+definition.label	speed
+definition.label	memory
