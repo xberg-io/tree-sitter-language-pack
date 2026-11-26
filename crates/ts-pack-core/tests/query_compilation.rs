@@ -16,26 +16,30 @@
 use tree_sitter_language_pack::{LanguageRegistry, QueryKind, get_query};
 
 /// Languages with a hand-written `query-overlays/{lang}/tags.scm` that overrides the
-/// vendored file (see `crates/ts-pack-core/build.rs::effective_query_path`). A grammar
-/// bump cannot regenerate these — they must be hand-fixed, so their compile failures
-/// are asserted separately from the bulk sweep. ~keep
-const OVERLAY_TAGS_LANGUAGES: [&str; 15] = [
-    "dart",
-    "java",
-    "kotlin",
-    "php",
-    "scala",
-    "cpp",
-    "swift",
-    "csharp",
-    "ruby",
-    "sql",
-    "bash",
-    "scss",
-    "hcl",
-    "terraform",
-    "starlark",
-];
+/// vendored file (see `crates/ts-pack-core/build_support/codegen.rs::effective_query_path`),
+/// read from disk so a new overlay is covered without editing this test. A grammar bump
+/// cannot regenerate these — they must be hand-fixed, so their compile failures are asserted
+/// separately from the bulk sweep. ~keep
+fn overlay_tags_languages() -> Vec<String> {
+    let overlays = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../query-overlays");
+    let entries = std::fs::read_dir(&overlays).unwrap_or_else(|e| panic!("read {}: {e}", overlays.display()));
+    let mut languages: Vec<String> = entries
+        .map(|entry| {
+            entry
+                .unwrap_or_else(|e| panic!("read {}: {e}", overlays.display()))
+                .path()
+        })
+        .filter(|dir| dir.join("tags.scm").is_file())
+        .filter_map(|dir| dir.file_name().map(|name| name.to_string_lossy().into_owned()))
+        .collect();
+    languages.sort();
+    assert!(
+        !languages.is_empty(),
+        "found no query-overlays/<lang>/tags.scm under {}; the overlay path is wrong",
+        overlays.display()
+    );
+    languages
+}
 
 /// Queries that fail to compile because of a defect in the query file UPSTREAM ships, not in
 /// this repo's selection or overlays. Each was traced to the upstream commit that introduced it,
@@ -169,10 +173,11 @@ fn should_compile_every_bundled_query_for_every_language_built_into_this_binary(
 fn should_compile_the_hand_written_tags_overlay_for_every_overlay_language_built_into_this_binary() {
     let registry = LanguageRegistry::new();
 
+    let overlay_languages = overlay_tags_languages();
     let mut present_overlay_languages: Vec<&str> = Vec::new();
     let mut failures: Vec<QueryFailure> = Vec::new();
 
-    for &language in &OVERLAY_TAGS_LANGUAGES {
+    for language in overlay_languages.iter().map(String::as_str) {
         if registry.get_language(language).is_err() {
             // ~keep Not built in this run; matches the skip-per-entry convention used by
             // ~keep intel::tests::has_grammar for partial `TSLP_LANGUAGES` builds.
@@ -198,7 +203,7 @@ fn should_compile_the_hand_written_tags_overlay_for_every_overlay_language_built
     if present_overlay_languages.is_empty() {
         eprintln!(
             "SKIPPED should_compile_the_hand_written_tags_overlay_for_every_overlay_language_built_into_this_binary: \
-             none of {OVERLAY_TAGS_LANGUAGES:?} are built into this binary — set TSLP_LANGUAGES to include at least \
+             none of {overlay_languages:?} are built into this binary — set TSLP_LANGUAGES to include at least \
              one of them to exercise the hand-written overlays"
         );
         return;
