@@ -1,7 +1,11 @@
-definition.function	parent
+definition.module	family
 definition.function	parent
 definition.function	male
 definition.function	grandparent
 definition.function	ancestor
-definition.function	ancestor
+definition.function	siblings
+definition.function	children
+definition.function	describe
+definition.function	greeting
+definition.function	name
 definition.function	main
