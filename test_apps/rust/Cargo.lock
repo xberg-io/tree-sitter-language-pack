@@ -972,9 +972,9 @@ checksum = "d0af592be68c579aa78a16846bd19422978c3c52e438523d45ff5d1bff1f9d4a"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.27.1"
+version = "1.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e47808a760e83b89a31706e8b7fdc595da68f88bda68d5c8e540b5a871d2158"
+checksum = "012c6a4ddf41a5f1c8783ab8d2273b9d5ffffce8c0445778512ed89dd6ffef0b"
 dependencies = [
  "ahash",
  "cc",
@@ -998,7 +998,7 @@ dependencies = [
 
 [[package]]
 name = "tree_sitter_language_pack-e2e-rust"
-version = "1.27.1"
+version = "1.28.0"
 dependencies = [
  "serde_json",
  "tree-sitter-language-pack",
@@ -1024,9 +1024,9 @@ checksum = "8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1"
 
 [[package]]
 name = "ureq"
-version = "3.5.1"
+version = "3.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e7be76686bdf7198002062423ca0d8cf9b75a27c8e1de804513b97e97b555d9d"
+checksum = "3ac5cecf619ca81f66a96482db09687c9f7465af65f4300a8c30cca05bd5a59d"
 dependencies = [
  "base64",
  "flate2",

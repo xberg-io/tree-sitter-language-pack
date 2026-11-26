@@ -1920,11 +1920,11 @@ name = "tree_sitter_language_pack"
 version = "1.28.0"
 
 [crates.e2e.registry.packages.zig.platform_hashes]
-"aarch64-apple-darwin" = "STALE_HASH_REGENERATE"
-"aarch64-unknown-linux-gnu" = "STALE_HASH_REGENERATE"
-"x86_64-apple-darwin" = "STALE_HASH_REGENERATE"
-"x86_64-pc-windows-msvc" = "STALE_HASH_REGENERATE"
-"x86_64-unknown-linux-gnu" = "STALE_HASH_REGENERATE"
+"aarch64-apple-darwin" = "tree_sitter_language_pack-1.28.0-jCz0Y9eRUQD1NDw6qg1zbRZIXZ-UX0VZ4hxq6VcUQ6AH"
+"aarch64-unknown-linux-gnu" = "tree_sitter_language_pack-1.28.0-jCz0Y2duVgBXM99TvdJNF5pYeSYsSolTFUnLEyoEFWtr"
+"x86_64-apple-darwin" = "tree_sitter_language_pack-1.28.0-jCz0Y1_zVQDn4DQ5KVKCcFh7oRDLZONFheo9nxZoarLK"
+"x86_64-pc-windows-msvc" = "tree_sitter_language_pack-1.28.0-jCz0Y2frZAC9xGaVCOQ1eUgR1ySv3wY8MRQnvfSPqvot"
+"x86_64-unknown-linux-gnu" = "tree_sitter_language_pack-1.28.0-jCz0Y58IXwDRs2-DgyHx0T98t4a7_VVZh_01K_2GwK1Z"
 
 [crates.e2e.registry.packages.swift]
 name = "TreeSitterLanguagePack"
