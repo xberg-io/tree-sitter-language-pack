@@ -8,6 +8,26 @@ run = "uv run --no-sync scripts/generate_grammar_table.py"
 
 ["docs:generate:grammar-table"]
 description = "Generate the per-grammar query-bundle README partial"
-sources = ["sources/language_definitions.json", "parsers/*/queries/*.scm", "query-overlays/*/*.scm"]
+sources = [
+  "sources/language_definitions.json",
+  "sources/tags_coverage.json",
+  "parsers/*/queries/*.scm",
+  "query-overlays/*/*.scm",
+]
 outputs = ["templates/readme/partials/grammar_table.md"]
 run = "uv run --no-sync scripts/generate_grammar_table.py --mode queries --output templates/readme/partials/grammar_table.md"
+
+["docs:generate:tags-coverage"]
+description = "Generate the tags coverage docs page from tags_coverage.json and the bundled tags queries"
+sources = [
+  "sources/language_definitions.json",
+  "sources/tags_coverage.json",
+  "parsers/*/queries/tags.scm",
+  "query-overlays/*/tags.scm",
+]
+outputs = ["docs-site/src/content/docs/tags-coverage.md"]
+run = "uv run --no-sync scripts/generate_grammar_table.py --mode tags"
+
+["docs:check:tags-coverage"]
+description = "Fail if the tags coverage docs page is stale"
+run = "uv run --no-sync scripts/generate_grammar_table.py --mode tags --check"

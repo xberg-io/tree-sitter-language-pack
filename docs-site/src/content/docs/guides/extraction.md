@@ -20,6 +20,12 @@ Bundled query helper functions return query source strings only; they do not exe
 | `get_indents_query(language)` | `indents.scm` source, when bundled |
 | `get_folds_query(language)` | `folds.scm` source, when bundled |
 
+In Rust, `get_query(language, QueryKind::Tags)` (and the other `QueryKind`s) returns the query
+compiled and cached. `process()` does not run the tags query: its `symbols` and `structure`
+fields come from the AST traversal above. [Tags coverage](/tags-coverage/) lists which languages
+bundle a `tags.scm` and why the others do not; for template languages (vue, astro, erb, ...) run
+the tags query of the injected language over each injected range.
+
 If you need custom extraction, call [`get_parser()`](/guides/parsing/), parse the source with `Parser.parse(&str)` or `Parser.parse_bytes(&[u8])`, then walk the tree manually or run tree-sitter query APIs in your host language.
 
 ### Next steps

@@ -292,8 +292,9 @@ jobs:
           set -euo pipefail
           LANGS=docs-site/src/content/docs/languages.md
           TABLE=templates/readme/partials/grammar_table.md
+          TAGS=docs-site/src/content/docs/tags-coverage.md
 
-          for f in "$LANGS" "$TABLE"; do
+          for f in "$LANGS" "$TABLE" "$TAGS"; do
             test -f "$f" || { echo "::error::expected generated file missing: $f"; exit 1; }
             git ls-files --error-unmatch "$f" >/dev/null 2>&1 \
               || { echo "::error::$f is not tracked by git"; exit 1; }
@@ -303,9 +304,10 @@ jobs:
 
           uv run --no-sync scripts/generate_grammar_table.py
           uv run --no-sync scripts/generate_grammar_table.py --mode queries --output "$TABLE"
+          uv run --no-sync scripts/generate_grammar_table.py --mode tags --output "$TAGS"
 
-          if ! git diff --exit-code -- "$LANGS" "$TABLE"; then
-            echo "::error::Generated grammar tables are stale. Run: mise run docs:generate:languages && mise run docs:generate:grammar-table"
+          if ! git diff --exit-code -- "$LANGS" "$TABLE" "$TAGS"; then
+            echo "::error::Generated grammar tables are stale. Run: mise run docs:generate:languages && mise run docs:generate:grammar-table && mise run docs:generate:tags-coverage"
             exit 1
           fi
 

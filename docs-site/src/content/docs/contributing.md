@@ -172,27 +172,89 @@ alef test --e2e --jobs 1
 
 ### 5. Add a tags query
 
-Every language must bundle a working `tags.scm`, the query symbol indexes and outlines use,
-unless `sources/tags_coverage.json` lists it under `not_applicable` with the specific reason tags
-do not apply (data formats, doc-comment grammars, injection-only template layers). A new grammar
-without either fails `every_language_requiring_tags_has_a_fixture`.
+Every language must bundle a working `tags.scm` unless `sources/tags_coverage.json` classifies
+it. A new grammar with neither fails `every_language_requiring_tags_has_a_fixture`. The
+[tags coverage](/tags-coverage/) page lists every language's status; regenerate it with
+`mise run docs:generate:tags-coverage`.
 
-- Use the grammar's `queries/tags.scm`, or write `query-overlays/<lang>/tags.scm` when upstream
-  ships none or a broken one. Each match needs a `definition.<kind>` or `reference.<kind>`
-  capture and a `@name` capture.
-- Add `crates/ts-pack-core/tests/fixtures/tags/<lang>/` with exactly one small source file and
-  `expected.tags`: one `<role>\t<name>` line per match, in match order.
-  `TSLP_TAGS_BLESS=1` writes it from the query output; check every line names a real
-  definition or reference in the source.
-- When tags apply but the vendored grammar cannot yield correct names (for example, a lexer that
-  folds the whitespace after a keyword into the identifier), list the language under
-  `grammar_blocked` with the defect instead of shipping wrong names. A `grammar_blocked` language
-  has no overlay, no fixture and no `not_applicable` entry, and the test fails once its grammar
-  bundles a tags query, so the entry is revisited after a grammar fix.
+- **`not_applicable`**: tags do not apply, because the language declares nothing worth indexing
+  (data formats, doc-comment markup, injection-only template layers). The reason names what the
+  language has and why none of it is a definition.
+- **`grammar_blocked`**: tags apply, but the vendored grammar cannot yield correct names (for
+  example, a lexer that folds the whitespace after a keyword into the identifier, or statements
+  parsed as one opaque token). The reason names the defect. List it here instead of shipping
+  wrong names.
+
+A classified language has no overlay and no fixture, and the test fails once it bundles a tags
+query, so the entry is revisited when the grammar changes.
+
+**Query.** Use the grammar's `queries/tags.scm`, or write `query-overlays/<lang>/tags.scm`, which
+replaces it at build time, when upstream ships none or a broken one. Write it from the grammar
+(`node-types.json`, `grammar.js`, corpus tests), not from another editor's queries. Each pattern
+that emits a tag has a role capture and a `@name` capture. Tags are resolved as
+tree-sitter-tags resolves them: one tag per `@name` node, from the earliest pattern that matches
+it; `@ignore` claims a node without a tag; a match without a role emits nothing; tags come out in
+source position order.
+
+**Roles.** Only these roles are allowed:
+
+- `definition.`: `class`, `interface`, `function`, `method`, `constructor`, `module`, `type`,
+  `enum`, `constant`, `variable`, `field`, `macro`, `section`, `label`
+- `reference.`: `call`, `class`, `type`, `interface`, `implementation`, `module`, `macro`,
+  `label`, `variable`, `constant`
+
+Map other kinds onto them: struct, record, object or table to `class`; trait, protocol or
+signature to `interface`; typedef or type alias to `type`; enum variant to `constant`; property
+or attribute to `field`; namespace, package or schema to `module`; grammar rule, recipe, task or
+subroutine to `function`; heading to `section`; anchor or link target to `label`; any send or
+invocation to `reference.call`.
+
+**Names.** `@name` is the identifier only: no leading or trailing whitespace, no newline or tab,
+not wrapped in quotes or brackets. Capture the string content or identifier child, not the quoted
+literal. Keep a sigil only when it is part of the name at every use site (perl `$x`, llvm `@f`).
+
+**Definitions.** Tag each declared entity once: overloads and multi-clause functions tag the first
+clause (claim the rest with `@ignore`), and a prototype or forward declaration plus its definition
+tag once. Locals, parameters and loop variables are not definitions. Tag references only where
+they are precise: calls, type uses, inheritance and imports.
+
+**Fixture.** Add `crates/ts-pack-core/tests/fixtures/tags/<lang>/` with exactly one source file
+and `expected.tags`: one `<role>\t<name>` line per tag, in source position order. The source is a
+realistic file covering the language's declaration forms, plus things that must not be tagged,
+and parses without errors. `TSLP_TAGS_BLESS=1` writes `expected.tags` from the query output;
+review every line.
+
+Besides matching `expected.tags`, the test checks each language and reports every violation:
+
+| Check | Fails when |
+|---|---|
+| `roles` | a tag or a query capture uses a role outside the list above |
+| `names` | a name has surrounding whitespace, a newline or tab, or surrounding quotes or brackets |
+| `definitions` | the fixture yields no `definition.*` tag |
+| `dead_patterns` | a pattern with a role capture yields no tag on the fixture |
+| `duplicates` | two definitions with the same role and name start at the same position, have definition nodes under the same parent, or have overlapping definition nodes |
+
+A dead pattern means the fixture misses a form or the pattern can never match: extend the
+fixture, or delete the pattern with a comment saying why. When a pattern is right but the fixture
+cannot exercise it (the grammar accepts only one declaration per document, for example), list it
+under `unexercised_patterns` in `sources/tags_coverage.json` with its normalized text (comments
+dropped, whitespace collapsed; the failure message prints it) and a reason:
+
+```json
+"unexercised_patterns": {
+  "mylang": [{ "pattern": "(alias_annotation (identifier) @name) @definition.type", "reason": "..." }]
+}
+```
+
+An entry whose pattern fires or no longer exists fails too. The duplicate check allows the same
+name under different parents, such as a method `area` in two classes.
 
 ```bash
 TSLP_LANGUAGES=mylang cargo test -p tree-sitter-language-pack --test tags_coverage
 ```
+
+`TSLP_TAGS_REPORT=<path>` writes the violations of every built language as JSON, grouped by
+check.
 
 ### 6. Open a pull request
 

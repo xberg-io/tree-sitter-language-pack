@@ -136,6 +136,7 @@ export default defineConfig({
             items: [
               { label: "API", items: API_LANGUAGES },
               { label: "Languages", slug: "languages" },
+              { label: "Tags coverage", slug: "tags-coverage" },
               { label: "CLI", slug: "reference/cli" },
               { label: "MCP", slug: "reference/mcp" },
               { label: "Types", slug: "reference/types" },
