@@ -5,8 +5,20 @@
 (decl_enum
   typename: (identifier) @name) @definition.enum
 
+(enum_member
+  name: (identifier) @name) @definition.constant
+
 (typedef
   alias: (identifier) @name) @definition.type
+
+; `void InventoryItem(string name)` in `class InventoryItem`: a method named after its class is
+; the constructor, claimed before the method pattern below.
+((decl_class
+  typename: (identifier) @_class
+  body: (class_body
+    (decl_method
+      name: (identifier) @name) @definition.constructor))
+  (#eq? @name @_class))
 
 ; Methods of a class; free functions at file scope
 (class_body

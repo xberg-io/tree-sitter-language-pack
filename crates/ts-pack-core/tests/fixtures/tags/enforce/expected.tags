@@ -1,8 +1,10 @@
 definition.enum	ItemKind
+definition.constant	WEAPON
+definition.constant	FOOD
 definition.class	InventoryItem
 definition.field	m_Name
 definition.field	m_Count
-definition.method	InventoryItem
+definition.constructor	InventoryItem
 definition.method	GetCount
 definition.class	Weapon
 reference.class	InventoryItem
