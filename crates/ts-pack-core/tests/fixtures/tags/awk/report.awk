@@ -8,7 +8,13 @@ function fmt_total(key, total) {
     return sprintf("%-20s %10.2f", trim(key), total)
 }
 
+func is_header(line) {
+    return line ~ /^key,/
+}
+
 BEGIN { FS = "," }
+
+is_header($0) { next }
 
 NR > 1 { totals[$1] += $3 }
 

@@ -1,7 +1,15 @@
+reference.call	set
 definition.variable	PREFIX
 definition.variable	PATH_EXTRA
-definition.variable	VERSION
+definition.constant	VERSION
+definition.variable	BUILD_MODE
 definition.variable	A
 definition.variable	B
+definition.function	log
+reference.call	printf
 definition.function	build
+reference.call	log
 definition.function	deploy
+reference.call	build
+reference.call	cp
+reference.call	deploy

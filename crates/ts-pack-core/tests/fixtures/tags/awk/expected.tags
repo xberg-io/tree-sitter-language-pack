@@ -1,4 +1,6 @@
 definition.function	trim
 definition.function	fmt_total
 reference.call	trim
+definition.function	is_header
+reference.call	is_header
 reference.call	fmt_total

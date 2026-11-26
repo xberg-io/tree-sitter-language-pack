@@ -4,6 +4,9 @@ SRC_URI = "file://hello.c"
 
 inherit pkgconfig update-rc.d
 require hello-common.inc
+include hello-extra.inc
+
+export HELLO_MODE = "release"
 
 DEPENDS:append = " zlib"
 S = "${WORKDIR}"

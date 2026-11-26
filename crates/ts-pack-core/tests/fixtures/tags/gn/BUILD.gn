@@ -25,6 +25,12 @@ static_library("greet") {
   }
 }
 
+if (is_linux) {
+  source_set("greet_linux") {
+    sources = [ "src/greet_linux.cc" ]
+  }
+}
+
 greeter_test("greet_unittests") {
   sources = [ "test/greet_test.cc" ]
 }

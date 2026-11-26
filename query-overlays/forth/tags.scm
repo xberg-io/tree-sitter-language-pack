@@ -7,17 +7,18 @@
   .
   (word) @name) @definition.function
 
-; `10 constant LIMIT` and `0 value threshold`
+; `10 constant LIMIT`
 ((builtin) @_defining
   .
   (word) @name @definition.constant
-  (#match? @_defining "^(?i)(2?constant|f?value)$"))
+  (#match? @_defining "^(?i)(2?constant|fconstant)$"))
 
-; `variable counter` and `create buffer 64 allot`
+; `variable counter`, `create buffer 64 allot` and `0 value threshold`, whose value `to`
+; changes
 ((builtin) @_defining
   .
   (word) @name @definition.variable
-  (#match? @_defining "^(?i)(2?variable|fvariable|create)$"))
+  (#match? @_defining "^(?i)(2?variable|fvariable|create|f?value)$"))
 
 ; `dup square *`: `square` inside a definition
 (word_definition

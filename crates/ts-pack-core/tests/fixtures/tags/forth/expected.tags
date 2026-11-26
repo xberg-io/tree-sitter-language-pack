@@ -1,5 +1,6 @@
 definition.constant	LIMIT
 definition.variable	counter
+definition.variable	threshold
 definition.variable	buffer
 definition.function	square
 definition.function	cube
@@ -7,3 +8,6 @@ reference.call	square
 definition.function	bump
 reference.call	counter
 reference.call	counter
+definition.function	over-limit?
+reference.call	threshold
+reference.call	LIMIT

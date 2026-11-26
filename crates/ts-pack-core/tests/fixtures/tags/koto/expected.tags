@@ -7,6 +7,7 @@ reference.call	area
 definition.method	@display
 definition.function	circle_area
 reference.call	area
+definition.variable	max_radius
 definition.variable	circle
 reference.call	make_circle
 reference.call	print

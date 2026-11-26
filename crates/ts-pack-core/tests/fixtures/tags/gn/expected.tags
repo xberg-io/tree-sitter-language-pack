@@ -10,5 +10,7 @@ reference.call	executable
 reference.call	forward_variables_from
 reference.call	static_library
 definition.class	greet
+reference.call	source_set
+definition.class	greet_linux
 reference.call	greeter_test
 definition.class	greet_unittests

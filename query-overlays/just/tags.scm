@@ -7,8 +7,8 @@
 ; `version := "1.2.0"` and `export RUST_LOG := "info"`
 (assignment left: (identifier) @name) @definition.variable
 
-; `alias b := build`
-(alias left: (identifier) @name) @definition.alias
+; `alias b := build`: an alias is another name to run a recipe by, so it is a function too.
+(alias left: (identifier) @name) @definition.function
 
 (alias right: (identifier) @name) @reference.call
 

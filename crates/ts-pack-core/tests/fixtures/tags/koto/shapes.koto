@@ -14,5 +14,7 @@ make_circle = |radius|
 
 export circle_area = |r| area(r)
 
+export max_radius = 100
+
 circle = make_circle 2
 print circle.area()

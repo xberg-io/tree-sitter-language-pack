@@ -1,7 +1,14 @@
 ; The grammar is a flat token stream: `:label` is a `function_definition` wherever it appears, so
 ; a label that directly follows a `goto` keyword is a jump target, not a definition.
 
-; `goto :label` (also `goto :eof`)
+; `goto :label`. `goto :eof` jumps to the end of the script, a built-in target rather than a
+; label of the file, so it is claimed without a tag.
+((keyword) @_goto
+  .
+  (function_definition "function_name" @ignore)
+  (#match? @_goto "^@?[Gg][Oo][Tt][Oo]$")
+  (#match? @ignore "^[Ee][Oo][Ff]$"))
+
 ((keyword) @_goto
   .
   (function_definition "function_name" @name) @reference.label

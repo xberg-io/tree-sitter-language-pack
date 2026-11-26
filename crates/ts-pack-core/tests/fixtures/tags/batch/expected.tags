@@ -1,6 +1,9 @@
 definition.variable	BUILD_DIR
+definition.variable	CONFIG
 definition.variable	RETRIES
+reference.label	clean
+definition.label	clean
+reference.variable	BUILD_DIR
 reference.label	compile
 definition.label	compile
 reference.variable	BUILD_DIR
-reference.label	eof

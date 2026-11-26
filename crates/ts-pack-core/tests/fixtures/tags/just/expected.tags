@@ -2,7 +2,7 @@ definition.module	docs
 definition.variable	version
 definition.variable	RUST_LOG
 reference.call	env_var_or_default
-definition.alias	b
+definition.function	b
 reference.call	build
 definition.function	default
 reference.call	test
