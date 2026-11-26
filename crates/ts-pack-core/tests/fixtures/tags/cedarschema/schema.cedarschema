@@ -1,7 +1,16 @@
 namespace PhotoApp {
-  entity User;
-  entity Photo;
-  type Context = { ip: String };
-  action "view" appliesTo { principal: User, resource: Photo };
-  action share appliesTo { principal: User, resource: Photo };
+  entity User in [Group] {
+    name: String,
+    age?: Long,
+  };
+  entity Group;
+  entity Album, Photo in [Album];
+  entity Color enum ["Red", "Green"];
+  type Context = { ip: ipaddr, authenticated: Bool };
+  action "view" appliesTo {
+    principal: User,
+    resource: Photo,
+    context: Context,
+  };
+  action share, edit in ["view"] appliesTo { principal: [User, Group], resource: Album };
 }

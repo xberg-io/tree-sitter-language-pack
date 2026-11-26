@@ -1,2 +1,12 @@
-definition.policy	"allow-read"
-definition.policy	"deny-delete"
+definition.function	allow-read
+reference.call	read
+definition.function	owner-edit
+reference.type	User
+reference.call	edit
+reference.call	share
+reference.type	Album
+definition.function	deny-delete
+reference.type	User
+reference.call	delete
+reference.call	view
+reference.type	Photo
