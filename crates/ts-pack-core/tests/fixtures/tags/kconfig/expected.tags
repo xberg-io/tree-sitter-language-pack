@@ -1,5 +1,3 @@
-definition.module	Greeter Configuration
-definition.module	Networking
 definition.variable	NET
 definition.variable	NET_TLS
 reference.variable	NET
