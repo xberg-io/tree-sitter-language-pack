@@ -1,6 +1,9 @@
 //! Gate for `sources/tags_coverage.json`: every language needs a working `tags.scm` unless that
-//! file lists it under `not_applicable` with a reason, so a newly added grammar is a tags gap by
-//! default.
+//! file lists it under `not_applicable` (tags do not apply) or `grammar_blocked` (tags apply, but
+//! the vendored grammar cannot produce correct names) with a reason, so a newly added grammar is a
+//! tags gap by default. Both lists are enforced in both directions: a listed language must ship
+//! no tags query and no fixture, and one that starts bundling a tags query fails until its entry
+//! is revisited.
 //!
 //! Each language that needs tags has a fixture directory `tests/fixtures/tags/<lang>/` holding
 //! exactly one source file and `expected.tags`: one `<role>\t<name>` line per tag, in source
@@ -48,22 +51,36 @@ fn all_languages() -> Vec<String> {
     object.keys().cloned().collect()
 }
 
-/// The `not_applicable` map of `sources/tags_coverage.json`: language to reason.
-fn not_applicable() -> BTreeMap<String, String> {
+const NOT_APPLICABLE: &str = "not_applicable";
+const GRAMMAR_BLOCKED: &str = "grammar_blocked";
+
+/// A `{language: reason}` section of `sources/tags_coverage.json`.
+fn coverage_section(section: &str) -> BTreeMap<String, String> {
     let coverage = read_json(&repo_root().join("sources/tags_coverage.json"));
     let entries = coverage
-        .get("not_applicable")
+        .get(section)
         .and_then(serde_json::Value::as_object)
-        .expect("tags_coverage.json must have a `not_applicable` object");
+        .unwrap_or_else(|| panic!("tags_coverage.json must have a `{section}` object"));
     entries
         .iter()
         .map(|(language, reason)| {
             let reason = reason
                 .as_str()
-                .unwrap_or_else(|| panic!("not_applicable reason for {language} must be a string"));
+                .unwrap_or_else(|| panic!("{section} reason for {language} must be a string"));
             (language.clone(), reason.to_string())
         })
         .collect()
+}
+
+/// Languages where tags do not apply: language to reason.
+fn not_applicable() -> BTreeMap<String, String> {
+    coverage_section(NOT_APPLICABLE)
+}
+
+/// Languages where tags apply but the vendored grammar cannot produce correct names: language to
+/// reason.
+fn grammar_blocked() -> BTreeMap<String, String> {
+    coverage_section(GRAMMAR_BLOCKED)
 }
 
 /// A fixture directory's source file, or why the directory is malformed. `expected.tags` may be
@@ -229,30 +246,38 @@ fn check_required(language: &str, grammar: &tree_sitter::Language, bless: bool) 
 fn tags_coverage_names_real_languages_with_reasons_and_no_tags() {
     let languages = all_languages();
     let not_applicable = not_applicable();
+    let grammar_blocked = grammar_blocked();
     let mut problems = Vec::new();
 
-    for (language, reason) in &not_applicable {
-        if !languages.contains(language) {
-            problems.push(format!(
-                "{language}: not_applicable names no language in language_definitions.json"
-            ));
+    for (section, entries) in [(NOT_APPLICABLE, &not_applicable), (GRAMMAR_BLOCKED, &grammar_blocked)] {
+        for (language, reason) in entries {
+            if !languages.contains(language) {
+                problems.push(format!(
+                    "{language}: {section} names no language in language_definitions.json"
+                ));
+            }
+            if reason.trim().is_empty() {
+                problems.push(format!("{language}: {section} needs a reason"));
+            }
+            if fixtures_root().join(language).exists() {
+                problems.push(format!("{language}: {section} but has a tags fixture directory"));
+            }
+            if repo_root()
+                .join("query-overlays")
+                .join(language)
+                .join("tags.scm")
+                .exists()
+            {
+                problems.push(format!(
+                    "{language}: {section} but has query-overlays/{language}/tags.scm"
+                ));
+            }
         }
-        if reason.trim().is_empty() {
-            problems.push(format!("{language}: not_applicable needs a reason"));
-        }
-        if fixtures_root().join(language).exists() {
-            problems.push(format!("{language}: not_applicable but has a tags fixture directory"));
-        }
-        if repo_root()
-            .join("query-overlays")
-            .join(language)
-            .join("tags.scm")
-            .exists()
-        {
-            problems.push(format!(
-                "{language}: not_applicable but has query-overlays/{language}/tags.scm"
-            ));
-        }
+    }
+    for language in grammar_blocked.keys().filter(|l| not_applicable.contains_key(*l)) {
+        problems.push(format!(
+            "{language}: listed both {NOT_APPLICABLE} and {GRAMMAR_BLOCKED}; tags either apply or do not"
+        ));
     }
 
     let entries = std::fs::read_dir(fixtures_root()).expect("tests/fixtures/tags must exist");
@@ -287,15 +312,20 @@ fn tags_coverage_names_real_languages_with_reasons_and_no_tags() {
 #[test]
 fn every_language_requiring_tags_has_a_fixture() {
     let not_applicable = not_applicable();
+    let grammar_blocked = grammar_blocked();
     let mut gaps: Vec<String> = all_languages()
         .into_iter()
-        .filter(|language| !not_applicable.contains_key(language) && !fixtures_root().join(language).is_dir())
+        .filter(|language| {
+            !not_applicable.contains_key(language)
+                && !grammar_blocked.contains_key(language)
+                && !fixtures_root().join(language).is_dir()
+        })
         .collect();
     gaps.sort();
     assert!(
         gaps.is_empty(),
         "{} language(s) need a tags.scm and a fixture under tests/fixtures/tags/<lang>/, or a \
-         not_applicable entry with a reason in sources/tags_coverage.json:\n{}",
+         not_applicable or grammar_blocked entry with a reason in sources/tags_coverage.json:\n{}",
         gaps.len(),
         gaps.join("\n")
     );
@@ -312,6 +342,7 @@ fn every_built_language_matches_its_tags_classification() {
         .filter(|language| languages.contains(language))
         .collect();
     let not_applicable = not_applicable();
+    let grammar_blocked = grammar_blocked();
     let bless = std::env::var_os("TSLP_TAGS_BLESS").is_some();
 
     let mut failures = Vec::new();
@@ -324,6 +355,16 @@ fn every_built_language_matches_its_tags_classification() {
                 _ => failures.push(format!(
                     "{language}: listed not_applicable in sources/tags_coverage.json but bundles a tags.scm; \
                      remove the entry and add a fixture"
+                )),
+            }
+            continue;
+        }
+        if grammar_blocked.contains_key(language) {
+            match get_query(language, QueryKind::Tags) {
+                Ok(None) => checked += 1,
+                _ => failures.push(format!(
+                    "{language}: listed grammar_blocked in sources/tags_coverage.json but bundles a tags.scm; \
+                     check whether the grammar now yields correct names, then remove the entry and add a fixture"
                 )),
             }
             continue;

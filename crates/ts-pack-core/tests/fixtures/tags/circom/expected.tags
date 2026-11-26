@@ -1,7 +1,0 @@
-definition.function	square
-definition.class	 Multiplier
-definition.class	 Main
-definition.variable	mul
-reference.call	Multiplier
-reference.call	square
-reference.call	Main

@@ -184,6 +184,11 @@ without either fails `every_language_requiring_tags_has_a_fixture`.
   `expected.tags`: one `<role>\t<name>` line per match, in match order.
   `TSLP_TAGS_BLESS=1` writes it from the query output; check every line names a real
   definition or reference in the source.
+- When tags apply but the vendored grammar cannot yield correct names (for example, a lexer that
+  folds the whitespace after a keyword into the identifier), list the language under
+  `grammar_blocked` with the defect instead of shipping wrong names. A `grammar_blocked` language
+  has no overlay, no fixture and no `not_applicable` entry, and the test fails once its grammar
+  bundles a tags query, so the entry is revisited after a grammar fix.
 
 ```bash
 TSLP_LANGUAGES=mylang cargo test -p tree-sitter-language-pack --test tags_coverage

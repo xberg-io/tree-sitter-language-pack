@@ -1,5 +1,5 @@
 {
-  "description": "Every language in language_definitions.json must bundle a working tags.scm (vendored or query-overlays/<lang>/tags.scm) with a fixture under crates/ts-pack-core/tests/fixtures/tags/<lang>/, unless it is listed here with the reason tags do not apply. Enforced by crates/ts-pack-core/tests/tags_coverage.rs.",
+  "description": "Every language in language_definitions.json must bundle a working tags.scm (vendored or query-overlays/<lang>/tags.scm) with a fixture under crates/ts-pack-core/tests/fixtures/tags/<lang>/, unless it is listed under not_applicable with the reason tags do not apply, or under grammar_blocked with the reason the vendored grammar cannot produce correct tag names. Enforced by crates/ts-pack-core/tests/tags_coverage.rs.",
   "not_applicable": {
     "angular": "Angular component templates; the component classes, inputs and methods are declared in the TypeScript file that owns the template",
     "astro": "HTML layer of an Astro component; its declarations live in the frontmatter and script blocks, which are injected TypeScript",
@@ -45,6 +45,7 @@
     "kdl": "KDL document data: a tree of nodes with arguments and properties, not declarations",
     "kitty": "kitty.conf option and key-mapping lines; no named blocks or definitions",
     "liquid": "Liquid template layer; it has no macros or named blocks, and assign/capture only bind render-time locals",
+    "llvm_mir": "body of a Machine IR function (the YAML `body:` block): basic blocks are numbered and referenced by number, and the function and its frame are declared in the surrounding YAML",
     "luadoc": "doc-comment markup inside Lua comments; the documented symbols are tagged by the Lua grammar",
     "luap": "Lua pattern (regex-like) strings; no declarations",
     "markdown_inline": "inline-span layer injected into markdown paragraphs; headings are tagged by the markdown block grammar",
@@ -91,5 +92,11 @@
     "xml": "markup and data serialization; element names are vocabulary, not declarations (DTDs, which declare elements, are tagged by dtd)",
     "yaml": "data serialization; keys are data, and anchors are value aliases rather than declarations",
     "ziggy": "Ziggy data documents (a JSON-like serialization); their schema is tagged by ziggy_schema"
+  },
+  "grammar_blocked": {
+    "baml": "the parser includes the whitespace after a keyword in identifiers (`class Resume` yields the name \" Resume\"), so every declaration name would carry a leading space",
+    "circom": "the lexer folds the whitespace after `template`/`function`/`component` into the name (\" Multiplier\")",
+    "motoko": "the lexer folds the whitespace after `actor`/`module`/`func` and similar into the name (\" Main\")",
+    "postscript": "a definition names its procedure with the literal `/name` (slash included) while uses are bare operators, so definition and reference names never match"
   }
 }
