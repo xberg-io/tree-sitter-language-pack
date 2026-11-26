@@ -2,7 +2,7 @@ definition.module	Nat
 definition.type	Nat
 definition.constructor	zero
 definition.constructor	suc
-definition.struct	Pair
+definition.class	Pair
 definition.constructor	_,_
 definition.field	fst
 definition.field	snd
@@ -11,3 +11,10 @@ definition.function	_+_
 definition.function	double
 definition.module	Inner
 definition.function	one
+definition.function	helper
+definition.function	hidden
+definition.function	even
+definition.function	odd
+definition.class	Show
+definition.field	show
+definition.function	showNat

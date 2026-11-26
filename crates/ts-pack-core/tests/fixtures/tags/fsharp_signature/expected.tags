@@ -1,4 +1,14 @@
 definition.module	Geometry
+definition.class	InvalidShape
 definition.class	Point
+definition.class	Shape
+definition.enum	Color
+definition.interface	IShape
+definition.method	Area
+definition.type	Pair
+definition.class	Ring
+definition.field	Radius
+definition.method	Scale
+definition.module	Shapes
+definition.constant	origin
 definition.function	area
-definition.function	origin

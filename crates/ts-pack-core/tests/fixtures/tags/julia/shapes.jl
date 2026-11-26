@@ -6,6 +6,8 @@ const PI_APPROX = 3.14
 
 abstract type Shape end
 
+primitive type Word24 <: Unsigned 24 end
+
 struct Circle <: Shape
     radius::Float64
 end

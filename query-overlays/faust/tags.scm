@@ -7,6 +7,12 @@
   (function_definition
     name: (identifier) @name) @definition.function)
 
+; `filters = environment { ... };` is a namespace its definitions are accessed through.
+(program
+  (definition
+    variable: (identifier) @name
+    (environment)) @definition.module)
+
 ; `gain = 0.5;` and `process = ...;`
 (program
   (definition

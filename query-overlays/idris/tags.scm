@@ -20,7 +20,7 @@
   ] @definition.constructor)
 
 (record
-  name: (record_name) @name) @definition.struct
+  name: (record_name) @name) @definition.class
 
 (record_body
   (constructor

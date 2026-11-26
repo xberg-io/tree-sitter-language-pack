@@ -2,10 +2,11 @@ definition.module	shapes
 definition.type	shape
 definition.constructor	Circle
 definition.constructor	Square
-definition.struct	point
+definition.class	point
 definition.interface	ask
 definition.method	ask
 definition.type	area
 definition.constant	pi-ish
+definition.function	fast-sqrt
 definition.function	area
 definition.function	main

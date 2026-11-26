@@ -1,6 +1,6 @@
 definition.module	shapes
 definition.macro	PI
-definition.struct	circle
+definition.class	circle
 definition.field	radius
 definition.type	shape
 definition.type	handle

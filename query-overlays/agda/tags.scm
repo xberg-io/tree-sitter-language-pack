@@ -15,7 +15,7 @@
       (function_name (atom (qid) @name)))) @definition.constructor)
 
 (record
-  (record_name (qid) @name)) @definition.struct
+  (record_name (qid) @name)) @definition.class
 
 (record_constructor
   (id) @name) @definition.constructor

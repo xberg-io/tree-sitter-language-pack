@@ -11,7 +11,7 @@
 
 (declaration
   (structure
-    name: (identifier) @name) @definition.struct)
+    name: (identifier) @name) @definition.class)
 
 (structure
   (field

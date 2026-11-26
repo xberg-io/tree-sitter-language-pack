@@ -8,6 +8,7 @@ gain = 0.5;
 voice(f) = os.osc(f) * gain;
 
 filters = environment {
+  cutoff = 1000;
   lowpass(c) = fi.lowpass(2, c);
 };
 

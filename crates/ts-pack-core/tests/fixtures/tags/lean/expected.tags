@@ -2,12 +2,14 @@ definition.module	Shapes
 definition.type	Shape
 definition.constructor	circle
 definition.constructor	square
-definition.struct	Point
+definition.class	Point
 definition.field	x
 definition.field	y
 definition.function	area
 definition.function	add_zero
 definition.function	Area
+definition.constant	choice_exists
+definition.function	secret
 definition.interface	HasArea
 definition.field	areaOf
 reference.implementation	HasArea

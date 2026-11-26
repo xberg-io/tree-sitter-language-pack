@@ -9,7 +9,7 @@
   type: (typeid) @name) @definition.type
 
 (typedecl
-  struct: (typeid) @name) @definition.struct
+  struct: (typeid) @name) @definition.class
 
 (constructor
   (conid) @name) @definition.constructor

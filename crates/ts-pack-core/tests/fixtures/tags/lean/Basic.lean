@@ -18,6 +18,10 @@ theorem add_zero (n : Nat) : n + 0 = n := rfl
 
 abbrev Area := Float
 
+axiom choice_exists : ∀ (α : Type), Nonempty α → α
+
+opaque secret : Nat
+
 class HasArea (α : Type) where
   areaOf : α → Float
 

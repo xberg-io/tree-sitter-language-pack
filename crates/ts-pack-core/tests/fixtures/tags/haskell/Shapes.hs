@@ -11,6 +11,10 @@ data Point = Point { px :: Double, py :: Double }
 
 type Area = Double
 
+data Expr a where
+  IntE  :: Int -> Expr Int
+  AddE  :: Expr Int -> Expr Int -> Expr Int
+
 class HasArea a where
   areaOf :: a -> Area
 

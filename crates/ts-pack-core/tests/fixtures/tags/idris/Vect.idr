@@ -26,3 +26,20 @@ length (x :: xs) = S (length xs)
 
 origin : Point
 origin = MkPoint 0 0
+
+namespace Geometry
+  scale : Double -> Point -> Point
+  scale k (MkPoint a b) = MkPoint (k * a) (k * b)
+
+mutual
+  isEven : Nat -> Bool
+  isEven Z = True
+  isEven (S k) = isOdd k
+
+  isOdd : Nat -> Bool
+  isOdd Z = False
+  isOdd (S k) = isEven k
+
+parameters (unit : Double)
+  shift : Point -> Point
+  shift (MkPoint a b) = MkPoint (a + unit) b

@@ -1,6 +1,8 @@
 definition.module	Shapes
 definition.constant	PI_APPROX
 definition.type	Shape
+definition.type	Word24
+reference.class	Unsigned
 definition.class	Circle
 reference.class	Shape
 definition.class	Counter

@@ -18,7 +18,7 @@
 
 ; `-record(name, {field, ...}).` and its fields
 (record_decl
-  name: (atom) @name) @definition.struct
+  name: (atom) @name) @definition.class
 
 (record_decl
   (record_field

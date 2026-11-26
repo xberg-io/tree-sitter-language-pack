@@ -15,6 +15,10 @@ alias area = float64
 
 val pi-ish = 3.14
 
+extern fast-sqrt(x : float64) : float64
+  c "sqrt"
+  js "Math.sqrt"
+
 fun area(s : shape) : float64
   match s
     Circle(r) -> pi-ish * r * r

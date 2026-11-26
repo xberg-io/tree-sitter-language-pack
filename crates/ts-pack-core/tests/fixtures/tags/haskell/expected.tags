@@ -9,6 +9,9 @@ definition.constructor	Point
 definition.field	px
 definition.field	py
 definition.type	Area
+definition.type	Expr
+definition.constructor	IntE
+definition.constructor	AddE
 definition.interface	HasArea
 definition.method	areaOf
 reference.implementation	HasArea

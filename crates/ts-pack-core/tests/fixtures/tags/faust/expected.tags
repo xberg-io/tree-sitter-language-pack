@@ -2,7 +2,8 @@ definition.variable	freq
 definition.variable	gain
 definition.function	voice
 reference.call	osc
-definition.variable	filters
+definition.module	filters
+definition.variable	cutoff
 definition.function	lowpass
 reference.call	lowpass
 definition.variable	process
