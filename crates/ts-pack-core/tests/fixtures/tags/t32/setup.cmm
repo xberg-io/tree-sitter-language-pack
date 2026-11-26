@@ -1,8 +1,30 @@
-GOSUB greet
-ENDDO
+; Board setup script
+LOCAL &count
+GLOBAL &board_name
+PRIVATE &retries
+
+&board_name="demo"
+&count=0
+
+GOSUB init_board
+GOSUB greet "world"
+GOTO done
+
+init_board:
+(
+  SYStem.Down
+  SYStem.CPU CortexM4
+  SYStem.Up
+  RETURN
+)
 
 SUBROUTINE greet
 (
-  PRINT "hello"
+  PARAMETERS &who
+  PRINT "hello " "&who"
+  &count=&count+1
   RETURN
 )
+
+done:
+ENDDO

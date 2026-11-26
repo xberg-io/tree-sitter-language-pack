@@ -1,2 +1,7 @@
+definition.variable	&board_name
+reference.call	init_board
 reference.call	greet
+reference.label	done
+definition.function	init_board
 definition.function	greet
+definition.label	done
