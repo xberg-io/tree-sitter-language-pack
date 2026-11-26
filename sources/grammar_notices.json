@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "04d45029565209e909b37d57330564e433cfc1fcecf9ce259f700f95479e2912",
+  "definitions_sha256": "40ac12f4a4faad2f8c391b5230c3f50ca7b37ae6c8f6f8865dd2518474735620",
   "languages": {
     "abl": {
       "branch": null,
@@ -3190,16 +3190,16 @@
       "directory": null,
       "license_files": [
         {
-          "path": "LICENSE",
+          "path": "grammars/motoko/LICENSE",
           "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
         }
       ],
-      "local": null,
-      "repo": "https://github.com/polychromatist/tree-sitter-motoko",
-      "resolution": "github-license",
-      "rev": "a172fd1ddc09b9c3806c0d6ecd71ee2f5160aebc",
+      "local": "grammars/motoko",
+      "repo": null,
+      "resolution": "local-license",
+      "rev": null,
       "spdx": "Apache-2.0",
-      "spdx_source": "detected"
+      "spdx_source": "inline"
     },
     "move": {
       "branch": null,

@@ -200,7 +200,7 @@
 | Mlir | [artagnon/tree-sitter-mlir](https://github.com/artagnon/tree-sitter-mlir) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | Mojo | [HerringtonDarkholme/tree-sitter-mojo](https://github.com/HerringtonDarkholme/tree-sitter-mojo) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Moonbit | [moonbitlang/tree-sitter-moonbit](https://github.com/moonbitlang/tree-sitter-moonbit) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Motoko | [polychromatist/tree-sitter-motoko](https://github.com/polychromatist/tree-sitter-motoko) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Motoko | [grammars/motoko](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/motoko) (vendored) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Move | [tree-sitter-grammars/tree-sitter-move](https://github.com/tree-sitter-grammars/tree-sitter-move) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | NASM | [naclsn/tree-sitter-nasm](https://github.com/naclsn/tree-sitter-nasm) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
 | Netlinx | [Norgate-AV/tree-sitter-netlinx](https://github.com/Norgate-AV/tree-sitter-netlinx) | 14 | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ |

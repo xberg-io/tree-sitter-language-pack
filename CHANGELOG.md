@@ -10,15 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Bundle `tags` queries for sql, bash, scss, hcl, terraform and starlark, so tag-based symbol extraction finds their top-level declarations: SQL `CREATE` statements, shell functions and top-level variables, SCSS variables, mixins, functions and placeholders, Terraform and Terragrunt blocks and `locals`, and Starlark `def`s, assignments, build targets and `load` labels (#228, #229, #230, #231, #232).
-- Declare tags coverage in `sources/tags_coverage.json`: every language needs a working `tags.scm` with a fixture under `crates/ts-pack-core/tests/fixtures/tags/<lang>/` unless listed as not applicable with a reason, so a newly added grammar is a tags gap by default. The `tags_coverage` test checks each built language's tags against its fixture and lists every language still missing one. Tags queries now cover every language where tags apply: 276 of the 371 languages bundle a fixture-checked `tags.scm`, 91 are listed as not applicable, and 4 (baml, circom, motoko, postscript) are listed under `grammar_blocked` because their grammars cannot yield correct names.
+- Declare tags coverage in `sources/tags_coverage.json`: every language needs a working `tags.scm` with a fixture under `crates/ts-pack-core/tests/fixtures/tags/<lang>/` unless listed as not applicable with a reason, so a newly added grammar is a tags gap by default. The `tags_coverage` test checks each built language's tags against its fixture and lists every language still missing one. Tags queries now cover every language where tags apply: 277 of the 371 languages bundle a fixture-checked `tags.scm`, 91 are listed as not applicable, and 3 (baml, circom, postscript) are listed under `grammar_blocked` because their grammars cannot yield correct names.
 
 ### Changed
 
 - Build BAML from its canonical source, `typescript2/pkg-grammar-treesitter` in BoundaryML/baml (`37c5014`), instead of the read-only `baml-treesitter` mirror. Its names still include the preceding whitespace, so baml stays under `grammar_blocked`.
+- Maintain the Motoko grammar in `grammars/motoko`, vendored from the unmaintained polychromatist/tree-sitter-motoko (`a172fd1`).
 
 ### Fixed
 
 - Replace broken or incomplete upstream tags queries: typescript and tsx tagged no classes, functions or namespaces (the vendored query only extends JavaScript's, which is not bundled with it), the dart overlay tagged fields, parameters and annotations as calls, bibtex, haxe and svelte shipped empty or stub queries, racket, enforce, netlinx and pony emitted tags without a `@name`, picat named a module after the empty end-of-rule token, and applescript reported a block's `end` as a call.
+- Motoko names no longer include the preceding whitespace (`actor Main` yielded the name `" Main"`): the vendored grammar lexes the spaced binary `>`, `<` and `>>` in its external scanner instead of as space-prefixed tokens. Motoko now bundles a tags query.
 - The README grammar table now counts the queries in `query-overlays/`, which the build bundles alongside the vendored ones.
 
 ## [1.27.4] - 2026-11-25

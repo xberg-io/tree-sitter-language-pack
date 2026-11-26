@@ -2098,8 +2098,9 @@
   },
   "motoko": {
     "extensions": ["mo"],
-    "repo": "https://github.com/polychromatist/tree-sitter-motoko",
-    "rev": "a172fd1ddc09b9c3806c0d6ecd71ee2f5160aebc"
+    "generate": true,
+    "license": "Apache-2.0",
+    "local": "grammars/motoko"
   },
   "penrose": {
     "extensions": ["style", "substance", "domain"],

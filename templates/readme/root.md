@@ -393,8 +393,8 @@ Join our [Discord community](https://discord.gg/xt9WY3GnKR) for questions and di
 ### In-repository grammars
 
 The sources in [`grammars/`](grammars/) are inputs to the parser build. We maintain
-ABNF, GraphQL, PlantUML, Promela, Reason, Wolfram Language, XQuery, and Yul here
-because their upstream grammars are effectively unmaintained.
+ABNF, GraphQL, Motoko, PlantUML, Promela, Reason, Wolfram Language, XQuery, and Yul
+here because their upstream grammars are effectively unmaintained.
 
 The build fetches other grammars at pinned upstream commits, including CSS,
 Java, JavaScript, Python, and Rust from Grammar Orchard.

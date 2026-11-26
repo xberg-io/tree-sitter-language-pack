@@ -96,7 +96,6 @@
   "grammar_blocked": {
     "baml": "the parser includes the whitespace after a keyword in identifiers (`class Resume` yields the name \" Resume\"), so every declaration name would carry a leading space",
     "circom": "the lexer folds the whitespace after `template`/`function`/`component` into the name (\" Multiplier\")",
-    "motoko": "the lexer folds the whitespace after `actor`/`module`/`func` and similar into the name (\" Main\")",
     "postscript": "a definition names its procedure with the literal `/name` (slash included) while uses are bare operators, so definition and reference names never match"
   }
 }
