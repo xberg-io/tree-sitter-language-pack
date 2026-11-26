@@ -1,0 +1,14 @@
+definition.module	Shapes
+definition.constant	MaxSides
+definition.enum	TColor
+definition.struct	TPoint
+definition.class	TShape
+definition.method	Area
+definition.variable	Counter
+definition.method	Area
+definition.function	Add
+definition.function	Report
+reference.call	WriteLn
+reference.call	IntToStr
+reference.call	Add
+reference.call	Report

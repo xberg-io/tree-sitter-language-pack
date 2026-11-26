@@ -1,0 +1,8 @@
+definition.variable	s
+definition.variable	base
+definition.class	Voice
+definition.method	play
+definition.function	double
+definition.variable	v
+reference.call	play
+reference.call	double

@@ -1,0 +1,9 @@
+definition.module	Shapes
+definition.constant	Max_Sides
+definition.variable	Count
+definition.enum	Color
+definition.struct	Point
+definition.type	Small
+definition.function	Area
+definition.function	Report
+reference.call	Put_Line

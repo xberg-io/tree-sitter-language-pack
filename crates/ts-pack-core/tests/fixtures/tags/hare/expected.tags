@@ -1,0 +1,8 @@
+definition.constant	LIMIT
+definition.variable	counter
+definition.struct	point
+definition.enum	color
+definition.function	add
+definition.function	main
+reference.call	println
+reference.call	add

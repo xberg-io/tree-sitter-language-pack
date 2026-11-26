@@ -1,0 +1,6 @@
+definition.module	PAYROLL
+definition.variable	WS-TOTAL
+definition.variable	WS-RATE
+definition.variable	WS-EMPLOYEE
+definition.variable	WS-COUNT
+reference.call	CALC-PARA

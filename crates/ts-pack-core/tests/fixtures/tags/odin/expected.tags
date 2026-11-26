@@ -1,0 +1,13 @@
+definition.module	main
+definition.constant	LIMIT
+definition.variable	counter
+definition.constant	SCALE
+definition.variable	total
+definition.struct	Point
+definition.enum	Color
+definition.union	Shape
+definition.type	Score
+definition.function	add
+definition.function	main
+reference.call	println
+reference.call	add

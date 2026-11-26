@@ -1,0 +1,13 @@
+definition.constant	max_sides
+definition.variable	counter
+definition.struct	Point
+definition.method	sum
+definition.enum	Color
+definition.union	Shape
+definition.function	add
+definition.function	main
+reference.call	print
+reference.call	add
+reference.call	sum
+reference.call	expect
+reference.call	add

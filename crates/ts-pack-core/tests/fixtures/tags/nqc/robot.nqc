@@ -1,0 +1,24 @@
+#define SPEED 7
+
+int counter;
+
+sub turn_around()
+{
+    OnRev(OUT_A);
+    Wait(100);
+}
+
+void forward(int t)
+{
+    int ticks = t * 10;
+    OnFwd(OUT_A + OUT_C);
+    Wait(ticks);
+}
+
+task main()
+{
+    SetPower(OUT_A, SPEED);
+    forward(5);
+    turn_around();
+    counter = counter + 1;
+}

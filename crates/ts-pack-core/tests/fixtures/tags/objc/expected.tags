@@ -1,0 +1,17 @@
+definition.macro	MAX_SIDES
+definition.type	Point2D
+definition.interface	Drawable
+definition.method	draw
+definition.class	Shape
+definition.property	sides
+definition.method	area
+definition.method	shapeWithSides
+definition.class	Shape
+definition.method	area
+definition.method	draw
+reference.call	NSLog
+reference.call	area
+definition.method	shapeWithSides
+reference.call	alloc
+reference.call	init
+definition.function	clamp

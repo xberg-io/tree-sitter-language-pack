@@ -1,0 +1,12 @@
+definition.macro	SPEED
+definition.variable	counter
+definition.function	turn_around
+reference.call	OnRev
+reference.call	Wait
+definition.function	forward
+reference.call	OnFwd
+reference.call	Wait
+definition.function	main
+reference.call	SetPower
+reference.call	forward
+reference.call	turn_around

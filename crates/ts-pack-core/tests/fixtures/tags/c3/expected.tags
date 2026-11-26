@@ -1,0 +1,12 @@
+definition.module	shapes
+definition.constant	MAX_SIDES
+definition.variable	counter
+definition.struct	Point
+definition.enum	Color
+definition.interface	Drawable
+definition.method	draw
+definition.type	Score
+definition.method	sum
+definition.macro	square
+definition.function	area
+reference.call	printn

@@ -1,0 +1,14 @@
+definition.module	main
+definition.constant	max_sides
+definition.struct	Point
+definition.enum	Color
+definition.interface	Shape
+definition.method	area
+definition.type	Score
+definition.method	sum
+definition.function	add
+definition.function	main
+reference.call	println
+reference.call	add
+reference.call	sum
+reference.call	exit

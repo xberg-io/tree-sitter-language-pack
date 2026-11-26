@@ -1,0 +1,9 @@
+definition.constant	LIMIT
+definition.variable	counter
+definition.variable	buffer
+definition.function	square
+definition.function	cube
+reference.call	square
+definition.function	bump
+reference.call	counter
+reference.call	counter

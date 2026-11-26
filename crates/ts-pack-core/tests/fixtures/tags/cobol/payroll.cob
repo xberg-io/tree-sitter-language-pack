@@ -1,0 +1,17 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. PAYROLL.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-TOTAL PIC 9(5) VALUE 0.
+       01 WS-RATE PIC 9(3) VALUE 10.
+       01 WS-EMPLOYEE.
+           05 WS-NAME PIC X(20).
+           05 WS-HOURS PIC 9(3).
+       77 WS-COUNT PIC 9(2) VALUE 0.
+       PROCEDURE DIVISION.
+       MAIN-PARA.
+           PERFORM CALC-PARA.
+           DISPLAY WS-TOTAL.
+           STOP RUN.
+       CALC-PARA.
+           COMPUTE WS-TOTAL = WS-RATE * 40.
