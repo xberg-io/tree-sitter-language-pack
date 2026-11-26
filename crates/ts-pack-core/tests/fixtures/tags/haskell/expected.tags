@@ -1,0 +1,17 @@
+definition.module	Shapes
+definition.type	Shape
+definition.constructor	Circle
+definition.constructor	Square
+definition.type	Name
+definition.constructor	Name
+definition.type	Point
+definition.constructor	Point
+definition.field	px
+definition.field	py
+definition.type	Area
+definition.interface	HasArea
+definition.method	areaOf
+reference.implementation	HasArea
+definition.function	area
+definition.function	origin
+definition.function	largest

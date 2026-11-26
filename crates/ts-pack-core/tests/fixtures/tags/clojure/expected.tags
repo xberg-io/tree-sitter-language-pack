@@ -1,0 +1,10 @@
+definition.module	example.core
+definition.variable	default-name
+definition.variable	counter
+definition.function	greet
+definition.function	shout
+definition.macro	unless
+definition.interface	Shape
+definition.method	area
+definition.class	Circle
+definition.function	describe

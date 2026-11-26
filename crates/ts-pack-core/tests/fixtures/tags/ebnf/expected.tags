@@ -1,0 +1,5 @@
+definition.function	expression
+definition.function	term
+definition.function	factor
+definition.function	number
+definition.function	digit

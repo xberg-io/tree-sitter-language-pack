@@ -1,0 +1,17 @@
+// graph reachability
+.type Node <: symbol
+
+.decl edge(x: Node, y: Node)
+.input edge
+
+.decl reach(x: Node, y: Node)
+.output reach
+
+reach(x, y) :- edge(x, y).
+reach(x, z) :- reach(x, y), edge(y, z).
+
+.type Shape = Circle { r: number } | Square { s: number }
+
+.comp Graph {
+  .decl node(n: Node)
+}

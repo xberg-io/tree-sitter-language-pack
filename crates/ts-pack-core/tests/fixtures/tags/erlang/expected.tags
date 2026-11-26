@@ -1,0 +1,10 @@
+definition.module	shapes
+definition.macro	PI
+definition.struct	circle
+definition.field	radius
+definition.type	shape
+definition.type	handle
+definition.method	handle_event
+definition.function	area
+definition.function	perimeter
+definition.function	helper

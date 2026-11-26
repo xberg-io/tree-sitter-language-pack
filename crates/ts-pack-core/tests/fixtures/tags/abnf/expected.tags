@@ -1,0 +1,10 @@
+definition.function	uri
+definition.function	scheme
+definition.function	hier-part
+definition.function	authority
+definition.function	host
+definition.function	port
+definition.function	path
+definition.function	segment
+definition.function	pchar
+definition.function	query

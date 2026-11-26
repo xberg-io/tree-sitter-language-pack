@@ -1,0 +1,5 @@
+let threshold = 100;
+let Recent = (days: int) { Events | where Timestamp > ago(1d * days) };
+Recent(7)
+| where Count > threshold
+| summarize total = sum(Count) by Region

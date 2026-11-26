@@ -1,0 +1,5 @@
+definition.function	Expr
+definition.function	Factor
+definition.function	Term
+definition.function	Comma
+definition.function	Num

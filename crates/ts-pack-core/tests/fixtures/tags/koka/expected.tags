@@ -1,0 +1,11 @@
+definition.module	shapes
+definition.type	shape
+definition.constructor	Circle
+definition.constructor	Square
+definition.struct	point
+definition.interface	ask
+definition.method	ask
+definition.type	area
+definition.constant	pi-ish
+definition.function	area
+definition.function	main

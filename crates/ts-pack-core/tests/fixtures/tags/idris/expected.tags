@@ -1,0 +1,13 @@
+definition.module	Vect
+definition.type	Vect
+definition.constructor	Nil
+definition.constructor	::
+definition.struct	Point
+definition.constructor	MkPoint
+definition.field	x
+definition.field	y
+definition.interface	Shape
+definition.method	area
+reference.implementation	Shape
+definition.function	length
+definition.function	origin

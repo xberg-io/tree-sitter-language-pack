@@ -1,0 +1,11 @@
+let add_one x -> x + 1
+
+let big_orders = (
+  from orders
+  filter amount > 100
+)
+
+from employees
+filter salary > 1000
+derive bonus = salary * 2
+select {name, bonus}

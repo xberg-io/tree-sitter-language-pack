@@ -1,0 +1,26 @@
+CREATE SCHEMA app;
+
+CREATE TABLE app.users (
+  id serial PRIMARY KEY,
+  name text NOT NULL
+);
+
+CREATE VIEW active_users AS SELECT id, name FROM app.users;
+
+CREATE MATERIALIZED VIEW app.user_counts AS SELECT count(*) AS total FROM app.users;
+
+CREATE TYPE app.mood AS ENUM ('happy', 'sad');
+
+CREATE FUNCTION app.add(a integer, b integer) RETURNS integer
+  AS 'select a + b' LANGUAGE sql;
+
+CREATE PROCEDURE reset_users() LANGUAGE sql AS 'delete from app.users';
+
+CREATE INDEX users_name_idx ON app.users (name);
+
+CREATE SEQUENCE order_seq;
+
+CREATE TRIGGER users_audit AFTER INSERT ON app.users
+  FOR EACH ROW EXECUTE FUNCTION app.audit();
+
+SELECT name FROM app.users WHERE id = app.add(1, 2);

@@ -1,0 +1,12 @@
+; A small subset of the URI grammar.
+uri         = scheme ":" hier-part [ "?" query ]
+scheme      = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
+hier-part   = "//" authority path
+hier-part   =/ path
+authority   = host [ ":" port ]
+host        = 1*( ALPHA / DIGIT / "." )
+port        = *DIGIT
+path        = *( "/" segment )
+segment     = *pchar
+pchar       = ALPHA / DIGIT / "-" / %x5F
+query       = *( pchar / "/" / "?" )

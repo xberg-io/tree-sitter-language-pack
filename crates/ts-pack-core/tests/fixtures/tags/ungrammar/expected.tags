@@ -1,0 +1,5 @@
+definition.function	SourceFile
+definition.function	Item
+definition.function	Fn
+definition.function	Struct
+definition.function	Field

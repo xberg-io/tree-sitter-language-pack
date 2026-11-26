@@ -1,0 +1,13 @@
+definition.module	Nat
+definition.type	Nat
+definition.constructor	zero
+definition.constructor	suc
+definition.struct	Pair
+definition.constructor	_,_
+definition.field	fst
+definition.field	snd
+definition.function	Axiom
+definition.function	_+_
+definition.function	double
+definition.module	Inner
+definition.function	one

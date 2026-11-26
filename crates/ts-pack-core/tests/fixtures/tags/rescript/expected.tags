@@ -1,0 +1,13 @@
+definition.type	shape
+definition.constructor	Circle
+definition.constructor	Square
+definition.type	point
+definition.field	x
+definition.field	y
+definition.variable	pi
+definition.function	area
+definition.module	Utils
+definition.function	double
+definition.variable	factor
+definition.function	log
+definition.constructor	NotFound

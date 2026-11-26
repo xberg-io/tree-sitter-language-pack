@@ -1,0 +1,9 @@
+definition.constant	INT
+definition.constant	PLUS
+definition.constant	TIMES
+definition.constant	LPAREN
+definition.constant	RPAREN
+definition.constant	EOF
+definition.function	main
+definition.function	expr
+definition.function	atom

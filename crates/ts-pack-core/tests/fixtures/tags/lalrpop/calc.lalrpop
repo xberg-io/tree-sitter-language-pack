@@ -1,0 +1,24 @@
+use std::str::FromStr;
+
+grammar;
+
+pub Expr: i32 = {
+    <l:Expr> "+" <r:Factor> => l + r,
+    Factor,
+};
+
+Factor: i32 = {
+    <l:Factor> "*" <r:Term> => l * r,
+    Term,
+};
+
+Term: i32 = {
+    Num,
+    "(" <Expr> ")",
+};
+
+Comma<T>: Vec<T> = {
+    <v:(<T> ",")*> <e:T?> => v,
+};
+
+Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();

@@ -1,0 +1,8 @@
+definition.type	Node
+definition.function	edge
+definition.function	reach
+definition.type	Shape
+definition.constructor	Circle
+definition.constructor	Square
+definition.class	Graph
+definition.function	node

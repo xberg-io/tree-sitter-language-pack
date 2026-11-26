@@ -1,0 +1,18 @@
+CREATE SCHEMA mydataset;
+
+CREATE TABLE mydataset.events (
+  id INT64,
+  name STRING
+);
+
+CREATE VIEW mydataset.recent AS
+SELECT id, name FROM mydataset.events;
+
+CREATE FUNCTION mydataset.add_one(x INT64) AS (x + 1);
+
+CREATE PROCEDURE mydataset.cleanup()
+BEGIN
+  DELETE FROM mydataset.events WHERE id < 0;
+END;
+
+SELECT name FROM mydataset.events WHERE id = 1;

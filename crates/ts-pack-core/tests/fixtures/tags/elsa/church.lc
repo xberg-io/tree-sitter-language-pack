@@ -1,0 +1,11 @@
+-- Church numerals and booleans
+let id    = \x -> x
+let TRUE  = \x y -> x
+let FALSE = \x y -> y
+let ZERO  = \f x -> x
+let ONE   = \f x -> f x
+
+eval id_true :
+  id TRUE
+  =d> (\x -> x) TRUE
+  =b> TRUE

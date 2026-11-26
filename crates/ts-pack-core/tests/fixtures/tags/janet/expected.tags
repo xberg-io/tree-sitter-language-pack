@@ -1,0 +1,5 @@
+definition.variable	max-items
+definition.variable	counter
+definition.function	add
+definition.function	clamp
+definition.macro	unless

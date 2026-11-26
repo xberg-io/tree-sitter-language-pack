@@ -1,0 +1,16 @@
+// A fragment of a Rust-like syntax tree grammar.
+SourceFile =
+  Item*
+
+Item =
+  Fn
+| Struct
+
+Fn =
+  'fn' Name ParamList Body:BlockExpr
+
+Struct =
+  'struct' Name '{' fields:(Field (',' Field)*) '}'
+
+Field =
+  Name ':' Type

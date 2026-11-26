@@ -1,0 +1,18 @@
+structural type Shape = Circle Float | Square Float
+
+unique type Point = { x : Float, y : Float }
+
+structural ability Ask where
+  ask : Nat
+
+unique type Color = Red | Green
+
+area : Shape -> Float
+area = cases
+  Circle r -> 3.14 * r * r
+  Square s -> s * s
+
+double : Nat -> Nat
+double n =
+  helper x = x * 2
+  helper n

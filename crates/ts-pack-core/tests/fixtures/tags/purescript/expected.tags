@@ -1,0 +1,13 @@
+definition.module	Shapes
+definition.function	log
+definition.type	Shape
+definition.constructor	Circle
+definition.constructor	Square
+definition.type	Name
+definition.constructor	Name
+definition.type	Area
+definition.interface	HasArea
+definition.method	areaOf
+reference.implementation	HasArea
+definition.function	area
+definition.function	double

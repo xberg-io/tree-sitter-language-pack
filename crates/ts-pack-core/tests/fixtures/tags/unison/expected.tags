@@ -1,0 +1,9 @@
+definition.type	Shape
+definition.type	Point
+definition.field	x
+definition.field	y
+definition.interface	Ask
+definition.method	ask
+definition.type	Color
+definition.function	area
+definition.function	double

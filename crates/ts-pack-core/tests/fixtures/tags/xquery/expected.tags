@@ -1,0 +1,4 @@
+definition.module	geo
+definition.variable	pi
+definition.function	area
+definition.function	double

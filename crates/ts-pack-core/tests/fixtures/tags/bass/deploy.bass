@@ -1,0 +1,15 @@
+; builds and publishes the site
+(def version "1.2.0")
+
+(def image
+  {:platform {:os "linux"}})
+
+(defn build [src]
+  (let [out (from image ($ make -C src))]
+    (log "building" version)
+    out))
+
+(defop when-ok [cond & body] scope
+  (if (eval cond scope) (eval (cons do body) scope) null))
+
+(build *dir*)

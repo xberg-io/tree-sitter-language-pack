@@ -1,0 +1,8 @@
+definition.constant	request
+definition.constant	release
+definition.struct	Msg
+definition.variable	lock
+definition.variable	critical
+definition.function	worker
+definition.function	safety
+definition.function	mutual

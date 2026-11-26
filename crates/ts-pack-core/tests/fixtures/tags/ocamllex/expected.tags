@@ -1,0 +1,4 @@
+definition.constant	digit
+definition.constant	ident
+definition.function	token
+definition.function	comment

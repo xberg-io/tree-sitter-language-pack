@@ -1,0 +1,10 @@
+definition.module	Counter
+definition.constant	Max
+definition.variable	count
+definition.function	Init
+definition.function	Next
+definition.function	Double
+definition.function	Sum
+definition.function	inc
+definition.function	Spec
+definition.function	Safe

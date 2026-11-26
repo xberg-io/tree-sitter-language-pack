@@ -1,0 +1,13 @@
+definition.module	Shapes
+definition.type	shape
+definition.constructor	Circle
+definition.constructor	Square
+definition.type	area
+definition.variable	pi
+definition.function	area
+definition.constructor	NotFound
+definition.function	scaled
+definition.interface	SHAPE
+definition.method	area
+definition.module	MakeShape
+definition.variable	f
