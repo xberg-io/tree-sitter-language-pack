@@ -106,6 +106,12 @@
         "pattern": "(enum_annotation (identifier) @name) @definition.enum",
         "reason": "the luadoc grammar parses a single annotation per document (one injected `---@` comment line), so the one-file fixture holds a class annotation and cannot also hold this form"
       }
+    ],
+    "yang": [
+      {
+        "pattern": "(submodule submodule_name: (_) @name) @definition.module",
+        "reason": "a YANG file holds exactly one module or one submodule (RFC 7950 section 5.2), so a fixture that exercises the module pattern cannot also contain a submodule"
+      }
     ]
   }
 }

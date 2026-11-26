@@ -14,7 +14,7 @@ definition.class	server
 definition.field	name
 reference.class	endpoint
 definition.field	dns
-definition.function	reboot
+definition.method	reboot
 definition.field	delay
 definition.class	restarted
 definition.field	load

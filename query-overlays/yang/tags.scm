@@ -29,7 +29,7 @@
 (statement
   (statement_keyword) @_keyword
   (argument (node_identifier) @name)
-  (#any-of? @_keyword "rpc" "action")) @definition.function
+  (#any-of? @_keyword "rpc" "action")) @definition.method
 
 (statement
   (statement_keyword) @_keyword
