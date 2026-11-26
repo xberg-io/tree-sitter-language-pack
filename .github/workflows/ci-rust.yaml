@@ -12,6 +12,8 @@ on:
       - "rust-toolchain.toml"
       - ".cargo/config.toml"
       - "sources/**"
+      - "query-overlays/**"
+      - "patches/**"
       - "scripts/clone_vendors.py"
       - "scripts/_vendor_*.py"
       - ".github/workflows/ci-rust.yaml"
@@ -72,6 +74,53 @@ jobs:
           path: parsers
           retention-days: 1
 
+  # ~keep Every bundled query compiles and every language matches its sources/tags_coverage.json
+  # ~keep classification. Only the core crate is built, so no binding toolchain can keep this gate
+  # ~keep from running. It fails unless every language in sources/language_definitions.json was
+  # ~keep checked: a build that compiled fewer grammars would otherwise pass on what it skipped.
+  tags-gate:
+    name: Tags Gate
+    if: github.repository == 'xberg-io/tree-sitter-language-pack' && github.actor != 'dependabot[bot]'
+    needs: [clone-vendors]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PROJECT_ROOT: ${{ github.workspace }}
+      TSLP_LANGUAGES: "all"
+      TSLP_LINK_MODE: static
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Download parsers
+        uses: actions/download-artifact@v8
+        with:
+          name: language-parsers
+          path: parsers
+
+      # ~keep rust is a mise lock gap (rustup script install); rust-toolchain.toml pins it.
+      - name: Setup Rust
+        uses: xberg-io/actions/setup-rust@v1
+        with:
+          use-sccache: "false"
+          install-llvm-cov: "false"
+
+      - name: Run tags coverage and query compilation tests
+        run: |
+          set -euo pipefail
+          expected=$(jq 'keys | length' sources/language_definitions.json)
+          [ "$expected" -gt 0 ] || { echo "::error::sources/language_definitions.json lists no languages"; exit 1; }
+          log="$RUNNER_TEMP/tags-gate.log"
+          cargo test --locked -p tree-sitter-language-pack --test tags_coverage --test query_compilation \
+            -- --nocapture --color never 2>&1 | tee "$log"
+          suites=$(grep -c '^test result: ok\.' "$log" || true)
+          [ "$suites" -eq 2 ] || { echo "::error::expected 2 passing test binaries, saw $suites"; exit 1; }
+          line="tags coverage: checked $expected of $expected built language(s)"
+          grep -Fq "$line" "$log" || {
+            echo "::error::tags_coverage did not check all $expected languages; expected the line: $line"
+            grep -F 'tags coverage: checked' "$log" || true
+            exit 1
+          }
+
   rust-tests:
     name: Rust Tests
     if: |
@@ -109,8 +158,11 @@ jobs:
       - name: Install alef
         uses: xberg-io/actions/install-alef@v1
 
+      # ~keep ts-pack-core-php is excluded: on ubuntu-latest (26.04) ext-php-rs's bindgen fails
+      # ~keep inside clang 21's x86 intrinsics headers whichever PHP is installed (runs
+      # ~keep 45807570763, 45807571406). The crate has no Rust tests; test-php in ci.yaml builds it.
       - name: Run workspace tests
-        run: cargo test --locked --workspace --exclude ts-pack-core-wasm
+        run: cargo test --locked --workspace --exclude ts-pack-core-wasm --exclude ts-pack-core-php
 
       # required-features tests (wire_format, concurrent_download) aren't built by the
       # default-feature run above; wire_format pins the wire shape every binding
