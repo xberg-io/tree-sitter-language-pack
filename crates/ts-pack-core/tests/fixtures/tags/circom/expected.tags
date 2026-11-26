@@ -1,0 +1,12 @@
+definition.function	square
+definition.class	Multiplier
+definition.field	a
+definition.field	b
+definition.field	c
+definition.class	Square
+definition.field	in
+definition.field	out
+definition.field	mult
+reference.call	Multiplier
+reference.call	square
+reference.call	Square

@@ -28,7 +28,7 @@ Each language has one status:
   reason names the defect.
 - **Missing**: none of the above yet; the `tags_coverage` test fails until it is resolved.
 
-Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**, missing: **0**.
+Of 371 languages: tags: **280**, not applicable: **86**, grammar blocked: **5**, missing: **0**.
 
 | Language | Status | Definition kinds or reason |
 |---|---|---|
@@ -72,7 +72,7 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Cfml (`cfml`) | Tags | class, function |
 | Chatito (`chatito`) | Tags | function, variable |
 | Chuck (`chuck`) | Tags | class, function, method, variable |
-| Circom (`circom`) | Grammar blocked | the lexer folds the whitespace after `template`/`function`/`component` into the name (" Multiplier") |
+| Circom (`circom`) | Tags | class, field, function |
 | Clarity (`clarity`) | Tags | constant, function, interface, method, variable |
 | Clojure (`clojure`) | Tags | class, function, interface, macro, method, module, variable |
 | Cmake (`cmake`) | Tags | function, macro, module, variable |

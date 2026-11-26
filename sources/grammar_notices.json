@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "0e219843884d018ea52f1063b3f15117dcf8fb3250fd5c008f9f91a01bf10a4a",
+  "definitions_sha256": "cbdb502a5bd7bb4740cf70411044ecb9908f1f13719c039d84843fce6849b927",
   "languages": {
     "abl": {
       "branch": null,
@@ -661,7 +661,7 @@
       "local": null,
       "repo": "https://github.com/Decurity/tree-sitter-circom",
       "resolution": "github-license",
-      "rev": "75f447fd955ec59082103f7e12fa46953d3f9484",
+      "rev": "2b08e767722ba5474f5ae1d10158f78956602e2a",
       "spdx": "MIT",
       "spdx_source": "detected"
     },

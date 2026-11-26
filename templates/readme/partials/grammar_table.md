@@ -44,7 +44,7 @@
 | Cfml | [cfmleditor/tree-sitter-cfml](https://github.com/cfmleditor/tree-sitter-cfml) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
 | Chatito | [tree-sitter-grammars/tree-sitter-chatito](https://github.com/tree-sitter-grammars/tree-sitter-chatito) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Chuck | [tymbalodeon/tree-sitter-chuck](https://github.com/tymbalodeon/tree-sitter-chuck) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Circom | [Decurity/tree-sitter-circom](https://github.com/Decurity/tree-sitter-circom) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | blocked |
+| Circom | [Decurity/tree-sitter-circom](https://github.com/Decurity/tree-sitter-circom) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | Clarity | [xlittlerag/tree-sitter-clarity](https://github.com/xlittlerag/tree-sitter-clarity) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Clojure | [sogaiu/tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Cmake | [uyha/tree-sitter-cmake](https://github.com/uyha/tree-sitter-cmake) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |

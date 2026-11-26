@@ -91,7 +91,6 @@
   "grammar_blocked": {
     "baml": "the parser includes the whitespace after a keyword in identifiers (`class Resume` yields the name \" Resume\"), so every declaration name would carry a leading space",
     "blade": "section, yield and component names are `parameter` regex tokens that include the surrounding quotes (`@section('content')` yields \"'content'\"), with no child node holding the bare name",
-    "circom": "the lexer folds the whitespace after `template`/`function`/`component` into the name (\" Multiplier\")",
     "gotmpl": "`define`, `block` and `template` name a template with a string literal whose content is a hidden token, so the only capturable node keeps its quotes or backticks",
     "jinja2": "the grammar parses every {% %} statement as one opaque token, with no macro, block, set or import nodes, so macro and block names cannot be captured",
     "tsql": "the grammar has no DDL nodes: CREATE TABLE/PROCEDURE/FUNCTION/VIEW statements are not parsed as declarations, and error recovery turns their keywords into function calls, so no definition name can be captured"

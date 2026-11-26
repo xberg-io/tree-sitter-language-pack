@@ -225,7 +225,7 @@
   "circom": {
     "extensions": ["circom"],
     "repo": "https://github.com/Decurity/tree-sitter-circom",
-    "rev": "75f447fd955ec59082103f7e12fa46953d3f9484"
+    "rev": "2b08e767722ba5474f5ae1d10158f78956602e2a"
   },
   "clarity": {
     "extensions": ["clar"],
