@@ -1,6 +1,10 @@
 definition.module	PAYROLL
+definition.variable	EMP-FILE
+definition.variable	EMP-RECORD
 definition.variable	WS-TOTAL
 definition.variable	WS-RATE
 definition.variable	WS-EMPLOYEE
+definition.variable	WS-STATUS
+definition.constant	WS-DONE
 definition.variable	WS-COUNT
 reference.call	CALC-PARA
