@@ -1,3 +1,6 @@
 definition.type	USD
+definition.type	VTI
 definition.type	Assets:Checking
+definition.type	Assets:Brokerage
 definition.type	Expenses:Food
+definition.type	Income:Salary

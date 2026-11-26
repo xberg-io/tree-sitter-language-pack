@@ -1,13 +1,19 @@
 @primary: #336699;
+@spacing: 4px;
 @import "base";
 
 .bordered(@width: 2px) {
-  border: @width solid @primary;
+  @local-shade: darken(@primary, 10%);
+  border: @width solid @local-shade;
+}
+
+.shadow(@depth) when (@depth > 0) {
+  box-shadow: 0 @depth @spacing rgba(0, 0, 0, 0.2);
 }
 
 #namespace {
   .rounded() {
-    border-radius: 4px;
+    border-radius: @spacing;
   }
 }
 
@@ -18,5 +24,7 @@
 
 .card {
   .bordered(4px);
+  .shadow(2px);
   color: @primary;
+  animation: pulse 1s infinite;
 }

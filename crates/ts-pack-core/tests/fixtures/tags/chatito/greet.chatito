@@ -1,10 +1,23 @@
-%[greet]
+import ./common.chatito
+
+%[greet]('training': '20', 'testing': '5')
     ~[hi] @[name]
+    ~[hi] ~[please?] I am @[name]
+
+%[order_drink]('training': '10')
+    ~[please?] a @[drink] for @[name]
 
 ~[hi]
     hello
     hi
 
+~[please]
+    please
+
 @[name]
     Alice
     Bob
+
+@[drink]('entity': 'beverage')
+    coffee
+    tea

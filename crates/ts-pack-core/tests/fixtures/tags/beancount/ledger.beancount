@@ -1,3 +1,22 @@
+option "title" "Household"
+option "operating_currency" "USD"
+
 2024-01-01 commodity USD
+2024-01-01 commodity VTI
+  name: "Vanguard Total Stock Market ETF"
+
 2024-01-01 open Assets:Checking USD
+2024-01-01 open Assets:Brokerage VTI,USD
 2024-01-01 open Expenses:Food
+2024-01-01 open Income:Salary USD
+
+2024-01-15 * "Employer" "January salary"
+  Income:Salary     -3000.00 USD
+  Assets:Checking    3000.00 USD
+
+2024-01-20 * "Grocer" "Weekly shopping"
+  Expenses:Food        84.10 USD
+  Assets:Checking
+
+2024-02-01 balance Assets:Checking 2915.90 USD
+2024-12-31 close Expenses:Food

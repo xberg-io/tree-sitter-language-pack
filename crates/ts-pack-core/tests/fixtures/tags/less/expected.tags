@@ -1,5 +1,8 @@
 definition.variable	@primary
+definition.variable	@spacing
 definition.macro	bordered
+definition.macro	shadow
 definition.macro	rounded
-definition.keyframes	pulse
+definition.constant	pulse
 reference.call	bordered
+reference.call	shadow

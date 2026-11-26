@@ -1,6 +1,15 @@
+@import url("reset.css");
+
 :root {
   --brand: #336699;
   --gap: 4px;
+  --radius: calc(var(--gap) * 2);
+}
+
+@media (min-width: 600px) {
+  .card {
+    margin: 0 auto;
+  }
 }
 
 @keyframes fade-in {
@@ -8,7 +17,18 @@
   to { opacity: 1; }
 }
 
+@keyframes slide-up {
+  0% { transform: translateY(8px); }
+  100% { transform: translateY(0); }
+}
+
 .card {
   color: var(--brand);
-  animation: fade-in 1s;
+  padding: var(--gap, 4px);
+  border-radius: var(--radius);
+  animation: fade-in 1s, slide-up 200ms ease-out;
+}
+
+.card > .title:hover {
+  font-weight: bold;
 }

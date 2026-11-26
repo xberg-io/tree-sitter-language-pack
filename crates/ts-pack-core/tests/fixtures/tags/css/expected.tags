@@ -1,3 +1,9 @@
 definition.variable	--brand
 definition.variable	--gap
-definition.keyframes	fade-in
+definition.variable	--radius
+reference.variable	--gap
+definition.constant	fade-in
+definition.constant	slide-up
+reference.variable	--brand
+reference.variable	--gap
+reference.variable	--radius

@@ -39,8 +39,8 @@ include "root" {
   path = "root.hcl"
 }
 
-dependency "vpc" {
-  config_path = "../vpc"
+dependency "network" {
+  config_path = "../network"
 }
 
 locals {
@@ -48,5 +48,5 @@ locals {
 }
 
 inputs = {
-  vpc_id = dependency.vpc.outputs.vpc_id
+  vpc_id = dependency.network.outputs.vpc_id
 }

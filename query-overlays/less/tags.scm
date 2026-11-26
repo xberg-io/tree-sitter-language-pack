@@ -12,8 +12,8 @@
     (id_selector name: (id_name) @name)
   ]) @definition.macro
 
-; `@keyframes pulse { ... }`
-(keyframes_statement name: (keyframes_name) @name) @definition.keyframes
+; `@keyframes pulse { ... }`: an animation name is a constant other rules refer to.
+(keyframes_statement name: (keyframes_name) @name) @definition.constant
 
 ; `.bordered(4px);`
 (mixin

@@ -9,6 +9,6 @@ definition.variable	name_prefix
 definition.variable	tags
 definition.module	include
 definition.module	root
-definition.module	vpc
+definition.module	network
 definition.variable	region
 definition.variable	inputs
