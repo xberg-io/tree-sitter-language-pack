@@ -14,11 +14,11 @@
   name: (name) @name) @definition.function
 
 (constructor_definition
-  "_init" @name) @definition.method
+  "_init" @name) @definition.constructor
 
-; Signals and enums
+; Signals and enums. A signal is an event the class emits, tagged as a method like other events.
 (signal_statement
-  name: (name) @name) @definition.event
+  name: (name) @name) @definition.method
 
 (enum_definition
   name: (name) @name) @definition.enum

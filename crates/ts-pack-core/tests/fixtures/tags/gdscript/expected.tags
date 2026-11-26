@@ -1,9 +1,10 @@
 definition.class	Player
 reference.class	CharacterBody2D
-definition.event	health_changed
+definition.method	health_changed
 definition.enum	State
 definition.constant	MAX_HEALTH
 definition.variable	health
+definition.constructor	_init
 definition.function	_ready
 reference.call	reset_health
 definition.function	take_damage
@@ -14,3 +15,9 @@ definition.class	Inventory
 definition.variable	items
 definition.method	add
 reference.call	append
+definition.class	Backpack
+reference.class	Inventory
+definition.method	add
+reference.call	add
+reference.call	print
+reference.call	size

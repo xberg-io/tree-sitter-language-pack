@@ -12,6 +12,14 @@
 (interface_declaration
   name: (identifier) @name) @definition.interface
 
+; A function named after its class is the constructor: `public function Circle(r:Number)`
+((class_declaration
+  name: (identifier) @_class
+  body: (statement_block
+    (function_declaration
+      name: (identifier) @name) @definition.constructor))
+  (#eq? @name @_class))
+
 ; Methods: functions declared in a class body or an interface
 (class_declaration
   body: (statement_block

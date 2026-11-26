@@ -2,6 +2,12 @@ package geometry;
 
 import haxe.ds.StringMap;
 
+var defaultRadius:Float = 1.0;
+
+function describe(shape:Shape):String {
+    return Std.string(shape.area());
+}
+
 typedef Point = {
     var x:Float;
     var y:Float;
@@ -14,6 +20,15 @@ enum Color {
 
 interface Shape {
     function area():Float;
+}
+
+interface Scalable extends Shape {
+    function scale(factor:Float):Void;
+}
+
+enum abstract Unit(String) {
+    var Meters = "m";
+    var Feet = "ft";
 }
 
 class Circle implements Shape {
@@ -31,6 +46,12 @@ class Circle implements Shape {
 
     static function square(x:Float):Float {
         return x * x;
+    }
+}
+
+class UnitCircle extends Circle {
+    public function new() {
+        super(1.0);
     }
 }
 

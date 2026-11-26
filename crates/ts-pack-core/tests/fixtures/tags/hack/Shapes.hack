@@ -17,6 +17,15 @@ trait Describable {
   }
 }
 
+enum class Unit: string {
+  string METERS = 'm';
+  string FEET = 'ft';
+}
+
+abstract enum class Measure: int {
+  abstract int BASE;
+}
+
 type Point = shape('x' => int, 'y' => int);
 
 final class Circle implements Shape {
@@ -35,6 +44,13 @@ final class Circle implements Shape {
 
   public static function unit(): Circle {
     return new Circle(1.0);
+  }
+}
+
+class UnitCircle extends Circle {
+  <<__Override>>
+  public function area(): float {
+    return PI_APPROX;
   }
 }
 

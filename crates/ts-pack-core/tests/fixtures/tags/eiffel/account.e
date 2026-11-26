@@ -21,6 +21,11 @@ feature -- Access
 
 	balance: INTEGER
 
+	count: INTEGER
+		attribute
+			Result := 0
+		end
+
 	Max_balance: INTEGER = 1000
 
 	deposit (amount: INTEGER)

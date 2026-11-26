@@ -1,7 +1,16 @@
 ; Ada. Library units (packages and subprograms) and the declarations a package spec or body makes
 ; at package level. Declarations inside a subprogram body are locals and are not tagged.
 
-; `package Shapes is` and `package body Shapes is`
+; `type Handle is private;` is completed by `type Handle is new Integer;` in the private part of
+; the same spec; the completion is the same type, so it is claimed before the type patterns below.
+(package_declaration
+  [(private_type_declaration . (identifier) @_partial)
+   (private_extension_declaration . (identifier) @_partial)]
+  (full_type_declaration . (identifier) @ignore)
+  (#eq? @ignore @_partial))
+
+; `package Shapes is` and `package body Shapes is`. A spec and its body are separate files
+; (`.ads` and `.adb`) by convention, so each file tags the package and its subprograms once.
 (package_declaration
   name: (_) @name) @definition.module
 
@@ -33,13 +42,11 @@
      [(function_specification name: (_) @name)
       (procedure_specification name: (_) @name)])] @definition.function)
 
-; Subprograms declared or defined in a package body
+; Subprograms defined in a package body. A `function F ...;` declaration there is a forward
+; declaration that the same body must complete, so only the body is tagged.
 (package_body
   (non_empty_declarative_part
     [(subprogram_body
-       [(function_specification name: (_) @name)
-        (procedure_specification name: (_) @name)])
-     (subprogram_declaration
        [(function_specification name: (_) @name)
         (procedure_specification name: (_) @name)])
      (expression_function_declaration
@@ -47,18 +54,18 @@
      (null_procedure_declaration
        (procedure_specification name: (_) @name))] @definition.function))
 
-; Types, by what they define. `type Point is record ... end record;` is a struct, an enumeration
+; Types, by what they define. `type Point is record ... end record;` is a class, an enumeration
 ; type an enum, an interface type an interface; any other type or subtype is a type.
 (package_declaration
   (full_type_declaration
     . (identifier) @name
-    (record_type_definition)) @definition.struct)
+    (record_type_definition)) @definition.class)
 
 (package_body
   (non_empty_declarative_part
     (full_type_declaration
       . (identifier) @name
-      (record_type_definition)) @definition.struct))
+      (record_type_definition)) @definition.class))
 
 (package_declaration
   (full_type_declaration

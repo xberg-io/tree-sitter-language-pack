@@ -13,6 +13,20 @@ enum Color {
     GREEN
 }
 
+type Shape object {
+    function area() returns float;
+};
+
+type Sender object {
+    remote function send(string message) returns error?;
+};
+
+client class Mailer {
+    remote function send(string message) returns error? {
+        io:println(message);
+    }
+}
+
 class Counter {
     int count = 0;
 

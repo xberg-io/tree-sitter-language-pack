@@ -4,9 +4,14 @@ on greet(personName)
 	return "Hello, " & personName
 end greet
 
-on makeGreeting for personName
+to makeGreeting for personName
 	return greet(personName)
 end makeGreeting
+
+on shout(message)
+	set upper to current application's NSString's stringWithString:message
+	return upper
+end shout
 
 script Counter
 	property total : 0

@@ -21,18 +21,13 @@
     (feature_body
       (attribute)))) @definition.field
 
-; `deposit (amount: INTEGER) do ... end`
+; `deposit (amount: INTEGER) do ... end`, and `deferred` or `external` routines. Every routine,
+; with or without arguments, has this routine part, so one pattern covers them all.
 (feature_declaration
   (new_feature
     (extended_feature_name
       (identifier) @name))
   (attribute_or_routine)) @definition.method
-
-(feature_declaration
-  (new_feature
-    (extended_feature_name
-      (identifier) @name))
-  (formal_arguments)) @definition.method
 
 ; `balance: INTEGER`
 (feature_declaration

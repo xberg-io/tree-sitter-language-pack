@@ -18,14 +18,17 @@
 (typedef_declaration
   name: (identifier) @name) @definition.type
 
-; Methods of classes and interfaces, including the `new` constructor; module-level functions
+; `public function new(...)` is the constructor; other functions of a class or interface are
+; methods, and functions at module level are functions.
 (class_declaration
   body: (block
     (function_declaration
-      name: [
-        (identifier)
-        "new"
-      ] @name) @definition.method))
+      name: "new" @name) @definition.constructor))
+
+(class_declaration
+  body: (block
+    (function_declaration
+      name: (identifier) @name) @definition.method))
 
 (interface_declaration
   body: (block
@@ -53,12 +56,15 @@
 (class_declaration
   interface_name: (type_name) @name) @reference.implementation
 
+; `interface Scalable extends Shape`
 (interface_declaration
-  interface_name: (type_name) @name) @reference.implementation
+  interface_name: (type_name) @name) @reference.interface
 
 ; Calls and instantiation
-(call_expression
+; `super(radius)` calls the parent constructor, which is not a named call target.
+((call_expression
   object: (identifier) @name) @reference.call
+  (#not-eq? @name "super"))
 
 (call_expression
   object: (member_expression

@@ -21,12 +21,20 @@
 (abstract_enum_class_declaration
   name: (identifier) @name) @definition.enum
 
+; `RED = 'red';` in an `enum` and `string METERS = 'm';` in an `enum class`
+(enumerator
+  (identifier) @name) @definition.constant
+
 (alias_declaration
   (identifier) @name) @definition.type
 
 ; Functions and methods
 (function_declaration
   name: (identifier) @name) @definition.function
+
+((method_declaration
+  name: (identifier) @name) @definition.constructor
+  (#eq? @name "__construct"))
 
 (method_declaration
   name: (identifier) @name) @definition.method

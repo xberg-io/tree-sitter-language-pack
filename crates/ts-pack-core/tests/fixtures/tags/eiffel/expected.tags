@@ -1,6 +1,7 @@
 definition.class	ACCOUNT
 definition.method	make
 definition.field	balance
+definition.field	count
 definition.constant	Max_balance
 definition.method	deposit
 definition.method	report

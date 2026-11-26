@@ -9,6 +9,9 @@ const MAX_HEALTH = 100
 
 var health: int = MAX_HEALTH
 
+func _init():
+	health = MAX_HEALTH
+
 func _ready():
 	reset_health()
 
@@ -26,3 +29,8 @@ class Inventory:
 
 	func add(item):
 		items.append(item)
+
+class Backpack extends Inventory:
+	func add(item):
+		.add(item)
+		print(items.size())

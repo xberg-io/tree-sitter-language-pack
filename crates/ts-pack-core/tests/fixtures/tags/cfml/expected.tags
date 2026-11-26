@@ -1,2 +1,12 @@
 definition.class	Greeter
+reference.class	Base
+definition.function	init
 definition.function	greet
+reference.call	increment
+reference.call	ucase
+definition.function	greetAll
+reference.call	arrayMap
+reference.call	trim
+reference.call	greet
+reference.call	arrayToList
+definition.function	increment

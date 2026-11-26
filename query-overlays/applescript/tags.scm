@@ -23,9 +23,9 @@
     (identifier) @name)
   (#eq? @_keyword "script")) @definition.class
 
-; Properties
+; Properties of a script object, or of the script itself at the top level
 (property_statement
-  name: (identifier) @name) @definition.property
+  name: (identifier) @name) @definition.field
 
 ; Calls: application commands, handler calls and Objective-C bridge methods. A block's
 ; closing `end` misparsed as a command is not a call.

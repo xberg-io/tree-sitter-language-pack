@@ -3,6 +3,13 @@ definition.constant	MAX_SIDES
 definition.variable	GREETING
 definition.type	Point
 definition.enum	Color
+definition.type	Shape
+definition.method	area
+definition.type	Sender
+definition.method	send
+definition.class	Mailer
+definition.method	send
+reference.call	println
 definition.class	Counter
 definition.field	count
 definition.method	increment
