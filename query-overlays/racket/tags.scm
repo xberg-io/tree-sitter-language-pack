@@ -52,7 +52,7 @@
     (symbol) @_keyword
     .
     (symbol) @name
-    (#eq? @_keyword "struct")) @definition.struct)
+    (#eq? @_keyword "struct")) @definition.class)
 
 ; `(module name lang ...)` and `(module* name lang ...)`
 (program

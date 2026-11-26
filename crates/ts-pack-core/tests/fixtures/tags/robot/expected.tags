@@ -1,5 +1,6 @@
-definition.variable	${URL}
-definition.variable	@{USERS}
+definition.variable	URL
+definition.variable	USERS
+definition.variable	OPTIONS
 definition.function	Valid Login
 reference.call	Open Login Page
 reference.call	Submit Credentials

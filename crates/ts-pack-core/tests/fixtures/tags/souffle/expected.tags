@@ -1,6 +1,7 @@
 definition.type	Node
 definition.function	edge
 definition.function	reach
+definition.function	distance
 definition.type	Shape
 definition.constructor	Circle
 definition.constructor	Square

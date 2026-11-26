@@ -7,6 +7,8 @@
 .decl reach(x: Node, y: Node)
 .output reach
 
+.functor distance(a: number, b: number): number
+
 reach(x, y) :- edge(x, y).
 reach(x, z) :- reach(x, y), edge(y, z).
 

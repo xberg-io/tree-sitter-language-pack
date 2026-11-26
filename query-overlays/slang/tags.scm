@@ -7,7 +7,7 @@
 
 (struct_specifier
   name: (type_identifier) @name
-  body: (_)) @definition.struct
+  body: (_)) @definition.class
 
 (class_specifier
   name: (type_identifier) @name

@@ -11,6 +11,10 @@ global Theme {
     out property <color> accent: #336699;
 }
 
+interface Toggleable {
+    callback toggled(bool);
+}
+
 component Row inherits Rectangle {
     in property <Item> item;
     callback toggled(bool);

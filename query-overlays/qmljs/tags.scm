@@ -5,7 +5,7 @@
 (ui_inline_component name: (identifier) @name) @definition.class
 
 ; `property string title: "Card"`
-(ui_property name: (identifier) @name) @definition.property
+(ui_property name: (identifier) @name) @definition.field
 
 ; `signal clicked(int index)`
 (ui_signal name: (identifier) @name) @definition.method

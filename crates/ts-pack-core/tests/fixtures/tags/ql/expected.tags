@@ -1,3 +1,7 @@
+definition.module	Targets
+definition.type	TKind
+definition.class	TDirect
+definition.class	TIndirect
 definition.class	Callee
 reference.type	Function
 reference.call	getName
@@ -6,5 +10,9 @@ reference.call	getName
 definition.function	isTarget
 reference.type	Function
 reference.type	Callee
+definition.function	hasTargets
 reference.type	Callee
+reference.call	isTarget
+reference.type	Callee
+reference.call	hasTargets
 reference.call	describe

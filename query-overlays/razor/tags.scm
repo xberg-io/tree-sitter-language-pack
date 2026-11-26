@@ -5,6 +5,6 @@
 
 (razor_block (method_declaration name: (identifier) @name) @definition.method)
 
-(razor_block (property_declaration name: (identifier) @name) @definition.property)
+(razor_block (property_declaration name: (identifier) @name) @definition.field)
 
 (razor_block (field_declaration (variable_declaration (variable_declarator name: (identifier) @name))) @definition.field)

@@ -1,7 +1,30 @@
+use expiration
+use partial
+
+caveat ip_allowlist(user_ip ipaddress, cidr string) {
+    user_ip.in_cidr(cidr)
+}
+
 definition user {}
 
+definition group {
+    relation member: user | group#member
+}
+
+partial auditable {
+    relation auditor: user
+}
+
+definition folder {
+    relation owner: user
+    permission view = owner
+}
+
 definition document {
-    relation viewer: user
-    relation editor: user
-    permission view = viewer + editor
+    ...auditable
+    relation parent: folder
+    relation viewer: user | user:* | group#member | user with ip_allowlist
+    relation editor: user with ip_allowlist and expiration
+    permission edit = editor
+    permission view = viewer + edit + parent->view
 }

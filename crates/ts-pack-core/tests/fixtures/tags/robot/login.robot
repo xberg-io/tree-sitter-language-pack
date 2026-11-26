@@ -4,6 +4,7 @@ Library    SeleniumLibrary
 *** Variables ***
 ${URL}    https://example.com
 @{USERS}    alice    bob
+&{OPTIONS}    browser=firefox    headless=true
 
 *** Test Cases ***
 Valid Login

@@ -2,9 +2,9 @@ package app.authz
 
 import rego.v1
 
-default allow := false
-
 admins := {"alice", "bob"}
+
+default allow := false
 
 allow if {
 	is_admin

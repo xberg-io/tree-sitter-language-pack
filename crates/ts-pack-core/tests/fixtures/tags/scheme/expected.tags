@@ -2,5 +2,5 @@ definition.variable	pi-ish
 definition.function	square
 definition.function	area
 definition.macro	swap!
-definition.struct	point
+definition.class	point
 definition.function	main

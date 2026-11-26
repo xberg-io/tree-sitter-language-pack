@@ -1,7 +1,5 @@
 definition.module	app.authz
-definition.constant	allow
 definition.constant	admins
-definition.constant	allow
 definition.constant	allow
 reference.call	count
 definition.constant	is_admin

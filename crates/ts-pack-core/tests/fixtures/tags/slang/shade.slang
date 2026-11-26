@@ -16,6 +16,11 @@ struct DirLight : ILight
     }
 }
 
+class Material
+{
+    float roughness;
+}
+
 namespace util
 {
     float square(float x) { return x * x; }

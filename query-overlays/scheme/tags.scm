@@ -50,4 +50,4 @@
       (symbol) @name
       (list . (symbol) @name)
     ]
-    (#eq? @_keyword "define-record-type")) @definition.struct)
+    (#eq? @_keyword "define-record-type")) @definition.class)

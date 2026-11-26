@@ -14,6 +14,7 @@ Rectangle {
     function increment() {
         count += 1
         root.clicked(count)
+        console.log(qsTr("Count: %1").arg(count))
     }
 
     Text {

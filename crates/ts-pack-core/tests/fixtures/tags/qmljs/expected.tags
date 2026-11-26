@@ -2,10 +2,13 @@ reference.class	Rectangle
 definition.variable	root
 definition.class	Badge
 reference.class	Text
-definition.property	title
-definition.property	count
+definition.field	title
+definition.field	count
 definition.method	clicked
 definition.method	increment
 reference.call	clicked
+reference.call	log
+reference.call	qsTr
+reference.call	arg
 reference.class	Text
 definition.variable	label

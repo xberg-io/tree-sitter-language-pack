@@ -17,3 +17,7 @@
 (define (main)
   (let ([r 2])
     (displayln (area r))))
+
+(module helpers racket/base
+  (provide twice)
+  (define (twice x) (* 2 x)))

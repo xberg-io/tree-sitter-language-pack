@@ -7,11 +7,11 @@
 
 (interface_definition name: (_) @name) @definition.interface
 
-(struct_definition name: (user_type_identifier) @name) @definition.struct
+(struct_definition name: (user_type_identifier) @name) @definition.class
 
 (enum_definition name: (user_type_identifier) @name) @definition.enum
 
-(property name: (simple_identifier) @name) @definition.property
+(property name: (simple_identifier) @name) @definition.field
 
 (callback name: (simple_identifier) @name) @definition.method
 

@@ -1,10 +1,11 @@
 definition.macro	MAX_LIGHTS
 definition.interface	ILight
 definition.method	illuminate
-definition.struct	DirLight
+definition.class	DirLight
 definition.method	illuminate
 reference.call	max
 reference.call	dot
+definition.class	Material
 definition.module	util
 definition.function	square
 definition.variable	GAMMA

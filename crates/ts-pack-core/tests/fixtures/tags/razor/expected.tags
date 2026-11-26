@@ -1,4 +1,4 @@
 definition.section	Scripts
 definition.field	visits
-definition.property	Title
+definition.field	Title
 definition.method	Greet

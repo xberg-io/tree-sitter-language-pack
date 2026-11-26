@@ -48,3 +48,17 @@ enum Unit {
 list CityList {
     member: CityId
 }
+
+union Forecast {
+    rain: Integer
+    sun: Integer
+}
+
+map CityTemperatures {
+    key: CityId
+    value: Integer
+}
+
+set CityIds {
+    member: CityId
+}

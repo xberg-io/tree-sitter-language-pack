@@ -20,3 +20,11 @@ definition.constant	CELSIUS
 definition.constant	FAHRENHEIT
 definition.type	CityList
 reference.type	CityId
+definition.class	Forecast
+reference.type	Integer
+reference.type	Integer
+definition.type	CityTemperatures
+reference.type	CityId
+reference.type	Integer
+definition.type	CityIds
+reference.type	CityId
