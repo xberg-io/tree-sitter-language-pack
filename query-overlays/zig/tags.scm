@@ -1,6 +1,7 @@
 ; Zig (`.zig`). Container-level declarations, at file scope or inside a struct, enum, union or
-; opaque body: functions and methods, the types bound by `const Name = struct { ... }`, constants
-; and variables. Declarations inside a function body and `@import` aliases are claimed below
+; opaque body: functions and methods, the types bound by `const Name = struct { ... }` (struct and
+; union are classes), struct and union fields, enum and error-set members, constants, variables
+; and `test` blocks. Declarations inside a function body and `@import` aliases are claimed below
 ; without a tag.
 
 ; `const total = a + b;` inside a block is a local.
@@ -24,7 +25,7 @@
   "const"
   .
   (identifier) @name
-  (struct_declaration)) @definition.struct
+  (struct_declaration)) @definition.class
 
 (variable_declaration
   "const"
@@ -36,13 +37,25 @@
   "const"
   .
   (identifier) @name
-  (union_declaration)) @definition.union
+  (union_declaration)) @definition.class
 
 (variable_declaration
   "const"
   .
   (identifier) @name
   [(opaque_declaration) (error_set_declaration)]) @definition.type
+
+; `x: i32,` in a struct or union; `red,` in an enum
+[(struct_declaration (container_field name: (identifier) @name))
+ (union_declaration (container_field name: (identifier) @name))] @definition.field
+
+(enum_declaration
+  (container_field
+    name: (identifier) @name)) @definition.constant
+
+; `error{ NotFound, AccessDenied }`
+(error_set_declaration
+  (identifier) @name) @definition.constant
 
 ; `pub fn sum(self: Point) i32 { ... }` inside a container body
 [(struct_declaration (function_declaration name: (identifier) @name) @definition.method)
@@ -64,6 +77,11 @@
   "var"
   .
   (identifier) @name) @definition.variable
+
+; `test "addition" { ... }`
+(test_declaration
+  (string
+    (string_content) @name)) @definition.function
 
 ; `add(1, 2)` and `std.debug.print(...)`
 (call_expression

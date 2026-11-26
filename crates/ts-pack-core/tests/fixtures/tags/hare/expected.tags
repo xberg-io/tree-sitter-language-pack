@@ -1,7 +1,16 @@
 definition.constant	LIMIT
 definition.variable	counter
-definition.struct	point
+definition.constant	greeting
+definition.class	point
+definition.field	x
+definition.field	y
 definition.enum	color
+definition.constant	RED
+definition.constant	GREEN
+definition.class	number
+definition.field	i
+definition.field	f
+definition.type	score
 definition.function	add
 definition.function	main
 reference.call	println

@@ -1,5 +1,5 @@
-; Odin (`.odin`). The package and its file-scope declarations: procedures, structs, enums, unions,
-; bit fields, constants and globals. Declarations inside a procedure body, including nested
+; Odin (`.odin`). The package and its file-scope declarations: procedures, structs, unions and
+; bit fields (classes) with their fields, enums with their values, constants and globals. Declarations inside a procedure body, including nested
 ; procedures, are locals. The name is the identifier right before `::` (or `:=`), which skips
 ; leading attributes such as `@(private)`.
 
@@ -21,7 +21,7 @@
   (struct_declaration
     (identifier) @name
     .
-    "::") @definition.struct)
+    "::") @definition.class)
 
 (source_file
   (enum_declaration
@@ -33,13 +33,26 @@
   (union_declaration
     (identifier) @name
     .
-    "::") @definition.union)
+    "::") @definition.class)
 
 (source_file
   (bit_field_declaration
     (identifier) @name
     .
-    "::") @definition.struct)
+    "::") @definition.class)
+
+; `x, y: int,` in a struct and `visible: bool | 1,` in a bit field; the type is a nested node
+[(struct_declaration
+   (field
+     (identifier) @name))
+ (bit_field_declaration
+   "{"
+   (identifier) @name)] @definition.field
+
+; `Red,` in an enum; the enum's own name comes before the brace
+(enum_declaration
+  "{"
+  (identifier) @name) @definition.constant
 
 ; `Score :: distinct int`
 (source_file

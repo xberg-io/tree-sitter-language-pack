@@ -8,17 +8,34 @@ const Point = struct {
     x: i32,
     y: i32,
 
+    pub const origin = Point{ .x = 0, .y = 0 };
+
     pub fn sum(self: Point) i32 {
         return self.x + self.y;
     }
 };
 
-const Color = enum { red, green };
+const Color = enum {
+    red,
+    green,
+
+    pub fn isRed(self: Color) bool {
+        return self == .red;
+    }
+};
 
 const Shape = union(enum) {
     point: Point,
     radius: f32,
 };
+
+const Handle = opaque {
+    pub fn close(handle: *Handle) void {
+        _ = handle;
+    }
+};
+
+const FileError = error{ NotFound, AccessDenied };
 
 fn add(a: i32, b: i32) i32 {
     const total = a + b;
@@ -30,6 +47,6 @@ pub fn main() void {
     std.debug.print("{d}\n", .{add(p.sum(), 1)});
 }
 
-test "add" {
+test "addition" {
     try std.testing.expect(add(1, 2) == 3);
 }

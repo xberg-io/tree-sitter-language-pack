@@ -1,5 +1,5 @@
 ; C3. Module-level declarations: the module itself, functions, methods, macros, user-defined types
-; and globals. Locals declared inside function bodies are statements, not global declarations.
+; (struct, union and bitstruct are classes) with their fields and enum constants, and globals. Locals declared inside function bodies are statements, not global declarations.
 
 ; `module shapes;`
 (module_declaration
@@ -32,11 +32,22 @@
   (macro_header
     name: (_) @name)) @definition.macro
 
+; `struct Point { ... }` and `union Number { ... }`
 (struct_declaration
-  name: (type_ident) @name) @definition.struct
+  name: (type_ident) @name) @definition.class
 
 (bitstruct_declaration
-  name: (type_ident) @name) @definition.struct
+  name: (type_ident) @name) @definition.class
+
+[(struct_member_declaration
+   (identifier_list
+     (ident) @name))
+ (bitstruct_member_declaration
+   (ident) @name)] @definition.field
+
+; `RED,` in an enum and `FAST = 1,` in a constdef
+(enum_constant
+  name: (const_ident) @name) @definition.constant
 
 [(enum_declaration name: (type_ident) @name)
  (constdef_declaration name: (type_ident) @name)] @definition.enum

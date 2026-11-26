@@ -10,6 +10,7 @@ module Geometry
   struct Point
     getter x : Int32
     getter y : Int32
+    @label : String = "point"
 
     def initialize(@x, @y)
     end
@@ -31,6 +32,9 @@ module Geometry
   end
 
   alias Coord = Tuple(Int32, Int32)
+
+  annotation Experimental
+  end
 end
 
 class Box(T)
