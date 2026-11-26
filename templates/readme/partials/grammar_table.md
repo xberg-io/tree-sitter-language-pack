@@ -21,7 +21,7 @@
 | Avro | [victorhqc/tree-sitter-apache-avro](https://github.com/victorhqc/tree-sitter-apache-avro) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | Awk | [Beaglefoot/tree-sitter-awk](https://github.com/Beaglefoot/tree-sitter-awk) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Ballerina | [heshanpadmasiri/tree-sitter-ballerina](https://github.com/heshanpadmasiri/tree-sitter-ballerina) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Baml | [BoundaryML/baml](https://github.com/BoundaryML/baml) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Baml | [BoundaryML/baml](https://github.com/BoundaryML/baml) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | blocked |
 | Bash | [TheAuditorTool/tree-sitter-bash](https://github.com/TheAuditorTool/tree-sitter-bash) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Bass | [vito/tree-sitter-bass](https://github.com/vito/tree-sitter-bass) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Batch | [davidevofficial/tree-sitter-batch](https://github.com/davidevofficial/tree-sitter-batch) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
@@ -29,7 +29,7 @@
 | Bibtex | [latex-lsp/tree-sitter-bibtex](https://github.com/latex-lsp/tree-sitter-bibtex) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | Bicep | [tree-sitter-grammars/tree-sitter-bicep](https://github.com/tree-sitter-grammars/tree-sitter-bicep) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Bitbake | [tree-sitter-grammars/tree-sitter-bitbake](https://github.com/tree-sitter-grammars/tree-sitter-bitbake) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Blade | [EmranMR/tree-sitter-blade](https://github.com/EmranMR/tree-sitter-blade) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| Blade | [EmranMR/tree-sitter-blade](https://github.com/EmranMR/tree-sitter-blade) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | blocked |
 | Bpftrace | [sgruszka/tree-sitter-bpftrace](https://github.com/sgruszka/tree-sitter-bpftrace) | 14 | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | Brightscript | [ajdelcimmuto/tree-sitter-brightscript](https://github.com/ajdelcimmuto/tree-sitter-brightscript) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
 | BSL | [alkoleft/tree-sitter-bsl](https://github.com/alkoleft/tree-sitter-bsl) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
@@ -126,7 +126,7 @@
 | Godot Resource | [PrestonKnopp/tree-sitter-godot-resource](https://github.com/PrestonKnopp/tree-sitter-godot-resource) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | n/a |
 | Gomod | [camdencheek/tree-sitter-go-mod](https://github.com/camdencheek/tree-sitter-go-mod) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | n/a |
 | Gosum | [tree-sitter-grammars/tree-sitter-go-sum](https://github.com/tree-sitter-grammars/tree-sitter-go-sum) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | n/a |
-| Gotmpl | [ngalaiko/tree-sitter-go-template](https://github.com/ngalaiko/tree-sitter-go-template) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Gotmpl | [ngalaiko/tree-sitter-go-template](https://github.com/ngalaiko/tree-sitter-go-template) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | blocked |
 | Gowork | [omertuc/tree-sitter-go-work](https://github.com/omertuc/tree-sitter-go-work) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | n/a |
 | Gpg | [tree-sitter-grammars/tree-sitter-gpg-config](https://github.com/tree-sitter-grammars/tree-sitter-gpg-config) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | n/a |
 | Graphql | [grammars/graphql](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/graphql) (vendored) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |

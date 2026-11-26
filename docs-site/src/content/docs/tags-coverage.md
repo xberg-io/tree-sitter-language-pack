@@ -32,74 +32,74 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 
 | Language | Status | Definition kinds or reason |
 |---|---|---|
-| Abl (`abl`) | Tags | class, event, function, interface, method, property, type |
+| Abl (`abl`) | Tags | class, constant, constructor, enum, field, function, interface, method |
 | Abnf (`abnf`) | Tags | function |
-| Actionscript (`actionscript`) | Tags | class, constant, field, function, interface, method, module, variable |
-| Ada (`ada`) | Tags | constant, enum, function, interface, module, struct, type, variable |
-| Agda (`agda`) | Tags | constructor, field, function, module, struct, type |
+| Actionscript (`actionscript`) | Tags | class, constant, constructor, field, function, interface, method, module, variable |
+| Ada (`ada`) | Tags | class, constant, enum, function, interface, module, type, variable |
+| Agda (`agda`) | Tags | class, constructor, field, function, module, type |
 | Aiken (`aiken`) | Tags | class, constant, enum, function, method, type |
-| AL (`al`) | Tags | class, constant, field, function, interface, method, module, parameter, variable |
+| AL (`al`) | Tags | class, constant, enum, field, function, interface, method, module, variable |
 | Angular (`angular`) | Not applicable | Angular component templates; the component classes, inputs and methods are declared in the TypeScript file that owns the template |
-| Apex (`apex`) | Tags | class, enum, interface, method |
-| Applescript (`applescript`) | Tags | class, function, property |
-| Arduino (`arduino`) | Tags | function |
-| Asciidoc (`asciidoc`) | Tags | label, section |
+| Apex (`apex`) | Tags | class, constant, constructor, enum, field, interface, method |
+| Applescript (`applescript`) | Tags | class, field, function |
+| Arduino (`arduino`) | Tags | class, constant, constructor, enum, field, function, macro, method, module, type, variable |
+| Asciidoc (`asciidoc`) | Tags | label, variable |
 | ASM (`asm`) | Tags | constant, label |
 | Astro (`astro`) | Not applicable | HTML layer of an Astro component; its declarations live in the frontmatter and script blocks, which are injected TypeScript |
 | Avro (`avro`) | Tags | class, constant, enum, method, module, type |
 | Awk (`awk`) | Tags | function |
 | Ballerina (`ballerina`) | Tags | class, constant, enum, field, function, method, type, variable |
 | Baml (`baml`) | Grammar blocked | the parser includes the whitespace after a keyword in identifiers (`class Resume` yields the name " Resume"), so every declaration name would carry a leading space |
-| Bash (`bash`) | Tags | function, variable |
+| Bash (`bash`) | Tags | constant, function, variable |
 | Bass (`bass`) | Tags | function, macro, variable |
 | Batch (`batch`) | Tags | label, variable |
 | Beancount (`beancount`) | Tags | type |
 | Bibtex (`bibtex`) | Tags | constant, label |
 | Bicep (`bicep`) | Tags | class, constant, function, module, type, variable |
 | Bitbake (`bitbake`) | Tags | function, variable |
-| Blade (`blade`) | Tags | section |
+| Blade (`blade`) | Grammar blocked | section, yield and component names are `parameter` regex tokens that include the surrounding quotes (`@section('content')` yields "'content'"), with no child node holding the bare name |
 | Bpftrace (`bpftrace`) | Tags | macro, variable |
 | Brightscript (`brightscript`) | Tags | function |
 | BSL (`bsl`) | Tags | function, variable |
-| C (`c`) | Tags | class, function, type |
-| C3 (`c3`) | Tags | constant, enum, function, interface, macro, method, module, struct, type, variable |
+| C (`c`) | Tags | class, constant, enum, function, macro, type, variable |
+| C3 (`c3`) | Tags | class, constant, enum, field, function, interface, macro, method, module, type, variable |
 | Caddy (`caddy`) | Tags | module |
 | Cairo (`cairo`) | Tags | class, constant, enum, function, interface, method, module |
 | Cap'n Proto (`capnp`) | Tags | class, constant, enum, interface, method |
-| Cedar (`cedar`) | Tags | policy |
-| Cedarschema (`cedarschema`) | Tags | function, namespace, type |
+| Cedar (`cedar`) | Tags | function |
+| Cedarschema (`cedarschema`) | Tags | class, enum, field, function, module, type |
 | Cel (`cel`) | Not applicable | a single Common Expression Language expression evaluated by a host; no declarations |
-| Cfml (`cfml`) | Tags | class, function, method, tag |
-| Chatito (`chatito`) | Tags | alias, intent, slot |
+| Cfml (`cfml`) | Tags | class, function |
+| Chatito (`chatito`) | Tags | function, variable |
 | Chuck (`chuck`) | Tags | class, function, method, variable |
 | Circom (`circom`) | Grammar blocked | the lexer folds the whitespace after `template`/`function`/`component` into the name (" Multiplier") |
 | Clarity (`clarity`) | Tags | constant, function, interface, method, variable |
 | Clojure (`clojure`) | Tags | class, function, interface, macro, method, module, variable |
-| Cmake (`cmake`) | Tags | class, function, macro, module, variable |
-| Cobol (`cobol`) | Tags | module, variable |
+| Cmake (`cmake`) | Tags | function, macro, module, variable |
+| Cobol (`cobol`) | Tags | constant, module, variable |
 | Comment (`comment`) | Not applicable | parses TODO/FIXME/NOTE annotations inside comments of a host language; it has no declarations of its own |
-| Commonlisp (`commonlisp`) | Tags | class, function |
+| Commonlisp (`commonlisp`) | Tags | class, constant, function, macro, method, module, variable |
 | Cooklang (`cooklang`) | Not applicable | recipe text whose @ingredients, #cookware and ~timers are inline mentions, not named declarations |
 | Corn (`corn`) | Tags | constant |
 | Cpon (`cpon`) | Not applicable | Chainpack object notation: a JSON-like data serialization with no named definitions |
-| Cpp (`cpp`) | Tags | class, function |
-| Crystal (`crystal`) | Tags | class, constant, enum, function, method, module, struct, type |
-| Csharp (`csharp`) | Tags | class, interface, method, module |
-| CSS (`css`) | Tags | keyframes, variable |
+| Cpp (`cpp`) | Tags | class, constant, constructor, enum, field, function, macro, method, module, type, variable |
+| Crystal (`crystal`) | Tags | class, constant, enum, field, function, method, module, type |
+| Csharp (`csharp`) | Tags | class, constant, constructor, enum, field, interface, method, module, type |
+| CSS (`css`) | Tags | constant, variable |
 | Cst (`cst`) | Not applicable | textual dump of a tree-sitter concrete syntax tree (node ranges and kinds); diagnostic output, not source |
 | CSV (`csv`) | Not applicable | comma-separated tabular data; rows and fields have no names to index |
-| CUDA (`cuda`) | Tags | class, enum, function, macro, method, module, struct, type, union |
+| CUDA (`cuda`) | Tags | class, constant, constructor, enum, function, macro, method, module, type |
 | Cue (`cue`) | Tags | field, module, type, variable |
 | Cypher (`cypher`) | Not applicable | graph query statements; MATCH/CREATE clauses bind pattern variables for one query, not reusable declarations |
-| Cython (`cython`) | Tags | class, constant, function |
-| D (`d`) | Tags | class, constant, function, interface, method, module, type |
+| Cython (`cython`) | Tags | class, constant, enum, field, function, method, type, variable |
+| D (`d`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, type, variable |
 | D2 (`d2`) | Not applicable | diagram description; its identifiers name shapes and connections to draw, not program symbols |
-| Dart (`dart`) | Tags | class, function, method |
+| Dart (`dart`) | Tags | class, constant, constructor, enum, field, function, interface, method, type, variable |
 | Desktop (`desktop`) | Tags | module |
 | Devicetree (`devicetree`) | Tags | label, macro, module |
 | Dhall (`dhall`) | Tags | function, type, variable |
 | Diff (`diff`) | Not applicable | unified diff hunks; the changed lines belong to whatever language was diffed |
-| Djot (`djot`) | Tags | section |
+| Djot (`djot`) | Tags | label |
 | Dockerfile (`dockerfile`) | Tags | module, variable |
 | Dot (`dot`) | Not applicable | Graphviz graph description: a node exists by being mentioned (in an edge or a node statement that only sets its drawing attributes), so there is no declaration site, and graph, subgraph and cluster ids are drawing data local to the file |
 | Dotenv (`dotenv`) | Tags | variable |
@@ -112,17 +112,17 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Eds (`eds`) | Tags | module |
 | Eex (`eex`) | Not applicable | EEx template layer; all definitions live in the injected Elixir |
 | Eiffel (`eiffel`) | Tags | class, constant, field, method |
-| Elixir (`elixir`) | Tags | function, module |
-| Elm (`elm`) | Tags | function, module, type, union |
+| Elixir (`elixir`) | Tags | class, constant, function, interface, macro, method, module, type |
+| Elm (`elm`) | Tags | constant, enum, function, module, type |
 | Elsa (`elsa`) | Tags | function |
 | Elvish (`elvish`) | Tags | function, variable |
-| Emacs Lisp (`elisp`) | Tags | function |
+| Emacs Lisp (`elisp`) | Tags | class, constant, function, macro, module, variable |
 | Embeddedtemplate (`embeddedtemplate`) | Not applicable | ERB/EJS template layer; all definitions live in the injected Ruby or JavaScript |
-| Enforce (`enforce`) | Tags | class, enum, field, function, method, type, variable |
-| Erlang (`erlang`) | Tags | field, function, macro, method, module, struct, type |
-| F# (`fsharp`) | Tags | class, constant, function, method, module |
+| Enforce (`enforce`) | Tags | class, constant, constructor, enum, field, function, method, type, variable |
+| Erlang (`erlang`) | Tags | class, field, function, macro, method, module, type |
+| F# (`fsharp`) | Tags | class, constant, enum, field, function, interface, method, module, type |
 | Facility (`facility`) | Tags | class, constant, enum, interface, method |
-| Faust (`faust`) | Tags | function, variable |
+| Faust (`faust`) | Tags | function, module, variable |
 | Fennel (`fennel`) | Tags | function, macro, variable |
 | Fidl (`fidl`) | Tags | class, constant, enum, interface, method, module, type |
 | Firrtl (`firrtl`) | Tags | module |
@@ -131,46 +131,46 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Fluent (`fluent`) | Tags | variable |
 | Foam (`foam`) | Not applicable | OpenFOAM dictionary data files; nested keyed sub-dictionaries are configuration values, as in JSON or HOCON |
 | Forth (`forth`) | Tags | constant, function, variable |
-| Fortran (`fortran`) | Tags | class, function, interface, module |
-| Fsharp Signature (`fsharp_signature`) | Tags | class, function, method, module |
+| Fortran (`fortran`) | Tags | class, constant, field, function, interface, method, module, variable |
+| Fsharp Signature (`fsharp_signature`) | Tags | class, constant, enum, field, function, interface, method, module, type |
 | Func (`func`) | Tags | constant, function, variable |
 | Fusion (`fusion`) | Tags | class |
 | Gap (`gap`) | Tags | function |
 | Gcode (`gcode`) | Tags | function |
-| Gdscript (`gdscript`) | Tags | class, constant, enum, event, function, method, variable |
-| Gdshader (`gdshader`) | Tags | class, function |
+| Gdscript (`gdscript`) | Tags | class, constant, constructor, enum, function, method, variable |
+| Gdshader (`gdshader`) | Tags | class, constant, field, function, macro, variable |
 | Gherkin (`gherkin`) | Tags | function, module |
 | Git Config (`git_config`) | Tags | function, module |
 | Git Rebase (`git_rebase`) | Not applicable | interactive rebase todo list of commands applied to commit hashes; no declarations |
 | gitattributes (`gitattributes`) | Tags | macro |
 | gitcommit (`gitcommit`) | Not applicable | commit message text plus git's generated status comments; no declarations |
 | gitignore (`gitignore`) | Not applicable | list of path patterns to ignore; patterns select files and declare nothing |
-| Gleam (`gleam`) | Tags | constructor, function, type |
+| Gleam (`gleam`) | Tags | class, constant, enum, field, function, type |
 | Glimmer (`glimmer`) | Not applicable | Handlebars/Glimmer templates; components and helpers are declared in the backing JavaScript or TypeScript |
-| GLSL (`glsl`) | Tags | function, interface, macro, struct, variable |
+| GLSL (`glsl`) | Tags | class, function, interface, macro, variable |
 | GN (`gn`) | Tags | class, function, module, variable |
 | gnuplot (`gnuplot`) | Tags | function, variable |
-| Go (`go`) | Tags | function, method, type |
+| Go (`go`) | Tags | class, constant, field, function, interface, method, module, type, variable |
 | Godot Resource (`godot_resource`) | Not applicable | editor-serialized scene and resource data; section headers are typed records (ext_resource, sub_resource, node) the editor writes, not author-named blocks |
 | Gomod (`gomod`) | Not applicable | dependency manifest; module, require and replace lines reference other modules rather than define symbols |
 | Gosum (`gosum`) | Not applicable | checksum database lines (module, version, hash); generated data |
-| Gotmpl (`gotmpl`) | Tags | function, section |
+| Gotmpl (`gotmpl`) | Grammar blocked | `define`, `block` and `template` name a template with a string literal whose content is a hidden token, so the only capturable node keeps its quotes or backticks |
 | Gowork (`gowork`) | Not applicable | go.work manifest; use and replace lines reference module directories rather than define symbols |
 | Gpg (`gpg`) | Not applicable | gpg.conf option lines (keyword plus value); no named blocks or definitions |
 | Graphql (`graphql`) | Tags | class, constant, enum, field, function, interface, macro, type |
-| Gren (`gren`) | Tags | function, module, type, union |
-| Groovy (`groovy`) | Tags | class, function, method, module, variable |
+| Gren (`gren`) | Tags | constant, enum, function, module, type |
+| Groovy (`groovy`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, variable |
 | Gstlaunch (`gstlaunch`) | Not applicable | a single GStreamer pipeline description of linked elements; no reusable named definitions |
-| Hack (`hack`) | Tags | class, constant, enum, field, function, interface, method, module, type |
+| Hack (`hack`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, type |
 | Haml (`haml`) | Not applicable | HAML markup layer; all definitions live in the injected Ruby |
-| Hare (`hare`) | Tags | constant, enum, function, struct, type, union, variable |
+| Hare (`hare`) | Tags | class, constant, enum, field, function, type, variable |
 | Haskell (`haskell`) | Tags | constructor, field, function, interface, method, module, type |
 | Haskell Persistent (`haskell_persistent`) | Tags | class, constant, field |
-| Haxe (`haxe`) | Tags | class, enum, field, function, interface, method, module, type, variable |
+| Haxe (`haxe`) | Tags | class, constructor, enum, field, function, interface, method, module, type, variable |
 | HCL (`hcl`) | Tags | class, constant, module, variable |
 | Heex (`heex`) | Not applicable | HEEx template layer: `<.button>` and `<Module.fun>` tags call function components and `<:slot>` tags fill slots, all declared by def, attr and slot in the surrounding Elixir module (tagged by elixir); the template declares nothing, and :let binds render-time locals |
 | Hjson (`hjson`) | Not applicable | human JSON data serialization; keys are data, not declarations |
-| HLSL (`hlsl`) | Tags | class, enum, function, macro, method, module, struct, type, variable |
+| HLSL (`hlsl`) | Tags | class, constant, enum, function, macro, method, module, type, variable |
 | Hocon (`hocon`) | Not applicable | JSON-superset configuration data; nested keyed objects are values, as in JSON |
 | Hoon (`hoon`) | Tags | function, type |
 | HTML (`html`) | Not applicable | document markup; ids are anchors and headings are ordinary elements with mixed inline content, while script and style blocks are injected languages tagged by their own grammars |
@@ -179,14 +179,14 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Hurl (`hurl`) | Not applicable | sequence of HTTP request/response entries; captures are runtime extractions from responses, not declarations |
 | Hyprlang (`hyprlang`) | Tags | module, variable |
 | Idl (`idl`) | Tags | class, constant, enum, interface, method, module, type |
-| Idris (`idris`) | Tags | constructor, field, function, interface, method, module, struct, type |
+| Idris (`idris`) | Tags | class, constructor, field, function, interface, method, module, type |
 | Ini (`ini`) | Tags | module |
-| Ispc (`ispc`) | Tags | class, function, type |
-| Jai (`jai`) | Tags | constant, enum, function, struct, variable |
+| Ispc (`ispc`) | Tags | class, constant, enum, function, macro, type, variable |
+| Jai (`jai`) | Tags | class, constant, enum, function, variable |
 | Janet (`janet`) | Tags | function, macro, variable |
-| Java (`java`) | Tags | class, interface, method |
+| Java (`java`) | Tags | class, constant, constructor, enum, field, interface, method, module |
 | Javadoc (`javadoc`) | Not applicable | doc-comment markup inside Java comments; the documented symbols are tagged by the Java grammar |
-| JavaScript (`javascript`) | Tags | class, constant, function, method |
+| JavaScript (`javascript`) | Tags | class, constant, constructor, field, function, method, variable |
 | Jinja2 (`jinja2`) | Grammar blocked | the grammar parses every {% %} statement as one opaque token, with no macro, block, set or import nodes, so macro and block names cannot be captured |
 | Jjdescription (`jjdescription`) | Not applicable | Jujutsu change description (commit message) text; no declarations |
 | Jq (`jq`) | Tags | function |
@@ -195,99 +195,99 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | JSON5 (`json5`) | Not applicable | JSON5 data serialization; keys are data, not declarations |
 | Jsonnet (`jsonnet`) | Tags | function, method, variable |
 | Julia (`julia`) | Tags | class, constant, function, macro, module, type |
-| Just (`just`) | Tags | alias, function, module, variable |
+| Just (`just`) | Tags | function, module, variable |
 | Kcl (`kcl`) | Tags | class, field, function, interface, variable |
 | Kconfig (`kconfig`) | Tags | module, variable |
 | KDL (`kdl`) | Not applicable | KDL document data: a tree of nodes with arguments and properties, not declarations |
 | Kitty (`kitty`) | Not applicable | kitty.conf option lines set built-in options and map lines bind keys to built-in actions; the only user-named things, action_alias and kitten_alias, are shorthands for an action command line usable only in later map lines of the same config, not symbols worth indexing |
-| Koka (`koka`) | Tags | constant, constructor, function, interface, method, module, struct, type |
-| Kotlin (`kotlin`) | Tags | class, constant, function, type |
+| Koka (`koka`) | Tags | class, constant, constructor, function, interface, method, module, type |
+| Kotlin (`kotlin`) | Tags | class, constant, enum, field, function, interface, method, module, type, variable |
 | Koto (`koto`) | Tags | function, method, variable |
 | Kusto (`kusto`) | Tags | function, variable |
 | Lalrpop (`lalrpop`) | Tags | function |
 | LaTeX (`latex`) | Tags | label, macro, section |
-| Lean (`lean`) | Tags | constant, constructor, field, function, interface, module, struct, type |
+| Lean (`lean`) | Tags | class, constant, constructor, field, function, interface, module, type |
 | Ledger (`ledger`) | Tags | type |
 | Leo (`leo`) | Tags | class, constant, function, module, variable |
-| Less (`less`) | Tags | keyframes, macro, variable |
+| Less (`less`) | Tags | constant, macro, variable |
 | Linkerscript (`linkerscript`) | Tags | label, section, variable |
 | Liquid (`liquid`) | Not applicable | Liquid template layer; it has no macros or named blocks, and assign/capture only bind render-time locals |
-| LLVM (`llvm`) | Tags | alias, constant, function, type, variable |
+| LLVM (`llvm`) | Tags | constant, function, type, variable |
 | Llvm Mir (`llvm_mir`) | Not applicable | body of a Machine IR function (the YAML `body:` block): basic blocks are numbered and referenced by number, and the function and its frame are declared in the surrounding YAML |
-| Lua (`lua`) | Tags | function, method |
+| Lua (`lua`) | Tags | constant, field, function, method, variable |
 | Luadoc (`luadoc`) | Tags | class, enum, type |
 | Luap (`luap`) | Not applicable | Lua pattern (regex-like) strings; no declarations |
-| Luau (`luau`) | Tags | function, method, type, variable |
+| Luau (`luau`) | Tags | constant, field, function, method, type, variable |
 | M68k (`m68k`) | Tags | constant, label, macro |
 | Magik (`magik`) | Tags | constant, function, method, variable |
 | Make (`make`) | Tags | function, macro, variable |
 | Markdown (`markdown`) | Tags | section |
 | Markdown Inline (`markdown_inline`) | Not applicable | inline-span layer injected into markdown paragraphs; headings are tagged by the markdown block grammar |
-| MATLAB (`matlab`) | Tags | class, function |
+| MATLAB (`matlab`) | Tags | class, constant, constructor, field, function, method |
 | Menhir (`menhir`) | Tags | constant, function |
 | Mermaid (`mermaid`) | Not applicable | diagram description: flowchart vertex ids, sequence participants, class-diagram classes and members, ER entities and state ids are labels local to the one diagram that draws them; no source file defines or references them, so indexing them finds nothing to navigate to |
 | Meson (`meson`) | Tags | variable |
 | Mlir (`mlir`) | Tags | function, module |
-| Mojo (`mojo`) | Tags | class, function |
-| Moonbit (`moonbit`) | Tags | class, function, interface |
-| Motoko (`motoko`) | Grammar blocked | the lexer folds the whitespace after `actor`/`module`/`func` and similar into the name (" Main") |
+| Mojo (`mojo`) | Tags | class, function, method |
+| Moonbit (`moonbit`) | Tags | class, constant, constructor, enum, field, function, interface, method, type, variable |
+| Motoko (`motoko`) | Tags | class, constant, function, method, module, type, variable |
 | Move (`move`) | Tags | function, module |
-| NASM (`nasm`) | Tags | constant, label, macro, struct |
-| Netlinx (`netlinx`) | Tags | class, constant, event, function, module, variable |
+| NASM (`nasm`) | Tags | class, constant, label, macro |
+| Netlinx (`netlinx`) | Tags | class, constant, function, module, variable |
 | nginx (`nginx`) | Tags | module, variable |
 | Nickel (`nickel`) | Tags | function, variable |
 | Nim (`nim`) | Tags | class, constant, enum, function, macro, method, type, variable |
 | Ninja (`ninja`) | Tags | function, module, variable |
-| Nix (`nix`) | Tags | function |
+| Nix (`nix`) | Tags | field, function, variable |
 | Norg (`norg`) | Tags | section |
 | Norg Meta (`norg_meta`) | Not applicable | the key/value metadata block injected into Norg documents; the document's headings are tagged by the norg grammar |
 | Nqc (`nqc`) | Tags | function, macro, variable |
-| Nushell (`nushell`) | Tags | alias, constant, function, module, variable |
-| Objc (`objc`) | Tags | class, enum, function, interface, macro, method, property, struct, type |
-| OCaml (`ocaml`) | Tags | class, enum_variant, field, function, interface, method, module, operator, type |
-| OCaml Interface (`ocaml_interface`) | Tags | class, enum_variant, field, function, interface, method, module, operator, type |
+| Nushell (`nushell`) | Tags | constant, function, module, variable |
+| Objc (`objc`) | Tags | class, constant, enum, field, function, interface, macro, method, type, variable |
+| OCaml (`ocaml`) | Tags | class, constant, enum, field, function, interface, method, module, type, variable |
+| OCaml Interface (`ocaml_interface`) | Tags | class, constant, enum, field, function, interface, method, module, type, variable |
 | Ocamllex (`ocamllex`) | Tags | constant, function |
-| Odin (`odin`) | Tags | constant, enum, function, module, struct, type, union, variable |
+| Odin (`odin`) | Tags | class, constant, enum, field, function, module, type, variable |
 | Openscad (`openscad`) | Tags | function, module, variable |
 | Org (`org`) | Tags | label, section |
-| Pascal (`pascal`) | Tags | class, constant, enum, function, interface, method, module, struct, type, variable |
+| Pascal (`pascal`) | Tags | class, constant, enum, function, interface, method, module, type, variable |
 | Pem (`pem`) | Not applicable | base64-encoded key and certificate blocks; data, not source |
 | Penrose (`penrose`) | Tags | function, type, variable |
-| Perl (`perl`) | Tags | class, constant, function, method, module, variable |
+| Perl (`perl`) | Tags | class, constant, field, function, method, module, variable |
 | PGN (`pgn`) | Not applicable | chess game records (tag pairs and move lists); data, not source |
-| PHP (`php`) | Tags | class, function, interface, method |
+| PHP (`php`) | Tags | class, constant, constructor, enum, field, function, interface, method, module |
 | Phpdoc (`phpdoc`) | Not applicable | doc-comment markup inside PHP comments; the documented symbols are tagged by the PHP grammar |
 | Picat (`picat`) | Tags | function, module |
 | Pkl (`pkl`) | Tags | class, field, function, method, module, type, variable |
 | Plantuml (`plantuml`) | Not applicable | diagram description; the grammar exposes diagrams as generic command and block nodes with no declaration nodes, and its names are drawing data |
 | PO (`po`) | Not applicable | gettext translation catalog keyed by source text (msgid); entries are translations, not named definitions |
 | Poe Filter (`poe_filter`) | Not applicable | Path of Exile loot filter of anonymous Show/Hide condition blocks; nothing is named |
-| Pony (`pony`) | Tags | class, field, interface, method, type |
-| Postgres (`postgres`) | Tags | function, module, struct, type, variable |
-| Postscript (`postscript`) | Grammar blocked | a definition names its procedure with the literal `/name` (slash included) while uses are bare operators, so definition and reference names never match |
-| Powershell (`powershell`) | Tags | class, constructor, enum, enum_variant, field, function, method, variable |
+| Pony (`pony`) | Tags | class, constructor, field, interface, method, type |
+| Postgres (`postgres`) | Tags | class, enum, field, function, module, type, variable |
+| Postscript (`postscript`) | Tags | function, variable |
+| Powershell (`powershell`) | Tags | class, constant, constructor, enum, function, method, variable |
 | Printf (`printf`) | Not applicable | printf-style format strings; no declarations |
 | Prisma (`prisma`) | Tags | class, constant, enum, field, module |
-| Prolog (`prolog`) | Tags | function |
-| Promela (`promela`) | Tags | constant, function, struct, variable |
+| Prolog (`prolog`) | Tags | function, module |
+| Promela (`promela`) | Tags | class, constant, function, variable |
 | Promql (`promql`) | Not applicable | a single Prometheus query expression; no declarations |
-| Properties (`properties`) | Tags | property |
-| Protocol Buffers (`proto`) | Tags | class, constant, enum, interface, method, module |
+| Properties (`properties`) | Tags | variable |
+| Protocol Buffers (`proto`) | Tags | class, constant, enum, field, interface, method, module |
 | Prql (`prql`) | Tags | function, variable |
 | PSV (`psv`) | Not applicable | pipe-separated tabular data; rows and fields have no names to index |
 | Pug (`pug`) | Tags | macro, section |
 | Puppet (`puppet`) | Tags | class, function, module, type |
 | PureScript (`purescript`) | Tags | constructor, function, interface, method, module, type |
 | Pymanifest (`pymanifest`) | Not applicable | MANIFEST.in include/exclude directives over file patterns; no declarations |
-| Python (`python`) | Tags | class, constant, function |
-| QL (`ql`) | Tags | class, function, method, module |
-| QML (`qmljs`) | Tags | class, method, property, variable |
+| Python (`python`) | Tags | class, constant, field, function, method, type, variable |
+| QL (`ql`) | Tags | class, function, method, module, type |
+| QML (`qmljs`) | Tags | class, field, method, variable |
 | Qmldir (`qmldir`) | Tags | class, module |
 | Query (`query`) | Not applicable | tree-sitter query patterns are anonymous; capture names label match results and are not declarations |
-| R (`r`) | Tags | function |
-| Racket (`racket`) | Tags | function, macro, module, struct, variable |
+| R (`r`) | Tags | class, constant, field, function, method, variable |
+| Racket (`racket`) | Tags | class, function, macro, module, variable |
 | Rasi (`rasi`) | Tags | variable |
-| Razor (`razor`) | Tags | field, method, property, section |
+| Razor (`razor`) | Tags | field, method, section |
 | RBS (`rbs`) | Tags | class, constant, field, interface, method, module, type, variable |
 | re2c (`re2c`) | Tags | module, variable |
 | Readline (`readline`) | Not applicable | inputrc key bindings and set-variable lines; no named blocks or definitions |
@@ -296,59 +296,59 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Rego (`rego`) | Tags | constant, function, module |
 | Requirements (`requirements`) | Not applicable | pip requirement lines that reference packages and version specifiers; no declarations |
 | Rescript (`rescript`) | Tags | constructor, field, function, module, type, variable |
-| reStructuredText (`rst`) | Tags | constant, section |
+| reStructuredText (`rst`) | Tags | section |
 | Robot (`robot`) | Tags | function, variable |
-| Roc (`roc`) | Tags | function |
+| Roc (`roc`) | Tags | constant, enum, function, type |
 | Ron (`ron`) | Not applicable | Rusty Object Notation data serialization; struct names are type tags on values, not declarations |
 | Rshtml (`rshtml`) | Not applicable | RsHtml template layer; logic and definitions live in the injected Rust |
 | Rtf (`rtf`) | Not applicable | Rich Text Format control words and groups encoding styled text; document data, not source |
-| Ruby (`ruby`) | Tags | class, method, module |
-| Rust (`rust`) | Tags | class, function, interface, macro, method, module |
-| Sas (`sas`) | Tags | macro, module |
-| Scala (`scala`) | Tags | class, interface, method, module |
+| Ruby (`ruby`) | Tags | class, constant, field, method, module, variable |
+| Rust (`rust`) | Tags | class, constant, enum, field, function, interface, macro, method, module, type, variable |
+| Sas (`sas`) | Tags | class, macro, module, variable |
+| Scala (`scala`) | Tags | class, constant, enum, field, function, interface, method, module, type, variable |
 | Scfg (`scfg`) | Not applicable | generic directive/block config syntax with no notion of a declared name; what a directive means is application-defined |
-| Scheme (`scheme`) | Tags | function, macro, struct, variable |
+| Scheme (`scheme`) | Tags | class, function, macro, variable |
 | SCSS (`scss`) | Tags | class, function, macro, variable |
 | Sflog (`sflog`) | Not applicable | Salesforce debug log lines; runtime output, not source |
-| Slang (`slang`) | Tags | class, enum, function, interface, macro, method, module, struct, type, variable |
+| Slang (`slang`) | Tags | class, enum, function, interface, macro, method, module, type, variable |
 | Slim (`slim`) | Not applicable | Slim markup layer; all definitions live in the injected Ruby |
-| Slint (`slint`) | Tags | class, enum, interface, method, property, struct |
+| Slint (`slint`) | Tags | class, enum, field, interface, method |
 | Smali (`smali`) | Tags | class, constructor, field, method |
 | Smalltalk (`smalltalk`) | Tags | method |
 | Smithy (`smithy`) | Tags | class, constant, enum, interface, method, module, type |
 | Sml (`sml`) | Tags | constructor, function, interface, method, module, type, variable |
-| Snakemake (`snakemake`) | Tags | class, constant, function |
+| Snakemake (`snakemake`) | Tags | class, constant, function, method, module |
 | Snl (`snl`) | Tags | class, function, method, module, variable |
-| Solidity (`solidity`) | Tags | class, function, interface, method |
+| Solidity (`solidity`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, type |
 | Soql (`soql`) | Not applicable | a single Salesforce object query; no declarations |
 | Sosl (`sosl`) | Not applicable | a single Salesforce search query; no declarations |
 | Souffle (`souffle`) | Tags | class, constructor, function, type |
-| Sourcepawn (`sourcepawn`) | Tags | class, constant, function, interface, macro, method, variable |
+| Sourcepawn (`sourcepawn`) | Tags | class, constant, constructor, enum, function, macro, method, type, variable |
 | Sparql (`sparql`) | Not applicable | RDF query statements; PREFIX lines alias namespaces and query variables are bound per query, not declared |
 | Spicedb (`spicedb`) | Tags | field, function, method, type |
-| SQL (`sql`) | Tags | function, module, struct, type, variable |
-| Sql Bigquery (`sql_bigquery`) | Tags | function, module, struct, type |
+| SQL (`sql`) | Tags | class, enum, field, function, module, type, variable |
+| Sql Bigquery (`sql_bigquery`) | Tags | class, field, function, module |
 | Squirrel (`squirrel`) | Tags | class, constant, enum, field, function, method, variable |
 | Ssh Config (`ssh_config`) | Tags | module |
-| Stan (`stan`) | Tags | function, module |
+| Stan (`stan`) | Tags | function, module, variable |
 | Starlark (`starlark`) | Tags | class, function, variable |
 | Strace (`strace`) | Not applicable | strace system-call trace output; runtime log lines, not source |
 | Styled (`styled`) | Not applicable | CSS fragments injected into styled-components template literals; the components are declared and tagged in the host JavaScript or TypeScript |
 | Superhtml (`superhtml`) | Not applicable | HTML document markup (SuperHTML dialect); ids are anchors and headings are inline-content elements, as in html |
 | Svelte (`svelte`) | Tags | function |
 | Sway (`sway`) | Tags | class, constant, enum, field, function, interface, method |
-| Swift (`swift`) | Tags | class, function, interface, method, property |
+| Swift (`swift`) | Tags | class, constant, constructor, enum, field, function, interface, method, type, variable |
 | Sxhkdrc (`sxhkdrc`) | Not applicable | hotkey to command bindings; no named definitions |
-| Sysml (`sysml`) | Tags | class, field, function, interface, method, module |
-| Systemtap (`systemtap`) | Tags | alias, function, macro, variable |
+| Sysml (`sysml`) | Tags | class, enum, field, function, interface, method, module |
+| Systemtap (`systemtap`) | Tags | function, macro, variable |
 | Systemverilog (`systemverilog`) | Tags | class, constant, function, interface, method, module, type |
-| T32 (`t32`) | Tags | function |
+| T32 (`t32`) | Tags | function, label, variable |
 | Tablegen (`tablegen`) | Tags | class, constant, type, variable |
-| Tact (`tact`) | Tags | class, constant, function, interface, method |
+| Tact (`tact`) | Tags | class, constant, constructor, field, function, interface, method |
 | Task (`task`) | Not applicable | task-list lines (keywords, dates, identifiers) in the tree-sitter-task todo format; no declarations |
 | Tcl (`tcl`) | Tags | function, module, variable |
 | Teal (`teal`) | Tags | class, constant, enum, field, function, interface, macro, method, type, variable |
-| Templ (`templ`) | Tags | function, method, type |
+| Templ (`templ`) | Tags | class, constant, field, function, interface, method, module, type, variable |
 | Tera (`tera`) | Tags | macro, section, variable |
 | Terraform (`terraform`) | Tags | class, constant, module, variable |
 | Test (`test`) | Tags | function |
@@ -360,10 +360,10 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | TOML (`toml`) | Tags | module |
 | Tsql (`tsql`) | Grammar blocked | the grammar has no DDL nodes: CREATE TABLE/PROCEDURE/FUNCTION/VIEW statements are not parsed as declarations, and error recovery turns their keywords into function calls, so no definition name can be captured |
 | TSV (`tsv`) | Not applicable | tab-separated tabular data; rows and fields have no names to index |
-| TSX (`tsx`) | Tags | class, constant, enum, function, interface, method, module, type |
+| TSX (`tsx`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, type, variable |
 | Turtle (`turtle`) | Not applicable | RDF triple data; subjects and @prefix aliases are graph data, not program declarations |
 | Twig (`twig`) | Tags | macro, section, variable |
-| TypeScript (`typescript`) | Tags | class, constant, enum, function, interface, method, module, type |
+| TypeScript (`typescript`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, type, variable |
 | Typespec (`typespec`) | Tags | class, constant, enum, field, function, interface, method, module, type |
 | Typoscript (`typoscript`) | Tags | variable |
 | Typst (`typst`) | Tags | function, section, variable |
@@ -371,9 +371,9 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Ungrammar (`ungrammar`) | Tags | function |
 | Unison (`unison`) | Tags | field, function, interface, method, type |
 | Uxntal (`uxntal`) | Tags | label, macro |
-| V (`v`) | Tags | constant, enum, function, interface, method, module, struct, type, variable |
-| Vala (`vala`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, property, struct, type |
-| Vb (`vb`) | Tags | class, constant, enum, event, field, interface, method, module, property, type |
+| V (`v`) | Tags | class, constant, enum, function, interface, method, module, type, variable |
+| Vala (`vala`) | Tags | class, constant, constructor, enum, field, function, interface, method, module, type |
+| Vb (`vb`) | Tags | class, constant, enum, field, interface, method, module, type |
 | Vento (`vento`) | Tags | function, variable |
 | Verilog (`verilog`) | Tags | class, constant, function, interface, macro, method, module |
 | VHDL (`vhdl`) | Tags | class, constant, function, interface, module, type, variable |
@@ -385,8 +385,8 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Wast (`wast`) | Tags | function, module, type, variable |
 | Wat (`wat`) | Tags | function, type, variable |
 | Wdl (`wdl`) | Tags | class, function |
-| WGSL (`wgsl`) | Tags | constant, function, struct, type, variable |
-| Wgsl Bevy (`wgsl_bevy`) | Tags | constant, function, module, struct, type, variable |
+| WGSL (`wgsl`) | Tags | class, constant, field, function, type, variable |
+| Wgsl Bevy (`wgsl_bevy`) | Tags | class, constant, field, function, module, type, variable |
 | Wit (`wit`) | Tags | class, constant, enum, function, interface, method, module, type |
 | Wolfram (`wolfram`) | Tags | function, variable |
 | X86asm (`x86asm`) | Tags | label |
@@ -394,12 +394,12 @@ Of 371 languages: tags: **279**, not applicable: **86**, grammar blocked: **6**,
 | Xit (`xit`) | Not applicable | [x]it! plain-text checklist of task lines grouped under free-text titles; no declarations |
 | XML (`xml`) | Not applicable | markup and data serialization; element names are vocabulary, not declarations (DTDs, which declare elements, are tagged by dtd) |
 | Xquery (`xquery`) | Tags | function, module, variable |
-| Xresources (`xresources`) | Tags | constant, macro, property |
+| Xresources (`xresources`) | Tags | constant, field, macro |
 | YAML (`yaml`) | Tags | label |
-| Yang (`yang`) | Tags | class, constant, field, function, module, type |
+| Yang (`yang`) | Tags | class, constant, field, method, module, type |
 | Yuck (`yuck`) | Tags | function, module, variable |
 | Yul (`yul`) | Tags | function |
-| Zig (`zig`) | Tags | constant, enum, function, method, struct, type, union, variable |
+| Zig (`zig`) | Tags | class, constant, enum, field, function, method, type, variable |
 | Ziggy (`ziggy`) | Not applicable | Ziggy data documents (a JSON-like serialization); their schema is tagged by ziggy_schema |
 | Ziggy Schema (`ziggy_schema`) | Tags | class, constant, field, type |
 | Zsh (`zsh`) | Tags | function, variable |
