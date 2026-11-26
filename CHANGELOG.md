@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Bundle `tags` queries for sql, bash, scss, hcl, terraform and starlark, so tag-based symbol extraction finds their top-level declarations: SQL `CREATE` statements, shell functions and top-level variables, SCSS variables, mixins, functions and placeholders, Terraform and Terragrunt blocks and `locals`, and Starlark `def`s, assignments, build targets and `load` labels (#228, #229, #230, #231, #232).
+- Declare tags coverage in `sources/tags_coverage.json`: every language needs a working `tags.scm` with a fixture under `crates/ts-pack-core/tests/fixtures/tags/<lang>/` unless listed as not applicable with a reason, so a newly added grammar is a tags gap by default. The `tags_coverage` test checks each built language's tags against its fixture and lists every language still missing one.
 
 ### Fixed
 

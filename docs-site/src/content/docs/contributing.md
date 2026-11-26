@@ -170,7 +170,26 @@ mise run e2e:generate
 alef test --e2e --jobs 1
 ```
 
-### 5. Open a pull request
+### 5. Add a tags query
+
+Every language must bundle a working `tags.scm`, the query symbol indexes and outlines use,
+unless `sources/tags_coverage.json` lists it under `not_applicable` with the specific reason tags
+do not apply (data formats, doc-comment grammars, injection-only template layers). A new grammar
+without either fails `every_language_requiring_tags_has_a_fixture`.
+
+- Use the grammar's `queries/tags.scm`, or write `query-overlays/<lang>/tags.scm` when upstream
+  ships none or a broken one. Each match needs a `definition.<kind>` or `reference.<kind>`
+  capture and a `@name` capture.
+- Add `crates/ts-pack-core/tests/fixtures/tags/<lang>/` with exactly one small source file and
+  `expected.tags`: one `<role>\t<name>` line per match, in match order.
+  `TSLP_TAGS_BLESS=1` writes it from the query output; check every line names a real
+  definition or reference in the source.
+
+```bash
+TSLP_LANGUAGES=mylang cargo test -p tree-sitter-language-pack --test tags_coverage
+```
+
+### 6. Open a pull request
 
 - **Title:** `feat: add <language> parser`
 - **Body:** link to the upstream grammar repository, note any quirks or limitations
