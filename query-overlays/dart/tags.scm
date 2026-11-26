@@ -11,6 +11,10 @@
   (getter_signature name: (identifier) @name)) @definition.method
 (method_signature
   (setter_signature name: (identifier) @name)) @definition.method
+; Abstract methods: a bodiless signature declared in a class body
+(class_body
+  (declaration
+    (function_signature name: (identifier) @name)) @definition.method)
 (function_signature name: (identifier) @name) @definition.function
 
 ; Class superclass: `class Foo extends Bar`
@@ -21,23 +25,26 @@
 (class_definition
   interfaces: (interfaces (type_identifier) @name)) @reference.implementation
 
-; Function / method calls
-; ~keep: function_expression_invocation does not exist in this grammar pin;
-; calls are structurally an (identifier) followed by a (selector (argument_part ...)),
-; matching the pattern used by the vendored parsers/dart/queries/tags.scm.
-((identifier) @name
- (selector
-    "!"?
-    (conditional_assignable_selector
-      "?." (identifier) @name)?
+; Calls: a callee followed directly by an argument list, `f(x)`, `obj.m(x)`, `obj?.m(x)`
+; or a cascade `..m(x)`. Fields, parameters and annotations have no argument part.
+((identifier) @name @reference.call
+  .
+  (selector
+    (argument_part)))
+
+((selector
+  [
     (unconditional_assignable_selector
-      "."? (identifier) @name)?
-    (argument_part
-      (arguments
-        (argument)*))?)*
-	(cascade_section
-	  (cascade_selector
-		(identifier)) @name
-	  (argument_part
-		(arguments
-		  (argument)*))?)?) @reference.call
+      (identifier) @name)
+    (conditional_assignable_selector
+      (identifier) @name)
+  ]) @reference.call
+  .
+  (selector
+    (argument_part)))
+
+(cascade_section
+  (cascade_selector
+    (identifier) @name)
+  .
+  (argument_part)) @reference.call
