@@ -21,15 +21,16 @@
 (delegate_declaration
   name: (identifier) @name) @definition.type
 
-; Members
+; Members. `Sub New` constructors are not tagged: their name is the `New` keyword, which the
+; grammar does not expose as a node.
 (method_declaration
   name: (identifier) @name) @definition.method
 
 (property_declaration
-  name: (identifier) @name) @definition.property
+  name: (identifier) @name) @definition.field
 
 (event_declaration
-  name: (identifier) @name) @definition.event
+  name: (identifier) @name) @definition.method
 
 (const_declaration
   name: (identifier) @name) @definition.constant
@@ -38,16 +39,9 @@
   (variable_declarator
     name: (identifier) @name)) @definition.field
 
-; Inheritance: `Inherits Base` and `Implements IFoo, IBar`, by the last name of the type
-(inherits_clause
-  (type
-    (namespace_name
-      (identifier) @name .))) @reference.class
-
-(implements_clause
-  (type
-    (namespace_name
-      (identifier) @name .))) @reference.implementation
+; `Inherits` and `Implements` are not tagged: the grammar accepts them only on the `Class` line
+; itself, while VB requires each as its own statement in the class body, so real files never
+; produce inherits_clause or implements_clause.
 
 ; Calls and instantiation
 (invocation

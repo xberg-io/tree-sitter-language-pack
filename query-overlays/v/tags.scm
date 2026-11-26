@@ -16,7 +16,7 @@
 
 (struct_declaration
   name: [(type_identifier) @name
-         (generic_type . (type_identifier) @name)]) @definition.struct
+         (generic_type . (type_identifier) @name)]) @definition.class
 
 (enum_declaration
   name: (type_identifier) @name) @definition.enum

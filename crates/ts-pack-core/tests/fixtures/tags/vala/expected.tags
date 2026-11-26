@@ -1,14 +1,14 @@
 definition.module	Demo
 definition.constant	MAX
 definition.enum	Color
-definition.struct	Point
+definition.class	Point
 definition.field	x
 definition.field	y
 definition.interface	Drawable
 definition.method	draw
 definition.type	Transform
 definition.class	Greeter
-definition.property	name
+definition.field	name
 definition.field	count
 definition.method	greeted
 definition.constructor	Greeter

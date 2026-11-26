@@ -26,3 +26,6 @@ definition.variable	endpoints
 reference.type	Listing
 reference.type	Endpoint
 reference.call	makeEndpoint
+definition.variable	healthUrl
+reference.type	String
+reference.call	url

@@ -22,7 +22,7 @@
 (struct_declaration
   "struct"
   .
-  (identifier) @name) @definition.struct
+  (identifier) @name) @definition.class
 
 (enum_declaration
   name: (identifier) @name) @definition.enum
@@ -62,14 +62,14 @@
        type_name: (_)
        .
        (identifier) @name
-       (gobject_property_acces)) @definition.property))
+       (gobject_property_acces)) @definition.field))
  (interface_declaration
    (block
      (declaration
        type_name: (_)
        .
        (identifier) @name
-       (gobject_property_acces)) @definition.property))]
+       (gobject_property_acces)) @definition.field))]
 
 ; `private int count = 0;` in a class or struct body
 [(class_declaration

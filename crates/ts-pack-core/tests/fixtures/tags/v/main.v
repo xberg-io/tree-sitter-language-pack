@@ -4,6 +4,12 @@ import os
 
 const max_sides = 8
 
+__global (
+	calls int
+)
+
+__global counter = 0
+
 struct Point {
 	x int
 	y int

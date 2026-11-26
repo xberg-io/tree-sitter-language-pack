@@ -10,6 +10,18 @@ Namespace Shop
         Fast
     End Enum
 
+    Public Structure Point
+        Public X As Integer
+        Public Y As Integer
+    End Structure
+
+    Public Delegate Sub ChangedHandler(value As Integer)
+
+    Public Class CounterBase
+        Protected Overridable Sub Reset()
+        End Sub
+    End Class
+
     Public Class Counter
         Public Const MaxCount As Integer = 10
         Private _count As Integer

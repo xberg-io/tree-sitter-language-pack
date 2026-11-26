@@ -26,3 +26,5 @@ function makeEndpoint(p: String): Endpoint = new Endpoint { path = p }
 endpoints: Listing<Endpoint> = new {
   makeEndpoint("/health")
 }
+
+healthUrl: String = endpoints[0].url("https://example.com")

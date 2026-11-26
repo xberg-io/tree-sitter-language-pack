@@ -1,6 +1,8 @@
 definition.module	main
 definition.constant	max_sides
-definition.struct	Point
+definition.variable	calls
+definition.variable	counter
+definition.class	Point
 definition.enum	Color
 definition.interface	Shape
 definition.method	area

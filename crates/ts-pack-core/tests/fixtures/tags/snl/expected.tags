@@ -4,11 +4,11 @@ definition.variable	resetFlag
 definition.function	reset
 definition.class	counting
 definition.method	init
-reference.method	running
+reference.call	running
 definition.method	running
 reference.call	efTestAndClear
 reference.call	reset
-reference.method	init
+reference.call	init
 reference.call	delay
 reference.call	pvPut
-reference.method	running
+reference.call	running

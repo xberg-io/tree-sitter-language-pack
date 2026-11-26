@@ -20,7 +20,7 @@
   name: (identifier) @name) @definition.method
 
 (transition
-  name: (identifier) @name) @reference.method
+  name: (identifier) @name) @reference.call
 
 (call_expression
   function: (identifier) @name) @reference.call
