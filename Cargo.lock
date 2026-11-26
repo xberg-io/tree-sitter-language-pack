@@ -2722,9 +2722,9 @@ dependencies = [
 
 [[package]]
 name = "sha2"
-version = "0.11.1"
+version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "47d7069beb7d6ac7b9acd1039986e73443f24234f41074da099d6f994ac9ad19"
+checksum = "5b0e5c7d67bc53f435386b2130fdc900488c5703770f6d8a4633060e34288a27"
 dependencies = [
  "cfg-if",
  "cpufeatures",
@@ -3297,7 +3297,7 @@ checksum = "d0af592be68c579aa78a16846bd19422978c3c52e438523d45ff5d1bff1f9d4a"
 
 [[package]]
 name = "tree-sitter-language-pack"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "ahash",
  "cc",
@@ -3324,7 +3324,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-dart"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "flutter_rust_bridge",
  "serde_json",
@@ -3333,7 +3333,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-jni"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "async-trait",
  "futures-util",
@@ -3345,7 +3345,7 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-language-pack-swift"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "libc",
  "serde",
@@ -3359,7 +3359,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-cli"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "axum",
  "clap",
@@ -3377,7 +3377,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-ffi"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "cbindgen",
  "serde",
@@ -3389,7 +3389,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-node"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "napi",
  "napi-build",
@@ -3401,7 +3401,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-php"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "ext-php-rs",
  "serde",
@@ -3411,7 +3411,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-py"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "pyo3",
  "serde",
@@ -3421,7 +3421,7 @@ dependencies = [
 
 [[package]]
 name = "ts-pack-core-wasm"
-version = "1.27.4"
+version = "1.28.0"
 dependencies = [
  "futures-util",
  "getrandom 0.2.17",
@@ -3878,18 +3878,18 @@ dependencies = [
 
 [[package]]
 name = "zerocopy"
-version = "0.8.65"
+version = "0.8.66"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "32bc8a75f879cd6fe53a6bedf3c28f0e1b914c77424fc2be9e2ec85d7d25aff5"
+checksum = "cba8a86aee14fc8cc6c208af60854b3d4ab7185a9a369a12c648faa2716ff42a"
 dependencies = [
  "zerocopy-derive",
 ]
 
 [[package]]
 name = "zerocopy-derive"
-version = "0.8.65"
+version = "0.8.66"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b8bfd2644ea1681f60cf95029ff18aa8ad1cc3f7b8fe37286f8e473bb29f816b"
+checksum = "f89bca3b96ceb3cfcb4572790402f977442270d252b9a8504ebc258760c55f94"
 dependencies = [
  "proc-macro2",
  "quote",

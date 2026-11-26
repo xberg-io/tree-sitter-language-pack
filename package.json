@@ -17,7 +17,7 @@
     "textlint-rule-no-empty-section": "^1.1.0",
     "textlint-rule-no-start-duplicated-conjunction": "^2.0.2",
     "textlint-rule-no-surrogate-pair": "^1.0.1",
-    "textlint-rule-no-zero-width-spaces": "^1.0.1",
+    "textlint-rule-no-zero-width-spaces": "^1.0.2",
     "textlint-rule-stop-words": "^5.2.0",
     "textlint-rule-terminology": "^5.2.16",
     "textlint-rule-write-good": "^2.0.0"

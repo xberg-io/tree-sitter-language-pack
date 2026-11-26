@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.28.0] - 2026-11-26
+
 ### Added
 
 - Bundle `tags` queries for sql, bash, scss, hcl, terraform and starlark, so tag-based symbol extraction finds their top-level declarations: SQL `CREATE` statements, shell functions and top-level variables, SCSS variables, mixins, functions and placeholders, Terraform and Terragrunt blocks and `locals`, and Starlark `def`s, assignments, build targets and `load` labels (#228, #229, #230, #231, #232).
@@ -17,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build BAML from its canonical source, `typescript2/pkg-grammar-treesitter` in BoundaryML/baml (`37c5014`), instead of the read-only `baml-treesitter` mirror. Its names still include the preceding whitespace, so baml stays under `grammar_blocked`.
 - Maintain the Motoko grammar in `grammars/motoko`, vendored from the unmaintained polychromatist/tree-sitter-motoko (`a172fd1`).
 - Maintain the PostScript grammar in `grammars/postscript`, vendored from smoeding/tree-sitter-postscript (`d352ed6`). A `literal` such as `/drawbox` now has a `name` child holding the name without its slash.
+- Refresh dependencies within their current major versions (Rust, Node, PHP, Ruby and Elixir lockfiles) and move the RubyGems credentials action to v2.2.0.
 
 ### Fixed
 

@@ -11,7 +11,7 @@ name: tree-sitter-language-pack
 <!--
 AI-RULEZ :: GENERATED FILE — DO NOT EDIT
 Content-Hash: blake3:320706e5af147afba0ff69f39baf41ed31f0c22308395a4dbd9a3b9c442b324c
-Source-Hash: blake3:ed2f06c293e8aa822232e0ea982e70f81155480671da4ef28bc5da3847cdabce
+Source-Hash: blake3:fab66d6250b33acec798211e6c69f1a9e4751ef7630b7cacc4e131069e8d4667
 Schema-Version: v1
 -->
 
