@@ -1,2 +1,7 @@
 definition.function	badge
+definition.function	row
+reference.class	Icon
 reference.call	badge
+reference.call	badge
+reference.call	row
+reference.class	Badge
