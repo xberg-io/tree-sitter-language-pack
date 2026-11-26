@@ -12,7 +12,7 @@
     "cypher": "graph query statements; MATCH/CREATE clauses bind pattern variables for one query, not reusable declarations",
     "d2": "diagram description; its identifiers name shapes and connections to draw, not program symbols",
     "diff": "unified diff hunks; the changed lines belong to whatever language was diffed",
-    "dot": "Graphviz graph description; node and subgraph ids are drawing data, not program symbols",
+    "dot": "Graphviz graph description: a node exists by being mentioned (in an edge or a node statement that only sets its drawing attributes), so there is no declaration site, and graph, subgraph and cluster ids are drawing data local to the file",
     "doxygen": "doc-comment markup injected into C/C++ comments; the documented symbols are tagged by the host language",
     "editorconfig": "section headers are file glob patterns such as [*.py] that select files, not named blocks",
     "edoc": "Erlang doc-comment markup; the documented functions are tagged by the Erlang grammar",
@@ -32,7 +32,7 @@
     "gpg": "gpg.conf option lines (keyword plus value); no named blocks or definitions",
     "gstlaunch": "a single GStreamer pipeline description of linked elements; no reusable named definitions",
     "haml": "HAML markup layer; all definitions live in the injected Ruby",
-    "heex": "HEEx template layer; function components and assigns are declared in the surrounding Elixir modules",
+    "heex": "HEEx template layer: `<.button>` and `<Module.fun>` tags call function components and `<:slot>` tags fill slots, all declared by def, attr and slot in the surrounding Elixir module (tagged by elixir); the template declares nothing, and :let binds render-time locals",
     "hjson": "human JSON data serialization; keys are data, not declarations",
     "hocon": "JSON-superset configuration data; nested keyed objects are values, as in JSON",
     "html": "document markup; ids are anchors and headings are ordinary elements with mixed inline content, while script and style blocks are injected languages tagged by their own grammars",
@@ -43,13 +43,13 @@
     "json": "data serialization; keys are data, not declarations",
     "json5": "JSON5 data serialization; keys are data, not declarations",
     "kdl": "KDL document data: a tree of nodes with arguments and properties, not declarations",
-    "kitty": "kitty.conf option and key-mapping lines; no named blocks or definitions",
+    "kitty": "kitty.conf option lines set built-in options and map lines bind keys to built-in actions; the only user-named things, action_alias and kitten_alias, are shorthands for an action command line usable only in later map lines of the same config, not symbols worth indexing",
     "liquid": "Liquid template layer; it has no macros or named blocks, and assign/capture only bind render-time locals",
     "llvm_mir": "body of a Machine IR function (the YAML `body:` block): basic blocks are numbered and referenced by number, and the function and its frame are declared in the surrounding YAML",
     "luadoc": "doc-comment markup inside Lua comments; the documented symbols are tagged by the Lua grammar",
     "luap": "Lua pattern (regex-like) strings; no declarations",
     "markdown_inline": "inline-span layer injected into markdown paragraphs; headings are tagged by the markdown block grammar",
-    "mermaid": "diagram description; participant, class and state names are drawing data, not program symbols",
+    "mermaid": "diagram description: flowchart vertex ids, sequence participants, class-diagram classes and members, ER entities and state ids are labels local to the one diagram that draws them; no source file defines or references them, so indexing them finds nothing to navigate to",
     "norg_meta": "the key/value metadata block injected into Norg documents; the document's headings are tagged by the norg grammar",
     "pem": "base64-encoded key and certificate blocks; data, not source",
     "pgn": "chess game records (tag pairs and move lists); data, not source",
@@ -95,7 +95,9 @@
   },
   "grammar_blocked": {
     "baml": "the parser includes the whitespace after a keyword in identifiers (`class Resume` yields the name \" Resume\"), so every declaration name would carry a leading space",
-    "circom": "the lexer folds the whitespace after `template`/`function`/`component` into the name (\" Multiplier\")"
+    "circom": "the lexer folds the whitespace after `template`/`function`/`component` into the name (\" Multiplier\")",
+    "jinja2": "the grammar parses every {% %} statement as one opaque token, with no macro, block, set or import nodes, so macro and block names cannot be captured",
+    "tsql": "the grammar has no DDL nodes: CREATE TABLE/PROCEDURE/FUNCTION/VIEW statements are not parsed as declarations, and error recovery turns their keywords into function calls, so no definition name can be captured"
   },
   "unexercised_patterns": {}
 }

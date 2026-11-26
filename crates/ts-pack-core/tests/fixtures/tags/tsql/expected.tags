@@ -1,4 +1,0 @@
-reference.call	RefreshStats
-reference.call	GetUser
-reference.call	sp_rename
-reference.call	LEN
