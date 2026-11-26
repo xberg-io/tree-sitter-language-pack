@@ -1,0 +1,16 @@
+definition.constant	MAX_COUNT
+definition.enum	Color
+definition.class	Counter
+definition.field	count
+definition.method	constructor
+definition.method	increment
+reference.call	clamp
+definition.class	LoudCounter
+reference.class	Counter
+definition.method	increment
+reference.call	print
+reference.call	increment
+definition.function	clamp
+definition.variable	counter
+reference.call	LoudCounter
+reference.call	increment

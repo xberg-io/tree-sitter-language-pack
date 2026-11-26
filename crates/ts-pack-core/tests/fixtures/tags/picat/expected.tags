@@ -1,0 +1,16 @@
+definition.module	shapes
+reference.module	util
+definition.function	area
+reference.call	square
+definition.function	square
+definition.function	large
+reference.call	area
+definition.function	total
+definition.function	total
+reference.call	area
+reference.call	total
+definition.function	main
+reference.call	println
+reference.call	total
+reference.call	large
+reference.call	println

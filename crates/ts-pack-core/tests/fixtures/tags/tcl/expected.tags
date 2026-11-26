@@ -1,0 +1,8 @@
+definition.module	counter
+definition.variable	count
+definition.variable	limit
+definition.function	counter::increment
+reference.call	clamp
+definition.function	clamp
+reference.call	puts
+reference.call	counter::increment

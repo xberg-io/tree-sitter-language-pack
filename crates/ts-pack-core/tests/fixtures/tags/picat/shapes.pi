@@ -1,0 +1,19 @@
+module shapes.
+import util.
+
+% Area of a circle.
+area(R) = A =>
+    A = 3.14 * square(R).
+
+square(X) = X * X.
+
+% A shape is large when its area exceeds the limit.
+large(R) =>
+    area(R) > 10.0.
+
+total([]) = 0.
+total([R|Rs]) = area(R) + total(Rs).
+
+main =>
+    println(total([1.0, 2.0])),
+    if large(3.0) then println(large) end.

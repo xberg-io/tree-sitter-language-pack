@@ -1,0 +1,17 @@
+definition.constant	PiApprox
+definition.class	Shape
+definition.class	Circle
+definition.enum	Color
+definition.variable	created
+definition.function	square
+definition.method	area
+definition.method	area
+reference.call	square
+definition.function	describe
+reference.call	area
+definition.macro	twice
+definition.function	countdown
+reference.call	dec
+definition.variable	circle
+reference.call	echo
+reference.call	describe

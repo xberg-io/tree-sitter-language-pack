@@ -1,0 +1,13 @@
+reference.module	io
+definition.constant	MAX_SIDES
+definition.variable	GREETING
+definition.type	Point
+definition.enum	Color
+definition.class	Counter
+definition.field	count
+definition.method	increment
+definition.function	add
+definition.function	main
+reference.call	add
+reference.call	increment
+reference.call	println

@@ -1,0 +1,10 @@
+definition.variable	amplitude
+definition.variable	decay
+definition.variable	offsets
+definition.function	f
+reference.call	exp
+reference.call	cos
+definition.function	g
+reference.call	f
+definition.variable	$samples
+reference.call	f

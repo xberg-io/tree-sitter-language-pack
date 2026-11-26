@@ -1,0 +1,13 @@
+definition.property	defaultName
+definition.function	greet
+definition.function	makeGreeting
+reference.call	greet
+definition.class	Counter
+definition.property	total
+definition.function	increment
+reference.call	increment
+definition.function	run
+definition.class	Logger
+definition.property	prefix
+reference.call	log
+reference.call	greet

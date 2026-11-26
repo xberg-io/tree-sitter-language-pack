@@ -1,0 +1,16 @@
+definition.class	Counter
+definition.field	count
+definition.field	increment
+definition.enum	Color
+definition.type	Step
+definition.constant	MAX_COUNT
+definition.function	clamp
+reference.call	min
+definition.method	increment
+reference.call	clamp
+definition.function	new
+reference.call	setmetatable
+definition.variable	counter
+reference.call	new
+reference.call	print
+reference.call	increment

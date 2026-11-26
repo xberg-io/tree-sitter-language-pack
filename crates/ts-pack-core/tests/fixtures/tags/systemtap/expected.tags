@@ -1,0 +1,10 @@
+definition.variable	counts
+definition.variable	limit
+definition.macro	report_header
+definition.function	format_count
+reference.call	sprintf
+definition.alias	syscall_entry
+reference.call	execname
+reference.call	println
+reference.call	format_count
+reference.call	exit

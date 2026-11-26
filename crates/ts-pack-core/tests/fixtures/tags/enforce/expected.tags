@@ -1,0 +1,16 @@
+definition.enum	ItemKind
+definition.class	InventoryItem
+definition.field	m_Name
+definition.field	m_Count
+definition.method	InventoryItem
+definition.method	GetCount
+definition.class	Weapon
+reference.class	InventoryItem
+definition.method	GetCount
+reference.call	GetCount
+definition.variable	g_LastItem
+definition.type	TItemArray
+definition.function	LogItem
+reference.class	InventoryItem
+reference.call	Print
+reference.call	GetCount

@@ -1,0 +1,24 @@
+#!/usr/bin/env bpftrace
+
+let @calls = hash(1024);
+
+macro inc(x) {
+  x + 1
+}
+
+BEGIN
+{
+  printf("Tracing syscalls\n");
+}
+
+tracepoint:raw_syscalls:sys_enter
+{
+  @calls[comm] = count();
+  $n = inc(1);
+}
+
+END
+{
+  print(@calls);
+  clear(@calls);
+}

@@ -1,0 +1,9 @@
+definition.module	demo
+definition.class	Greeter
+definition.method	greet
+definition.function	shout
+reference.call	toUpperCase
+definition.variable	greeter
+reference.call	Greeter
+reference.call	shout
+reference.call	greet

@@ -1,0 +1,7 @@
+definition.variable	OrderCount
+definition.function	AddOrder
+reference.call	LogOrder
+definition.function	TotalAmount
+definition.function	LogOrder
+reference.call	Message
+reference.call	Describe

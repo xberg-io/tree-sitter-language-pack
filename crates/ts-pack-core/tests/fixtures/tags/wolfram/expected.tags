@@ -1,0 +1,10 @@
+reference.call	BeginPackage
+reference.call	Begin
+definition.variable	$PiApprox
+definition.function	square
+definition.function	CircleArea
+reference.call	square
+definition.function	TotalArea
+reference.call	Total
+reference.call	End
+reference.call	EndPackage

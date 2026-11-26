@@ -1,0 +1,14 @@
+definition.variable	Counter
+definition.type	CounterState
+definition.type	Step
+definition.variable	MAX_COUNT
+definition.function	new
+reference.call	setmetatable
+definition.method	increment
+reference.call	min
+definition.function	report
+reference.call	print
+definition.variable	counter
+reference.call	new
+reference.call	increment
+reference.call	report

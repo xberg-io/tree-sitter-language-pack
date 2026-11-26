@@ -1,0 +1,13 @@
+definition.function	square
+definition.function	area
+reference.call	square
+definition.function	make_circle
+definition.method	area
+reference.call	area
+definition.method	@display
+definition.function	circle_area
+reference.call	area
+definition.variable	circle
+reference.call	make_circle
+reference.call	print
+reference.call	area

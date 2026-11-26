@@ -1,0 +1,4 @@
+definition.method	increment:
+reference.call	min:
+reference.call	limit
+reference.call	changed

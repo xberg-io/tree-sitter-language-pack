@@ -1,0 +1,8 @@
+definition.variable	@calls
+reference.call	hash
+definition.macro	inc
+reference.call	printf
+reference.call	count
+reference.call	inc
+reference.call	print
+reference.call	clear

@@ -1,0 +1,18 @@
+from number import pi
+
+square = |x| x * x
+
+area = |radius|
+  pi * square(radius)
+
+make_circle = |radius|
+  {
+    radius: radius,
+    area: |self| area(self.radius),
+    @display: |self| 'Circle({self.radius})',
+  }
+
+export circle_area = |r| area(r)
+
+circle = make_circle 2
+print circle.area()

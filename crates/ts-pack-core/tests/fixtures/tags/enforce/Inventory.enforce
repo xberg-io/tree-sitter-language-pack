@@ -1,0 +1,39 @@
+enum ItemKind
+{
+	WEAPON,
+	FOOD
+}
+
+class InventoryItem
+{
+	protected string m_Name;
+	protected int m_Count;
+
+	void InventoryItem(string name)
+	{
+		m_Name = name;
+	}
+
+	int GetCount()
+	{
+		return m_Count;
+	}
+}
+
+class Weapon extends InventoryItem
+{
+	override int GetCount()
+	{
+		return super.GetCount() + 1;
+	}
+}
+
+ref InventoryItem g_LastItem;
+
+typedef array<ref InventoryItem> TItemArray;
+
+void LogItem(InventoryItem item)
+{
+	g_LastItem = new InventoryItem("apple");
+	Print(item.GetCount());
+}

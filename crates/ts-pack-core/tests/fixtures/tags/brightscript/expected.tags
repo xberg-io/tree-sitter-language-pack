@@ -1,0 +1,6 @@
+definition.function	Main
+reference.call	Add
+reference.call	FormatTotal
+definition.function	Add
+definition.function	FormatTotal
+reference.call	ToStr

@@ -1,0 +1,16 @@
+definition.module	geometry
+definition.interface	IShape
+definition.method	area
+definition.class	Circle
+reference.class	Sprite
+reference.implementation	IShape
+definition.constant	PI_APPROX
+definition.field	radius
+definition.method	Circle
+definition.method	area
+reference.call	square
+definition.method	scaled
+reference.class	Circle
+reference.call	trace
+reference.call	area
+definition.method	square

@@ -1,0 +1,28 @@
+_package user
+$
+
+def_slotted_exemplar(:counter,
+	{
+		{:count, 0}
+	})
+$
+
+_pragma(classify_level=basic)
+## Increase the count by STEP.
+_method counter.increment(step)
+	.count << .count + step
+	_return _self.report()
+_endmethod
+$
+
+_method counter.report()
+	write(.count)
+	_return .count
+_endmethod
+$
+
+_global make_counter <<
+	_proc @make_counter()
+		_return counter.new()
+	_endproc
+$

@@ -1,0 +1,13 @@
+definition.module	Shapes
+definition.constant	PI_APPROX
+definition.type	Shape
+definition.class	Circle
+reference.class	Shape
+definition.class	Counter
+definition.macro	twice
+definition.function	area
+reference.call	square
+definition.function	square
+definition.function	bump!
+reference.call	twice
+reference.call	println

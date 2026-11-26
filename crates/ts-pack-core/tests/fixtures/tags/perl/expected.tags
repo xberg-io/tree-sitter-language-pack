@@ -1,0 +1,14 @@
+definition.module	Shop::Counter
+reference.module	strict
+reference.module	warnings
+reference.module	constant
+definition.constant	MAX_COUNT
+definition.variable	$VERSION
+definition.function	new
+reference.call	bless
+definition.function	increment
+reference.call	clamp
+reference.call	report
+definition.function	report
+reference.call	printf
+definition.function	clamp

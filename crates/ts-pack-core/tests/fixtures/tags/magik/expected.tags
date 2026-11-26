@@ -1,0 +1,9 @@
+reference.call	def_slotted_exemplar
+reference.class	counter
+definition.method	increment
+reference.call	report
+reference.class	counter
+definition.method	report
+reference.call	write
+definition.function	make_counter
+reference.call	new
