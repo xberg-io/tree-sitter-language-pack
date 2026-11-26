@@ -62,11 +62,9 @@
 (module_instantiation
   instance_type: (_) @name) @reference.module
 
-(interface_instantiation
-  instance_type: (_) @name) @reference.module
-
-(program_instantiation
-  instance_type: (_) @name) @reference.module
+; An interface or program instance (`fifo_if bus (...)`) is written like a module instance, and
+; the grammar parses all three as module_instantiation: it cannot know what the name refers to,
+; so interface_instantiation and program_instantiation are not matched here.
 
 ; `f(x)`, `pkg::f(x)` and `obj.method(x)`: the last segment names the called subroutine.
 (tf_call

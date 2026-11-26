@@ -18,3 +18,9 @@ defm ADD : ALU<"add">;
 
 let Num = 7 in
 def SP : Reg<"sp", 7>;
+
+deftype RegList = list<Reg>;
+
+defset list<Reg> GPRs = {
+  def R2 : Reg<"r2", 2>;
+}

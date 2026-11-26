@@ -6,5 +6,6 @@ definition.function	Next
 definition.function	Double
 definition.function	Sum
 definition.function	inc
+definition.module	Half
 definition.function	Spec
 definition.function	Safe

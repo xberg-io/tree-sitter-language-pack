@@ -1,5 +1,22 @@
 definition.module	functions
 definition.function	square
+definition.function	scaled_normal_lpdf
+reference.call	normal_lpdf
+reference.call	square
 definition.module	data
+definition.variable	N
+definition.variable	y
+definition.module	transformed data
+definition.variable	y_mean
+reference.call	mean
 definition.module	parameters
+definition.variable	mu
+definition.variable	sigma
+definition.module	transformed parameters
+definition.variable	mu_centered
 definition.module	model
+reference.call	normal
+reference.call	scaled_normal
+definition.module	generated quantities
+definition.variable	y_rep
+reference.call	normal_rng

@@ -1,4 +1,9 @@
 definition.macro	WIDTH
+definition.module	counter_pkg
+definition.constant	LIMIT
+definition.interface	counter_if
+definition.class	Sample
+definition.method	doubled
 definition.module	counter
 definition.constant	MAX
 reference.macro	WIDTH

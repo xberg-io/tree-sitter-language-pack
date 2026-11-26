@@ -15,6 +15,8 @@ Sum(a, b) == LET s == a + b IN s
 
 inc[n \in Nat] == n + 1
 
+Half == INSTANCE Halving WITH n <- count
+
 Spec == Init /\ [][Next]_count
 
 THEOREM Safe == Spec => [](count <= Max)

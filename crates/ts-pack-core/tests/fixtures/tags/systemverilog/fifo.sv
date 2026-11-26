@@ -12,8 +12,16 @@ interface fifo_if (input logic clk);
   logic pop;
 endinterface
 
-class Transaction;
+interface class Printable;
+  pure virtual function void display();
+endclass
+
+class Transaction implements Printable;
   rand bit [7:0] data;
+
+  covergroup data_cg;
+    coverpoint data;
+  endgroup
 
   function void display();
     $display("data=%0d", data);
@@ -31,6 +39,8 @@ module fifo #(parameter int DEPTH = 4) (
 );
   import fifo_pkg::*;
 
+  localparam int LAST = DEPTH - 1;
+
   word_t mem [DEPTH];
   int wr_ptr;
 
@@ -40,8 +50,20 @@ module fifo #(parameter int DEPTH = 4) (
   end
 endmodule
 
+checker fifo_never_overflows(logic clk, logic full, logic push);
+  assert property (@(posedge clk) full |-> !push);
+endchecker
+
+program automatic test_prog (input logic clk);
+  initial begin
+    Transaction t = new();
+    t.display();
+  end
+endprogram
+
 module top;
   logic clk;
   fifo_if bus (.clk(clk));
+  test_prog u_test (.clk(clk));
   fifo #(.DEPTH(8)) u_fifo (.clk(clk), .rst_n(1'b1), .bus(bus));
 endmodule

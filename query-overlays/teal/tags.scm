@@ -27,10 +27,15 @@
 (typedef
   name: (identifier) @name) @definition.type
 
-; Record fields
-(record_body
-  (field
-    key: (identifier) @name) @definition.field)
+; Record and interface fields
+[
+  (record_body
+    (field
+      key: (identifier) @name) @definition.field)
+  (interface_body
+    (field
+      key: (identifier) @name) @definition.field)
+]
 
 ; Macro expressions
 (macroexp_declaration

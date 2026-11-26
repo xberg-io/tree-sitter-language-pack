@@ -1,5 +1,10 @@
+definition.interface	Named
+definition.field	name
 definition.class	Counter
+definition.type	Id
 definition.field	count
+definition.field	id
+definition.macro	twice
 definition.field	increment
 definition.enum	Color
 definition.type	Step

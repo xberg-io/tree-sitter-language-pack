@@ -1,5 +1,21 @@
 `define WIDTH 8
 
+package counter_pkg;
+  parameter LIMIT = 100;
+endpackage
+
+interface counter_if (input wire clk);
+  wire reset;
+endinterface
+
+class Sample;
+  int value;
+
+  function int doubled();
+    return value * 2;
+  endfunction
+endclass
+
 module counter #(parameter MAX = 255) (
   input wire clk,
   input wire reset,

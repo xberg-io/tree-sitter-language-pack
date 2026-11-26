@@ -10,3 +10,7 @@ definition.constant	ADD
 reference.class	ALU
 definition.constant	SP
 reference.class	Reg
+definition.type	RegList
+definition.variable	GPRs
+definition.constant	R2
+reference.class	Reg

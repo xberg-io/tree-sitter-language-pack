@@ -1,5 +1,14 @@
+local interface Named
+   name: string
+end
+
 local record Counter
+   type Id = integer
    count: integer
+   id: Id
+   macroexp twice(x: integer): integer
+      return x * 2
+   end
    increment: function(self: Counter, step: integer): integer
 end
 
