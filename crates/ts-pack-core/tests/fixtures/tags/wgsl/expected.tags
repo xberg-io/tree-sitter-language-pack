@@ -1,5 +1,7 @@
 definition.constant	PI
-definition.struct	Light
+definition.class	Light
+definition.field	dir
+definition.field	power
 definition.type	Color
 definition.variable	sun
 definition.constant	scale

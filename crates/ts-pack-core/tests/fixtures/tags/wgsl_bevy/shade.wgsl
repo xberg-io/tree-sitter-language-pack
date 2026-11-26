@@ -9,6 +9,10 @@ struct Light {
     power: f32,
 };
 
+type Color = vec3<f32>;
+
+override scale: f32 = 1.0;
+
 @group(1) @binding(0) var<uniform> sun: Light;
 
 fn lambert(n: vec3<f32>, l: Light) -> f32 {

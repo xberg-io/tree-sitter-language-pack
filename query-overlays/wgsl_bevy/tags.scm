@@ -1,7 +1,12 @@
 ; WGSL with the Bevy shader preprocessor (`#define_import_path`, `#import`). Module-scope
-; declarations: functions, structs, type aliases, constants and overrides, and global variables,
-; plus the import path a shader module defines. Declarations inside function bodies (`let`,
-; `var`) are locals.
+; declarations: functions, structs (classes) and their members, type aliases, constants and
+; overrides, and global variables, plus the import path a shader module defines. Declarations
+; inside function bodies (`let`, `var`) are locals.
+;
+; The vendored grammar (tree-sitter-grammars/tree-sitter-wgsl-bevy, derived from
+; szebniok/tree-sitter-wgsl) predates the current WGSL syntax: module-scope `const` and `alias`
+; declarations do not parse, so the fixture uses the deprecated `let` and `type` forms this
+; grammar accepts. gpuweb/tree-sitter-wgsl tracks the current specification.
 
 ; `#define_import_path my_shaders::lighting`
 (define_import_path
@@ -11,7 +16,11 @@
   name: (identifier) @name) @definition.function
 
 (struct_declaration
-  name: (identifier) @name) @definition.struct
+  name: (identifier) @name) @definition.class
+
+(struct_member
+  (variable_identifier_declaration
+    name: (identifier) @name)) @definition.field
 
 ; `type Color = vec3<f32>;`
 (type_alias_declaration

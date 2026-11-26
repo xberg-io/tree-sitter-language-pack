@@ -1,6 +1,10 @@
 definition.module	my_shaders::lighting
 definition.constant	PI
-definition.struct	Light
+definition.class	Light
+definition.field	dir
+definition.field	power
+definition.type	Color
+definition.constant	scale
 definition.variable	sun
 definition.function	lambert
 reference.call	max

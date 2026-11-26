@@ -1,11 +1,21 @@
-; WGSL (`.wgsl`). Module-scope declarations: functions, structs, type aliases, constants and
-; overrides, and global variables. Declarations inside function bodies (`let`, `var`) are locals.
+; WGSL (`.wgsl`). Module-scope declarations: functions, structs (classes) and their members, type
+; aliases, constants and overrides, and global variables. Declarations inside function bodies
+; (`let`, `var`) are locals.
+;
+; The vendored grammar (szebniok/tree-sitter-wgsl, last changed 2023-01) predates the current WGSL
+; syntax: module-scope `const` and `alias` declarations do not parse, so the fixture uses the
+; deprecated `let` and `type` forms this grammar accepts. gpuweb/tree-sitter-wgsl tracks the
+; current specification.
 
 (function_declaration
   name: (identifier) @name) @definition.function
 
 (struct_declaration
-  name: (identifier) @name) @definition.struct
+  name: (identifier) @name) @definition.class
+
+(struct_member
+  (variable_identifier_declaration
+    name: (identifier) @name)) @definition.field
 
 ; `type Color = vec3<f32>;`
 (type_alias_declaration
