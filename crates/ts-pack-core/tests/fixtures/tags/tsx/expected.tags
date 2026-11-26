@@ -1,0 +1,13 @@
+definition.interface	TodoProps
+definition.type	Filter
+definition.function	TodoItem
+reference.type	TodoProps
+definition.function	TodoList
+reference.call	useState
+reference.call	setFilter
+reference.call	map
+reference.call	TodoItem
+definition.class	Store
+definition.method	add
+reference.type	TodoProps
+reference.call	log
