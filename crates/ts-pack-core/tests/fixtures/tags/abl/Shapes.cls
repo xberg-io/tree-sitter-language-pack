@@ -1,0 +1,70 @@
+USING Progress.Lang.*.
+
+INTERFACE Geometry.IShape INHERITS Geometry.IDrawable:
+  METHOD PUBLIC DECIMAL Area().
+END INTERFACE.
+
+ENUM Geometry.Color:
+  DEFINE ENUM Red Green Blue.
+END ENUM.
+
+CLASS Geometry.Circle INHERITS Geometry.Shape IMPLEMENTS Geometry.IShape:
+
+  DEFINE TEMP-TABLE ttPoint NO-UNDO
+    FIELD x AS DECIMAL
+    FIELD y AS DECIMAL.
+
+  DEFINE DATASET dsPoints FOR ttPoint.
+
+  DEFINE PUBLIC PROPERTY Radius AS DECIMAL NO-UNDO
+    GET.
+    SET.
+
+  DEFINE PUBLIC EVENT Resized SIGNATURE VOID (INPUT newRadius AS DECIMAL).
+
+  CONSTRUCTOR PUBLIC Circle(INPUT r AS DECIMAL):
+    Radius = r.
+  END CONSTRUCTOR.
+
+  DESTRUCTOR PUBLIC Circle():
+  END DESTRUCTOR.
+
+  METHOD PUBLIC DECIMAL Area():
+    DEFINE VARIABLE squared AS DECIMAL NO-UNDO.
+    squared = Square(Radius).
+    RETURN 3.14 * squared.
+  END METHOD.
+
+  METHOD PUBLIC Circle Scaled(INPUT factor AS DECIMAL):
+    DEFINE VARIABLE copy AS Circle NO-UNDO.
+    copy = NEW Geometry.Circle(Radius * factor).
+    Resized:Publish(copy:Radius).
+    RETURN copy.
+  END METHOD.
+
+  METHOD PRIVATE STATIC DECIMAL Square(INPUT x AS DECIMAL):
+    RETURN x * x.
+  END METHOD.
+
+END CLASS.
+
+DEFINE WORK-TABLE wtTotals NO-UNDO
+  FIELD total AS DECIMAL.
+
+DEFINE WORKFILE wfLog
+  FIELD line AS CHARACTER.
+
+FUNCTION add RETURNS INTEGER (INPUT a AS INTEGER, INPUT b AS INTEGER) FORWARD.
+
+FUNCTION add RETURNS INTEGER (INPUT a AS INTEGER, INPUT b AS INTEGER):
+  RETURN a + b.
+END FUNCTION.
+
+PROCEDURE greet:
+  DEFINE INPUT PARAMETER who AS CHARACTER NO-UNDO.
+  MESSAGE "hi" who.
+END PROCEDURE.
+
+RUN greet (INPUT "Ada").
+RUN utils/report.p.
+DISPLAY add(1, 2) Geometry.Util:Twice(2).
