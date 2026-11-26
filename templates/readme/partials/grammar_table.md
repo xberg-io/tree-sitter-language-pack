@@ -234,7 +234,7 @@
 | Poe Filter | [tree-sitter-grammars/tree-sitter-poe-filter](https://github.com/tree-sitter-grammars/tree-sitter-poe-filter) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Pony | [tree-sitter-grammars/tree-sitter-pony](https://github.com/tree-sitter-grammars/tree-sitter-pony) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Postgres | [gmr/tree-sitter-postgres](https://github.com/gmr/tree-sitter-postgres) | 15 | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| Postscript | [smoeding/tree-sitter-postscript](https://github.com/smoeding/tree-sitter-postscript) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Postscript | [grammars/postscript](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/postscript) (vendored) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Powershell | [airbus-cert/tree-sitter-powershell](https://github.com/airbus-cert/tree-sitter-powershell) | 14 | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | Printf | [tree-sitter-grammars/tree-sitter-printf](https://github.com/tree-sitter-grammars/tree-sitter-printf) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Prisma | [LumaKernel/tree-sitter-prisma](https://github.com/LumaKernel/tree-sitter-prisma) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |

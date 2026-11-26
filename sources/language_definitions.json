@@ -1260,8 +1260,9 @@
   },
   "postscript": {
     "extensions": ["ps", "eps"],
-    "repo": "https://github.com/smoeding/tree-sitter-postscript",
-    "rev": "d352ed652a2b39cfa1567c1b77a44e275399bacf"
+    "generate": true,
+    "license": "BSD-2-Clause",
+    "local": "grammars/postscript"
   },
   "powershell": {
     "abi_version": 14,

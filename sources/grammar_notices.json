@@ -1,5 +1,5 @@
 {
-  "definitions_sha256": "40ac12f4a4faad2f8c391b5230c3f50ca7b37ae6c8f6f8865dd2518474735620",
+  "definitions_sha256": "0e219843884d018ea52f1063b3f15117dcf8fb3250fd5c008f9f91a01bf10a4a",
   "languages": {
     "abl": {
       "branch": null,
@@ -3742,16 +3742,16 @@
       "directory": null,
       "license_files": [
         {
-          "path": "LICENSE",
+          "path": "grammars/postscript/LICENSE",
           "sha256": "d065ade2c8453d4a9e602d39c70f65cdbe17ee698cc7a77631111383b81250cf"
         }
       ],
-      "local": null,
-      "repo": "https://github.com/smoeding/tree-sitter-postscript",
-      "resolution": "github-license",
-      "rev": "d352ed652a2b39cfa1567c1b77a44e275399bacf",
+      "local": "grammars/postscript",
+      "repo": null,
+      "resolution": "local-license",
+      "rev": null,
       "spdx": "BSD-2-Clause",
-      "spdx_source": "detected"
+      "spdx_source": "inline"
     },
     "powershell": {
       "branch": null,

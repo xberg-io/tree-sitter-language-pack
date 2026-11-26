@@ -394,7 +394,8 @@ Join our [Discord community](https://discord.gg/xt9WY3GnKR) for questions and di
 
 The sources in [`grammars/`](grammars/) are inputs to the parser build. We maintain
 ABNF, GraphQL, Motoko, PlantUML, Promela, Reason, Wolfram Language, XQuery, and Yul
-here because their upstream grammars are effectively unmaintained.
+here because their upstream grammars are effectively unmaintained, and PostScript
+because it carries a local change to its tree shape.
 
 The build fetches other grammars at pinned upstream commits, including CSS,
 Java, JavaScript, Python, and Rust from Grammar Orchard.

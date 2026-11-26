@@ -239,7 +239,7 @@ tree-sitter-language-pack supports **371** languages.
 | Poe Filter | `.filter` | [tree-sitter-grammars/tree-sitter-poe-filter](https://github.com/tree-sitter-grammars/tree-sitter-poe-filter) | 14 |
 | Pony | `.pony` | [tree-sitter-grammars/tree-sitter-pony](https://github.com/tree-sitter-grammars/tree-sitter-pony) | 14 |
 | Postgres | `.psql`, `.pgsql` | [gmr/tree-sitter-postgres](https://github.com/gmr/tree-sitter-postgres) | 15 |
-| Postscript | `.ps`, `.eps` | [smoeding/tree-sitter-postscript](https://github.com/smoeding/tree-sitter-postscript) | 14 |
+| Postscript | `.ps`, `.eps` | [grammars/postscript](https://github.com/xberg-io/tree-sitter-language-pack/tree/main/grammars/postscript) (vendored) | 14 |
 | Powershell | `.ps1`, `.psm1`, `.psd1` | [airbus-cert/tree-sitter-powershell](https://github.com/airbus-cert/tree-sitter-powershell) | 14 |
 | Printf | — | [tree-sitter-grammars/tree-sitter-printf](https://github.com/tree-sitter-grammars/tree-sitter-printf) | 14 |
 | Prisma | `.prisma` | [LumaKernel/tree-sitter-prisma](https://github.com/LumaKernel/tree-sitter-prisma) | 14 |
