@@ -1,4 +1,10 @@
-definition.function	norm
+reference.module	math
+definition.class	Point
+definition.method	norm
+reference.call	sqrt
+reference.call	dot
+definition.method	dot
+definition.method	origin_distance
 definition.function	add
 definition.function	main
 reference.call	print

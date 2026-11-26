@@ -1,3 +1,11 @@
 definition.constant	SAMPLES
-reference.call	expand
 definition.function	helper
+definition.class	Paths
+definition.method	output
+definition.module	qc
+reference.module	qc
+definition.function	all
+reference.call	expand
+definition.function	split
+reference.call	directory
+definition.function	process
