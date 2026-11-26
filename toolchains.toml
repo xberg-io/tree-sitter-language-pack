@@ -18,9 +18,12 @@ task_sets = [
 ]
 
 [overrides."github:xberg-io/alef"]
-version = "0.130.0"
-reason = "alef.toml pins alef_version 0.130.0 and the committed bindings are generated with it; the baseline's newer alef lands with a regeneration"
+version = "0.132.5"
+reason = "alef.toml pins alef_version 0.132.5 and the committed bindings are generated with it; alef moves with a regeneration, not with the baseline"
 
 [overrides.zig]
 version = "0.16.0"
 reason = "packages/zig and test_apps/zig target the Zig 0.16 API; CI builds and snippet checks pin 0.16.0"
+
+[file_overrides]
+"crates/ts-pack-core/tests/fixtures/tags/dockerfile/Dockerfile" = "tags-query test input for the dockerfile grammar, never built; its FROM line is fixture text that expected.tags records"
