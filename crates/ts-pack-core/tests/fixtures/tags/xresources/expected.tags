@@ -2,7 +2,7 @@ definition.constant	BASE03
 definition.constant	BASE0
 definition.macro	FONT
 reference.module	fonts.xresources
-definition.property	*background
-definition.property	*foreground
-definition.property	XTerm*faceName
-definition.property	URxvt.scrollBar
+definition.field	*background
+definition.field	*foreground
+definition.field	XTerm*faceName
+definition.field	URxvt.scrollBar

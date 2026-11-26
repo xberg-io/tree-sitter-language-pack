@@ -1,4 +1,5 @@
 definition.module	$math
+definition.type	$binop
 definition.variable	$counter
 definition.function	$add
 definition.function	$twice

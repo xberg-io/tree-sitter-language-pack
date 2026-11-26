@@ -2,6 +2,9 @@ reference.call	BeginPackage
 reference.call	Begin
 definition.variable	$PiApprox
 definition.function	square
+definition.function	cube
+definition.variable	defaultRadius
+reference.call	RandomReal
 definition.function	CircleArea
 reference.call	square
 definition.function	TotalArea

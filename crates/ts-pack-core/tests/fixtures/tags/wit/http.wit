@@ -34,5 +34,6 @@ interface types {
 
 world proxy {
   import types;
+  import log: func(message: string);
   export handler: func(req: request) -> status;
 }

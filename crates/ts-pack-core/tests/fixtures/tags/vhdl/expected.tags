@@ -1,3 +1,4 @@
+definition.module	counter_ctx
 definition.module	counter_pkg
 definition.constant	WIDTH
 reference.type	natural
@@ -9,10 +10,12 @@ reference.type	unsigned
 definition.function	increment
 reference.type	count_t
 reference.type	count_t
+definition.function	reset
+reference.type	count_t
 definition.interface	counter
 reference.type	std_logic
 reference.type	count_t
-definition.function	increment
+reference.type	count_t
 reference.type	count_t
 reference.type	count_t
 definition.module	counter
@@ -22,6 +25,7 @@ definition.class	rtl
 reference.implementation	counter
 definition.variable	value
 reference.type	count_t
+reference.call	increment
 definition.module	top
 definition.class	structural
 reference.implementation	top
@@ -31,3 +35,5 @@ definition.variable	count
 reference.type	count_t
 reference.module	counter
 reference.module	counter
+definition.module	wide_counter_pkg
+definition.module	top_cfg

@@ -21,6 +21,7 @@ reference.type	request
 reference.type	status
 definition.module	proxy
 reference.interface	types
+definition.function	log
 definition.function	handler
 reference.type	request
 reference.type	status

@@ -36,7 +36,18 @@
 (enumeration_type_definition
   literal: (identifier) @name) @definition.constant
 
-; Declarations and bodies of functions and procedures.
+; Functions and procedures, tagged once: a package body defines what its package declares, so a
+; body there is claimed untagged and the declaration carries the tag. (A helper only a package body
+; defines is not tagged either: a query cannot tell it from one the package declares.)
+(package_body
+  (declarative_part
+    [
+      (function_body
+        designator: (_) @ignore)
+      (procedure_body
+        designator: (_) @ignore)
+    ]))
+
 (function_declaration
   designator: (_) @name) @definition.function
 

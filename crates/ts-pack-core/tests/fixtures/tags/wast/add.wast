@@ -1,4 +1,5 @@
 (module $math
+  (type $binop (func (param i32 i32) (result i32)))
   (global $counter (mut i32) (i32.const 0))
   (func $add (export "add") (param $a i32) (param $b i32) (result i32)
     (local $tmp i32)
