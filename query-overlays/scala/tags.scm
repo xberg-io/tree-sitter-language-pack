@@ -22,9 +22,10 @@
 (class_definition
   name: (identifier) @name) @definition.class
 
-; A singleton or companion `object` is a class of its own.
+; A singleton or companion `object` is a module (scalac's `ModuleDef`): tagging it as a class would
+; define a companion's name twice, once for `class Circle` and once for `object Circle`.
 (object_definition
-  name: (identifier) @name) @definition.class
+  name: (identifier) @name) @definition.module
 
 ; `type Points = Seq[Point]` and `opaque type Meters = Double`
 (type_definition

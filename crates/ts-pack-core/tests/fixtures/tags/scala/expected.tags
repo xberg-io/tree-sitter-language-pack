@@ -35,7 +35,7 @@ reference.implementation	Base
 reference.implementation	Serializable
 definition.field	name
 definition.method	area
-definition.class	Circle
+definition.module	Circle
 definition.method	unit
 reference.class	Circle
 reference.call	by
