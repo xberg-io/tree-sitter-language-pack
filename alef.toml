@@ -774,6 +774,10 @@ cursos = "cursos"
 excepcional = "excepcional"
 ein = "ein"
 legt = "legt"
+# Real tree-sitter grammar node names matched by query-overlays/*.scm. ~keep
+invokation = "invokation"
+struc = "struc"
+acces = "acces"
 
 [workspace.poly.typos.extend-identifiers]
 PyMuPDF = "PyMuPDF"
