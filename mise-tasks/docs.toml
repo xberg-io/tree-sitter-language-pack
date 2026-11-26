@@ -8,6 +8,6 @@ run = "uv run --no-sync scripts/generate_grammar_table.py"
 
 ["docs:generate:grammar-table"]
 description = "Generate the per-grammar query-bundle README partial"
-sources = ["sources/language_definitions.json", "parsers/*/queries/*.scm"]
+sources = ["sources/language_definitions.json", "parsers/*/queries/*.scm", "query-overlays/*/*.scm"]
 outputs = ["templates/readme/partials/grammar_table.md"]
 run = "uv run --no-sync scripts/generate_grammar_table.py --mode queries --output templates/readme/partials/grammar_table.md"
