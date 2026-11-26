@@ -1,0 +1,1 @@
+-ldl -lgcc_s -lutil -lrt -lpthread -lm -ldl -lc[0m
