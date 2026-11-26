@@ -1,6 +1,7 @@
 definition.variable	cflags
 definition.variable	builddir
 reference.module	rules.ninja
+reference.module	tests/build.ninja
 definition.module	link_pool
 definition.function	cc
 reference.variable	cflags

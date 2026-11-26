@@ -18,10 +18,10 @@
 
 (decl_module quoted_name: (val_string (string_content) @name)) @definition.module
 
-; `alias ll = ls -l`
-(decl_alias unquoted_name: (cmd_identifier) @name) @definition.alias
+; `alias ll = ls -l` defines a command, so it is tagged like one.
+(decl_alias unquoted_name: (cmd_identifier) @name) @definition.function
 
-(decl_alias quoted_name: (val_string (string_content) @name)) @definition.alias
+(decl_alias quoted_name: (val_string (string_content) @name)) @definition.function
 
 ; `const PREFIX = "/usr/local"`
 (nu_script (stmt_const (identifier) @name) @definition.constant)

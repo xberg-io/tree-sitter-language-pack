@@ -24,3 +24,13 @@ export def deploy [] {
 }
 
 extern "git push" [remote?: string]
+
+extern rg [pattern: string, path?: string]
+
+module "release tools" {
+    export def bump [] { "bumped" }
+}
+
+alias "gs" = git status
+
+use "tools.nu" greet

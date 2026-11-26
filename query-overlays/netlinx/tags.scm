@@ -61,31 +61,9 @@
         declarator: (identifier) @name)
     ]) @definition.variable)
 
-; Event handlers have no name of their own; they are identified by the device (and channel or
-; level) they handle, as written in the brackets
-(button_event_declarator
-  devchan: (button_event_devchan_reference) @name) @definition.event
-
-(channel_event_declarator
-  devchan: (channel_event_devchan_reference) @name) @definition.event
-
-(data_event_declarator
-  device: (data_event_device_reference) @name) @definition.event
-
-(level_event_declarator
-  devlev: (level_event_devlev_reference) @name) @definition.event
-
-(timeline_event_declarator
-  id: (timeline_event_id_reference) @name) @definition.event
-
-(push_event_declarator
-  devchan: (push_event_devchan_reference) @name) @definition.event
-
-(release_event_declarator
-  devchan: (release_event_devchan_reference) @name) @definition.event
-
-(custom_event_declarator
-  reference: (custom_event_reference) @name) @definition.event
+; Event handlers (BUTTON_EVENT[dvTP, 1] and the like) are not tagged: they have no name of their
+; own, only the bracketed device/channel expression they handle, which is neither an identifier
+; nor unique per handler.
 
 ; Calls
 (call_expression

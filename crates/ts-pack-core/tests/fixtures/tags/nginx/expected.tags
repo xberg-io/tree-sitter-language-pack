@@ -1,4 +1,3 @@
-definition.module	example.com
 definition.module	www.example.com
 definition.module	example.com
 definition.variable	$app_root

@@ -4,7 +4,12 @@ definition.variable	targets
 definition.variable	attempts
 definition.module	tools
 definition.function	greet
-definition.alias	ll
+definition.function	ll
 definition.function	build target
 definition.function	deploy
 definition.function	git push
+definition.function	rg
+definition.module	release tools
+definition.function	bump
+definition.function	gs
+reference.module	tools.nu

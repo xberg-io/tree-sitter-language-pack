@@ -1,6 +1,7 @@
 CC ?= cc
 CFLAGS := -O2 -Wall
 SRCS = main.c greet.c
+UNAME != uname -s
 OBJS = $(SRCS:.c=.o)
 
 include config.mk

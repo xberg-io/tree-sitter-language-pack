@@ -1,11 +1,13 @@
 definition.constant	dvTP
 definition.constant	dvProjector
 definition.variable	MAX_VOLUME
+definition.constant	MIN_VOLUME
 definition.class	_Source
 definition.variable	nVolume
+definition.function	GET_TIMER
+reference.module	Projector_Comm
+definition.module	mdlProjector
 definition.function	ClampVolume
 definition.function	Power On
-definition.event	[dvTP, 1]
 reference.call	ClampVolume
 reference.call	Power On
-definition.event	[dvProjector]

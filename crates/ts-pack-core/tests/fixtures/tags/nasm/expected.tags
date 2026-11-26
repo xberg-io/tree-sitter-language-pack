@@ -1,7 +1,7 @@
 definition.macro	SYS_EXIT
 definition.macro	exit
 definition.constant	LEN
-definition.struct	point
+definition.class	point
 definition.label	msg
 definition.label	_start
 reference.call	print

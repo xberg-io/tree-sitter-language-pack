@@ -1,6 +1,7 @@
 cflags = -O2 -Wall
 builddir = out
 include rules.ninja
+subninja tests/build.ninja
 
 pool link_pool
   depth = 1

@@ -17,7 +17,7 @@
 
 ; `struc point ... endstruc`
 (struc_declaration
-  name: (word) @name) @definition.struct
+  name: (word) @name) @definition.class
 
 ; `%define SYS_EXIT 60` and `%macro exit 1 ... %endmacro`
 [(preproc_def name: (word) @name)

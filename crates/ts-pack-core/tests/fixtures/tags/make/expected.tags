@@ -1,6 +1,7 @@
 definition.variable	CC
 definition.variable	CFLAGS
 definition.variable	SRCS
+definition.variable	UNAME
 definition.variable	OBJS
 reference.variable	SRCS
 reference.module	config.mk

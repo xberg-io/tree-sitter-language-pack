@@ -1,4 +1,6 @@
 definition.constant	BUFSIZE
+definition.constant	pos_x
+definition.constant	pos_y
 definition.macro	PUSHALL
 definition.label	start
 reference.call	PUSHALL

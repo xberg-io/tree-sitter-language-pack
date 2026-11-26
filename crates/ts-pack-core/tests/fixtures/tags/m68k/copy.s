@@ -1,5 +1,9 @@
 BUFSIZE	equ	256
 
+	rsreset
+pos_x	rs.w	1
+pos_y	rs.w	1
+
 PUSHALL	macro
 	movem.l	d0-d7/a0-a6,-(sp)
 	endm
