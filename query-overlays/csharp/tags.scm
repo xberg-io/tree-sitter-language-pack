@@ -1,25 +1,180 @@
-(class_declaration name: (identifier) @name) @definition.class
+; C#, written from tree-sitter-c-sharp (github.com/tree-sitter/tree-sitter-c-sharp), starting from
+; its vendored queries/tags.scm. Locals and parameters are not definitions.
 
-; base_list entries are superclass / interface inheritance — captured as @reference.implementation
-; so basemind's adapt_tslp_tags can route them to the implementations section.
-(class_declaration (base_list (_) @name)) @reference.implementation
+; `namespace App.Core { ... }` and `namespace App.Tools;` tag their full qualified name.
+[
+  (namespace_declaration
+    name: [
+      (identifier)
+      (qualified_name)
+    ] @name)
+  (file_scoped_namespace_declaration
+    name: [
+      (identifier)
+      (qualified_name)
+    ] @name)
+] @definition.module
 
-(interface_declaration name: (identifier) @name) @definition.interface
+(class_declaration
+  name: (identifier) @name) @definition.class
 
-(interface_declaration (base_list (_) @name)) @reference.implementation
+(struct_declaration
+  name: (identifier) @name) @definition.class
 
-(method_declaration name: (identifier) @name) @definition.method
+; `record Size(double Width, double Height);`: a record is a class, and its positional
+; parameters are its properties.
+(record_declaration
+  name: (identifier) @name) @definition.class
 
-(object_creation_expression type: (identifier) @name) @reference.class
+(record_declaration
+  (parameter_list
+    (parameter
+      name: (identifier) @name))) @definition.field
 
-(type_parameter_constraints_clause (identifier) @name) @reference.class
+(interface_declaration
+  name: (identifier) @name) @definition.interface
 
-(type_parameter_constraint (type type: (identifier) @name)) @reference.class
+(enum_declaration
+  name: (identifier) @name) @definition.enum
 
-(variable_declaration type: (identifier) @name) @reference.class
+(enum_member_declaration
+  name: (identifier) @name) @definition.constant
 
-(invocation_expression function: (member_access_expression name: (identifier) @name)) @reference.send
+; `delegate void Handler(...)` declares a function type.
+(delegate_declaration
+  name: (identifier) @name) @definition.type
 
-(namespace_declaration name: (identifier) @name) @definition.module
+; Overloads name one method or constructor: the first declaration in a body tags, later ones are
+; claimed.
+([
+  (declaration_list
+    (method_declaration
+      name: (identifier) @_first)
+    (method_declaration
+      name: (identifier) @ignore))
+  (declaration_list
+    (constructor_declaration
+      name: (identifier) @_first)
+    (constructor_declaration
+      name: (identifier) @ignore))
+]
+  (#eq? @_first @ignore))
 
-(namespace_declaration name: (identifier) @name) @module
+(method_declaration
+  name: (identifier) @name) @definition.method
+
+(constructor_declaration
+  name: (identifier) @name) @definition.constructor
+
+(property_declaration
+  name: (identifier) @name) @definition.field
+
+; `event Handler Changed;` and `event Handler Changed { add ... }`
+(event_field_declaration
+  (variable_declaration
+    (variable_declarator
+      name: (identifier) @name))) @definition.method
+
+(event_declaration
+  name: (identifier) @name) @definition.method
+
+; `const` fields are constants; other fields are fields.
+(field_declaration
+  (modifier) @_modifier
+  (variable_declaration
+    (variable_declarator
+      name: (identifier) @name))
+  (#eq? @_modifier "const")) @definition.constant
+
+(field_declaration
+  (variable_declaration
+    (variable_declarator
+      name: (identifier) @name))) @definition.field
+
+; `using System.Collections.Generic;`
+(using_directive
+  [
+    (identifier)
+    (qualified_name)
+  ] @name) @reference.module
+
+; Base classes and implemented interfaces: `class Circle : Shape<int>`, `: IShape`.
+[
+  (class_declaration
+    (base_list
+      [
+        (identifier) @name
+        (generic_name
+          (identifier) @name)
+        (qualified_name
+          name: [
+            (identifier) @name
+            (generic_name
+              (identifier) @name)
+          ])
+      ]))
+  (struct_declaration
+    (base_list
+      [
+        (identifier) @name
+        (generic_name
+          (identifier) @name)
+        (qualified_name
+          name: [
+            (identifier) @name
+            (generic_name
+              (identifier) @name)
+          ])
+      ]))
+  (record_declaration
+    (base_list
+      [
+        (identifier) @name
+        (generic_name
+          (identifier) @name)
+        (qualified_name
+          name: [
+            (identifier) @name
+            (generic_name
+              (identifier) @name)
+          ])
+      ]))
+  (interface_declaration
+    (base_list
+      [
+        (identifier) @name
+        (generic_name
+          (identifier) @name)
+        (qualified_name
+          name: [
+            (identifier) @name
+            (generic_name
+              (identifier) @name)
+          ])
+      ]))
+] @reference.implementation
+
+; `new Circle(2.0)` and `new List<IShape>()`
+(object_creation_expression
+  type: [
+    (identifier) @name
+    (generic_name
+      (identifier) @name)
+  ]) @reference.class
+
+; Calls: `Notify()`, `Console.WriteLine(...)` and `Changed?.Invoke(...)`.
+(invocation_expression
+  function: [
+    (identifier) @name
+    (generic_name
+      (identifier) @name)
+    (member_access_expression
+      name: [
+        (identifier) @name
+        (generic_name
+          (identifier) @name)
+      ])
+    (conditional_access_expression
+      (member_binding_expression
+        name: (identifier) @name))
+  ]) @reference.call
