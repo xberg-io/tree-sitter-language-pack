@@ -2,10 +2,10 @@
 # Refresh it with `ai-rulez lock`; `ai-rulez generate --locked` fails when it is stale.
 
 version = 1
-ai_rulez_version = '5.14.1'
+ai_rulez_version = '5.15.0'
 scope = 'all'
 outputs_pinned = true
-tree = 'sha256:b36f44ee6a20b335a86dc9f5ea76b41a69bd2bd8495f4a3a5a152b0388dfba15'
+tree = 'sha256:e0efa84f5d61138d9733ce0cb87cd5f11077c6d14f39d3ad5926fe3927bdf135'
 
 [[item]]
 kind = 'skill'
@@ -47,4 +47,4 @@ digest = 'sha256:9796d0cee83f5b805929432cc24670e2fd709f5c2f09d90b5fb2188ffed1f87
 kind = 'skill'
 id = 'tree-sitter-language-pack-using-the-mcp-server'
 path = 'skills/tree-sitter-language-pack-using-the-mcp-server'
-digest = 'sha256:580c5b4195cccd54b122b63fa1039ea78919858a4965ad9483f9f123256eec79'
+digest = 'sha256:e011bd8c59abecb3b7ddecbdd9cc4ddd19f925aebe45991b6a9fa0269d3c0bae'
