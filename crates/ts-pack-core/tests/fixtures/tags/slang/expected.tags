@@ -1,0 +1,16 @@
+definition.macro	MAX_LIGHTS
+definition.interface	ILight
+definition.method	illuminate
+definition.struct	DirLight
+definition.method	illuminate
+reference.call	max
+reference.call	dot
+definition.module	util
+definition.function	square
+definition.variable	GAMMA
+definition.variable	tint
+definition.type	Color
+definition.enum	Mode
+definition.function	fragmentMain
+reference.call	illuminate
+reference.call	square

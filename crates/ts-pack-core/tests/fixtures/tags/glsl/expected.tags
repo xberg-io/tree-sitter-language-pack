@@ -1,0 +1,13 @@
+definition.macro	PI
+definition.variable	model
+definition.variable	position
+definition.variable	color
+definition.interface	Camera
+definition.variable	camera
+definition.struct	Light
+definition.function	lambert
+reference.call	max
+reference.call	dot
+definition.function	main
+reference.call	Light
+reference.call	lambert

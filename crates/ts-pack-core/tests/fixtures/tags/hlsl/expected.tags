@@ -1,0 +1,9 @@
+definition.macro	MAX_LIGHTS
+definition.variable	viewProj
+definition.struct	VSInput
+definition.variable	albedo
+definition.function	shade
+reference.call	saturate
+definition.function	main
+reference.call	mul
+reference.call	shade

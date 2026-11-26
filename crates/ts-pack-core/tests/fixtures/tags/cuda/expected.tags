@@ -1,0 +1,8 @@
+definition.macro	BLOCK
+definition.struct	Params
+definition.function	saxpy
+definition.function	scale
+definition.function	main
+reference.call	saxpy
+reference.call	printf
+reference.call	scale

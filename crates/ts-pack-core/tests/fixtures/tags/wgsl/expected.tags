@@ -1,0 +1,10 @@
+definition.constant	PI
+definition.struct	Light
+definition.type	Color
+definition.variable	sun
+definition.constant	scale
+definition.function	lambert
+reference.call	max
+reference.call	dot
+definition.function	main
+reference.call	lambert
