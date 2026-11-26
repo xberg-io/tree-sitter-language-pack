@@ -1,0 +1,11 @@
+definition.constant	defaultName
+definition.class	Person
+reference.type	PhoneNumber
+definition.class	PhoneNumber
+reference.type	Type
+definition.enum	Type
+definition.constant	mobile
+definition.constant	home
+definition.interface	Directory
+definition.method	lookup
+reference.type	Person

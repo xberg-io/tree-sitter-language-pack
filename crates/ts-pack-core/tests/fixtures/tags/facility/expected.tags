@@ -1,0 +1,12 @@
+definition.interface	WidgetApi
+definition.method	getWidget
+reference.type	Widget
+definition.class	Widget
+reference.type	WidgetKind
+definition.enum	WidgetKind
+definition.constant	small
+definition.constant	large
+definition.enum	WidgetErrors
+definition.constant	NotFound
+definition.method	widgetChanged
+reference.type	Widget

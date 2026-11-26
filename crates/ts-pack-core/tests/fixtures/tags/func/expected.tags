@@ -1,0 +1,17 @@
+definition.constant	op::transfer
+definition.variable	total_supply
+definition.function	load_data
+reference.call	get_data
+reference.call	begin_parse
+reference.call	load_uint
+definition.function	save_data
+reference.call	set_data
+reference.call	begin_cell
+reference.call	store_uint
+reference.call	store_slice
+reference.call	end_cell
+definition.function	recv_internal
+reference.call	load_data
+reference.call	save_data
+definition.function	get_total_supply
+reference.call	load_data

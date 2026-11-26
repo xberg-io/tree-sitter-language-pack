@@ -1,0 +1,58 @@
+module example-system {
+  yang-version 1.1;
+  namespace "urn:example:system";
+  prefix sys;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+
+  typedef percent {
+    type uint8 {
+      range "0..100";
+    }
+  }
+
+  identity protocol;
+
+  feature ssh;
+
+  grouping endpoint {
+    leaf address {
+      type inet:ip-address;
+    }
+    leaf port {
+      type inet:port-number;
+    }
+  }
+
+  container system {
+    leaf hostname {
+      type string;
+    }
+    list server {
+      key "name";
+      leaf name {
+        type string;
+      }
+      uses endpoint;
+    }
+    leaf-list dns {
+      type string;
+    }
+  }
+
+  rpc reboot {
+    input {
+      leaf delay {
+        type uint32;
+      }
+    }
+  }
+
+  notification restarted {
+    leaf load {
+      type percent;
+    }
+  }
+}

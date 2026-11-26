@@ -1,0 +1,10 @@
+User
+    name Text
+    email Text
+    UniqueEmail email
+    deriving Show
+
+BlogPost
+    title Text
+    authorId UserId
+    deriving Show Eq

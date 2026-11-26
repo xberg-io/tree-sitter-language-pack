@@ -1,0 +1,23 @@
+module Billing
+  VERSION: String
+
+  type amount = Integer | Float
+
+  interface _Chargeable
+    def charge: (amount value) -> bool
+  end
+
+  class Account < Base
+    include Comparable
+
+    attr_reader balance: Integer
+    @owner: String
+
+    def initialize: (String owner) -> void
+    def self.open: (String owner) -> Account
+    def deposit: (amount value) -> Integer
+    alias add deposit
+  end
+end
+
+$billing_log: Array[String]

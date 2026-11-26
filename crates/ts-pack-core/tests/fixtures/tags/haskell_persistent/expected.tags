@@ -1,0 +1,11 @@
+definition.class	User
+definition.field	name
+reference.type	Text
+definition.field	email
+reference.type	Text
+definition.constant	UniqueEmail
+definition.class	BlogPost
+definition.field	title
+reference.type	Text
+definition.field	authorId
+reference.type	UserId

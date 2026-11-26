@@ -1,0 +1,30 @@
+include "weapon.fbs";
+
+namespace MyGame.Sample;
+
+attribute "priority";
+
+enum Color : byte { Red = 0, Green, Blue = 2 }
+
+union Equipment { Weapon }
+
+struct Vec3 {
+  x:float;
+  y:float;
+  z:float;
+}
+
+table Monster {
+  pos:Vec3;
+  hp:short = 100;
+  name:string;
+  color:Color = Blue;
+  equipped:Equipment;
+}
+
+rpc_service MonsterStorage {
+  Store(Monster):Stat;
+  Retrieve(Stat):Monster;
+}
+
+root_type Monster;

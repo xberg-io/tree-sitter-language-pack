@@ -1,0 +1,12 @@
+definition.macro	WIDTH
+definition.module	counter
+definition.constant	MAX
+reference.macro	WIDTH
+definition.constant	STEP
+reference.macro	WIDTH
+definition.function	next
+reference.macro	WIDTH
+definition.function	clear
+reference.call	next
+definition.module	top
+reference.module	counter

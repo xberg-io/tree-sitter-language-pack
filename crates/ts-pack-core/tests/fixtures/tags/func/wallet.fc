@@ -1,0 +1,24 @@
+#include "stdlib.fc";
+
+const int op::transfer = 0x5fcc3d14;
+
+global int total_supply;
+
+(int, slice) load_data() inline {
+    slice ds = get_data().begin_parse();
+    return (ds~load_uint(64), ds);
+}
+
+() save_data(int supply, slice owner) impure inline {
+    set_data(begin_cell().store_uint(supply, 64).store_slice(owner).end_cell());
+}
+
+() recv_internal(int msg_value, cell in_msg, slice in_msg_body) impure {
+    var (supply, owner) = load_data();
+    save_data(supply + msg_value, owner);
+}
+
+int get_total_supply() method_id {
+    var (supply, _) = load_data();
+    return supply;
+}

@@ -1,0 +1,14 @@
+definition.module	 Utils
+definition.function	double
+definition.function	quadruple
+reference.call	double
+reference.call	double
+definition.class	 Counter
+definition.type	 Mode
+definition.variable	 count
+definition.variable	 step
+definition.class	Tracker
+definition.method	current
+definition.method	increment
+reference.call	double
+definition.method	get

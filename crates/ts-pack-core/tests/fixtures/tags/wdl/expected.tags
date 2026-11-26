@@ -1,0 +1,7 @@
+definition.class	Sample
+definition.function	align
+reference.type	Sample
+definition.function	pipeline
+reference.type	Sample
+reference.call	align
+reference.call	check

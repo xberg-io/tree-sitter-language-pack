@@ -1,0 +1,30 @@
+module sensors {
+  const long MAX_READINGS = 16;
+
+  typedef sequence<double, MAX_READINGS> Readings;
+
+  enum Unit {
+    CELSIUS,
+    KELVIN
+  };
+
+  struct Sample {
+    @key long id;
+    Unit unit;
+    Readings values;
+  };
+
+  union Value switch (long) {
+    case 0: double number;
+    case 1: string text;
+  };
+
+  exception SensorError {
+    string reason;
+  };
+
+  interface Sensor {
+    attribute string label;
+    Sample read(in long id) raises (SensorError);
+  };
+};

@@ -1,0 +1,10 @@
+<!ENTITY % text "#PCDATA">
+<!ENTITY company "Example Corp">
+<!ELEMENT note (to, from, body)>
+<!ELEMENT to (%text;)>
+<!ELEMENT from (%text;)>
+<!ELEMENT body (%text;)>
+<!ATTLIST note
+  id ID #REQUIRED
+  priority (low|high) "low">
+<!NOTATION png SYSTEM "image/png">

@@ -1,0 +1,17 @@
+definition.type	Set
+definition.type	Point
+definition.type	Circle
+reference.type	Set
+definition.function	Disjoint
+reference.type	Set
+reference.type	Set
+definition.function	Subset
+reference.type	Set
+reference.type	Set
+definition.function	Intersection
+reference.type	Set
+reference.type	Set
+reference.type	Set
+definition.function	Singleton
+reference.type	Point
+reference.type	Set

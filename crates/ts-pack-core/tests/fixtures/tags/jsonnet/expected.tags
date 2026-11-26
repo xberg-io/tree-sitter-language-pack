@@ -1,0 +1,7 @@
+definition.variable	defaults
+definition.variable	port
+definition.function	container
+definition.method	podTemplate
+definition.method	deployment
+reference.call	podTemplate
+reference.call	container

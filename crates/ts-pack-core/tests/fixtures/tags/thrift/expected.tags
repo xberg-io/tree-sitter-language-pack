@@ -1,0 +1,15 @@
+definition.type	MyInteger
+definition.constant	INT32CONSTANT
+definition.enum	Operation
+definition.constant	ADD
+definition.constant	SUBTRACT
+definition.class	Work
+reference.type	Operation
+definition.class	Result
+definition.class	InvalidOperation
+definition.interface	Calculator
+definition.method	ping
+definition.method	calculate
+reference.type	Work
+reference.type	InvalidOperation
+definition.method	zip

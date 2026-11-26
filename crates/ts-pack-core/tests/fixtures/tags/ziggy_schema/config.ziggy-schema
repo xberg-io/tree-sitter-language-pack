@@ -1,0 +1,19 @@
+$ = Config
+
+/// Application configuration.
+struct Config {
+    name: bytes,
+    port: ?int,
+    routes: []Route,
+    mode: Mode,
+}
+
+struct Route {
+    path: bytes,
+    handler: bytes,
+}
+
+union Mode {
+    debug,
+    release: bytes,
+}

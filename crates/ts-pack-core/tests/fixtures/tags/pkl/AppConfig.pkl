@@ -1,0 +1,28 @@
+module com.example.AppConfig
+
+import "pkl:semver"
+
+typealias Port = Int(isBetween(1, 65535))
+
+host: String = "localhost"
+
+port: Port = 8080
+
+local defaultTimeout = 30.s
+
+class Endpoint {
+  path: String
+  method: String = "GET"
+
+  function url(base: String): String = "\(base)\(path)"
+}
+
+abstract class Handler {
+  name: String
+}
+
+function makeEndpoint(p: String): Endpoint = new Endpoint { path = p }
+
+endpoints: Listing<Endpoint> = new {
+  makeEndpoint("/health")
+}

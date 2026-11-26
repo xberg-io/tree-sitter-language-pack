@@ -1,0 +1,10 @@
+definition.module	token
+definition.constant	SUPPLY
+definition.class	Metadata
+definition.class	Token
+definition.variable	balances
+definition.function	mint
+reference.class	Token
+definition.function	add
+definition.function	double
+reference.call	add

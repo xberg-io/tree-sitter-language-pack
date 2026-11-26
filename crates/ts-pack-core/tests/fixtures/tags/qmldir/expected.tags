@@ -1,0 +1,6 @@
+definition.module	com.example.controls
+reference.module	QtQuick
+reference.module	QtQuick.Controls
+definition.class	Button
+definition.class	Theme
+definition.class	Helper

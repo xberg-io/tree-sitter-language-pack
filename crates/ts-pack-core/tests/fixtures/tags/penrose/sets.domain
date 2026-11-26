@@ -1,0 +1,9 @@
+type Set
+type Point
+type Circle <: Set
+
+predicate Disjoint(Set s1, Set s2)
+predicate Subset(Set s1, Set s2)
+
+function Intersection(Set a, Set b) -> Set
+constructor Singleton(Point p) -> Set

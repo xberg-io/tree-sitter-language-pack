@@ -1,0 +1,31 @@
+program counter
+
+option +r;
+
+int count;
+assign count to "{P}count";
+monitor count;
+
+evflag resetFlag;
+sync count to resetFlag;
+
+void reset(int value) {
+    count = value;
+}
+
+ss counting {
+    state init {
+        when (count >= 0) {
+        } state running
+    }
+
+    state running {
+        when (efTestAndClear(resetFlag)) {
+            reset(0);
+        } state init
+        when (delay(1.0)) {
+            count++;
+            pvPut(count);
+        } state running
+    }
+}

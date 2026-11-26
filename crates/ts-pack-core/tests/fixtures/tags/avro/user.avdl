@@ -1,0 +1,21 @@
+@namespace("com.example.users")
+protocol UserService {
+  enum Status {
+    ACTIVE, SUSPENDED
+  }
+
+  fixed Hash(16);
+
+  record User {
+    string name;
+    Status status = "ACTIVE";
+    union { null, Hash } digest = null;
+  }
+
+  error NotFound {
+    string message;
+  }
+
+  User lookup(string name) throws NotFound;
+  void ping();
+}

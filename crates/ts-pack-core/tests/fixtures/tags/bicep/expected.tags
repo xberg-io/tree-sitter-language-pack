@@ -1,0 +1,12 @@
+reference.call	description
+definition.variable	prefix
+definition.variable	location
+reference.call	resourceGroup
+definition.type	skuName
+definition.function	accountName
+reference.call	uniqueString
+reference.call	resourceGroup
+definition.class	account
+reference.call	accountName
+definition.module	network
+definition.constant	accountId

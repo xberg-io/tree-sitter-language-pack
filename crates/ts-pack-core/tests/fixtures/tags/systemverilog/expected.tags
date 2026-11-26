@@ -1,0 +1,14 @@
+definition.module	fifo_pkg
+definition.constant	WIDTH
+definition.type	word_t
+definition.function	next_ptr
+definition.interface	fifo_if
+definition.class	Transaction
+definition.method	display
+definition.method	send
+definition.module	fifo
+definition.constant	DEPTH
+reference.call	next_ptr
+definition.module	top
+reference.module	fifo_if
+reference.module	fifo

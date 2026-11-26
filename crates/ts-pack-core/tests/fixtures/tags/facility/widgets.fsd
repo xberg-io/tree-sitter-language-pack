@@ -1,0 +1,40 @@
+/// Manages widgets.
+[http(url: "https://api.example.com/")]
+service WidgetApi
+{
+  /// Gets a widget.
+  [http(method: get, path: "/widgets/{id}")]
+  method getWidget
+  {
+    id: string;
+  }:
+  {
+    widget: Widget;
+  }
+
+  data Widget
+  {
+    id: string;
+    name: string;
+    kind: WidgetKind;
+  }
+
+  enum WidgetKind
+  {
+    small,
+    large,
+  }
+
+  errors WidgetErrors
+  {
+    NotFound,
+  }
+
+  event widgetChanged
+  {
+    id: string;
+  }:
+  {
+    widget: Widget;
+  }
+}

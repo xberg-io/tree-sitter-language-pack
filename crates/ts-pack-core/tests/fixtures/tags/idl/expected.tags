@@ -1,0 +1,15 @@
+definition.module	sensors
+definition.constant	MAX_READINGS
+definition.type	Readings
+definition.enum	Unit
+definition.constant	CELSIUS
+definition.constant	KELVIN
+definition.class	Sample
+reference.type	Unit
+reference.type	Readings
+definition.class	Value
+definition.class	SensorError
+definition.interface	Sensor
+reference.type	Sample
+definition.method	read
+reference.type	SensorError

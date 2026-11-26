@@ -1,0 +1,13 @@
+definition.module	UserService
+definition.enum	Status
+definition.constant	ACTIVE
+definition.constant	SUSPENDED
+definition.type	Hash
+definition.class	User
+reference.type	Status
+reference.type	Hash
+definition.class	NotFound
+reference.type	User
+definition.method	lookup
+reference.type	NotFound
+definition.method	ping

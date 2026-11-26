@@ -1,0 +1,44 @@
+schema {
+  query: Query
+}
+
+scalar DateTime
+
+directive @auth(role: String) on FIELD_DEFINITION
+
+enum Role {
+  ADMIN
+  USER
+}
+
+interface Node {
+  id: ID!
+}
+
+type User implements Node {
+  id: ID!
+  name: String
+  role: Role
+  createdAt: DateTime
+}
+
+union SearchResult = User
+
+input UserFilter {
+  role: Role
+}
+
+type Query {
+  user(id: ID!): User @auth(role: "USER")
+  users(filter: UserFilter): [User!]!
+}
+
+query GetUser($id: ID!) {
+  user(id: $id) {
+    ...UserFields
+  }
+}
+
+fragment UserFields on User {
+  name
+}

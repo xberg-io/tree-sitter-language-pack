@@ -1,0 +1,15 @@
+definition.constant	MAX_COUNT
+definition.class	Point
+definition.enum	Direction
+definition.constant	Up
+definition.constant	Down
+definition.interface	Shape
+definition.method	area
+definition.class	PointShape
+reference.implementation	Shape
+definition.method	area
+definition.module	helpers
+definition.function	double
+definition.function	main
+reference.call	double
+reference.call	area

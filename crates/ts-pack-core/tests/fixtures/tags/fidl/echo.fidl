@@ -1,0 +1,44 @@
+library fuchsia.examples.echo;
+
+using zx;
+
+const MAX_STRING_LENGTH uint64 = 32;
+
+alias Message = string:MAX_STRING_LENGTH;
+
+type Mode = strict enum {
+    PLAIN = 1;
+    LOUD = 2;
+};
+
+type Options = flexible bits : uint32 {
+    TRIM = 0b01;
+};
+
+type Request = struct {
+    value Message;
+    mode Mode;
+};
+
+type Payload = strict union {
+    1: text string;
+    2: number int64;
+};
+
+type Settings = table {
+    1: verbose bool;
+};
+
+@discoverable
+closed protocol Echo {
+    strict EchoString(Request) -> (struct {
+        response Message;
+    });
+    strict -> OnString(struct {
+        response Message;
+    });
+};
+
+service EchoService {
+    echo client_end:Echo;
+};

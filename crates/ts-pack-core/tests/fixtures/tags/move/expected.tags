@@ -1,0 +1,6 @@
+definition.module	math
+definition.function	max
+definition.function	square
+definition.function	sum_of_squares
+reference.call	square
+reference.call	square

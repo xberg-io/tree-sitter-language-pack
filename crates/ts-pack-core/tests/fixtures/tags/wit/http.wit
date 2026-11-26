@@ -1,0 +1,38 @@
+package example:http@0.1.0;
+
+interface types {
+  type status = u16;
+
+  record request {
+    method: method,
+    path: string,
+  }
+
+  variant method {
+    get,
+    post(string),
+  }
+
+  enum level {
+    debug,
+    info,
+  }
+
+  flags permissions {
+    read,
+    write,
+  }
+
+  resource body {
+    constructor(data: list<u8>);
+    read: func(len: u32) -> list<u8>;
+    from-string: static func(s: string) -> body;
+  }
+
+  handle: func(req: request) -> status;
+}
+
+world proxy {
+  import types;
+  export handler: func(req: request) -> status;
+}

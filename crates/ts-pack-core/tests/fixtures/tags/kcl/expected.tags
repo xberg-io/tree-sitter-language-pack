@@ -1,0 +1,15 @@
+definition.class	Container
+definition.field	name
+definition.field	image
+definition.field	port
+definition.class	App
+definition.field	name
+definition.field	containers
+definition.interface	Named
+definition.field	name
+definition.function	HasName
+reference.call	len
+definition.variable	replicas
+definition.variable	app
+reference.class	App
+reference.class	Container

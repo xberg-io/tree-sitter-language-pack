@@ -1,0 +1,14 @@
+reference.type	Config
+definition.class	Config
+definition.field	name
+definition.field	port
+definition.field	routes
+reference.type	Route
+definition.field	mode
+reference.type	Mode
+definition.class	Route
+definition.field	path
+definition.field	handler
+definition.type	Mode
+definition.constant	debug
+definition.constant	release

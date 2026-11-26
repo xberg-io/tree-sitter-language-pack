@@ -1,0 +1,12 @@
+definition.constant	contract-owner
+definition.constant	err-not-owner
+definition.variable	counter
+definition.variable	balances
+definition.constant	token
+definition.constant	badge
+definition.interface	counter-trait
+definition.method	increment
+definition.function	is-owner
+definition.function	increment
+reference.call	is-owner
+definition.function	get-counter

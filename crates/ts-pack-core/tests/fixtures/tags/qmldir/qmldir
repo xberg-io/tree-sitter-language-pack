@@ -1,0 +1,11 @@
+module com.example.controls
+linktarget examplecontrolsplugin
+plugin examplecontrolsplugin
+classname ExampleControlsPlugin
+typeinfo plugins.qmltypes
+depends QtQuick 2.15
+import QtQuick.Controls auto
+designersupported
+Button 1.0 Button.qml
+singleton Theme 1.0 Theme.qml
+internal Helper Helper.qml
