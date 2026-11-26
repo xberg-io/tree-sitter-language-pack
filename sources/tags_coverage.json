@@ -96,5 +96,6 @@
   "grammar_blocked": {
     "baml": "the parser includes the whitespace after a keyword in identifiers (`class Resume` yields the name \" Resume\"), so every declaration name would carry a leading space",
     "circom": "the lexer folds the whitespace after `template`/`function`/`component` into the name (\" Multiplier\")"
-  }
+  },
+  "unexercised_patterns": {}
 }
