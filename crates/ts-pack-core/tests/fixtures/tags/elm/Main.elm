@@ -1,19 +1,51 @@
-module Main exposing (main)
+port module Main exposing (Model, Msg(..), main)
+
+import Browser
+import Html exposing (Html, div, text)
+import Shapes.Area as Area
 
 
-type Color
-    = Red
-    | Green
+type Msg
+    = Increment
+    | Reset Int
 
 
-type alias Point =
-    { x : Int, y : Int }
+type alias Model =
+    { count : Int
+    , label : String
+    }
 
 
-add : Int -> Int -> Int
-add a b =
-    a + b
+type alias Scale =
+    Float
+
+
+port notify : String -> Cmd msg
+
+
+initialModel : Model
+initialModel =
+    { count = 0, label = "clicks" }
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        Increment ->
+            let
+                next =
+                    model.count + 1
+            in
+            { model | count = next }
+
+        Reset value ->
+            { model | count = Area.clamp value }
+
+
+view : Model -> Html Msg
+view model =
+    div [] [ text (String.fromInt model.count) ]
 
 
 main =
-    add 1 2
+    Browser.sandbox { init = update (Reset 0) initialModel, update = update, view = view }
