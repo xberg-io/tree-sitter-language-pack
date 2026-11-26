@@ -1,4 +1,8 @@
-definition.method	increment:
-reference.call	min:
+definition.method	at:
+reference.call	max:
 reference.call	limit
+reference.call	at:
 reference.call	changed
+reference.call	announce:
+reference.call	show:
+reference.call	cr

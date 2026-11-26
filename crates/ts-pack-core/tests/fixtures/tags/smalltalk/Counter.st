@@ -1,7 +1,9 @@
-increment: step
-	"Add step to the count, up to the limit."
-	| next |
-	next := count + step.
-	count := next min: self limit.
-	self changed.
-	^ count
+at: index put: value
+	"Store value at index, clamped to the limits, and notify dependents."
+	| slot clamped |
+	slot := index max: 1 min: self limit.
+	clamped := value + step.
+	items at: slot put: clamped.
+	self changed; announce: #stored.
+	Transcript show: 'stored'; cr.
+	^ clamped

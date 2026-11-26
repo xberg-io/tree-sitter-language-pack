@@ -7,3 +7,6 @@ definition.method	report
 reference.call	write
 definition.function	make_counter
 reference.call	new
+definition.constant	max_count
+definition.variable	counter_registry
+reference.call	new

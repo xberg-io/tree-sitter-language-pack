@@ -1,3 +1,8 @@
+; Magik. Exemplars defined by `def_slotted_exemplar(:name, ...)` and their slots are not tagged:
+; the grammar reads `:name` as one `symbol` token with no child, so the capture would keep the
+; leading colon. `_package name` keeps the name in a hidden node and is not tagged either. The
+; exemplar is still referenced by every method defined on it.
+
 ; Methods: `_method exemplar.name(...)`; the exemplar is a class reference
 (method
   name: (identifier) @name) @definition.method

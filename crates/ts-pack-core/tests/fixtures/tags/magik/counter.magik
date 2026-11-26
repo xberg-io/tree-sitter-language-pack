@@ -26,3 +26,9 @@ _global make_counter <<
 		_return counter.new()
 	_endproc
 $
+
+_global _constant max_count << 100
+$
+
+_global counter_registry << equality_hash_table.new()
+$
