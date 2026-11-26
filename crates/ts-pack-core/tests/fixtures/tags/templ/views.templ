@@ -1,13 +1,46 @@
 package views
 
+import "strings"
+
+const maxItems = 10
+
+var siteName = "demo"
+
+type ID = string
+
 type Item struct {
 	Name string
 }
 
+type Renderer interface {
+	Render() string
+}
+
 templ greeting(name string) {
-	<p>Hello { name }</p>
+	<p class={ highlight() }>Hello { strings.ToUpper(name) }</p>
+}
+
+templ (i Item) card() {
+	<div>{ i.Name }</div>
+}
+
+css highlight() {
+	color: red;
+}
+
+script logClick(msg string) {
+	console.log(msg);
 }
 
 func title(s string) string {
-	return s
+	const suffix = "!"
+	return s + suffix
+}
+
+func (i Item) Label() string {
+	return title(i.Name)
+}
+
+func defaultItem() Item {
+	return Item{Name: siteName}
 }
