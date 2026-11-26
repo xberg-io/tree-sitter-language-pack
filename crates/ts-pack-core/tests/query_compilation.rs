@@ -19,8 +19,22 @@ use tree_sitter_language_pack::{LanguageRegistry, QueryKind, get_query};
 /// vendored file (see `crates/ts-pack-core/build.rs::effective_query_path`). A grammar
 /// bump cannot regenerate these — they must be hand-fixed, so their compile failures
 /// are asserted separately from the bulk sweep. ~keep
-const OVERLAY_TAGS_LANGUAGES: [&str; 9] = [
-    "dart", "java", "kotlin", "php", "scala", "cpp", "swift", "csharp", "ruby",
+const OVERLAY_TAGS_LANGUAGES: [&str; 15] = [
+    "dart",
+    "java",
+    "kotlin",
+    "php",
+    "scala",
+    "cpp",
+    "swift",
+    "csharp",
+    "ruby",
+    "sql",
+    "bash",
+    "scss",
+    "hcl",
+    "terraform",
+    "starlark",
 ];
 
 /// Queries that fail to compile because of a defect in the query file UPSTREAM ships, not in

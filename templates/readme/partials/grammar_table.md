@@ -20,7 +20,7 @@
 | Awk | [Beaglefoot/tree-sitter-awk](https://github.com/Beaglefoot/tree-sitter-awk) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Ballerina | [heshanpadmasiri/tree-sitter-ballerina](https://github.com/heshanpadmasiri/tree-sitter-ballerina) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Baml | [BoundaryML/baml-treesitter](https://github.com/BoundaryML/baml-treesitter) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Bash | [TheAuditorTool/tree-sitter-bash](https://github.com/TheAuditorTool/tree-sitter-bash) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Bash | [TheAuditorTool/tree-sitter-bash](https://github.com/TheAuditorTool/tree-sitter-bash) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Bass | [vito/tree-sitter-bass](https://github.com/vito/tree-sitter-bass) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Batch | [davidevofficial/tree-sitter-batch](https://github.com/davidevofficial/tree-sitter-batch) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Beancount | [polarmutex/tree-sitter-beancount](https://github.com/polarmutex/tree-sitter-beancount) | 14 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
@@ -137,7 +137,7 @@
 | Haskell | [tree-sitter/tree-sitter-haskell](https://github.com/tree-sitter/tree-sitter-haskell) | 14 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Haskell Persistent | [MercuryTechnologies/tree-sitter-haskell-persistent](https://github.com/MercuryTechnologies/tree-sitter-haskell-persistent) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Haxe | [vantreeseba/tree-sitter-haxe](https://github.com/vantreeseba/tree-sitter-haxe) | 15 | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| HCL | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| HCL | [MichaHoffmann/tree-sitter-hcl](https://github.com/MichaHoffmann/tree-sitter-hcl) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Heex | [phoenixframework/tree-sitter-heex](https://github.com/phoenixframework/tree-sitter-heex) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Hjson | [winston0410/tree-sitter-hjson](https://github.com/winston0410/tree-sitter-hjson) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | HLSL | [theHamsta/tree-sitter-hlsl](https://github.com/theHamsta/tree-sitter-hlsl) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
@@ -278,7 +278,7 @@
 | Scala | [tree-sitter/tree-sitter-scala](https://github.com/tree-sitter/tree-sitter-scala) | 15 | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ |
 | Scfg | [rockorager/tree-sitter-scfg](https://github.com/rockorager/tree-sitter-scfg) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Scheme | [6cdh/tree-sitter-scheme](https://github.com/6cdh/tree-sitter-scheme) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| SCSS | [tree-sitter-grammars/tree-sitter-scss](https://github.com/tree-sitter-grammars/tree-sitter-scss) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| SCSS | [tree-sitter-grammars/tree-sitter-scss](https://github.com/tree-sitter-grammars/tree-sitter-scss) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Sflog | [aheber/tree-sitter-sfapex](https://github.com/aheber/tree-sitter-sfapex) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Slang | [tree-sitter-grammars/tree-sitter-slang](https://github.com/tree-sitter-grammars/tree-sitter-slang) | 15 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Slim | [kolen/tree-sitter-slim](https://github.com/kolen/tree-sitter-slim) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
@@ -296,12 +296,12 @@
 | Sourcepawn | [nilshelmig/tree-sitter-sourcepawn](https://github.com/nilshelmig/tree-sitter-sourcepawn) | 14 | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
 | Sparql | [GordianDziwis/tree-sitter-sparql](https://github.com/GordianDziwis/tree-sitter-sparql) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Spicedb | [jzelinskie/tree-sitter-spicedb](https://github.com/jzelinskie/tree-sitter-spicedb) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| SQL | [Goldziher/tree-sitter-sql](https://github.com/Goldziher/tree-sitter-sql) | 14 | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| SQL | [Goldziher/tree-sitter-sql](https://github.com/Goldziher/tree-sitter-sql) | 14 | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ |
 | Sql Bigquery | [takegue/tree-sitter-sql-bigquery](https://github.com/takegue/tree-sitter-sql-bigquery) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Squirrel | [tree-sitter-grammars/tree-sitter-squirrel](https://github.com/tree-sitter-grammars/tree-sitter-squirrel) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Ssh Config | [ObserverOfTime/tree-sitter-ssh-config](https://github.com/ObserverOfTime/tree-sitter-ssh-config) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Stan | [WardBrian/tree-sitter-stan](https://github.com/WardBrian/tree-sitter-stan) | 14 | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
-| Starlark | [tree-sitter-grammars/tree-sitter-starlark](https://github.com/tree-sitter-grammars/tree-sitter-starlark) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Starlark | [tree-sitter-grammars/tree-sitter-starlark](https://github.com/tree-sitter-grammars/tree-sitter-starlark) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Strace | [sigmaSd/tree-sitter-strace](https://github.com/sigmaSd/tree-sitter-strace) | 14 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Styled | [mskelton/tree-sitter-styled](https://github.com/mskelton/tree-sitter-styled) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Superhtml | [kristoff-it/superhtml](https://github.com/kristoff-it/superhtml) | 14 | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
@@ -320,7 +320,7 @@
 | Teal | [euclidianAce/tree-sitter-teal](https://github.com/euclidianAce/tree-sitter-teal) | 14 | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
 | Templ | [vrischmann/tree-sitter-templ](https://github.com/vrischmann/tree-sitter-templ) | 14 | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
 | Tera | [uncenter/tree-sitter-tera](https://github.com/uncenter/tree-sitter-tera) | 14 | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Terraform | [tree-sitter-grammars/tree-sitter-hcl](https://github.com/tree-sitter-grammars/tree-sitter-hcl) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Terraform | [tree-sitter-grammars/tree-sitter-hcl](https://github.com/tree-sitter-grammars/tree-sitter-hcl) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Test | [tree-sitter-grammars/tree-sitter-test](https://github.com/tree-sitter-grammars/tree-sitter-test) | 14 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Textproto | [PorterAtGoogle/tree-sitter-textproto](https://github.com/PorterAtGoogle/tree-sitter-textproto) | 14 | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 | Thrift | [tree-sitter-grammars/tree-sitter-thrift](https://github.com/tree-sitter-grammars/tree-sitter-thrift) | 14 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |

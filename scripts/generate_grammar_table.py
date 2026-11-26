@@ -376,8 +376,10 @@ def _grammar_abi(project_root: Path, lang_id: str) -> int:
 def _bundled_query_types(project_root: Path, lang_id: str) -> set[str]:
     """Determine which standard query types a grammar bundles.
 
-    Presence is read live from ``parsers/<lang_id>/queries/<type>.scm`` so the
-    result stays correct as the bundled query set changes.
+    Presence is read live from ``parsers/<lang_id>/queries/<type>.scm`` and from
+    ``query-overlays/<lang_id>/<type>.scm``, which the build bundles in place of (or
+    in addition to) the vendored files, so the result stays correct as the bundled
+    query set changes.
 
     Args:
         project_root: Repository root path.
@@ -386,10 +388,15 @@ def _bundled_query_types(project_root: Path, lang_id: str) -> set[str]:
     Returns:
         Set of query type names (subset of QUERY_TYPES) present on disk.
     """
-    queries_dir = project_root / "parsers" / lang_id / "queries"
-    if not queries_dir.is_dir():
-        return set()
-    return {query_type for query_type in QUERY_TYPES if (queries_dir / f"{query_type}.scm").is_file()}
+    query_dirs = (
+        project_root / "parsers" / lang_id / "queries",
+        project_root / "query-overlays" / lang_id,
+    )
+    return {
+        query_type
+        for query_type in QUERY_TYPES
+        if any((query_dir / f"{query_type}.scm").is_file() for query_dir in query_dirs)
+    }
 
 
 def generate_query_table(project_root: Path, definitions: dict[str, dict[str, object]]) -> str:

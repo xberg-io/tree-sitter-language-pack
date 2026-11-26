@@ -1,0 +1,18 @@
+$primary: #336699;
+
+@mixin button($color: red) {
+  color: $color;
+}
+
+@function double($n) {
+  @return $n * 2;
+}
+
+%message-shared, %notice {
+  border: 1px solid;
+}
+
+.card {
+  $local: 1px;
+  padding: $local;
+}

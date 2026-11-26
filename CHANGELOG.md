@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Bundle `tags` queries for sql, bash, scss, hcl, terraform and starlark, so tag-based symbol extraction finds their top-level declarations: SQL `CREATE` statements, shell functions and top-level variables, SCSS variables, mixins, functions and placeholders, Terraform and Terragrunt blocks and `locals`, and Starlark `def`s, assignments, build targets and `load` labels (#228, #229, #230, #231, #232).
+
+### Fixed
+
+- The README grammar table now counts the queries in `query-overlays/`, which the build bundles alongside the vendored ones.
+
 ## [1.27.4] - 2026-11-25
 
 ### Added
