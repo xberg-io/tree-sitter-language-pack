@@ -1,10 +1,38 @@
 package demo
 
-class Greeter {
-    String name
+import groovy.transform.CompileStatic
 
-    String greet(String other) {
-        return "Hello ${other}, I am ${name}"
+interface Speaker {
+    String speak(String text)
+}
+
+trait Polite {
+    String please(String text) {
+        return "${text}, please"
+    }
+}
+
+enum Mood {
+    HAPPY, SAD
+}
+
+@CompileStatic
+class Greeter implements Speaker, Polite {
+    static final String DEFAULT = 'Hello'
+    String name
+    int count = 0
+
+    Greeter(String name) {
+        this.name = name
+    }
+
+    String speak(String text) {
+        count++
+        return please("${DEFAULT} ${text}, I am ${name}")
+    }
+
+    def reset() {
+        count = 0
     }
 }
 
@@ -12,5 +40,10 @@ def shout(String text) {
     println text.toUpperCase()
 }
 
-def greeter = new Greeter(name: 'Groovy')
-shout(greeter.greet('World'))
+String whisper(String text) {
+    return text.toLowerCase()
+}
+
+def greeter = new Greeter('Groovy')
+shout(greeter.speak('World'))
+println whisper('Bye')
