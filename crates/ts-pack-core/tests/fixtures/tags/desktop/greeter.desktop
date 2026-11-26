@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Greeter
+Name[de]=Begrüßer
+Exec=greeter %U
+Icon=greeter
+Actions=new-window;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=greeter --new-window

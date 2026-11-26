@@ -1,0 +1,7 @@
+definition.variable	APP_ENV
+definition.variable	DB_HOST
+definition.variable	DB_PORT
+definition.variable	DATABASE_URL
+reference.variable	DB_HOST
+reference.variable	DB_PORT
+definition.variable	LOG_LEVEL

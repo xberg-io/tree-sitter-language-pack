@@ -1,0 +1,16 @@
+@import 'EXT:site_package/Configuration/TypoScript/Helper/*.typoscript'
+
+lib.footer = TEXT
+lib.footer.value = (c) Example Corp
+
+lib.contentElement = FLUIDTEMPLATE
+lib.contentElement {
+    templateRootPaths.10 = EXT:site_package/Resources/Private/Templates/
+}
+
+page = PAGE
+page {
+    typeNum = 0
+    10 < lib.contentElement
+    20 =< lib.footer
+}

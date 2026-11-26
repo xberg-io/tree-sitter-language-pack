@@ -1,0 +1,13 @@
+{
+	email admin@example.com
+}
+
+example.com, www.example.com {
+	root * /srv/www
+	reverse_proxy /api/* localhost:8080
+	file_server
+}
+
+https://status.example.com {
+	respond "OK" 200
+}

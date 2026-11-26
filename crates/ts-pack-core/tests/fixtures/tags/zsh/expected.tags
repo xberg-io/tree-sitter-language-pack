@@ -1,0 +1,7 @@
+definition.variable	PROMPT_COLOR
+definition.variable	HISTSIZE
+definition.variable	EDITOR
+definition.variable	A
+definition.variable	B
+definition.function	git_branch
+definition.function	precmd

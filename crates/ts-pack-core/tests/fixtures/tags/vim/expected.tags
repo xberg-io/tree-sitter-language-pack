@@ -1,0 +1,9 @@
+definition.variable	g:greeter_name
+definition.variable	s:count
+definition.constant	s:prefix
+definition.function	s:Format
+definition.function	greeter#Greet
+reference.call	s:Format
+definition.function	Greet
+definition.module	greeter
+reference.call	greeter#Greet

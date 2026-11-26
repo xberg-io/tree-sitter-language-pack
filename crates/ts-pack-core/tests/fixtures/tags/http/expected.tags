@@ -1,0 +1,7 @@
+definition.variable	host
+definition.variable	token
+definition.function	listUsers
+reference.variable	host
+reference.variable	token
+definition.function	createUser
+reference.variable	host

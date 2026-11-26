@@ -1,0 +1,8 @@
+let {
+    $app_name = "greeter"
+    $base = { port = 8080 host = "localhost" }
+} in {
+    name = $app_name
+    server = { ..$base tls = false }
+    banner = "Welcome"
+}

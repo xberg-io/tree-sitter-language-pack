@@ -1,0 +1,6 @@
+definition.variable	$mainMod
+definition.variable	$terminal
+definition.module	general
+definition.module	decoration
+definition.module	blur
+definition.module	epic-mouse-v1

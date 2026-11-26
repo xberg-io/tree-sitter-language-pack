@@ -1,0 +1,4 @@
+definition.constant	$app_name
+definition.constant	$base
+reference.constant	$app_name
+reference.constant	$base

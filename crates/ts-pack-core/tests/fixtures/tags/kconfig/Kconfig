@@ -1,0 +1,30 @@
+mainmenu "Greeter Configuration"
+
+menu "Networking"
+
+config NET
+	bool "Enable networking"
+	default y
+	help
+	  Build the network stack.
+
+menuconfig NET_TLS
+	bool "TLS support"
+	depends on NET
+	select CRYPTO
+
+endmenu
+
+choice LOG_BACKEND
+	prompt "Log backend"
+	default LOG_UART
+
+config LOG_UART
+	bool "UART"
+
+config LOG_RTT
+	bool "RTT"
+
+endchoice
+
+source "drivers/Kconfig"

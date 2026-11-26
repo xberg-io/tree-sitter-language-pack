@@ -1,0 +1,16 @@
+[FileInfo]
+FileName=device.eds
+FileVersion=1
+CreatedBy=Example
+
+[DeviceInfo]
+VendorName=Example Corp
+ProductName=IO Module
+BaudRate_250=1
+
+[1000]
+ParameterName=Device type
+ObjectType=0x7
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000191

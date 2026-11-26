@@ -1,0 +1,12 @@
+definition.class	greeter
+reference.class	greeter::params
+reference.class	greeter::install
+reference.type	file
+reference.call	template
+reference.type	service
+definition.type	greeter::site
+reference.type	file
+definition.function	greeter::url
+definition.module	web01.example.com
+reference.class	greeter
+reference.type	greeter::site

@@ -1,0 +1,9 @@
+definition.module	utils
+definition.variable	APP
+definition.function	deps
+definition.function	build
+reference.call	deps
+reference.call	GO_BUILD
+definition.function	GO_BUILD
+definition.function	docker
+reference.call	build

@@ -1,0 +1,7 @@
+definition.variable	GO_VERSION
+reference.variable	GO_VERSION
+definition.module	builder
+definition.module	runtime
+definition.variable	PORT
+definition.variable	LOG_LEVEL
+reference.variable	PORT

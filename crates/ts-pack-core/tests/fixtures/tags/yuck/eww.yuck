@@ -1,0 +1,16 @@
+(defvar volume 50)
+(defpoll time :interval "10s" "date +%H:%M")
+(deflisten workspaces "scripts/workspaces")
+
+(defwidget clock []
+  (label :text time))
+
+(defwidget bar []
+  (box :orientation "h"
+    (clock)
+    (scale :value volume :min 0 :max 100)))
+
+(defwindow main
+  :monitor 0
+  :geometry (geometry :width "100%" :height "30px")
+  (bar))

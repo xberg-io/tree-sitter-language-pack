@@ -1,0 +1,7 @@
+definition.type	EUR
+definition.type	Assets:Checking
+definition.type	Expenses:Groceries
+reference.type	Expenses:Groceries
+reference.type	Assets:Checking
+reference.type	Expenses:Housing
+reference.type	Assets:Checking

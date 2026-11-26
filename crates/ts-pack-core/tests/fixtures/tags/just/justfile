@@ -1,0 +1,20 @@
+set shell := ["bash", "-cu"]
+
+import "ci.just"
+mod docs
+
+version := "1.2.0"
+export RUST_LOG := env_var_or_default("RUST_LOG", "info")
+
+alias b := build
+
+default: test
+
+build profile="dev":
+    cargo build --profile {{profile}}
+
+test: build
+    cargo test
+
+release: (build "release")
+    git tag v{{version}}

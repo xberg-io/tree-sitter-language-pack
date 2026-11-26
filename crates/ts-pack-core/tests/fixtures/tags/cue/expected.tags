@@ -1,0 +1,9 @@
+definition.module	deploy
+definition.type	#Port
+definition.type	#Service
+reference.type	#Port
+definition.type	#Probe
+reference.type	#Probe
+definition.variable	_registry
+definition.field	api
+reference.type	#Service

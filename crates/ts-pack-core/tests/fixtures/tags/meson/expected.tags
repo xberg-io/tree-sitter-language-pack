@@ -1,0 +1,12 @@
+reference.call	project
+definition.variable	cc
+reference.call	get_compiler
+definition.variable	greet_sources
+reference.call	files
+reference.call	files
+definition.variable	greet_lib
+reference.call	static_library
+reference.call	include_directories
+definition.variable	greeter
+reference.call	executable
+reference.call	test

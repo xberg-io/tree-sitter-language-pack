@@ -1,0 +1,4 @@
+definition.function	trim
+definition.function	fmt_total
+reference.call	trim
+reference.call	fmt_total

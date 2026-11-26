@@ -1,0 +1,12 @@
+definition.variable	volume
+definition.variable	time
+definition.variable	workspaces
+definition.function	clock
+reference.call	label
+definition.function	bar
+reference.call	box
+reference.call	clock
+reference.call	scale
+definition.module	main
+reference.call	geometry
+reference.call	bar

@@ -1,0 +1,10 @@
+reference.module	std/log
+definition.constant	PREFIX
+definition.variable	targets
+definition.variable	attempts
+definition.module	tools
+definition.function	greet
+definition.alias	ll
+definition.function	build target
+definition.function	deploy
+definition.function	git push

@@ -1,0 +1,14 @@
+Host bastion
+    HostName bastion.example.com
+    User ops
+    IdentityFile ~/.ssh/id_ed25519
+
+Host web-* db-*
+    ProxyJump bastion
+    User deploy
+
+Match host *.internal exec "test -f ~/.ssh/use-vpn"
+    ProxyCommand nc -X 5 -x localhost:1080 %h %p
+
+Host *
+    ServerAliveInterval 60

@@ -1,0 +1,8 @@
+definition.constant	BASE03
+definition.constant	BASE0
+definition.macro	FONT
+reference.module	fonts.xresources
+definition.property	*background
+definition.property	*foreground
+definition.property	XTerm*faceName
+definition.property	URxvt.scrollBar

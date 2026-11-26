@@ -1,0 +1,30 @@
+import("//build/config/compiler.gni")
+
+declare_args() {
+  enable_logging = true
+}
+
+greeter_sources = [ "src/greet.cc" ]
+
+config("greeter_warnings") {
+  cflags = [ "-Wall" ]
+}
+
+template("greeter_test") {
+  executable(target_name) {
+    forward_variables_from(invoker, [ "sources" ])
+    deps = [ ":greet" ]
+  }
+}
+
+static_library("greet") {
+  sources = greeter_sources
+  configs += [ ":greeter_warnings" ]
+  if (enable_logging) {
+    defines = [ "GREETER_LOGGING" ]
+  }
+}
+
+greeter_test("greet_unittests") {
+  sources = [ "test/greet_test.cc" ]
+}

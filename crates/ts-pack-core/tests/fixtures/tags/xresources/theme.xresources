@@ -1,0 +1,11 @@
+! Solarized-like palette shared by terminal emulators
+#define BASE03 #002b36
+#define BASE0  #839496
+#define FONT(size) xft:Iosevka:size=size
+
+#include "fonts.xresources"
+
+*background: BASE03
+*foreground: BASE0
+XTerm*faceName: FONT(11)
+URxvt.scrollBar: false

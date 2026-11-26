@@ -1,0 +1,15 @@
+; Household journal
+commodity EUR
+    format 1.000,00 EUR
+
+account Assets:Checking
+account Expenses:Groceries
+    note Food and household supplies
+
+2024/03/01 * Farmers Market
+    Expenses:Groceries          42,50 EUR
+    Assets:Checking
+
+2024/03/02 Rent
+    Expenses:Housing           900,00 EUR
+    Assets:Checking

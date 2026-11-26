@@ -1,0 +1,6 @@
+definition.module	core
+definition.module	origin
+definition.module	main
+definition.module	alias
+definition.function	st
+definition.function	lg

@@ -1,0 +1,6 @@
+definition.variable	Prelude
+reference.module	./Prelude/package.dhall
+definition.type	Service
+definition.variable	defaultPort
+definition.function	mkService
+definition.variable	port

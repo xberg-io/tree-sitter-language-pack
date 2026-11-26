@@ -1,0 +1,5 @@
+definition.variable	PREFIX
+definition.variable	TARGETS
+definition.variable	EDITOR
+definition.function	build
+definition.function	deploy

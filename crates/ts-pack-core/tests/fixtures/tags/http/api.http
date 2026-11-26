@@ -1,0 +1,14 @@
+@host = https://api.example.com
+@token = secret-token
+
+### List users
+# @name listUsers
+GET {{host}}/users
+Authorization: Bearer {{token}}
+
+### Create a user
+# @name createUser
+POST {{host}}/users
+Content-Type: application/json
+
+{"name": "Ada"}

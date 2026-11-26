@@ -1,0 +1,15 @@
+definition.variable	CC
+definition.variable	CFLAGS
+definition.variable	SRCS
+definition.variable	OBJS
+reference.variable	SRCS
+reference.module	config.mk
+definition.macro	link
+definition.function	all
+definition.function	greeter
+reference.variable	OBJS
+reference.call	link
+reference.variable	CC
+reference.variable	CFLAGS
+definition.function	clean
+reference.variable	OBJS

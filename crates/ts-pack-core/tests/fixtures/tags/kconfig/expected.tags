@@ -1,0 +1,11 @@
+definition.module	Greeter Configuration
+definition.module	Networking
+definition.variable	NET
+definition.variable	NET_TLS
+reference.variable	NET
+reference.variable	CRYPTO
+definition.module	LOG_BACKEND
+reference.variable	LOG_UART
+definition.variable	LOG_UART
+definition.variable	LOG_RTT
+reference.module	drivers/Kconfig

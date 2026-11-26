@@ -1,0 +1,20 @@
+cflags = -O2 -Wall
+builddir = out
+include rules.ninja
+
+pool link_pool
+  depth = 1
+
+rule cc
+  command = cc $cflags -c $in -o $out
+  description = CC $out
+
+rule link
+  command = cc $in -o $out
+  pool = link_pool
+
+build $builddir/main.o: cc src/main.c
+build $builddir/greet.o: cc src/greet.c
+build greeter: link $builddir/main.o $builddir/greet.o
+
+default greeter

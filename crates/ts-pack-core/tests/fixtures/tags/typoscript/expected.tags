@@ -1,0 +1,5 @@
+definition.variable	lib.footer
+definition.variable	lib.contentElement
+definition.variable	page
+reference.variable	lib.contentElement
+reference.variable	lib.footer

@@ -1,0 +1,11 @@
+definition.variable	SUMMARY
+definition.variable	LICENSE
+definition.variable	SRC_URI
+reference.module	pkgconfig
+reference.module	update-rc.d
+reference.module	hello-common.inc
+definition.variable	DEPENDS
+definition.variable	S
+definition.function	hello_flags
+definition.function	do_compile
+definition.function	do_report

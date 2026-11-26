@@ -1,0 +1,6 @@
+reference.module	str
+reference.module	./lib/util
+definition.variable	prefix
+definition.variable	targets
+definition.function	build
+definition.function	deploy

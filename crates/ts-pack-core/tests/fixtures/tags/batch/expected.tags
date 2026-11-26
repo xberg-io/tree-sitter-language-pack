@@ -1,0 +1,6 @@
+definition.variable	BUILD_DIR
+definition.variable	RETRIES
+reference.label	compile
+definition.label	compile
+reference.variable	BUILD_DIR
+reference.label	eof
