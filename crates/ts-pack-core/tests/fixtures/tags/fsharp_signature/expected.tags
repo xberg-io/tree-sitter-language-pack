@@ -1,0 +1,4 @@
+definition.module	Geometry
+definition.class	Point
+definition.function	area
+definition.function	origin

@@ -1,0 +1,3 @@
+definition.function	greet
+definition.function	wrap
+reference.call	wrap

@@ -1,0 +1,6 @@
+definition.interface	Shape
+definition.class	Circle
+reference.implementation	Shape
+definition.method	area
+definition.module	Shapes
+definition.method	total

@@ -1,0 +1,4 @@
+definition.class	Vec3
+definition.type	real
+definition.type	Mode
+definition.function	scale

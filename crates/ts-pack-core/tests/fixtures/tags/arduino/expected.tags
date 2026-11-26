@@ -1,0 +1,7 @@
+definition.function	setup
+reference.call	pinMode
+definition.function	loop
+reference.call	blink
+definition.function	blink
+reference.call	digitalWrite
+reference.call	delay

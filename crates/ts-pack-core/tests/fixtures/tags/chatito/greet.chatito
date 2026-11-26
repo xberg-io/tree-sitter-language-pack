@@ -1,0 +1,10 @@
+%[greet]
+    ~[hi] @[name]
+
+~[hi]
+    hello
+    hi
+
+@[name]
+    Alice
+    Bob

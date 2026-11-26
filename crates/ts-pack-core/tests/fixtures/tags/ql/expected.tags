@@ -1,0 +1,10 @@
+definition.class	Callee
+reference.type	Function
+reference.call	getName
+definition.method	describe
+reference.call	getName
+definition.function	isTarget
+reference.type	Function
+reference.type	Callee
+reference.type	Callee
+reference.call	describe

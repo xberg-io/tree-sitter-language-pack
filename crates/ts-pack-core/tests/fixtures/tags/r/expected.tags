@@ -1,0 +1,5 @@
+definition.function	square
+definition.function	area
+reference.call	square
+reference.call	print
+reference.call	area

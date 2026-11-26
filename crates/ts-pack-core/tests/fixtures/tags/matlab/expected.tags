@@ -1,0 +1,3 @@
+definition.function	area
+reference.call	square
+definition.function	square

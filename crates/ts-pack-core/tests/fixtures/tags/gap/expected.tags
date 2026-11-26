@@ -1,0 +1,4 @@
+definition.function	Square
+definition.function	Double
+reference.call	Print
+reference.call	Square

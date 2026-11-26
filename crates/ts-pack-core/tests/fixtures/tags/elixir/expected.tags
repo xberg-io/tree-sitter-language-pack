@@ -1,0 +1,8 @@
+definition.module	Greeter
+definition.function	hello
+reference.module	String
+reference.call	upcase
+definition.function	secret
+definition.function	debug
+reference.module	IO
+reference.call	inspect

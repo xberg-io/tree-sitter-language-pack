@@ -1,0 +1,11 @@
+definition.interface	Shape
+definition.method	area
+definition.class	Circle
+reference.implementation	Shape
+definition.method	__construct
+definition.method	area
+reference.call	pi
+definition.function	total
+reference.call	array_sum
+reference.call	array_map
+reference.call	area

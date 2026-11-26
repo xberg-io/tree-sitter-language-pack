@@ -1,0 +1,14 @@
+reference.module	gleam/io
+definition.type	Shape
+definition.constructor	Circle
+reference.type	Float
+definition.constructor	Square
+reference.type	Float
+definition.function	area
+reference.type	Shape
+reference.type	Float
+reference.constructor	Circle
+reference.constructor	Square
+definition.function	main
+reference.module	io
+reference.function	println

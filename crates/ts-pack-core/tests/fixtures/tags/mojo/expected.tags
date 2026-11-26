@@ -1,0 +1,5 @@
+definition.function	norm
+definition.function	add
+definition.function	main
+reference.call	print
+reference.call	add

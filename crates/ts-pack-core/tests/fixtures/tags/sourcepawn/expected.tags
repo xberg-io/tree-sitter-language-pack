@@ -1,0 +1,6 @@
+definition.macro	MAX_PLAYERS
+definition.variable	g_Count
+definition.function	OnPluginStart
+reference.call	PrintToServer
+reference.call	Add
+definition.function	Add

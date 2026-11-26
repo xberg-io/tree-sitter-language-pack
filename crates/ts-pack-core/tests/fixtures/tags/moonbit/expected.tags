@@ -1,0 +1,13 @@
+definition.class	Point
+reference.class	Int
+reference.class	Int
+definition.interface	Shape
+reference.class	Self
+reference.class	Double
+definition.function	add
+reference.class	Int
+reference.class	Int
+reference.class	Int
+definition.function	main
+reference.call	println
+reference.call	add

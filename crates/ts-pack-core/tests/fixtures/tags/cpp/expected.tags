@@ -1,0 +1,6 @@
+definition.class	Shape
+definition.class	Circle
+reference.implementation	Shape
+definition.function	total
+reference.call	area
+definition.function	main

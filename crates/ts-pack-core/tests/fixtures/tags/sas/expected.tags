@@ -1,0 +1,4 @@
+definition.macro	report
+definition.module	print
+definition.module	work
+definition.module	scores

@@ -1,0 +1,5 @@
+definition.class	Greeter
+definition.method	Greet
+definition.parameter	Name
+reference.call	Format
+definition.method	Helper

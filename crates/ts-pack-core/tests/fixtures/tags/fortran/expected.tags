@@ -1,0 +1,6 @@
+definition.module	geometry
+definition.function	area
+definition.function	show
+reference.call	area
+definition.module	main
+reference.call	show

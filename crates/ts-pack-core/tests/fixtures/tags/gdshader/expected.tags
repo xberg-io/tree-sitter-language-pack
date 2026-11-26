@@ -1,0 +1,8 @@
+definition.class	Light
+definition.function	brightness
+reference.call	dot
+reference.call	vec3
+definition.function	fragment
+reference.call	vec3
+reference.call	brightness
+reference.call	vec3

@@ -1,0 +1,4 @@
+definition.property	app.name
+definition.property	app.title
+reference.property	app.name
+definition.property	server.port

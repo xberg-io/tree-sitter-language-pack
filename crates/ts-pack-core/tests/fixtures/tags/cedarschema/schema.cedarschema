@@ -1,0 +1,7 @@
+namespace PhotoApp {
+  entity User;
+  entity Photo;
+  type Context = { ip: String };
+  action "view" appliesTo { principal: User, resource: Photo };
+  action share appliesTo { principal: User, resource: Photo };
+}

@@ -1,0 +1,6 @@
+definition.namespace	PhotoApp
+definition.type	User
+definition.type	Photo
+definition.type	Context
+definition.function	"view"
+definition.function	share

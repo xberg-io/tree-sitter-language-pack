@@ -1,0 +1,3 @@
+definition.function	add
+definition.function	greet
+reference.call	greet

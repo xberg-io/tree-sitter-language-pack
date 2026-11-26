@@ -1,0 +1,8 @@
+definition.module	geometry
+definition.class	Point
+definition.interface	Shape
+reference.implementation	Point
+definition.method	new
+definition.macro	square
+definition.function	main
+reference.call	println

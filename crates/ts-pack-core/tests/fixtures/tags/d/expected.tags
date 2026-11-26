@@ -1,0 +1,12 @@
+definition.module	app
+definition.class	Point
+definition.class	Shape
+definition.function	area
+definition.interface	Drawable
+definition.function	draw
+definition.type	Color
+definition.constant	red
+definition.constant	green
+definition.function	add
+definition.function	main
+reference.call	add

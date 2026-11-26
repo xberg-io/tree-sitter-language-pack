@@ -1,0 +1,6 @@
+definition.class	Add
+definition.interface	Ownable
+definition.class	Counter
+definition.method	receive
+definition.method	value
+definition.function	double

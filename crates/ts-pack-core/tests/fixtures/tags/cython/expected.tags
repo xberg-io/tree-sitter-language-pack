@@ -1,0 +1,4 @@
+definition.constant	MAX_SIZE
+definition.function	greet
+reference.call	format
+definition.class	Point

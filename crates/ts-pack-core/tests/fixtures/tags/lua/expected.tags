@@ -1,0 +1,4 @@
+definition.function	greet
+definition.function	add
+definition.method	describe
+reference.call	add

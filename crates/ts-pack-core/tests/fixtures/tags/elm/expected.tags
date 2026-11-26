@@ -1,0 +1,14 @@
+definition.module	Main
+reference.function	main
+definition.type	Color
+definition.union	Red
+definition.union	Green
+reference.type	Int
+reference.type	Int
+reference.function	add
+reference.type	Int
+reference.type	Int
+reference.type	Int
+definition.function	add
+definition.function	main
+reference.function	add

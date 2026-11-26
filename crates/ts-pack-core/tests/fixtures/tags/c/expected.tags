@@ -1,0 +1,5 @@
+definition.class	point
+definition.type	point_t
+definition.type	color
+definition.function	add
+definition.function	main

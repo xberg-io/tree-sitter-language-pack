@@ -1,0 +1,14 @@
+definition.type	point
+definition.field	x
+reference.type	int
+definition.field	y
+reference.type	int
+definition.type	shape
+definition.enum_variant	Circle
+reference.type	float
+definition.enum_variant	Square
+reference.type	float
+reference.type	shape
+reference.type	float
+definition.interface	S
+reference.type	string

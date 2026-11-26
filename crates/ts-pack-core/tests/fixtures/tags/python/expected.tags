@@ -1,0 +1,6 @@
+definition.class	Greeter
+definition.function	__init__
+definition.function	greet
+reference.call	format_name
+definition.function	format_name
+reference.call	title

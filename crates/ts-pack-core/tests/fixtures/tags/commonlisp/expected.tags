@@ -1,0 +1,8 @@
+definition.function	add
+reference.call	+
+reference.call	defclass
+definition.class	point
+reference.call	x
+reference.call	defvar
+reference.call	make-instance
+reference.class	point

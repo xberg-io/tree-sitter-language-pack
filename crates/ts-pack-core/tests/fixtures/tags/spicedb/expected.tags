@@ -1,0 +1,9 @@
+definition.type	user
+definition.type	document
+definition.field	viewer
+reference.type	user
+definition.field	editor
+reference.type	user
+definition.method	view
+reference.call	viewer
+reference.call	editor

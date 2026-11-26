@@ -1,0 +1,5 @@
+definition.intent	greet
+reference.alias	hi
+reference.slot	name
+definition.alias	hi
+definition.slot	name

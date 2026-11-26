@@ -1,0 +1,5 @@
+definition.class	Greeter
+reference.implementation	Speaker
+definition.enum	Mood
+definition.method	greet
+reference.call	format

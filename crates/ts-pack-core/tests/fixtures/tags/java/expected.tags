@@ -1,0 +1,7 @@
+definition.interface	Shape
+definition.method	area
+definition.class	Circle
+reference.implementation	Shape
+definition.method	Circle
+definition.method	area
+reference.call	pow

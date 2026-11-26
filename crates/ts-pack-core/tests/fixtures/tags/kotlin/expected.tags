@@ -1,0 +1,11 @@
+definition.constant	MAX
+definition.type	Points
+definition.class	Shape
+definition.function	area
+definition.class	Point
+definition.class	Circle
+reference.implementation	Shape
+definition.function	area
+definition.function	total
+reference.call	sumOf
+reference.call	area

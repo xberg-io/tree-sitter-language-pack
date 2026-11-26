@@ -1,0 +1,4 @@
+ACTION!="add", GOTO="local_end"
+SUBSYSTEM=="usb", ENV{ID_VENDOR}="acme"
+ENV{ID_VENDOR}=="acme", RUN+="/bin/echo $env{ID_VENDOR}"
+LABEL="local_end"

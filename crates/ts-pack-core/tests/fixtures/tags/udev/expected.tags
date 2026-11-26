@@ -1,0 +1,5 @@
+reference.label	local_end
+definition.variable	ID_VENDOR
+reference.variable	ID_VENDOR
+reference.variable	ID_VENDOR
+definition.label	local_end

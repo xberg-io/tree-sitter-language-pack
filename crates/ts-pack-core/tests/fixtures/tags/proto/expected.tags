@@ -1,0 +1,9 @@
+definition.module	demo.v1
+definition.class	Point
+definition.enum	Color
+definition.constant	COLOR_UNSPECIFIED
+definition.constant	COLOR_RED
+definition.interface	Geometry
+definition.method	Move
+reference.type	Point
+reference.type	Point

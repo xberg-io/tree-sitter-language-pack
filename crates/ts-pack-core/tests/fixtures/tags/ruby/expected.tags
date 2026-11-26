@@ -1,0 +1,13 @@
+definition.module	Geometry
+definition.class	Shape
+definition.method	area
+reference.call	raise
+definition.class	Circle
+reference.implementation	Shape
+definition.method	initialize
+definition.method	area
+definition.method	unit
+reference.call	new
+reference.call	puts
+reference.call	unit
+reference.call	area

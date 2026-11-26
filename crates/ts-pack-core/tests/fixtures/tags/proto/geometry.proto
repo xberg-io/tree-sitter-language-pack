@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package demo.v1;
+
+message Point {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+enum Color {
+  COLOR_UNSPECIFIED = 0;
+  COLOR_RED = 1;
+}
+
+service Geometry {
+  rpc Move(Point) returns (Point);
+}

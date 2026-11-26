@@ -1,0 +1,7 @@
+definition.module	Geometry
+definition.interface	IShape
+definition.method	Area
+definition.class	Circle
+reference.implementation	IShape
+definition.method	Area
+reference.send	Round

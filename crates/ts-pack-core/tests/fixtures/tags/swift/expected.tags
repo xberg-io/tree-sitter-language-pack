@@ -1,0 +1,10 @@
+definition.interface	Shape
+definition.method	area
+definition.class	Circle
+reference.implementation	Shape
+definition.property	r
+definition.property	diameter
+definition.method	area
+definition.class	Canvas
+definition.method	draw
+definition.function	total

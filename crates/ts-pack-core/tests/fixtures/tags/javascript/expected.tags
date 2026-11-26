@@ -1,0 +1,8 @@
+definition.class	Greeter
+definition.method	greet
+reference.call	format
+definition.function	format
+definition.function	shout
+reference.call	toUpperCase
+reference.class	Greeter
+reference.call	greet

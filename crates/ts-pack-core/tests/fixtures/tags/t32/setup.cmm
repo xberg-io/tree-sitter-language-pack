@@ -1,0 +1,8 @@
+GOSUB greet
+ENDDO
+
+SUBROUTINE greet
+(
+  PRINT "hello"
+  RETURN
+)

@@ -1,0 +1,6 @@
+definition.module	Vehicles
+definition.class	Vehicle
+definition.field	mass
+definition.field	engine
+definition.class	Engine
+definition.function	Drive

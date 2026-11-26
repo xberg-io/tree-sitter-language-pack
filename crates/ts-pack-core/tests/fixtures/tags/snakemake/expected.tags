@@ -1,0 +1,3 @@
+definition.constant	SAMPLES
+reference.call	expand
+definition.function	helper

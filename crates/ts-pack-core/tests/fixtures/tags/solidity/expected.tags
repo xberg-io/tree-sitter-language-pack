@@ -1,0 +1,4 @@
+definition.interface	IToken
+definition.class	Token
+reference.class	IToken
+definition.method	balanceOf
