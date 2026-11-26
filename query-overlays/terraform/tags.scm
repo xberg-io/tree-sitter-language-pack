@@ -1,5 +1,6 @@
-; Shared verbatim by `hcl` (`*.hcl`, Terragrunt) and `terraform` (`*.tf`, `*.tfvars`), which parse
-; to the same block and attribute shapes; keep query-overlays/{hcl,terraform}/tags.scm identical.
+; Terraform (`*.tf`, `*.tfvars`) parses to the same block and attribute shapes as `hcl`; this is
+; query-overlays/hcl/tags.scm without its Terragrunt-only blocks (`dependency`, `include`, `inputs`),
+; which a Terraform file cannot contain. Keep the shared patterns in step with the hcl overlay.
 ; Only top-level blocks are declarations.
 
 ; `resource "<type>" "<name>" {}` and `data "<type>" "<name>" {}`, named by the second label.
@@ -28,13 +29,13 @@
       . [(string_lit (template_literal) @name) (identifier) @name]) @definition.constant
     (#eq? @_kind "output")))
 
-; `module "<name>" {}`, and Terragrunt `dependency "<name>" {}` and `include "<name>" {}`.
+; `module "<name>" {}`
 (config_file
   (body
     (block
       . (identifier) @_kind
       . [(string_lit (template_literal) @name) (identifier) @name]) @definition.module
-    (#any-of? @_kind "module" "dependency" "include")))
+    (#eq? @_kind "module")))
 
 ; `provider "<name>" {}`
 (config_file
@@ -44,17 +45,11 @@
       . [(string_lit (template_literal) @name) (identifier) @name]) @definition.module
     (#eq? @_kind "provider")))
 
-; Blocks without a label of their own, named by the block type: `terraform {}` and Terragrunt
-; `include {}`.
+; `terraform {}`, which has no label of its own and is named by the block type.
 (config_file
   (body
     (block . (identifier) @name) @definition.module
     (#eq? @name "terraform")))
-
-(config_file
-  (body
-    (block . (identifier) @name . (block_start)) @definition.module
-    (#eq? @name "include")))
 
 ; Each entry of a `locals {}` block.
 (config_file
@@ -63,9 +58,3 @@
       . (identifier) @_kind
       (body (attribute . (identifier) @name) @definition.variable))
     (#eq? @_kind "locals")))
-
-; Terragrunt `inputs = { ... }`.
-(config_file
-  (body
-    (attribute . (identifier) @name) @definition.variable
-    (#eq? @name "inputs")))

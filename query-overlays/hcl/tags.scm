@@ -1,5 +1,6 @@
-; Shared verbatim by `hcl` (`*.hcl`, Terragrunt) and `terraform` (`*.tf`, `*.tfvars`), which parse
-; to the same block and attribute shapes; keep query-overlays/{hcl,terraform}/tags.scm identical.
+; `hcl` (`*.hcl`, Terragrunt) and `terraform` (`*.tf`, `*.tfvars`) parse to the same block and
+; attribute shapes; query-overlays/terraform/tags.scm is this file without the Terragrunt-only
+; blocks (`dependency`, `include`, `inputs`), so keep the shared patterns in step.
 ; Only top-level blocks are declarations.
 
 ; `resource "<type>" "<name>" {}` and `data "<type>" "<name>" {}`, named by the second label.
