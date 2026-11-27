@@ -9,9 +9,7 @@ no-default-features = false
 feature-depth = 1
 
 [advisories]
-ignore = [
-  { id = "RUSTSEC-2026-0543", reason = "unmaintained notice only, no fixed release; chrono arrives transitively" },
-]
+ignore = []
 
 [licenses]
 allow = [

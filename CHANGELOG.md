@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `rmcp` to 3.12 and drop its default `chrono` feature, so `chrono` is no longer in the dependency tree.
+
 ### Added
 
 - Bundle a `tags` query for Circom: templates, functions, signals, components and calls. Circom moves to Decurity/tree-sitter-circom `2b08e76`, which stops names from carrying the preceding space (Decurity/tree-sitter-circom#6), so it is no longer grammar blocked.
